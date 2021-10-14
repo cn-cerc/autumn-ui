@@ -1,12 +1,15 @@
 import * as sci from './SummerCI.js';
-import TestButton from './test/TestButton.js';
 window.sci = sci
 
 
+let mainform = new sci.TWinForm();
+mainform.setTitle("hello world")
+
 // 在主页面增加内容
-let div = new sci.TDiv();
-div.setContainer('app');
+let div = new sci.TDiv(mainform);
 
-new TestButton().render(div);
+let button = new sci.TButton(div);
+button.setText('提示yy按钮');
+button.writerProperty('onclick', 'alert(\'你好，我是button\')');
 
-div.render();
+mainform.render();

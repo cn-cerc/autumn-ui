@@ -17,7 +17,7 @@ cnpm i -D webpack-dev-server
 
 html-webpack-plugin 将index.html文件也生成到了内存中 这样直接访问localhost:8080 就可以打开 index.html 文件 html-webpack-plugin 还会自动引入js文件 不需要我们引入js文件
 ```
- cnpm i -D html-webpack-plugin
+cnpm i -D html-webpack-plugin
 ```
 二、打包
 运行测试环境
