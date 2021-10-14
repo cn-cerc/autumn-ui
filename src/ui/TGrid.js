@@ -28,6 +28,9 @@ export default class TGrid extends TTable {
         this.groups.forEach((group) => {
             let tr = new TTr();
             group.getComponents().forEach((child) => {
+                if (!child.getVisible())
+                    return;
+
                 let th = new TTh(tr);
                 if (child.getCols())
                     th.writerProperty("cols", child.getCols());
@@ -44,15 +47,17 @@ export default class TGrid extends TTable {
             let tr = new TTr();
             this.groups.forEach((group) => {
                 group.getComponents().forEach((child) => {
+                    if (!child.getVisible())
+                        return;
+
                     let value = row.getText(child.getCode());
                     let td = new TTd(tr);
                     if (child.getCols())
                         td.writerProperty("cols", child.getCols());
 
-                    if(child.getAlign()){
+                    if (child.getAlign()) {
                         td.writerProperty("align", child.getAlign());
                     }
-
                     new TText(td).setText(value == null ? "" : value);
                 });
             });
@@ -85,6 +90,55 @@ export default class TGrid extends TTable {
         }
         return this.groups[index];
     }
+
+    findColumn(columnCode) {
+        for (let i = 0; i < this.groups.length; i++) {
+            let group = this.groups[i];
+            for (let item of group.getComponents()) {
+                if (item.getCode() == columnCode)
+                    return item;
+            }
+        }
+        return null;
+    }
+
+    exportFile(fileName) {
+        //CSV格式可以自己设定，适用MySQL导入或者excel打开。
+        //由于Excel单元格对于数字只支持15位，且首位为0会舍弃 建议用 =“数值” 
+        let group = this.getGroup(0);
+        let str = "";
+
+        // 定义头部
+        group.getComponents().forEach((item) => {
+            if (item.getExport())
+                str += item.getName() + ",";
+        });
+        str += '\n';
+
+        // 具体数值遍历
+        this.dataSet.first();
+        while (this.dataSet.fetch()) {
+            group.getComponents().forEach((item) => {
+                if (item.getExport()) {
+                    let value = this.dataSet.getString(item.getCode());
+                    str += value.replace(/,/g, "，") + "\t,";
+                }
+            });
+            str += '\n';
+        }
+
+        let blob = new Blob([str], { type: "text/plain;charset=utf-8" });
+        //解决中文乱码问题
+        blob = new Blob([String.fromCharCode(0xFEFF), blob], { type: blob.type });
+        let object_url = window.URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = object_url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
 }
 
 // let json = '{"state":1,"body":[["UID_","corpNo_","code_","name_","sex_","age_","createTime_","updateTime_"],[97,null,12345,"毛巾",0,40,"2021-04-12 15:05:51","2021-05-25 18:06:47"],[98,null,111,"kyi",0,19,"2021-04-12 17:01:55","2021-04-12 17:01:55"],[99,null,555,"寇晶",0,28,"2021-04-12 17:02:27","2021-04-12 17:02:27"],[100,null,423,"朱大福",0,19,"2021-04-12 17:03:02","2021-04-12 19:14:24"],[101,null,321,"sk",1,24,"2021-05-13 08:45:37","2021-05-14 10:52:55"]]}';

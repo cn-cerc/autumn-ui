@@ -49,7 +49,7 @@ export default class TComponent {
     }
 
     getComponentCount() {
-        return this.components.size();
+        return this.components.size;
     }
 
     setRootLabel(value) {

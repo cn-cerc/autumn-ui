@@ -5,11 +5,13 @@ export default class TGridColumn extends TComponent {
     #name;
     #width = 0;
     #align;
+    _export = true;
+    _visible = true;
 
-    constructor(owner, code, name) {
+    constructor(owner, name, code) {
         super(owner);
-        this.#code = code;
         this.#name = name;
+        this.#code = code;
     }
 
     getCode() {
@@ -46,4 +48,23 @@ export default class TGridColumn extends TComponent {
     getAlign() {
         return this.#align;
     }
+
+    getExport() {
+        return this._export
+    }
+
+    setExport(value) {
+        this._export = value;
+        return this;
+    }
+
+    getVisible() {
+        return this._visible;
+    }
+
+    setVisible(value) {
+        this._visible = value;
+        return this;
+    }
+
 }
