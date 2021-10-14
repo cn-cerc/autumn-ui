@@ -72,9 +72,9 @@ export default class TGrid extends TTable {
     }
 
     addColumns(fieldDefs: FieldDefs): void {
-        fieldDefs.forEach((meta: FieldMeta) => {
+        for(let meta of fieldDefs.getItems()){
             new TGridColumn(this, meta.getCode(), meta.getName() ? meta.getName() : meta.getCode());
-        });
+        };
     }
 
     addComponent(child: TComponent): TGrid {

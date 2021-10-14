@@ -25,4 +25,7 @@ let grid = new sci.TGrid(mainform).setDataSet(ds);
 grid.addColumns(ds.getFieldDefs());
 grid.getColumn('opera').setExport(false);
 
+let memo = new sci.TSpan(mainform);
+memo.setText("dataset: " + ds.getJson())
+
 mainform.render();

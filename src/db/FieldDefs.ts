@@ -40,12 +40,15 @@ export default class FieldDefs {
         this.fields = [];
     }
 
-    forEach(callback: any): void {
-        let arr = this.fields;
-        for (let i = 0; i < arr.length; i++)
-            callback(arr[i]);
-        return;
+    forEach(fn: ((meta: FieldMeta) => void)) {
+        for (let meta of this.fields)
+            fn.call(this, meta);
     }
+
+    getItems(): FieldMeta[] {
+        return this.fields;
+    }
+
 }
 
 // let defs = new FieldDefs();

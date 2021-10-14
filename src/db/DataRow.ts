@@ -1,3 +1,4 @@
+import { assertEquals } from "../JUnit";
 import DataSet from "./DataSet";
 import FieldDefs from "./FieldDefs";
 import FieldMeta from "./FieldMeta";
@@ -7,8 +8,8 @@ export default class DataRow {
     dataSet: DataSet;
     fieldDefs: FieldDefs;
     state: number = RecordState.dsNone;
-    items: Map<string, object> = new Map<string, object>();
-    delta: Map<string, object> = new Map<string, object>();
+    items: Map<string, any> = new Map<string, any>();
+    delta: Map<string, any> = new Map<string, any>();
 
     constructor(dataSet: DataSet = null) {
         if (dataSet) {
@@ -61,7 +62,7 @@ export default class DataRow {
         });
     }
 
-   private addFieldDef(field: string) {
+    private addFieldDef(field: string) {
         if (field == null)
             throw new Error("field is null");
         if (!this.fieldDefs.exists(field)) {
@@ -111,16 +112,17 @@ export default class DataRow {
         return this.items.size;
     }
 
-    getDelta(): Map<string, object> {
+    getDelta(): Map<string, any> {
         return this.delta;
     }
 
     getJson(): string {
         let obj: any = {}
-        this.items.forEach((v: object, k: string) => {
-            obj[k] = v;
-        })
-        return "" + obj;
+        for(let meta of this.fieldDefs.getItems()){
+            let key = meta.getCode();
+            obj[key] = this.getValue(key);
+        }
+        return JSON.stringify(obj);
     }
 
     setJson(jsonObj: string | JSON) {
@@ -152,27 +154,23 @@ export default class DataRow {
         return this.items;
     }
 
-    forEach = function (callback: any): void {
-        let arr = this.items;
-        for (let i = 0; i < arr.length; i++)
-            callback(arr[i], i);
-        return;
+    forEach(fn: (key: string, value: any) => void) {
+        for(let meta of this.fieldDefs.getItems()){
+            let key = meta.getCode();
+            fn.call(this, key, this.getValue(key));
+        }
     }
 }
 
-// let row = new DataRow();
-// row.setField('code', 'a');
-// row.setField('name', 'jason');
-// row.setField("flag", false);
-// console.log(row.getJson())
+// let row1 = new DataRow();
+// row1.setValue('code', 'a');
+// row1.setValue('name', 'jason');
+// row1.setValue("flag", false);
 
-// row.getItems().forEach((k, v) => {
-//     console.log(k + "=" + v);
-// })
-
-// console.log(row.getField('value'));
-// console.log(row.getBoolean('flag') ? "true" : "false");
+// assertEquals(1, row1.getJson(), '{"code":"a","name":"jason","flag":false}');
+// assertEquals(2, row1.getValue('value'), null);
+// assertEquals(3, false, row1.getBoolean('flag'));
 
 // let row2 = new DataRow();
-// row2.copyValues(row, row.getFieldDefs());
-// console.log(row2.getJson());
+// row2.copyValues(row1);
+// assertEquals(4, row1.getJson(), row2.getJson());

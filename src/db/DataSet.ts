@@ -228,7 +228,10 @@ export default class DataSet {
                     json.head.push(this.head.getValue(field.getCode()))
                 })
             } else {
-                json.head = this.head.getJson()
+                json.head = {};
+                this.head.forEach((key: string, value: any) => {
+                    json.head[key] = value;
+                });
             }
         }
         if (this.size() > 0) {
@@ -236,17 +239,16 @@ export default class DataSet {
 
             if (!this.metaInfo) {
                 let item: any = [];
-                this.getFieldDefs().forEach((field: FieldMeta) => {
-                    item.push(field.getCode());
-                });
+                for (let meta of this.getFieldDefs().getItems())
+                    item.push(meta.getCode());
                 json.body.push(item);
             };
 
-            for (let record of this.records) {
+            for (let row of this.records) {
                 var item: any = []
-                this.getFieldDefs().forEach((field: FieldMeta) => {
-                    item.push(record.getValue(field.getCode()))
-                })
+                for (let meta of this.getFieldDefs().getItems()) {
+                    item.push(row.getValue(meta.getCode()))
+                }
                 json.body.push(item)
             };
         }
@@ -271,7 +273,7 @@ export default class DataSet {
             this.message = jsonObj.message
         }
 
-        let fields = [];
+        let fields: string[] = [];
         if (jsonObj.hasOwnProperty('meta')) {
             this.setMetaInfo(true);
             this.meta = jsonObj.meta;
@@ -324,11 +326,10 @@ export default class DataSet {
                         fields = data[0];
                         continue;
                     }
-                    var item = data[i];
-                    var record = this.append().getCurrent()
-                    fields.forEach((v: any, k: any) => {
-                        record.setValue(v, k);
-                    })
+                    let item = data[i];
+                    let row = this.append().getCurrent()
+                    for (let j = 0; j < fields.length; j++)
+                        row.setValue(fields[j], item[j]);
                 }
             }
             this.first()
@@ -387,6 +388,7 @@ export default class DataSet {
 // ds.setValue('code', 'b');
 // ds.setValue('name', 'bade');
 // ds.getFieldDefs().get("code").setName("代码");
+
 // JUnit.assertEquals(1, ds.getJson(), '{"head":{"id":100},"body":[["code","name"],["a","jason"],["b","bade"]]}');
 // JUnit.assertEquals(2, ds.setMetaInfo(true).getJson(), '{"meta":{"head":[{"id":[null]}],"body":[{"code":[null,"代码"]},{"name":[null]}]},"head":[100],"body":[["a","jason"],["b","bade"]]}')
 // JUnit.assertEquals(3, ds.setMetaInfo(false).getJson(), '{"head":{"id":100},"body":[["code","name"],["a","jason"],["b","bade"]]}');
@@ -397,7 +399,9 @@ export default class DataSet {
 // JUnit.assertEquals(11, ds2.getJson(), json);
 
 // ds2.setMetaInfo(false);
+// ds2.last();
 // ds2.delete();
 // JUnit.assertEquals(13, ds2.getJson(), '{"head":{"id":100},"body":[["code","name"],["a","jason"]]}');
+// ds2.last();
 // ds2.delete();
 // JUnit.assertEquals(14, ds2.getJson(), '{"head":{"id":100}}');
