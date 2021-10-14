@@ -1,15 +1,17 @@
 export default class HtmlWriter {
-    lines = [];
+    lines: string[] = [];
 
-    print(text) {
+    print(text: string): HtmlWriter {
         this.lines.push(text);
+        return this;
     }
 
-    println(text) {
+    println(text: string): HtmlWriter {
         this.lines.push(text + "\n");
+        return this;
     }
 
-    getText() {
+    getText(): string {
         let text = "";
         this.lines.forEach((line) => {
             text = text + line;

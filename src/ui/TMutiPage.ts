@@ -1,5 +1,4 @@
-import { DataSet } from "../SummerCI";
-import TComponent from "./TComponent.js"
+import TComponent from "./TComponent";
 
 export default class TMutiPage extends TComponent {
     //每页大小

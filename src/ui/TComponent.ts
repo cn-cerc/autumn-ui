@@ -1,19 +1,19 @@
 import HtmlWriter from "./HtmlWriter";
 
 export default class TComponent {
-    owner;
-    origin;
-    rootLabel;
-    container;
-    components = new Set();
-    propertys = new Map();
+    owner: TComponent;
+    origin: object;
+    rootLabel: string;
+    container: string;
+    components: Set<TComponent> = new Set<TComponent>();
+    propertys: Map<string, string> = new Map<string, string>();
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         this.owner = owner;
         this.setOwner(owner);
     }
 
-    setOwner(owner) {
+    setOwner(owner: TComponent): TComponent {
         if (this.owner) {
             this.owner.removeComponent(this);
         }
@@ -24,7 +24,7 @@ export default class TComponent {
         return this;
     }
 
-    addComponent(component) {
+    addComponent(component: TComponent): TComponent {
         if (component != null && !this.components.has(component)) {
             component.owner = this;
             if (component.origin == null)
@@ -34,7 +34,7 @@ export default class TComponent {
         return this;
     }
 
-    removeComponent(component) {
+    removeComponent(component: TComponent): TComponent {
         if (component != null) {
             if (component.origin == component.owner)
                 component.origin = null;
@@ -44,24 +44,24 @@ export default class TComponent {
         return this;
     }
 
-    getComponents() {
+    getComponents(): Set<TComponent> {
         return this.components;
     }
 
-    getComponentCount() {
+    getComponentCount(): number {
         return this.components.size;
     }
 
-    setRootLabel(value) {
+    setRootLabel(value: string): TComponent {
         this.rootLabel = value;
         return this;
     }
 
-    getRootLabel() {
+    getRootLabel(): string {
         return this.rootLabel;
     }
 
-    beginOutput(html) {
+    beginOutput(html: HtmlWriter): void {
         if (this.rootLabel) {
             html.print("<" + this.rootLabel);
             this.propertys.forEach((v, k) => {
@@ -71,7 +71,7 @@ export default class TComponent {
         }
     }
 
-    output(html) {
+    output(html: HtmlWriter): void {
         this.beginOutput(html);
         this.getComponents().forEach((item) => {
             item.output(html);
@@ -79,32 +79,33 @@ export default class TComponent {
         this.endOutput(html);
     }
 
-    endOutput(html) {
+    endOutput(html: HtmlWriter): void {
         if (this.rootLabel) {
             html.print("</" + this.rootLabel + ">");
         }
     }
 
-    readProperty(key) {
+    readProperty(key: string): string {
         return this.propertys.get(key);
     }
 
-    writerProperty(key, value) {
+    writerProperty(key: string, value: string): TComponent {
         this.propertys.set(key, value);
         return this;
     }
 
-    getId() {
+    getId(): string {
         return this.readProperty('id');
     }
 
-    setId(id) {
+    setId(id: string): TComponent {
         this.writerProperty('id', id);
         return this;
     }
 
-    setCssClass(cssClass) {
+    setCssClass(cssClass: string) : TComponent {
         this.writerProperty("class", cssClass);
+        return this;
     }
 
     registerEvents() {

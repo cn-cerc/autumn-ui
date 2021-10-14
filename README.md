@@ -24,6 +24,7 @@ cnpm i -D html-webpack-plugin
 
 ```
 cnpm install --D typescript ts-loader
+cnpm install --D clean-webpack-plugin
 ```
 
 二、打包
