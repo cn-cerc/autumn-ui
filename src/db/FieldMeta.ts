@@ -2,13 +2,15 @@
  * 
  */
 
+import DataRow from "./DataRow";
+
 export default class FieldMeta {
     code: string = null;
     name: string = null;
     remark: string = null;
     type: string = null;
     kind: string = null;
-    OnGetText: any;
+    private _onGetText: (row: DataRow, meta: FieldMeta) => string;
     OnSetText: any;
 
     constructor(code: string, kind: string) {
@@ -55,4 +57,7 @@ export default class FieldMeta {
         this.kind = kind;
         return;
     }
+
+    set onGetText(fn: (row: DataRow, meta: FieldMeta) => string) { this._onGetText = fn }
+    get onGetText(): (row: DataRow, meta: FieldMeta) => string { return this._onGetText }
 }

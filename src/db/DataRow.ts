@@ -100,8 +100,8 @@ export default class DataRow {
 
     getText(field: string) {
         let meta = this.getFieldDefs().add(field);
-        if (meta.OnGetText != undefined) {
-            return meta.OnGetText(this, meta);
+        if (meta.onGetText != undefined) {
+            return meta.onGetText(this, meta);
         } else
             return this.getField(field);
     }
