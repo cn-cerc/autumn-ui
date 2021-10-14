@@ -1,4 +1,4 @@
-import HtmlWriter from "./HtmlWriter.js";
+import HtmlWriter from "./HtmlWriter";
 
 export default class TComponent {
     owner;
@@ -111,7 +111,7 @@ export default class TComponent {
 
     }
 
-    render(container) {
+    render(container: string = null) {
         if (container != null) {
             this.setContainer(container);
         }

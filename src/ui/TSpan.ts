@@ -1,5 +1,5 @@
-import TComponent from "./TComponent.js";
-import TText from "./TText.js";
+import TComponent from "./TComponent";
+import TText from "./TText";
 
 export default class TSpan extends TComponent {
     span;

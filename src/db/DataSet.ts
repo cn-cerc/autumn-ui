@@ -19,7 +19,7 @@ export default class DataSet {
     records = [];
     search;
 
-    constructor(def) {
+    constructor(def: FieldDefs = null) {
         if (def) this.setJson(def)
     }
 

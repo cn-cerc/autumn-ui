@@ -1,6 +1,5 @@
-import * as sci from './SummerCI.js';
-window.sci = sci
-
+import * as sci from "./SummerCI";
+window.sci = sci;
 
 let mainform = new sci.TWinForm();
 mainform.setTitle("hello world")
@@ -9,7 +8,9 @@ mainform.setTitle("hello world")
 let div = new sci.TDiv(mainform);
 
 let button = new sci.TButton(div);
-button.setText('提示yy按钮');
+button.setText('提示按钮');
 button.writerProperty('onclick', 'alert(\'你好，我是button\')');
+
+let ds = new sci.DataSet();
 
 mainform.render();

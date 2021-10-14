@@ -1,4 +1,4 @@
-import { DataSet } from "../SummerCI.js";
+import { DataSet } from "../SummerCI";
 import TComponent from "./TComponent.js"
 
 export default class TMutiPage extends TComponent {

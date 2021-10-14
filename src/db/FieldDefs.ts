@@ -1,4 +1,4 @@
-import FieldMeta from "./FieldMeta.js";
+import FieldMeta from "./FieldMeta";
 
 export default class FieldDefs {
     fields = [];

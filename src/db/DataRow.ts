@@ -1,5 +1,5 @@
-import FieldDefs from "./FieldDefs.js";
-import * as RecordState from "./RecordState.js";
+import FieldDefs from "./FieldDefs";
+import * as RecordState from "./RecordState";
 
 export default class DataRow {
     dataSet;

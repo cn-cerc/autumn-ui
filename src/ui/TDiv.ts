@@ -1,4 +1,4 @@
-import TComponent  from "./TComponent.js";
+import TComponent  from "./TComponent";
 
 export default class TDiv extends TComponent {
     constructor(owner) {

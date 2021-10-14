@@ -5,8 +5,8 @@ import TTh from './TTh.js';
 import TTd from './TTd.js';
 import TText from './TText.js';
 import TGridColumn from './TGridColumn.js';
-import DataSet from "../db/DataSet.js";
-import * as JUnit from "../JUnit.js";
+import DataSet from "../db/DataSet";
+import * as JUnit from "../JUnit";
 
 export default class TGrid extends TTable {
     dataSet;

@@ -1,5 +1,5 @@
 //import fetch from "node-fetch";
-import DataSet from "./DataSet.js";
+import DataSet from "./DataSet";
 
 let _this = null;
 
