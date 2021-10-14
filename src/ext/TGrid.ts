@@ -96,7 +96,7 @@ export default class TGrid extends TTable {
         return this.groups[index];
     }
 
-    findColumn(columnCode: string): TGridColumn {
+    getColumn(columnCode: string): TGridColumn {
         for (let i = 0; i < this.groups.length; i++) {
             let group = this.getGroup(i);
             for (let item of Array.from(group.getComponents().values())) {
