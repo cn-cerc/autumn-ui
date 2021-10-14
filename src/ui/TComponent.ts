@@ -73,7 +73,7 @@ export default class TComponent {
 
     output(html: HtmlWriter): void {
         this.beginOutput(html);
-        for(let item of this.getComponents())
+        for (let item of this.getComponents())
             item.output(html);
         this.endOutput(html);
     }
@@ -105,6 +105,19 @@ export default class TComponent {
     setCssClass(cssClass: string): TComponent {
         this.writerProperty("class", cssClass);
         return this;
+    }
+
+    getCssClass(): string {
+        return this.readProperty('class');
+    }
+
+    setCssStyle(style: string): TComponent {
+        this.writerProperty('style', style);
+        return this;
+    }
+
+    getCssStyle(): string {
+        return this.readProperty('style');
     }
 
     registerEvents() {
@@ -152,6 +165,7 @@ export default class TComponent {
         this.container = container;
         return this;
     }
+
 }
 
 // let item = new TComponent();
