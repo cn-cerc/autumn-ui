@@ -19,6 +19,13 @@ html-webpack-plugin 将index.html文件也生成到了内存中 这样直接访�
 ```
 cnpm i -D html-webpack-plugin
 ```
+
+### 4、安装ts开发依赖
+
+```
+cnpm install --D typescript ts-loader
+```
+
 二、打包
 运行测试环境
 ```
