@@ -22,8 +22,8 @@ export { default as TLine } from './ui/TLine';
 export { default as TA } from './ui/TA';
 export { default as TInput } from './ui/TInput';
 //ext
-export { default as TPage } from './ui/TPage';
-export { default as TGrid } from './ui/TGrid';
-export { default as TGridColumn } from './ui/TGridColumn';
-export { default as TMutiPage } from './ui/TMutiPage';
-export { default as TWinForm } from './ui/TWinForm';
+export { default as TPage } from './ext/TPage';
+export { default as TGrid } from './ext/TGrid';
+export { default as TGridColumn } from './ext/TGridColumn';
+export { default as TMutiPage } from './ext/TMutiPage';
+export { default as TWinForm } from './ext/TWinForm';

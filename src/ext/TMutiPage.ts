@@ -1,5 +1,5 @@
 import DataSet from "../db/DataSet";
-import TComponent from "./TComponent";
+import TComponent from "../ui/TComponent";
 
 export default class TMutiPage extends TComponent {
     //每页大小

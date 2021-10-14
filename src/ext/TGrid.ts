@@ -1,13 +1,13 @@
 import TGridGroup from './TGridGroup';
-import TTable from './TTable';
-import TTr from './TTr';
-import TTh from './TTh';
-import TTd from './TTd';
-import TText from './TText';
+import TTable from '../ui/TTable';
+import TTr from '../ui/TTr';
+import TTh from '../ui/TTh';
+import TTd from '../ui/TTd';
+import TText from '../ui/TText';
 import TGridColumn from './TGridColumn';
 import { DataRow, DataSet, FieldDefs, FieldMeta } from '../SummerCI';
-import TComponent from './TComponent';
-import HtmlWriter from './HtmlWriter';
+import TComponent from '../ui/TComponent';
+import HtmlWriter from '../ui/HtmlWriter';
 
 export default class TGrid extends TTable {
     dataSet: DataSet;

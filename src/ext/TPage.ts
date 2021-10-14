@@ -1,4 +1,4 @@
-import TComponent from "./TComponent";
+import TComponent from "../ui/TComponent";
 
 export default class TPage extends TComponent {
 
