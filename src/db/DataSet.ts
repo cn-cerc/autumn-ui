@@ -149,6 +149,10 @@ export default class DataSet {
         return this.getCurrent().getString(field);
     }
 
+    getText(field: string): string {
+        return this.getCurrent().getText(field);
+    }
+
     clear(): void {
         this.getHead().getFieldDefs().clear();
         this.getFieldDefs().clear();

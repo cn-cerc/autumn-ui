@@ -1,5 +1,5 @@
 
-export function assertEquals(one: any, two: any, three: any): boolean {
+export function assertEquals(one: any, two: any, three: any = undefined): boolean {
     let flag: any = one;
     let src: any = two;
     let tar: any = three;
