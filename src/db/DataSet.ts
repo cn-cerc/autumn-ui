@@ -135,11 +135,11 @@ export default class DataSet {
         return this.fieldDefs;
     }
 
-    setField(field: string, value: object): DataSet {
+    setField(field: string, value: any): DataSet {
         return this.setValue(field, value);
     }
 
-    setValue(field: string, value: object): DataSet {
+    setValue(field: string, value: any): DataSet {
         this.getCurrent().setField(field, value)
         return this;
     }
@@ -249,13 +249,13 @@ export default class DataSet {
                 json.body.push(item);
             };
 
-            this.forEach((record: DataRow) => {
+            for (let record of this.records) {
                 var item: any = []
                 this.getFieldDefs().forEach((field: FieldMeta) => {
                     item.push(record.getField(field.getCode()))
                 })
                 json.body.push(item)
-            });
+            };
         }
         return JSON.stringify(json);
     }
@@ -383,11 +383,6 @@ export default class DataSet {
         }
     }
 
-    forEach(callback: any): void {
-        let arr = this.records;
-        for (let i = 0; i < arr.length; i++)
-            callback(arr[i]);
-    }
 }
 
 // let ds = new DataSet();

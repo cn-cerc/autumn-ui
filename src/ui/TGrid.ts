@@ -44,26 +44,28 @@ export default class TGrid extends TTable {
             tr.output(html);
         });
 
-        this.dataSet.forEach((row:DataRow) => {
-            let tr = new TTr();
-            this.groups.forEach((group) => {
-                group.getComponents().forEach((child: TGridColumn) => {
-                    if (!child.getVisible())
-                        return;
+        if (this.dataSet) {
+            for (let row of this.dataSet.getRecords()) {
+                let tr = new TTr();
+                this.groups.forEach((group) => {
+                    group.getComponents().forEach((child: TGridColumn) => {
+                        if (!child.getVisible())
+                            return;
 
-                    let value = row.getText(child.getCode());
-                    let td = new TTd(tr);
-                    if (child.getCols())
-                        td.writerProperty("cols", child.getCols());
+                        let value = row.getText(child.getCode());
+                        let td = new TTd(tr);
+                        if (child.getCols())
+                            td.writerProperty("cols", child.getCols());
 
-                    if (child.getAlign()) {
-                        td.writerProperty("align", child.getAlign());
-                    }
-                    new TText(td).setText(value == null ? "" : value);
+                        if (child.getAlign()) {
+                            td.writerProperty("align", child.getAlign());
+                        }
+                        new TText(td).setText(value == null ? "" : value);
+                    });
                 });
-            });
-            tr.output(html);
-        });
+                tr.output(html);
+            }
+        }
 
         this.endOutput(html);
     }
@@ -96,7 +98,7 @@ export default class TGrid extends TTable {
     findColumn(columnCode: string): TGridColumn {
         for (let i = 0; i < this.groups.length; i++) {
             let group = this.getGroup(i);
-            for(let item of Array.from(group.getComponents().values())){
+            for (let item of Array.from(group.getComponents().values())) {
                 let column = item as TGridColumn;
                 if (column.getCode() == columnCode)
                     return column;

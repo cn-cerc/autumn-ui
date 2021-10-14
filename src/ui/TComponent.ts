@@ -44,8 +44,8 @@ export default class TComponent {
         return this;
     }
 
-    getComponents(): Set<TComponent> {
-        return this.components;
+    getComponents(): TComponent[] {
+        return Array.from(this.components.values());
     }
 
     getComponentCount(): number {
@@ -73,9 +73,8 @@ export default class TComponent {
 
     output(html: HtmlWriter): void {
         this.beginOutput(html);
-        this.getComponents().forEach((item) => {
+        for(let item of this.getComponents())
             item.output(html);
-        })
         this.endOutput(html);
     }
 
@@ -103,7 +102,7 @@ export default class TComponent {
         return this;
     }
 
-    setCssClass(cssClass: string) : TComponent {
+    setCssClass(cssClass: string): TComponent {
         this.writerProperty("class", cssClass);
         return this;
     }

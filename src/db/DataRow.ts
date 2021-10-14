@@ -41,11 +41,11 @@ export default class DataRow {
         this.items.clear();
     }
 
-    setField(field: string, value: object): DataRow {
+    setField(field: string, value: any): DataRow {
         return this.setValue(field, value);
     }
 
-    setValue(field: string, value: object): DataRow {
+    setValue(field: string, value: any): DataRow {
         if (!field)
             throw new Error('field is null!');
 
@@ -73,14 +73,13 @@ export default class DataRow {
         }
     }
 
-    getField(field: string): object {
+    getField(field: string): any {
         return this.getValue(field);
     }
 
-    getValue(field: string): object {
-        if (!field) {
+    getValue(field: string): any {
+        if (!field)
             throw new Error('field is null!')
-        }
         let value = this.items.get(field);
         return value == undefined ? null : value;
     }
@@ -91,12 +90,7 @@ export default class DataRow {
     }
 
     getBoolean(field: string): boolean {
-        let value = this.getField(field);
-        if (value == null)
-            return false;
-        if (typeof value == 'boolean')
-            return value as boolean;
-        return value as any as boolean;
+        return this.getField(field) ? true : false;
     }
 
     getDouble(field: string): number {

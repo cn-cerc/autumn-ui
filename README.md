@@ -33,7 +33,7 @@ cnpm install --D clean-webpack-plugin
 cnpm run dev
 ```
 
-运行正式环境
+打包summer-ci.js，用于正式环境
 ```
 cnpm run build
 ```
