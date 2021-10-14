@@ -1,4 +1,6 @@
 import TComponent from "../ui/TComponent";
+import TGrid from "./TGrid";
+import TGridGroup from "./TGridGroup";
 
 export default class TGridColumn extends TComponent {
     private code: string;
@@ -8,7 +10,7 @@ export default class TGridColumn extends TComponent {
     private _export = true;
     private _visible = true;
 
-    constructor(owner: TComponent, code: string, name: string = null) {
+    constructor(owner: TGrid | TGridGroup, code: string, name: string = null) {
         super(owner);
         this.code = code;
         this.name = name ? name : code;

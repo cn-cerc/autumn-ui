@@ -96,7 +96,7 @@ export default class DataRow {
         if (meta.onGetText != undefined) {
             return meta.onGetText(this, meta);
         } else
-            return this.getValue(field);
+            return this.getString(field);
     }
 
     setText(field: string, value: object): DataRow {

@@ -14,7 +14,7 @@ button2.writerProperty('onclick', 'alert(\'你好，我是button\')');
 //定义数据源
 let ds = new sci.DataSet();
 ds.append().setValue('code', 'a001').setValue('name', 'jason');
-ds.append().setValue('code', 'a002').setValue('name', 'bade');
+ds.append().setValue('code', 'a002').setValue('name', 'bade').setValue('remark', 'xxxx');
 ds.getFieldDefs().get('code').setName('代码');
 ds.getFieldDefs().get('name').setName('姓名');
 ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, meta: sci.FieldMeta) => {
@@ -24,6 +24,9 @@ ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, 
 let grid = new sci.TGrid(mainform).setDataSet(ds);
 grid.addColumns(ds.getFieldDefs());
 grid.getColumn('opera').setExport(false);
+grid.getGroup(0).getColumn('remark').setVisible(false);
+new sci.TGridColumn(grid.getGroup(1), "remark", "备注").setCols('3');
+grid.getGroup(1).setTitleVisiable(false);
 
 let memo = new sci.TSpan(mainform);
 memo.setText("dataset: " + ds.getJson())

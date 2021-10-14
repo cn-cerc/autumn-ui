@@ -29,14 +29,15 @@ export default class TGrid extends TTable {
         this.beginOutput(html);
 
         this.groups.forEach((group) => {
+            if (!group.getTitleVisiable())
+                return;
             let tr = new TTr();
-            group.getComponents().forEach((child: TGridColumn) => {
+            group.forEach((child: TGridColumn) => {
                 if (!child.getVisible())
                     return;
-
                 let th = new TTh(tr);
                 if (child.getCols())
-                    th.writerProperty("cols", child.getCols());
+                    th.writerProperty("colspan", child.getCols());
                 if (group.getTotalWidth() > 0 && child.getWidth() > 0) {
                     let rate = child.getWidth() / group.getTotalWidth() * 100;
                     th.writerProperty("width", rate.toFixed(1) + "%");
@@ -48,24 +49,27 @@ export default class TGrid extends TTable {
 
         if (this.dataSet) {
             for (let row of this.dataSet.getRecords()) {
-                let tr = new TTr();
                 this.groups.forEach((group) => {
-                    group.getComponents().forEach((child: TGridColumn) => {
+                    let notNull = false;
+                    let tr = new TTr();
+                    group.forEach((child: TGridColumn) => {
                         if (!child.getVisible())
                             return;
-
                         let value = row.getText(child.getCode());
                         let td = new TTd(tr);
                         if (child.getCols())
-                            td.writerProperty("cols", child.getCols());
+                            td.writerProperty("colspan", child.getCols());
 
                         if (child.getAlign()) {
                             td.writerProperty("align", child.getAlign());
                         }
-                        new TText(td).setText(value == null ? "" : value);
+                        new TText(td).setText(value);
+                        if (value)
+                            notNull = true;
                     });
+                    if (notNull)
+                        tr.output(html);
                 });
-                tr.output(html);
             }
         }
 
@@ -73,7 +77,7 @@ export default class TGrid extends TTable {
     }
 
     addColumns(fieldDefs: FieldDefs): void {
-        for(let meta of fieldDefs.getItems()){
+        for (let meta of fieldDefs.getItems()) {
             new TGridColumn(this, meta.getCode(), meta.getName() ? meta.getName() : meta.getCode());
         };
     }
@@ -100,11 +104,9 @@ export default class TGrid extends TTable {
     getColumn(columnCode: string): TGridColumn {
         for (let i = 0; i < this.groups.length; i++) {
             let group = this.getGroup(i);
-            for (let item of Array.from(group.getComponents().values())) {
-                let column = item as TGridColumn;
-                if (column.getCode() == columnCode)
-                    return column;
-            }
+            let column = group.getColumn(columnCode);
+            if (column)
+                return column;
         }
         return null;
     }

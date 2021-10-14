@@ -3,6 +3,7 @@ import TGridColumn from './TGridColumn';
 
 export default class TGridGroup extends TComponent {
     MaxWidth = 600;
+    _titleVisiable: boolean = true;
 
     constructor(owner: TComponent) {
         super(owner);
@@ -21,6 +22,31 @@ export default class TGridGroup extends TComponent {
             throw new Error(`总列宽不允许大于 ${this.MaxWidth}`);
         }
         return result;
+    }
+
+    getTitleVisiable() {
+        return this._titleVisiable
+    }
+
+    setTitleVisiable(value: boolean): TGridGroup {
+        this._titleVisiable = value;
+        return this;
+    }
+
+    getColumn(columnCode: string): TGridColumn {
+        for (let item of this.getComponents()) {
+            let column = item as TGridColumn;
+            if (column.getCode() == columnCode)
+                return column;
+        }
+        return null;
+    }
+
+    forEach(fn: (column: TGridColumn) => void) {
+        for (let item of this.getComponents()) {
+            if (item instanceof TGridColumn)
+                fn.call(this, item as TGridColumn);
+        }
     }
 
 }
