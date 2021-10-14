@@ -1,3 +1,4 @@
+import { assertEquals } from "../JUnit";
 import HtmlWriter from "./HtmlWriter";
 
 export default class TComponent {
@@ -8,7 +9,7 @@ export default class TComponent {
     components: Set<TComponent> = new Set<TComponent>();
     propertys: Map<string, string> = new Map<string, string>();
 
-    constructor(owner: TComponent) {
+    constructor(owner: TComponent = null) {
         this.owner = owner;
         this.setOwner(owner);
     }
@@ -138,7 +139,9 @@ export default class TComponent {
 
         let contentId = this.container ? this.container : this.getId();
         if (contentId) {
-            document.getElementById(contentId).innerHTML = html.getText();
+            let el = document.getElementById(contentId);
+            if (el)
+                el.innerHTML = html.getText();
             this.registerEvents();
         } else
             console.log("render error: container is null")
@@ -171,13 +174,13 @@ export default class TComponent {
 // let item = new TComponent();
 // item.setRootLabel('div');
 // item.setId('aaaa');
-// item.paint();
+// item.render();
 
 
 // let child = new TComponent();
 // child.setRootLabel('child');
 // child.setOwner(item);
-// item.paint();
+// item.render();
 
-// item.name = 'abcd';
-// console.log(item.name);
+// item.setName('abcd');
+// assertEquals('abcd', item.getName());
