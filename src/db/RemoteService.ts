@@ -1,4 +1,3 @@
-//import fetch from "node-fetch";
 import DataSet from "./DataSet";
 
 let _this = null;
@@ -6,17 +5,17 @@ let _this = null;
 export default class RemoteService {
     owner = null;
     host = '/services/';
-    service;
-    _dataIn;
-    _dataOut;
+    service: string;
+    _dataIn: DataSet;
+    _dataOut: DataSet;
 
-    constructor(owner) {
+    constructor(owner: object) {
         this.owner = owner;
         _this = this;
         this._dataIn = new DataSet();
     }
 
-    exec(func) {
+    exec(func: any): void {
         let url = this.host + this.service;
         if (this.owner && this.owner.sid)
             url = `${url}?sid=${this.owner.sid}`;
@@ -33,32 +32,37 @@ export default class RemoteService {
                 return response.json();
             else
                 throw new Error('not support: ' + contentType);
-        }).then(function (data) {
+        }).then(function (data: any) {
             //console.log(data);
             _this._dataOut = new DataSet(JSON.stringify(data));
             func.call(_this, _this._dataOut);
         });
     }
 
-    get dataIn() { return this._dataIn }
-    set dataIn(value) { this._dataOut = value }
-
-    get dataOut() { return this._dataOut }
-
-    getDataOut() {
-        return this.dataOut;
+    getDataIn(): DataSet {
+        return this._dataIn;
+    }
+    setDataIn(value: DataSet) {
+        this._dataOut = value;
+        return this;
     }
 
-    getMessage() {
-        return this.dataOut.getMessage();
+    getDataOut(): DataSet {
+        return this._dataOut
     }
 
-    setHost(host) {
+    getMessage(): string {
+        return this._dataOut.getMessage();
+    }
+
+    setHost(host: string): RemoteService {
         this.host = host;
+        return this;
     }
 
-    setService(service) {
+    setService(service: string): RemoteService {
         this.service = service;
+        return this;
     }
 }
 

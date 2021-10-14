@@ -1,33 +1,40 @@
+import DataRow from "./DataRow"
+import DataSet from "./DataSet"
+
 /**
  * 
  */
 export default class SearchDataSet {
-	dataSet
-	constructor(dataSet) {
+	dataSet: DataSet;
+	items: Map<string, DataRow> = new Map()
+	keys: Set<string> = new Set()
+	fields: string;
+
+	constructor(dataSet: DataSet) {
 		this.dataSet = dataSet
 	}
-	items = new Map()
-	keys = new Set()
-	fields
 
-	get = (currentFields, values) => {
+	get(currentFields: string, value: object | object[]): DataRow {
 		if (!currentFields) {
 			throw new Error('fields can\'t be null')
 		}
-		if (typeof values !== 'object') {
-			values = [values]
-		}
-		if (values.length === 0) {
+
+		let values: object[];
+		if (typeof value !== 'object')
+			values = [value]
+		else
+			values = value as object[];
+
+		if (values.length === 0)
 			throw new Error('keys can\'t values length = 0 ')
-		}
 
 		if (this.fields !== currentFields) {
 			this.clear()
 			this.fields = currentFields
 			this.fields.split(';').forEach((key) => {
-				if (this.dataSet.size() > 0 && this.dataSet.getFieldDefs().size > 0 && this.dataSet.exists(
+				if (this.dataSet.size() > 0 && this.dataSet.getFieldDefs().size() > 0 && this.dataSet.exists(
 					key)) {
-					throw new Error(String.format('field %s not find !', key))
+					throw new Error(`field ${key} not find !`);
 				}
 				this.keys.add(key)
 			})
@@ -44,29 +51,29 @@ export default class SearchDataSet {
 		return this.items.get(this.buildObjectKey(values))
 	}
 
-	remove = (record) => {
-		this.items.remove(this.buildRecordKey(record))
+	remove(record: DataRow): void {
+		this.items.delete(this.buildRecordKey(record));
 	}
 
-	append = (record) => {
+	append(record: DataRow): void {
 		this.items.set(this.buildRecordKey(record), record)
 	}
 
-	clear = () => {
+	clear(): void {
 		this.fields = undefined
 		this.keys.clear()
 		this.items.clear()
 	}
 
-	buildRecordKey = (record) => {
-		var result = []
-		this.keys.forEach((key) => result.push(record.getField(key) || 'null'))
-		return result.join(';')
+	buildRecordKey(record: DataRow) {
+		let result: string[] = [];
+		this.keys.forEach((key: string) => result.push(record.getString(key) || 'null'));
+		return result.join(';');
 	}
 
-	buildObjectKey = (values) => {
-		var result = []
-		values.forEach((value) => result.push(value || 'null'))
+	buildObjectKey(values: object[]) {
+		let result: string[] = [];
+		values.forEach((value) => result.push("" + value || 'null'))
 		return result.join(';')
 	}
 }

@@ -2,12 +2,12 @@ import TComponent from "./TComponent";
 
 export default class TWinForm extends TComponent {
 
-    constructor(owner) {
-        super(owner);
+    constructor() {
+        super(null);
         this.setContainer('app');
     }
 
-    setTitle(value) {
+    setTitle(value: string) {
         document.title = value;
         return this;
     }

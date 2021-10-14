@@ -1,7 +1,7 @@
 export default class Handle {
-    sessionId;
+    sessionId: string;
 
-    constructor(sessionId) {
+    constructor(sessionId: string) {
         this.sessionId = sessionId;
     }
 }

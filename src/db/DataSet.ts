@@ -5,25 +5,24 @@
 import DataRow from './DataRow.js';
 import FieldDefs from './FieldDefs.js';
 import SearchDataSet from './SearchDataSet.js';
-import * as JUnit from '../JUnit.js';
 
 export default class DataSet {
-    recNo = 0;
-    fetchNo = -1;
-    state = 0;
-    message = '';
-    fieldDefs = new FieldDefs();
-    metaInfo = false;
-    meta;
-    head = new DataRow();
-    records = [];
-    search;
+    recNo: number = 0;
+    fetchNo: number = -1;
+    state: number = 0;
+    message: string = '';
+    fieldDefs: FieldDefs = new FieldDefs();
+    metaInfo: boolean = false;
+    meta: any;
+    head: DataRow = new DataRow();
+    records: DataRow[] = [];
+    search: SearchDataSet;
 
-    constructor(def: FieldDefs = null) {
-        if (def) this.setJson(def)
+    constructor(json: string = null) {
+        if (json) this.setJson(json);
     }
 
-    getCurrent() {
+    getCurrent(): DataRow {
         if (this.eof()) {
             throw new Error('eof == true')
         } else if (this.bof()) {
@@ -34,22 +33,22 @@ export default class DataSet {
         }
     }
 
-    append() {
-        var record = new DataRow(this);
+    append(): DataSet {
+        let record = new DataRow(this);
         this.records.push(record)
         this.recNo = this.records.length;
         return this
     }
 
-    delete() {
-        let row = this.getCurrent;
+    delete(): void {
+        let row = this.getCurrent();
         if (row) {
             this.setRecNo(this.getRecNo() - 1);
-            this.records.pop(row);
+            this.records.splice(this.getRecNo(), 1);
         }
     }
 
-    first() {
+    first(): boolean {
         if (this.records.length > 0) {
             this.recNo = 1
         } else {
@@ -59,12 +58,12 @@ export default class DataSet {
         return this.recNo > 0
     }
 
-    last() {
+    last(): boolean {
         this.recNo = this.records.length;
         return this.recNo > 0
     }
 
-    next() {
+    next(): boolean {
         if (this.records.length > 0 && this.recNo <= this.records.length) {
             this.recNo++
             return true
@@ -73,21 +72,23 @@ export default class DataSet {
         }
     }
 
-    bof() {
+    bof(): boolean {
         return this.recNo === 0
     }
 
-    eof() {
+    eof(): boolean {
         return this.records.length === 0 || this.recNo > this.records.length
     }
 
-    size() {
+    size(): number {
         return this.records.length
     }
-    getRecNo() {
+
+    getRecNo(): number {
         return this.recNo
     }
-    setRecNo(recNo) {
+
+    setRecNo(recNo): void {
         if (recNo > this.records.length) {
             throw new Error(`RecNo ${this.recNo} 大于总长度 ${this.records.length}`)
         } else {
@@ -95,7 +96,8 @@ export default class DataSet {
                 this.recNo = recNo;
         }
     }
-    fetch() {
+
+    fetch(): boolean {
         var result = false
         if (this.fetchNo < (this.records.length - 1)) {
             this.fetchNo++
@@ -104,8 +106,9 @@ export default class DataSet {
         }
         return result
     }
-    copyRecord = (source, defs) => {
-        var record = this.getCurrent()
+
+    copyRecord(source: DataRow, defs: FieldDefs) {
+        let record = this.getCurrent()
 
         if (this.search) {
             this.search.remove(record)
@@ -115,52 +118,54 @@ export default class DataSet {
             record.copyValues(source, defs)
         }
     }
-    exists = (field) => {
-        return Array.from(this.fieldDefs).indexOf(field) > -1
+
+    exists(field: string) {
+        return this.fieldDefs.exists(field);
     }
-    getHead() {
+
+    getHead(): DataRow {
         if (this.head == null) {
             this.head = new DataRow();
         }
         return this.head;
     }
 
-    getRecords() {
+    getRecords(): DataRow[] {
         return this.records;
     }
 
-    getFieldDefs() {
+    getFieldDefs(): FieldDefs {
         return this.fieldDefs;
     }
 
-    setField(field, value) {
+    setField(field: string, value: object): DataSet {
         return this.setValue(field, value);
     }
 
-    setValue(field, value) {
+    setValue(field: string, value: object): DataSet {
         this.getCurrent().setField(field, value)
-        return this
+        return this;
     }
 
-    getField(field) {
+    getField(field: string): object {
         return this.getValue(field);
     }
 
-    getValue(field) {
+    getValue(field: string): object {
         return this.getCurrent().getField(field);
     }
 
-    getString(field) {
+    getString(field): string {
         return this.getCurrent().getString(field);
     }
 
-    clear() {
+    clear(): void {
         this.getHead().getFieldDefs().clear();
         this.getFieldDefs().clear();
         this.close();
     }
 
-    close() {
+    close(): void {
         this.head.close();
         this.search = null;
         this.records = [];
@@ -169,22 +174,22 @@ export default class DataSet {
     }
 
     // 用于查找多次，调用时，会先进行排序，以方便后续的相同Key查找
-    locate = (fields, values) => {
+    locate(fields: string, value: object | object[]): boolean {
         if (!this.search) {
             this.search = new SearchDataSet(this)
         }
 
-        var record = this.search.get(fields, values)
+        let record = this.search.get(fields, value)
         if (record) {
             this.setRecNo(Array.from(this.records).indexOf(record) + 1)
-            return true
+            return true;
         } else {
-            return false
+            return false;
         }
     }
 
-    getJson() {
-        let json = {}
+    getJson(): string {
+        let json: any = {}
         if (this.state !== 0) {
             json.state = this.state
         }
@@ -258,7 +263,7 @@ export default class DataSet {
         return JSON.stringify(json);
     }
 
-    setJson(jsonObj) {
+    setJson(jsonObj: any): DataSet {
         this.clear();
         if (!jsonObj) {
             return this
@@ -341,25 +346,25 @@ export default class DataSet {
         return this;
     }
 
-    getState() {
+    getState():number {
         return this.state;
     }
 
-    setState(state) {
+    setState(state: number): DataSet {
         this.state = state;
         return this;
     }
 
-    getMessage() {
+    getMessage(): string {
         return this.message;
     }
 
-    setMessage(message) {
+    setMessage(message): DataSet {
         this.message = message;
         return this;
     }
 
-    setMetaInfo(metaInfo) {
+    setMetaInfo(metaInfo): DataSet {
         this.metaInfo = metaInfo;
         return this;
     }
@@ -380,13 +385,12 @@ export default class DataSet {
             });
         }
     }
-}
 
-DataSet.prototype.forEach = function (callback) {
-    var arr = this.records;
-    for (var i = 0; i < arr.length; i++)
-        callback(arr[i]);
-    return;
+    forEach(callback: any): void {
+        let arr = this.records;
+        for (let i = 0; i < arr.length; i++)
+            callback(arr[i]);
+    }
 }
 
 // let ds = new DataSet();

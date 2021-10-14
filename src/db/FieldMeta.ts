@@ -8,6 +8,8 @@ export default class FieldMeta {
     remark = null;
     type = null;
     kind = null;
+    OnGetText: any;
+    OnSetText: any;
 
     constructor(code, kind) {
         this.code = code;

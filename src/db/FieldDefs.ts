@@ -1,17 +1,17 @@
 import FieldMeta from "./FieldMeta";
 
 export default class FieldDefs {
-    fields = [];
+    fields: FieldMeta[] = [];
 
-    add(code, name) {
+    add(code: string, name: string = null): FieldMeta {
         if (this.exists(code))
             return this.get(code);
-        let item = new FieldMeta(code, name == undefined ? null : name);
+        let item = new FieldMeta(code, name);
         this.fields.push(item);
         return item;
     }
 
-    exists(code) {
+    exists(code: string): boolean {
         for (let i = 0; i < this.fields.length; i++) {
             let meta = this.fields[i];
             if (meta.getCode() == code) {
@@ -21,7 +21,7 @@ export default class FieldDefs {
         return false;
     }
 
-    get(code) {
+    get(code: string): FieldMeta {
         let result = null;
         this.fields.forEach((item) => {
             if (item.getCode() == code) {
@@ -32,20 +32,20 @@ export default class FieldDefs {
         return result;
     }
 
-    size() {
+    size(): number {
         return this.fields.length;
     }
 
-    clear() {
+    clear(): void {
         this.fields = [];
     }
-}
 
-FieldDefs.prototype.forEach = function(callback) {
-    var arr = this.fields;
-    for (var i = 0; i < arr.length; i++)
-        callback(arr[i], i);
-    return;
+    forEach(callback: any): void {
+        let arr = this.fields;
+        for (let i = 0; i < arr.length; i++)
+            callback(arr[i], i);
+        return;
+    }
 }
 
 // let defs = new FieldDefs();
