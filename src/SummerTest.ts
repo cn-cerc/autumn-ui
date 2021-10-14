@@ -22,12 +22,15 @@ ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, 
 };
 
 let grid = new sci.TGrid(mainform).setDataSet(ds);
-grid.addColumns(ds.getFieldDefs());
-grid.getColumn('opera').setExport(false);
+new sci.TGridColumn(grid, 'code', '代码');
+new sci.TGridColumn(grid, 'name', '代码');
+new sci.TGridColumn(grid, 'opera', '操作');
+// grid.addColumns(ds.getFieldDefs());
+// grid.getColumn('opera').setExport(false);
 
-let childGroup = new sci.TGridGroupChild(grid);
-new sci.TGridColumn(childGroup, "remark1", "备注1");
-new sci.TGridColumn(childGroup, "remark2", "备注2");
+let child = new sci.TGridGroupChild(grid);
+new sci.TGridColumn(child, "remark", "备注1");
+new sci.TGridColumn(child, "remark2", "备注2");
 
 let memo = new sci.TSpan(mainform);
 memo.setText("dataset: " + ds.getJson())

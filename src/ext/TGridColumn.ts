@@ -1,5 +1,7 @@
 import TComponent from "../ui/TComponent";
 import TGrid from "./TGrid";
+import TGridGroupChild from "./TGridGroupChild";
+import TGridGroupMaster from "./TGridGroupMaster";
 import TGridGroup from "./TGridGroupMaster";
 
 export default class TGridColumn extends TComponent {
@@ -10,7 +12,7 @@ export default class TGridColumn extends TComponent {
     private _export = true;
     private _visible = true;
 
-    constructor(owner: TGrid | TGridGroup, code: string, name: string = null) {
+    constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild, code: string, name: string = null) {
         super(owner);
         this.code = code;
         this.name = name ? name : code;
@@ -24,12 +26,12 @@ export default class TGridColumn extends TComponent {
         return this.name;
     }
 
-    getCols() {
-        return this.readProperty("cols");
+    getColspan() {
+        return this.readProperty("colspan");
     };
 
-    setCols(value: string) {
-        this.writerProperty("cols", value);
+    setColspan(value: string) {
+        this.writerProperty("colspan", value);
         return this;
     }
 

@@ -1,12 +1,27 @@
+import DataRow from '../db/DataRow';
+import HtmlWriter from '../ui/HtmlWriter';
 import TComponent from '../ui/TComponent';
+import TTd from '../ui/TTd';
+import TText from '../ui/TText';
+import TTh from '../ui/TTh';
+import TTr from '../ui/TTr';
 import TGridColumn from './TGridColumn';
 
 export default class TGridGroup extends TComponent {
     MaxWidth = 600;
-    _titleVisiable: boolean = true;
+    private titleVisiable: boolean = true;
+    private current: DataRow;
 
     constructor(owner: TComponent) {
         super(owner);
+    }
+
+    setCurrent(row: DataRow) {
+        this.current = row;
+    }
+
+    getCurrent(): DataRow {
+        return this.current;
     }
 
     getTotalWidth() {
@@ -25,11 +40,11 @@ export default class TGridGroup extends TComponent {
     }
 
     getTitleVisiable() {
-        return this._titleVisiable
+        return this.titleVisiable
     }
 
     setTitleVisiable(value: boolean): TGridGroup {
-        this._titleVisiable = value;
+        this.titleVisiable = value;
         return this;
     }
 
@@ -47,6 +62,28 @@ export default class TGridGroup extends TComponent {
             if (item instanceof TGridColumn)
                 fn.call(this, item as TGridColumn);
         }
+    }
+
+    outputOfGridTitle(html: HtmlWriter) {
+        if (!this.getTitleVisiable())
+            return;
+        let tr = new TTr();
+        for (let item of this.getComponents()) {
+            if (item instanceof TGridColumn) {
+                let child = item as TGridColumn;
+                if (!child.getVisible())
+                    return;
+                let th = new TTh(tr);
+                if (child.getColspan())
+                    th.writerProperty("colspan", child.getColspan());
+                if (this.getTotalWidth() > 0 && child.getWidth() > 0) {
+                    let rate = child.getWidth() / this.getTotalWidth() * 100;
+                    th.writerProperty("width", rate.toFixed(1) + "%");
+                }
+                new TText(th).setText(child.getName());
+            }
+        }
+        tr.output(html);
     }
 
 }

@@ -31,47 +31,29 @@ export default class TGrid extends TTable {
         let sumWidth = 0;
         this.beginOutput(html);
 
+        //先输出主行标题
+        let master: TGridGroupMaster = null;
         this.groups.forEach((group) => {
-            if (!group.getTitleVisiable())
-                return;
-            let tr = new TTr();
-            group.forEach((child: TGridColumn) => {
-                if (!child.getVisible())
-                    return;
-                let th = new TTh(tr);
-                if (child.getCols())
-                    th.writerProperty("colspan", child.getCols());
-                if (group.getTotalWidth() > 0 && child.getWidth() > 0) {
-                    let rate = child.getWidth() / group.getTotalWidth() * 100;
-                    th.writerProperty("width", rate.toFixed(1) + "%");
-                }
-                new TText(th).setText(child.getName());
-            });
-            tr.output(html);
+            if (group instanceof TGridGroupMaster) {
+                master = group as TGridGroupMaster;
+                master.outputOfGridTitle(html);
+            }
+        });
+        //再输出子行标题
+        this.groups.forEach((group) => {
+            if (group instanceof TGridGroupChild) {
+                let child = group as TGridGroupChild;
+                child.setMaster(master);
+                child.outputOfGridTitle(html);
+            }
         });
 
+        //再输出表格数据
         if (this.dataSet) {
             for (let row of this.dataSet.getRecords()) {
                 this.groups.forEach((group) => {
-                    let notNull = false;
-                    let tr = new TTr();
-                    group.forEach((child: TGridColumn) => {
-                        if (!child.getVisible())
-                            return;
-                        let value = row.getText(child.getCode());
-                        let td = new TTd(tr);
-                        if (child.getCols())
-                            td.writerProperty("colspan", child.getCols());
-
-                        if (child.getAlign()) {
-                            td.writerProperty("align", child.getAlign());
-                        }
-                        new TText(td).setText(value);
-                        if (value)
-                            notNull = true;
-                    });
-                    if (notNull)
-                        tr.output(html);
+                    group.setCurrent(row);
+                    group.output(html);
                 });
             }
         }
@@ -88,6 +70,7 @@ export default class TGrid extends TTable {
     addComponent(child: TComponent): TGrid {
         if (child instanceof TGridGroup) {
             super.addComponent(child);
+            this.groups.push(child);
         } else {
             this.getGroup(0).addComponent(child);
         }
@@ -98,7 +81,7 @@ export default class TGrid extends TTable {
         if (index > (this.groups.length - 1)) {
             let max = index - this.groups.length + 1;
             for (let i = 0; i < max; i++) {
-                this.groups.push(new TGridGroup(this));
+                new TGridGroupMaster(this);
             }
         }
         return this.groups[index];
