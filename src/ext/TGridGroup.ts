@@ -50,10 +50,3 @@ export default class TGridGroup extends TComponent {
     }
 
 }
-
-// let groups = new TGridGroup();
-
-// new TGridColumn(groups).setWidth(10);
-// new TGridColumn(groups).setWidth(15);
-
-// JUnit.assertEquals(1, "25", groups.getTotalWidth());

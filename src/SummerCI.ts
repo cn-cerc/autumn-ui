@@ -24,6 +24,9 @@ export { default as TInput } from './ui/TInput';
 //ext
 export { default as TPage } from './ext/TPage';
 export { default as TGrid } from './ext/TGrid';
+export { default as TGridGroup } from './ext/TGridGroup';
+export { default as TGridGroupMaster } from './ext/TGridGroupMaster';
+export { default as TGridGroupChild } from './ext/TGridGroupChild';
 export { default as TGridColumn } from './ext/TGridColumn';
 export { default as TMutiPage } from './ext/TMutiPage';
 export { default as TWinForm } from './ext/TWinForm';

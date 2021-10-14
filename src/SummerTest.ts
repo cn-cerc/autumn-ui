@@ -24,9 +24,10 @@ ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, 
 let grid = new sci.TGrid(mainform).setDataSet(ds);
 grid.addColumns(ds.getFieldDefs());
 grid.getColumn('opera').setExport(false);
-grid.getGroup(0).getColumn('remark').setVisible(false);
-new sci.TGridColumn(grid.getGroup(1), "remark", "备注").setCols('3');
-grid.getGroup(1).setTitleVisiable(false);
+
+let childGroup = new sci.TGridGroupChild(grid);
+new sci.TGridColumn(childGroup, "remark1", "备注1");
+new sci.TGridColumn(childGroup, "remark2", "备注2");
 
 let memo = new sci.TSpan(mainform);
 memo.setText("dataset: " + ds.getJson())

@@ -1,14 +1,17 @@
 import TGridGroup from './TGridGroup';
+import TGridGroupMaster from './TGridGroupMaster';
+import TGridGroupChild from './TGridGroupChild';
 import TTable from '../ui/TTable';
 import TTr from '../ui/TTr';
 import TTh from '../ui/TTh';
 import TTd from '../ui/TTd';
 import TText from '../ui/TText';
 import TGridColumn from './TGridColumn';
-import { DataRow, DataSet, FieldDefs, FieldMeta } from '../SummerCI';
 import TComponent from '../ui/TComponent';
 import HtmlWriter from '../ui/HtmlWriter';
 import { assertEquals } from '../JUnit';
+import DataSet from '../db/DataSet';
+import FieldDefs from '../db/FieldDefs';
 
 export default class TGrid extends TTable {
     dataSet: DataSet;

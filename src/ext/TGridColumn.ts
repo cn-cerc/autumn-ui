@@ -1,6 +1,6 @@
 import TComponent from "../ui/TComponent";
 import TGrid from "./TGrid";
-import TGridGroup from "./TGridGroup";
+import TGridGroup from "./TGridGroupMaster";
 
 export default class TGridColumn extends TComponent {
     private code: string;
