@@ -5,11 +5,20 @@ mainform.setTitle("hello world!")
 
 // 定义操作区
 let tools = new sci.TPanel(mainform);
-let button1 = new sci.TButton(tools).setText('增加');
-button1.writerProperty('onclick', 'alert(\'你好，我是button\')');
+let edtCode = new sci.TEditText(tools);
+edtCode.setId('edtCode');
+edtCode.setLabel('搜索条件：').setValue('p01');
+
+let button1 = new sci.TButton(tools).setText('查询');
+button1.setId('button1').addEventListener('click', () => {
+    let value = edtCode.getInputValue();
+    alert('您输入的是：' + value);
+})
 
 let button2 = new sci.TButton(tools).setText('删除');
-button2.writerProperty('onclick', 'alert(\'你好，我是button\')');
+button2.setId('button2').addEventListener('click', () => {
+    alert('你好');
+});
 
 //定义数据源
 let ds = new sci.DataSet();

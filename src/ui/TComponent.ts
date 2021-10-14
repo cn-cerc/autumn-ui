@@ -3,13 +3,14 @@ import HtmlWriter from "./HtmlWriter";
 
 export default class TComponent {
     owner: TComponent;
-    origin: object;
+    origin: any;
     rootLabel: string;
     container: string;
     components: Set<TComponent> = new Set<TComponent>();
     propertys: Map<string, string> = new Map<string, string>();
+    events: Map<string, any> = new Map<string, any>();
 
-    constructor(owner: TComponent = null) {
+    constructor(owner: TComponent) {
         this.owner = owner;
         this.setOwner(owner);
     }
@@ -121,10 +122,6 @@ export default class TComponent {
         return this.readProperty('style');
     }
 
-    registerEvents() {
-
-    }
-
     render(container: string = null) {
         if (container != null) {
             this.setContainer(container);
@@ -138,17 +135,37 @@ export default class TComponent {
         }
 
         let contentId = this.container ? this.container : this.getId();
-        if (contentId) {
-            let el = document.getElementById(contentId);
-            if (el)
-                el.innerHTML = html.getText();
-            this.registerEvents();
-        } else
-            console.log("render error: container is null")
+        if (!contentId)
+            throw new Error("render error: container is null")
+        let el = document.getElementById(contentId);
+        if (!el)
+            throw new Error(`not find element: ${contentId}`);
+
+        el.innerHTML = html.getText();
+
+        this.registerEvents(this);
     }
 
-    addEventListener(htmlId: string, event: string, func: any) {
-        document.getElementById(htmlId).addEventListener(event, func);
+    private registerEvents(root: TComponent) {
+        if (root.getId()) {
+            root.events.forEach((fn, event) => {
+                let el = document.getElementById(root.getId());
+                if (el)
+                    el.addEventListener(event, fn);
+                else
+                    throw new Error(`not find element: ${root.getId()}`);
+            })
+        }
+        for (let child of root.getComponents())
+            this.registerEvents(child);
+    }
+
+    addEventListener(event: string, fn: any) {
+        let htmlId = this.getId();
+        if (htmlId)
+            this.events.set(event, fn);
+        else
+            throw new Error('this id is null');
     }
 
     getName() {

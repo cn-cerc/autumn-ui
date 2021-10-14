@@ -31,3 +31,5 @@ export { default as TGridColumn } from './ext/TGridColumn';
 export { default as TMutiPage } from './ext/TMutiPage';
 export { default as TWinForm } from './ext/TWinForm';
 export { default as TPanel } from './ext/TPanel';
+export { default as TEditText } from './ext/TEditText';
+
