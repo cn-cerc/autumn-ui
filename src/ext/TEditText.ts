@@ -25,10 +25,10 @@ export default class TEditText extends TComponent {
         return this;
     }
 
-    getValue(): string {
+    getDefaultValue(): string {
         return this.input.getValue();
     }
-    setValue(value: string): TEditText {
+    setDefaultValue(value: string): TEditText {
         this.input.setValue(value);
         return this;
     }

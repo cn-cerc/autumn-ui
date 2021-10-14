@@ -7,7 +7,7 @@ mainform.setTitle("hello world!")
 let tools = new sci.TPanel(mainform);
 let edtCode = new sci.TEditText(tools);
 edtCode.setId('edtCode');
-edtCode.setLabel('搜索条件：').setValue('p01');
+edtCode.setLabel('搜索条件：').setDefaultValue('p012');
 
 let button1 = new sci.TButton(tools).setText('查询');
 button1.setId('button1').addEventListener('click', () => {
