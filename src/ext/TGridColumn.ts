@@ -8,10 +8,10 @@ export default class TGridColumn extends TComponent {
     private _export = true;
     private _visible = true;
 
-    constructor(owner: TComponent, name: string, code: string) {
+    constructor(owner: TComponent, code: string, name: string = null) {
         super(owner);
-        this.name = name;
         this.code = code;
+        this.name = name ? name : code;
     }
 
     getCode() {

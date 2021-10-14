@@ -15,6 +15,7 @@ export default class TGrid extends TTable {
 
     constructor(owner: TComponent) {
         super(owner);
+        this.setBorder('1');
     }
 
     setDataSet(dataSet: DataSet): TGrid {

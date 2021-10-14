@@ -27,3 +27,4 @@ export { default as TGrid } from './ext/TGrid';
 export { default as TGridColumn } from './ext/TGridColumn';
 export { default as TMutiPage } from './ext/TMutiPage';
 export { default as TWinForm } from './ext/TWinForm';
+export { default as TPanel } from './ext/TPanel';

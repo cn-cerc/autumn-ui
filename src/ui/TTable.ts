@@ -15,4 +15,5 @@ export default class TTable extends TComponent {
     getBorder(): string {
         return this.readProperty('border');
     }
+
 }
