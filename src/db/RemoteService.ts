@@ -1,15 +1,16 @@
+import { TComponent } from "../SummerCI";
 import DataSet from "./DataSet";
 
-let _this = null;
+let _this: RemoteService = null;
 
 export default class RemoteService {
-    owner = null;
+    owner: any = null;
     host = '/services/';
     service: string;
     _dataIn: DataSet;
     _dataOut: DataSet;
 
-    constructor(owner: object) {
+    constructor(owner: any) {
         this.owner = owner;
         _this = this;
         this._dataIn = new DataSet();
@@ -21,7 +22,7 @@ export default class RemoteService {
             url = `${url}?sid=${this.owner.sid}`;
 
         fetch(url, {
-            method: 'POST', body: "dataIn=" + this.dataIn.getJson(),
+            method: 'POST', body: "dataIn=" + this.getDataIn().getJson(),
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 // "Content-Type": "multipart/form-data",

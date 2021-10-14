@@ -2,14 +2,14 @@ import TComponent from "./TComponent";
 import TText from "./TText";
 
 export default class TSpan extends TComponent {
-    span;
+    span: TText;
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         super(owner);
         this.setRootLabel('span');
     }
 
-    setText(text) {
+    setText(text: string) {
         if (!this.span) {
             this.span = new TText(this);
         }
@@ -17,7 +17,7 @@ export default class TSpan extends TComponent {
         return this;
     }
 
-    getText() {
+    getText(): string {
         return this.span == null ? null : this.span.getText();
     }
 }

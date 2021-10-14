@@ -1,13 +1,14 @@
+import HtmlWriter from "./HtmlWriter";
 import TComponent from "./TComponent";
 
 export default class TText extends TComponent {
-    text;
+    text: string;
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         super(owner);
     }
 
-    setText(text) {
+    setText(text: string) {
         this.text = text;
     }
 
@@ -15,7 +16,7 @@ export default class TText extends TComponent {
         return this.text;
     }
 
-    output(html){
+    output(html: HtmlWriter){
         html.print(this.text);
     }
 }

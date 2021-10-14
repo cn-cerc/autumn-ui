@@ -1,23 +1,24 @@
+import HtmlWriter from "./HtmlWriter";
 import TComponent from "./TComponent";
 
 export default class TButton extends TComponent {
-    text;
+    text: string;
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         super(owner);
         this.setRootLabel('button');
     }
 
-    setText(text) {
+    setText(text: string) {
         this.text = text;
         return this;
     }
 
-    getText() {
+    getText(): string {
         return this.text;
     }
 
-    output(html) {
+    output(html: HtmlWriter) {
         this.beginOutput(html);
         if (this.text) {
             html.print(this.text);

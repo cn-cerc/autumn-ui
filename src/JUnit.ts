@@ -1,8 +1,8 @@
 
-export function assertEquals(one, two, three) {
-    let flag = one;
-    let src = two;
-    let tar = three;
+export function assertEquals(one: any, two: any, three: any): boolean {
+    let flag: any = one;
+    let src: any = two;
+    let tar: any = three;
     switch (arguments.length) {
         case 2: {
             flag = '';
@@ -14,7 +14,7 @@ export function assertEquals(one, two, three) {
             break;
         }
         default:
-            console('junit error call');
+            console.log('junit error call');
             return false;
     }
 

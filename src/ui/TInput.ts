@@ -1,31 +1,31 @@
 import TComponent from "./TComponent";
 
 export default class TInput extends TComponent {
-    
-    constructor(owner) {
+
+    constructor(owner: TComponent) {
         super(owner);
         this.setRootLabel('input');
     }
-    
-    setName(name){
+
+    setName(name: string) {
         this.writerProperty('name', name);
         return this;
     }
 
-    getName(){
+    getName() {
         return this.readProperty('name');
     }
-    
-    setValue(value){
+
+    setValue(value: string) {
         this.writerProperty('value', value);
         return this;
     }
 
-    getValue(){
+    getValue() {
         return this.readProperty('value');
     }
 
-    getHtmlValue(){
-        return document.getElementById(this.getId()).value;
+    getHtmlValue(): string {
+        return document.getElementById(this.getId()).innerText;
     }
 }

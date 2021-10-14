@@ -3,15 +3,15 @@
  */
 
 export default class FieldMeta {
-    code = null;
-    name = null;
-    remark = null;
-    type = null;
-    kind = null;
+    code: string = null;
+    name: string = null;
+    remark: string = null;
+    type: string = null;
+    kind: string = null;
     OnGetText: any;
     OnSetText: any;
 
-    constructor(code, kind) {
+    constructor(code: string, kind: string) {
         this.code = code;
         this.kind = kind;
     }
@@ -24,7 +24,7 @@ export default class FieldMeta {
         return this.name;
     }
 
-    setName(name) {
+    setName(name: string) {
         this.name = name;
         return this;
     }
@@ -33,7 +33,7 @@ export default class FieldMeta {
         return this.remark;
     }
 
-    setRemark(remark) {
+    setRemark(remark: string) {
         this.remark = remark;
         return;
     }
@@ -42,7 +42,7 @@ export default class FieldMeta {
         return this.type;
     }
 
-    setType(type) {
+    setType(type: string) {
         this.type = type;
         return this;
     }
@@ -51,7 +51,7 @@ export default class FieldMeta {
         return this.kind;
     }
 
-    setKind(kind) {
+    setKind(kind: string) {
         this.kind = kind;
         return;
     }

@@ -1,3 +1,4 @@
+import DataSet from "../db/DataSet";
 import TComponent from "./TComponent";
 
 export default class TMutiPage extends TComponent {
@@ -8,18 +9,18 @@ export default class TMutiPage extends TComponent {
     //当前页
     pageNo = 1;
     //数据集
-    dataSet;
+    dataSet: DataSet;
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         super(owner);
     }
 
     getRecordCount() { return this.recordCount };
 
-    setPageSize(value) { this.pageSize = value; return this }
+    setPageSize(value: number) { this.pageSize = value; return this }
     getPageSize() { return this.pageSize }
 
-    setPageNo(value) {
+    setPageNo(value: number) {
         if (value < 1)
             this.pageNo = 1;
         else if (value < this.getCount())
@@ -30,13 +31,14 @@ export default class TMutiPage extends TComponent {
     }
     getPageNo() { return this.pageNo }
 
-    setDataSet(value) {
+    setDataSet(value: DataSet): TMutiPage {
         this.dataSet = value;
         if (value)
             this.recordCount = value.getRecords().length;
         return this;
     }
-    getDataSet(value) { return this.dataSet }
+
+    getDataSet() { return this.dataSet }
 
     getBegin() {
         return (this.pageNo - 1) * this.pageSize + 1;
@@ -52,13 +54,15 @@ export default class TMutiPage extends TComponent {
         let temp = this.recordCount % this.pageSize;
         return (this.recordCount - temp) / this.pageSize + (temp > 0 ? 1 : 0);
     }
-}
 
-TMutiPage.prototype.forEach = function (callback) {
-    if (this.dataSet == null)
-        throw new Error("this.dataSet is null");
-    for (var i = this.getBegin(); i <= this.getEnd(); i++){
-        callback(this.dataSet.getRecords(i));
+    forEach(callback: any) {
+        if (this.dataSet == null)
+            throw new Error("this.dataSet is null");
+            
+        for (let i = this.getBegin(); i <= this.getEnd(); i++) {
+            this.dataSet.setRecNo(i+1);
+            callback(this.dataSet.getCurrent());
+        }
     }
 }
 

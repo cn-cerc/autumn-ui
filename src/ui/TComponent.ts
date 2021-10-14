@@ -132,7 +132,7 @@ export default class TComponent {
             console.log("render error: container is null")
     }
 
-    addEventListener(htmlId, event, func) {
+    addEventListener(htmlId: string, event: string, func: any) {
         document.getElementById(htmlId).addEventListener(event, func);
     }
 
@@ -140,7 +140,7 @@ export default class TComponent {
         return this.readProperty('name');
     }
 
-    setName(value) {
+    setName(value: string) {
         this.writerProperty('name', value);
         return this;
     }
@@ -149,7 +149,7 @@ export default class TComponent {
         return this.container;
     }
 
-    setContainer(container) {
+    setContainer(container: string) {
         this.container = container;
         return this;
     }

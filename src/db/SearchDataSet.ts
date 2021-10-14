@@ -60,7 +60,7 @@ export default class SearchDataSet {
 	}
 
 	clear(): void {
-		this.fields = undefined
+		this.fields = null;
 		this.keys.clear()
 		this.items.clear()
 	}

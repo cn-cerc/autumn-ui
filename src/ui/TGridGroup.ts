@@ -1,11 +1,10 @@
-import TComponent from "./TComponent.js"
-import TGridColumn from "./TGridColumn.js"
-import * as JUnit from "../JUnit.js"
+import TComponent from './TComponent';
+import TGridColumn from './TGridColumn';
 
 export default class TGridGroup extends TComponent {
     MaxWidth = 600;
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         super(owner);
     }
 

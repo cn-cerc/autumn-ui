@@ -1,33 +1,34 @@
-import TGridGroup from './TGridGroup.js';
-import TTable from './TTable.js';
-import TTr from './TTr.js';
-import TTh from './TTh.js';
-import TTd from './TTd.js';
-import TText from './TText.js';
-import TGridColumn from './TGridColumn.js';
-import DataSet from "../db/DataSet";
-import * as JUnit from "../JUnit";
+import TGridGroup from './TGridGroup';
+import TTable from './TTable';
+import TTr from './TTr';
+import TTh from './TTh';
+import TTd from './TTd';
+import TText from './TText';
+import TGridColumn from './TGridColumn';
+import { DataRow, DataSet, FieldDefs, FieldMeta } from '../SummerCI';
+import TComponent from './TComponent';
+import HtmlWriter from './HtmlWriter';
 
 export default class TGrid extends TTable {
-    dataSet;
-    groups = [];
+    dataSet: DataSet;
+    groups: TGridGroup[] = [];
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         super(owner);
     }
 
-    setDataSet(dataSet) {
+    setDataSet(dataSet: DataSet): TGrid {
         this.dataSet = dataSet;
         return this;
     }
 
-    output(html) {
+    output(html: HtmlWriter): void {
         let sumWidth = 0;
         this.beginOutput(html);
 
         this.groups.forEach((group) => {
             let tr = new TTr();
-            group.getComponents().forEach((child) => {
+            group.getComponents().forEach((child: TGridColumn) => {
                 if (!child.getVisible())
                     return;
 
@@ -43,10 +44,10 @@ export default class TGrid extends TTable {
             tr.output(html);
         });
 
-        this.dataSet.forEach((row) => {
+        this.dataSet.forEach((row:DataRow) => {
             let tr = new TTr();
             this.groups.forEach((group) => {
-                group.getComponents().forEach((child) => {
+                group.getComponents().forEach((child: TGridColumn) => {
                     if (!child.getVisible())
                         return;
 
@@ -67,21 +68,22 @@ export default class TGrid extends TTable {
         this.endOutput(html);
     }
 
-    addColumns(fieldDefs) {
-        fieldDefs.forEach((meta) => {
+    addColumns(fieldDefs: FieldDefs): void {
+        fieldDefs.forEach((meta: FieldMeta) => {
             new TGridColumn(this, meta.getCode(), meta.getName() ? meta.getName() : meta.getCode());
         });
     }
 
-    addComponent(child) {
+    addComponent(child: TComponent): TGrid {
         if (child instanceof TGridGroup) {
             super.addComponent(child);
         } else {
             this.getGroup(0).addComponent(child);
         }
+        return this;
     }
 
-    getGroup(index) {
+    getGroup(index: number): TGridGroup {
         if (index > (this.groups.length - 1)) {
             let max = index - this.groups.length + 1;
             for (let i = 0; i < max; i++) {
@@ -91,18 +93,19 @@ export default class TGrid extends TTable {
         return this.groups[index];
     }
 
-    findColumn(columnCode) {
+    findColumn(columnCode: string): TGridColumn {
         for (let i = 0; i < this.groups.length; i++) {
-            let group = this.groups[i];
-            for (let item of group.getComponents()) {
-                if (item.getCode() == columnCode)
-                    return item;
+            let group = this.getGroup(i);
+            for(let item of Array.from(group.getComponents().values())){
+                let column = item as TGridColumn;
+                if (column.getCode() == columnCode)
+                    return column;
             }
         }
         return null;
     }
 
-    exportFile(fileName) {
+    exportFile(fileName: string): void {
         //CSV格式可以自己设定，适用MySQL导入或者excel打开。
         //由于Excel单元格对于数字只支持15位，且首位为0会舍弃 建议用 =“数值” 
         let group = this.getGroup(0);
@@ -110,8 +113,9 @@ export default class TGrid extends TTable {
 
         // 定义头部
         group.getComponents().forEach((item) => {
-            if (item.getExport())
-                str += item.getName() + ",";
+            let column = item as TGridColumn;
+            if (column.getExport())
+                str += column.getName() + ",";
         });
         str += '\n';
 
@@ -119,8 +123,9 @@ export default class TGrid extends TTable {
         this.dataSet.first();
         while (this.dataSet.fetch()) {
             group.getComponents().forEach((item) => {
-                if (item.getExport()) {
-                    let value = this.dataSet.getString(item.getCode());
+                let column = item as TGridColumn;
+                if (column.getExport()) {
+                    let value = this.dataSet.getString(column.getCode());
                     str += value.replace(/,/g, "，") + "\t,";
                 }
             });

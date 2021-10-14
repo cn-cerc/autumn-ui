@@ -1,10 +1,7 @@
-/**
- * 
- */
-
-import DataRow from './DataRow.js';
-import FieldDefs from './FieldDefs.js';
-import SearchDataSet from './SearchDataSet.js';
+import DataRow from './DataRow';
+import FieldDefs from './FieldDefs';
+import FieldMeta from './FieldMeta';
+import SearchDataSet from './SearchDataSet';
 
 export default class DataSet {
     recNo: number = 0;
@@ -88,7 +85,7 @@ export default class DataSet {
         return this.recNo
     }
 
-    setRecNo(recNo): void {
+    setRecNo(recNo: number): void {
         if (recNo > this.records.length) {
             throw new Error(`RecNo ${this.recNo} 大于总长度 ${this.records.length}`)
         } else {
@@ -155,7 +152,7 @@ export default class DataSet {
         return this.getCurrent().getField(field);
     }
 
-    getString(field): string {
+    getString(field: string): string {
         return this.getCurrent().getString(field);
     }
 
@@ -200,9 +197,9 @@ export default class DataSet {
             json.meta = {};
 
             if (this.getHead().getFieldDefs().size() > 0) {
-                let head = [];
-                this.getHead().getFieldDefs().forEach(meta => {
-                    let item = {};
+                let head: any = [];
+                this.getHead().getFieldDefs().forEach((meta: FieldMeta) => {
+                    let item: any = {};
                     if (meta.getRemark()) {
                         item[meta.getCode()] = [meta.getType(), meta.getName(), meta.getRemark()];
                     } else if (meta.getName()) {
@@ -216,9 +213,9 @@ export default class DataSet {
             }
 
             if (this.records.length > 0) {
-                let body = [];
-                this.getFieldDefs().forEach((meta) => {
-                    let item = {};
+                let body: any = [];
+                this.getFieldDefs().forEach((meta: FieldMeta) => {
+                    let item: any = {};
                     if (meta.getRemark()) {
                         item[meta.getCode()] = [meta.getType(), meta.getName(), meta.getRemark()];
                     } else if (meta.getName()) {
@@ -234,7 +231,7 @@ export default class DataSet {
         if (this.head.size() > 0) {
             if (this.metaInfo) {
                 json.head = []
-                this.head.getFieldDefs().forEach((field) => {
+                this.head.getFieldDefs().forEach((field: FieldMeta) => {
                     json.head.push(this.head.getField(field.getCode()))
                 })
             } else {
@@ -245,16 +242,16 @@ export default class DataSet {
             json.body = [];
 
             if (!this.metaInfo) {
-                let item = [];
-                this.getFieldDefs().forEach((field) => {
+                let item: any = [];
+                this.getFieldDefs().forEach((field: FieldMeta) => {
                     item.push(field.getCode());
                 });
                 json.body.push(item);
             };
 
-            this.forEach((record) => {
-                var item = []
-                this.getFieldDefs().forEach((field) => {
+            this.forEach((record: DataRow) => {
+                var item: any = []
+                this.getFieldDefs().forEach((field: FieldMeta) => {
                     item.push(record.getField(field.getCode()))
                 })
                 json.body.push(item)
@@ -281,14 +278,14 @@ export default class DataSet {
             this.message = jsonObj.message
         }
 
-        var fields = [];
+        let fields = [];
         if (jsonObj.hasOwnProperty('meta')) {
             this.setMetaInfo(true);
             this.meta = jsonObj.meta;
             if (this.meta.head) {
                 this.head = new DataRow();
-                var i = 0;
-                this.meta.head.forEach((map) => {
+                let i = 0;
+                this.meta.head.forEach((map: any) => {
                     for (let key in map) {
                         let values = map[key];
                         let meta = this.head.getFieldDefs().add(key);
@@ -304,8 +301,8 @@ export default class DataSet {
                 })
             }
             if (this.meta.body) {
-                var i = 0;
-                this.meta.body.forEach((map) => {
+                let i = 0;
+                this.meta.body.forEach((map: any) => {
                     for (let key in map) {
                         let values = map[key];
                         let meta = this.getFieldDefs().add(key);
@@ -336,8 +333,8 @@ export default class DataSet {
                     }
                     var item = data[i];
                     var record = this.append().getCurrent()
-                    fields.forEach((v, k) => {
-                        record.setField(v, item[k])
+                    fields.forEach((v: object, k: string) => {
+                        record.setField(k, v);
                     })
                 }
             }
@@ -346,7 +343,7 @@ export default class DataSet {
         return this;
     }
 
-    getState():number {
+    getState(): number {
         return this.state;
     }
 
@@ -359,12 +356,12 @@ export default class DataSet {
         return this.message;
     }
 
-    setMessage(message): DataSet {
+    setMessage(message: string): DataSet {
         this.message = message;
         return this;
     }
 
-    setMetaInfo(metaInfo): DataSet {
+    setMetaInfo(metaInfo: boolean): DataSet {
         this.metaInfo = metaInfo;
         return this;
     }
@@ -373,14 +370,14 @@ export default class DataSet {
         return this.metaInfo;
     }
 
-    appendDataSet(source) {
-        source.getHead().getFieldDefs().forEach((meta) => {
+    appendDataSet(source: DataSet) {
+        source.getHead().getFieldDefs().forEach((meta: FieldMeta) => {
             this.getHead().setValue(meta.getCode(), source.getHead().getValue(meta.getCode()))
         })
         source.first();
         while (source.fetch()) {
             this.append();
-            source.getFieldDefs().forEach((meta) => {
+            source.getFieldDefs().forEach((meta: FieldMeta) => {
                 this.setValue(meta.getCode(), source.getValue(meta.getCode()))
             });
         }

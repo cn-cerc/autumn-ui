@@ -2,17 +2,17 @@ import TComponent from "./TComponent";
 
 export default class TTable extends TComponent {
 
-    constructor(owner) {
+    constructor(owner: TComponent) {
         super(owner);
         this.setRootLabel('table');
     }
 
-    setBorder(value) {
+    setBorder(value: string) {
         this.writerProperty('border', value)
         return this;
     }
 
-    getBorder() {
+    getBorder(): string {
         return this.readProperty('border');
     }
 }

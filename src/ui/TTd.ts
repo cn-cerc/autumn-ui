@@ -1,8 +1,10 @@
-import TComponent from './TComponent.js';
+import TComponent from './TComponent';
 
 export default class TTd extends TComponent {
-    constructor(owner) {
+
+    constructor(owner:TComponent) {
         super(owner);
         this.setRootLabel("td");
     }
+    
 }

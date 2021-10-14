@@ -130,9 +130,9 @@ export default class DataRow {
     }
 
     getJson(): string {
-        let obj = {}
-        this.items.forEach((v, k) => {
-            obj[k] = v
+        let obj: any = {}
+        this.items.forEach((v: object, k: string) => {
+            obj[k] = v;
         })
         return "" + obj;
     }
@@ -141,7 +141,7 @@ export default class DataRow {
         if (!jsonObj) {
             throw new Error('jsonText is null!')
         }
-        let json: JSON;
+        let json: any;
         if (typeof jsonObj === 'string') {
             json = JSON.parse(jsonObj)
         } else {

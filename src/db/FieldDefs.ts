@@ -43,7 +43,7 @@ export default class FieldDefs {
     forEach(callback: any): void {
         let arr = this.fields;
         for (let i = 0; i < arr.length; i++)
-            callback(arr[i], i);
+            callback(arr[i]);
         return;
     }
 }

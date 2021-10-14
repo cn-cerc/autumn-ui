@@ -1,68 +1,68 @@
 import TComponent from "./TComponent";
 
 export default class TGridColumn extends TComponent {
-    #code;
-    #name;
-    #width = 0;
-    #align;
-    _export = true;
-    _visible = true;
+    private code: string;
+    private name: string;
+    private width: number = 0;
+    private align: string;
+    private _export = true;
+    private _visible = true;
 
-    constructor(owner, name, code) {
+    constructor(owner: TComponent, name: string, code: string) {
         super(owner);
-        this.#name = name;
-        this.#code = code;
+        this.name = name;
+        this.code = code;
     }
 
     getCode() {
-        return this.#code;
+        return this.code;
     }
 
     getName() {
-        return this.#name;
+        return this.name;
     }
 
     getCols() {
         return this.readProperty("cols");
     };
 
-    setCols(value) {
+    setCols(value: string) {
         this.writerProperty("cols", value);
         return this;
     }
 
-    getWidth() {
-        return this.#width;
+    getWidth(): number {
+        return this.width;
     };
 
-    setWidth(value) {
-        this.#width = value;
+    setWidth(value: number) {
+        this.width = value;
         return this;
     }
 
-    setAlign(align) {
-        this.#align = align;
+    setAlign(align: string) {
+        this.align = align;
         return this;
     }
 
     getAlign() {
-        return this.#align;
+        return this.align;
     }
 
-    getExport() {
-        return this._export
+    getExport(): boolean {
+        return this._export;
     }
 
-    setExport(value) {
+    setExport(value: boolean): TGridColumn {
         this._export = value;
         return this;
     }
 
-    getVisible() {
+    getVisible(): boolean {
         return this._visible;
     }
 
-    setVisible(value) {
+    setVisible(value: boolean): TGridColumn {
         this._visible = value;
         return this;
     }

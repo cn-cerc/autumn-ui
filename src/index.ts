@@ -1,2 +1,3 @@
-import * as sci from './SummerCI.js';
-window.sci = sci
+import * as sci from './SummerCI';
+// @ts-ignore
+window.sci = sci;

@@ -1,5 +1,4 @@
 import * as sci from "./SummerCI";
-window.sci = sci;
 
 let mainform = new sci.TWinForm();
 mainform.setTitle("hello world")
