@@ -2,6 +2,7 @@ import DataRow from './DataRow';
 import FieldDefs from './FieldDefs';
 import FieldMeta from './FieldMeta';
 import SearchDataSet from './SearchDataSet';
+import * as JUnit from "../JUnit";
 
 export default class DataSet {
     recNo: number = 0;
@@ -135,21 +136,13 @@ export default class DataSet {
         return this.fieldDefs;
     }
 
-    setField(field: string, value: any): DataSet {
-        return this.setValue(field, value);
-    }
-
     setValue(field: string, value: any): DataSet {
-        this.getCurrent().setField(field, value)
+        this.getCurrent().setValue(field, value)
         return this;
     }
 
-    getField(field: string): object {
-        return this.getValue(field);
-    }
-
     getValue(field: string): object {
-        return this.getCurrent().getField(field);
+        return this.getCurrent().getValue(field);
     }
 
     getString(field: string): string {
@@ -232,7 +225,7 @@ export default class DataSet {
             if (this.metaInfo) {
                 json.head = []
                 this.head.getFieldDefs().forEach((field: FieldMeta) => {
-                    json.head.push(this.head.getField(field.getCode()))
+                    json.head.push(this.head.getValue(field.getCode()))
                 })
             } else {
                 json.head = this.head.getJson()
@@ -252,7 +245,7 @@ export default class DataSet {
             for (let record of this.records) {
                 var item: any = []
                 this.getFieldDefs().forEach((field: FieldMeta) => {
-                    item.push(record.getField(field.getCode()))
+                    item.push(record.getValue(field.getCode()))
                 })
                 json.body.push(item)
             };
@@ -295,7 +288,7 @@ export default class DataSet {
                             meta.setName(values[1]);
                         if (values.length > 0)
                             meta.setType(values[0]);
-                        this.head.setField(key, jsonObj.head[i]);
+                        this.head.setValue(key, jsonObj.head[i]);
                         i = i + 1;
                     }
                 })
@@ -333,8 +326,8 @@ export default class DataSet {
                     }
                     var item = data[i];
                     var record = this.append().getCurrent()
-                    fields.forEach((v: object, k: string) => {
-                        record.setField(k, v);
+                    fields.forEach((v: any, k: any) => {
+                        record.setValue(v, k);
                     })
                 }
             }
@@ -386,13 +379,13 @@ export default class DataSet {
 }
 
 // let ds = new DataSet();
-// ds.getHead().setField('id', 100);
+// ds.getHead().setValue('id', 100);
 // ds.append();
-// ds.setField('code', 'a');
-// ds.setField('name', 'jason');
+// ds.setValue('code', 'a');
+// ds.setValue('name', 'jason');
 // ds.append();
-// ds.setField('code', 'b');
-// ds.setField('name', 'bade');
+// ds.setValue('code', 'b');
+// ds.setValue('name', 'bade');
 // ds.getFieldDefs().get("code").setName("代码");
 // JUnit.assertEquals(1, ds.getJson(), '{"head":{"id":100},"body":[["code","name"],["a","jason"],["b","bade"]]}');
 // JUnit.assertEquals(2, ds.setMetaInfo(true).getJson(), '{"meta":{"head":[{"id":[null]}],"body":[{"code":[null,"代码"]},{"name":[null]}]},"head":[100],"body":[["a","jason"],["b","bade"]]}')

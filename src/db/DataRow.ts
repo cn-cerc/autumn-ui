@@ -41,10 +41,6 @@ export default class DataRow {
         this.items.clear();
     }
 
-    setField(field: string, value: any): DataRow {
-        return this.setValue(field, value);
-    }
-
     setValue(field: string, value: any): DataRow {
         if (!field)
             throw new Error('field is null!');
@@ -61,20 +57,16 @@ export default class DataRow {
             defs = source.getFieldDefs();
 
         defs.forEach((meta: FieldMeta) => {
-            this.setField(meta.getCode(), source.getValue(meta.getCode()));
+            this.setValue(meta.getCode(), source.getValue(meta.getCode()));
         });
     }
 
-    addFieldDef(field: string) {
+   private addFieldDef(field: string) {
         if (field == null)
             throw new Error("field is null");
         if (!this.fieldDefs.exists(field)) {
             this.fieldDefs.add(field);
         }
-    }
-
-    getField(field: string): any {
-        return this.getValue(field);
     }
 
     getValue(field: string): any {
@@ -90,7 +82,7 @@ export default class DataRow {
     }
 
     getBoolean(field: string): boolean {
-        return this.getField(field) ? true : false;
+        return this.getValue(field) ? true : false;
     }
 
     getDouble(field: string): number {
@@ -103,7 +95,7 @@ export default class DataRow {
         if (meta.onGetText != undefined) {
             return meta.onGetText(this, meta);
         } else
-            return this.getField(field);
+            return this.getValue(field);
     }
 
     setText(field: string, value: object): DataRow {
