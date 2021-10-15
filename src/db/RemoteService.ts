@@ -1,25 +1,33 @@
 import { TComponent } from "../SummerCI";
 import DataSet from "./DataSet";
 
-let _this: RemoteService = null;
-
 export default class RemoteService {
     owner: any = null;
+    sid: string = null;
     host = '/services/';
     service: string;
     _dataIn: DataSet;
-    _dataOut: DataSet;
 
     constructor(owner: any) {
-        this.owner = owner;
-        _this = this;
         this._dataIn = new DataSet();
+        if (owner) {
+            this.owner = owner;
+            if (owner.sid)
+                this.sid = owner.sid;
+            if (owner.host)
+                this.host = owner.host;
+        }
     }
 
-    exec(func: any): void {
+    exec(func: (dataOut: DataSet) => void): void {
+        if (!this.service) {
+            func.call(this, new DataSet().setMessage('service is null'));
+            return;
+        }
+
         let url = this.host + this.service;
-        if (this.owner && this.owner.sid)
-            url = `${url}?sid=${this.owner.sid}`;
+        if (this.sid)
+            url = `${url}?sid=${this.sid}`;
 
         fetch(url, {
             method: 'POST', body: "dataIn=" + this.getDataIn().getJson(),
@@ -28,15 +36,17 @@ export default class RemoteService {
                 // "Content-Type": "multipart/form-data",
             },
         }).then(function (response) {
-            var contentType = response.headers.get("content-type");
-            if ("application/json;charset=utf-8" == contentType)
+            let contentType = response.headers.get("content-type");
+            if ("application/json;charset=utf-8" == contentType) {
                 return response.json();
-            else
-                throw new Error('not support: ' + contentType);
-        }).then(function (data: any) {
-            //console.log(data);
-            _this._dataOut = new DataSet(JSON.stringify(data));
-            func.call(_this, _this._dataOut);
+            } else {
+                console.log(response.body);
+                func.call(this, new DataSet().setMessage('not support:' + contentType));
+            }
+        }).then(function (data: string) {
+            console.log(data);
+            let dataOut = new DataSet(JSON.stringify(data));
+            func.call(this, dataOut);
         });
     }
 
@@ -44,16 +54,8 @@ export default class RemoteService {
         return this._dataIn;
     }
     setDataIn(value: DataSet) {
-        this._dataOut = value;
+        this._dataIn = value;
         return this;
-    }
-
-    getDataOut(): DataSet {
-        return this._dataOut
-    }
-
-    getMessage(): string {
-        return this._dataOut.getMessage();
     }
 
     setHost(host: string): RemoteService {

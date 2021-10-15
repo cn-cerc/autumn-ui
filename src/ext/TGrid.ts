@@ -63,7 +63,8 @@ export default class TGrid extends TTable {
 
     addColumns(fieldDefs: FieldDefs): void {
         for (let meta of fieldDefs.getItems()) {
-            new TGridColumn(this, meta.getCode(), meta.getName() ? meta.getName() : meta.getCode());
+            if (!this.getColumn(meta.getCode()))
+                new TGridColumn(this, meta.getCode(), meta.getName() ? meta.getName() : meta.getCode());
         };
     }
 
@@ -95,6 +96,12 @@ export default class TGrid extends TTable {
                 return column;
         }
         return null;
+    }
+
+    clear() {
+        for (let child of this.getComponents())
+            child.setOwner(null);
+        this.groups = [];
     }
 
     exportFile(fileName: string): void {

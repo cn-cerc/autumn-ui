@@ -14,7 +14,6 @@ export default class TGridGroupMaster extends TGridGroup {
     }
 
     output(html: HtmlWriter): void{
-        console.log('master');
         let notNull = false;
         let tr = new TTr();
         this.forEach((child: TGridColumn) => {
