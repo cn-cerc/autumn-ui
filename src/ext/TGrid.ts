@@ -50,7 +50,9 @@ export default class TGrid extends TTable {
 
         //再输出表格数据
         if (this.dataSet) {
-            for (let row of this.dataSet.getRecords()) {
+            this.dataSet.first();
+            while (this.dataSet.fetch()) {
+                let row = this.dataSet.getCurrent();
                 this.groups.forEach((group) => {
                     group.setCurrent(row);
                     group.output(html);

@@ -5,11 +5,11 @@ import FieldMeta from "./FieldMeta";
 import * as RecordState from "./RecordState";
 
 export default class DataRow {
-    dataSet: DataSet;
-    fieldDefs: FieldDefs;
-    state: number = RecordState.dsNone;
-    items: Map<string, any> = new Map<string, any>();
-    delta: Map<string, any> = new Map<string, any>();
+    private dataSet: DataSet;
+    private fieldDefs: FieldDefs;
+    private state: number = RecordState.dsNone;
+    private items: Map<string, any> = new Map<string, any>();
+    private delta: Map<string, any> = new Map<string, any>();
 
     constructor(dataSet: DataSet = null) {
         if (dataSet) {
@@ -159,6 +159,10 @@ export default class DataRow {
             let key = meta.getCode();
             fn.call(this, key, this.getValue(key));
         }
+    }
+
+    getDataSet(): DataSet{
+        return this.dataSet;
     }
 }
 

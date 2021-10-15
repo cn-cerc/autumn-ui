@@ -48,21 +48,35 @@ button2.setId('button2').addEventListener('click', () => {
     });
 });
 
-ds.append().setValue('code', 'a001').setValue('name', 'jason');
-ds.append().setValue('code', 'a002').setValue('name', 'bade').setValue('remark', 'xxxx');
-ds.getFieldDefs().get('code').setName('代码');
-ds.getFieldDefs().get('name').setName('姓名');
+// @ts-ignore
+window.displaySwitch = (recNo: string) => {
+    let el = document.getElementById(`tr${recNo}_1`);
+    let style = el.style;
+    let value = style.getPropertyValue('display');
+    if (value == "none")
+        style.removeProperty('display');
+    else
+        style.setProperty('display', 'none');
+}
+
+ds.append().setValue('code', 'a001').setValue('name', 'jason').setValue('remark', 'jason_remark').setValue("home", "shenzhen");
+ds.append().setValue('code', 'a002').setValue('name', 'itjun').setValue('remark', 'itjun_remark').setValue("home", "guangxi");
 ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, meta: sci.FieldMeta) => {
-    return `${row.getString('code')} + ${row.getString('name')}`;
+    let recNo = row.getDataSet().getRecNo();
+    let html = new sci.HtmlWriter();
+    new sci.TA(null).setText('展开').setHref(`javascript:displaySwitch('${recNo}')`).output(html);
+    return html.getText();
 };
 
-new sci.TGridColumn(grid, 'code', '代码');
-new sci.TGridColumn(grid, 'name', '代码');
-new sci.TGridColumn(grid, 'opera', '操作');
+// <td align="center" role="expend"><a href="javascript:displaySwitch('1')">展开</a></td>
+
+new sci.TGridColumn(grid, 'code', '代码2').setWidth(3).setAlign("center");
+new sci.TGridColumn(grid, 'name', '名字2').setWidth(3);
+new sci.TGridColumn(grid, 'opera', '操作2').setWidth(3);
 
 let child = new sci.TGridGroupChild(grid);
+new sci.TGridColumn(child, "home", "备注2");
 new sci.TGridColumn(child, "remark", "备注1");
-new sci.TGridColumn(child, "remark2", "备注2");
 
 memo.setText("dataset: " + ds.getJson())
 
