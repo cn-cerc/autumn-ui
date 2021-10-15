@@ -14,8 +14,10 @@ let serviceConfig = { sid: 'abc', host: 'http://127.0.0.1:80/services/' };
 
 button1.setId('button1').addEventListener('click', () => {
     let query = new sci.ServiceQuery(serviceConfig);
+    //服务前置过滤
     query.getDataIn().getHead().setValue('code_', edtCode.getInputValue());
     query.add("select code_,name_,age_,createTime_ from SvrExample.search");
+    //服务后置过滤，适合于后台提供的是复合服务
     // query.add(`where code_='${edtCode.getInputValue()}'`);
     query.open(ds => {
         grid.clear();
