@@ -22,9 +22,10 @@ export default class TGridGroupChild extends TGridGroup {
             if (child.getVisible()) {
                 let value = this.getCurrent().getText(child.getCode());
                 if (value)
-                    text = text + child.getName() + ": " + value;
+                    text = text + child.getName() + ": " + value + " ";
             }
         });
+
         if (text.length > 0) {
             let tr = new TTr();
             let td = new TTd(tr);
