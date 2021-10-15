@@ -6,7 +6,7 @@ export default class RemoteService {
     sid: string = null;
     host = '/services/';
     service: string;
-    _dataIn: DataSet;
+    private _dataIn: DataSet;
 
     constructor(owner: any) {
         this._dataIn = new DataSet();
@@ -44,7 +44,6 @@ export default class RemoteService {
                 func.call(this, new DataSet().setMessage('not support:' + contentType));
             }
         }).then(function (data: string) {
-            console.log(data);
             let dataOut = new DataSet(JSON.stringify(data));
             func.call(this, dataOut);
         });

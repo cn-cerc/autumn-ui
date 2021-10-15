@@ -102,6 +102,7 @@ export default class TGrid extends TTable {
         for (let child of this.getComponents())
             child.setOwner(null);
         this.groups = [];
+        this.dataSet = null;
     }
 
     exportFile(fileName: string): void {

@@ -7,15 +7,24 @@ mainform.setTitle("hello world!")
 let tools = new sci.TPanel(mainform);
 let edtCode = new sci.TEditText(tools);
 edtCode.setId('edtCode');
-edtCode.setLabel('搜索条件：').setDefaultValue('p012');
+edtCode.setLabel('搜索条件：').setDefaultValue('');
 
 let button1 = new sci.TButton(tools).setText('查询');
-button1.setId('button1').addEventListener('click', () => {
-    let value = edtCode.getInputValue();
-    alert('您输入的是：' + value);
-})
-
 let serviceConfig = { sid: 'abc', host: 'http://127.0.0.1:80/services/' };
+
+button1.setId('button1').addEventListener('click', () => {
+    let query = new sci.ServiceQuery(serviceConfig);
+    query.getDataIn().getHead().setValue('code_', edtCode.getInputValue());
+    query.add("select code_,name_,age_,createTime_ from SvrExample.search");
+    // query.add(`where code_='${edtCode.getInputValue()}'`);
+    query.open(ds => {
+        grid.clear();
+        memo.setText("dataset: " + ds.getJson())
+        if (ds.getState() > 0)
+            grid.setDataSet(ds).addColumns(ds.getFieldDefs());
+        mainform.render();
+    });
+})
 
 //定义数据源
 let ds = new sci.DataSet();
@@ -26,15 +35,12 @@ let button2 = new sci.TButton(tools).setText('删除');
 button2.setId('button2').addEventListener('click', () => {
     let rs = new sci.RemoteService(serviceConfig);
     rs.setService('SvrExample.search')
-    rs.exec((dataOut) => {
-        if (dataOut.getState() < 1) {
-            alert("fail:" + dataOut.getJson());
-            return;
-        }
+    rs.getDataIn().getHead().setValue('code_', edtCode.getInputValue());
+    rs.exec(dataOut => {
         grid.clear();
-        grid.setDataSet(dataOut);
-        grid.addColumns(dataOut.getFieldDefs());
         memo.setText("dataset: " + dataOut.getJson())
+        if (dataOut.getState() > 0)
+            grid.setDataSet(dataOut).addColumns(dataOut.getFieldDefs());
         mainform.render();
     });
 });
