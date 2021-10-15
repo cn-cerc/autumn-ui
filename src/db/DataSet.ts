@@ -385,11 +385,9 @@ export default class DataSet {
         }
     }
 
-    forEach(callback: Function) {
-        var arr = this.records;
-        for (var i = 0; i < arr.length; i++)
-            callback(arr[i]);
-        return;
+    forEach(fn: (row: DataRow) => void) {
+        for (let row of this.records)
+            fn.call(this, row);
     }
 
 }
