@@ -16,6 +16,7 @@ export default class TGridGroupMaster extends TGridGroup {
     output(html: HtmlWriter): void{
         let notNull = false;
         let tr = new TTr();
+        tr.setId('tr' + this.getCurrent().getDataSet().getRecNo());
         this.forEach((child: TGridColumn) => {
             if (!child.getVisible())
                 return;

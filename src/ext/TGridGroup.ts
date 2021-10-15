@@ -72,7 +72,7 @@ export default class TGridGroup extends TComponent {
             if (item instanceof TGridColumn) {
                 let child = item as TGridColumn;
                 if (!child.getVisible())
-                    return;
+                    continue;
                 let th = new TTh(tr);
                 if (child.getColspan())
                     th.writerProperty("colspan", child.getColspan());

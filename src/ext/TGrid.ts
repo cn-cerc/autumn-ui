@@ -50,7 +50,9 @@ export default class TGrid extends TTable {
 
         //再输出表格数据
         if (this.dataSet) {
-            for (let row of this.dataSet.getRecords()) {
+            this.dataSet.first();
+            while (this.dataSet.fetch()) {
+                let row = this.dataSet.getCurrent();
                 this.groups.forEach((group) => {
                     group.setCurrent(row);
                     group.output(html);
@@ -65,7 +67,7 @@ export default class TGrid extends TTable {
         for (let meta of fieldDefs.getItems()) {
             if (!this.getColumn(meta.getCode()))
                 new TGridColumn(this, meta.getCode(), meta.getName() ? meta.getName() : meta.getCode());
-        };
+        }
     }
 
     addComponent(child: TComponent): TGrid {
@@ -108,27 +110,30 @@ export default class TGrid extends TTable {
     exportFile(fileName: string): void {
         //CSV格式可以自己设定，适用MySQL导入或者excel打开。
         //由于Excel单元格对于数字只支持15位，且首位为0会舍弃 建议用 =“数值” 
-        let group = this.getGroup(0);
         let str = "";
 
         // 定义头部
-        group.getComponents().forEach((item) => {
-            let column = item as TGridColumn;
-            if (column.getExport())
-                str += column.getName() + ",";
-        });
+        for (let group of this.groups) {
+            group.getComponents().forEach((item) => {
+                let column = item as TGridColumn;
+                if (column.getExport())
+                    str += column.getName() + ",";
+            });
+        }
         str += '\n';
 
         // 具体数值遍历
         this.dataSet.first();
         while (this.dataSet.fetch()) {
-            group.getComponents().forEach((item) => {
-                let column = item as TGridColumn;
-                if (column.getExport()) {
-                    let value = this.dataSet.getText(column.getCode());
-                    str += value.replace(/,/g, "，") + "\t,";
-                }
-            });
+            for (let group of this.groups) {
+                group.getComponents().forEach((item) => {
+                    let column = item as TGridColumn;
+                    if (column.getExport()) {
+                        let value = this.dataSet.getText(column.getCode());
+                        str += value.replace(/,/g, "，") + ",";
+                    }
+                });
+            }
             str += '\n';
         }
 

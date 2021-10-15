@@ -2,19 +2,22 @@ import { assertEquals } from "../JUnit";
 import HtmlWriter from "./HtmlWriter";
 
 export default class TComponent {
-    owner: TComponent;
-    origin: any;
-    rootLabel: string;
-    container: string;
-    components: Set<TComponent> = new Set<TComponent>();
-    propertys: Map<string, string> = new Map<string, string>();
-    events: Map<string, any> = new Map<string, any>();
+    private owner: TComponent;
+    private origin: any;
+    private rootLabel: string;
+    private container: string;
+    private components: Set<TComponent> = new Set<TComponent>();
+    private propertys: Map<string, string> = new Map<string, string>();
+    private events: Map<string, any> = new Map<string, any>();
 
     constructor(owner: TComponent) {
         this.owner = owner;
         this.setOwner(owner);
     }
 
+    getOwner(): TComponent {
+        return this.owner;
+    }
     setOwner(owner: TComponent): TComponent {
         if (this.owner) {
             this.owner.removeComponent(this);

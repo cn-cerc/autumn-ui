@@ -149,6 +149,10 @@ export default class DataSet {
         return this.getCurrent().getString(field);
     }
 
+    getDouble(field: string): number {
+        return this.getCurrent().getDouble(field);
+    }
+
     getText(field: string): string {
         return this.getCurrent().getText(field);
     }
@@ -246,7 +250,7 @@ export default class DataSet {
                 for (let meta of this.getFieldDefs().getItems())
                     item.push(meta.getCode());
                 json.body.push(item);
-            };
+            }
 
             for (let row of this.records) {
                 var item: any = []
@@ -254,7 +258,7 @@ export default class DataSet {
                     item.push(row.getValue(meta.getCode()))
                 }
                 json.body.push(item)
-            };
+            }
         }
         return JSON.stringify(json);
     }
@@ -379,6 +383,11 @@ export default class DataSet {
                 this.setValue(meta.getCode(), source.getValue(meta.getCode()))
             });
         }
+    }
+
+    forEach(fn: (row: DataRow) => void) {
+        for (let row of this.records)
+            fn.call(this, row);
     }
 
 }
