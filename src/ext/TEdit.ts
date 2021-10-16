@@ -8,7 +8,6 @@ export default class TEdit extends TComponent {
     private label: TSpan;
     private input: TInput;
     private value: string;
-    private _record: DataRow;
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
@@ -37,14 +36,6 @@ export default class TEdit extends TComponent {
     }
     setDefaultValue(value: string): TEdit {
         this.input.setValue(value);
-        return this;
-    }
-
-    getRecord(): DataRow {
-        return this._record;
-    }
-    setRecord(value: DataRow): TEdit {
-        this._record = value;
         return this;
     }
 

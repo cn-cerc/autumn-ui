@@ -54,7 +54,6 @@ button1.addEventListener('click', () => {
     });
 })
 
-
 // @ts-ignore
 window.deleteRecord = (code: string) => {
     let ds = grid.getDataSet();
@@ -62,8 +61,5 @@ window.deleteRecord = (code: string) => {
         ds.delete();
     grid.render();
 }
-
-let row = new sci.DataRow();
-edtSearch.setRecord(row);
 
 app.run();
