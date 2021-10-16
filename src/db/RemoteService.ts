@@ -40,8 +40,12 @@ export default class RemoteService {
             if ("application/json;charset=utf-8" == contentType) {
                 return response.json();
             } else {
-                console.log(response.body);
-                func.call(this, new DataSet().setMessage('not support:' + contentType));
+                if (response.status == 502) {
+                    func.call(this, new DataSet().setMessage(response.statusText));
+                } else {
+                    console.log(response);
+                    func.call(this, new DataSet().setMessage('not support:' + contentType));
+                }
             }
         }).then(function (data: string) {
             let dataOut = new DataSet(JSON.stringify(data));
