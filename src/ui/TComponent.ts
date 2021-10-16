@@ -21,12 +21,7 @@ export default class TComponent {
             if (props.id != undefined) {
                 //@ts-ignore
                 if ("auto" == props.id) {
-                    if (this.owner) {
-                        let num = this.owner.getComponentCount();
-                        this.setId(this.owner.getId() + "_" + num);
-                    } else {
-                        this.setId('origin');
-                    }
+                    this.setId(this.getUid())
                 } else {
                     //@ts-ignore
                     this.setId(props.id);
@@ -144,6 +139,20 @@ export default class TComponent {
         return this.readProperty('id');
     }
 
+    getUid(): string {
+        let uid = this.getId();
+        if (uid == undefined) {
+            if (this.owner) {
+                let num = this.owner.getComponentCount();
+                uid = this.owner.getUid() + "_" + num;
+            } else {
+                uid = "origin";
+            }
+            this.setId(uid);
+        }
+        return uid;
+    }
+
     setId(id: string): TComponent {
         this.writeProperty('id', id);
         return this;
@@ -230,11 +239,13 @@ export default class TComponent {
     }
 
     addEventListener(event: string, fn: any) {
-        let htmlId = this.getId();
-        if (htmlId)
+        let uid = this.getUid();
+        if (uid)
             this.events.set(event, fn);
-        else
-            throw new Error('this id is null');
+        else {
+            console.log(this);
+            throw new Error('this uid is null');
+        }
     }
 
     getName() {

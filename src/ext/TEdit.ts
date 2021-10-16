@@ -13,6 +13,8 @@ export default class TEdit extends TComponent {
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
         this.setRootLabel('div');
+        if (this.getId() == undefined)
+            this.setId(this.getUid());
 
         this.label = new TSpan(this);
         if (props && props.label)

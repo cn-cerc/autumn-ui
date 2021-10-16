@@ -5,9 +5,10 @@ import TCustomComponent from "../ui/TCustomComponent";
 export default class TDBNavigator extends TCustomComponent {
     private _dataSet: DataSet;
 
-    constructor(owner: TComponent, props: object) {
+    constructor(owner: TComponent, props: object = null) {
         super(owner, props);
 
+        // this.getUid();
         this.addEventListener('first.click', () => {
             this._dataSet.first();
             this._dataSet.bindRefresh();
@@ -38,12 +39,12 @@ export default class TDBNavigator extends TCustomComponent {
     }
 
     html() {
-        let id = this.getId();
+        let uid = this.getUid();
         return (`
-<button id="${id}_first">first</button>
-<button id="${id}_prior">prior</button>
-<button id="${id}_next">next</button>
-<button id="${id}_last">last</button>
+<button id="${uid}_first">first</button>
+<button id="${uid}_prior">prior</button>
+<button id="${uid}_next">next</button>
+<button id="${uid}_last">last</button>
         `)
     }
 }

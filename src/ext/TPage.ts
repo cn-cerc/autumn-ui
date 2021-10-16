@@ -3,7 +3,7 @@ import TComponent from "../ui/TComponent";
 
 export default class TPage extends TDiv {
 
-    constructor(owner: TComponent) {
+    constructor(owner: TComponent, props: any = null) {
         super(owner);
         if (!owner)
             this.setContainer('page');
