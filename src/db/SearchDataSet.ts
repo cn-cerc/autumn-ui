@@ -15,9 +15,11 @@ export default class SearchDataSet {
 	}
 
 	get(currentFields: string, value: any): DataRow {
-		if (!currentFields) {
+		if (!currentFields)
 			throw new Error('fields can\'t be null')
-		}
+
+		if (this.dataSet.size() == 0)
+			return null;
 
 		let values: object[];
 		if (typeof value !== 'object')

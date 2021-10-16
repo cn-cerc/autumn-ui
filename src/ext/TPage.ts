@@ -7,6 +7,8 @@ export default class TPage extends TDiv {
         super(owner);
         if (!owner)
             this.setContainer('page');
+        if (!this.getId())
+            this.setId('page');
         this.setCssStyle('height:100vh;display:flex;flex-direction: column;')
     }
 
