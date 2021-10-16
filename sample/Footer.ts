@@ -1,9 +1,9 @@
-import { HtmlWriter, TComponent } from "../src/SummerCI";
+import TCustomComponent from "../src/ui/TCustomComponent";
 
-export default class Footer extends TComponent {
+export default class Footer extends TCustomComponent {
 
-    public output(html: HtmlWriter) {
-        html.print(
+    html() {
+        return (
             `<div>
 开源管理：${this.props.corp} copyright @${this.props.year}
 </div>`);

@@ -22,6 +22,7 @@ export { default as TForm } from './ui/TForm';
 export { default as TLine } from './ui/TLine';
 export { default as TA } from './ui/TA';
 export { default as TInput } from './ui/TInput';
+export { default as TCustomComponent } from './ui/TCustomComponent';
 //ext
 export { default as TPage } from './ext/TPage';
 export { default as TGrid } from './ext/TGrid';
