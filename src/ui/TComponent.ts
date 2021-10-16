@@ -9,6 +9,7 @@ export default class TComponent {
     private components: Set<TComponent> = new Set<TComponent>();
     private propertys: Map<string, string> = new Map<string, string>();
     private events: Map<string, any> = new Map<string, any>();
+    private _style: Map<string, string> = new Map<string, string>();
 
     constructor(owner: TComponent) {
         this.owner = owner;
@@ -67,6 +68,18 @@ export default class TComponent {
     }
 
     beginOutput(html: HtmlWriter): void {
+        if (this._style.size > 0) {
+            let css: string = "";
+            this._style.forEach((value, key) => {
+                if (value)
+                    css = css + `${key}:${value};`;
+                else
+                    css = css + `${key};`;
+            })
+            console.log("css: " + css);
+            this.writeProperty('style', css);
+        }
+
         if (this.rootLabel) {
             html.print("<" + this.rootLabel);
             this.propertys.forEach((v, k) => {
@@ -116,22 +129,34 @@ export default class TComponent {
         return this;
     }
 
+    getCssClass(): string {
+        return this.readProperty('class');
+    }
     setCssClass(cssClass: string): TComponent {
         this.writeProperty("class", cssClass);
         return this;
     }
 
-    getCssClass(): string {
-        return this.readProperty('class');
+    get style(): Map<string, string> {
+        return this._style;
     }
 
-    setCssStyle(style: string): TComponent {
-        this.writeProperty('style', style);
+    setCssStyle(text: string): TComponent {
+        if (text == null) {
+            this._style.clear();
+            return this;
+        }
+
+        for (let item of text.split(';')) {
+            if (item.trim().length == 0)
+                continue;
+            let values = item.split(':');
+            if (values.length == 2)
+                this._style.set(values[0].trim(), values[1].trim());
+            else
+                this._style.set(item.trim(), null);
+        }
         return this;
-    }
-
-    getCssStyle(): string {
-        return this.readProperty('style');
     }
 
     render(container: string = null) {

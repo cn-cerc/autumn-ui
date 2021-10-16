@@ -32,9 +32,9 @@ export default class TGrid extends TTable {
 
     output(html: HtmlWriter): void {
         if (this.groups.length == 0 || this.groups[0].getComponentCount() == 0) {
-            this.setCssStyle('display:none');
+            this.style.set('display', 'none');
         } else {
-            this.setCssStyle(null);
+            this.style.delete('display');
         }
 
         let sumWidth = 0;

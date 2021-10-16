@@ -3,17 +3,21 @@ import * as sci from "./SummerCI";
 let app = new sci.TApplication();
 app.setTitle("summer-ci 应用示例")
 
-let page = new sci.TPage(app);
 let ds = new sci.DataSet();
-let memo = new sci.TSpan(new sci.TDiv(page));
+
+let page = new sci.TPage(app);
+let memo = new sci.TSpan(new sci.TDiv(page).setCssStyle('background-color: aqua;'));
 
 // 定义操作区
-let tools = new sci.TPanel(page);
-let edtCode = new sci.TEditText(tools);
+let boxTitle = new sci.TPanel(page).setCssStyle('height: 5rem; background-color: rgb(200,200,200);');
+let edtCode = new sci.TEditText(boxTitle);
 edtCode.setId('edtCode');
 edtCode.setLabel('搜索条件：').setDefaultValue('');
 
-let button1 = new sci.TButton(tools).setText('查询');
+let grid: sci.TGrid = new sci.TGrid(page).setDataSet(ds);
+grid.setId('grid').setCssStyle('width: 100%');
+
+let button1 = new sci.TButton(boxTitle).setText('查询');
 // 可启动summer-sample提供后台服务
 let serviceConfig = { sid: 'abc', host: 'http://127.0.0.1:80/services/' };
 
@@ -39,12 +43,10 @@ button1.setId('button1').addEventListener('click', () => {
         grid.render();
     });
 })
-let grid: sci.TGrid = new sci.TGrid(page).setDataSet(ds);
-grid.setId('grid')
 
 //定义数据源
 
-let button2 = new sci.TButton(tools).setText('测试表格折叠行');
+let button2 = new sci.TButton(boxTitle).setText('测试表格折叠行');
 button2.setId('button2').addEventListener('click', () => {
     if (!grid) {
         grid = new sci.TGrid(page).setDataSet(ds);
