@@ -1,15 +1,20 @@
 import { assertEquals } from "../JUnit";
+import { TComponent } from "../SummerCI";
+import DataBind from "./DataBind";
 import DataSet from "./DataSet";
 import FieldDefs from "./FieldDefs";
 import FieldMeta from "./FieldMeta";
 import * as RecordState from "./RecordState";
 
-export default class DataRow {
+export default class DataRow implements DataBind {
     private dataSet: DataSet;
     private fieldDefs: FieldDefs;
     private state: number = RecordState.dsNone;
     private items: Map<string, any> = new Map<string, any>();
     private delta: Map<string, any> = new Map<string, any>();
+    //提供数据绑定服务
+    private bindControls: Set<TComponent> = new Set<TComponent>();
+    private bindEnabled: boolean = true;
 
     constructor(dataSet: DataSet = null) {
         if (dataSet) {
@@ -49,6 +54,9 @@ export default class DataRow {
         this.addFieldDef(field);
 
         this.items.set(field, value);
+
+        if (this.bindEnabled)
+            this.bindRefresh();
 
         return this;
     }
@@ -118,7 +126,7 @@ export default class DataRow {
 
     getJson(): string {
         let obj: any = {}
-        for(let meta of this.fieldDefs.getItems()){
+        for (let meta of this.fieldDefs.getItems()) {
             let key = meta.getCode();
             obj[key] = this.getValue(key);
         }
@@ -155,14 +163,37 @@ export default class DataRow {
     }
 
     forEach(fn: (key: string, value: any) => void) {
-        for(let meta of this.fieldDefs.getItems()){
+        for (let meta of this.fieldDefs.getItems()) {
             let key = meta.getCode();
             fn.call(this, key, this.getValue(key));
         }
     }
 
-    getDataSet(): DataSet{
+    getDataSet(): DataSet {
         return this.dataSet;
+    }
+
+    bindClient(client: TComponent, register: boolean = true): void {
+        if (register)
+            this.bindControls.add(client);
+        else
+            this.bindControls.delete(client);
+    }
+    bindRefresh(): void {
+        if (this.bindEnabled) {
+            this.bindControls.forEach(child => {
+                child.render();
+            });
+        }
+    }
+    enableControls(): void {
+        if (this.bindEnabled)
+            return;
+        this.bindEnabled = true;
+        this.bindRefresh();
+    }
+    disableControls(): void {
+        this.bindEnabled = false;
     }
 }
 

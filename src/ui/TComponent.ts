@@ -179,12 +179,16 @@ export default class TComponent {
         }
 
         let contentId = this.container ? this.container : this.getId();
-        if (!contentId)
-            throw new Error("render error: container is null")
+        if (!contentId){
+            console.log(`${this.getId()}.render error: container is null`);
+            return;
+        }
 
         let el = document.getElementById(contentId);
-        if (!el)
-            throw new Error(`not find element: ${contentId}`);
+        if (!el){
+            console.log(`not find element: ${contentId}`);
+            return;
+        }
 
         el.outerHTML = this.toString();
 
