@@ -33,7 +33,10 @@ export { default as TGridColumn } from './ext/TGridColumn';
 export { default as TMutiPage } from './ext/TMutiPage';
 export { default as TApplication } from './ext/TApplication';
 export { default as TPanel } from './ext/TPanel';
-export { default as TEditText } from './ext/TEditText';
+export { default as TEdit } from './ext/TEdit';
+export { default as TDBEdit } from './ext/TDBEdit';
 export { default as TStatusBar } from './ext/TStatusBar';
+export { default as TDBNavigator } from './ext/TDBNavigator';
+
 
 

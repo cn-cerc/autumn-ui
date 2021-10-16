@@ -1,8 +1,8 @@
-import { TComponent } from "../SummerCI";
+import DataControl from "./DataControl";
 
 export default interface DataBind {
 
-    bindClient(client: TComponent, register: boolean): void;
+    bindClient(client: DataControl, register: boolean): void;
 
     bindRefresh(): void;
 

@@ -3,18 +3,25 @@ import FieldDefs from './FieldDefs';
 import FieldMeta from './FieldMeta';
 import SearchDataSet from './SearchDataSet';
 import * as JUnit from "../JUnit";
+import DataBind from './DataBind';
+import { TComponent } from '../SummerCI';
+import DataControl from './DataControl';
+import DataSource from './DataSource';
 
-export default class DataSet {
-    recNo: number = 0;
-    fetchNo: number = -1;
-    state: number = 0;
-    message: string = '';
-    fieldDefs: FieldDefs = new FieldDefs();
-    metaInfo: boolean = false;
-    meta: any;
-    head: DataRow = new DataRow();
-    records: DataRow[] = [];
-    search: SearchDataSet;
+export default class DataSet implements DataBind, DataSource {
+    private recNo: number = 0;
+    private fetchNo: number = -1;
+    private state: number = 0;
+    private message: string = '';
+    private fieldDefs: FieldDefs = new FieldDefs();
+    private metaInfo: boolean = false;
+    private meta: any;
+    private head: DataRow = new DataRow();
+    private records: DataRow[] = [];
+    private search: SearchDataSet;
+    //提供数据绑定服务
+    private bindControls: Set<DataControl> = new Set<DataControl>();
+    private bindEnabled: boolean = true;
 
     constructor(json: string = null) {
         if (json) this.setJson(json);
@@ -61,8 +68,23 @@ export default class DataSet {
         return this.recNo > 0
     }
 
+    prior(): boolean {
+        if (this.records.length == 0)
+            return false;
+
+        if (this.recNo > 1) {
+            this.recNo--;
+            return true
+        } else {
+            return false
+        }
+    }
+
     next(): boolean {
-        if (this.records.length > 0 && this.recNo <= this.records.length) {
+        if (this.records.length == 0)
+            return false;
+
+        if (this.recNo < this.records.length) {
             this.recNo++
             return true
         } else {
@@ -390,6 +412,28 @@ export default class DataSet {
             fn.call(this, row);
     }
 
+    bindClient(client: DataControl, register: boolean = true): void {
+        if (register)
+            this.bindControls.add(client);
+        else
+            this.bindControls.delete(client);
+    }
+    bindRefresh(): void {
+        if (this.bindEnabled) {
+            this.bindControls.forEach(child => {
+                child.doChange();
+            });
+        }
+    }
+    enableControls(): void {
+        if (this.bindEnabled)
+            return;
+        this.bindEnabled = true;
+        this.bindRefresh();
+    }
+    disableControls(): void {
+        this.bindEnabled = false;
+    }
 }
 
 // let ds = new DataSet();

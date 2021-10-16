@@ -1,6 +1,7 @@
 import { assertEquals } from "../JUnit";
 import { TComponent } from "../SummerCI";
 import DataBind from "./DataBind";
+import DataControl from "./DataControl";
 import DataSet from "./DataSet";
 import FieldDefs from "./FieldDefs";
 import FieldMeta from "./FieldMeta";
@@ -13,7 +14,7 @@ export default class DataRow implements DataBind {
     private items: Map<string, any> = new Map<string, any>();
     private delta: Map<string, any> = new Map<string, any>();
     //提供数据绑定服务
-    private bindControls: Set<TComponent> = new Set<TComponent>();
+    private bindControls: Set<DataControl> = new Set<DataControl>();
     private bindEnabled: boolean = true;
 
     constructor(dataSet: DataSet = null) {
@@ -173,7 +174,7 @@ export default class DataRow implements DataBind {
         return this.dataSet;
     }
 
-    bindClient(client: TComponent, register: boolean = true): void {
+    bindClient(client: DataControl, register: boolean = true): void {
         if (register)
             this.bindControls.add(client);
         else
@@ -182,7 +183,7 @@ export default class DataRow implements DataBind {
     bindRefresh(): void {
         if (this.bindEnabled) {
             this.bindControls.forEach(child => {
-                child.render();
+                child.doChange();
             });
         }
     }

@@ -179,13 +179,16 @@ export default class TComponent {
         }
 
         let contentId = this.container ? this.container : this.getId();
-        if (!contentId){
-            console.log(`${this.getId()}.render error: container is null`);
+        if (!contentId) {
+            if (this.owner)
+                this.owner.render();
+            else
+                console.log(`${this.getId()}.render error: container is null`);
             return;
         }
 
         let el = document.getElementById(contentId);
-        if (!el){
+        if (!el) {
             console.log(`not find element: ${contentId}`);
             return;
         }
@@ -198,11 +201,18 @@ export default class TComponent {
     private registerEvents(root: TComponent) {
         if (root.getId()) {
             root.events.forEach((fn, event) => {
-                let el = document.getElementById(root.getId());
+                let eventId = root.getId();
+                let eventCode = event;
+                let events = event.split('.');
+                if (events.length == 2) {
+                    eventId = eventId + "_" + events[0];
+                    eventCode = events[1];
+                }
+                let el = document.getElementById(eventId);
                 if (el)
-                    el.addEventListener(event, fn);
+                    el.addEventListener(eventCode, fn);
                 else
-                    throw new Error(`not find element: ${root.getId()}`);
+                    throw new Error(`not find element: ${eventId}`);
             })
         }
         for (let child of root.getComponents())
