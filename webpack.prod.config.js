@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
 	entry: './src/index.ts',
 	output: {
-		filename: './summer-ci.js'
+		filename: './sci.js'
 	},
 	mode: 'production', // production,development,none
 	devServer: {

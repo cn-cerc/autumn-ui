@@ -22,12 +22,20 @@ export default class TGrid extends TTable {
         this.setBorder('1');
     }
 
+    getDataSet(): DataSet {
+        return this.dataSet;
+    }
     setDataSet(dataSet: DataSet): TGrid {
         this.dataSet = dataSet;
         return this;
     }
 
     output(html: HtmlWriter): void {
+        if (this.groups.length == 0)
+            return;
+        if (this.groups[0].getComponentCount() == 0)
+            return;
+
         let sumWidth = 0;
         this.beginOutput(html);
 

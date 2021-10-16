@@ -23,10 +23,10 @@ export default class TGridGroupMaster extends TGridGroup {
             let value = this.getCurrent().getText(child.getCode());
             let td = new TTd(tr);
             if (child.getColspan())
-                td.writerProperty("colspan", child.getColspan());
+                td.writeProperty("colspan", child.getColspan());
 
             if (child.getAlign()) {
-                td.writerProperty("align", child.getAlign());
+                td.writeProperty("align", child.getAlign());
             }
             new TText(td).setText(value);
             if (value)

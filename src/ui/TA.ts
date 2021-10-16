@@ -14,7 +14,7 @@ export default class TA extends TComponent {
         return this.readProperty('href');
     }
     setHref(value: string): TA {
-        this.writerProperty('href', value);
+        this.writeProperty('href', value);
         return this;
     }
 

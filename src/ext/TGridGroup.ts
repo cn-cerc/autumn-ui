@@ -75,10 +75,10 @@ export default class TGridGroup extends TComponent {
                     continue;
                 let th = new TTh(tr);
                 if (child.getColspan())
-                    th.writerProperty("colspan", child.getColspan());
+                    th.writeProperty("colspan", child.getColspan());
                 if (this.getTotalWidth() > 0 && child.getWidth() > 0) {
                     let rate = child.getWidth() / this.getTotalWidth() * 100;
-                    th.writerProperty("width", rate.toFixed(1) + "%");
+                    th.writeProperty("width", rate.toFixed(1) + "%");
                 }
                 new TText(th).setText(child.getName());
             }

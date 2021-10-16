@@ -8,7 +8,7 @@ export default class TForm extends TComponent {
     }
 
     setMethod(method: string) {
-        this.writerProperty('method', method);
+        this.writeProperty('method', method);
         return this;
     }
 
@@ -17,7 +17,7 @@ export default class TForm extends TComponent {
     }
 
     setAction(action: string) {
-        this.writerProperty('action', action);
+        this.writeProperty('action', action);
         return this;
     }
 

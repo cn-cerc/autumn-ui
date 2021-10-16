@@ -1,7 +1,7 @@
 import * as sci from "./SummerCI";
 
 let mainform = new sci.TWinForm();
-mainform.setTitle("hello world!")
+mainform.setTitle("summer-ci 应用示例")
 
 // 定义操作区
 let tools = new sci.TPanel(mainform);
@@ -16,7 +16,7 @@ let serviceConfig = { sid: 'abc', host: 'http://127.0.0.1:80/services/' };
 button1.setId('button1').addEventListener('click', () => {
     let query = new sci.ServiceQuery(serviceConfig);
     // 服务前置过滤
-    query.getDataIn().getHead().setValue('code_', edtCode.getInputValue());
+    query.getDataIn().getHead().setValue('code_', edtCode.getValue());
     query.add("select code_,name_,age_,createTime_ from SvrExample.search");
     // 服务后置过滤，适合于后台提供的是复合服务
     // query.add(`where code_='${edtCode.getInputValue()}'`);
@@ -38,7 +38,7 @@ let button2 = new sci.TButton(tools).setText('删除');
 button2.setId('button2').addEventListener('click', () => {
     let rs = new sci.RemoteService(serviceConfig);
     rs.setService('SvrExample.search')
-    rs.getDataIn().getHead().setValue('code_', edtCode.getInputValue());
+    rs.getDataIn().getHead().setValue('code_', edtCode.getValue());
     rs.exec(dataOut => {
         grid.clear();
         memo.setText("dataset: " + dataOut.getJson())
@@ -78,6 +78,6 @@ let child = new sci.TGridGroupChild(grid);
 new sci.TGridColumn(child, "home", "备注2");
 new sci.TGridColumn(child, "remark", "备注1");
 
-memo.setText("dataset: " + ds.getJson())
+memo.setText("欢迎使用sci前端渲染框架!");
 
 mainform.render();

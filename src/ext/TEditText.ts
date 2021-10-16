@@ -33,7 +33,7 @@ export default class TEditText extends TComponent {
         return this;
     }
 
-    getInputValue() {
+    getValue() {
         if (!this.getId())
             throw new Error('this is is null');
         let el = document.getElementById(this.getId());

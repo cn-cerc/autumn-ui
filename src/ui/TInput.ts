@@ -8,7 +8,7 @@ export default class TInput extends TComponent {
     }
 
     setName(name: string) {
-        this.writerProperty('name', name);
+        this.writeProperty('name', name);
         return this;
     }
 
@@ -17,7 +17,7 @@ export default class TInput extends TComponent {
     }
 
     setValue(value: string) {
-        this.writerProperty('value', value);
+        this.writeProperty('value', value);
         return this;
     }
 

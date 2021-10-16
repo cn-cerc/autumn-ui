@@ -39,7 +39,7 @@ export default class TGridGroupChild extends TGridGroup {
             tr.setCssStyle('display:none');
             let td = new TTd(tr);
             if (this.master)
-                td.writerProperty("colspan", "" + this.master.getColumnCount());
+                td.writeProperty("colspan", "" + this.master.getColumnCount());
             new TText(td).setText(text);
             tr.output(html);
         }

@@ -8,7 +8,7 @@ export default class TTable extends TComponent {
     }
 
     setBorder(value: string) {
-        this.writerProperty('border', value)
+        this.writeProperty('border', value)
         return this;
     }
 

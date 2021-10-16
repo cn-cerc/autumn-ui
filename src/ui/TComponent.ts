@@ -89,11 +89,17 @@ export default class TComponent {
         }
     }
 
+    toString(): string {
+        let html = new HtmlWriter();
+        this.output(html);
+        return html.getText();
+    }
+
     readProperty(key: string): string {
         return this.propertys.get(key);
     }
 
-    writerProperty(key: string, value: string): TComponent {
+    writeProperty(key: string, value: string): TComponent {
         this.propertys.set(key, value);
         return this;
     }
@@ -103,12 +109,12 @@ export default class TComponent {
     }
 
     setId(id: string): TComponent {
-        this.writerProperty('id', id);
+        this.writeProperty('id', id);
         return this;
     }
 
     setCssClass(cssClass: string): TComponent {
-        this.writerProperty("class", cssClass);
+        this.writeProperty("class", cssClass);
         return this;
     }
 
@@ -117,7 +123,7 @@ export default class TComponent {
     }
 
     setCssStyle(style: string): TComponent {
-        this.writerProperty('style', style);
+        this.writeProperty('style', style);
         return this;
     }
 
@@ -176,7 +182,7 @@ export default class TComponent {
     }
 
     setName(value: string) {
-        this.writerProperty('name', value);
+        this.writeProperty('name', value);
         return this;
     }
 

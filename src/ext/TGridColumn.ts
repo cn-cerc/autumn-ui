@@ -31,7 +31,7 @@ export default class TGridColumn extends TComponent {
     };
 
     setColspan(value: string) {
-        this.writerProperty("colspan", value);
+        this.writeProperty("colspan", value);
         return this;
     }
 
