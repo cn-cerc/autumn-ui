@@ -14,7 +14,7 @@ export default class SearchDataSet {
 		this.dataSet = dataSet
 	}
 
-	get(currentFields: string, value: object | object[]): DataRow {
+	get(currentFields: string, value: any): DataRow {
 		if (!currentFields) {
 			throw new Error('fields can\'t be null')
 		}
@@ -31,13 +31,12 @@ export default class SearchDataSet {
 		if (this.fields !== currentFields) {
 			this.clear()
 			this.fields = currentFields
-			this.fields.split(';').forEach((key) => {
-				if (this.dataSet.size() > 0 && this.dataSet.getFieldDefs().size() > 0 && this.dataSet.exists(
-					key)) {
+			for (let key of this.fields.split(';')) {
+				if (!this.dataSet.exists(key))
 					throw new Error(`field ${key} not find !`);
-				}
 				this.keys.add(key)
-			})
+			}
+
 			// 重置索引
 			if (this.keys.size > 0) {
 				this.dataSet.first()

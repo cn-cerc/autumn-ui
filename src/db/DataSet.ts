@@ -172,7 +172,7 @@ export default class DataSet {
     }
 
     // 用于查找多次，调用时，会先进行排序，以方便后续的相同Key查找
-    locate(fields: string, value: object | object[]): boolean {
+    locate(fields: string, value: any): boolean {
         if (!this.search) {
             this.search = new SearchDataSet(this)
         }

@@ -30,7 +30,12 @@ button1.setId('button1').addEventListener('click', () => {
             return;
 
         grid.clear();
-        grid.setDataSet(ds).addColumns(ds.getFieldDefs());
+        grid.setDataSet(ds);
+        ds.getFieldDefs().add('opera').setName('操作').onGetText = (row, meta) => {
+            let code = row.getString('code_');
+            return new sci.TButton(null).setText('删除').writeProperty('onclick', `deleteRecord('${code}')`).toString();
+        };
+        grid.addColumns(ds.getFieldDefs());
         grid.render();
     });
 })
@@ -49,7 +54,7 @@ button2.setId('button2').addEventListener('click', () => {
     ds.append().setValue('code', 'a001').setValue('name', 'jason').setValue('remark', 'jason_remark').setValue("home", "shenzhen");
     ds.append().setValue('code', 'a002').setValue('name', 'itjun').setValue('remark', 'itjun_remark').setValue("home", "guangxi");
     ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, meta: sci.FieldMeta) => {
-        let recNo = row.getDataSet().getRecNo();
+        let recNo = row.getString('code');
         let html = new sci.HtmlWriter();
         new sci.TA(null).setText('展开').setHref(`javascript:displaySwitch('${recNo}')`).output(html);
         return html.getText();
@@ -77,6 +82,14 @@ window.displaySwitch = (recNo: string) => {
         style.removeProperty('display');
     else
         style.setProperty('display', 'none');
+}
+
+// @ts-ignore
+window.deleteRecord = (code: string) => {
+    let ds = grid.getDataSet();
+    if (ds.locate('code_', code))
+        ds.delete();
+    grid.render();
 }
 
 memo.setText("欢迎使用sci前端渲染框架!");
