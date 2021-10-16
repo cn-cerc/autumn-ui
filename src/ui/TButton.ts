@@ -4,8 +4,8 @@ import TComponent from "./TComponent";
 export default class TButton extends TComponent {
     text: string;
 
-    constructor(owner: TComponent) {
-        super(owner);
+    constructor(owner: TComponent, id: string = null) {
+        super(owner, id);
         this.setRootLabel('button');
     }
 

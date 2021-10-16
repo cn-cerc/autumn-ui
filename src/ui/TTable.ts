@@ -2,8 +2,8 @@ import TComponent from "./TComponent";
 
 export default class TTable extends TComponent {
 
-    constructor(owner: TComponent) {
-        super(owner);
+    constructor(owner: TComponent, id: string = null) {
+        super(owner, id);
         this.setRootLabel('table');
     }
 

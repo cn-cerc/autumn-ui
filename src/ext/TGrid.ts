@@ -17,8 +17,8 @@ export default class TGrid extends TTable {
     dataSet: DataSet;
     groups: TGridGroup[] = [];
 
-    constructor(owner: TComponent) {
-        super(owner);
+    constructor(owner: TComponent, id: string = null) {
+        super(owner, id);
         this.setBorder('1');
     }
 

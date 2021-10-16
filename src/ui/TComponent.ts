@@ -11,9 +11,11 @@ export default class TComponent {
     private events: Map<string, any> = new Map<string, any>();
     private _style: Map<string, string> = new Map<string, string>();
 
-    constructor(owner: TComponent) {
+    constructor(owner: TComponent, id: string = null) {
         this.owner = owner;
         this.setOwner(owner);
+        if (id)
+            this.setId(id);
     }
 
     getOwner(): TComponent {
