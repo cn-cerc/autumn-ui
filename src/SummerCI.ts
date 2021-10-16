@@ -33,4 +33,6 @@ export { default as TMutiPage } from './ext/TMutiPage';
 export { default as TApplication } from './ext/TApplication';
 export { default as TPanel } from './ext/TPanel';
 export { default as TEditText } from './ext/TEditText';
+export { default as TStatusBar } from './ext/TStatusBar';
+
 

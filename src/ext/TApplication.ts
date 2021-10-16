@@ -24,6 +24,8 @@ export default class TApplication extends TComponent {
     }
 
     run() {
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
         this.render();
     }
 }

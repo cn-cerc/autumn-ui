@@ -76,8 +76,9 @@ export default class TComponent {
                 else
                     css = css + `${key};`;
             })
-            console.log("css: " + css);
             this.writeProperty('style', css);
+        } else {
+            this.propertys.delete('style');
         }
 
         if (this.rootLabel) {

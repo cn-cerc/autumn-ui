@@ -6,7 +6,8 @@ app.setTitle("summer-ci 应用示例")
 let ds = new sci.DataSet();
 
 let page = new sci.TPage(app);
-let memo = new sci.TSpan(new sci.TDiv(page).setCssStyle('background-color: aqua;'));
+let msg = new sci.TSpan(new sci.TDiv(page).setCssStyle('background-color: aqua;height:1.5rem'));
+msg.setText("欢迎使用sci前端渲染框架!");
 
 // 定义操作区
 let boxTitle = new sci.TPanel(page).setCssStyle('height: 5rem; background-color: rgb(200,200,200);');
@@ -14,8 +15,8 @@ let edtCode = new sci.TEditText(boxTitle);
 edtCode.setId('edtCode');
 edtCode.setLabel('搜索条件：').setDefaultValue('');
 
-let grid: sci.TGrid = new sci.TGrid(page).setDataSet(ds);
-grid.setId('grid').setCssStyle('width: 100%');
+let grid: sci.TGrid = new sci.TGrid(new sci.TDiv(page).setCssStyle('flex:1')).setDataSet(ds);
+grid.setId('grid');
 
 let button1 = new sci.TButton(boxTitle).setText('查询');
 // 可启动summer-sample提供后台服务
@@ -29,7 +30,7 @@ button1.setId('button1').addEventListener('click', () => {
     // 服务后置过滤，适合于后台提供的是复合服务
     // query.add(`where code_='${edtCode.getValue()}'`);
     query.open(ds => {
-        memo.setText(ds.getMessage())
+        bar.setText(ds.getMessage() || '.');
         if (ds.getState() < 1)
             return;
 
@@ -94,6 +95,5 @@ window.deleteRecord = (code: string) => {
     grid.render();
 }
 
-memo.setText("欢迎使用sci前端渲染框架!");
-
+let bar = new sci.TStatusBar(page).setText('这里是状态栏');
 app.run();
