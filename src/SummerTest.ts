@@ -1,10 +1,14 @@
 import * as sci from "./SummerCI";
 
-let mainform = new sci.TWinForm();
-mainform.setTitle("summer-ci 应用示例")
+let app = new sci.TApplication();
+app.setTitle("summer-ci 应用示例")
+
+let page = new sci.TPage(app);
+let ds = new sci.DataSet();
+let memo = new sci.TSpan(new sci.TDiv(page));
 
 // 定义操作区
-let tools = new sci.TPanel(mainform);
+let tools = new sci.TPanel(page);
 let edtCode = new sci.TEditText(tools);
 edtCode.setId('edtCode');
 edtCode.setLabel('搜索条件：').setDefaultValue('');
@@ -19,34 +23,50 @@ button1.setId('button1').addEventListener('click', () => {
     query.getDataIn().getHead().setValue('code_', edtCode.getValue());
     query.add("select code_,name_,age_,createTime_ from SvrExample.search");
     // 服务后置过滤，适合于后台提供的是复合服务
-    // query.add(`where code_='${edtCode.getInputValue()}'`);
+    // query.add(`where code_='${edtCode.getValue()}'`);
     query.open(ds => {
+        memo.setText(ds.getMessage())
+        if (ds.getState() < 1)
+            return;
+
         grid.clear();
-        memo.setText("dataset: " + ds.getJson())
-        if (ds.getState() > 0)
-            grid.setDataSet(ds).addColumns(ds.getFieldDefs());
-        mainform.render();
+        grid.setDataSet(ds).addColumns(ds.getFieldDefs());
+        grid.render();
     });
 })
+let grid: sci.TGrid = new sci.TGrid(page).setDataSet(ds);
+grid.setId('grid')
 
 //定义数据源
-let ds = new sci.DataSet();
-let grid = new sci.TGrid(mainform).setDataSet(ds);
-let memo = new sci.TSpan(mainform);
 
-let button2 = new sci.TButton(tools).setText('删除');
+let button2 = new sci.TButton(tools).setText('测试表格折叠行');
 button2.setId('button2').addEventListener('click', () => {
-    let rs = new sci.RemoteService(serviceConfig);
-    rs.setService('SvrExample.search')
-    rs.getDataIn().getHead().setValue('code_', edtCode.getValue());
-    rs.exec(dataOut => {
-        grid.clear();
-        memo.setText("dataset: " + dataOut.getJson())
-        if (dataOut.getState() > 0)
-            grid.setDataSet(dataOut).addColumns(dataOut.getFieldDefs());
-        mainform.render();
-    });
-});
+    if (!grid) {
+        grid = new sci.TGrid(page).setDataSet(ds);
+        grid.setId('grid')
+    }
+    ds.clear();
+    ds.append().setValue('code', 'a001').setValue('name', 'jason').setValue('remark', 'jason_remark').setValue("home", "shenzhen");
+    ds.append().setValue('code', 'a002').setValue('name', 'itjun').setValue('remark', 'itjun_remark').setValue("home", "guangxi");
+    ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, meta: sci.FieldMeta) => {
+        let recNo = row.getDataSet().getRecNo();
+        let html = new sci.HtmlWriter();
+        new sci.TA(null).setText('展开').setHref(`javascript:displaySwitch('${recNo}')`).output(html);
+        return html.getText();
+    };
+
+    grid.clear();
+    grid.setDataSet(ds);
+    new sci.TGridColumn(grid, 'code', '代码2').setWidth(3).setAlign("center");
+    new sci.TGridColumn(grid, 'name', '名字2').setWidth(3);
+    new sci.TGridColumn(grid, 'opera', '操作2').setWidth(3);
+
+    let child = new sci.TGridGroupChild(grid);
+    new sci.TGridColumn(child, "home", "备注2");
+    new sci.TGridColumn(child, "remark", "备注1");
+
+    page.render();
+})
 
 // @ts-ignore
 window.displaySwitch = (recNo: string) => {
@@ -59,25 +79,6 @@ window.displaySwitch = (recNo: string) => {
         style.setProperty('display', 'none');
 }
 
-ds.append().setValue('code', 'a001').setValue('name', 'jason').setValue('remark', 'jason_remark').setValue("home", "shenzhen");
-ds.append().setValue('code', 'a002').setValue('name', 'itjun').setValue('remark', 'itjun_remark').setValue("home", "guangxi");
-ds.getFieldDefs().add("opera").setName('操作').onGetText = (row: sci.DataRow, meta: sci.FieldMeta) => {
-    let recNo = row.getDataSet().getRecNo();
-    let html = new sci.HtmlWriter();
-    new sci.TA(null).setText('展开').setHref(`javascript:displaySwitch('${recNo}')`).output(html);
-    return html.getText();
-};
-
-// <td align="center" role="expend"><a href="javascript:displaySwitch('1')">展开</a></td>
-
-new sci.TGridColumn(grid, 'code', '代码2').setWidth(3).setAlign("center");
-new sci.TGridColumn(grid, 'name', '名字2').setWidth(3);
-new sci.TGridColumn(grid, 'opera', '操作2').setWidth(3);
-
-let child = new sci.TGridGroupChild(grid);
-new sci.TGridColumn(child, "home", "备注2");
-new sci.TGridColumn(child, "remark", "备注1");
-
 memo.setText("欢迎使用sci前端渲染框架!");
 
-mainform.render();
+app.run();

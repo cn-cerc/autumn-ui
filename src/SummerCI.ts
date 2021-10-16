@@ -30,7 +30,7 @@ export { default as TGridGroupMaster } from './ext/TGridGroupMaster';
 export { default as TGridGroupChild } from './ext/TGridGroupChild';
 export { default as TGridColumn } from './ext/TGridColumn';
 export { default as TMutiPage } from './ext/TMutiPage';
-export { default as TWinForm } from './ext/TWinForm';
+export { default as TApplication } from './ext/TApplication';
 export { default as TPanel } from './ext/TPanel';
 export { default as TEditText } from './ext/TEditText';
 

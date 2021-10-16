@@ -100,7 +100,10 @@ export default class TComponent {
     }
 
     writeProperty(key: string, value: string): TComponent {
-        this.propertys.set(key, value);
+        if (value)
+            this.propertys.set(key, value);
+        else
+            this.propertys.delete(key);
         return this;
     }
 
@@ -132,25 +135,23 @@ export default class TComponent {
     }
 
     render(container: string = null) {
-        if (container != null) {
+        if (container != null)
             this.setContainer(container);
-        }
 
-        let html = new HtmlWriter();
-        this.output(html);
         if (typeof document == "undefined" || document == null) {
-            console.log(html.getText());
+            console.log(this.toString());
             return;
         }
 
         let contentId = this.container ? this.container : this.getId();
         if (!contentId)
             throw new Error("render error: container is null")
+
         let el = document.getElementById(contentId);
         if (!el)
             throw new Error(`not find element: ${contentId}`);
 
-        el.innerHTML = html.getText();
+        el.outerHTML = this.toString();
 
         this.registerEvents(this);
     }
