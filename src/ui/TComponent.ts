@@ -20,7 +20,17 @@ export default class TComponent {
             //@ts-ignore
             if (props.id != undefined) {
                 //@ts-ignore
-                this.setId(props.id);
+                if ("auto" == props.id) {
+                    if (this.owner) {
+                        let num = this.owner.getComponentCount();
+                        this.setId(this.owner.getId() + "_" + num);
+                    } else {
+                        this.setId('origin');
+                    }
+                } else {
+                    //@ts-ignore
+                    this.setId(props.id);
+                }
             }
         }
     }

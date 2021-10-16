@@ -5,17 +5,17 @@ let app = new sci.TApplication().setTitle("summer-ci 应用示例")
 
 let page = new sci.TPage(app);
 
-let msg = new sci.TSpan(new sci.TDiv(page).setCssStyle('background-color: aqua;height:1.5rem'));
+let msg = new sci.TSpan(new sci.TDiv(page, { id: 'auto' }).setCssStyle('background-color: aqua;height:1.5rem'));
 msg.setText("欢迎使用sci前端框架!");
 
 // 定义操作区
-let boxTitle = new sci.TPanel(page).setCssStyle('height: 5rem; background-color: rgb(200,200,200);');
-let grid = new sci.TGrid(new sci.TDiv(page, { id: 'grid' }).setCssStyle('flex:1'));
-let statusBar = new sci.TStatusBar(page).setText('这里是状态栏');
+let boxTitle = new sci.TPanel(page, { id: "auto" }).setCssStyle('height: 5rem; background-color: rgb(200,200,200);');
+let grid = new sci.TGrid(new sci.TDiv(page, { id: 'auto' }).setCssStyle('flex:1'));
+let statusBar = new sci.TStatusBar(page, { id: 'auto' }).setText('这里是状态栏');
 new Footer(page, { year: 2021, corp: '深圳市华软资讯科技有限公司' });
 
-let edtSearch = new sci.TEdit(boxTitle, { id: 'edtSearch', label: '搜索条件：' });
-let button1 = new sci.TButton(boxTitle, { id: 'button1' }).setText('查询');
+let edtSearch = new sci.TEdit(boxTitle, { id: 'auto', label: '搜索条件：' });
+let button1 = new sci.TButton(boxTitle, { id: 'auto' }).setText('查询');
 let dbn: sci.TDBNavigator;
 let dataOut = new sci.DataSet();
 dataOut.getFieldDefs().add('opera').setName('操作').onGetText = (row, meta) => {
@@ -36,7 +36,7 @@ button1.addEventListener('click', () => {
         statusBar.setText(ds.getMessage() || '.');
         if (ds.getState() < 1)
             return;
-        
+
         dataOut.clear();
         dataOut.appendDataSet(ds);
 
@@ -44,10 +44,10 @@ button1.addEventListener('click', () => {
         grid.setDataSet(dataOut);
         grid.addColumns(dataOut.getFieldDefs());
         if (dbn == undefined) {
-            dbn = new sci.TDBNavigator(grid.getOwner(), { id: 'dbn' }).setDataSet(dataOut);
-            let edtCode = new sci.TDBEdit(grid.getOwner(), { id: "edtCode", 'label': '工号：' });
+            dbn = new sci.TDBNavigator(grid.getOwner(), { id: 'auto' }).setDataSet(dataOut);
+            let edtCode = new sci.TDBEdit(grid.getOwner(), { id: "auto", 'label': '工号：' });
             edtCode.setDataSource(dataOut).setDataField('code_');
-            let edtName = new sci.TDBEdit(grid.getOwner(), { id: "edtName", 'label': '姓名：' });
+            let edtName = new sci.TDBEdit(grid.getOwner(), { id: "auto", 'label': '姓名：' });
             edtName.setDataSource(dataOut).setDataField('name_');
         }
         grid.getOwner().render();

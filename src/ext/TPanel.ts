@@ -3,8 +3,8 @@ import TDiv from "../ui/TDiv";
 
 export default class TPanel extends TDiv {
 
-    constructor(owner: TComponent) {
-        super(owner);
+    constructor(owner: TComponent, props: any) {
+        super(owner, props);
     }
 
 }
