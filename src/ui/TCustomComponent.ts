@@ -4,7 +4,7 @@ import TComponent from "./TComponent";
 export default class TCustomComponent extends TComponent {
 
     public output(html: HtmlWriter) {
-        html.print(this.html());
+        html.print(this.html().trim());
     }
 
     html(): string {
