@@ -8,8 +8,8 @@ export default class TEditText extends TComponent {
     private input: TInput;
     private value: string;
 
-    constructor(owner: TComponent, id: string = null) {
-        super(owner, id);
+    constructor(owner: TComponent, props: object = null) {
+        super(owner, props);
         this.setRootLabel('div');
         this.label = new TSpan(this);
         this.label.setText('label:');

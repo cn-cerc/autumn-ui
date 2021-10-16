@@ -10,12 +10,19 @@ export default class TComponent {
     private propertys: Map<string, string> = new Map<string, string>();
     private events: Map<string, any> = new Map<string, any>();
     private _style: Map<string, string> = new Map<string, string>();
+    private _props: any;
 
-    constructor(owner: TComponent, id: string = null) {
+    constructor(owner: TComponent, props: object = null) {
         this.owner = owner;
         this.setOwner(owner);
-        if (id)
-            this.setId(id);
+        this._props = props;
+        if (props != null) {
+            //@ts-ignore
+            if (props.id != undefined) {
+                //@ts-ignore
+                this.setId(props.id);
+            }
+        }
     }
 
     getOwner(): TComponent {
@@ -224,6 +231,7 @@ export default class TComponent {
         return this;
     }
 
+    get props(): any { return this._props }
 }
 
 // let item = new TComponent();

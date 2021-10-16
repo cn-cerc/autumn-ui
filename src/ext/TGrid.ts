@@ -17,9 +17,10 @@ export default class TGrid extends TTable {
     dataSet: DataSet;
     groups: TGridGroup[] = [];
 
-    constructor(owner: TComponent, id: string = null) {
-        super(owner, id);
+    constructor(owner: TComponent, props: object = null) {
+        super(owner, props);
         this.setBorder('1');
+        this.setCssStyle('width:100%');
     }
 
     getDataSet(): DataSet {
