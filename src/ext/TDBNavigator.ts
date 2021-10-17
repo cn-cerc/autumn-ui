@@ -11,22 +11,18 @@ export default class TDBNavigator extends TCustomComponent {
         // this.getUid();
         this.addEventListener('first.click', () => {
             this._dataSet.first();
-            this._dataSet.refreshBind();
         })
 
         this.addEventListener('prior.click', () => {
             this._dataSet.prior();
-            this._dataSet.refreshBind();
         })
 
         this.addEventListener('next.click', () => {
             this._dataSet.next();
-            this._dataSet.refreshBind();
         })
 
         this.addEventListener('last.click', () => {
             this._dataSet.last();
-            this._dataSet.refreshBind();
         })
     }
 

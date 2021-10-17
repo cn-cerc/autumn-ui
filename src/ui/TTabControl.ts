@@ -38,7 +38,7 @@ export default class TTabControl extends TDiv implements DataControl {
         super.beginOutput(html);
     }
 
-    doChange(): void {
+    doChange(content: any = undefined): void {
         this.render();
     }
 

@@ -47,7 +47,7 @@ export default class DataSet implements DataBind, DataSource {
         if (row) {
             this.setRecNo(this.getRecNo() - 1);
             this.records.splice(this.getRecNo(), 1);
-            this.refreshBind();
+            this.refreshBind({ size: true });
         }
     }
 
@@ -99,8 +99,9 @@ export default class DataSet implements DataBind, DataSource {
             throw new Error(`RecNo ${this.recNo} 大于总长度 ${this.records.length}`)
         } else if (recNo < 0) {
             throw new Error(`RecNo ${this.recNo} 不允许小于零`)
-        } else {
+        } else if (this.recNo != recNo) {
             this.recNo = recNo;
+            this.refreshBind({ recNo: true });
         }
     }
 
@@ -385,6 +386,13 @@ export default class DataSet implements DataBind, DataSource {
         source.getHead().getFieldDefs().forEach((meta: FieldMeta) => {
             this.getHead().setValue(meta.getCode(), source.getHead().getValue(meta.getCode()))
         })
+        //保存当前状态
+        let srcEnable = source.getBindEnabled();
+        let srcRecNo = source.getRecNo();
+        let tarEnable = this.getBindEnabled();
+        //开始复制
+        source.setBindEnabled(false);
+        this.setBindEnabled(false);
         source.first();
         while (source.fetch()) {
             this.append();
@@ -392,6 +400,10 @@ export default class DataSet implements DataBind, DataSource {
                 this.setValue(meta.getCode(), source.getValue(meta.getCode()))
             });
         }
+        //恢复状态
+        source.setRecNo(srcRecNo);
+        source.setBindEnabled(srcEnable);
+        this.setBindEnabled(tarEnable);
     }
 
     forEach(fn: (row: DataRow) => void) {
@@ -405,22 +417,21 @@ export default class DataSet implements DataBind, DataSource {
         else
             this.bindControls.delete(client);
     }
-    refreshBind(): void {
+    refreshBind(content: any = undefined): void {
         if (this.bindEnabled) {
             this.bindControls.forEach(child => {
-                child.doChange();
+                child.doChange(content);
             });
         }
     }
-    enableControls(): void {
-        if (this.bindEnabled)
-            return;
-        this.bindEnabled = true;
-        this.refreshBind();
+    setBindEnabled(value: boolean): DataSet {
+        this.bindEnabled = value;
+        return this;
     }
-    disableControls(): void {
-        this.bindEnabled = false;
+    getBindEnabled(): boolean {
+        return this.bindEnabled;
     }
+
 }
 
 // let ds = new DataSet();

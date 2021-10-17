@@ -14,15 +14,15 @@ export default class FrmWelcome extends TPage {
 
         // 定义操作区
         let boxTitle = new TPanel(this).setCssStyle('height: 5rem; background-color: rgb(200,200,200);');
-        this.grid = new TGrid(new TDiv(this, { id: 'auto' }), { id: 'grid' });
+        this.grid = new TGrid(new TDiv(this, { id: 'auto', style: 'flex:1' }), { id: 'grid' });
         this.grid.setCssStyle('flex:1');
-        this.grid.setDataSet(new DataSet());
         let statusBar = new TStatusBar(this).setText('这里是状态栏');
         new Footer(this, { year: 2021, corp: '深圳市华软资讯科技有限公司' });
-
+        
         let edtSearch = new TEdit(boxTitle, { label: '搜索条件：' });
         let button1 = new TButton(boxTitle).setText('查询');
         let dbn: TDBNavigator;
+        this.grid.setDataSet(new DataSet());
         this.grid.getDataSet().getFieldDefs().add('opera').setName('操作').onGetText = (row, meta) => {
             let code = row.getString('code_');
             return new TButton(null).setText('删除').writeProperty('onclick', `deleteRecord('${code}')`).toString();
@@ -43,12 +43,13 @@ export default class FrmWelcome extends TPage {
                     return;
 
                 let dataOut = this.grid.getDataSet();
+                this.grid.clear();
+
                 dataOut.close();
                 dataOut.getFieldDefs().copy(ds.getFieldDefs());
                 dataOut.appendDataSet(ds);
-
-                this.grid.clear();
                 this.grid.setDataSet(dataOut);
+
                 this.grid.addColumns(dataOut.getFieldDefs());
                 if (dbn == undefined) {
                     dbn = new TDBNavigator(this.grid.getOwner()).setDataSet(dataOut);

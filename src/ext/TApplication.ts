@@ -85,21 +85,19 @@ export default class TApplication extends TDiv implements DataBind {
         else
             this.bindControls.delete(client);
     }
-    refreshBind(): void {
+    refreshBind(content: any = undefined): void {
         if (this.bindEnabled) {
             this.bindControls.forEach(child => {
-                child.doChange();
+                child.doChange(content);
             });
         }
     }
-    enableControls(): void {
-        if (this.bindEnabled)
-            return;
-        this.bindEnabled = true;
-        this.refreshBind();
+    setBindEnabled(value: boolean): TApplication {
+        this.bindEnabled = value;
+        return this;
     }
-    disableControls(): void {
-        this.bindEnabled = false;
+    getBindEnabled(): boolean {
+        return this.bindEnabled;
     }
 }
 

@@ -18,10 +18,11 @@ export default class TComponent {
         this.setOwner(owner);
         this._props = props;
         if (props != null) {
-            if (props.id != undefined)
+            const { id, style } = props;
+            if (id)
                 this.setId("auto" == props.id ? this.getUid() : props.id)
-            if (props.style != undefined)
-                this.setCssStyle(props.style);
+            if (style)
+                this.setCssStyle(style);
         }
     }
 

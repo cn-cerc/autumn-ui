@@ -180,22 +180,21 @@ export default class DataRow implements DataBind {
         else
             this.bindControls.delete(client);
     }
-    refreshBind(): void {
+    refreshBind(content: any = undefined): void {
         if (this.bindEnabled) {
             this.bindControls.forEach(child => {
-                child.doChange();
+                child.doChange(content);
             });
         }
     }
-    enableControls(): void {
-        if (this.bindEnabled)
-            return;
-        this.bindEnabled = true;
-        this.refreshBind();
+    setBindEnabled(value: boolean): DataRow {
+        this.bindEnabled = value;
+        return this;
     }
-    disableControls(): void {
-        this.bindEnabled = false;
+    getBindEnabled(): boolean {
+        return this.bindEnabled;
     }
+
 }
 
 // let row1 = new DataRow();

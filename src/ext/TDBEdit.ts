@@ -32,7 +32,7 @@ export default class TDBEdit extends TEdit implements DataControl {
         return this._dataField;
     }
 
-    doChange(): void {
+    doChange(content: any = undefined): void {
         if (this._dataSource && this._dataField) {
             let row = this._dataSource.getCurrent();
             this.setValue(row ? row.getString(this._dataField) : '');
