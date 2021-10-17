@@ -8,10 +8,17 @@ export default class TCustomComponent extends TComponent {
         //设置全局css样式
         let css = this.css().trim();
         if (css.length > 0) {
-            let style = document.createElement('style');
-            let node = document.createTextNode(css);
-            style.appendChild(node);
-            document.head.appendChild(style);
+            let style_id = "style_" + this.getUid();
+            let style = document.getElementById(style_id);
+            if (style == undefined) {
+                style = document.createElement('style');
+                style.id = style_id;
+                let node = document.createTextNode(css);
+                style.appendChild(node);
+                document.head.appendChild(style);
+            } else {
+                style.innerHTML = css;
+            }
         }
     }
 
