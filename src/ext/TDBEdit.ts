@@ -14,10 +14,10 @@ export default class TDBEdit extends TEdit implements DataControl {
 
     setDataSource(dataSet: DataSource): TDBEdit {
         if (this._dataSource)
-            this._dataSource.bindClient(this, false);
+            this._dataSource.registerBind(this, false);
         this._dataSource = dataSet;
         if (this._dataSource)
-            this._dataSource.bindClient(this, true);
+            this._dataSource.registerBind(this, true);
         return this;
     }
     getDataSource(): DataSource {
@@ -34,8 +34,8 @@ export default class TDBEdit extends TEdit implements DataControl {
 
     doChange(): void {
         if (this._dataSource && this._dataField) {
-            let value = this._dataSource.getCurrent().getString(this._dataField);
-            this.setValue(value);
+            let row = this._dataSource.getCurrent();
+            this.setValue(row ? row.getString(this._dataField) : '');
         }
     }
 

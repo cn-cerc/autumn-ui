@@ -49,6 +49,13 @@ export default class FieldDefs {
         return this.fields;
     }
 
+    copy(src: FieldDefs) {
+        for (let meta of src.getItems()) {
+            if (!this.exists(meta.getCode()))
+                this.fields.push(meta);
+        }
+    }
+
 }
 
 // let defs = new FieldDefs();

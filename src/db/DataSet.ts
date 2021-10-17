@@ -28,14 +28,11 @@ export default class DataSet implements DataBind, DataSource {
     }
 
     getCurrent(): DataRow {
-        if (this.eof()) {
-            throw new Error('eof == true')
-        } else if (this.bof()) {
-            throw new Error('bof == true')
-        } else {
-            let i = this.recNo - 1;
-            return this.records[i];
-        }
+        if (this.eof() || this.bof())
+            return null;
+
+        let i = this.recNo - 1;
+        return this.records[i];
     }
 
     append(): DataSet {
@@ -50,54 +47,43 @@ export default class DataSet implements DataBind, DataSource {
         if (row) {
             this.setRecNo(this.getRecNo() - 1);
             this.records.splice(this.getRecNo(), 1);
+            this.refreshBind();
         }
     }
 
     first(): boolean {
         if (this.records.length > 0) {
-            this.recNo = 1
+            this.setRecNo(1)
         } else {
-            this.recNo = 0
+            this.setRecNo(0);
         }
         this.fetchNo = -1
-        return this.recNo > 0
+        return this.recNo > 0;
     }
 
     last(): boolean {
-        this.recNo = this.records.length;
-        return this.recNo > 0
+        this.setRecNo(this.records.length);
+        return this.recNo > 0;
     }
 
     prior(): boolean {
-        if (this.records.length == 0)
-            return false;
-
-        if (this.recNo > 1) {
-            this.recNo--;
-            return true
-        } else {
-            return false
-        }
+        if (this.recNo > 0)
+            this.setRecNo(this.getRecNo() - 1);
+        return this.recNo > 0 && this.recNo <= this.records.length;
     }
 
     next(): boolean {
-        if (this.records.length == 0)
-            return false;
-
-        if (this.recNo < this.records.length) {
-            this.recNo++
-            return true
-        } else {
-            return false
-        }
+        if (this.recNo <= this.records.length)
+            this.setRecNo(this.getRecNo() + 1);
+        return this.recNo > 0 && this.recNo <= this.records.length;
     }
 
     bof(): boolean {
-        return this.recNo === 0
+        return this.recNo == 0
     }
 
     eof(): boolean {
-        return this.records.length === 0 || this.recNo > this.records.length
+        return this.records.length == 0 || this.recNo > this.records.length
     }
 
     size(): number {
@@ -109,11 +95,12 @@ export default class DataSet implements DataBind, DataSource {
     }
 
     setRecNo(recNo: number): void {
-        if (recNo > this.records.length) {
+        if (recNo > (this.records.length + 1)) {
             throw new Error(`RecNo ${this.recNo} 大于总长度 ${this.records.length}`)
+        } else if (recNo < 0) {
+            throw new Error(`RecNo ${this.recNo} 不允许小于零`)
         } else {
-            if (recNo > -1)
-                this.recNo = recNo;
+            this.recNo = recNo;
         }
     }
 
@@ -412,13 +399,13 @@ export default class DataSet implements DataBind, DataSource {
             fn.call(this, row);
     }
 
-    bindClient(client: DataControl, register: boolean = true): void {
+    registerBind(client: DataControl, register: boolean = true): void {
         if (register)
             this.bindControls.add(client);
         else
             this.bindControls.delete(client);
     }
-    bindRefresh(): void {
+    refreshBind(): void {
         if (this.bindEnabled) {
             this.bindControls.forEach(child => {
                 child.doChange();
@@ -429,7 +416,7 @@ export default class DataSet implements DataBind, DataSource {
         if (this.bindEnabled)
             return;
         this.bindEnabled = true;
-        this.bindRefresh();
+        this.refreshBind();
     }
     disableControls(): void {
         this.bindEnabled = false;

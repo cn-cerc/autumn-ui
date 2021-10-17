@@ -12,12 +12,13 @@ import HtmlWriter from '../ui/HtmlWriter';
 import { assertEquals } from '../JUnit';
 import DataSet from '../db/DataSet';
 import FieldDefs from '../db/FieldDefs';
+import DataControl from '../db/DataControl';
 
-export default class TGrid extends TTable {
+export default class TGrid extends TTable implements DataControl {
     dataSet: DataSet;
     groups: TGridGroup[] = [];
 
-    constructor(owner: TComponent, props: object = null) {
+    constructor(owner: TComponent, props: any = null) {
         super(owner, props);
         this.setBorder('1');
         this.setCssStyle('width:100%');
@@ -28,6 +29,7 @@ export default class TGrid extends TTable {
     }
     setDataSet(dataSet: DataSet): TGrid {
         this.dataSet = dataSet;
+        dataSet.registerBind(this);
         return this;
     }
 
@@ -157,6 +159,10 @@ export default class TGrid extends TTable {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    doChange(): void {
+        this.render();
     }
 
 }

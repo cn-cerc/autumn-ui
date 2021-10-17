@@ -10,23 +10,18 @@ export default class TComponent {
     private propertys: Map<string, string> = new Map<string, string>();
     private events: Map<string, any> = new Map<string, any>();
     private _style: Map<string, string> = new Map<string, string>();
-    private _props: any;
+    private _visible: boolean = true;
+    private _props: any = {};
 
-    constructor(owner: TComponent, props: object = null) {
+    constructor(owner: TComponent, props: any = null) {
         this.owner = owner;
         this.setOwner(owner);
         this._props = props;
         if (props != null) {
-            //@ts-ignore
-            if (props.id != undefined) {
-                //@ts-ignore
-                if ("auto" == props.id) {
-                    this.setId(this.getUid())
-                } else {
-                    //@ts-ignore
-                    this.setId(props.id);
-                }
-            }
+            if (props.id != undefined)
+                this.setId("auto" == props.id ? this.getUid() : props.id)
+            if (props.style != undefined)
+                this.setCssStyle(props.style);
         }
     }
 
@@ -105,10 +100,12 @@ export default class TComponent {
     }
 
     output(html: HtmlWriter): void {
-        this.beginOutput(html);
-        for (let item of this.getComponents())
-            item.output(html);
-        this.endOutput(html);
+        if (this._visible) {
+            this.beginOutput(html);
+            for (let item of this.getComponents())
+                item.output(html);
+            this.endOutput(html);
+        }
     }
 
     endOutput(html: HtmlWriter): void {
@@ -264,6 +261,33 @@ export default class TComponent {
     setContainer(container: string) {
         this.container = container;
         return this;
+    }
+
+    setVisible(value: boolean): TComponent {
+        this._visible = value;
+        return this;
+    }
+    getVisible(): boolean {
+        return this._visible;
+    }
+
+    getComponent(id: string, root: TComponent = null): TComponent {
+        let current = root;
+        if (current == null)
+            current = this;
+        //先查找当前是否存在
+        for (let child of current.getComponents()) {
+            if (child.getId() == id) {
+                return child;
+            }
+        }
+        //再查找子阶是否存在
+        for (let child of current.getComponents()) {
+            let item = child.getComponent(id, child);
+            if (item != null)
+                return item;
+        }
+        return null;
     }
 
     get props(): any { return this._props }

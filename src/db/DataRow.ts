@@ -57,7 +57,7 @@ export default class DataRow implements DataBind {
         this.items.set(field, value);
 
         if (this.bindEnabled)
-            this.bindRefresh();
+            this.refreshBind();
 
         return this;
     }
@@ -174,13 +174,13 @@ export default class DataRow implements DataBind {
         return this.dataSet;
     }
 
-    bindClient(client: DataControl, register: boolean = true): void {
+    registerBind(client: DataControl, register: boolean = true): void {
         if (register)
             this.bindControls.add(client);
         else
             this.bindControls.delete(client);
     }
-    bindRefresh(): void {
+    refreshBind(): void {
         if (this.bindEnabled) {
             this.bindControls.forEach(child => {
                 child.doChange();
@@ -191,7 +191,7 @@ export default class DataRow implements DataBind {
         if (this.bindEnabled)
             return;
         this.bindEnabled = true;
-        this.bindRefresh();
+        this.refreshBind();
     }
     disableControls(): void {
         this.bindEnabled = false;

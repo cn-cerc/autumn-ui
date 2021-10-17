@@ -2,7 +2,6 @@ import TComponent from "../ui/TComponent";
 import TGrid from "./TGrid";
 import TGridGroupChild from "./TGridGroupChild";
 import TGridGroupMaster from "./TGridGroupMaster";
-import TGridGroup from "./TGridGroupMaster";
 
 export default class TGridColumn extends TComponent {
     private code: string;
@@ -10,7 +9,6 @@ export default class TGridColumn extends TComponent {
     private width: number = 0;
     private align: string;
     private _export = true;
-    private _visible = true;
 
     constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild, code: string, name: string = null) {
         super(owner);
@@ -59,15 +57,6 @@ export default class TGridColumn extends TComponent {
 
     setExport(value: boolean): TGridColumn {
         this._export = value;
-        return this;
-    }
-
-    getVisible(): boolean {
-        return this._visible;
-    }
-
-    setVisible(value: boolean): TGridColumn {
-        this._visible = value;
         return this;
     }
 

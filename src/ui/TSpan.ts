@@ -4,8 +4,8 @@ import TText from "./TText";
 export default class TSpan extends TComponent {
     span: TText;
 
-    constructor(owner: TComponent) {
-        super(owner);
+    constructor(owner: TComponent, props: any = null) {
+        super(owner, props);
         this.setRootLabel('span');
     }
 
