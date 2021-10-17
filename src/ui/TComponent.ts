@@ -215,6 +215,8 @@ export default class TComponent {
     }
 
     private registerEvents(root: TComponent) {
+        if (!root.getVisible())
+            return;
         if (root.getId()) {
             root.events.forEach((fn, event) => {
                 let eventId = root.getId();
