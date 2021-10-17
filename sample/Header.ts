@@ -4,7 +4,11 @@ export default class Header extends TCustomComponent {
 
     html() {
         return (`
-        <div>${this.props.title}</div>
+        <div role="header">${this.props.title}</div>
         `)
+    }
+
+    css() {
+        return (`div[role=header] {color:red}`);
     }
 }
