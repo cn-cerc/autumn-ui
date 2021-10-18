@@ -23,7 +23,7 @@ export default class QueryService extends RemoteService {
 
     open(fn: (dataOut: DataSet) => void) {
         this.service = this.findService(this._sql);
-        this.dataIn.head.setValue("_service_filter_", this._sql);
+        this.dataIn.head.setValue("_RecordFilter_", this._sql);
         this.exec(fn);
     }
 
