@@ -19,6 +19,17 @@ export default class FieldMeta {
         this._kind = kind;
     }
 
+    set json(value: any) {
+        const { code, name, remark, type, kind } = value;
+        if (code) {
+            if (code != this.code)
+                throw new Error(`code(${this.code}) not update`);
+        }
+        if (name) this._name = name;
+        if (remark) this._remark = remark;
+        if (type) this._type = type;
+        if (kind) this._kind = kind;
+    }
     get json(): object {
         let json: any = {};
         json.code = this._code;
