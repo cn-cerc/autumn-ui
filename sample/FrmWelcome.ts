@@ -1,6 +1,6 @@
-import Footer from "./sample/Footer";
-import { app } from "./src/ext/TApplication";
-import { DataSet, QueryService, TButton, TComponent, TDBEdit, TDBNavigator, TDiv, TEdit, TGrid, TPage, TPanel, TSpan, TStatusBar } from "./src/SummerCI";
+import Footer from "./Footer";
+import { app } from "../src/ext/TApplication";
+import { DataSet, QueryService, TButton, TComponent, TDBEdit, TDBNavigator, TDiv, TEdit, TGrid, TPage, TPanel, TSpan, TStatusBar } from "../src/SummerCI";
 
 export default class FrmWelcome extends TPage {
     private _grid: TGrid;

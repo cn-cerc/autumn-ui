@@ -44,7 +44,7 @@ export default class RemoteService {
                     func.call(this, new DataSet().setMessage(response.statusText));
                 } else {
                     console.log(response);
-                    func.call(this, new DataSet().setMessage('not support:' + contentType));
+                    func.call(this, new DataSet().setMessage('服务执行时间过久，请调整操作并重试'));
                 }
             }
         }).then(function (data: string) {

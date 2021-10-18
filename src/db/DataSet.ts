@@ -2,9 +2,7 @@ import DataRow from './DataRow';
 import FieldDefs from './FieldDefs';
 import FieldMeta from './FieldMeta';
 import SearchDataSet from './SearchDataSet';
-import * as JUnit from "../JUnit";
 import DataBind from './DataBind';
-import { TComponent } from '../SummerCI';
 import DataControl from './DataControl';
 import DataSource from './DataSource';
 
@@ -354,7 +352,7 @@ export default class DataSet implements DataBind, DataSource {
     set message(message: string) { this._message = message }
     get message(): string { return this._message }
     setMessage(message: string): DataSet {
-        this.message = message;
+        this._message = message;
         return this;
     }
 

@@ -2,26 +2,26 @@ import DataSet from "./DataSet";
 import RemoteService from "./RemoteService";
 
 export default class QueryService extends RemoteService {
-    private _sqlText: string = "";
+    private _sql: string = "";
 
     constructor(owner: any) {
         super(owner);
-        const { sqlText } = owner;
-        if (sqlText)
-            this.sqlText = sqlText;
+        const { sql: sql } = owner;
+        if (sql)
+            this.sql = sql;
     }
 
     add(sql: string): QueryService {
-        this._sqlText = this._sqlText.trim() + ' ' + sql.trim();
+        this._sql = this._sql.trim() + ' ' + sql.trim();
         return this;
     }
 
-    get sqlText(): string { return this._sqlText }
-    set sqlText(sql: string) { this._sqlText = sql }
+    get sql(): string { return this._sql }
+    set sql(sql: string) { this._sql = sql }
 
     open(fn: (dataOut: DataSet) => void) {
-        this.service = this.findService(this._sqlText);
-        this.dataIn.head.setValue("_service_filter_", this._sqlText);
+        this.service = this.findService(this._sql);
+        this.dataIn.head.setValue("_service_filter_", this._sql);
         this.exec(fn);
     }
 
