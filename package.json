@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config webpack.dev.config.js",
-    "beta": "webpack --config webpack.dev.config.js",
+    "beta": "webpack --config webpack.beta.config.js",
     "main": "webpack --config webpack.prod.config.js"
   },
   "repository": {
