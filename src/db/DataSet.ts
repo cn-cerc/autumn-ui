@@ -359,8 +359,9 @@ export default class DataSet implements DataBind, DataSource {
             json.body.push(row.json);
         json.metaInfo = this._metaInfo;
         if (this._metaInfo) {
+            json.meta = { head: {}, body: {} };
             json.meta.head = this.head.fieldDefs.json;
-            json.meta.body = {};
+            json.meta.body = this.fieldDefs.json;;
         }
         return json;
     }
@@ -430,16 +431,17 @@ export default class DataSet implements DataBind, DataSource {
 
 }
 
-let ds = new DataSet();
-ds.head.setValue('id', 100);
-ds.append();
-ds.setValue('code', 'a');
-ds.setValue('name', 'jason');
-ds.append();
-ds.setValue('code', 'b');
-ds.setValue('name', 'bade');
-ds.fieldDefs.get("code").name = "代码";
-console.log(ds.json);
+// let ds = new DataSet();
+// ds.head.setValue('id', 100);
+// ds.append();
+// ds.setValue('code', 'a');
+// ds.setValue('name', 'jason');
+// ds.append();
+// ds.setValue('code', 'b');
+// ds.setValue('name', 'bade');
+// ds.fieldDefs.get("code").name = "代码";
+// ds.metaInfo = true;
+// console.log(ds.json);
 
 // JUnit.assertEquals(1, ds.json, '{"head":{"id":100},"body":[["code","name"],["a","jason"],["b","bade"]]}');
 // JUnit.assertEquals(2, ds.setMetaInfo(true).json, '{"meta":{"head":[{"id":[null]}],"body":[{"code":[null,"代码"]},{"name":[null]}]},"head":[100],"body":[["a","jason"],["b","bade"]]}')
