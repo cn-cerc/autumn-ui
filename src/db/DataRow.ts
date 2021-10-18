@@ -1,9 +1,10 @@
+import { assertEquals } from "../JUnit";
 import DataBind from "./DataBind";
 import DataControl from "./DataControl";
 import DataSet from "./DataSet";
 import FieldDefs from "./FieldDefs";
 import FieldMeta from "./FieldMeta";
-import * as RecordState from "./RecordState";
+import { RecordState } from "./RecordState";
 
 export default class DataRow implements DataBind {
     private _dataSet: DataSet;
@@ -37,11 +38,11 @@ export default class DataRow implements DataBind {
     }
     get state(): number { return this._state }
 
-    public close(): void {
+    close(): void {
         this._items.clear();
     }
 
-    public setValue(field: string, value: any): DataRow {
+    setValue(field: string, value: any): DataRow {
         if (!field)
             throw new Error('field is null!');
 
@@ -55,12 +56,12 @@ export default class DataRow implements DataBind {
         return this;
     }
 
-    public copyValues(source: DataRow, defs: FieldDefs = null) {
+    copyValues(source: DataRow, defs: FieldDefs = null) {
         if (defs == null)
             defs = source.fieldDefs;
 
         defs.forEach((meta: FieldMeta) => {
-            this.setValue(meta.getCode(), source.getValue(meta.getCode()));
+            this.setValue(meta.code, source.getValue(meta.code));
         });
     }
 
@@ -72,28 +73,28 @@ export default class DataRow implements DataBind {
         }
     }
 
-    public getValue(field: string): any {
+    getValue(field: string): any {
         if (!field)
             throw new Error('field is null!')
         let value = this._items.get(field);
         return value == undefined ? null : value;
     }
 
-    public getString(field: string): string {
+    getString(field: string): string {
         let value = this.getValue(field);
         return value ? "" + value : "";
     }
 
-    public getBoolean(field: string): boolean {
+    getBoolean(field: string): boolean {
         return this.getValue(field) ? true : false;
     }
 
-    public getDouble(field: string): number {
+    getDouble(field: string): number {
         let value = this.getString(field);
         return parseFloat(value) ? parseFloat(value) : 0;
     }
 
-    public getText(field: string) {
+    getText(field: string) {
         let meta = this.fieldDefs.add(field);
         if (meta.onGetText != undefined) {
             return meta.onGetText(this, meta);
@@ -101,10 +102,10 @@ export default class DataRow implements DataBind {
             return this.getString(field);
     }
 
-    public setText(field: string, value: string): DataRow {
+    setText(field: string, value: string): DataRow {
         let meta = this.fieldDefs.add(field);
         if (meta.onSetText != undefined) {
-            this.setValue(meta.getCode(), meta.onSetText(this, meta, value));
+            this.setValue(meta.code, meta.onSetText(this, meta, value));
         } else
             this.setValue(field, value);
         return this;
@@ -114,16 +115,7 @@ export default class DataRow implements DataBind {
 
     get delta(): Map<string, any> { return this._delta }
 
-    get json(): string {
-        let obj: any = {}
-        for (let meta of this._fieldDefs.fields) {
-            let key = meta.getCode();
-            obj[key] = this.getValue(key);
-        }
-        return JSON.stringify(obj);
-    }
-
-    set json(jsonObj: string | JSON) {
+    set jsonString(jsonObj: string | JSON) {
         if (!jsonObj) {
             throw new Error('jsonText is null!')
         }
@@ -136,6 +128,26 @@ export default class DataRow implements DataBind {
         for (let k in json) {
             this.setValue(k, json[k])
         }
+    }
+    get jsonString(): string {
+        let obj: any = {}
+        for (let meta of this._fieldDefs.fields) {
+            let key = meta.code;
+            obj[key] = this.getValue(key);
+        }
+        return JSON.stringify(obj);
+    }
+
+    get json(): object {
+        let json: any = {};
+        for (let meta of this._fieldDefs.fields)
+            json[meta.code] = this.getValue(meta.code);
+        return json;
+    }
+    set json(jsonObject: any) {
+        let keys = Object.keys(jsonObject);
+        for (let key of keys)
+            this.setValue(key, jsonObject[key]);
     }
 
     get fieldDefs(): FieldDefs {
@@ -152,7 +164,7 @@ export default class DataRow implements DataBind {
 
     forEach(fn: (key: string, value: any) => void) {
         for (let meta of this._fieldDefs.fields) {
-            let key = meta.getCode();
+            let key = meta.code;
             fn.call(this, key, this.getValue(key));
         }
     }
@@ -189,3 +201,9 @@ export default class DataRow implements DataBind {
 // let row2 = new DataRow();
 // row2.copyValues(row1);
 // assertEquals(4, row1.json, row2.json);
+// console.log(row2.jsonObject);
+
+// let row3 = new DataRow();
+// row3.jsonObject = row2.jsonObject;
+// console.log(row3.jsonObject);
+// console.log(row3.json);

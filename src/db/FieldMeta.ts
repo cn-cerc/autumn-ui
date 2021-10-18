@@ -3,60 +3,45 @@
  */
 
 import DataRow from "./DataRow";
+import { FieldKind } from "./FieldKind";
 
 export default class FieldMeta {
     private _code: string = null;
     private _name: string = null;
     private _remark: string = null;
     private _type: string = null;
-    private _kind: string = null;
+    private _kind: number = null;
     private _onGetText: (row: DataRow, meta: FieldMeta) => string;
     private _onSetText: (row: DataRow, meta: FieldMeta, value: string) => void;
 
-    constructor(code: string, kind: string) {
+    constructor(code: string, kind: number = FieldKind.Memory) {
         this._code = code;
         this._kind = kind;
     }
 
-    getCode() {
-        return this._code;
+    get json(): object {
+        let json: any = {};
+        json.code = this._code;
+        json.name = this._name;
+        json.remark = this._remark;
+        json.type = this._type;
+        json.kind = this._kind;
+        return json;
     }
 
-    getName() {
-        return this._name;
-    }
+    get code() { return this._code };
 
-    setName(name: string) {
-        this._name = name;
-        return this;
-    }
+    set name(value: string) { this._name = value }
+    get name(): string { return this._name }
 
-    getRemark() {
-        return this._remark;
-    }
+    set remark(value: string) { this._remark = value }
+    get remark(): string { return this._remark }
 
-    setRemark(remark: string) {
-        this._remark = remark;
-        return;
-    }
+    set type(value: string) { this._type = value }
+    get type(): string { return this._type }
 
-    getType() {
-        return this._type;
-    }
-
-    setType(type: string) {
-        this._type = type;
-        return this;
-    }
-
-    getKind() {
-        return this._kind;
-    }
-
-    setKind(kind: string) {
-        this._kind = kind;
-        return;
-    }
+    set kind(value: number) { this._kind = value }
+    get kind(): number { return this._kind }
 
     set onGetText(fn: (row: DataRow, meta: FieldMeta) => string) { this._onGetText = fn }
     get onGetText(): (row: DataRow, meta: FieldMeta) => string { return this._onGetText }

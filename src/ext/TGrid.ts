@@ -75,8 +75,8 @@ export default class TGrid extends TTable implements DataControl {
 
     addColumns(fieldDefs: FieldDefs): void {
         for (let meta of fieldDefs.fields) {
-            if (!this.getColumn(meta.getCode()))
-                new TGridColumn(this, meta.getCode(), meta.getName() ? meta.getName() : meta.getCode());
+            if (!this.getColumn(meta.code))
+                new TGridColumn(this, meta.code, meta.name ? meta.name : meta.code);
         }
     }
 
@@ -178,7 +178,7 @@ export default class TGrid extends TTable implements DataControl {
 // grid.dataSet = ds;
 
 // ds.fieldDefs.get("sex_").onGetText = (row: DataRow, meta: FieldMeta) => {
-//     return row.getValue(meta.getCode()) == 1 ? "男" : "女";
+//     return row.getValue(meta.code) == 1 ? "男" : "女";
 // };
 
 // grid.render();

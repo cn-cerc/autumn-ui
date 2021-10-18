@@ -11,7 +11,7 @@ export default class TCustomComponent extends TComponent {
         this._content = new TText(owner);
     }
 
-    public beginOutput(html: HtmlWriter) {
+    beginOutput(html: HtmlWriter) {
         this._content.text = this.html().trim();
         //防止重复输出
         for (let line of this._history)

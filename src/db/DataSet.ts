@@ -21,11 +21,17 @@ export default class DataSet implements DataBind, DataSource {
     private _bindControls: Set<DataControl> = new Set<DataControl>();
     private _bindEnabled: boolean = true;
 
-    constructor(json: string = null) {
-        if (json) this.json = json;
+    constructor(props: any = null) {
+        if (props) {
+            const { state, message } = props;
+            if (state)
+                this._state = state;
+            if (message)
+                this._message = message;
+        }
     }
 
-    public getCurrent(): DataRow {
+    getCurrent(): DataRow {
         if (this.eof() || this.bof())
             return null;
 
@@ -33,14 +39,14 @@ export default class DataSet implements DataBind, DataSource {
         return this._records[i];
     }
 
-    public append(): DataSet {
+    append(): DataSet {
         let record = new DataRow(this);
         this._records.push(record)
         this._recNo = this._records.length;
         return this
     }
 
-    public delete(): void {
+    delete(): void {
         let row = this.getCurrent();
         if (row) {
             this.recNo = this.recNo - 1;
@@ -49,7 +55,7 @@ export default class DataSet implements DataBind, DataSource {
         }
     }
 
-    public first(): boolean {
+    first(): boolean {
         if (this._records.length > 0) {
             this.recNo = 1
         } else {
@@ -59,28 +65,28 @@ export default class DataSet implements DataBind, DataSource {
         return this._recNo > 0;
     }
 
-    public last(): boolean {
+    last(): boolean {
         this.recNo = this._records.length;
         return this._recNo > 0;
     }
 
-    public prior(): boolean {
+    prior(): boolean {
         if (this._recNo > 0)
             this.recNo = this.recNo - 1;
         return this._recNo > 0 && this._recNo <= this._records.length;
     }
 
-    public next(): boolean {
+    next(): boolean {
         if (this._recNo <= this._records.length)
             this.recNo = this.recNo + 1;
         return this._recNo > 0 && this._recNo <= this._records.length;
     }
 
-    public bof(): boolean {
+    bof(): boolean {
         return this._recNo == 0
     }
 
-    public eof(): boolean {
+    eof(): boolean {
         return this._records.length == 0 || this._recNo > this._records.length
     }
 
@@ -98,7 +104,7 @@ export default class DataSet implements DataBind, DataSource {
     }
     get recNo(): number { return this._recNo }
 
-    public fetch(): boolean {
+    fetch(): boolean {
         var result = false
         if (this._fetchNo < (this._records.length - 1)) {
             this._fetchNo++;
@@ -108,7 +114,7 @@ export default class DataSet implements DataBind, DataSource {
         return result
     }
 
-    public copyRecord(source: DataRow, defs: FieldDefs) {
+    copyRecord(source: DataRow, defs: FieldDefs) {
         let record = this.getCurrent()
 
         if (this._search) {
@@ -120,7 +126,7 @@ export default class DataSet implements DataBind, DataSource {
         }
     }
 
-    public exists(field: string) {
+    exists(field: string) {
         return this._fieldDefs.exists(field);
     }
 
@@ -187,84 +193,7 @@ export default class DataSet implements DataBind, DataSource {
         }
     }
 
-    get json(): string {
-        let json: any = {}
-        if (this._state !== 0) {
-            json.state = this._state
-        }
-        if (this._message) {
-            json.message = this._message
-        }
-        if (this._metaInfo) {
-            json.meta = {};
-
-            if (this.head.fieldDefs.size > 0) {
-                let head: any = [];
-                this.head.fieldDefs.forEach((meta: FieldMeta) => {
-                    let item: any = {};
-                    if (meta.getRemark()) {
-                        item[meta.getCode()] = [meta.getType(), meta.getName(), meta.getRemark()];
-                    } else if (meta.getName()) {
-                        item[meta.getCode()] = [meta.getType(), meta.getName()];
-                    } else {
-                        item[meta.getCode()] = [meta.getType()];
-                    }
-                    head.push(item);
-                })
-                json.meta.head = head;
-            }
-
-            if (this._records.length > 0) {
-                let body: any = [];
-                this._fieldDefs.forEach((meta: FieldMeta) => {
-                    let item: any = {};
-                    if (meta.getRemark()) {
-                        item[meta.getCode()] = [meta.getType(), meta.getName(), meta.getRemark()];
-                    } else if (meta.getName()) {
-                        item[meta.getCode()] = [meta.getType(), meta.getName()];
-                    } else {
-                        item[meta.getCode()] = [meta.getType()];
-                    }
-                    body.push(item);
-                });
-                json.meta.body = body;
-            }
-        }
-        if (this._head.size > 0) {
-            if (this._metaInfo) {
-                json.head = []
-                this._head.fieldDefs.forEach((field: FieldMeta) => {
-                    json.head.push(this._head.getValue(field.getCode()))
-                })
-            } else {
-                json.head = {};
-                this._head.forEach((key: string, value: any) => {
-                    json.head[key] = value;
-                });
-            }
-        }
-        if (this.size > 0) {
-            json.body = [];
-
-            if (!this._metaInfo) {
-                let item: any = [];
-                for (let meta of this._fieldDefs.fields)
-                    item.push(meta.getCode());
-                json.body.push(item);
-            }
-
-            for (let row of this._records) {
-                var item: any = []
-                for (let meta of this._fieldDefs.fields) {
-                    item.push(row.getValue(meta.getCode()))
-                }
-                json.body.push(item)
-            }
-        }
-        return JSON.stringify(json);
-    }
-
-    set json(jsonObj: any) {
+    set jsonString(jsonObj: any) {
         this.clear();
         if (!jsonObj) {
             return;
@@ -294,11 +223,11 @@ export default class DataSet implements DataBind, DataSource {
                         let values = map[key];
                         let meta = this._head.fieldDefs.add(key);
                         if (values.length > 2)
-                            meta.setRemark(values[2]);
+                            meta.remark = values[2];
                         if (values.length > 1)
-                            meta.setName(values[1]);
+                            meta.name = values[1];
                         if (values.length > 0)
-                            meta.setType(values[0]);
+                            meta.type = values[0];
                         this._head.setValue(key, jsonObj.head[i]);
                         i = i + 1;
                     }
@@ -311,11 +240,11 @@ export default class DataSet implements DataBind, DataSource {
                         let values = map[key];
                         let meta = this._fieldDefs.add(key);
                         if (values.length > 2)
-                            meta.setRemark(values[2]);
+                            meta.remark = values[2];
                         if (values.length > 1)
-                            meta.setName(values[1]);
+                            meta.name = values[1];
                         if (values.length > 0)
-                            meta.setType(values[0]);
+                            meta.type = values[0];
                         fields[i] = key;
                         i = i + 1;
                     }
@@ -344,6 +273,97 @@ export default class DataSet implements DataBind, DataSource {
             this.first()
         }
     }
+    get jsonString(): string {
+        let json: any = {}
+        if (this._state !== 0) {
+            json.state = this._state
+        }
+        if (this._message) {
+            json.message = this._message
+        }
+        if (this._metaInfo) {
+            json.meta = {};
+
+            if (this.head.fieldDefs.size > 0) {
+                let head: any = [];
+                this.head.fieldDefs.forEach((meta: FieldMeta) => {
+                    let item: any = {};
+                    if (meta.remark) {
+                        item[meta.code] = [meta.type, meta.name, meta.remark];
+                    } else if (meta.name) {
+                        item[meta.code] = [meta.type, meta.name];
+                    } else {
+                        item[meta.code] = [meta.type];
+                    }
+                    head.push(item);
+                })
+                json.meta.head = head;
+            }
+
+            if (this._records.length > 0) {
+                let body: any = [];
+                this._fieldDefs.forEach((meta: FieldMeta) => {
+                    let item: any = {};
+                    if (meta.remark) {
+                        item[meta.code] = [meta.type, meta.name, meta.remark];
+                    } else if (meta.name) {
+                        item[meta.code] = [meta.type, meta.name];
+                    } else {
+                        item[meta.code] = [meta.type];
+                    }
+                    body.push(item);
+                });
+                json.meta.body = body;
+            }
+        }
+        if (this._head.size > 0) {
+            if (this._metaInfo) {
+                json.head = []
+                this._head.fieldDefs.forEach((meta: FieldMeta) => {
+                    json.head.push(this._head.getValue(meta.code))
+                })
+            } else {
+                json.head = {};
+                this._head.forEach((key: string, value: any) => {
+                    json.head[key] = value;
+                });
+            }
+        }
+        if (this.size > 0) {
+            json.body = [];
+
+            if (!this._metaInfo) {
+                let item: any = [];
+                for (let meta of this._fieldDefs.fields)
+                    item.push(meta.code);
+                json.body.push(item);
+            }
+
+            for (let row of this._records) {
+                var item: any = []
+                for (let meta of this._fieldDefs.fields) {
+                    item.push(row.getValue(meta.code))
+                }
+                json.body.push(item)
+            }
+        }
+        return JSON.stringify(json);
+    }
+    get json(): object {
+        let json: any = {};
+        json.state = this._state;
+        json.message = this._message;
+        json.head = this.head.json;
+        json.body = [];
+        for (let row of this._records)
+            json.body.push(row.json);
+        json.metaInfo = this._metaInfo;
+        if (this._metaInfo) {
+            json.meta.head = this.head.fieldDefs.json;
+            json.meta.body = {};
+        }
+        return json;
+    }
 
     set state(state: number) { this._state = state }
     get state(): number { return this._state }
@@ -365,7 +385,7 @@ export default class DataSet implements DataBind, DataSource {
 
     appendDataSet(source: DataSet) {
         source.head.fieldDefs.forEach((meta: FieldMeta) => {
-            this.head.setValue(meta.getCode(), source.head.getValue(meta.getCode()))
+            this.head.setValue(meta.code, source.head.getValue(meta.code))
         })
         //保存当前状态
         let srcEnable = source.bindEnabled;
@@ -378,7 +398,7 @@ export default class DataSet implements DataBind, DataSource {
         while (source.fetch()) {
             this.append();
             source._fieldDefs.forEach((meta: FieldMeta) => {
-                this.setValue(meta.getCode(), source.getValue(meta.getCode()))
+                this.setValue(meta.code, source.getValue(meta.code))
             });
         }
         //恢复状态
@@ -410,15 +430,16 @@ export default class DataSet implements DataBind, DataSource {
 
 }
 
-// let ds = new DataSet();
-// ds.head.setValue('id', 100);
-// ds.append();
-// ds.setValue('code', 'a');
-// ds.setValue('name', 'jason');
-// ds.append();
-// ds.setValue('code', 'b');
-// ds.setValue('name', 'bade');
-// ds.fieldDefs.get("code").setName("代码");
+let ds = new DataSet();
+ds.head.setValue('id', 100);
+ds.append();
+ds.setValue('code', 'a');
+ds.setValue('name', 'jason');
+ds.append();
+ds.setValue('code', 'b');
+ds.setValue('name', 'bade');
+ds.fieldDefs.get("code").name = "代码";
+console.log(ds.json);
 
 // JUnit.assertEquals(1, ds.json, '{"head":{"id":100},"body":[["code","name"],["a","jason"],["b","bade"]]}');
 // JUnit.assertEquals(2, ds.setMetaInfo(true).json, '{"meta":{"head":[{"id":[null]}],"body":[{"code":[null,"代码"]},{"name":[null]}]},"head":[100],"body":[["a","jason"],["b","bade"]]}')
@@ -436,3 +457,4 @@ export default class DataSet implements DataBind, DataSource {
 // ds2.last();
 // ds2.delete();
 // JUnit.assertEquals(14, ds2.json, '{"head":{"id":100}}');
+

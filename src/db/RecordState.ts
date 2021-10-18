@@ -1,5 +1,6 @@
-
-export const dsNone = 0;
-export const dsInsert = 1;
-export const dsEdit = 2;
-export const dsDelete = 3;
+export const RecordState = {
+    dsNone: 0,
+    dsInsert: 1,
+    dsEdit: 2,
+    dsDelete: 3
+}

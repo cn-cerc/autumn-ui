@@ -1,12 +1,28 @@
+import { FieldKind } from "./FieldKind";
 import FieldMeta from "./FieldMeta";
 
 export default class FieldDefs {
     private _fields: FieldMeta[] = [];
 
-    add(code: string, name: string = null): FieldMeta {
+    set json(json: any) {
+        this._fields = [];
+        for (let field of json) {
+            const { code, kind } = field;
+            let meta = new FieldMeta(code, kind);
+            this._fields.push(meta);
+        }
+    }
+    get json(): object {
+        let json: any = [];
+        for (let meta of this._fields)
+            json.push(meta.json);
+        return json;
+    }
+
+    add(code: string, kind: number = FieldKind.Memory): FieldMeta {
         if (this.exists(code))
             return this.get(code);
-        let item = new FieldMeta(code, name);
+        let item = new FieldMeta(code, kind);
         this._fields.push(item);
         return item;
     }
@@ -14,7 +30,7 @@ export default class FieldDefs {
     exists(code: string): boolean {
         for (let i = 0; i < this._fields.length; i++) {
             let meta = this._fields[i];
-            if (meta.getCode() == code) {
+            if (meta.code == code) {
                 return true;
             }
         }
@@ -24,7 +40,7 @@ export default class FieldDefs {
     get(code: string): FieldMeta {
         let result = null;
         this._fields.forEach((item) => {
-            if (item.getCode() == code) {
+            if (item.code == code) {
                 result = item;
                 return;
             }
@@ -45,7 +61,7 @@ export default class FieldDefs {
 
     copy(src: FieldDefs) {
         for (let meta of src.fields) {
-            if (!this.exists(meta.getCode()))
+            if (!this.exists(meta.code))
                 this._fields.push(meta);
         }
     }

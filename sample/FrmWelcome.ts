@@ -24,7 +24,9 @@ export default class FrmWelcome extends TPage {
         let button1 = new TButton(boxTitle, { text: '查询' });
         let dbn: TDBNavigator;
         this._grid.dataSet = new DataSet();
-        this._grid.dataSet.fieldDefs.add('opera').setName('操作').onGetText = (row, meta) => {
+        let opera = this._grid.dataSet.fieldDefs.add('opera');
+        opera.name = '操作';
+        opera.onGetText = (row, meta) => {
             let code = row.getString('code_');
             return new TButton(null, { text: '删除' }).writeProperty('onclick', `deleteRecord('${code}')`).toString();
         };
@@ -35,9 +37,7 @@ export default class FrmWelcome extends TPage {
             let query = new QueryService(config);
             // 服务前置过滤
             query.dataIn.head.setValue('code_', edtSearch.value);
-            query.add("select code_,name_,age_,createTime_ from SvrExample.search");
-            // 服务后置过滤，适合于后台提供的是复合服务
-            // query.add(`where code_='${edtCode.getValue()}'`);
+            query.add("select * from SvrExample.search");
             query.open(ds => {
                 statusBar.text = ds.message || '查询成功!';
                 if (ds.state < 1)
