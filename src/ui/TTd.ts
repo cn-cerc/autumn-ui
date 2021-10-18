@@ -4,7 +4,7 @@ export default class TTd extends TComponent {
 
     constructor(owner:TComponent) {
         super(owner);
-        this.setRootLabel("td");
+        this.rootLabel = "td";
     }
     
 }

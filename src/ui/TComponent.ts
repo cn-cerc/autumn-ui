@@ -2,80 +2,72 @@ import { assertEquals } from "../JUnit";
 import HtmlWriter from "./HtmlWriter";
 
 export default class TComponent {
-    private owner: TComponent;
-    private origin: any;
-    private rootLabel: string;
-    private container: string;
-    private components: Set<TComponent> = new Set<TComponent>();
-    private propertys: Map<string, string> = new Map<string, string>();
-    private events: Map<string, any> = new Map<string, any>();
+    private _owner: TComponent;
+    private _origin: any;
+    private _rootLabel: string;
+    private _container: string;
+    private _components: Set<TComponent> = new Set<TComponent>();
+    private _propertys: Map<string, string> = new Map<string, string>();
+    private _events: Map<string, any> = new Map<string, any>();
     private _style: Map<string, string> = new Map<string, string>();
     private _visible: boolean = true;
     private _props: any = {};
+    private _cssHead: Set<string> = new Set<string>();
 
     constructor(owner: TComponent, props: any = null) {
         this.owner = owner;
-        this.setOwner(owner);
         this._props = props;
         if (props != null) {
             const { id, style } = props;
             if (id)
-                this.setId("auto" == props.id ? this.getUid() : props.id)
+                this.id = "auto" == props.id ? this.getUid() : props.id;
             if (style)
                 this.setCssStyle(style);
         }
     }
 
-    getOwner(): TComponent {
-        return this.owner;
+    set owner(owner: TComponent) {
+        if (this._owner)
+            this._owner.removeComponent(this);
+        this._owner = owner;
+        if (this._owner)
+            this._owner.addComponent(this);
     }
-    setOwner(owner: TComponent): TComponent {
-        if (this.owner) {
-            this.owner.removeComponent(this);
-        }
-        if (owner) {
-            owner.addComponent(this);
-        }
-        this.owner = owner;
-        return this;
-    }
+    get owner(): TComponent { return this._owner }
+
+    set origin(value: any) { this._origin = value }
+    get origin(): any { return this._origin }
 
     addComponent(component: TComponent): TComponent {
-        if (component != null && !this.components.has(component)) {
-            component.owner = this;
-            if (component.origin == null)
-                component.origin = this.origin != null ? this.origin : this;
-            this.components.add(component);
+        if (component != null && !this._components.has(component)) {
+            component._owner = this;
+            if (component._origin == null)
+                component._origin = this._origin != null ? this._origin : this;
+            this._components.add(component);
         }
         return this;
     }
 
     removeComponent(component: TComponent): TComponent {
         if (component != null) {
-            if (component.origin == component.owner)
-                component.origin = null;
-            component.owner = null;
-            this.components.delete(component);
+            if (component._origin == component._owner)
+                component._origin = null;
+            component._owner = null;
+            this._components.delete(component);
         }
         return this;
     }
 
     getComponents(): TComponent[] {
-        return Array.from(this.components.values());
+        return Array.from(this._components.values());
     }
 
     getComponentCount(): number {
-        return this.components.size;
+        return this._components.size;
     }
 
-    setRootLabel(value: string): TComponent {
-        this.rootLabel = value;
-        return this;
-    }
-
-    getRootLabel(): string {
-        return this.rootLabel;
-    }
+    set rootLabel(value: string) { this._rootLabel = value }
+    get rootLabel(): string { return this._rootLabel }
 
     beginOutput(html: HtmlWriter): void {
         if (this._style.size > 0) {
@@ -88,12 +80,12 @@ export default class TComponent {
             })
             this.writeProperty('style', css);
         } else {
-            this.propertys.delete('style');
+            this._propertys.delete('style');
         }
 
-        if (this.rootLabel) {
-            html.print("<" + this.rootLabel);
-            this.propertys.forEach((v, k) => {
+        if (this._rootLabel) {
+            html.print("<" + this._rootLabel);
+            this._propertys.forEach((v, k) => {
                 html.print(' ' + k + '="' + v + '"')
             });
             html.print(">");
@@ -110,8 +102,30 @@ export default class TComponent {
     }
 
     endOutput(html: HtmlWriter): void {
-        if (this.rootLabel) {
-            html.print("</" + this.rootLabel + ">");
+        if (this._rootLabel)
+            html.print(`</${this._rootLabel}>`);
+        this.cssOutput();
+    }
+
+    //输出到 head.style
+    cssOutput() {
+        if (this.cssHead.size == 0)
+            return;
+        let css = '';
+        for (let line of Array.from(this._cssHead.values())) {
+            if (css) css += '\n';
+            css += line.trim();
+        }
+        let style_id = this.getUid() + "_style";
+        let style = document.getElementById(style_id);
+        if (style == undefined) {
+            style = document.createElement('style');
+            style.id = style_id;
+            let node = document.createTextNode(css);
+            style.appendChild(node);
+            document.head.appendChild(style);
+        } else {
+            style.innerHTML = css;
         }
     }
 
@@ -122,52 +136,41 @@ export default class TComponent {
     }
 
     readProperty(key: string): string {
-        return this.propertys.get(key);
+        return this._propertys.get(key);
     }
 
     writeProperty(key: string, value: string): TComponent {
         if (value)
-            this.propertys.set(key, value);
+            this._propertys.set(key, value);
         else
-            this.propertys.delete(key);
+            this._propertys.delete(key);
         return this;
     }
 
-    getId(): string {
-        return this.readProperty('id');
-    }
+
+    set id(id: string) { this.writeProperty('id', id) }
+    get id(): string { return this.readProperty('id') }
 
     getUid(): string {
-        let uid = this.getId();
+        let uid = this.id;
         if (uid == undefined) {
-            if (this.owner) {
-                let num = this.owner.getComponentCount();
-                uid = this.owner.getUid() + "_" + num;
+            if (this._owner) {
+                let num = this._owner.getComponentCount();
+                uid = this._owner.getUid() + "_" + num;
             } else {
                 uid = "origin";
             }
-            this.setId(uid);
+            this.id = uid;
         }
         return uid;
     }
 
-    setId(id: string): TComponent {
-        this.writeProperty('id', id);
-        return this;
-    }
+    get cssHead(): Set<string> { return this._cssHead };
 
-    getCssClass(): string {
-        return this.readProperty('class');
-    }
-    setCssClass(cssClass: string): TComponent {
-        this.writeProperty("class", cssClass);
-        return this;
-    }
+    set cssClass(cssClass: string) { this.writeProperty("class", cssClass) }
+    get cssClass(): string { return this.readProperty('class') }
 
-    get style(): Map<string, string> {
-        return this._style;
-    }
-
+    get style(): Map<string, string> { return this._style }
     setCssStyle(text: string): TComponent {
         if (text == null) {
             this._style.clear();
@@ -188,19 +191,19 @@ export default class TComponent {
 
     render(container: string = null) {
         if (container != null)
-            this.setContainer(container);
+            this.container = container;
 
         if (typeof document == "undefined" || document == null) {
             console.log(this.toString());
             return;
         }
 
-        let contentId = this.container ? this.container : this.getId();
+        let contentId = this._container ? this._container : this.id;
         if (!contentId) {
-            if (this.owner)
-                this.owner.render();
+            if (this._owner)
+                this._owner.render();
             else
-                console.log(`${this.getId()}.render error: container is null`);
+                console.log(`${this.id}.render error: container is null`);
             return;
         }
 
@@ -216,11 +219,11 @@ export default class TComponent {
     }
 
     private registerEvents(root: TComponent) {
-        if (!root.getVisible())
+        if (!root.visible)
             return;
-        if (root.getId()) {
-            root.events.forEach((fn, event) => {
-                let eventId = root.getId();
+        if (root.id) {
+            root._events.forEach((fn, event) => {
+                let eventId = root.id;
                 let eventCode = event;
                 let events = event.split('.');
                 if (events.length == 2) {
@@ -241,38 +244,19 @@ export default class TComponent {
     addEventListener(event: string, fn: any) {
         let uid = this.getUid();
         if (uid)
-            this.events.set(event, fn);
+            this._events.set(event, fn);
         else {
             console.log(this);
             throw new Error('this uid is null');
         }
     }
 
-    getName() {
-        return this.readProperty('name');
-    }
 
-    setName(value: string) {
-        this.writeProperty('name', value);
-        return this;
-    }
+    set container(container: string) { this._container = container }
+    get container() { return this._container }
 
-    getContainer() {
-        return this.container;
-    }
-
-    setContainer(container: string) {
-        this.container = container;
-        return this;
-    }
-
-    setVisible(value: boolean): TComponent {
-        this._visible = value;
-        return this;
-    }
-    getVisible(): boolean {
-        return this._visible;
-    }
+    set visible(value: boolean) { this._visible = value }
+    get visible(): boolean { return this._visible }
 
     getComponent(id: string, root: TComponent = null): TComponent {
         let current = root;
@@ -280,7 +264,7 @@ export default class TComponent {
             current = this;
         //先查找当前是否存在
         for (let child of current.getComponents()) {
-            if (child.getId() == id) {
+            if (child.id == id) {
                 return child;
             }
         }
@@ -297,14 +281,14 @@ export default class TComponent {
 }
 
 // let item = new TComponent();
-// item.setRootLabel('div');
-// item.setId('aaaa');
+// item.rootLabel = 'div';
+// item.id = 'aaaa';
 // item.render();
 
 
 // let child = new TComponent();
-// child.setRootLabel('child');
-// child.setOwner(item);
+// child.rootLabel = 'child';
+// child.owner = item;
 // item.render();
 
 // item.setName('abcd');

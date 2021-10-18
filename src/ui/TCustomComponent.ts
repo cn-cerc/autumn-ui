@@ -1,35 +1,44 @@
 import HtmlWriter from "./HtmlWriter";
 import TComponent from "./TComponent";
+import TText from "./TText";
 
 export default class TCustomComponent extends TComponent {
+    private _content: TText;
+    private _history: string[] = [];
 
-    public output(html: HtmlWriter) {
-        html.print(this.html().trim());
+    constructor(owner: TComponent, props: any = null) {
+        super(owner, props);
+        this._content = new TText(owner);
+    }
+
+    public beginOutput(html: HtmlWriter) {
+        this._content.text = this.html().trim();
+        //防止重复输出
+        for (let line of this._history)
+            this.cssHead.delete(line);
+        this._history = [];
         //设置全局css样式
         let css = this.css().trim();
         if (css.length > 0) {
-            let style_id = "style_" + this.getUid();
-            let style = document.getElementById(style_id);
-            if (style == undefined) {
-                style = document.createElement('style');
-                style.id = style_id;
-                let node = document.createTextNode(css);
-                style.appendChild(node);
-                document.head.appendChild(style);
-            } else {
-                style.innerHTML = css;
+            for (let line of css.split('\n')) {
+                let str = line.trim();
+                if (str) {
+                    this._history.push(str);
+                    this.cssHead.add(str);
+                }
             }
         }
+        super.beginOutput(html);
     }
 
     html(): string {
         return (
-            `<div>not create</div>`
+            `<div>content not define</div>`
         )
     }
 
     css(): string {
-        return ('')
+        return (``)
     }
 }
 

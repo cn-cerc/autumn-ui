@@ -12,7 +12,7 @@ export default class Footer extends TCustomComponent {
 
     css() {
         return (`
-div[role=footer] {color:blue}
+    div[role=footer] {color:blue}
         `)
     }
 }

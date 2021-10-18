@@ -5,33 +5,28 @@ import TDiv from "../ui/TDiv";
 import TPage from "./TPage";
 
 export default class TApplication extends TDiv implements DataBind {
-    private pageNo: number = 0;
+    private _pageNo: number = 0;
     //提供数据绑定服务
-    private bindControls: Set<DataControl> = new Set<DataControl>();
-    private bindEnabled: boolean = true;
+    private _bindControls: Set<DataControl> = new Set<DataControl>();
+    private _bindEnabled: boolean = true;
 
     constructor() {
         super(null);
-        this.setId('app');
-        this.setContainer('app');
+        this.id = 'app';
+        this.container = 'app';
     }
 
-    setTitle(value: string) {
-        document.title = value;
-        return this;
-    }
+    set title(value: string) { document.title = value }
 
-    getTitle() {
-        return document.title;
-    }
+    get title() { return document.title }
 
     addComponent(child: TComponent): TApplication {
         super.addComponent(child);
         if (child instanceof TPage) {
             child.setCssStyle('height:100vh;display:flex;flex-direction: column;');
-            child.setId("page" + this.getComponentCount());
-            if (this.pageNo != this.getPages().length - 1)
-                child.setVisible(false);
+            child.id = "page" + this.getComponentCount();
+            if (this._pageNo != this.getPages().length - 1)
+                child.visible = false;
         }
         return this;
     }
@@ -42,20 +37,17 @@ export default class TApplication extends TDiv implements DataBind {
         this.render();
     }
 
-    setPageNo(value: number): TApplication {
-        if (this.pageNo != value) {
-            if (this.pageNo > -1)
-                this.getPages()[this.pageNo].setVisible(false);
-            this.pageNo = value;
-            if (this.pageNo > -1)
-                this.getPages()[this.pageNo].setVisible(true);
+    set pageNo(value: number) {
+        if (this._pageNo != value) {
+            if (this._pageNo > -1)
+                this.getPages()[this._pageNo].visible = false;
+            this._pageNo = value;
+            if (this._pageNo > -1)
+                this.getPages()[this._pageNo].visible = true;
             this.render();
         }
-        return this;
     }
-    getPageNo(): number {
-        return this.pageNo;
-    }
+    get pageNo(): number { return this._pageNo }
 
     getPages(): TPage[] {
         let items: TPage[] = [];
@@ -70,7 +62,7 @@ export default class TApplication extends TDiv implements DataBind {
         let it = 0;
         for (let child of this.getComponents()) {
             if (child instanceof TPage) {
-                if (this.pageNo == it) {
+                if (this._pageNo == it) {
                     return child as TPage;
                 }
                 it++;
@@ -81,24 +73,20 @@ export default class TApplication extends TDiv implements DataBind {
 
     registerBind(client: DataControl, register: boolean): void {
         if (register)
-            this.bindControls.add(client);
+            this._bindControls.add(client);
         else
-            this.bindControls.delete(client);
+            this._bindControls.delete(client);
     }
     refreshBind(content: any = undefined): void {
-        if (this.bindEnabled) {
-            this.bindControls.forEach(child => {
+        if (this._bindEnabled) {
+            this._bindControls.forEach(child => {
                 child.doChange(content);
             });
         }
     }
-    setBindEnabled(value: boolean): TApplication {
-        this.bindEnabled = value;
-        return this;
-    }
-    getBindEnabled(): boolean {
-        return this.bindEnabled;
-    }
+    get bindEnabled(): boolean { return this._bindEnabled };
+    set bindEnabled(value: boolean) { this._bindEnabled = value }
+
 }
 
 export var app = new TApplication()

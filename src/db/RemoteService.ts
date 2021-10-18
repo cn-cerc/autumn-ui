@@ -1,36 +1,36 @@
-import { TComponent } from "../SummerCI";
 import DataSet from "./DataSet";
 
 export default class RemoteService {
-    owner: any = null;
-    sid: string = null;
-    host = '/services/';
-    service: string;
+    private _sid: string = null;
+    private _host = '/services/';
+    private _service: string;
     private _dataIn: DataSet;
 
-    constructor(owner: any) {
+    constructor(props: any) {
         this._dataIn = new DataSet();
-        if (owner) {
-            this.owner = owner;
-            if (owner.sid)
-                this.sid = owner.sid;
-            if (owner.host)
-                this.host = owner.host;
+        if (props) {
+            const { sid, host, service } = props;
+            if (sid)
+                this._sid = sid;
+            if (host)
+                this._host = props.host;
+            if (service)
+                this._service = props.service;
         }
     }
 
     exec(func: (dataOut: DataSet) => void): void {
-        if (!this.service) {
+        if (!this._service) {
             func.call(this, new DataSet().setMessage('service is null'));
             return;
         }
 
-        let url = this.host + this.service;
-        if (this.sid)
-            url = `${url}?sid=${this.sid}`;
+        let url = this._host + this._service;
+        if (this._sid)
+            url = `${url}?sid=${this._sid}`;
 
         fetch(url, {
-            method: 'POST', body: "dataIn=" + this.getDataIn().getJson(),
+            method: 'POST', body: "dataIn=" + this.dataIn.json,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 // "Content-Type": "multipart/form-data",
@@ -53,29 +53,15 @@ export default class RemoteService {
         });
     }
 
-    getDataIn(): DataSet {
-        return this._dataIn;
-    }
-    setDataIn(value: DataSet) {
-        this._dataIn = value;
-        return this;
-    }
+    set sid(value: string) { this._sid = value }
+    get sid(): string { return this._sid };
 
-    setHost(host: string): RemoteService {
-        this.host = host;
-        return this;
-    }
+    set dataIn(value: DataSet) { this._dataIn = value }
+    get dataIn(): DataSet { return this._dataIn }
 
-    setService(service: string): RemoteService {
-        this.service = service;
-        return this;
-    }
+    set host(host: string) { this._host = host }
+    get host(): string { return this._host };
+
+    set service(service: string) { this._service = service }
+    get service(): string { return this._service }
 }
-
-// let svr = new RemoteService();
-// svr.setHost('http://127.0.0.1/services/');
-// svr.setService('SvrExample.search');
-// svr.exec(() => {
-//     console.log(svr.getDataSet().getJson());
-//     console.log(svr.getMessage());
-// });

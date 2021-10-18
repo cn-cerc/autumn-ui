@@ -3,71 +3,71 @@ import TComponent from "../ui/TComponent";
 
 export default class TMutiPage extends TComponent {
     //每页大小
-    pageSize = 100;
+    private _pageSize = 100;
     //总记录数
-    recordCount = 0;
+    private _size = 0;
     //当前页
-    pageNo = 1;
+    private _pageNo = 1;
     //数据集
-    dataSet: DataSet;
+    private _dataSet: DataSet;
 
     constructor(owner: TComponent) {
         super(owner);
     }
 
-    getRecordCount() { return this.recordCount };
+    get size() { return this._size };
 
-    setPageSize(value: number) { this.pageSize = value; return this }
-    getPageSize() { return this.pageSize }
+    setPageSize(value: number) { this._pageSize = value; return this }
+    getPageSize() { return this._pageSize }
 
     setPageNo(value: number) {
         if (value < 1)
-            this.pageNo = 1;
+            this._pageNo = 1;
         else if (value < this.getCount())
-            this.pageNo = value;
+            this._pageNo = value;
         else
-            this.pageNo = this.getCount();
+            this._pageNo = this.getCount();
         return this;
     }
-    getPageNo() { return this.pageNo }
+    getPageNo() { return this._pageNo }
 
-    setDataSet(value: DataSet): TMutiPage {
-        this.dataSet = value;
+    set dataSet(value: DataSet) {
+        this._dataSet = value;
         if (value)
-            this.recordCount = value.getRecords().length;
-        return this;
+            this._size = value.size;
+        else
+            this._size = 0;
     }
-
-    getDataSet() { return this.dataSet }
+    get dataSet() { return this._dataSet }
 
     getBegin() {
-        return (this.pageNo - 1) * this.pageSize + 1;
+        return (this._pageNo - 1) * this._pageSize + 1;
     }
 
     getEnd() {
-        let temp = this.pageNo * this.pageSize;
-        return temp < this.recordCount ? temp : this.recordCount;
+        let temp = this._pageNo * this._pageSize;
+        return temp < this._size ? temp : this._size;
     }
 
     //总页数
     getCount() {
-        let temp = this.recordCount % this.pageSize;
-        return (this.recordCount - temp) / this.pageSize + (temp > 0 ? 1 : 0);
+        let temp = this._size % this._pageSize;
+        return (this._size - temp) / this._pageSize + (temp > 0 ? 1 : 0);
     }
 
     forEach(callback: any) {
-        if (this.dataSet == null)
+        if (this._dataSet == null)
             throw new Error("this.dataSet is null");
-            
+
         for (let i = this.getBegin(); i <= this.getEnd(); i++) {
-            this.dataSet.setRecNo(i+1);
-            callback(this.dataSet.getCurrent());
+            this._dataSet.recNo = i + 1;
+            callback(this._dataSet.getCurrent());
         }
     }
 }
 
 // let pages = new TMutiPage();
-// pages.setDataSet(new DataSet().append());
+// pages.dataSet = new DataSet().append();
 // pages.forEach(item => console.log(item));
 
 // console.log("count:" + pages.getCount());

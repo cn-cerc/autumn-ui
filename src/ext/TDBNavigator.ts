@@ -26,13 +26,8 @@ export default class TDBNavigator extends TCustomComponent {
         })
     }
 
-    setDataSet(value: DataSet): TDBNavigator {
-        this._dataSet = value;
-        return this;
-    }
-    getDataSet(): DataSet {
-        return this._dataSet;
-    }
+    set dataSet(value: DataSet) { this._dataSet = value }
+    get dataSet(): DataSet { return this._dataSet }
 
     html() {
         let uid = this.getUid();

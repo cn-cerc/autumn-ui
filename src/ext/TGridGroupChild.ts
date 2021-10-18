@@ -9,49 +9,43 @@ import TGridGroup from './TGridGroup';
 import TGridGroupMaster from './TGridGroupMaster';
 
 export default class TGridGroupChild extends TGridGroup {
-    private master: TGridGroupMaster;
+    private _master: TGridGroupMaster;
 
     constructor(owner: TComponent) {
         super(owner);
-        this.setTitleVisiable(false);
+        this.titleVisiable = false;
     }
 
     output(html: HtmlWriter) {
         let it = 0;
-        for(let child of this.getOwner().getComponents()){
-            if(child == this)
+        for (let child of this.owner.getComponents()) {
+            if (child == this)
                 break;
             it = it + 1;
         }
 
-        let text: string = "";
+        let value: string = "";
         this.forEach((child: TGridColumn) => {
-            if (child.getVisible()) {
+            if (child.visible) {
                 let value = this.getCurrent().getText(child.getCode());
                 if (value)
-                    text = text + child.getName() + ": " + value + " ";
+                    value = value + child.getName() + ": " + value + " ";
             }
         });
 
-        if (text.length > 0) {
+        if (value.length > 0) {
             let tr = new TTr();
-            tr.setId('tr' + this.getCurrent().getDataSet().getRecNo() + "_" + it);
+            tr.id = 'tr' + this.getCurrent().dataSet.recNo + "_" + it;
             tr.setCssStyle('display:none');
             let td = new TTd(tr);
-            if (this.master)
-                td.writeProperty("colspan", "" + this.master.getColumnCount());
-            new TText(td).setText(text);
+            if (this._master)
+                td.writeProperty("colspan", "" + this._master.getColumnCount());
+            new TText(td, { text: value });
             tr.output(html);
         }
     }
 
-    getMaster() {
-        return this.master;
-    }
-
-    setMaster(value: TGridGroupMaster): TGridGroupChild {
-        this.master = value;
-        return this;
-    }
+    set master(value: TGridGroupMaster) { this._master = value }
+    get master() { return this._master }
 
 }

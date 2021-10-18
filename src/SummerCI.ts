@@ -1,12 +1,11 @@
 //db
-export { default as Handle } from './db/Handle';
 export { default as DataRow } from './db/DataRow';
 export { default as DataSet } from './db/DataSet';
 export { default as SearchDataSet } from './db/SearchDataSet';
 export { default as FieldDefs } from './db/FieldDefs';
 export { default as FieldMeta } from './db/FieldMeta';
 export { default as RemoteService } from './db/RemoteService';
-export { default as ServiceQuery } from './db/ServiceQuery';
+export { default as QueryService } from './db/QueryService';
 //vcl
 export { default as HtmlWriter } from './ui/HtmlWriter';
 export { default as TComponent } from './ui/TComponent';

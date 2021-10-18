@@ -5,20 +5,20 @@ import DataSet from "./DataSet"
  * 
  */
 export default class SearchDataSet {
-	dataSet: DataSet;
-	items: Map<string, DataRow> = new Map()
-	keys: Set<string> = new Set()
-	fields: string;
+	private _dataSet: DataSet;
+	private _items: Map<string, DataRow> = new Map()
+	private _keys: Set<string> = new Set()
+	private _fields: string;
 
 	constructor(dataSet: DataSet) {
-		this.dataSet = dataSet
+		this._dataSet = dataSet
 	}
 
 	get(currentFields: string, value: any): DataRow {
 		if (!currentFields)
 			throw new Error('fields can\'t be null')
 
-		if (this.dataSet.size() == 0)
+		if (this._dataSet.size == 0)
 			return null;
 
 		let values: object[];
@@ -30,45 +30,45 @@ export default class SearchDataSet {
 		if (values.length === 0)
 			throw new Error('keys can\'t values length = 0 ')
 
-		if (this.fields !== currentFields) {
+		if (this._fields !== currentFields) {
 			this.clear()
-			this.fields = currentFields
-			for (let key of this.fields.split(';')) {
-				if (!this.dataSet.exists(key))
+			this._fields = currentFields
+			for (let key of this._fields.split(';')) {
+				if (!this._dataSet.exists(key))
 					throw new Error(`field ${key} not find !`);
-				this.keys.add(key)
+				this._keys.add(key)
 			}
 
 			// 重置索引
-			if (this.keys.size > 0) {
-				this.dataSet.first()
-				while (this.dataSet.fetch()) {
-					this.append(this.dataSet.getCurrent())
+			if (this._keys.size > 0) {
+				this._dataSet.first()
+				while (this._dataSet.fetch()) {
+					this.append(this._dataSet.getCurrent())
 				}
 			}
 		}
-		if (this.keys.size !== values.length) throw new Error('[参数名称]与[值]个数不匹配')
+		if (this._keys.size !== values.length) throw new Error('[参数名称]与[值]个数不匹配')
 
-		return this.items.get(this.buildObjectKey(values))
+		return this._items.get(this.buildObjectKey(values))
 	}
 
 	remove(record: DataRow): void {
-		this.items.delete(this.buildRecordKey(record));
+		this._items.delete(this.buildRecordKey(record));
 	}
 
 	append(record: DataRow): void {
-		this.items.set(this.buildRecordKey(record), record)
+		this._items.set(this.buildRecordKey(record), record)
 	}
 
 	clear(): void {
-		this.fields = null;
-		this.keys.clear()
-		this.items.clear()
+		this._fields = null;
+		this._keys.clear()
+		this._items.clear()
 	}
 
 	buildRecordKey(record: DataRow) {
 		let result: string[] = [];
-		this.keys.forEach((key: string) => result.push(record.getString(key) || 'null'));
+		this._keys.forEach((key: string) => result.push(record.getString(key) || 'null'));
 		return result.join(';');
 	}
 

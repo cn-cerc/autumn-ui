@@ -5,56 +5,42 @@ import TSpan from "../ui/TSpan";
 import TText from "../ui/TText";
 
 export default class TEdit extends TComponent {
-    private label: TSpan;
+    private _label: TSpan;
     private input: TInput;
-    private value: string;
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
-        this.setRootLabel('div');
-        if (this.getId() == undefined)
-            this.setId(this.getUid());
+        this.rootLabel = 'div';
+        if (this.id == undefined)
+            this.id = this.getUid();
 
-        this.label = new TSpan(this);
+        this._label = new TSpan(this);
         if (props && props.label)
-            this.label.setText(props.label);
+            this._label.text = props.label;
         else
-            this.label.setText('label:');
+            this._label.text = 'label:';
         this.input = new TInput(this);
     }
 
-    getLabel(): string {
-        return this.label.getText();
-    }
-    setLabel(label: string): TEdit {
-        this.label.setText(label);
-        return this;
-    }
+    set label(value: string) { this._label.text = value }
+    get label(): string { return this._label.text }
 
-    getDefaultValue(): string {
-        return this.input.getValue();
-    }
-    setDefaultValue(value: string): TEdit {
-        this.input.setValue(value);
-        return this;
-    }
+    set defaultValue(value: string) { this.writeProperty('value', value) }
+    get defaultValue(): string { return this.readProperty('value') }
 
-    setValue(value: string): TEdit {
-        this.getElement().value = value;
-        return this;
+    set value(value: string) {
+        let el = this.getElement()
+        if (el) el.value = value
     }
-
-    getValue(): string {
-        return this.getElement().value;
+    get value(): string {
+        let el = this.getElement();
+        return el ? el.value : null;
     }
 
     private getElement(): HTMLInputElement {
-        if (!this.getId())
-            throw new Error('this is is null');
-        let el = document.getElementById(this.getId());
-        if (!el)
-            throw new Error(`not find elementById: ${this.getId()}`);
-
+        if (!this.id) return null;
+        let el = document.getElementById(this.id);
+        if (!el) return null;
         return el.children[1] as HTMLInputElement;
     }
 

@@ -1,19 +1,19 @@
 import FieldMeta from "./FieldMeta";
 
 export default class FieldDefs {
-    fields: FieldMeta[] = [];
+    private _fields: FieldMeta[] = [];
 
     add(code: string, name: string = null): FieldMeta {
         if (this.exists(code))
             return this.get(code);
         let item = new FieldMeta(code, name);
-        this.fields.push(item);
+        this._fields.push(item);
         return item;
     }
 
     exists(code: string): boolean {
-        for (let i = 0; i < this.fields.length; i++) {
-            let meta = this.fields[i];
+        for (let i = 0; i < this._fields.length; i++) {
+            let meta = this._fields[i];
             if (meta.getCode() == code) {
                 return true;
             }
@@ -23,7 +23,7 @@ export default class FieldDefs {
 
     get(code: string): FieldMeta {
         let result = null;
-        this.fields.forEach((item) => {
+        this._fields.forEach((item) => {
             if (item.getCode() == code) {
                 result = item;
                 return;
@@ -32,27 +32,21 @@ export default class FieldDefs {
         return result;
     }
 
-    size(): number {
-        return this.fields.length;
-    }
+    get size(): number { return this._fields.length }
 
-    clear(): void {
-        this.fields = [];
-    }
+    clear(): void { this._fields = [] }
 
     forEach(fn: ((meta: FieldMeta) => void)) {
-        for (let meta of this.fields)
+        for (let meta of this._fields)
             fn.call(this, meta);
     }
 
-    getItems(): FieldMeta[] {
-        return this.fields;
-    }
+    get fields(): FieldMeta[] { return this._fields }
 
     copy(src: FieldDefs) {
-        for (let meta of src.getItems()) {
+        for (let meta of src.fields) {
             if (!this.exists(meta.getCode()))
-                this.fields.push(meta);
+                this._fields.push(meta);
         }
     }
 

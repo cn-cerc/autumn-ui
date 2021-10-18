@@ -7,7 +7,7 @@ import TDiv from "./TDiv";
 import TTabSheet from "./TTabSheet";
 
 export default class TTabControl extends TDiv implements DataControl {
-    private items: Map<TPage, TTabSheet> = new Map<TPage, TTabSheet>();
+    private _items: Map<TPage, TTabSheet> = new Map<TPage, TTabSheet>();
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
@@ -16,23 +16,24 @@ export default class TTabControl extends TDiv implements DataControl {
     }
 
     beginOutput(html: HtmlWriter) {
-        if (this.getOwner() instanceof TApplication) {
-            let app = this.getOwner() as TApplication;
+        if (this.owner instanceof TApplication) {
+            let app = this.owner as TApplication;
             if (app.getPages().length > 1) {
                 let it = 0;
                 for (let page of app.getPages()) {
-                    if (this.items.get(page) == undefined) {
-                        let span = new TTabSheet(this).setText(page.getTitle() ? page.getTitle() : page.getUid());
-                        span.setObject(it);
+                    if (this._items.get(page) == undefined) {
+                        let span = new TTabSheet(this);
+                        span.text = page.title ? page.title : page.getUid();
+                        span.data = it;
                         span.addEventListener('click', () => {
-                            app.setPageNo(span.getObject());
+                            app.pageNo = span.data;
                         })
-                        this.items.set(page, span);
+                        this._items.set(page, span);
                     }
                     it++;
                 }
             } else {
-                this.items.clear();
+                this._items.clear();
             }
         }
         super.beginOutput(html);

@@ -3,10 +3,10 @@ import FrmWelcome from "../FrmWelcome";
 import { app } from "./ext/TApplication";
 import TTabControl from "./ui/TTabControl";
 
-app.setTitle("summer-ci 应用示例")
+app.title = "summer-ci 应用示例";
 
 new TTabControl(app);
 new FrmWelcome(app);
-new FrmIndex(app).setVisible(false);
+new FrmIndex(app);
 
 app.run();

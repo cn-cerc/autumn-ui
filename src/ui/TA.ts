@@ -2,28 +2,18 @@ import TComponent from "./TComponent";
 import TText from "./TText";
 
 export default class TA extends TComponent {
-    private text: TText;
+    private _text: TText;
 
     constructor(owner: TComponent) {
         super(owner);
-        this.setRootLabel('a');
-        this.text = new TText(this);
+        this.rootLabel = 'a';
+        this._text = new TText(this);
     }
 
-    getHref(): string {
-        return this.readProperty('href');
-    }
-    setHref(value: string): TA {
-        this.writeProperty('href', value);
-        return this;
-    }
+    set href(value: string) { this.writeProperty('href', value) }
+    get href(): string { return this.readProperty('href') }
 
-    getText(): string {
-        return this.text.getText();
-    }
-    setText(value: string): TA {
-        this.text.setText(value);
-        return this;
-    }
+    set text(value: string) { this._text.text = value }
+    get text(): string { return this._text.text }
 
 }

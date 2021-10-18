@@ -2,26 +2,20 @@ import { TDiv } from "../SummerCI";
 import TComponent from "../ui/TComponent";
 
 export default class TPage extends TDiv {
-    private title: string;
+    private _title: string;
 
     constructor(owner: TComponent, props: any = null) {
         super(owner);
         if (!owner)
-            this.setContainer('page');
-        if (!this.getId())
-            this.setId('page');
+            this.container = 'page';
+        if (!this.id)
+            this.id = 'page';
         if (props && props.title) {
-            //@ts-ignore
-            this.setTitle(props.title);
+            this.title = props.title;
         }
     }
 
-    setTitle(value: string): TPage {
-        this.title = value;
-        return this;
-    }
-    getTitle(): string {
-        return this.title;
-    }
+    set title(value: string) { this._title = value }
+    get title(): string { return this._title }
 
 }

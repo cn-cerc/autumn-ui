@@ -7,21 +7,22 @@ import TTh from '../ui/TTh';
 import TTr from '../ui/TTr';
 import TGridColumn from './TGridColumn';
 
+const MaxWidth = 600;
+
 export default class TGridGroup extends TComponent {
-    MaxWidth = 600;
-    private titleVisiable: boolean = true;
-    private current: DataRow;
+    private _titleVisiable: boolean = true;
+    private _current: DataRow;
 
     constructor(owner: TComponent) {
         super(owner);
     }
 
     setCurrent(row: DataRow) {
-        this.current = row;
+        this._current = row;
     }
 
     getCurrent(): DataRow {
-        return this.current;
+        return this._current;
     }
 
     getTotalWidth() {
@@ -33,20 +34,15 @@ export default class TGridGroup extends TComponent {
         if (result < 0) {
             throw new Error("总列宽不允许小于1");
         }
-        if (result > this.MaxWidth) {
-            throw new Error(`总列宽不允许大于 ${this.MaxWidth}`);
+        if (result > MaxWidth) {
+            throw new Error(`总列宽不允许大于 ${MaxWidth}`);
         }
         return result;
     }
 
-    getTitleVisiable() {
-        return this.titleVisiable
-    }
+    get titleVisiable() { return this._titleVisiable }
 
-    setTitleVisiable(value: boolean): TGridGroup {
-        this.titleVisiable = value;
-        return this;
-    }
+    set titleVisiable(value: boolean) { this._titleVisiable = value }
 
     getColumn(columnCode: string): TGridColumn {
         for (let item of this.getComponents()) {
@@ -65,13 +61,13 @@ export default class TGridGroup extends TComponent {
     }
 
     outputOfGridTitle(html: HtmlWriter) {
-        if (!this.getTitleVisiable())
+        if (!this.titleVisiable)
             return;
         let tr = new TTr();
         for (let item of this.getComponents()) {
             if (item instanceof TGridColumn) {
                 let child = item as TGridColumn;
-                if (!child.getVisible())
+                if (!child.visible)
                     continue;
                 let th = new TTh(tr);
                 if (child.getColspan())
@@ -80,7 +76,7 @@ export default class TGridGroup extends TComponent {
                     let rate = child.getWidth() / this.getTotalWidth() * 100;
                     th.writeProperty("width", rate.toFixed(1) + "%");
                 }
-                new TText(th).setText(child.getName());
+                new TText(th, { text: child.getName() });
             }
         }
         tr.output(html);

@@ -1,34 +1,31 @@
 import DataSet from "./DataSet";
 import RemoteService from "./RemoteService";
 
-export default class ServiceQuery extends RemoteService {
-    private sql: string = "";
+export default class QueryService extends RemoteService {
+    private _sqlText: string = "";
 
     constructor(owner: any) {
         super(owner);
+        const { sqlText } = owner;
+        if (sqlText)
+            this.sqlText = sqlText;
     }
 
-    add(sql: string): ServiceQuery {
-        this.sql = this.sql.trim() + ' ' + sql.trim();
+    add(sql: string): QueryService {
+        this._sqlText = this._sqlText.trim() + ' ' + sql.trim();
         return this;
     }
 
-    getSqlText(): string {
-        return this.sql;
-    }
-    setSqlText(sql: string): ServiceQuery {
-        this.sql = sql;
-        return this;
-    }
+    get sqlText(): string { return this._sqlText }
+    set sqlText(sql: string) { this._sqlText = sql }
 
     open(fn: (dataOut: DataSet) => void) {
-        this.setService(this.findTableName(this.sql));
-        let headIn = this.getDataIn().getHead();
-        headIn.setValue("_service_filter_", this.sql);
+        this.service = this.findService(this._sqlText);
+        this.dataIn.head.setValue("_service_filter_", this._sqlText);
         this.exec(fn);
     }
 
-    findTableName(sql: string): string {
+    private findService(sql: string): string {
         let result: string = null;
         let items: string[] = sql.split(' ');
         for (let i = 0; i < items.length; i++) {

@@ -1,5 +1,3 @@
-import { assertEquals } from "../JUnit";
-import { TComponent } from "../SummerCI";
 import DataBind from "./DataBind";
 import DataControl from "./DataControl";
 import DataSet from "./DataSet";
@@ -8,53 +6,48 @@ import FieldMeta from "./FieldMeta";
 import * as RecordState from "./RecordState";
 
 export default class DataRow implements DataBind {
-    private dataSet: DataSet;
-    private fieldDefs: FieldDefs;
-    private state: number = RecordState.dsNone;
-    private items: Map<string, any> = new Map<string, any>();
-    private delta: Map<string, any> = new Map<string, any>();
+    private _dataSet: DataSet;
+    private _fieldDefs: FieldDefs;
+    private _state: number = RecordState.dsNone;
+    private _items: Map<string, any> = new Map<string, any>();
+    private _delta: Map<string, any> = new Map<string, any>();
     //提供数据绑定服务
-    private bindControls: Set<DataControl> = new Set<DataControl>();
-    private bindEnabled: boolean = true;
+    private _bindControls: Set<DataControl> = new Set<DataControl>();
+    private _bindEnabled: boolean = true;
 
     constructor(dataSet: DataSet = null) {
         if (dataSet) {
-            this.dataSet = dataSet;
-            this.fieldDefs = dataSet.getFieldDefs();
+            this._dataSet = dataSet;
+            this._fieldDefs = dataSet.fieldDefs;
         } else {
-            this.fieldDefs = new FieldDefs();
+            this._fieldDefs = new FieldDefs();
         }
     }
 
-    getState(): number {
-        return this.state;
-    }
-
-    setState(recordState: number): DataRow {
+    set state(recordState: number) {
         if (recordState == RecordState.dsEdit) {
-            if (this.state == RecordState.dsInsert) {
+            if (this._state == RecordState.dsInsert) {
                 // throw new Error("当前记录为插入状态 不允许被修改");
-                return this;
             }
         }
         if (recordState == RecordState.dsNone) {
-            this.delta.clear();
+            this._delta.clear();
         }
-        this.state = recordState;
-        return this;
+        this._state = recordState;
+    }
+    get state(): number { return this._state }
+
+    public close(): void {
+        this._items.clear();
     }
 
-    close(): void {
-        this.items.clear();
-    }
-
-    setValue(field: string, value: any): DataRow {
+    public setValue(field: string, value: any): DataRow {
         if (!field)
             throw new Error('field is null!');
 
         this.addFieldDef(field);
 
-        this.items.set(field, value);
+        this._items.set(field, value);
 
         if (this.bindEnabled)
             this.refreshBind();
@@ -62,9 +55,9 @@ export default class DataRow implements DataBind {
         return this;
     }
 
-    copyValues(source: DataRow, defs: FieldDefs = null) {
+    public copyValues(source: DataRow, defs: FieldDefs = null) {
         if (defs == null)
-            defs = source.getFieldDefs();
+            defs = source.fieldDefs;
 
         defs.forEach((meta: FieldMeta) => {
             this.setValue(meta.getCode(), source.getValue(meta.getCode()));
@@ -74,67 +67,63 @@ export default class DataRow implements DataBind {
     private addFieldDef(field: string) {
         if (field == null)
             throw new Error("field is null");
-        if (!this.fieldDefs.exists(field)) {
-            this.fieldDefs.add(field);
+        if (!this._fieldDefs.exists(field)) {
+            this._fieldDefs.add(field);
         }
     }
 
-    getValue(field: string): any {
+    public getValue(field: string): any {
         if (!field)
             throw new Error('field is null!')
-        let value = this.items.get(field);
+        let value = this._items.get(field);
         return value == undefined ? null : value;
     }
 
-    getString(field: string): string {
+    public getString(field: string): string {
         let value = this.getValue(field);
         return value ? "" + value : "";
     }
 
-    getBoolean(field: string): boolean {
+    public getBoolean(field: string): boolean {
         return this.getValue(field) ? true : false;
     }
 
-    getDouble(field: string): number {
+    public getDouble(field: string): number {
         let value = this.getString(field);
         return parseFloat(value) ? parseFloat(value) : 0;
     }
 
-    getText(field: string) {
-        let meta = this.getFieldDefs().add(field);
+    public getText(field: string) {
+        let meta = this.fieldDefs.add(field);
         if (meta.onGetText != undefined) {
             return meta.onGetText(this, meta);
         } else
             return this.getString(field);
     }
 
-    setText(field: string, value: object): DataRow {
-        let meta = this.getFieldDefs().add(field);
-        if (meta.OnSetText != undefined) {
-            this.setValue(meta.getCode(), meta.OnSetText(this, meta));
+    public setText(field: string, value: string): DataRow {
+        let meta = this.fieldDefs.add(field);
+        if (meta.onSetText != undefined) {
+            this.setValue(meta.getCode(), meta.onSetText(this, meta, value));
         } else
             this.setValue(field, value);
         return this;
     }
 
-    size(): number {
-        return this.items.size;
-    }
+    get size(): number { return this._items.size }
 
-    getDelta(): Map<string, any> {
-        return this.delta;
-    }
+    get delta(): Map<string, any> { return this._delta }
 
-    getJson(): string {
+    get json(): string {
         let obj: any = {}
-        for (let meta of this.fieldDefs.getItems()) {
+        for (let meta of this._fieldDefs.fields) {
             let key = meta.getCode();
             obj[key] = this.getValue(key);
         }
         return JSON.stringify(obj);
     }
 
-    setJson(jsonObj: string | JSON) {
+    set json(jsonObj: string | JSON) {
         if (!jsonObj) {
             throw new Error('jsonText is null!')
         }
@@ -149,51 +138,42 @@ export default class DataRow implements DataBind {
         }
     }
 
-    getFieldDefs(): FieldDefs {
-        if (this.dataSet) {
-            return this.dataSet.getFieldDefs();
+    get fieldDefs(): FieldDefs {
+        if (this._dataSet) {
+            return this._dataSet.fieldDefs;
         } else {
-            if (!this.fieldDefs)
-                this.fieldDefs = new FieldDefs();
-            return this.fieldDefs;
+            if (!this._fieldDefs)
+                this._fieldDefs = new FieldDefs();
+            return this._fieldDefs;
         }
     }
 
-    getItems(): Map<string, object> {
-        return this.items;
-    }
+    get items(): Map<string, object> { return this._items }
 
     forEach(fn: (key: string, value: any) => void) {
-        for (let meta of this.fieldDefs.getItems()) {
+        for (let meta of this._fieldDefs.fields) {
             let key = meta.getCode();
             fn.call(this, key, this.getValue(key));
         }
     }
 
-    getDataSet(): DataSet {
-        return this.dataSet;
-    }
+    get dataSet(): DataSet { return this._dataSet }
 
     registerBind(client: DataControl, register: boolean = true): void {
         if (register)
-            this.bindControls.add(client);
+            this._bindControls.add(client);
         else
-            this.bindControls.delete(client);
+            this._bindControls.delete(client);
     }
     refreshBind(content: any = undefined): void {
-        if (this.bindEnabled) {
-            this.bindControls.forEach(child => {
+        if (this._bindEnabled) {
+            this._bindControls.forEach(child => {
                 child.doChange(content);
             });
         }
     }
-    setBindEnabled(value: boolean): DataRow {
-        this.bindEnabled = value;
-        return this;
-    }
-    getBindEnabled(): boolean {
-        return this.bindEnabled;
-    }
+    get bindEnabled(): boolean { return this._bindEnabled };
+    set bindEnabled(value: boolean) { this._bindEnabled = value }
 
 }
 
@@ -202,10 +182,10 @@ export default class DataRow implements DataBind {
 // row1.setValue('name', 'jason');
 // row1.setValue("flag", false);
 
-// assertEquals(1, row1.getJson(), '{"code":"a","name":"jason","flag":false}');
+// assertEquals(1, row1.json, '{"code":"a","name":"jason","flag":false}');
 // assertEquals(2, row1.getValue('value'), null);
 // assertEquals(3, false, row1.getBoolean('flag'));
 
 // let row2 = new DataRow();
 // row2.copyValues(row1);
-// assertEquals(4, row1.getJson(), row2.getJson());
+// assertEquals(4, row1.json, row2.json);

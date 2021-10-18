@@ -5,7 +5,7 @@ export default class TLine extends TComponent {
     
     constructor(owner: TComponent) {
         super(owner);
-        this.setRootLabel('hr');
+        this.rootLabel = 'hr';
     }
 
     output(html: HtmlWriter) {

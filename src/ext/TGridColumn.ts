@@ -4,24 +4,24 @@ import TGridGroupChild from "./TGridGroupChild";
 import TGridGroupMaster from "./TGridGroupMaster";
 
 export default class TGridColumn extends TComponent {
-    private code: string;
-    private name: string;
-    private width: number = 0;
-    private align: string;
+    private _code: string;
+    private _name: string;
+    private _width: number = 0;
+    private _align: string;
     private _export = true;
 
     constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild, code: string, name: string = null) {
         super(owner);
-        this.code = code;
-        this.name = name ? name : code;
+        this._code = code;
+        this._name = name ? name : code;
     }
 
     getCode() {
-        return this.code;
+        return this._code;
     }
 
     getName() {
-        return this.name;
+        return this._name;
     }
 
     getColspan() {
@@ -34,21 +34,21 @@ export default class TGridColumn extends TComponent {
     }
 
     getWidth(): number {
-        return this.width;
+        return this._width;
     };
 
     setWidth(value: number) {
-        this.width = value;
+        this._width = value;
         return this;
     }
 
     setAlign(align: string) {
-        this.align = align;
+        this._align = align;
         return this;
     }
 
     getAlign() {
-        return this.align;
+        return this._align;
     }
 
     getExport(): boolean {

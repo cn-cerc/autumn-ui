@@ -2,22 +2,17 @@ import TComponent from "./TComponent";
 import TText from "./TText";
 
 export default class TSpan extends TComponent {
-    span: TText;
+    private _span: TText;
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
-        this.setRootLabel('span');
+        this.rootLabel = 'span';
     }
 
-    setText(text: string) {
-        if (!this.span) {
-            this.span = new TText(this);
-        }
-        this.span.setText(text);
-        return this;
+    set text(text: string) {
+        if (!this._span)
+            this._span = new TText(this);
+        this._span.text = text;
     }
-
-    getText(): string {
-        return this.span == null ? null : this.span.getText();
-    }
+    get text(): string { return this._span == null ? null : this._span.text; }
 }

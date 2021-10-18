@@ -6,7 +6,7 @@ export default interface DataBind {
 
     refreshBind(content: any): void;
 
-    setBindEnabled(value: boolean): object;
+    set bindEnabled(value: boolean);
     
-    getBindEnabled(): boolean;
+    get bindEnabled(): boolean;
 }

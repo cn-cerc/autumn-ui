@@ -12,37 +12,32 @@ export default class TDBEdit extends TEdit implements DataControl {
         super(owner, props);
     }
 
-    setDataSource(dataSet: DataSource): TDBEdit {
+    set dataSource(dataSet: DataSource) {
         if (this._dataSource)
             this._dataSource.registerBind(this, false);
         this._dataSource = dataSet;
         if (this._dataSource)
             this._dataSource.registerBind(this, true);
-        return this;
     }
-    getDataSource(): DataSource {
-        return this._dataSource;
-    }
+    get dataSource(): DataSource { return this._dataSource }
 
-    setDataField(value: string): TDBEdit {
-        this._dataField = value;
-        return this;
-    }
-    getDataField(): string {
-        return this._dataField;
-    }
+    set dataField(value: string) { this._dataField = value }
+    get dataField(): string { return this._dataField }
 
     doChange(content: any = undefined): void {
         if (this._dataSource && this._dataField) {
             let row = this._dataSource.getCurrent();
-            this.setValue(row ? row.getString(this._dataField) : '');
+            this.value = row ? row.getString(this._dataField) : '';
         }
     }
 
     beginOutput(html: HtmlWriter) {
         if (this._dataSource && this._dataField) {
-            let value = this._dataSource.getCurrent().getString(this._dataField);
-            this.setDefaultValue(value);
+            let value = '';
+            let row = this._dataSource.getCurrent();
+            if (row)
+                value = row.getString(this._dataField);
+            this.defaultValue = value;
         }
         super.beginOutput(html);
     }

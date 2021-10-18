@@ -4,25 +4,13 @@ export default class TForm extends TComponent {
 
     constructor(owner: TComponent) {
         super(owner);
-        this.setRootLabel('form');
+        this.rootLabel = 'form';
     }
 
-    setMethod(method: string) {
-        this.writeProperty('method', method);
-        return this;
-    }
+    set method(method: string) { this.writeProperty('method', method) }
+    get method(): string { return this.readProperty('method') }
 
-    getMethod(): string {
-        return this.readProperty('method');
-    }
-
-    setAction(action: string) {
-        this.writeProperty('action', action);
-        return this;
-    }
-
-    getAction(): string {
-        return this.readProperty('action');
-    }
+    set action(action: string) { this.writeProperty('action', action) }
+    get action(): string { return this.readProperty('action') }
 
 }
