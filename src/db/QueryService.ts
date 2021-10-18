@@ -4,11 +4,13 @@ import RemoteService from "./RemoteService";
 export default class QueryService extends RemoteService {
     private _sql: string = "";
 
-    constructor(owner: any) {
-        super(owner);
-        const { sql: sql } = owner;
-        if (sql)
-            this.sql = sql;
+    constructor(props: any) {
+        super(props);
+        if (props) {
+            const { sql: sql } = props;
+            if (sql)
+                this.sql = sql;
+        }
     }
 
     add(sql: string): QueryService {
