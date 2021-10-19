@@ -44,6 +44,10 @@ export default class FieldMeta {
 
     set name(value: string) { this._name = value }
     get name(): string { return this._name }
+    setName(value: string): FieldMeta {
+        this.name = value;
+        return this;
+    }
 
     set remark(value: string) { this._remark = value }
     get remark(): string { return this._remark }
