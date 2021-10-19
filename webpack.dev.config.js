@@ -13,7 +13,7 @@ module.exports = {
 		static: {
 			directory: path.join(__dirname, 'dist'),
 		},
-		port: 7000,
+		port: 80,
 	},
 	// 	devtool 取值
 	// 1 source-map ：

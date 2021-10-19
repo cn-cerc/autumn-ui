@@ -30,7 +30,7 @@ export default class RemoteService {
             url = `${url}?sid=${this._sid}`;
 
         fetch(url, {
-            method: 'POST', body: "dataIn=" + this.dataIn.json,
+            method: 'POST', body: "dataIn=" + this.dataIn.jsonString,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 // "Content-Type": "multipart/form-data",
@@ -47,8 +47,9 @@ export default class RemoteService {
                     func.call(this, new DataSet().setMessage('服务执行时间过久，请调整操作并重试'));
                 }
             }
-        }).then(function (data: string) {
-            let dataOut = new DataSet(JSON.stringify(data));
+        }).then(function (data: object) {
+            let dataOut = new DataSet();
+            dataOut.jsonString = JSON.stringify(data);
             func.call(this, dataOut);
         });
     }

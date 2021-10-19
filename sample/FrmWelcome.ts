@@ -32,12 +32,12 @@ export default class FrmWelcome extends TPage {
         };
 
         button1.addEventListener('click', () => {
-            // 须启动summer-sample项目，配合提供后台数据服务
-            let config = { sid: 'abc', host: 'http://127.0.0.1:80/services/' };
+            // 须启动autumn-db项目，配合提供后台数据服务
+            let config = { sid: 'abc', host: 'http://127.0.0.1:8080/' };
             let query = new QueryService(config);
             // 服务前置过滤
             query.dataIn.head.setValue('code_', edtSearch.value);
-            query.add("select * from SvrExample.search");
+            query.add("select code_,name_,sex_,age_,createTime_ from db.s_example");
             query.open(ds => {
                 statusBar.text = ds.message || '查询成功!';
                 if (ds.state < 1)
