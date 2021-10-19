@@ -1,6 +1,6 @@
 import DataControl from "../db/DataControl";
-import { app } from "../ext/TApplication";
-import { TApplication, TPage, TSpan } from "../SummerCI";
+import TApplication, { app } from "../ext/TApplication";
+import TPage from "../ext/TPage";
 import HtmlWriter from "./HtmlWriter";
 import TComponent from "./TComponent";
 import TDiv from "./TDiv";

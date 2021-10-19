@@ -1,4 +1,5 @@
-import { TComponent, TPage } from "../src/SummerCI";
+import TPage from "../src/ext/TPage";
+import TComponent from "../src/ui/TComponent";
 import Header from "./Header";
 
 export default class FrmIndex extends TPage {

@@ -1,3 +1,7 @@
-import * as sci from './SummerCI';
+import * as all from './Autumn-UI';
 // @ts-ignore
-window.sci = sci;
+window.aui = all;
+// Object.keys(all).forEach((key) => {
+//     // @ts-ignore
+//      window[key] = all[key]
+// })

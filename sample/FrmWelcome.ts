@@ -1,6 +1,6 @@
 import Footer from "./Footer";
 import { app } from "../src/ext/TApplication";
-import { DataSet, QueryService, TButton, TComponent, TDBEdit, TDBNavigator, TDiv, TEdit, TGrid, TPage, TPanel, TSpan, TStatusBar } from "../src/SummerCI";
+import { DataSet, QueryService, TButton, TComponent, TDBEdit, TDBNavigator, TDiv, TEdit, TGrid, TPage, TPanel, TSpan, TStatusBar } from "../src/Autumn-UI";
 
 export default class FrmWelcome extends TPage {
     private _grid: TGrid;

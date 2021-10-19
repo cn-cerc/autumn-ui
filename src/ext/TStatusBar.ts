@@ -1,4 +1,6 @@
-import { TComponent, TDiv, TSpan } from "../SummerCI"
+import TComponent from "../ui/TComponent";
+import TDiv from "../ui/TDiv";
+import TSpan from "../ui/TSpan";
 
 export default class TStatusBar extends TDiv {
     private _text: TSpan;

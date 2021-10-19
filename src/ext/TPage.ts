@@ -1,5 +1,5 @@
-import { TDiv } from "../SummerCI";
 import TComponent from "../ui/TComponent";
+import TDiv from "../ui/TDiv";
 
 export default class TPage extends TDiv {
     private _title: string;

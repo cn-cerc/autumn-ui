@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
 	entry: './sample/SummerTest.ts',
 	output: {
-		filename: './sci.js'
+		filename: './aui.js'
 	},
 	mode: 'development', // production,development,none
 	devServer: {
@@ -36,7 +36,7 @@ module.exports = {
 	plugins: [
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
-			title: 'summer-ci实例',
+			title: 'autumn-ui 实例',
 			// Load a custom template (lodash by default)
 			template: './public/index.html',
 			filename: './index.html',
