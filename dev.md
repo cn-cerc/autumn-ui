@@ -33,7 +33,7 @@ cnpm install --D clean-webpack-plugin
 cnpm run dev
 ```
 
-打包生成 aui.js，用于正式环境
+打包生成 autumn-ui.js，用于正式环境
 ```
 cnpm run build
 ```

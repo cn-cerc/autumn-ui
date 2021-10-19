@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
 	entry: './sample/SummerTest.ts',
 	output: {
-		filename: './aui.js'
+		filename: './autumn-ui.js'
 	},
 	mode: 'development', // production,development,none
 	devServer: {
