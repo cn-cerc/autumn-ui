@@ -37,7 +37,7 @@ export default class RemoteService {
             },
         }).then(function (response) {
             let contentType = response.headers.get("content-type");
-            if ("application/json;charset=utf-8" == contentType) {
+            if ("application/json;charset=utf-8".toUpperCase() == contentType.toUpperCase()) {
                 return response.json();
             } else {
                 if (response.status == 502) {
