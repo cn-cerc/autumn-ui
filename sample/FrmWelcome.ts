@@ -32,8 +32,8 @@ export default class FrmWelcome extends TPage {
         };
 
         button1.addEventListener('click', () => {
-            // 须启动autumn-db项目，配合提供后台数据服务
-            let config = { sid: 'abc', host: 'http://127.0.0.1:8080/' };
+            // 须启动autumn-db范例项目，配合提供后台数据服务
+            let config = { sid: '1234567890', host: 'http://127.0.0.1:8080/' };
             let query = new QueryService(config);
             // 服务前置过滤
             query.dataIn.head.setValue('code_', edtSearch.value);
