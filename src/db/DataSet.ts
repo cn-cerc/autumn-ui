@@ -225,9 +225,9 @@ export default class DataSet implements DataBind, DataSource {
                         if (values.length > 2)
                             meta.remark = values[2];
                         if (values.length > 1)
-                            meta.name = values[1];
+                            meta.type = values[1];
                         if (values.length > 0)
-                            meta.type = values[0];
+                            meta.name = values[0];
                         this._head.setValue(key, jsonObj.head[i]);
                         i = i + 1;
                     }
@@ -242,9 +242,9 @@ export default class DataSet implements DataBind, DataSource {
                         if (values.length > 2)
                             meta.remark = values[2];
                         if (values.length > 1)
-                            meta.name = values[1];
+                            meta.type = values[1];
                         if (values.length > 0)
-                            meta.type = values[0];
+                            meta.name = values[0];
                         fields[i] = key;
                         i = i + 1;
                     }
@@ -289,11 +289,13 @@ export default class DataSet implements DataBind, DataSource {
                 this.head.fieldDefs.forEach((meta: FieldMeta) => {
                     let item: any = {};
                     if (meta.remark) {
-                        item[meta.code] = [meta.type, meta.name, meta.remark];
+                        item[meta.code] = [meta.name, meta.type, meta.remark];
+                    } else if (meta.type) {
+                        item[meta.code] = [meta.name, meta.type];
                     } else if (meta.name) {
-                        item[meta.code] = [meta.type, meta.name];
+                        item[meta.code] = [meta.name];
                     } else {
-                        item[meta.code] = [meta.type];
+                        item[meta.code] = [];
                     }
                     head.push(item);
                 })
@@ -305,11 +307,13 @@ export default class DataSet implements DataBind, DataSource {
                 this._fieldDefs.forEach((meta: FieldMeta) => {
                     let item: any = {};
                     if (meta.remark) {
-                        item[meta.code] = [meta.type, meta.name, meta.remark];
+                        item[meta.code] = [meta.name, meta.type, meta.remark];
+                    } else if (meta.type) {
+                        item[meta.code] = [meta.name, meta.type];
                     } else if (meta.name) {
-                        item[meta.code] = [meta.type, meta.name];
+                        item[meta.code] = [meta.name];
                     } else {
-                        item[meta.code] = [meta.type];
+                        item[meta.code] = [];
                     }
                     body.push(item);
                 });
