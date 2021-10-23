@@ -1,6 +1,8 @@
 import Footer from "./Footer";
 import { app } from "../src/ext/TApplication";
 import { DataSet, QueryService, TButton, TComponent, TDBEdit, TDBNavigator, TDiv, TEdit, TGrid, TPage, TPanel, TSpan, TStatusBar } from "../src/Autumn-UI";
+import { resolve } from "../webpack.beta.config";
+import Timeout from "../src/db/Timeout";
 
 export default class FrmWelcome extends TPage {
     private _grid: TGrid;
@@ -38,11 +40,8 @@ export default class FrmWelcome extends TPage {
             // 服务前置过滤
             query.dataIn.head.setValue('code_', edtSearch.value);
             query.add("select code_,name_,sex_,age_,createTime_ from db.s_example");
-            query.open(ds => {
+            query.open().then(ds => {
                 statusBar.text = ds.message || '查询成功!';
-                if (ds.state < 1)
-                    return;
-
                 let dataOut = this._grid.dataSet;
                 this._grid.clear();
 
@@ -64,7 +63,7 @@ export default class FrmWelcome extends TPage {
                 }
                 this._grid.owner.render();
                 dataOut.first();
-            });
+            }).catch(ds => statusBar.text = ds.message);
         })
     }
 }

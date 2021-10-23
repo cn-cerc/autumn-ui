@@ -20,16 +20,19 @@ export default class RemoteService {
     }
 
     exec(func: (dataOut: DataSet) => void): void {
-        if (!this._service) {
-            func.call(this, new DataSet().setMessage('service is null'));
-            return;
-        }
+        this.getPromise().then(dataOut => func.call(this, dataOut)).catch(dataOut => func.call(this, dataOut))
+    }
+
+
+    getPromise(): Promise<DataSet> {
+        if (!this._service)
+            return new DataSet().setMessage('service is null').getPromise();
 
         let url = this._host + this._service;
         if (this._sid)
             url = `${url}?sid=${this._sid}`;
 
-        fetch(url, {
+        return fetch(url, {
             method: 'POST', body: "dataIn=" + this.dataIn.jsonString,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -40,18 +43,13 @@ export default class RemoteService {
             if ("application/json;charset=utf-8".toUpperCase() == contentType.toUpperCase()) {
                 return response.json();
             } else {
-                if (response.status == 502) {
-                    func.call(this, new DataSet().setMessage(response.statusText));
-                } else {
-                    console.log(response);
-                    func.call(this, new DataSet().setMessage('服务执行时间过久，请调整操作并重试'));
-                }
+                return new DataSet().setMessage(response.statusText).getPromise();
             }
-        }).then(function (data: object) {
+        }).then((json) => {
             let dataOut = new DataSet();
-            dataOut.jsonString = JSON.stringify(data);
-            func.call(this, dataOut);
-        });
+            dataOut.jsonString = JSON.stringify(json);
+            return dataOut.getPromise();
+        })
     }
 
     set sid(value: string) { this._sid = value }

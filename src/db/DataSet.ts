@@ -372,7 +372,10 @@ export default class DataSet implements DataBind, DataSource {
 
     set state(state: number) { this._state = state }
     get state(): number { return this._state }
-
+    setState(state: number): DataSet {
+        this._state = state;
+        return this;
+    }
 
     set message(message: string) { this._message = message }
     get message(): string { return this._message }
@@ -432,6 +435,15 @@ export default class DataSet implements DataBind, DataSource {
     }
     get bindEnabled(): boolean { return this._bindEnabled };
     set bindEnabled(value: boolean) { this._bindEnabled = value }
+
+    getPromise(): Promise<DataSet> {
+        return new Promise<DataSet>((resolve, reject) => {
+            if (this.state > 0)
+                resolve(this);
+            else
+                reject(this)
+        });
+    }
 
 }
 

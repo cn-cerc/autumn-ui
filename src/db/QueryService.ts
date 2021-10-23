@@ -1,5 +1,6 @@
 import DataSet from "./DataSet";
 import RemoteService from "./RemoteService";
+import Timeout from "./Timeout";
 
 export default class QueryService extends RemoteService {
     private _sql: string = "";
@@ -21,10 +22,11 @@ export default class QueryService extends RemoteService {
     get sql(): string { return this._sql }
     set sql(sql: string) { this._sql = sql }
 
-    open(fn: (dataOut: DataSet) => void) {
-        this.service = this.findService(this._sql);
+    open(timeout: number = 10000): Promise<DataSet> {
+        if (this._sql) 
+            this.service = this.findService(this._sql);
         this.dataIn.head.setValue("_RecordFilter_", this._sql);
-        this.exec(fn);
+        return Promise.race([this.getPromise(), new Timeout(timeout).getPromise()]);
     }
 
     private findService(sql: string): string {
