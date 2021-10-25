@@ -140,6 +140,7 @@ export default class TGrid extends TTable implements DataControl {
                     let column = item as TGridColumn;
                     if (column.getExport()) {
                         let value = this._dataSet.getText(column.getCode());
+                        value = value.replace(/\r|\n|\\s/g, "");
                         str += value.replace(/,/g, "，") + ",";
                     }
                 });

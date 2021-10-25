@@ -27,9 +27,9 @@ export default class TGridGroupChild extends TGridGroup {
         let value: string = "";
         this.forEach((child: TGridColumn) => {
             if (child.visible) {
-                let value = this.getCurrent().getText(child.getCode());
-                if (value)
-                    value = value + child.getName() + ": " + value + " ";
+                let text = this.getCurrent().getText(child.getCode());
+                if (text)
+                    value = value + child.getName() + ": " + text + " ";
             }
         });
 
