@@ -6,4 +6,7 @@
 ## 后台配合
 autumn-services
 
-
+## 变更日志
+1.0.0: 初次上传
+1.0.1: 修正readme错误
+1.1.0: 在TGridGroupChild上增加onOutput事件
