@@ -1,3 +1,4 @@
+import KeyValue from '../db/KeyValue';
 import HtmlWriter from '../ui/HtmlWriter';
 import TComponent from '../ui/TComponent';
 import TTd from '../ui/TTd';
@@ -10,7 +11,7 @@ import TGridGroupMaster from './TGridGroupMaster';
 
 export default class TGridGroupChild extends TGridGroup {
     private _master: TGridGroupMaster;
-    private _onOutput: (child: TGridGroupChild) => void;
+    private _onOutput: (child: TGridGroupChild, display: KeyValue) => void;
 
     constructor(owner: TComponent) {
         super(owner);
@@ -19,8 +20,9 @@ export default class TGridGroupChild extends TGridGroup {
     }
 
     output(html: HtmlWriter) {
+        let display = new KeyValue(this.visible);
         if (this._onOutput) {
-            this._onOutput(this);
+            this._onOutput(this, display);
         }
 
         let it = 0;
@@ -42,7 +44,7 @@ export default class TGridGroupChild extends TGridGroup {
         if (value.length > 0) {
             let tr = new TTr();
             tr.id = 'tr' + this.getCurrent().dataSet.recNo + "_" + it;
-            if (!this.visible)
+            if (!display.asBoolean())
                 tr.setCssStyle('display:none');
             let td = new TTd(tr);
             if (this._master)
@@ -55,7 +57,7 @@ export default class TGridGroupChild extends TGridGroup {
     set master(value: TGridGroupMaster) { this._master = value }
     get master() { return this._master }
 
-    set onOutput(value: (child: TGridGroupChild) => void) { this._onOutput = value }
-    get onOutput(): (child: TGridGroupChild) => void { return this._onOutput }
+    set onOutput(value: (child: TGridGroupChild, display: KeyValue) => void) { this._onOutput = value }
+    get onOutput(): (child: TGridGroupChild, display: KeyValue) => void { return this._onOutput }
 
 }
