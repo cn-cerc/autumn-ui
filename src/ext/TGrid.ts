@@ -148,7 +148,7 @@ export default class TGrid extends TTable implements DataControl {
             str += '\n';
         }
 
-        let blob = new Blob([str], { type: "text/plain;charset=utf-8" });
+        let blob = new Blob([str], { type: "data:text/csv;charset=utf-8" });
         //解决中文乱码问题
         blob = new Blob([String.fromCharCode(0xFEFF), blob], { type: blob.type });
         let object_url = window.URL.createObjectURL(blob);
