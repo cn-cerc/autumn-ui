@@ -12,7 +12,7 @@ export default class TComponent {
     private _style: Map<string, string> = new Map<string, string>();
     private _visible: boolean = true;
     private _props: any = {};
-    private _cssHead: Set<string> = new Set<string>();
+    private _cssHead: string[] = [];
 
     constructor(owner: TComponent, props: any = null) {
         this.owner = owner;
@@ -109,10 +109,10 @@ export default class TComponent {
 
     //输出到 head.style
     cssOutput() {
-        if (this.cssHead.size == 0)
+        if (this.cssHead.length == 0)
             return;
         let css = '';
-        for (let line of Array.from(this._cssHead.values())) {
+        for (let line of this._cssHead) {
             if (css) css += '\n';
             css += line.trim();
         }
@@ -165,7 +165,7 @@ export default class TComponent {
         return uid;
     }
 
-    get cssHead(): Set<string> { return this._cssHead };
+    get cssHead(): string[] { return this._cssHead };
 
     set cssClass(cssClass: string) { this.writeProperty("class", cssClass) }
     get cssClass(): string { return this.readProperty('class') }

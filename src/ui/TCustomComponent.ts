@@ -13,18 +13,15 @@ export default class TCustomComponent extends TComponent {
 
     beginOutput(html: HtmlWriter) {
         this._content.text = this.html().trim();
-        //防止重复输出
-        for (let line of this._history)
-            this.cssHead.delete(line);
         this._history = [];
         //设置全局css样式
         let css = this.css().trim();
-        if (css.length > 0) {
+        if (css.length > 0 && this._history.length == 0) {
             for (let line of css.split('\n')) {
                 let str = line.trim();
                 if (str) {
                     this._history.push(str);
-                    this.cssHead.add(str);
+                    this.cssHead.push(str);
                 }
             }
         }
