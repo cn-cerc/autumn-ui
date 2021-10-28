@@ -8,7 +8,7 @@ export default class TCustomComponent extends TComponent {
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
-        this._content = new TText(owner);
+        this._content = new TText(this);
     }
 
     beginOutput(html: HtmlWriter) {
