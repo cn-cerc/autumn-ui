@@ -12,7 +12,7 @@ export default class Header extends React.Component<PropsType> {
 
     render() {
         return (
-        <div role="header">${this.props.title}</div>
+            <div role="header">{this.props.title}</div>
         )
     }
 }
