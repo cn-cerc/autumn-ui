@@ -16,12 +16,19 @@ export default class TGridColumn extends TComponent {
         this._name = name ? name : code;
     }
 
+    get code(): string { return this._code }
     getCode() {
         return this._code;
     }
 
+    set name(value: string) { this._name = value }
     getName() {
         return this._name;
+    }
+
+    get colSpan(): number{
+        let result = this.readProperty("colspan");
+        return result ? Number.parseInt(result) : 1;
     }
 
     getColspan() {

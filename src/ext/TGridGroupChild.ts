@@ -3,7 +3,6 @@ import HtmlWriter from '../ui/HtmlWriter';
 import TComponent from '../ui/TComponent';
 import TTd from '../ui/TTd';
 import TText from '../ui/TText';
-import TTh from '../ui/TTh';
 import TTr from '../ui/TTr';
 import TGridColumn from './TGridColumn';
 import TGridGroup from './TGridGroup';

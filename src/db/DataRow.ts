@@ -80,6 +80,18 @@ export default class DataRow implements DataBind {
         return value == undefined ? null : value;
     }
 
+    getNumber(field: string): number {
+        let value = this.getValue(field);
+        if (typeof value == 'number') {
+            return value;
+        } else if (value instanceof Number) {
+            let tmp: Number = value;
+            return tmp.valueOf();
+        }
+        else
+            Number.parseFloat("" + value);
+    }
+
     getString(field: string): string {
         let value = this.getValue(field);
         return value ? "" + value : "";

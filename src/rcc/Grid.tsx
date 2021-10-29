@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { DataRow } from '../Autumn-UI';
+import { DataRow, TGridGroupChild, TGridGroupMaster } from '../Autumn-UI';
 import DataSet from '../db/DataSet';
 import FieldMeta from '../db/FieldMeta';
+import KeyValue from '../db/KeyValue';
 
 type PropType = {
     dataSet: DataSet;
+    master: TGridGroupMaster;
+    child: TGridGroupChild;
 };
 
 export default class Grid extends React.Component<PropType> {
@@ -13,39 +16,67 @@ export default class Grid extends React.Component<PropType> {
         super(props)
     }
 
-    getTitle(item: FieldMeta): React.ReactNode {
-        return <th key={item.code}>{item.name ? item.name : item.code}</th>
+    getTitles(): any[] {
+        let items: any[] = [];
+        for (let column of this.props.master.columns)
+            items.push(<th key={column.code}>{column.name ? column.name : column.code}</th>);
+        return items;
     }
 
     getRows(): any[] {
         let items: any[] = [];
         let ds = this.props.dataSet;
         ds.first();
-        while (ds.fetch())
-            items.push(this.getRow(ds.getCurrent()));
+        while (ds.fetch()) {
+            this.props.master.current = ds.getCurrent();
+            items.push(this.getMasterRow(ds.getCurrent()));
+            if (this.props.child != null) {
+                this.props.child.current = ds.getCurrent();
+                items.push(this.getChildRow(ds.getCurrent()));
+            }
+        }
         return items;
     }
 
-    getRow(row: DataRow) {
+    getMasterRow(row: DataRow) {
+        let key = "master_" + row.dataSet.recNo;
         let items: any[] = [];
-        for (let meta of this.props.dataSet.fieldDefs.fields)
-            items.push(this.getColumn(row, meta));
-        return <tr>{items}</tr>;
+        for (let column of this.props.master.columns) {
+            if (column.visible) {
+                let value = row.getText(column.code);
+                items.push(<td key={column.code}>{value}</td>);
+            }
+        }
+        return <tr key={key}>{items}</tr>;
     }
 
-    getColumn(row: DataRow, meta: FieldMeta) {
-        let value = row.getText(meta.code);
-        return <td>{value}</td>
+    getChildRow(row: DataRow) {
+        let key = "child_" + row.dataSet.recNo;
+        let items: any[] = [];
+        for (let column of this.props.child.columns) {
+            if (column.visible) {
+                let value = row.getText(column.code);
+                let colSpan = this.props.master.getColumnCount();
+                items.push(<td key={column.code} colSpan={colSpan}>{value}</td>);
+            }
+        }
+        let child = this.props.child;
+        let display = new KeyValue(child.visible);
+        if (child.onOutput)
+            child.onOutput(child, display);
+        if (display.asBoolean())
+            return <tr key={key}>{items}</tr>;
+        else
+            return <tr key={key} style={{ display: 'none' }}>{items}</tr>;
     }
 
     render() {
+        if (this.props.child)
+            this.props.child.master = this.props.master;
         return (
-            <table style={{ width: '100%', border: '2px solid #444;' }}>
+            <table style={{ width: '100%', border: '2px solid #444' }}>
                 <tbody>
-                    <tr>{this.props.dataSet.fieldDefs.fields.map(item => {
-                        return this.getTitle(item);
-                    })}
-                    </tr>
+                    <tr>{this.getTitles().map(item => item)}</tr>
                     {this.getRows().map(item => item)}
                 </tbody>
             </table >

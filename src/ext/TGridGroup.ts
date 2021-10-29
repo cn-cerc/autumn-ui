@@ -17,10 +17,12 @@ export default class TGridGroup extends TComponent {
         super(owner);
     }
 
+    set current(value: DataRow) { this._current = value }
+    get current(): DataRow { return this._current }
+
     setCurrent(row: DataRow) {
         this._current = row;
     }
-
     getCurrent(): DataRow {
         return this._current;
     }
@@ -43,6 +45,19 @@ export default class TGridGroup extends TComponent {
     get titleVisiable() { return this._titleVisiable }
 
     set titleVisiable(value: boolean) { this._titleVisiable = value }
+
+    get columns(): TGridColumn[] {
+        let items: TGridColumn[] = [];
+        for (let item of this.getComponents()) {
+            if (item instanceof TGridColumn)
+                items.push(item as TGridColumn);
+        }
+        return items;
+    }
+
+    getColumnCount(): number {
+        return this.columns.length;
+    }
 
     getColumn(columnCode: string): TGridColumn {
         for (let item of this.getComponents()) {

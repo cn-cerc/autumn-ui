@@ -35,15 +35,4 @@ export default class TGridGroupMaster extends TGridGroup {
             tr.output(html);
     }
 
-    getColumnCount(): number {
-        let count = 0;
-        for (let item of this.getComponents()) {
-            if (item instanceof TGridColumn) {
-                let child = item as TGridColumn;
-                count = count + 1;
-            }
-        }
-        return count;
-    }
-
 }
