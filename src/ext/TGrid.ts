@@ -5,7 +5,6 @@ import TTable from '../ui/TTable';
 import TGridColumn from './TGridColumn';
 import TComponent from '../ui/TComponent';
 import HtmlWriter from '../ui/HtmlWriter';
-import { assertEquals } from '../JUnit';
 import DataSet from '../db/DataSet';
 import FieldDefs from '../db/FieldDefs';
 import DataControl from '../db/DataControl';
