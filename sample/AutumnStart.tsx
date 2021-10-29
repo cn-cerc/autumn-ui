@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import FrmGridTest from "./FrmGridTest";
+import FrmIndex from "./FrmIndex";
 
-ReactDOM.render(<FrmGridTest/>, document.getElementById('app'));
+ReactDOM.render(<FrmIndex title={'hello'}/>, document.getElementById('app'));
