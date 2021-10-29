@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import FrmIndex from "./FrmIndex";
+import FrmWelcome from "./FrmWelcome";
 
-ReactDOM.render(<FrmIndex title={'hello'}/>, document.getElementById('app'));
+ReactDOM.render(<FrmWelcome/>, document.getElementById('app'));

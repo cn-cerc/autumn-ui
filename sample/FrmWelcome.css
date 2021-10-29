@@ -1,0 +1,17 @@
+#id {
+    background-color: aqua;
+    height: 1.5rem
+}
+
+#box {
+    height: 5rem;
+    background-color: rgb(200, 200, 200);
+}
+
+#auto {
+    flex:1
+}
+
+Grid {
+    flex:1
+}

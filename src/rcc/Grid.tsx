@@ -22,8 +22,10 @@ export default class Grid extends React.Component<PropsType> {
 
     getTitles(): any[] {
         let items: any[] = [];
-        for (let column of this.props.master.columns)
-            items.push(<th key={column.code}>{column.name ? column.name : column.code}</th>);
+        if (this.props.master != null) {
+            for (let column of this.props.master.columns)
+                items.push(<th key={column.code}>{column.name ? column.name : column.code}</th>);
+        }
         return items;
     }
 

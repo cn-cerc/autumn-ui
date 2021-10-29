@@ -12,7 +12,7 @@ export default class FrmIndex extends React.Component<PropsType> {
     }
 
     render() {
-        return <Header title='首页'> </Header>
+        return <Header title='首页'/>
     }
 
 }

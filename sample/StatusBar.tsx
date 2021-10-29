@@ -10,10 +10,9 @@ export default class StatusBar extends React.Component<PropsType> {
         super(props)
     }
 
-
     render() {
         return (
-            <div role="statusBar">${this.props.message}</div>
+            <div role="statusBar">{this.props.message}</div>
         )
     }
 }
