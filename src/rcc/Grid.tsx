@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { DataRow, TGridGroupChild, TGridGroupMaster } from '../Autumn-UI';
 import DataSet from '../db/DataSet';
-import FieldMeta from '../db/FieldMeta';
 import KeyValue from '../db/KeyValue';
 
 type PropType = {
