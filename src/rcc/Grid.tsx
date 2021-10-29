@@ -3,15 +3,20 @@ import { DataRow, TGridGroupChild, TGridGroupMaster } from '../Autumn-UI';
 import DataSet from '../db/DataSet';
 import KeyValue from '../db/KeyValue';
 
-type PropType = {
+const defaultProps = {
+    id: ''
+}
+
+type PropsType = {
     dataSet: DataSet;
     master: TGridGroupMaster;
-    child: TGridGroupChild;
-};
+    child?: TGridGroupChild;
+} & Partial<typeof defaultProps>;
 
-export default class Grid extends React.Component<PropType> {
+export default class Grid extends React.Component<PropsType> {
+    static defaultProps = defaultProps;
 
-    constructor(props: PropType) {
+    constructor(props: PropsType) {
         super(props)
     }
 
