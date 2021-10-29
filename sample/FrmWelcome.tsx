@@ -5,13 +5,20 @@ import EditText from "./EditText";
 import DBNavigator from "./DBNavigator";
 import StatusBar from "./StatusBar";
 import Footer from "./Footer";
-import "./FrmWelcome.css";
+import SearchTextBox from "./SearchTextBox";
+// import "./FrmWelcome.css";
 
 type StateType = {
     statusBar: string;
     dataSet: DataSet;
     master?: TGridGroupMaster;
     child?: TGridGroupChild;
+}
+
+const boxStyle = {
+    height: '5em',
+    backgroundColor: 'aqua',
+    padding: '0.5rem'
 }
 
 export default class FrmWelcome extends React.Component<any, StateType> {
@@ -34,6 +41,10 @@ export default class FrmWelcome extends React.Component<any, StateType> {
     }
     get searchValue() {
         return this._searchValue;
+    }
+
+    onSearchClick = (value: string) => {
+        alert("onSearchClick: " + value);
     }
 
     buttonClick() {
@@ -70,18 +81,25 @@ export default class FrmWelcome extends React.Component<any, StateType> {
         return (
             <div>
                 <div>
-                    <span id="msg"> 欢迎使用sci前端框架! </span>
+                    <span id="msg"> 欢迎使用 autumn-ui 前端框架! </span>
                 </div>
-                < div id="box" >
-                    <EditText label="搜索条件：" />
-                    <button value='查询' />
-                    <div id="auto">
-                        <Grid id="grid" dataSet={this.state.dataSet} master={this.state.master} />
-                        <DBNavigator dataSet={this.state.dataSet} />
-                    </div>
+                < div id="box" style={boxStyle}>
+                    <SearchTextBox label="搜索条件：" onChanged={this.onSearchClick} />
                 </div>
+                {this.getGrid()}
                 <StatusBar message={this.state.statusBar} />
                 <Footer year='2021' corpName='深圳市华软资讯科技有限公司' />
+            </div>
+        )
+    }
+
+    getGrid() {
+        if (this.state.dataSet.size == 0)
+            return null;
+        return (
+            <div id="auto">
+                <Grid id="grid" dataSet={this.state.dataSet} master={this.state.master} />
+                <DBNavigator dataSet={this.state.dataSet} />
             </div>
         )
     }
