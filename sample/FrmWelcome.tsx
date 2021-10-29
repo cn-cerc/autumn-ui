@@ -5,6 +5,7 @@ import EditText from "./EditText";
 import DBNavigator from "./DBNavigator";
 import StatusBar from "./StatusBar";
 import Footer from "./Footer";
+import "./FrmWelcome.css";
 
 type StateType = {
     statusBar: string;

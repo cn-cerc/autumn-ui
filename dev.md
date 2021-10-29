@@ -27,6 +27,7 @@ cnpm install --D clean-webpack-plugin
 cnpm install --D typescript ts-loader
 cnpm install -D react react-dom
 cnpm install -D @types/react @types/react-dom @babel/preset-react
+cnpm install -D css-loader style-loader
 ```
 
 二、打包
