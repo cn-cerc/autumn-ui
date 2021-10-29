@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './sample/SummerTest.ts',
+	entry: './sample/AutumnStart.tsx',
 	output: {
 		filename: './autumn-ui.js'
 	},
