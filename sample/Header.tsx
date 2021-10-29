@@ -11,8 +11,8 @@ export default class Header extends React.Component<PropsType> {
     }
 
     render() {
-        return (`
+        return (
         <div role="header">${this.props.title}</div>
-        `)
+        )
     }
 }
