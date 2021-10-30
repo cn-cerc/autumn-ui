@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from "react";
-import EditText from "./EditText";
+import DBEdit from "./DBEdit";
 
 type PropsType = {
     label: string;

@@ -1,7 +1,7 @@
 import { DataRow, DataSet, QueryService, TButton, TComponent, TDBEdit, TDBNavigator, TDiv, TEdit, TGrid, TGridColumn, TGridGroupChild, TGridGroupMaster, TPage, TPanel, TSpan, TStatusBar } from "../src/Autumn-UI";
 import React from "react";
 import Grid from "../src/rcc/Grid";
-import EditText from "./EditText";
+import DBEdit from "./DBEdit";
 import DBNavigator from "./DBNavigator";
 import StatusBar from "./StatusBar";
 import Footer from "./Footer";
@@ -14,6 +14,7 @@ type StateType = {
     dataSet: DataSet;
     master?: TGridGroupMaster;
     child?: TGridGroupChild;
+    current?: DataRow;
 }
 
 const boxStyle = {
@@ -55,7 +56,10 @@ export default class FrmWelcome extends React.Component<any, StateType> {
             let master = new TGridGroupMaster(null);
             for (let meta of dataOut.fieldDefs.fields)
                 new TGridColumn(master, meta.code, meta.name);
-            this.setState({ ...this.state, statusBar: dataOut.message || '查询成功!', dataSet: dataOut, master: master });
+            this.setState({
+                ...this.state, statusBar: dataOut.message || '查询成功!',
+                dataSet: dataOut, master: master, current: dataOut.getCurrent()
+            });
         }).catch(ds => {
             this.setState({ ...this.state, statusBar: ds.message })
         })
@@ -81,11 +85,15 @@ export default class FrmWelcome extends React.Component<any, StateType> {
         return (
             <div id="auto">
                 <Grid id="grid" dataSet={this.state.dataSet} master={this.state.master} />
-                <DBNavigator dataSet={this.state.dataSet} />
-                <EditText label="工号：" ></EditText>
-                <EditText label="姓名：" ></EditText>
+                <DBNavigator dataSet={this.state.dataSet} onNavigator={this.onNavigator} />
+                <DBEdit dataSource={this.state.current} dataField="code_" label="工号：" ></DBEdit>
+                <DBEdit dataSource={this.state.current} dataField="name_" label="姓名：" ></DBEdit>
             </div>
         )
+    }
+
+    onNavigator = (row: DataRow) => {
+        this.setState({ ...this.state, current: row });
     }
 
     deleteRecord = (code: string) => {

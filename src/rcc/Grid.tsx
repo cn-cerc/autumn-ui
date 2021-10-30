@@ -7,6 +7,27 @@ const defaultProps = {
     id: ''
 }
 
+const GridStyle = {
+    cellspacing: '1',
+    borderSpacing: '0px',
+    width: '100%', border: '2px solid #444'
+}
+
+const tableStyle = {
+    border: '1px solid green'
+}
+
+const tdStyle = {
+    border: '1px solid green'
+}
+
+const thStyle = {
+    border: '1px solid green',
+    backgroundColor: 'green',
+    color: 'white'
+}
+
+
 type PropsType = {
     dataSet: DataSet;
     master: TGridGroupMaster;
@@ -25,7 +46,7 @@ export default class Grid extends React.Component<PropsType> {
         if (this.props.master != null) {
             for (let column of this.props.master.columns) {
                 let title = column.name ? column.name : column.code;
-                items.push(<th key={column.code}>{title}</th>);
+                items.push(<th style={thStyle} key={column.code}>{title}</th>);
             }
         }
         return items;
@@ -52,7 +73,7 @@ export default class Grid extends React.Component<PropsType> {
         for (let column of this.props.master.columns) {
             if (column.visible) {
                 let value = row.getText(column.code);
-                items.push(<td key={column.code}>{value}</td>);
+                items.push(<td style={tdStyle} key={column.code}>{value}</td>);
             }
         }
         return <tr key={key}>{items}</tr>;
@@ -82,7 +103,7 @@ export default class Grid extends React.Component<PropsType> {
         if (this.props.child)
             this.props.child.master = this.props.master;
         return (
-            <table style={{ width: '100%', border: '2px solid #444' }}>
+            <table style={tableStyle}>
                 <tbody>
                     <tr>{this.getTitles().map(item => item)}</tr>
                     {this.getRows().map(item => item)}

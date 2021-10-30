@@ -2,11 +2,12 @@ import { assertEquals } from "../JUnit";
 import DataBind from "./DataBind";
 import DataControl from "./DataControl";
 import DataSet from "./DataSet";
+import DataSource from "./DataSource";
 import FieldDefs from "./FieldDefs";
 import FieldMeta from "./FieldMeta";
 import { RecordState } from "./RecordState";
 
-export default class DataRow implements DataBind {
+export default class DataRow implements DataBind, DataSource {
     private _dataSet: DataSet;
     private _fieldDefs: FieldDefs;
     private _state: number = RecordState.dsNone;
@@ -199,6 +200,9 @@ export default class DataRow implements DataBind {
     get bindEnabled(): boolean { return this._bindEnabled };
     set bindEnabled(value: boolean) { this._bindEnabled = value }
 
+    getCurrent(): DataRow {
+        return this;
+    }
 }
 
 // let row1 = new DataRow();
