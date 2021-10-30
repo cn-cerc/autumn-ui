@@ -7,6 +7,8 @@ import StatusBar from "./StatusBar";
 import Footer from "./Footer";
 import SearchTextBox from "./SearchTextBox";
 import Header from "./Header";
+import MenuPath from "./MenuPath";
+import KeyValue from "../src/db/KeyValue";
 
 type stateType = {
     statusBar: string;
@@ -87,9 +89,13 @@ export default class FrmWelcome extends React.Component<any, stateType> {
     }
 
     render() {
+        let menus: KeyValue[] = [];
+        menus.push(new KeyValue('欢迎').setKey('welcome'))
+        menus.push(new KeyValue('首页').setKey('index'))
         return (
             <div>
                 <Header title='欢迎使用 autumn-ui 前端框架! ' />
+                <MenuPath menus={menus} />
                 < div id="box" style={boxStyle}>
                     <SearchTextBox label="搜索条件：" onChanged={this.onSearchClick} />
                 </div>
