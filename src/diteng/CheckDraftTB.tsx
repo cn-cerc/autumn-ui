@@ -4,7 +4,6 @@ import { QueryService } from "../Autumn-UI";
 
 type propsType = {
     token: string;
-    service: string;
 }
 
 type stateType = {
