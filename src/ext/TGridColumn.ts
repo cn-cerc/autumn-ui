@@ -21,7 +21,7 @@ export default class TGridColumn extends TComponent {
         return this._code;
     }
 
-    set name(value: string) { this._name = value }
+    get name() { return this._name}
     getName() {
         return this._name;
     }
