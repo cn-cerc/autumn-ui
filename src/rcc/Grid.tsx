@@ -3,28 +3,53 @@ import { DataRow, TGridGroupChild, TGridGroupMaster } from '../Autumn-UI';
 import DataSet from '../db/DataSet';
 import KeyValue from '../db/KeyValue';
 
-type PropType = {
+const defaultProps = {
+    id: ''
+}
+
+type PropsType = {
     dataSet: DataSet;
     master: TGridGroupMaster;
-    child: TGridGroupChild;
-};
+    child?: TGridGroupChild;
+} & Partial<typeof defaultProps>;
 
-export default class Grid extends React.Component<PropType> {
+const tableStyle = {
+    border: '1px solid green',
+    width: '100%'
+}
 
-    constructor(props: PropType) {
+const tdStyle = {
+    border: '1px solid green'
+}
+
+const thStyle = {
+    border: '1px solid green',
+    backgroundColor: 'green',
+    color: 'white'
+}
+
+export default class Grid extends React.Component<PropsType> {
+    static defaultProps = defaultProps;
+
+    constructor(props: PropsType) {
         super(props)
     }
 
     getTitles(): any[] {
         let items: any[] = [];
-        for (let column of this.props.master.columns)
-            items.push(<th key={column.code}>{column.name ? column.name : column.code}</th>);
+        if (this.props.master != null) {
+            for (let column of this.props.master.columns) {
+                let title = column.name ? column.name : column.code;
+                items.push(<th style={thStyle} key={column.code}>{title}</th>);
+            }
+        }
         return items;
     }
 
     getRows(): any[] {
         let items: any[] = [];
         let ds = this.props.dataSet;
+        let recNo = ds.recNo;
         ds.first();
         while (ds.fetch()) {
             this.props.master.current = ds.getCurrent();
@@ -34,6 +59,7 @@ export default class Grid extends React.Component<PropType> {
                 items.push(this.getChildRow(ds.getCurrent()));
             }
         }
+        ds.recNo = recNo;
         return items;
     }
 
@@ -42,8 +68,12 @@ export default class Grid extends React.Component<PropType> {
         let items: any[] = [];
         for (let column of this.props.master.columns) {
             if (column.visible) {
-                let value = row.getText(column.code);
-                items.push(<td key={column.code}>{value}</td>);
+                if (column.onRender) {
+                    items.push(<td style={tdStyle} key={column.code}>{column.onRender(column, row)}</td>);
+                } else {
+                    let value = row.getText(column.code);
+                    items.push(<td style={tdStyle} key={column.code}>{value}</td>);
+                }
             }
         }
         return <tr key={key}>{items}</tr>;
@@ -73,7 +103,7 @@ export default class Grid extends React.Component<PropType> {
         if (this.props.child)
             this.props.child.master = this.props.master;
         return (
-            <table style={{ width: '100%', border: '2px solid #444' }}>
+            <table style={tableStyle}>
                 <tbody>
                     <tr>{this.getTitles().map(item => item)}</tr>
                     {this.getRows().map(item => item)}

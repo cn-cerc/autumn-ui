@@ -1,3 +1,4 @@
+import DataRow from "../db/DataRow";
 import TComponent from "../ui/TComponent";
 import TGrid from "./TGrid";
 import TGridGroupChild from "./TGridGroupChild";
@@ -9,6 +10,7 @@ export default class TGridColumn extends TComponent {
     private _width: number = 0;
     private _align: string;
     private _export = true;
+    public onRender: (column: TGridColumn, row: DataRow) => any;
 
     constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild, code: string, name: string = null) {
         super(owner);
@@ -21,12 +23,12 @@ export default class TGridColumn extends TComponent {
         return this._code;
     }
 
-    set name(value: string) { this._name = value }
+    get name() { return this._name }
     getName() {
         return this._name;
     }
 
-    get colSpan(): number{
+    get colSpan(): number {
         let result = this.readProperty("colspan");
         return result ? Number.parseInt(result) : 1;
     }
