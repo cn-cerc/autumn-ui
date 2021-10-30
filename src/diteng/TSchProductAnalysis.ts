@@ -7,7 +7,6 @@ import { Loading, showMsg } from "./Summer";
 
 /**
  * 页面查询 sessionStorage
- * @type {string}
  */
 const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
 const loading = new Loading('系统正在查询中 . . .');
