@@ -1,5 +1,4 @@
-import React, { MouseEventHandler } from "react";
-import DBEdit from "./DBEdit";
+import React from "react";
 
 type PropsType = {
     label: string;

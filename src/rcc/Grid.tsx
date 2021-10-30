@@ -14,7 +14,8 @@ type PropsType = {
 } & Partial<typeof defaultProps>;
 
 const tableStyle = {
-    border: '1px solid green'
+    border: '1px solid green',
+    width: '100%'
 }
 
 const tdStyle = {

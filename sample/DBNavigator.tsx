@@ -8,6 +8,10 @@ type PropsType = {
     onNavigator?: (row: DataRow) => void;
 }
 
+const divStyle = {
+    padding: '0.25rem'
+}
+
 export default class DBNavigator extends React.Component<PropsType> {
 
     constructor(props: PropsType) {
@@ -16,7 +20,7 @@ export default class DBNavigator extends React.Component<PropsType> {
 
     render() {
         return (
-            <div className='DBNavigator'>
+            <div style={divStyle}>
                 <button id='first' onClick={this.onClick}>第一笔</button>
                 <button id='prior' onClick={this.onClick}>上笔</button>
                 <button id='next' onClick={this.onClick}>下笔</button>

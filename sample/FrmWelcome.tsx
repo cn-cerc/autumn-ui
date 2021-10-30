@@ -7,9 +7,8 @@ import StatusBar from "./StatusBar";
 import Footer from "./Footer";
 import SearchTextBox from "./SearchTextBox";
 import Header from "./Header";
-// import "./FrmWelcome.css";
 
-type StateType = {
+type stateType = {
     statusBar: string;
     dataSet: DataSet;
     master?: TGridGroupMaster;
@@ -17,12 +16,12 @@ type StateType = {
 }
 
 const boxStyle = {
-    height: '5em',
+    // height: '3em',
     backgroundColor: 'gainsboro',
     padding: '0.5rem'
 }
 
-export default class FrmWelcome extends React.Component<any, StateType> {
+export default class FrmWelcome extends React.Component<any, stateType> {
     private _searchValue: string;
 
     constructor(props: any) {
@@ -47,12 +46,12 @@ export default class FrmWelcome extends React.Component<any, StateType> {
         query.add("select code_,name_,sex_,age_,createTime_ from SvrExample.search");
         query.open().then(dataOut => {
             let master = new TGridGroupMaster(null);
-            let colCode = new TGridColumn(master, 'code_', '工号');
-            colCode.onRender = (column: TGridColumn, row: DataRow) => {
+            let colName = new TGridColumn(master, "name_", "姓名");
+            colName.onRender = (column: TGridColumn, row: DataRow) => {
                 let value = "#" + row.dataSet.recNo;
-                return <a href={value} onClick={this.onCodeClick}>{row.getString(column.code)}</a>
+                return <a href={value} onClick={this.onCodeClick}>{row.getString('name_')}</a>
             }
-            new TGridColumn(master, "name_", "姓名");
+
             new TGridColumn(master, "sex_", "性别");
             new TGridColumn(master, "age_", "年龄");
             new TGridColumn(master, "createTime_", "创建日期");
@@ -107,9 +106,11 @@ export default class FrmWelcome extends React.Component<any, StateType> {
         return (
             <div id="auto">
                 <Grid id="grid" dataSet={this.state.dataSet} master={this.state.master} />
-                <DBNavigator dataSet={this.state.dataSet} onNavigator={this.onNavigator} />
-                <DBEdit dataSource={this.state.dataSet} dataField="code_" label="工号：" updateRow={this.updateDataSet} ></DBEdit>
-                <DBEdit dataSource={this.state.dataSet} dataField="name_" label="姓名：" updateRow={this.updateDataSet} ></DBEdit>
+                <div style={{ backgroundColor: 'cyan', padding: '0.5rem' }}>
+                    <DBNavigator dataSet={this.state.dataSet} onNavigator={this.onNavigator} />
+                    <DBEdit dataSource={this.state.dataSet} dataField="code_" label="工号：" updateRow={this.updateDataSet} ></DBEdit>
+                    <DBEdit dataSource={this.state.dataSet} dataField="name_" label="姓名：" updateRow={this.updateDataSet} ></DBEdit>
+                </div>
             </div>
         )
     }
