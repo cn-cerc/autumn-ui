@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import KeyValue from "../src/db/KeyValue";
+import KeyValue from "../db/KeyValue";
 
 type propsType = {
     menus: KeyValue[];

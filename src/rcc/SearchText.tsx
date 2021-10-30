@@ -10,7 +10,7 @@ type StateType = {
     value: string;
 }
 
-export default class SearchTextBox extends React.Component<PropsType, StateType> {
+export default class SearchText extends React.Component<PropsType, StateType> {
 
     constructor(props: PropsType) {
         super(props);

@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from "react";
-import DataRow from "../src/db/DataRow";
-import DataSet from "../src/db/DataSet";
+import DataRow from "../db/DataRow";
+import DataSet from "../db/DataSet";
 // import "./DBNavigator.css";
 
 type PropsType = {

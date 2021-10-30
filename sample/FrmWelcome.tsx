@@ -1,14 +1,14 @@
 import { DataRow, DataSet, QueryService, TButton, TComponent, TDBEdit, TDBNavigator, TDiv, TEdit, TGrid, TGridColumn, TGridGroupChild, TGridGroupMaster, TPage, TPanel, TSpan, TStatusBar } from "../src/Autumn-UI";
 import React from "react";
 import Grid from "../src/rcc/Grid";
-import DBEdit from "./DBEdit";
-import DBNavigator from "./DBNavigator";
-import StatusBar from "./StatusBar";
-import Footer from "./Footer";
-import SearchTextBox from "./SearchTextBox";
-import Header from "./Header";
-import MenuPath from "./MenuPath";
+import DBEdit from "../src/rcc/DBEdit";
+import StatusBar from "../src/rcc/StatusBar";
+import Footer from "../src/rcc/Footer";
+import SearchText from "../src/rcc/SearchText";
+import Header from "../src/rcc/Header";
+import MenuPath from "../src/rcc/MenuPath";
 import KeyValue from "../src/db/KeyValue";
+import DBNavigator from "../src/rcc/DBNavigator";
 
 type stateType = {
     statusBar: string;
@@ -97,7 +97,7 @@ export default class FrmWelcome extends React.Component<any, stateType> {
                 <Header title='欢迎使用 autumn-ui 前端框架! ' />
                 <MenuPath menus={menus} />
                 < div id="box" style={boxStyle}>
-                    <SearchTextBox label="搜索条件：" onChanged={this.onSearchClick} />
+                    <SearchText label="搜索条件：" onChanged={this.onSearchClick} />
                 </div>
                 {this.getGrid()}
                 <StatusBar message={this.state.statusBar} />

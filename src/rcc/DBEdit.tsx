@@ -1,5 +1,5 @@
 import React from "react";
-import DataSource from "../src/db/DataSource";
+import DataSource from "../db/DataSource";
 
 type PropsType = {
     dataSource: DataSource;
