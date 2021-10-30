@@ -5,6 +5,7 @@ type PropsType = {
     dataSource: DataSource;
     dataField: string;
     label: string;
+    updateRow: () => void;
 }
 
 export default class DBEdit extends React.Component<PropsType> {
@@ -16,6 +17,8 @@ export default class DBEdit extends React.Component<PropsType> {
     onChange = (el: any) => {
         let row = this.props.dataSource.getCurrent();
         row.setValue(this.props.dataField, el.target.value);
+        if (this.props.updateRow)
+            this.props.updateRow();
     }
 
     render() {

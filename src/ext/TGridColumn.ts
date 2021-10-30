@@ -10,7 +10,7 @@ export default class TGridColumn extends TComponent {
     private _width: number = 0;
     private _align: string;
     private _export = true;
-    public onRender: (sender: TGridColumn, row: DataRow) => any;
+    public onRender: (column: TGridColumn, row: DataRow) => any;
 
     constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild, code: string, name: string = null) {
         super(owner);

@@ -47,10 +47,19 @@ export default class FrmWelcome extends React.Component<any, StateType> {
         query.add("select code_,name_,sex_,age_,createTime_ from SvrExample.search");
         query.open().then(dataOut => {
             let master = new TGridGroupMaster(null);
-            for (let meta of dataOut.fieldDefs.fields)
-                new TGridColumn(master, meta.code, meta.name);
+            let colCode = new TGridColumn(master, 'code_', '工号');
+            colCode.onRender = (column: TGridColumn, row: DataRow) => {
+                let value = "#" + row.dataSet.recNo;
+                return <a href={value} onClick={this.onCodeClick}>{row.getString(column.code)}</a>
+            }
+            new TGridColumn(master, "name_", "姓名");
+            new TGridColumn(master, "sex_", "性别");
+            new TGridColumn(master, "age_", "年龄");
+            new TGridColumn(master, "createTime_", "创建日期");
             let opera = new TGridColumn(master, 'opera', '操作');
-            opera.onRender = this.getOperaRender;
+            opera.onRender = (column: TGridColumn, row: DataRow) => {
+                return <button id={"" + row.dataSet.recNo} onClick={this.onDeleteRow}>删除</button>
+            }
             this.setState({
                 ...this.state, statusBar: dataOut.message || '查询成功!',
                 dataSet: dataOut, master: master
@@ -60,20 +69,22 @@ export default class FrmWelcome extends React.Component<any, StateType> {
         })
     }
 
-    getOperaRender = (sender: TGridColumn, row: DataRow) => {
-        let recNo = "" + row.dataSet.recNo;
-        return <button id={recNo} onClick={this.onDeleteRow}>删除</button>
+    onCodeClick = (el: any) => {
+        let value: string = el.target.hash;
+        let recNo = Number.parseInt(value.substr(1, value.length - 1));
+        this.state.dataSet.recNo = recNo;
+        this.setState(this.state);
     }
 
     onDeleteRow = (el: any) => {
         let recNo = Number.parseInt(el.target.id);
         this.state.dataSet.recNo = recNo;
         this.state.dataSet.delete();
-        this.setState({ ...this.state, dataSet: this.state.dataSet });
+        this.setState(this.state);
     }
 
     onNavigator = (row: DataRow) => {
-        this.setState({ ...this.state, dataSet: this.state.dataSet });
+        this.setState(this.state);
     }
 
     render() {
@@ -97,10 +108,13 @@ export default class FrmWelcome extends React.Component<any, StateType> {
             <div id="auto">
                 <Grid id="grid" dataSet={this.state.dataSet} master={this.state.master} />
                 <DBNavigator dataSet={this.state.dataSet} onNavigator={this.onNavigator} />
-                <DBEdit dataSource={this.state.dataSet} dataField="code_" label="工号：" ></DBEdit>
-                <DBEdit dataSource={this.state.dataSet} dataField="name_" label="姓名：" ></DBEdit>
+                <DBEdit dataSource={this.state.dataSet} dataField="code_" label="工号：" updateRow={this.updateDataSet} ></DBEdit>
+                <DBEdit dataSource={this.state.dataSet} dataField="name_" label="姓名：" updateRow={this.updateDataSet} ></DBEdit>
             </div>
         )
     }
 
+    updateDataSet = () => {
+        this.setState(this.state);
+    }
 }
