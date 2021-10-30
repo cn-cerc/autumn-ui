@@ -4,6 +4,11 @@ type PropsType = {
     title: string;
 }
 
+const headerStyle = {
+    textAlign: 'center',
+    padding: '0.5rem'
+}
+
 export default class Header extends React.Component<PropsType> {
 
     constructor(props: PropsType) {
@@ -12,7 +17,7 @@ export default class Header extends React.Component<PropsType> {
 
     render() {
         return (
-            <div role="header">{this.props.title}</div>
+            <div style={headerStyle} role="header">{this.props.title}</div>
         )
     }
 }

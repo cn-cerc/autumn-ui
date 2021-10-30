@@ -4,6 +4,10 @@ type PropsType = {
     message: string;
 }
 
+const StatusBarStyle = {
+    padding: '0.5rem'
+}
+
 export default class StatusBar extends React.Component<PropsType> {
 
     constructor(props: PropsType) {
@@ -12,7 +16,7 @@ export default class StatusBar extends React.Component<PropsType> {
 
     render() {
         return (
-            <div role="statusBar">{this.props.message}</div>
+            <div style={StatusBarStyle} role="statusBar">{this.props.message}</div>
         )
     }
 }

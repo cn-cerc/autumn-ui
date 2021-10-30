@@ -6,6 +6,7 @@ import DBNavigator from "./DBNavigator";
 import StatusBar from "./StatusBar";
 import Footer from "./Footer";
 import SearchTextBox from "./SearchTextBox";
+import Header from "./Header";
 // import "./FrmWelcome.css";
 
 type StateType = {
@@ -17,7 +18,7 @@ type StateType = {
 
 const boxStyle = {
     height: '5em',
-    backgroundColor: 'aqua',
+    backgroundColor: 'gainsboro',
     padding: '0.5rem'
 }
 
@@ -45,7 +46,6 @@ export default class FrmWelcome extends React.Component<any, StateType> {
         // query.add("select code_,name_,sex_,age_,createTime_ from db.s_example");
         query.add("select code_,name_,sex_,age_,createTime_ from SvrExample.search");
         query.open().then(dataOut => {
-            console.log(dataOut);
             let opera = dataOut.fieldDefs.add('opera');
             opera.name = '操作';
             opera.onGetText = (row, meta) => {
@@ -57,7 +57,6 @@ export default class FrmWelcome extends React.Component<any, StateType> {
                 new TGridColumn(master, meta.code, meta.name);
             this.setState({ ...this.state, statusBar: dataOut.message || '查询成功!', dataSet: dataOut, master: master });
         }).catch(ds => {
-            console.log(ds.jsonString)
             this.setState({ ...this.state, statusBar: ds.message })
         })
     }
@@ -65,9 +64,7 @@ export default class FrmWelcome extends React.Component<any, StateType> {
     render() {
         return (
             <div>
-                <div>
-                    <span id="msg"> 欢迎使用 autumn-ui 前端框架! </span>
-                </div>
+                <Header title='欢迎使用 autumn-ui 前端框架! ' />
                 < div id="box" style={boxStyle}>
                     <SearchTextBox label="搜索条件：" onChanged={this.onSearchClick} />
                 </div>
