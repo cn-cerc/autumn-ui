@@ -7,11 +7,11 @@ const defaultProps = {
     id: ''
 }
 
-const GridStyle = {
-    cellspacing: '1',
-    borderSpacing: '0px',
-    width: '100%', border: '2px solid #444'
-}
+type PropsType = {
+    dataSet: DataSet;
+    master: TGridGroupMaster;
+    child?: TGridGroupChild;
+} & Partial<typeof defaultProps>;
 
 const tableStyle = {
     border: '1px solid green'
@@ -26,13 +26,6 @@ const thStyle = {
     backgroundColor: 'green',
     color: 'white'
 }
-
-
-type PropsType = {
-    dataSet: DataSet;
-    master: TGridGroupMaster;
-    child?: TGridGroupChild;
-} & Partial<typeof defaultProps>;
 
 export default class Grid extends React.Component<PropsType> {
     static defaultProps = defaultProps;
@@ -55,6 +48,7 @@ export default class Grid extends React.Component<PropsType> {
     getRows(): any[] {
         let items: any[] = [];
         let ds = this.props.dataSet;
+        let recNo = ds.recNo;
         ds.first();
         while (ds.fetch()) {
             this.props.master.current = ds.getCurrent();
@@ -64,6 +58,7 @@ export default class Grid extends React.Component<PropsType> {
                 items.push(this.getChildRow(ds.getCurrent()));
             }
         }
+        ds.recNo = recNo;
         return items;
     }
 
@@ -72,8 +67,12 @@ export default class Grid extends React.Component<PropsType> {
         let items: any[] = [];
         for (let column of this.props.master.columns) {
             if (column.visible) {
-                let value = row.getText(column.code);
-                items.push(<td style={tdStyle} key={column.code}>{value}</td>);
+                if (column.onRender) {
+                    items.push(<td style={tdStyle} key={column.code}>{column.onRender(column, row)}</td>);
+                } else {
+                    let value = row.getText(column.code);
+                    items.push(<td style={tdStyle} key={column.code}>{value}</td>);
+                }
             }
         }
         return <tr key={key}>{items}</tr>;

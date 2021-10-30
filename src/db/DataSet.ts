@@ -49,8 +49,14 @@ export default class DataSet implements DataBind, DataSource {
     delete(): void {
         let row = this.getCurrent();
         if (row) {
-            this.recNo = this.recNo - 1;
-            this._records.splice(this.recNo, 1);
+            let cur = this.recNo;
+            this._records.splice(this.recNo - 1, 1);
+            if (cur > this.size && this.size > 0)
+                cur = this.size;
+            else if (this.size == 0)
+                cur = 0;
+
+            this.recNo = cur;
             this.refreshBind({ size: true });
         }
     }

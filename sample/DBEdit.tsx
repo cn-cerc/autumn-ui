@@ -22,7 +22,10 @@ export default class DBEdit extends React.Component<PropsType> {
         let ds = this.props.dataSource;
         if (!ds)
             return null;
-        let value = this.props.dataSource.getCurrent().getString(this.props.dataField);
+        let row = this.props.dataSource.getCurrent();
+        let value = "";
+        if (row)
+            value = row.getString(this.props.dataField);
         return (
             <div>{this.props.label}
                 <input type="input" value={value} onChange={this.onChange} />

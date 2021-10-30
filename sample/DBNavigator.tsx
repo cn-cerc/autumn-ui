@@ -26,6 +26,7 @@ export default class DBNavigator extends React.Component<PropsType> {
     }
 
     onClick = (el: any) => {
+        console.log(this.props.dataSet.recNo);
         switch (el.target.id) {
             case 'first':
                 this.props.dataSet.first();
@@ -42,6 +43,8 @@ export default class DBNavigator extends React.Component<PropsType> {
             default:
                 alert('error');
         }
+        console.log(this.props.dataSet.recNo);
+        
         let row = this.props.dataSet.getCurrent();
         if (this.props.onNavigator && row != null)
             this.props.onNavigator(row);
