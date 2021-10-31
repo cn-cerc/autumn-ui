@@ -6,7 +6,7 @@ import TPage from "../ext/TPage";
 import { Loading, showMsg } from "./Summer";
 
 /**
- * 页面查询 sessionStorage
+ * 单品销售分析，vcl版本，已作废
  */
 const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
 const loading = new Loading('系统正在查询中 . . .');

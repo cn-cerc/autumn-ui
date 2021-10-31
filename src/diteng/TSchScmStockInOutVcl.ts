@@ -9,7 +9,7 @@ import TA from "../ui/TA";
 import { Loading, showMsg } from "./Summer";
 
 /**
- * 页面查询 sessionStorage
+ * 进出库查询，vcl版本，已作废
  */
 const SEARCH_SESSION_KEY = 'TSchScmStockInOut:search';
 const loading = new Loading('系统正在查询中 . . .');
