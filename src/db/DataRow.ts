@@ -92,6 +92,8 @@ export default class DataRow implements DataBind, DataSource {
         else
             Number.parseFloat("" + value);
     }
+    getInt(field: string): number { return this.getNumber(field) }
+    getDouble(field: string): number { return this.getNumber(field) }
 
     getString(field: string): string {
         let value = this.getValue(field);
@@ -100,11 +102,6 @@ export default class DataRow implements DataBind, DataSource {
 
     getBoolean(field: string): boolean {
         return this.getValue(field) ? true : false;
-    }
-
-    getDouble(field: string): number {
-        let value = this.getString(field);
-        return parseFloat(value) ? parseFloat(value) : 0;
     }
 
     getText(field: string) {

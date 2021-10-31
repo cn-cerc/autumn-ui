@@ -34,7 +34,7 @@ export default class TApplication extends TDiv implements DataBind {
     run() {
         document.body.style.margin = '0';
         document.body.style.padding = '0';
-        this.render();
+        this.repaint();
     }
 
     set pageNo(value: number) {
@@ -44,7 +44,7 @@ export default class TApplication extends TDiv implements DataBind {
             this._pageNo = value;
             if (this._pageNo > -1)
                 this.getPages()[this._pageNo].visible = true;
-            this.render();
+            this.repaint();
         }
     }
     get pageNo(): number { return this._pageNo }

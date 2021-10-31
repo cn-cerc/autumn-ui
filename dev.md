@@ -23,10 +23,11 @@ cnpm i -D html-webpack-plugin
 ### 4、安装ts开发依赖
 
 ```
-cnpm install --D clean-webpack-plugin
-cnpm install --D typescript ts-loader
-cnpm install -D react react-dom
-cnpm install -D @types/react @types/react-dom @babel/preset-react
+cnpm i --D clean-webpack-plugin
+cnpm i --D typescript ts-loader
+cnpm i -D react react-dom
+cnpm i -D @types/react @types/react-dom @babel/preset-react
+cnpm i -D  @types/jquery
 ```
 
 二、打包

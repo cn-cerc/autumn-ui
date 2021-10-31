@@ -1,18 +1,18 @@
 import React from "react";
 
-type PropsType = {
+type propsType = {
     label: string;
     defaultValue?: string;
     onChanged?: (value: string) => void;
 }
 
-type StateType = {
+type stateType = {
     value: string;
 }
 
-export default class SearchText extends React.Component<PropsType, StateType> {
+export default class SearchText extends React.Component<propsType, stateType> {
 
-    constructor(props: PropsType) {
+    constructor(props: propsType) {
         super(props);
         this.state = {
             value: props.defaultValue ? props.defaultValue : ""
