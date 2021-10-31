@@ -142,6 +142,7 @@ export default class DataSet implements DataBind, DataSource {
         }
         return this._head;
     }
+    getHead(): DataRow { return this.head }
 
     get records(): DataRow[] {
         return this._records;
