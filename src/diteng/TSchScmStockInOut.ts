@@ -35,122 +35,8 @@ export default class TSchScmStockInOut extends TPage {
             let tbNo = row.getValue("TBNo_");
             let it = row.getValue("It_");
             let tb = tbNo.slice(0, 2);
-            let url;
-            switch (tb) {
-                case "DA":
-                case "DE":
-                case "AB":
-                case "BG":
-                case "BC":
-                case "OD":
-                case "OC":
-                case "OE":
-                case "AG":
-                case "AI":
-                case "AE":
-                case "AL":
-                case "AH":
-                case "BR":
-                case "SP":
-                case "CC":
-                case "MK":
-                case "AD":
-                case "BA":
-                case "PY":
-                case "MR":
-                case "BE":
-                case "SN":
-                    url = `TFrmTran${tb}.modify`;
-                    break;
-
-                case "AC":
-                    url = "TFrmAccBook.modify";
-                    break;
-
-                case "AP":
-                case "AR":
-                case "RA":
-                case "RB":
-                case "PA":
-                case "PB":
-                case "FY":
-                case "BM":
-                    url = `TFrmPaid${tb}.modify`;
-                    break;
-
-                case "AA":
-                    url = "TFrmTranAB.modify";
-                    break;
-
-                case "CD":
-                    url = "TFrmPartSupply.modify";
-                    break;
-
-                case "CE":
-                    url = "TFrmProcDepute.modify";
-                    break;
-
-                case "MB":
-                    url = "TFrmPurPlan.modifyPur";
-                    break;
-
-                case "OP":
-                    url = "TFrmBOMDayProduce.modify";
-                    break;
-
-                case "OM":
-                    url = "TFrmBOM.modify";
-                    break;
-
-                case "SD":
-                    url = "FrmStepDepute.modify";
-                    break;
-                case "SA":
-                    url = "FrmTranSA.modify";
-                    break;
-                case "XJ":
-                    url = "FrmTranXJ.modify";
-                    break;
-                case "AF":
-                    url = "FrmWareTranAF.modify";
-                    break;
-                case "BD":
-                    url = "FrmWareTranBD.modify";
-                    break;
-                case "BF":
-                    url = "FrmWareTranBF.modify";
-                    break;
-                case "AJ":
-                    url = "FrmWareTranAJ.modify";
-                    break;
-                case "AK":
-                    url = "FrmSecondmentApply.modify";
-                    break;
-                case "BP":
-                    url = "FrmSecondmentReview.modify";
-                    break;
-                case "AO":
-                    url = "FrmTranAO.modify";
-                    break;
-                case "BO":
-                    url = "FrmTranBO.modify";
-                    break;
-                case "BI":
-                    url = "FrmTranBI.modify";
-                    break;
-                case "WP":
-                    url = "FrmNewWorkPiece.modify";
-                    break;
-                case "FB":
-                    url = "FrmWareTranFB.modify";
-                    break;
-                case "DC":
-                    url = "FrmWareTranDC.modify";
-                    break;
-                default:
-                    url = "";
-                    break;
-            }
+            let url = getTBUrl(tb);
+            
             return `<a href='${url}?tbNo=${tbNo}' target="_blank"'>${tbNo}</a>` + '-' + it;
         }
         this.dataSet.fieldDefs.add("DescSpec").onGetText = function (row, meta) {
@@ -423,13 +309,134 @@ export default class TSchScmStockInOut extends TPage {
 
 }
 
-//@ts-ignore
-// window.expendSwitch = (recNo: any) => {
-//     let el = document.getElementById(`tr${recNo}_1`);
-//     let style = el.style;
-//     let value = style.getPropertyValue('display');
-//     if (value == "none")
-//         style.removeProperty('display');
-//     else
-//         style.setProperty('display', 'none');
-// }
+
+function getTBUrl(tb: string) {
+    let url = '';
+    switch (tb) {
+        case "DA":
+        case "DE":
+        case "AB":
+        case "BG":
+        case "BC":
+        case "OD":
+        case "OC":
+        case "OE":
+        case "AG":
+        case "AI":
+        case "AE":
+        case "AL":
+        case "AH":
+        case "BR":
+        case "SP":
+        case "CC":
+        case "MK":
+        case "AD":
+        case "BA":
+        case "PY":
+        case "MR":
+        case "BE":
+        case "SN":
+            url = `TFrmTran${tb}.modify`;
+            break;
+
+        case "AC":
+            url = "TFrmAccBook.modify";
+            break;
+
+        case "AP":
+        case "AR":
+        case "RA":
+        case "RB":
+        case "PA":
+        case "PB":
+        case "FY":
+        case "BM":
+            url = `TFrmPaid${tb}.modify`;
+            break;
+
+        case "AA":
+            url = "TFrmTranAB.modify";
+            break;
+
+        case "CD":
+            url = "TFrmPartSupply.modify";
+            break;
+
+        case "CE":
+            url = "TFrmProcDepute.modify";
+            break;
+
+        case "MB":
+            url = "TFrmPurPlan.modifyPur";
+            break;
+
+        case "OP":
+            url = "TFrmBOMDayProduce.modify";
+            break;
+
+        case "OM":
+            url = "TFrmBOM.modify";
+            break;
+
+        case "SD":
+            url = "FrmStepDepute.modify";
+            break;
+        case "SA":
+            url = "FrmTranSA.modify";
+            break;
+        case "XJ":
+            url = "FrmTranXJ.modify";
+            break;
+        case "AF":
+            url = "FrmWareTranAF.modify";
+            break;
+        case "BD":
+            url = "FrmWareTranBD.modify";
+            break;
+        case "BF":
+            url = "FrmWareTranBF.modify";
+            break;
+        case "AJ":
+            url = "FrmWareTranAJ.modify";
+            break;
+        case "AK":
+            url = "FrmSecondmentApply.modify";
+            break;
+        case "BP":
+            url = "FrmSecondmentReview.modify";
+            break;
+        case "AO":
+            url = "FrmTranAO.modify";
+            break;
+        case "BO":
+            url = "FrmTranBO.modify";
+            break;
+        case "BI":
+            url = "FrmTranBI.modify";
+            break;
+        case "WP":
+            url = "FrmNewWorkPiece.modify";
+            break;
+        case "FB":
+            url = "FrmWareTranFB.modify";
+            break;
+        case "DC":
+            url = "FrmWareTranDC.modify";
+            break;
+        default:
+            url = "";
+            break;
+    }
+    return url;
+}
+
+// @ts-ignore
+window.expendSwitch = (recNo: any) => {
+    let el = document.getElementById(`tr${recNo}_1`);
+    let style = el.style;
+    let value = style.getPropertyValue('display');
+    if (value == "none")
+        style.removeProperty('display');
+    else
+        style.setProperty('display', 'none');
+}
