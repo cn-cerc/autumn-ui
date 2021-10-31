@@ -46,8 +46,36 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         }
 
         this.dataSet = new DataSet();
-        this.initFields(this.dataSet.fieldDefs);
+        let columns = this.dataSet.fieldDefs;
+        // 导出专用
+        columns.add("DescSpecExcel").onGetText = function (row, meta) {
+            let desc = row.getValue("Desc_");
+            let spec = row.getValue("Spec_");
+            return desc + (spec != '' ? ('，' + spec) : "");
+        }
+        columns.add("ProfitRate_").onGetText = function (row, meta) {
+            let profitRate = row.getDouble(meta.code);
+            return profitRate ? profitRate + "%" : "";
+        }
 
+        // 处理特殊导出栏位
+        let items = new Map<string, string>();
+        items.set('0', "普通");
+        items.set('1', "新品");
+        items.set('2', "热销");
+        items.set('3', "特价");
+        items.set('4', "经典");
+        columns.add("SalesStatus_").onGetText = function (row, meta) {
+            let salesStatus = row.getString("SalesStatus_");
+            if (salesStatus == '')
+                salesStatus = '0';
+            return items.get(salesStatus);
+        }
+
+        columns.add("LowerShelf_").onGetText = function (row, meta) {
+            return row.getBoolean('LowerShelf_') ? '已下架' : '未下架';
+        }
+        
         let master = new TGridGroupMaster(null);
         // 页面显示数据源
         new TGridColumn(master, "sn_", "序").setWidth(3).setAlign("center");
@@ -138,6 +166,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         loading.show();
         loading.hideTime = 300;
         this.dataSet.close();
+        this.setState({ ...this.state, dataSet: this.dataSet })
 
         // 构建请求数据
         let svr = new QueryService(this.props);
@@ -217,37 +246,6 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             this.async = false;
             this.setState({ ...this.state, dataSet: this.dataSet })
         })
-    }
-
-    initFields(columns: FieldDefs) {
-        // 导出专用
-        columns.add("DescSpecExcel").onGetText = function (row, meta) {
-            let desc = row.getValue("Desc_");
-            let spec = row.getValue("Spec_");
-            return desc + (spec != '' ? ('，' + spec) : "");
-        }
-        columns.add("ProfitRate_").onGetText = function (row, meta) {
-            let profitRate = row.getDouble(meta.code);
-            return profitRate ? profitRate + "%" : "";
-        }
-
-        // 处理特殊导出栏位
-        let items = new Map<string, string>();
-        items.set('0', "普通");
-        items.set('1', "新品");
-        items.set('2', "热销");
-        items.set('3', "特价");
-        items.set('4', "经典");
-        columns.add("SalesStatus_").onGetText = function (row, meta) {
-            let salesStatus = row.getString("SalesStatus_");
-            if (salesStatus == '')
-                salesStatus = '0';
-            return items.get(salesStatus);
-        }
-
-        columns.add("LowerShelf_").onGetText = function (row, meta) {
-            return row.getBoolean('LowerShelf_') ? '已下架' : '未下架';
-        }
     }
 
     render() {
