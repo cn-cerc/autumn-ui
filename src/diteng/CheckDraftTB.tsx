@@ -35,12 +35,12 @@ export default class CheckDraftTB extends React.Component<propsType, stateType> 
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <span>草稿单据</span>
                 <span onClick={this.onClick} className="unread">
                     {this.state.value}
                 </span>
-            </div>
+            </React.Fragment>
         )
     }
 }
