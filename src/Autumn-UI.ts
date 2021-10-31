@@ -40,4 +40,6 @@ export { default as TDBNavigator } from './ext/TDBNavigator';
 export {default as TSchProductAnalysis} from "./diteng/TSchProductAnalysis";
 export {default as TSchScmStockInOut} from "./diteng/TSchScmStockInOut";
 export {default as CheckDraftTB} from "./diteng/CheckDraftTB";
+export {default as CheckWorkflow} from "./diteng/CheckWorkflow";
+
 
