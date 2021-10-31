@@ -8,6 +8,7 @@ export default class RemoteService {
 
     constructor(props: any) {
         this._dataIn = new DataSet();
+        this._host = window.location.protocol + "//" + window.location.hostname + "/services/";
         if (props) {
             const { sid, host, service } = props;
             if (sid)
