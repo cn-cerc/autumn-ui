@@ -10,9 +10,11 @@ export default class RemoteService {
         this._dataIn = new DataSet();
         this._host = window.location.protocol + "//" + window.location.hostname + "/services/";
         if (props) {
-            const { sid, host, service } = props;
+            const { sid, token, host, service } = props;
             if (sid)
                 this._sid = sid;
+            else if (token)
+                this._sid = token;
             if (host)
                 this._host = props.host;
             if (service)

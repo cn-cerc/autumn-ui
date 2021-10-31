@@ -32,33 +32,31 @@ export default class TGridColumn extends TComponent {
         let result = this.readProperty("colspan");
         return result ? Number.parseInt(result) : 1;
     }
-
     getColspan() {
         return this.readProperty("colspan");
     };
-
     setColspan(value: string) {
         this.writeProperty("colspan", value);
         return this;
     }
 
-    getWidth(): number {
-        return this._width;
-    };
-
+    set width(value: number) { this._width = value }
+    get width(): number { return this._width }
     setWidth(value: number) {
         this._width = value;
         return this;
     }
+    getWidth(): number {
+        return this._width;
+    }
 
-    setAlign(align: string) {
-        this._align = align;
+    set align(value: string) { this._align = value }
+    get align(): string { return this._align }
+    setAlign(value: string) {
+        this._align = value;
         return this;
     }
-
-    getAlign() {
-        return this._align;
-    }
+    getAlign() { return this._align }
 
     getExport(): boolean {
         return this._export;
