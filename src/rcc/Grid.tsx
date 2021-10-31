@@ -14,18 +14,18 @@ type PropsType = {
 } & Partial<typeof defaultProps>;
 
 const tableStyle = {
-    border: '1px solid green',
-    width: '100%'
+    // border: '1px solid green',
+    // width: '100%'
 }
 
 const tdStyle = {
-    border: '1px solid green'
+    // border: '1px solid green'
 }
 
 const thStyle = {
-    border: '1px solid green',
-    backgroundColor: 'green',
-    color: 'white'
+    // border: '1px solid green',
+    // backgroundColor: 'green',
+    // color: 'white'
 }
 
 export default class Grid extends React.Component<PropsType> {
@@ -38,9 +38,16 @@ export default class Grid extends React.Component<PropsType> {
     getTitles(): any[] {
         let items: any[] = [];
         if (this.props.master != null) {
+            let total = this.props.master.getTotalWidth();
             for (let column of this.props.master.columns) {
                 let title = column.name ? column.name : column.code;
-                items.push(<th style={thStyle} key={column.code}>{title}</th>);
+                let style = { ...thStyle };
+                if (total > 0 && column.getWidth() > 0) {
+                    let rate = column.getWidth() / total * 100;
+                    let width = `${rate.toFixed(1)}%`;
+                    style = { ...style, width }
+                }
+                items.push(<th key={column.code} style={style}>{title}</th>);
             }
         }
         return items;
@@ -72,7 +79,10 @@ export default class Grid extends React.Component<PropsType> {
                     items.push(<td style={tdStyle} key={column.code}>{column.onRender(column, row)}</td>);
                 } else {
                     let value = row.getText(column.code);
-                    items.push(<td style={tdStyle} key={column.code}>{value}</td>);
+                    let style = { ...tdStyle }
+                    if (column.align)
+                        style = { ...style, textAlign: column.align };
+                    items.push(<td key={column.code} style={style}>{value}</td>);
                 }
             }
         }
@@ -103,7 +113,7 @@ export default class Grid extends React.Component<PropsType> {
         if (this.props.child)
             this.props.child.master = this.props.master;
         return (
-            <table style={tableStyle}>
+            <table style={tableStyle} className='dbgrid'>
                 <tbody>
                     <tr>{this.getTitles().map(item => item)}</tr>
                     {this.getRows().map(item => item)}

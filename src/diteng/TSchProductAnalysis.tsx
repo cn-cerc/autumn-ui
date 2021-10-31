@@ -1,0 +1,397 @@
+import React from "react";
+import { DataSet, FieldDefs, QueryService, TGrid, TGridColumn, TGridGroupMaster } from "../Autumn-UI";
+import Grid from "../rcc/Grid";
+import { Loading, showMsg } from "./Summer";
+
+type propsType = {
+    token: string;
+    // 显示可用库存
+    avaiStockOption: boolean;
+    allowViewProfit: boolean;
+    isCustomer: boolean;
+    corpNo: string;
+}
+
+type stateType = {
+    dataSet: DataSet,
+    master: TGridGroupMaster
+}
+
+const CUSTOMER_181013 = "181013";
+const CUSTOMER_131001 = "131001";
+const CUSTOMER_194005 = "194005";
+const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
+const loading = new Loading('系统正在查询中 . . .');
+const MAX_RECORD = 10000;
+
+
+export default class TSchProductAnalysis extends React.Component<propsType, stateType>{
+    private async: boolean;
+    private dataSet: DataSet;
+
+    constructor(props: propsType) {
+        super(props);
+
+        // 初始化查询数据
+        let value = sessionStorage.getItem(SEARCH_SESSION_KEY);
+        if (value) {
+            let json = JSON.parse(value);
+            //@ts-ignore
+            let elements = document.getElementById('form1').elements;
+            // 恢复input组件的数据信息
+            for (let i = 0; i < elements.length; i++) {
+                let element = elements.item(i);
+                element.value = json[element.name];
+            }
+        }
+
+        this.dataSet = new DataSet();
+        this.initFields(this.dataSet.fieldDefs);
+
+        let master = new TGridGroupMaster(null);
+        // 页面显示数据源
+        new TGridColumn(master, "sn_", "序").setWidth(3).setAlign("center");
+        new TGridColumn(master, "DescSpec", "品名规格").setWidth(12).onRender = (column, row) => {
+            let partCode = row.getValue("PartCode_");
+            let desc = row.getValue("Desc_");
+            let spec = row.getValue("Spec_");
+            let href = `PartInfo?code=${partCode}`;
+            return (
+                <React.Fragment>
+                    <a href={href} target="_blank">{desc}</a> {spec}
+                </React.Fragment>
+            );
+        }
+
+        if (!this.props.isCustomer) {
+            new TGridColumn(master, "NewUP_", "最新单价").setWidth(4);// custom
+        }
+
+        new TGridColumn(master, "Num_", "销售数量").setWidth(4);
+        new TGridColumn(master, "Amount_", "销售金额").setWidth(4);
+        new TGridColumn(master, "BackNum_", "退货数量").setWidth(4);
+        new TGridColumn(master, "BackAmount_", "退货金额").setWidth(4);
+        new TGridColumn(master, "SpareNum_", "赠品数量").setWidth(4);
+
+        // 没权限时值全部设置为空串
+        new TGridColumn(master, "CostAmount_", "成本").setWidth(4);
+        new TGridColumn(master, "Profit_", "毛利").setWidth(4);
+        new TGridColumn(master, "ProfitRate_", "毛利率").setWidth(4);// createText 增加 %
+
+        new TGridColumn(master, "Stock_", "当前库存").setWidth(4);
+
+        if (this.props.avaiStockOption) {
+            new TGridColumn(master, "AvaiStock_", "可用库存").setWidth(4);// avaiStockOption
+        }
+
+        if (this.props.corpNo == CUSTOMER_181013) {
+            new TGridColumn(master, "OutSumAmount_", "业务成本").setWidth(4);// CUSTOMER_181013
+            new TGridColumn(master, "OutSumProfit_", "业务毛利").setWidth(4);// CUSTOMER_181013
+        }
+
+        if (this.props.isCustomer) {
+            new TGridColumn(master, "FirstInDate", "首次入库").setWidth(4);// custom，createText
+            new TGridColumn(master, "OriUP_", "单价").setWidth(4);// custom
+        }
+
+        new TGridColumn(master, "Opera", "操作").setWidth(4).setAlign("center").setExport(false).onRender = (column, row) => {
+            let partCode = row.getString("PartCode_");
+            //@ts-ignore
+            let dateFrom = document.getElementById('TBDate_From').value;
+            //@ts-ignore
+            let dateTo = document.getElementById('TBDate_To').value;
+            let href = `TSchProductAnalysis.detail?partCode=${partCode}&dateFrom=${dateFrom}&dateTo=${dateTo}`;
+            return (
+                <React.Fragment>
+                    <a href={href} target="_blank">内容</a>
+                </React.Fragment>
+            )
+        }
+
+        let item = document.getElementsByName('submit1');
+        if (item.length > 0) {
+            item[0].addEventListener('click', this.submitClick);
+        }
+
+        let exportFile = document.getElementById('exportFile');
+        exportFile.addEventListener('click', this.exportFileClick);
+        //@ts-ignore
+        exportFile.href = "#";
+
+        let exportFileMergeDescSpec = document.getElementById('exportFileMergeDescSpec');
+        exportFileMergeDescSpec.addEventListener('click', this.exportFileMergeDescSpecClick);
+        //@ts-ignore
+        exportFileMergeDescSpec.href = "#";
+
+        this.state = { dataSet: this.dataSet, master };
+    }
+
+    submitClick = (e: any) => {
+        // 取消默认的post事件
+        e.preventDefault();
+
+        // 正在异步请求时不允许重复提交事件
+        if (this.async) {
+            return;
+        }
+
+        loading.show();
+        loading.hideTime = 300;
+        this.dataSet.close();
+
+        // 构建请求数据
+        let svr = new QueryService(this.props);
+        let headIn = svr.dataIn.head;
+        //@ts-ignore
+        let elements = document.getElementById('form1').elements;
+        let search = {};// 查询条件信息
+        for (let i = 0; i < elements.length; i++) {
+            let element = elements.item(i);
+            //@ts-ignore
+            search[element.name] = element.value;
+            if (!element.value)
+                continue;
+            if (element.name == 'PartClass_') {
+                let partClass = element.value.split("->");
+                if (partClass.length > 0)
+                    headIn.setValue("Class1_", partClass[0]);
+                if (partClass.length > 1)
+                    headIn.setValue("Class2_", partClass[1]);
+                if (partClass.length > 2)
+                    headIn.setValue("Class3_", partClass[2]);
+            } else
+                headIn.setValue(element.name, element.value);
+        }
+        sessionStorage.setItem(SEARCH_SESSION_KEY, JSON.stringify(search));
+        headIn.setValue("segmentQuery", true);
+        headIn.setValue('timestamp', new Date().getTime());
+        svr.service = "TAppProductAnalyse.download";
+        this.async = true;
+        this.getDatas(svr);
+    }
+
+    getDatas(svr: QueryService) {
+        svr.open().then(dataOut => {
+            dataOut.first();
+            while (dataOut.fetch()) {
+                let partCode = dataOut.getString("PartCode_");
+                if (this.dataSet.locate("PartCode_", partCode)) {
+                    this.dataSet.setValue("Num_", this.dataSet.getDouble("Num_") + dataOut.getDouble("Num_"));
+                    this.dataSet.setValue("Amount_", this.dataSet.getDouble("Amount_") + dataOut.getDouble("Amount_"));
+                    this.dataSet.setValue("BackNum_", this.dataSet.getDouble("BackNum_") + dataOut.getDouble("BackNum_"));
+                    this.dataSet.setValue("BackAmount_", this.dataSet.getDouble("BackAmount_") + dataOut.getDouble("BackAmount_"));
+                    this.dataSet.setValue("SpareNum_", this.dataSet.getDouble("SpareNum_") + dataOut.getDouble("SpareNum_"));
+
+                    // 成本金额
+                    this.dataSet.setValue("CostAmount_", this.dataSet.getDouble("CostAmount_") + dataOut.getDouble("CostAmount_"));
+                    this.dataSet.setValue("OutSumAmount_", this.dataSet.getDouble("OutSumAmount_") + dataOut.getDouble("OutSumAmount_"));
+                    this.dataSet.setValue("OutSumProfit_", this.dataSet.getDouble("OutSumProfit_") + dataOut.getDouble("OutSumProfit_"));
+
+                } else {
+                    this.dataSet.append();
+                    this.dataSet.copyRecord(dataOut.getCurrent(), dataOut.fieldDefs);
+                }
+            }
+
+            // 是否加载下一页
+            if (dataOut.head.getBoolean("_has_next_")) {
+                if (this.dataSet.size < MAX_RECORD) {
+                    this.getDatas(svr);
+                } else {
+                    this.async = false;
+                    loading.hide();
+                    showMsg(`数据已超过 ${MAX_RECORD} 笔记录，请重新选择查询条件`);
+                    this.setState({ ...this.state, dataSet: this.dataSet })
+                }
+            } else {
+                this.async = false;
+                loading.hide();
+                showMsg('数据加载完成');
+                this.setState({ ...this.state, dataSet: this.dataSet })
+            }
+        }).catch(dataOut => {
+            if (dataOut.message) {
+                loading.hide();
+                showMsg(dataOut.message);
+            }
+            this.async = false;
+            this.setState({ ...this.state, dataSet: this.dataSet })
+        })
+    }
+
+    initFields(columns: FieldDefs) {
+        // 导出专用
+        columns.add("DescSpecExcel").onGetText = function (row, meta) {
+            let desc = row.getValue("Desc_");
+            let spec = row.getValue("Spec_");
+            return desc + (spec != '' ? ('，' + spec) : "");
+        }
+        columns.add("ProfitRate_").onGetText = function (row, meta) {
+            let profitRate = row.getDouble(meta.code);
+            return profitRate ? profitRate + "%" : "";
+        }
+
+        // 处理特殊导出栏位
+        let items = new Map<string, string>();
+        items.set('0', "普通");
+        items.set('1', "新品");
+        items.set('2', "热销");
+        items.set('3', "特价");
+        items.set('4', "经典");
+        columns.add("SalesStatus_").onGetText = function (row, meta) {
+            let salesStatus = row.getString("SalesStatus_");
+            if (salesStatus == '')
+                salesStatus = '0';
+            return items.get(salesStatus);
+        }
+
+        columns.add("LowerShelf_").onGetText = function (row, meta) {
+            return row.getBoolean('LowerShelf_') ? '已下架' : '未下架';
+        }
+    }
+
+    render() {
+        // 重置显示次序和金额计算
+        this.dataSet.first();
+        while (this.dataSet.fetch()) {
+            this.dataSet.setValue("sn_", this.dataSet.recNo);
+
+            // 小数点统一保留2位
+            let amount = this.dataSet.getDouble("Amount_");
+            let backAmount = this.dataSet.getDouble("BackAmount_");
+            let costAmount = this.dataSet.getDouble("CostAmount_");
+            //@ts-ignore
+            let totalProfit = amount - backAmount - costAmount;
+            //@ts-ignore
+            let total = amount - backAmount;
+
+            // 成本栏位要重新计算
+            this.dataSet.setValue("Profit_", totalProfit);// 毛利
+
+            // 毛利率
+            let profitRate = '';
+            if (total != 0)
+                profitRate = ((totalProfit / total) * 100).toFixed(2);
+            this.dataSet.setValue("ProfitRate_", profitRate);
+        }
+
+        // 数据合计
+        let outNum = 0;
+        let outAmount = 0;
+        let backNum = 0;
+        let backAmount = 0;
+        let spareNum = 0;
+        let totalAmount = 0;
+        let costAmount = 0;
+        this.dataSet.forEach((dataRow) => {
+            outNum += dataRow.getDouble("Num_");
+            outAmount += dataRow.getDouble("Amount_");
+            backNum += dataRow.getDouble("BackNum_");
+            backAmount += dataRow.getDouble("BackAmount_");
+            spareNum += dataRow.getDouble("SpareNum_");
+            totalAmount += dataRow.getDouble("Amount_") - dataRow.getDouble("BackAmount_");
+            costAmount += dataRow.getDouble("CostAmount_");
+        })
+        document.getElementById('outNum').innerText = outNum.toFixed(2);
+        document.getElementById('outAmount').innerText = outAmount.toFixed(2);
+        document.getElementById('backNum').innerText = backNum.toFixed(2);
+        document.getElementById('backAmount').innerText = backAmount.toFixed(2);
+        document.getElementById('spareNum').innerText = spareNum.toFixed(2);
+        document.getElementById('totalAmount').innerText = totalAmount.toFixed(2);
+        if (this.props.allowViewProfit) {
+            document.getElementById('costAmount').innerText = costAmount.toFixed(2);
+            // 毛利 = 销售金额 - 退货金额 - 成本
+            let profit = outAmount - backAmount - costAmount;
+            document.getElementById('profit').innerText = profit.toFixed(2);
+        }
+        //@ts-ignore
+        document.getElementById('dataSize').innerText = this.dataSet.size;
+
+        return (
+            <Grid dataSet={this.state.dataSet} master={this.state.master} />
+        )
+    }
+
+    /**
+     * 拆分品名规格导出
+     */
+    exportFileClick = (e: any) => {
+        // 取消默认的post事件
+        e.preventDefault();
+
+        // 导出显示数据源
+        let grid = new TGrid(null);
+        grid.dataSet = this.dataSet;
+        new TGridColumn(grid, "Brand_", "品牌");
+        new TGridColumn(grid, "PartCode_", "商品编号");
+        new TGridColumn(grid, "Desc_", "品名");
+        new TGridColumn(grid, "Spec_", "规格");
+        this.exportFile(grid);
+
+        grid.exportFile("单品销售分析.csv");
+    }
+
+    /**
+     * 合并品名规格
+     */
+    exportFileMergeDescSpecClick = (e: any) => {
+        // 取消默认的post事件
+        e.preventDefault();
+
+        // 导出显示数据源
+        let grid = new TGrid(null);
+        grid.dataSet = this.dataSet;
+        new TGridColumn(grid, "Brand_", "品牌");
+        new TGridColumn(grid, "PartCode_", "商品编号");
+        new TGridColumn(grid, "DescSpecExcel", "品名规格");
+
+        this.exportFile(grid);
+
+        grid.exportFile("单品销售分析（品名规格合并）.csv");
+    }
+
+    exportFile(grid: TGrid) {
+        new TGridColumn(grid, "Stock_", "当前库存");
+        new TGridColumn(grid, "Num_", "销售数量");
+        new TGridColumn(grid, "Amount_", "销售金额");
+        new TGridColumn(grid, "BackNum_", "退货数量");
+        new TGridColumn(grid, "BackAmount_", "退货金额");
+        new TGridColumn(grid, "SpareNum_", "赠品数量");
+        new TGridColumn(grid, "CostAmount_", "成本");
+        new TGridColumn(grid, "Profit_", "毛利");
+        new TGridColumn(grid, "ProfitRate_", "毛利率");// createText 增加 %
+
+        if (this.props.avaiStockOption) {
+            new TGridColumn(grid, "AvaiStock_", "可用库存");// avaiStockOption
+        }
+
+        if (this.props.isCustomer) {
+            new TGridColumn(grid, "DefaultCW_", "储位");
+            new TGridColumn(grid, "SalesStatus_", "销售类别");
+            new TGridColumn(grid, "FirstInDate", "首次入库");// custom，createText
+            new TGridColumn(grid, "LowerShelf_", "下架");
+        } else {
+            new TGridColumn(grid, "NewUP_", "最新单价");// custom
+        }
+
+        if (this.props.isCustomer) {
+            new TGridColumn(grid, "OriUP_", "单价");// custom
+        }
+
+        // 狼王
+        if (this.props.corpNo == CUSTOMER_131001) {
+            new TGridColumn(grid, "CusNum", "销售家数");
+        }
+        // 水能
+        if (this.props.corpNo == CUSTOMER_131001) {
+            new TGridColumn(grid, "OutSumAmount_", "业务成本");// CUSTOMER_181013
+            new TGridColumn(grid, "OutSumProfit_", "业务毛利");// CUSTOMER_181013
+        }
+        // 精工社
+        if (this.props.corpNo == CUSTOMER_194005) {
+            new TGridColumn(grid, "BoxNum_", "单位包装量");
+            new TGridColumn(grid, "TotalBox", "总箱数");
+        }
+    }
+
+}

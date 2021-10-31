@@ -12,7 +12,7 @@ const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
 const loading = new Loading('系统正在查询中 . . .');
 const MAX_RECORD = 10000;
 
-export default class TSchProductAnalysis extends TPage {
+export default class TSchProductAnalysisVcl extends TPage {
     dataSet;
     grid;
     _sid: string;
