@@ -1,5 +1,4 @@
 import React from "react"
-import { render } from "react-dom"
 import { QueryService } from "../Autumn-UI";
 
 type propsType = {
@@ -10,6 +9,7 @@ type stateType = {
     value: number;
 }
 
+// 获取草稿单据数量
 export default class CheckDraftTB extends React.Component<propsType, stateType> {
 
     constructor(props: propsType) {
@@ -24,12 +24,11 @@ export default class CheckDraftTB extends React.Component<propsType, stateType> 
     }
 
     componentDidMount() {
-        let host = window.location.protocol + "//" + window.location.hostname + "/services/";
-        let query = new QueryService({ sid: this.props.token, host: host });
+        let query = new QueryService({ sid: this.props.token });
         query.add("select * from SvrCheckDraftTB.getDraftNum");
         query.open().then((dataOut) => {
             let value = dataOut.head.getNumber('draftNum')
-            this.setState({ ...this.state, value: value });
+            this.setState({ ...this.state, value });
         })
     }
 
