@@ -1,3 +1,4 @@
+import { extend } from 'jquery';
 import React, { Component } from 'react';
 import { DataRow, TGridGroupChild, TGridGroupMaster } from '../Autumn-UI';
 import DataSet from '../db/DataSet';
@@ -26,6 +27,12 @@ const thStyle = {
     // border: '1px solid green',
     // backgroundColor: 'green',
     // color: 'white'
+}
+
+export interface IGridState {
+    dataSet: DataSet
+    master: TGridGroupMaster
+    child?: TGridGroupChild
 }
 
 export default class Grid extends React.Component<PropsType> {
@@ -91,22 +98,29 @@ export default class Grid extends React.Component<PropsType> {
 
     getChildRow(row: DataRow) {
         let key = "child_" + row.dataSet.recNo;
-        let items: any[] = [];
+        let value: string = "";
         for (let column of this.props.child.columns) {
             if (column.visible) {
-                let value = row.getText(column.code);
-                let colSpan = this.props.master.getColumnCount();
-                items.push(<td key={column.code} colSpan={colSpan}>{value}</td>);
+                let text = row.getText(column.code);
+                if (text)
+                    value = value + column.name + ": " + text + " ";
             }
         }
+
         let child = this.props.child;
         let display = new KeyValue(child.visible);
         if (child.onOutput)
             child.onOutput(child, display);
-        if (display.asBoolean())
-            return <tr key={key}>{items}</tr>;
-        else
-            return <tr key={key} style={{ display: 'none' }}>{items}</tr>;
+
+        let style = {};
+        if (!display.asBoolean())
+            style = { display: 'none' };
+
+        let colSpan = this.props.master.getColumnCount();
+        let id = `tr${row.dataSet.recNo}_1`;
+        return (<tr key={key} id={id} style={style}>
+            <td colSpan={colSpan}>{value}</td>
+        </tr>);
     }
 
     render() {
