@@ -130,7 +130,7 @@ export default class TSchScmStockInOut extends TPage {
         loading.show();
         loading.hideTime = 300;
         this.dataSet.close();
-        this.render();
+        this.repaint();
 
         // 构建请求数据
         let svr = new QueryService(this);
@@ -176,7 +176,7 @@ export default class TSchScmStockInOut extends TPage {
                 if (this.dataSet.size < MAX_RECORD) {
                     this.getDatas(svr);
                 } else {
-                    this.render();
+                    this.repaint();
                     this.async = false;
                     loading.hide();
                     showMsg(`数据已超过 ${MAX_RECORD} 笔记录，请重新选择查询条件`);
@@ -187,7 +187,7 @@ export default class TSchScmStockInOut extends TPage {
                 loading.hide();
                 showMsg('数据加载完成');
             }
-            this.render();
+            this.repaint();
         }).catch(dataOut => {
             if (dataOut.message) {
                 loading.hide();
@@ -197,13 +197,13 @@ export default class TSchScmStockInOut extends TPage {
         })
     }
 
-    render() {
+    repaint() {
         this.dataSet.first();
         while (this.dataSet.fetch())
             this.dataSet.setValue("sn_", this.dataSet.recNo);
         this.grid.owner = this;
 
-        super.render();
+        super.repaint();
 
         // 数据合计
         let inNumTotal = 0;

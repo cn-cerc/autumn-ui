@@ -189,7 +189,7 @@ export default class TComponent {
         return this;
     }
 
-    render(container: string = null) {
+    repaint(container: string = null) {
         if (container != null)
             this.container = container;
 
@@ -201,9 +201,9 @@ export default class TComponent {
         let contentId = this._container ? this._container : this.id;
         if (!contentId) {
             if (this._owner)
-                this._owner.render();
+                this._owner.repaint();
             else
-                console.log(`${this.id}.render error: container is null`);
+                console.log(`${this.id}.repaint error: container is null`);
             return;
         }
 
@@ -279,17 +279,3 @@ export default class TComponent {
 
     get props(): any { return this._props }
 }
-
-// let item = new TComponent();
-// item.rootLabel = 'div';
-// item.id = 'aaaa';
-// item.render();
-
-
-// let child = new TComponent();
-// child.rootLabel = 'child';
-// child.owner = item;
-// item.render();
-
-// item.setName('abcd');
-// assertEquals('abcd', item.getName());

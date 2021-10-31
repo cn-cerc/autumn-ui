@@ -162,7 +162,7 @@ export default class TGrid extends TTable implements DataControl {
     doChange(content: any = undefined): void {
         const { size } = content;
         if (size)
-            this.render();
+            this.repaint();
     }
 
 }
@@ -181,5 +181,5 @@ export default class TGrid extends TTable implements DataControl {
 //     return row.getValue(meta.code) == 1 ? "男" : "女";
 // };
 
-// grid.render();
+// grid.repaint();
 

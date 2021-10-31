@@ -40,7 +40,7 @@ export default class TTabControl extends TDiv implements DataControl {
     }
 
     doChange(content: any = undefined): void {
-        this.render();
+        this.repaint();
     }
 
 }
