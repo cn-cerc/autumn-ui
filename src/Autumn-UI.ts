@@ -37,10 +37,14 @@ export { default as TEdit } from './ext/TEdit';
 export { default as TDBEdit } from './ext/TDBEdit';
 export { default as TStatusBar } from './ext/TStatusBar';
 export { default as TDBNavigator } from './ext/TDBNavigator';
+//rcc
+export { default as DBEdit } from './rcc/DBEdit';
+export { default as DBForm } from './rcc/DBForm';
+export { default as Grid } from './rcc/Grid';
 // ditneg
-export {default as TSchProductAnalysis} from "./diteng/TSchProductAnalysis";
-export {default as TSchScmStockInOut} from "./diteng/TSchScmStockInOut";
-export {default as CheckDraftTB} from "./diteng/CheckDraftTB";
-export {default as CheckWorkflow} from "./diteng/CheckWorkflow";
-export {default as CheckReport} from "./diteng/CheckReport";
-export {default as UserDialog} from "./diteng/UserDialog";
+export { default as TSchProductAnalysis } from "./diteng/TSchProductAnalysis";
+export { default as TSchScmStockInOut } from "./diteng/TSchScmStockInOut";
+export { default as CheckDraftTB } from "./diteng/CheckDraftTB";
+export { default as CheckWorkflow } from "./diteng/CheckWorkflow";
+export { default as CheckReport } from "./diteng/CheckReport";
+export { default as UserDialog } from "./diteng/UserDialog";
