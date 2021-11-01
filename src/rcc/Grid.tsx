@@ -66,11 +66,11 @@ export default class Grid extends React.Component<PropsType> {
         let recNo = ds.recNo;
         ds.first();
         while (ds.fetch()) {
-            this.props.master.setCurrent(ds.getCurrent());
-            items.push(this.getMasterRow(ds.getCurrent()));
+            this.props.master.setCurrent(ds.current);
+            items.push(this.getMasterRow(ds.current));
             if (this.props.child != null) {
-                this.props.child.setCurrent(ds.getCurrent());
-                items.push(this.getChildRow(ds.getCurrent()));
+                this.props.child.setCurrent(ds.current);
+                items.push(this.getChildRow(ds.current));
             }
         }
         ds.recNo = recNo;

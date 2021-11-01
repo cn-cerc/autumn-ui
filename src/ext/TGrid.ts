@@ -60,7 +60,7 @@ export default class TGrid extends TTable implements DataControl {
             let recNo = this._dataSet.recNo;
             this._dataSet.first();
             while (this._dataSet.fetch()) {
-                let row = this._dataSet.getCurrent();
+                let row = this._dataSet.current;
                 this._groups.forEach((group) => {
                     group.setCurrent(row);
                     group.output(html);

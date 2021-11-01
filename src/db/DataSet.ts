@@ -31,7 +31,7 @@ export default class DataSet implements DataBind, DataSource {
         }
     }
 
-    getCurrent(): DataRow {
+    get current(): DataRow {
         if (this.eof() || this.bof())
             return null;
 
@@ -47,7 +47,7 @@ export default class DataSet implements DataBind, DataSource {
     }
 
     delete(): void {
-        let row = this.getCurrent();
+        let row = this.current;
         if (row) {
             let cur = this.recNo;
             this._records.splice(this.recNo - 1, 1);
@@ -121,7 +121,7 @@ export default class DataSet implements DataBind, DataSource {
     }
 
     copyRecord(source: DataRow, defs: FieldDefs) {
-        let record = this.getCurrent()
+        let record = this.current;
 
         if (this._search) {
             this._search.remove(record)
@@ -151,24 +151,24 @@ export default class DataSet implements DataBind, DataSource {
     get fieldDefs(): FieldDefs { return this._fieldDefs }
 
     setValue(field: string, value: any): DataSet {
-        this.getCurrent().setValue(field, value)
+        this.current.setValue(field, value)
         return this;
     }
 
     getValue(field: string): object {
-        return this.getCurrent().getValue(field);
+        return this.current.getValue(field);
     }
 
     getString(field: string): string {
-        return this.getCurrent().getString(field);
+        return this.current.getString(field);
     }
 
     getDouble(field: string): number {
-        return this.getCurrent().getDouble(field);
+        return this.current.getDouble(field);
     }
 
     getText(field: string): string {
-        return this.getCurrent().getText(field);
+        return this.current.getText(field);
     }
 
     clear(): void {
@@ -353,7 +353,7 @@ export default class DataSet implements DataBind, DataSource {
                         continue;
                     }
                     let item = data[i];
-                    let row = this.append().getCurrent()
+                    let row = this.append().current
                     for (let j = 0; j < fields.length; j++)
                         row.setValue(fields[j], item[j]);
                 }

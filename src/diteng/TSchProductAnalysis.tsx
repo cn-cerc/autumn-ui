@@ -218,7 +218,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
 
                 } else {
                     this.dataSet.append();
-                    this.dataSet.copyRecord(dataOut.getCurrent(), dataOut.fieldDefs);
+                    this.dataSet.copyRecord(dataOut.current, dataOut.fieldDefs);
                 }
             }
 

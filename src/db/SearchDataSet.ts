@@ -43,7 +43,7 @@ export default class SearchDataSet {
 			if (this._keys.size > 0) {
 				this._dataSet.first()
 				while (this._dataSet.fetch()) {
-					this.append(this._dataSet.getCurrent())
+					this.append(this._dataSet.current)
 				}
 			}
 		}

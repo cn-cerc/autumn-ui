@@ -49,7 +49,7 @@ export default class DBNavigator extends React.Component<PropsType> {
         }
         console.log(this.props.dataSet.recNo);
         
-        let row = this.props.dataSet.getCurrent();
+        let row = this.props.dataSet.current;
         if (this.props.onNavigator && row != null)
             this.props.onNavigator(row);
     }

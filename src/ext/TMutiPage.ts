@@ -61,7 +61,7 @@ export default class TMutiPage extends TComponent {
 
         for (let i = this.getBegin(); i <= this.getEnd(); i++) {
             this._dataSet.recNo = i + 1;
-            callback(this._dataSet.getCurrent());
+            callback(this._dataSet.current);
         }
     }
 }

@@ -15,7 +15,7 @@ export default class DBEdit extends React.Component<PropsType> {
     }
 
     onChange = (el: any) => {
-        let row = this.props.dataSource.getCurrent();
+        let row = this.props.dataSource.current;
         row.setValue(this.props.dataField, el.target.value);
         if (this.props.updateRow)
             this.props.updateRow();
@@ -25,7 +25,7 @@ export default class DBEdit extends React.Component<PropsType> {
         let ds = this.props.dataSource;
         if (!ds)
             return null;
-        let row = this.props.dataSource.getCurrent();
+        let row = this.props.dataSource.current;
         let value = "";
         if (row)
             value = row.getString(this.props.dataField);

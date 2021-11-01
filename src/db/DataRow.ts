@@ -195,7 +195,7 @@ export default class DataRow implements DataBind, DataSource {
     get bindEnabled(): boolean { return this._bindEnabled };
     setBindEnabled(value: boolean): DataRow { this._bindEnabled = value; return this; }
 
-    getCurrent(): DataRow {
+    get current(): DataRow {
         return this;
     }
 }
