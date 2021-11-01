@@ -13,8 +13,10 @@ export default class FieldDefs {
     setJson(json: any): FieldDefs {
         this._fields = [];
         for (let field of json) {
-            const { code, kind } = field;
+            const { code, kind, remark, type } = field;
             let meta = new FieldMeta(code, kind);
+            meta.setRemark(remark);
+            meta.setType(type);
             this._fields.push(meta);
         }
         return this;

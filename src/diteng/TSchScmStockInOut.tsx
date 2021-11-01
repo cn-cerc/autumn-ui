@@ -197,6 +197,8 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
 
     getDatas(svr: QueryService) {
         svr.open().then(dataOut => {
+            if (dataOut.fieldDefs.size > 0)
+                this.dataSet.fieldDefs.setJson(dataOut.fieldDefs.json);
             this.dataSet.appendDataSet(dataOut);
             if (dataOut.head.getBoolean("_has_next_")) {
                 if (this.dataSet.size < MAX_RECORD) {

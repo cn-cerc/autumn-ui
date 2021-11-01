@@ -130,7 +130,7 @@ export default class TGrid extends TTable implements DataControl {
                     str += column.name + ",";
             });
         }
-        str += '\n';
+        str += '\r\n';
 
         // 具体数值遍历
         this._dataSet.first();
@@ -140,12 +140,21 @@ export default class TGrid extends TTable implements DataControl {
                     let column = item as TGridColumn;
                     if (column.export) {
                         let value = this._dataSet.getText(column.code);
-                        value = value.replace(/\r|\n|\\s/g, "");
-                        str += value.replace(/,/g, "，") + ",";
+                        value = value.replace(/\r|\n|\\s/g, "");// 替换掉内容自带的换行符
+                        let dataType = this._dataSet.fieldDefs.get(column.code).type;
+                        if (dataType && dataType.indexOf('s') > -1) {
+                            if (value.length > 0) {
+                                value = '\t' + value;
+                                value = value.replace(/,/g, "，");
+                            }
+                        } else {
+                            value = value.replace(/,/g, "，");
+                        }
+                        str += value + ",";
                     }
                 });
             }
-            str += '\n';
+            str += '\r\n';// 下一条记录的换行符
         }
 
         let blob = new Blob([str], { type: "data:text/csv;charset=utf-8" });
