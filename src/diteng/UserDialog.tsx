@@ -31,7 +31,6 @@ export default class UserDialog extends React.Component<propsType, stateType> {
         query.dataIn.head.setValue('SearchText_', this.state.searchText);
         query.add('select Code_,Name_ from TAppUserInfo.userList');
         query.open().then(dataOut => {
-            console.log(dataOut);
             this.setState({ ...this.state, dataOut })
         })
     }
@@ -45,7 +44,6 @@ export default class UserDialog extends React.Component<propsType, stateType> {
         let el: HTMLElement = sender.target.parentElement;
         let userCode = el.children[0].innerHTML;
         let userName = el.children[1].innerHTML;
-        console.log(userCode, userName)
 
         var inputIds = this.props.inputId.split(",");
         $("#" + inputIds[0], parent.document).val(userCode);
