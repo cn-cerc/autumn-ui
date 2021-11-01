@@ -1,7 +1,7 @@
 import DataSet from "./DataSet";
 
 export default class RemoteService {
-    private _sid: string = null;
+    private _token: string = null;
     private _host = '/services/';
     private _service: string;
     private _dataIn: DataSet;
@@ -10,9 +10,11 @@ export default class RemoteService {
         this._dataIn = new DataSet();
         this._host = window.location.protocol + "//" + window.location.hostname + "/services/";
         if (props) {
-            const { sid, host, service } = props;
+            const { sid, token, host, service } = props;
             if (sid)
-                this._sid = sid;
+                this._token = sid;
+            else if (token)
+                this._token = token;
             if (host)
                 this._host = props.host;
             if (service)
@@ -30,8 +32,8 @@ export default class RemoteService {
             return new DataSet().setMessage('service is null').getPromise();
 
         let url = this._host + this._service;
-        if (this._sid)
-            url = `${url}?sid=${this._sid}`;
+        if (this._token)
+            url = `${url}?sid=${this._token}`;
 
         return fetch(url, {
             method: 'POST', body: "dataIn=" + this.dataIn.jsonString,
@@ -48,20 +50,20 @@ export default class RemoteService {
             }
         }).then((json) => {
             let dataOut = new DataSet();
-            dataOut.jsonString = JSON.stringify(json);
+            dataOut.setJsonString(JSON.stringify(json));
             return dataOut.getPromise();
         })
     }
 
-    set sid(value: string) { this._sid = value }
-    get sid(): string { return this._sid };
+    get token(): string { return this._token };
+    setToken(value: string): RemoteService { this._token = value; return this; }
 
-    set dataIn(value: DataSet) { this._dataIn = value }
     get dataIn(): DataSet { return this._dataIn }
+    setDataIn(value: DataSet): RemoteService { this._dataIn = value; return this; }
 
-    set host(host: string) { this._host = host }
     get host(): string { return this._host };
+    setHost(host: string): RemoteService { this._host = host; return this; }
 
-    set service(service: string) { this._service = service }
     get service(): string { return this._service }
+    setService(service: string): RemoteService { this._service = service; return this; }
 }

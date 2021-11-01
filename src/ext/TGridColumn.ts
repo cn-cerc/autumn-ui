@@ -1,8 +1,13 @@
+import React from "react";
 import DataRow from "../db/DataRow";
 import TComponent from "../ui/TComponent";
 import TGrid from "./TGrid";
 import TGridGroupChild from "./TGridGroupChild";
 import TGridGroupMaster from "./TGridGroupMaster";
+
+interface onRenderType {
+    (column: TGridColumn, row: DataRow): React.ReactNode;
+}
 
 export default class TGridColumn extends TComponent {
     private _code: string;
@@ -10,7 +15,7 @@ export default class TGridColumn extends TComponent {
     private _width: number = 0;
     private _align: string;
     private _export = true;
-    public onRender: (column: TGridColumn, row: DataRow) => any;
+    private _onRender: onRenderType;
 
     constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild, code: string, name: string = null) {
         super(owner);
@@ -19,54 +24,34 @@ export default class TGridColumn extends TComponent {
     }
 
     get code(): string { return this._code }
-    getCode() {
-        return this._code;
-    }
 
     get name() { return this._name }
-    getName() {
-        return this._name;
-    }
 
-    get colSpan(): number {
-        let result = this.readProperty("colspan");
-        return result ? Number.parseInt(result) : 1;
-    }
-
-    getColspan() {
-        return this.readProperty("colspan");
-    };
-
-    setColspan(value: string) {
+    get colSpan(): string { return this.readProperty("colspan"); }
+    setColSpan(value: string): TGridColumn {
         this.writeProperty("colspan", value);
         return this;
     }
 
-    getWidth(): number {
-        return this._width;
-    };
-
-    setWidth(value: number) {
+    get width(): number { return this._width }
+    setWidth(value: number): TGridColumn {
         this._width = value;
         return this;
     }
 
-    setAlign(align: string) {
-        this._align = align;
+    get align(): string { return this._align }
+    setAlign(value: string) {
+        this._align = value;
         return this;
     }
 
-    getAlign() {
-        return this._align;
-    }
-
-    getExport(): boolean {
-        return this._export;
-    }
-
+    get export(): boolean { return this._export; }
     setExport(value: boolean): TGridColumn {
         this._export = value;
         return this;
     }
+
+    get onRender(): onRenderType { return this._onRender }
+    setOnRender(value: onRenderType) { this._onRender = value; return this; }
 
 }

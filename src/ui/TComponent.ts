@@ -15,28 +15,29 @@ export default class TComponent {
     private _cssHead: string[] = [];
 
     constructor(owner: TComponent, props: any = null) {
-        this.owner = owner;
+        this.setOwner(owner);
         this._props = props;
         if (props != null) {
             const { id, style } = props;
             if (id)
-                this.id = "auto" == props.id ? this.getUid() : props.id;
+                this.setId("auto" == props.id ? this.getUid() : props.id);
             if (style)
                 this.setCssStyle(style);
         }
     }
 
-    set owner(owner: TComponent) {
+    get owner(): TComponent { return this._owner }
+    setOwner(owner: TComponent): TComponent {
         if (this._owner)
             this._owner.removeComponent(this);
         this._owner = owner;
         if (this._owner)
             this._owner.addComponent(this);
+        return this;
     }
-    get owner(): TComponent { return this._owner }
 
-    set origin(value: any) { this._origin = value }
     get origin(): any { return this._origin }
+    setOrigin(value: any): TComponent { this._origin = value; return this; }
 
     addComponent(component: TComponent): TComponent {
         if (component != null && !this._components.has(component)) {
@@ -66,8 +67,8 @@ export default class TComponent {
         return this._components.size;
     }
 
-    set rootLabel(value: string) { this._rootLabel = value }
     get rootLabel(): string { return this._rootLabel }
+    setRootLabel(value: string): TComponent { this._rootLabel = value; return this; }
 
     beginOutput(html: HtmlWriter): void {
         if (this._style.size > 0) {
@@ -148,8 +149,8 @@ export default class TComponent {
     }
 
 
-    set id(id: string) { this.writeProperty('id', id) }
     get id(): string { return this.readProperty('id') }
+    setId(id: string): TComponent { this.writeProperty('id', id); return this; }
 
     getUid(): string {
         let uid = this.id;
@@ -160,15 +161,15 @@ export default class TComponent {
             } else {
                 uid = "origin";
             }
-            this.id = uid;
+            this.setId(uid);
         }
         return uid;
     }
 
     get cssHead(): string[] { return this._cssHead };
 
-    set cssClass(cssClass: string) { this.writeProperty("class", cssClass) }
     get cssClass(): string { return this.readProperty('class') }
+    setCssClass(cssClass: string): TComponent { this.writeProperty("class", cssClass); return this; }
 
     get style(): Map<string, string> { return this._style }
     setCssStyle(text: string): TComponent {
@@ -191,7 +192,7 @@ export default class TComponent {
 
     repaint(container: string = null) {
         if (container != null)
-            this.container = container;
+            this.setContainer(container);
 
         if (typeof document == "undefined" || document == null) {
             console.log(this.toString());
@@ -252,11 +253,11 @@ export default class TComponent {
     }
 
 
-    set container(container: string) { this._container = container }
     get container() { return this._container }
+    setContainer(container: string): TComponent { this._container = container; return this; }
 
-    set visible(value: boolean) { this._visible = value }
     get visible(): boolean { return this._visible }
+    setVisible(value: boolean): TComponent { this._visible = value; return this; }
 
     getComponent(id: string, root: TComponent = null): TComponent {
         let current = root;

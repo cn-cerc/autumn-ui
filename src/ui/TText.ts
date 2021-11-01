@@ -9,12 +9,12 @@ export default class TText extends TComponent {
         if (props) {
             const { text } = props;
             if (text)
-                this.text = text;
+                this.setText(text);
         }
     }
 
-    set text(text: string) { this._text = text }
     get text() { return this._text }
+    setText(text: string): TText { this._text = text; return this; }
 
     output(html: HtmlWriter) {
         if (this._text)

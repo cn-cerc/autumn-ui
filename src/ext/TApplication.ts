@@ -12,8 +12,8 @@ export default class TApplication extends TDiv implements DataBind {
 
     constructor() {
         super(null);
-        this.id = 'app';
-        this.container = 'app';
+        this.setId('app');
+        this.setContainer('app');
     }
 
     set title(value: string) { document.title = value }
@@ -24,9 +24,9 @@ export default class TApplication extends TDiv implements DataBind {
         super.addComponent(child);
         if (child instanceof TPage) {
             child.setCssStyle('height:100vh;display:flex;flex-direction: column;');
-            child.id = "page" + this.getComponentCount();
+            child.setId("page" + this.getComponentCount());
             if (this._pageNo != this.getPages().length - 1)
-                child.visible = false;
+                child.setVisible(false);
         }
         return this;
     }
@@ -40,10 +40,10 @@ export default class TApplication extends TDiv implements DataBind {
     set pageNo(value: number) {
         if (this._pageNo != value) {
             if (this._pageNo > -1)
-                this.getPages()[this._pageNo].visible = false;
+                this.getPages()[this._pageNo].setVisible(false);
             this._pageNo = value;
             if (this._pageNo > -1)
-                this.getPages()[this._pageNo].visible = true;
+                this.getPages()[this._pageNo].setVisible(true);
             this.repaint();
         }
     }
@@ -85,7 +85,7 @@ export default class TApplication extends TDiv implements DataBind {
         }
     }
     get bindEnabled(): boolean { return this._bindEnabled };
-    set bindEnabled(value: boolean) { this._bindEnabled = value }
+    setBindEnabled(value: boolean): TApplication { this._bindEnabled = value; return this; }
 
 }
 

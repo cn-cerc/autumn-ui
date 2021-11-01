@@ -4,10 +4,10 @@ export default class TTable extends TComponent {
 
     constructor(owner: TComponent, props: object = null) {
         super(owner, props);
-        this.rootLabel = 'table';
+        this.setRootLabel('table');
     }
 
-    set border(value: string) { this.writeProperty('border', value) }
     get border(): string { return this.readProperty('border') }
+    setBorder(value: string): TComponent { this.writeProperty('border', value); return this; }
 
 }

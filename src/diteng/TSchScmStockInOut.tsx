@@ -1,9 +1,11 @@
+import React from "react";
+import { TGridGroupMaster } from "../Autumn-UI";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import TGrid from "../ext/TGrid";
 import TGridColumn from "../ext/TGridColumn";
 import TGridGroupChild from "../ext/TGridGroupChild";
-import TPage from "../ext/TPage";
+import Grid, { IGridState } from "../rcc/Grid";
 import HtmlWriter from "../ui/HtmlWriter";
 import TA from "../ui/TA";
 import { Loading, showMsg } from "./Summer";
@@ -19,32 +21,19 @@ const CUSTOMER_164003 = "164003";
 const CUSTOMER_214015 = "214015";
 const CUSTOMER_214007 = "214007";
 
-export default class TSchScmStockInOut extends TPage {
-    dataSet;
-    grid;
-    _sid: string;
-    _profile: any;
+type propsType = {
+    token: string;
+    corpNo: string;
+    showInUP: boolean;
+}
+
+export default class TSchScmStockInOut extends React.Component<propsType, IGridState> {
+    dataSet: DataSet;
     async = false;
 
-    constructor(profile: string) {
-        super(null);
-        this.cssClass = 'scrollArea';
-        this.profile = JSON.parse(profile);
+    constructor(props: propsType) {
+        super(props);
         this.dataSet = new DataSet();
-        this.dataSet.fieldDefs.add("tbNo").onGetText = function (row, meta) {
-            let tbNo = row.getValue("TBNo_");
-            let it = row.getValue("It_");
-            let tb = tbNo.slice(0, 2);
-            let url = getTBUrl(tb);
-
-            return `<a href='${url}?tbNo=${tbNo}' target="_blank"'>${tbNo}</a>` + '-' + it;
-        }
-        this.dataSet.fieldDefs.add("DescSpec").onGetText = function (row, meta) {
-            let partCode = row.getValue("PartCode_");
-            let desc = row.getValue("Desc_");
-            let spec = row.getValue("Spec_");
-            return `<a href='PartInfo?code=${partCode}' target="_blank"'>${desc}</a>` + ' ' + spec;
-        }
         // 导出专用
         let columns = this.dataSet.fieldDefs;
         columns.add("DescSpecExcel").onGetText = function (row, meta) {
@@ -52,57 +41,82 @@ export default class TSchScmStockInOut extends TPage {
             let spec = row.getValue("Spec_");
             return desc + (spec != '' ? ('，' + spec) : "");
         }
-        columns.add("salesName").onGetText = function (row, meta) {
-            let userName = row.getValue("SalesName_");
-            let userCode = row.getValue("SalesCode_");
-            return userName ? `<a href='UserInfo?code=${userCode}' target="_blank"'>${userName}</a>` : "";
-        }
-        columns.add("Opera").setName('操作').onGetText = (row, meta) => {
-            let recNo = row.dataSet.recNo;
-            let html = new HtmlWriter();
-            let ta = new TA(null);
-            ta.text = '展开';
-            ta.href = `javascript:expendSwitch('${recNo}')`;
-            ta.output(html);
-            return html.getText();
-        }
-
-        // 构建分页数据集
-        this.grid = new TGrid(null);
-        this.grid.dataSet = this.dataSet;
-        this.grid.cssClass = "dbgrid";
-        this.grid.container = 'grid';
-
+        let master = new TGridGroupMaster(null);
         // 显示数据源
-        new TGridColumn(this.grid, "sn_", "序").setWidth(3).setAlign("center");
-        new TGridColumn(this.grid, "DescSpec", "品名规格").setWidth(12);
-        new TGridColumn(this.grid, "tbNo", "异动单号").setWidth(8).setAlign("center");
-        new TGridColumn(this.grid, "TBDate_", "异动日期").setWidth(6).setAlign("center");
-        new TGridColumn(this.grid, "ShortName_", "对象简称").setWidth(8);
-        new TGridColumn(this.grid, "CWCode_", "仓别").setWidth(4);
+        new TGridColumn(master, "sn_", "序").setWidth(3).setAlign("center");
+        new TGridColumn(master, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {
+            let partCode = row.getValue("PartCode_");
+            let desc = row.getValue("Desc_");
+            let spec = row.getValue("Spec_");
+            let href = `PartInfo?code=${partCode}`;
+            return (
+                <React.Fragment>
+                    <a href={href} target="_blank">{desc}</a> {spec}
+                </React.Fragment>
+            )
+        });
+        new TGridColumn(master, "tbNo", "异动单号").setWidth(8).setAlign("center").setOnRender((column, row) => {
+            let tbNo = row.getValue("TBNo_");
+            let it = row.getValue("It_");
+            let tb = tbNo.slice(0, 2);
+            let url = getTBUrl(tb);
+            let href = `${url}?tbNo=${tbNo}`;
+            return (
+                <React.Fragment>
+                    <a href={href} target="_blank">{tbNo}</a>-{it}
+                </React.Fragment>
+            )
+        });
+        new TGridColumn(master, "TBDate_", "异动日期").setWidth(6).setAlign("center");
+        new TGridColumn(master, "ShortName_", "对象简称").setWidth(8);
+        new TGridColumn(master, "CWCode_", "仓别").setWidth(4);
 
-        new TGridColumn(this.grid, "Num_", "入库数量").setWidth(4);
-        new TGridColumn(this.grid, "OriAmount_", "入库金额").setWidth(4);
+        new TGridColumn(master, "Num_", "入库数量").setWidth(4);
+        new TGridColumn(master, "OriAmount_", "入库金额").setWidth(4);
 
-        new TGridColumn(this.grid, "OutNum_", "出库数量").setWidth(4);
-        new TGridColumn(this.grid, "OutAmount_", "出库金额").setWidth(4);
+        new TGridColumn(master, "OutNum_", "出库数量").setWidth(4);
+        new TGridColumn(master, "OutAmount_", "出库金额").setWidth(4);
 
-        new TGridColumn(this.grid, "SpareNum_", "赠品数量").setWidth(4);
-        new TGridColumn(this.grid, "SpareAmount_", "赠品金额").setWidth(4);
-        new TGridColumn(this.grid, "salesName", "业务人员").setWidth(4);
+        new TGridColumn(master, "SpareNum_", "赠品数量").setWidth(4);
+        new TGridColumn(master, "SpareAmount_", "赠品金额").setWidth(4);
+        new TGridColumn(master, "salesName", "业务人员").setWidth(4).setOnRender((column, row) => {
+            let userCode = row.getValue("SalesCode_");
+            let userName = row.getValue("SalesName_");
+            let href = `UserInfo?code=${userCode}`;
+            if (userName) {
+                return (
+                    <React.Fragment>
+                        <a href={href} target="_blank">{userName}</a>
+                    </React.Fragment>
+                )
+            } else {
+                return (
+                    <React.Fragment>
+                        {userCode}
+                    </React.Fragment>
+                )
+            }
+        });
 
-        new TGridColumn(this.grid, "Opera", "操作").setWidth(3).setAlign("center");
+        new TGridColumn(master, "Opera", "操作").setWidth(3).setAlign("center").setOnRender((column, row) => {
+            let recNo = row.dataSet.recNo;
+            let href = `#${recNo}`;
+            return (
+                <a href={href} onClick={this.onOperaClick}>展开</a>
+            )
+        });
 
-        let child = new TGridGroupChild(this.grid);
+        let child = new TGridGroupChild(null);
+        child.setMaster(master);
         new TGridColumn(child, "RemarkB", "单身备注");
         new TGridColumn(child, "Unit_", "单位");
         new TGridColumn(child, "PartType_", "商品类型");
         new TGridColumn(child, "SupCode_", "对象代码");
         new TGridColumn(child, "UpdateDate_", "更新日期");
-        child.onOutput = ((sender, display) => {
-            let remark = sender.getCurrent().getString("RemarkB");
+        child.setOnOutput((sender, display) => {
+            let remark = sender.current.getString("RemarkB");
             display.value = (remark != '');
-        })
+        });
 
         // 初始化查询数据
         let value = sessionStorage.getItem(SEARCH_SESSION_KEY);
@@ -116,6 +130,18 @@ export default class TSchScmStockInOut extends TPage {
                 element.value = json[element.name];
             }
         }
+
+        let item = document.getElementsByName('submit1');
+        if (item.length > 0) {
+            item[0].addEventListener('click', this.submitClick);
+        }
+
+        let exportFile = document.getElementById('exportFile');
+        exportFile.addEventListener('click', this.exportFileClick);
+        //@ts-ignore
+        exportFile.href = "#";
+
+        this.state = { dataSet: this.dataSet, master, child };
     }
 
     submitClick = (e: any) => {
@@ -130,10 +156,10 @@ export default class TSchScmStockInOut extends TPage {
         loading.show();
         loading.hideTime = 300;
         this.dataSet.close();
-        this.repaint();
+        this.setState({ ...this.state, dataSet: this.dataSet })
 
         // 构建请求数据
-        let svr = new QueryService(this);
+        let svr = new QueryService(this.props);
         let headIn = svr.dataIn.head;
         //@ts-ignore
         let elements = document.getElementById('form1').elements;
@@ -164,7 +190,7 @@ export default class TSchScmStockInOut extends TPage {
         headIn.setValue("segmentQuery", true);
         headIn.setValue("MaxRecord_", -1);
         headIn.setValue('timestamp', new Date().getTime());
-        svr.service = "TAppStockInOut.Search";
+        svr.setService("TAppStockInOut.Search");
         this.async = true;
         this.getDatas(svr);
     }
@@ -176,34 +202,32 @@ export default class TSchScmStockInOut extends TPage {
                 if (this.dataSet.size < MAX_RECORD) {
                     this.getDatas(svr);
                 } else {
-                    this.repaint();
                     this.async = false;
                     loading.hide();
                     showMsg(`数据已超过 ${MAX_RECORD} 笔记录，请重新选择查询条件`);
+                    this.setState({ ...this.state, dataSet: this.dataSet })
                     return;
                 }
             } else {
                 this.async = false;
                 loading.hide();
                 showMsg('数据加载完成');
+                this.setState({ ...this.state, dataSet: this.dataSet })
             }
-            this.repaint();
         }).catch(dataOut => {
             if (dataOut.message) {
                 loading.hide();
                 showMsg(dataOut.message);
             }
             this.async = false;
+            this.setState({ ...this.state, dataSet: this.dataSet })
         })
     }
 
-    repaint() {
+    render() {
         this.dataSet.first();
         while (this.dataSet.fetch())
             this.dataSet.setValue("sn_", this.dataSet.recNo);
-        this.grid.owner = this;
-
-        super.repaint();
 
         // 数据合计
         let inNumTotal = 0;
@@ -221,6 +245,10 @@ export default class TSchScmStockInOut extends TPage {
         document.getElementById('outNumTotal').innerText = outNumTotal.toFixed(2);
         document.getElementById('outAmountTotal').innerText = outAmountTotal.toFixed(2);
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
+
+        return (
+            <Grid dataSet={this.state.dataSet} master={this.state.master} child={this.state.child} />
+        )
     }
 
     exportFileClick = (e: any) => {
@@ -228,7 +256,7 @@ export default class TSchScmStockInOut extends TPage {
         e.preventDefault();
 
         let grid = new TGrid(null);
-        grid.dataSet = this.dataSet;
+        grid.setDataSet(this.dataSet);
         // 设置导出数据源
         new TGridColumn(grid, "TBDate_", "异动日期");
         new TGridColumn(grid, "TBNo_", "异动单号");
@@ -261,50 +289,35 @@ export default class TSchScmStockInOut extends TPage {
         new TGridColumn(grid, "UpdateDate_", "更新日期");
 
         // 剑华
-        if (this.profile.corpNo == CUSTOMER_164003 || this.profile.corpNo == CUSTOMER_214015) {
+        if (this.props.corpNo == CUSTOMER_164003 || this.props.corpNo == CUSTOMER_214015) {
             new TGridColumn(grid, "ODRemark", "订单备注");
         }
 
         // 汉辉
-        if (this.profile.corpNo == CUSTOMER_214007) {
+        if (this.props.corpNo == CUSTOMER_214007) {
             new TGridColumn(grid, "PurNo_", "采购单号");
             new TGridColumn(grid, "PurIt_", "采购单序");
         }
 
-        if (this.profile.showInUP) {
+        if (this.props.showInUP) {
             new TGridColumn(grid, "InUP_", "进货价");
         }
 
         grid.exportFile("进出库查询导出.csv");
     }
 
-    get sid() {
-        return this._sid;
-    }
-
-    set sid(value) {
-        this._sid = value;
-    }
-
-    run() {
-        let item = document.getElementsByName('submit1');
-        if (item.length > 0) {
-            item[0].addEventListener('click', this.submitClick);
+    onOperaClick(sender: any) {
+        let str: string = sender.target.hash;
+        let recNo = Number.parseInt(str.substr(1, str.length - 1));
+        let el = document.getElementById(`tr${recNo}_1`);
+        if (el) {
+            let style = el.style;
+            let value = style.getPropertyValue('display');
+            if (value == "none")
+                style.removeProperty('display');
+            else
+                style.setProperty('display', 'none');
         }
-
-        let exportFile = document.getElementById('exportFile');
-        exportFile.addEventListener('click', this.exportFileClick);
-        //@ts-ignore
-        exportFile.href = "#";
-    }
-
-
-    get profile() {
-        return this._profile
-    }
-
-    set profile(value) {
-        this._profile = value
     }
 
 }
@@ -427,15 +440,4 @@ function getTBUrl(tb: string) {
             break;
     }
     return url;
-}
-
-// @ts-ignore
-window.expendSwitch = (recNo: any) => {
-    let el = document.getElementById(`tr${recNo}_1`);
-    let style = el.style;
-    let value = style.getPropertyValue('display');
-    if (value == "none")
-        style.removeProperty('display');
-    else
-        style.setProperty('display', 'none');
 }

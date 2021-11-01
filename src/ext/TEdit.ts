@@ -10,31 +10,32 @@ export default class TEdit extends TComponent {
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
-        this.rootLabel = 'div';
+        this.setRootLabel('div');
         if (this.id == undefined)
-            this.id = this.getUid();
+            this.setId(this.getUid());
 
         this._label = new TSpan(this);
         if (props && props.label)
-            this._label.text = props.label;
+            this._label.setText(props.label);
         else
-            this._label.text = 'label:';
+            this._label.setText('label:');
         this.input = new TInput(this);
     }
 
-    set label(value: string) { this._label.text = value }
     get label(): string { return this._label.text }
+    setLLabel(value: string): TEdit { this._label.setText(value); return this; }
 
-    set defaultValue(value: string) { this.writeProperty('value', value) }
     get defaultValue(): string { return this.readProperty('value') }
+    setDefaultValue(value: string): TEdit { this.writeProperty('value', value); return this; }
 
-    set value(value: string) {
-        let el = this.getElement()
-        if (el) el.value = value
-    }
     get value(): string {
         let el = this.getElement();
         return el ? el.value : null;
+    }
+    setValue(value: string): TEdit {
+        let el = this.getElement()
+        if (el) el.value = value;
+        return this;
     }
 
     private getElement(): HTMLInputElement {

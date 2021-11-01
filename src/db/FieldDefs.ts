@@ -4,19 +4,20 @@ import FieldMeta from "./FieldMeta";
 export default class FieldDefs {
     private _fields: FieldMeta[] = [];
 
-    set json(json: any) {
+    get json(): object {
+        let json: any = [];
+        for (let meta of this._fields)
+            json.push(meta.json);
+        return json;
+    }
+    setJson(json: any): FieldDefs {
         this._fields = [];
         for (let field of json) {
             const { code, kind } = field;
             let meta = new FieldMeta(code, kind);
             this._fields.push(meta);
         }
-    }
-    get json(): object {
-        let json: any = [];
-        for (let meta of this._fields)
-            json.push(meta.json);
-        return json;
+        return this;
     }
 
     add(code: string, kind: number = FieldKind.Memory): FieldMeta {

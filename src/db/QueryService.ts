@@ -10,7 +10,7 @@ export default class QueryService extends RemoteService {
         if (props) {
             const { sql: sql } = props;
             if (sql)
-                this.sql = sql;
+                this.setSql(sql);
         }
     }
 
@@ -20,11 +20,11 @@ export default class QueryService extends RemoteService {
     }
 
     get sql(): string { return this._sql }
-    set sql(sql: string) { this._sql = sql }
+    setSql(sql: string): QueryService { this._sql = sql; return this; }
 
     open(timeout: number = 10000): Promise<DataSet> {
-        if (this._sql) 
-            this.service = this.findService(this._sql);
+        if (this._sql)
+            this.setService(this.findService(this._sql));
         this.dataIn.head.setValue("_RecordFilter_", this._sql);
         return Promise.race([this.getPromise(), new Timeout(timeout).getPromise()]);
     }

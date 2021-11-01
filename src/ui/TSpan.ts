@@ -6,13 +6,14 @@ export default class TSpan extends TComponent {
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
-        this.rootLabel = 'span';
+        this.setRootLabel('span');
     }
 
-    set text(text: string) {
+    get text(): string { return this._span == null ? null : this._span.text; }
+    setText(text: string): TSpan {
         if (!this._span)
             this._span = new TText(this);
-        this._span.text = text;
+        this._span.setText(text);
+        return this;
     }
-    get text(): string { return this._span == null ? null : this._span.text; }
 }

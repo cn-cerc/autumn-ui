@@ -24,7 +24,7 @@ export default class TTabControl extends TDiv implements DataControl {
                     if (this._items.get(page) == undefined) {
                         let span = new TTabSheet(this);
                         span.text = page.title ? page.title : page.getUid();
-                        span.data = it;
+                        span.setData(it);
                         span.addEventListener('click', () => {
                             app.pageNo = span.data;
                         })

@@ -8,14 +8,18 @@ import TGridColumn from './TGridColumn';
 import TGridGroup from './TGridGroup';
 import TGridGroupMaster from './TGridGroupMaster';
 
+interface IOnOutput {
+    (child: TGridGroupChild, display: KeyValue): void
+}
+
 export default class TGridGroupChild extends TGridGroup {
     private _master: TGridGroupMaster;
     private _onOutput: (child: TGridGroupChild, display: KeyValue) => void;
 
     constructor(owner: TComponent) {
         super(owner);
-        this.titleVisiable = false;
-        this.visible = false;
+        this.setTitleVisiable(false);
+        this.setVisible(false);
     }
 
     output(html: HtmlWriter) {
@@ -34,15 +38,15 @@ export default class TGridGroupChild extends TGridGroup {
         let value: string = "";
         this.forEach((child: TGridColumn) => {
             if (child.visible) {
-                let text = this.getCurrent().getText(child.getCode());
+                let text = this.current.getText(child.code);
                 if (text)
-                    value = value + child.getName() + ": " + text + " ";
+                    value = value + child.name + ": " + text + " ";
             }
         });
 
         if (value.length > 0) {
             let tr = new TTr();
-            tr.id = 'tr' + this.getCurrent().dataSet.recNo + "_" + it;
+            tr.setId('tr' + this.current.dataSet.recNo + "_" + it);
             if (!display.asBoolean())
                 tr.setCssStyle('display:none');
             let td = new TTd(tr);
@@ -53,10 +57,10 @@ export default class TGridGroupChild extends TGridGroup {
         }
     }
 
-    set master(value: TGridGroupMaster) { this._master = value }
     get master() { return this._master }
+    setMaster(value: TGridGroupMaster): TGridGroupChild { this._master = value; return this; }
 
-    set onOutput(value: (child: TGridGroupChild, display: KeyValue) => void) { this._onOutput = value }
-    get onOutput(): (child: TGridGroupChild, display: KeyValue) => void { return this._onOutput }
+    get onOutput(): IOnOutput { return this._onOutput }
+    setOnOutput(value: IOnOutput): TGridGroupChild { this._onOutput = value; return this; }
 
 }

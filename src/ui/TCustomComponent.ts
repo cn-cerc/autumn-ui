@@ -12,7 +12,7 @@ export default class TCustomComponent extends TComponent {
     }
 
     beginOutput(html: HtmlWriter) {
-        this._content.text = this.html().trim();
+        this._content.setText(this.html().trim());
         this._history = [];
         //设置全局css样式
         let css = this.css().trim();

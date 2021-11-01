@@ -200,86 +200,6 @@ export default class DataSet implements DataBind, DataSource {
         }
     }
 
-    set jsonString(jsonObj: any) {
-        this.clear();
-        if (!jsonObj) {
-            return;
-        }
-        if (!jsonObj) {
-            throw new Error('json is null!')
-        }
-        if (typeof jsonObj === 'string') {
-            jsonObj = JSON.parse(jsonObj)
-        }
-        if (jsonObj.hasOwnProperty('state')) {
-            this._state = jsonObj.state
-        }
-        if (jsonObj.hasOwnProperty('message')) {
-            this._message = jsonObj.message
-        }
-
-        let fields: string[] = [];
-        if (jsonObj.hasOwnProperty('meta')) {
-            this.setMetaInfo(true);
-            this._meta = jsonObj.meta;
-            if (this._meta.head) {
-                this._head = new DataRow();
-                let i = 0;
-                this._meta.head.forEach((map: any) => {
-                    for (let key in map) {
-                        let values = map[key];
-                        let meta = this._head.fieldDefs.add(key);
-                        if (values.length > 2)
-                            meta.remark = values[2];
-                        if (values.length > 1)
-                            meta.type = values[1];
-                        if (values.length > 0)
-                            meta.name = values[0];
-                        this._head.setValue(key, jsonObj.head[i]);
-                        i = i + 1;
-                    }
-                })
-            }
-            if (this._meta.body) {
-                let i = 0;
-                this._meta.body.forEach((map: any) => {
-                    for (let key in map) {
-                        let values = map[key];
-                        let meta = this._fieldDefs.add(key);
-                        if (values.length > 2)
-                            meta.remark = values[2];
-                        if (values.length > 1)
-                            meta.type = values[1];
-                        if (values.length > 0)
-                            meta.name = values[0];
-                        fields[i] = key;
-                        i = i + 1;
-                    }
-                });
-            }
-        } else {
-            this.setMetaInfo(false);
-            if (jsonObj.hasOwnProperty('head'))
-                this._head.json = jsonObj.head;
-        }
-
-        var data = jsonObj.dataset || jsonObj.body;
-        if (data) {
-            if (data && data.length > 0) {
-                for (var i = 0; i < data.length; i++) {
-                    if (!this._meta && i == 0) {
-                        fields = data[0];
-                        continue;
-                    }
-                    let item = data[i];
-                    let row = this.append().getCurrent()
-                    for (let j = 0; j < fields.length; j++)
-                        row.setValue(fields[j], item[j]);
-                }
-            }
-            this.first()
-        }
-    }
     get jsonString(): string {
         let json: any = {}
         if (this._state !== 0) {
@@ -360,6 +280,87 @@ export default class DataSet implements DataBind, DataSource {
         }
         return JSON.stringify(json);
     }
+
+    setJsonString(jsonObj: any) {
+        this.clear();
+        if (!jsonObj) {
+            return;
+        }
+        if (!jsonObj) {
+            throw new Error('json is null!')
+        }
+        if (typeof jsonObj === 'string') {
+            jsonObj = JSON.parse(jsonObj)
+        }
+        if (jsonObj.hasOwnProperty('state')) {
+            this._state = jsonObj.state
+        }
+        if (jsonObj.hasOwnProperty('message')) {
+            this._message = jsonObj.message
+        }
+
+        let fields: string[] = [];
+        if (jsonObj.hasOwnProperty('meta')) {
+            this.setMetaInfo(true);
+            this._meta = jsonObj.meta;
+            if (this._meta.head) {
+                this._head = new DataRow();
+                let i = 0;
+                this._meta.head.forEach((map: any) => {
+                    for (let key in map) {
+                        let values = map[key];
+                        let meta = this._head.fieldDefs.add(key);
+                        if (values.length > 2)
+                            meta.setRemark(values[2]);
+                        if (values.length > 1)
+                            meta.setType(values[1]);
+                        if (values.length > 0)
+                            meta.setName(values[0]);
+                        this._head.setValue(key, jsonObj.head[i]);
+                        i = i + 1;
+                    }
+                })
+            }
+            if (this._meta.body) {
+                let i = 0;
+                this._meta.body.forEach((map: any) => {
+                    for (let key in map) {
+                        let values = map[key];
+                        let meta = this._fieldDefs.add(key);
+                        if (values.length > 2)
+                            meta.setRemark(values[2]);
+                        if (values.length > 1)
+                            meta.setType(values[1]);
+                        if (values.length > 0)
+                            meta.setName(values[0]);
+                        fields[i] = key;
+                        i = i + 1;
+                    }
+                });
+            }
+        } else {
+            this.setMetaInfo(false);
+            if (jsonObj.hasOwnProperty('head'))
+                this._head.setJson(jsonObj.head);
+        }
+
+        var data = jsonObj.dataset || jsonObj.body;
+        if (data) {
+            if (data && data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if (!this._meta && i == 0) {
+                        fields = data[0];
+                        continue;
+                    }
+                    let item = data[i];
+                    let row = this.append().getCurrent()
+                    for (let j = 0; j < fields.length; j++)
+                        row.setValue(fields[j], item[j]);
+                }
+            }
+            this.first()
+        }
+    }
     get json(): object {
         let json: any = {};
         json.state = this._state;
@@ -377,21 +378,18 @@ export default class DataSet implements DataBind, DataSource {
         return json;
     }
 
-    set state(state: number) { this._state = state }
     get state(): number { return this._state }
     setState(state: number): DataSet {
         this._state = state;
         return this;
     }
 
-    set message(message: string) { this._message = message }
     get message(): string { return this._message }
     setMessage(message: string): DataSet {
         this._message = message;
         return this;
     }
 
-    set metaInfo(value: boolean) { this._metaInfo = value }
     get metaInfo() { return this._metaInfo }
     setMetaInfo(metaInfo: boolean): DataSet {
         this._metaInfo = metaInfo;
@@ -407,8 +405,8 @@ export default class DataSet implements DataBind, DataSource {
         let srcRecNo = source.recNo;
         let tarEnable = this.bindEnabled;
         //开始复制
-        source.bindEnabled = false;
-        this.bindEnabled = false;
+        source.setBindEnabled(false);
+        this.setBindEnabled(false);
         source.first();
         while (source.fetch()) {
             this.append();
@@ -418,8 +416,8 @@ export default class DataSet implements DataBind, DataSource {
         }
         //恢复状态
         source.recNo = srcRecNo;
-        source.bindEnabled = srcEnable;
-        this.bindEnabled = tarEnable;
+        source.setBindEnabled(srcEnable);
+        this.setBindEnabled(tarEnable);
     }
 
     forEach(fn: (row: DataRow) => void) {
@@ -441,7 +439,7 @@ export default class DataSet implements DataBind, DataSource {
         }
     }
     get bindEnabled(): boolean { return this._bindEnabled };
-    set bindEnabled(value: boolean) { this._bindEnabled = value }
+    setBindEnabled(value: boolean): DataSet { this._bindEnabled = value; return this; }
 
     getPromise(): Promise<DataSet> {
         return new Promise<DataSet>((resolve, reject) => {

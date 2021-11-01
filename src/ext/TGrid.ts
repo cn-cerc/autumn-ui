@@ -15,15 +15,16 @@ export default class TGrid extends TTable implements DataControl {
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
-        this.border = '1';
+        this.setBorder('1');
         this.setCssStyle('width:100%');
     }
 
-    set dataSet(dataSet: DataSet) {
+    get dataSet(): DataSet { return this._dataSet }
+    setDataSet(dataSet: DataSet): TGrid {
         this._dataSet = dataSet;
         dataSet.registerBind(this);
+        return this;
     }
-    get dataSet(): DataSet { return this._dataSet }
 
     output(html: HtmlWriter): void {
         if (this._groups.length == 0 || this._groups[0].getComponentCount() == 0) {
@@ -47,7 +48,7 @@ export default class TGrid extends TTable implements DataControl {
         this._groups.forEach((group) => {
             if (group instanceof TGridGroupChild) {
                 let child = group as TGridGroupChild;
-                child.master = master;
+                child.setMaster(master);
                 child.outputOfGridTitle(html);
             }
         });
@@ -55,7 +56,7 @@ export default class TGrid extends TTable implements DataControl {
         //再输出表格数据
         if (this._dataSet) {
             let enable = this._dataSet.bindEnabled;
-            this._dataSet.bindEnabled = false;
+            this._dataSet.setBindEnabled(false);
             let recNo = this._dataSet.recNo;
             this._dataSet.first();
             while (this._dataSet.fetch()) {
@@ -66,7 +67,7 @@ export default class TGrid extends TTable implements DataControl {
                 });
             }
             this._dataSet.recNo = recNo;
-            this._dataSet.bindEnabled = enable;
+            this._dataSet.setBindEnabled(enable);
         }
 
         this.endOutput(html);
@@ -111,7 +112,7 @@ export default class TGrid extends TTable implements DataControl {
 
     clear() {
         for (let child of this.getComponents())
-            child.owner = null;
+            child.setOwner(null);
         this._groups = [];
         this._dataSet = null;
     }
@@ -125,8 +126,8 @@ export default class TGrid extends TTable implements DataControl {
         for (let group of this._groups) {
             group.getComponents().forEach((item) => {
                 let column = item as TGridColumn;
-                if (column.getExport())
-                    str += column.getName() + ",";
+                if (column.export)
+                    str += column.name + ",";
             });
         }
         str += '\n';
@@ -137,8 +138,8 @@ export default class TGrid extends TTable implements DataControl {
             for (let group of this._groups) {
                 group.getComponents().forEach((item) => {
                     let column = item as TGridColumn;
-                    if (column.getExport()) {
-                        let value = this._dataSet.getText(column.getCode());
+                    if (column.export) {
+                        let value = this._dataSet.getText(column.code);
                         value = value.replace(/\r|\n|\\s/g, "");
                         str += value.replace(/,/g, "，") + ",";
                     }

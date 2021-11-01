@@ -4,17 +4,17 @@ export default class TInput extends TComponent {
 
     constructor(owner: TComponent) {
         super(owner);
-        this.rootLabel = 'input';
+        this.setRootLabel('input');
     }
 
-    set name(name: string) { this.writeProperty('name', name) }
     get name() { return this.readProperty('name') }
+    setName(name: string): TInput { this.writeProperty('name', name); return this; }
 
-    set defaultValue(value: string) { this.writeProperty('value', value) }
     get defaultValue() { return this.readProperty('value') }
+    setDefaultValue(value: string): TInput { this.writeProperty('value', value); return this; }
 
-    set value(value: string) { document.getElementById(this.id).innerText = value }
     get value(): string { return document.getElementById(this.id).innerText }
+    setValue(value: string): TInput { document.getElementById(this.id).innerText = value; return this; }
 
     private getElement(): HTMLInputElement {
         if (!this.id)

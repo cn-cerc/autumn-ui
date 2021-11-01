@@ -6,6 +6,7 @@ export { default as FieldDefs } from './db/FieldDefs';
 export { default as FieldMeta } from './db/FieldMeta';
 export { default as RemoteService } from './db/RemoteService';
 export { default as QueryService } from './db/QueryService';
+export { default as Datetime } from './db/Datetime';
 //vcl
 export { default as HtmlWriter } from './ui/HtmlWriter';
 export { default as TComponent } from './ui/TComponent';
@@ -42,6 +43,3 @@ export {default as TSchScmStockInOut} from "./diteng/TSchScmStockInOut";
 export {default as CheckDraftTB} from "./diteng/CheckDraftTB";
 export {default as CheckWorkflow} from "./diteng/CheckWorkflow";
 export {default as CheckReport} from "./diteng/CheckReport";
-
-
-

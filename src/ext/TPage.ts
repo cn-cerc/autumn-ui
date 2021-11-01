@@ -7,9 +7,9 @@ export default class TPage extends TDiv {
     constructor(owner: TComponent, props: any = null) {
         super(owner);
         if (!owner)
-            this.container = 'page';
+            this.setContainer('page');
         if (!this.id)
-            this.id = 'page';
+            this.setId('page');
         if (props && props.title) {
             this.title = props.title;
         }

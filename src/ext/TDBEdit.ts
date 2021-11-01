@@ -12,22 +12,23 @@ export default class TDBEdit extends TEdit implements DataControl {
         super(owner, props);
     }
 
-    set dataSource(dataSet: DataSource) {
+    get dataSource(): DataSource { return this._dataSource }
+    setDataSource(dataSet: DataSource): TDBEdit {
         if (this._dataSource)
             this._dataSource.registerBind(this, false);
         this._dataSource = dataSet;
         if (this._dataSource)
             this._dataSource.registerBind(this, true);
+        return this;
     }
-    get dataSource(): DataSource { return this._dataSource }
 
-    set dataField(value: string) { this._dataField = value }
     get dataField(): string { return this._dataField }
+    setDataField(value: string): TDBEdit { this._dataField = value; return this; }
 
     doChange(content: any = undefined): void {
         if (this._dataSource && this._dataField) {
             let row = this._dataSource.getCurrent();
-            this.value = row ? row.getString(this._dataField) : '';
+            this.setValue(row ? row.getString(this._dataField) : '');
         }
     }
 
@@ -37,7 +38,7 @@ export default class TDBEdit extends TEdit implements DataControl {
             let row = this._dataSource.getCurrent();
             if (row)
                 value = row.getString(this._dataField);
-            this.defaultValue = value;
+            this.setDefaultValue(value);
         }
         super.beginOutput(html);
     }

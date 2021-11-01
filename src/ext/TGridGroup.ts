@@ -17,21 +17,19 @@ export default class TGridGroup extends TComponent {
         super(owner);
     }
 
-    set current(value: DataRow) { this._current = value }
     get current(): DataRow { return this._current }
-
     setCurrent(row: DataRow) {
         this._current = row;
     }
-    getCurrent(): DataRow {
-        return this._current;
-    }
+
+    get titleVisiable() { return this._titleVisiable }
+    setTitleVisiable(value: boolean): TGridGroup { this._titleVisiable = value; return this; }
 
     getTotalWidth() {
         let result = 0;
         this.getComponents().forEach((item) => {
             if (item instanceof TGridColumn)
-                result = result + item.getWidth();
+                result = result + item.width;
         });
         if (result < 0) {
             throw new Error("总列宽不允许小于1");
@@ -41,10 +39,6 @@ export default class TGridGroup extends TComponent {
         }
         return result;
     }
-
-    get titleVisiable() { return this._titleVisiable }
-
-    set titleVisiable(value: boolean) { this._titleVisiable = value }
 
     get columns(): TGridColumn[] {
         let items: TGridColumn[] = [];
@@ -62,7 +56,7 @@ export default class TGridGroup extends TComponent {
     getColumn(columnCode: string): TGridColumn {
         for (let item of this.getComponents()) {
             let column = item as TGridColumn;
-            if (column.getCode() == columnCode)
+            if (column.code == columnCode)
                 return column;
         }
         return null;
@@ -85,13 +79,13 @@ export default class TGridGroup extends TComponent {
                 if (!child.visible)
                     continue;
                 let th = new TTh(tr);
-                if (child.getColspan())
-                    th.writeProperty("colspan", child.getColspan());
-                if (this.getTotalWidth() > 0 && child.getWidth() > 0) {
-                    let rate = child.getWidth() / this.getTotalWidth() * 100;
+                if (child.colSpan)
+                    th.writeProperty("colspan", child.colSpan);
+                if (this.getTotalWidth() > 0 && child.width > 0) {
+                    let rate = child.width / this.getTotalWidth() * 100;
                     th.writeProperty("width", rate.toFixed(1) + "%");
                 }
-                new TText(th, { text: child.getName() });
+                new TText(th, { text: child.name });
             }
         }
         tr.output(html);

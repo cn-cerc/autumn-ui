@@ -11,7 +11,7 @@ export default class TStatusBar extends TDiv {
         this.setCssStyle('background-color:rgb(240,240,240);');
     }
 
-    set text(value: string) { this._text.text = value }
     get text(): string { return this._text.text }
+    setText(value: string): TStatusBar { this._text.setText(value); return this; }
 
 }

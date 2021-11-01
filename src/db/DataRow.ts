@@ -125,20 +125,6 @@ export default class DataRow implements DataBind, DataSource {
 
     get delta(): Map<string, any> { return this._delta }
 
-    set jsonString(jsonObj: string | JSON) {
-        if (!jsonObj) {
-            throw new Error('jsonText is null!')
-        }
-        let json: any;
-        if (typeof jsonObj === 'string') {
-            json = JSON.parse(jsonObj)
-        } else {
-            json = jsonObj;
-        }
-        for (let k in json) {
-            this.setValue(k, json[k])
-        }
-    }
     get jsonString(): string {
         let obj: any = {}
         for (let meta of this._fieldDefs.fields) {
@@ -147,6 +133,14 @@ export default class DataRow implements DataBind, DataSource {
         }
         return JSON.stringify(obj);
     }
+    setJsonString(jsonObj: string): DataRow {
+        if (!jsonObj)
+            throw new Error('jsonText is null!')
+        let json = JSON.parse(jsonObj)
+        for (let k in json)
+            this.setValue(k, json[k])
+        return this;
+    }
 
     get json(): object {
         let json: any = {};
@@ -154,10 +148,11 @@ export default class DataRow implements DataBind, DataSource {
             json[meta.code] = this.getValue(meta.code);
         return json;
     }
-    set json(jsonObject: any) {
+    setJson(jsonObject: any): DataRow {
         let keys = Object.keys(jsonObject);
         for (let key of keys)
             this.setValue(key, jsonObject[key]);
+        return this;
     }
 
     get fieldDefs(): FieldDefs {
@@ -195,7 +190,7 @@ export default class DataRow implements DataBind, DataSource {
         }
     }
     get bindEnabled(): boolean { return this._bindEnabled };
-    set bindEnabled(value: boolean) { this._bindEnabled = value }
+    setBindEnabled(value: boolean): DataRow { this._bindEnabled = value; return this; }
 
     getCurrent(): DataRow {
         return this;

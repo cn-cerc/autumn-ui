@@ -42,21 +42,17 @@ export default class FieldMeta {
 
     get code() { return this._code };
 
-    set name(value: string) { this._name = value }
     get name(): string { return this._name }
-    setName(value: string): FieldMeta {
-        this.name = value;
-        return this;
-    }
+    setName(value: string): FieldMeta { this._name = value; return this; }
 
-    set remark(value: string) { this._remark = value }
     get remark(): string { return this._remark }
+    setRemark(value: string): FieldMeta { this._remark = value; return this; }
 
-    set type(value: string) { this._type = value }
     get type(): string { return this._type }
+    setType(value: string): FieldMeta { this._type = value; return this; }
 
-    set kind(value: number) { this._kind = value }
     get kind(): number { return this._kind }
+    setKind(value: number): FieldMeta { this._kind = value; return this; }
 
     set onGetText(fn: (row: DataRow, meta: FieldMeta) => string) { this._onGetText = fn }
     get onGetText(): (row: DataRow, meta: FieldMeta) => string { return this._onGetText }

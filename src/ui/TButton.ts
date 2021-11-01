@@ -6,7 +6,7 @@ export default class TButton extends TComponent {
 
     constructor(owner: TComponent, props: any = null) {
         super(owner, props);
-        this.rootLabel = 'button';
+        this.setRootLabel('button');
         if (props) {
             const { text } = props;
             if (text)

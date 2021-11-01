@@ -6,14 +6,14 @@ export default class TA extends TComponent {
 
     constructor(owner: TComponent) {
         super(owner);
-        this.rootLabel = 'a';
+        this.setRootLabel('a');
         this._text = new TText(this);
     }
 
-    set href(value: string) { this.writeProperty('href', value) }
     get href(): string { return this.readProperty('href') }
+    setHref(value: string): TA { this.writeProperty('href', value); return this; }
 
-    set text(value: string) { this._text.text = value }
     get text(): string { return this._text.text }
+    setText(value: string): TA { this._text.setText(value); return this; }
 
 }

@@ -8,7 +8,7 @@ export default class TTabSheet extends TButton {
         super(owner, props);
     }
 
-    set data(value: any) { this._data = value }
     get data(): any { return this._data }
+    setData(value: any): TTabSheet { this._data = value; return this; }
 
 }

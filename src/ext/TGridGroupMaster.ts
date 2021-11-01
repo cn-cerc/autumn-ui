@@ -15,17 +15,17 @@ export default class TGridGroupMaster extends TGridGroup {
     output(html: HtmlWriter): void {
         let notNull = false;
         let tr = new TTr();
-        tr.id = 'tr' + this.getCurrent().dataSet.recNo;
+        tr.setId('tr' + this.current.dataSet.recNo);
         this.forEach((child: TGridColumn) => {
             if (!child.visible)
                 return;
-            let value = this.getCurrent().getText(child.getCode());
+            let value = this.current.getText(child.code);
             let td = new TTd(tr);
-            if (child.getColspan())
-                td.writeProperty("colspan", child.getColspan());
+            if (child.colSpan)
+                td.writeProperty("colspan", child.colSpan);
 
-            if (child.getAlign()) {
-                td.writeProperty("align", child.getAlign());
+            if (child.align) {
+                td.writeProperty("align", child.align);
             }
             new TText(td, { text: value });
             if (value)
