@@ -40,3 +40,16 @@ cnpm run dev
 ```
 cnpm run build
 ```
+
+## 一键安装环境
+```
+npm i -D webpack webpack-cli
+npm i -D webpack-dev-server
+npm i -D html-webpack-plugin
+npm i --D clean-webpack-plugin
+npm i --D typescript ts-loader
+npm i -D react react-dom
+npm i -D @types/react @types/react-dom @babel/preset-react
+npm i -D  @types/jquery
+
+```
