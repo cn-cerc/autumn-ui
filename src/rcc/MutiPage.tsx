@@ -6,6 +6,8 @@ const buttonStyle = {
 
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
 
+export const MinPageSize = 10;
+
 type propsType = {
     onPageChanged: OnPageChanged
     total: number;
@@ -20,7 +22,7 @@ type stateType = {
 export default class MutiPage extends React.Component<propsType, stateType> {
     constructor(props: propsType) {
         super(props);
-        this.state = { pageSize: 20, pageNo: 1, inputValue: '1' }
+        this.state = { pageSize: MinPageSize, pageNo: 1, inputValue: '1' }
     }
 
     render() {
@@ -31,6 +33,8 @@ export default class MutiPage extends React.Component<propsType, stateType> {
                 <span style={{ margin: '0.5rem' }} />
                 <span>每页 </span>
                 <select value={this.state.pageSize} onChange={this.onPageSizeChange}>
+                    <option value={MinPageSize}>{MinPageSize}</option>
+                    <option value='15'>15</option>
                     <option value='20'>20</option>
                     <option value='50'>50</option>
                     <option value='100'>100</option>

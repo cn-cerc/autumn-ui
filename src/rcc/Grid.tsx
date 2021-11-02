@@ -4,7 +4,7 @@ import { DataRow, TGridGroupChild, TGridGroupMaster } from '../Autumn-UI';
 import DataSet from '../db/DataSet';
 import KeyValue from '../db/KeyValue';
 import GridConfig from './GridConfig';
-import MutiPage, { OnPageChanged } from './MutiPage';
+import MutiPage, { MinPageSize, OnPageChanged } from './MutiPage';
 
 const defaultProps = {
     id: ''
@@ -24,7 +24,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     constructor(props: PropsType) {
         super(props)
-        this.state = { beginPoint: 1, endPoint: Math.min(20, this.props.config.dataSet.size) };
+        this.state = { beginPoint: 1, endPoint: MinPageSize };
     }
 
     render() {
@@ -64,6 +64,8 @@ export default class Grid extends React.Component<PropsType, stateType> {
         let ds = this.props.config.dataSet;
         let recNo = ds.recNo;
         for (let i = this.state.beginPoint; i <= this.state.endPoint; i++) {
+            if (i > ds.size)
+                break;
             ds.setRecNo(i);
             this.props.config.setCurrent(ds.current);
             items.push(this.getMasterRow(ds.current));
@@ -122,7 +124,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
     }
 
     getNavigator(): React.ReactNode {
-        if (this.props.config.dataSet.size <= 20)
+        if (this.props.config.dataSet.size <= MinPageSize)
             return null;
         return (
             <MutiPage total={this.props.config.dataSet.size} onPageChanged={this.onPageChanged} />

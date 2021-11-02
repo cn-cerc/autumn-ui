@@ -90,9 +90,8 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             );
         });
 
-        if (!this.props.isCustomer) {
+        if (!this.props.isCustomer)
             new TGridColumn(config, "NewUP_", "最新单价").setWidth(4);// custom
-        }
 
         new TGridColumn(config, "Num_", "销售数量").setWidth(4);
         new TGridColumn(config, "Amount_", "销售金额").setWidth(4);
@@ -151,7 +150,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         exportFileMergeDescSpec.href = "#";
 
         config.setDataSet(this.dataSet);
-        this.state = {config: config };
+        this.state = { config: config };
     }
 
     submitClick = (e: any) => {
