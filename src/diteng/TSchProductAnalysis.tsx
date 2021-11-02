@@ -24,7 +24,6 @@ const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
 const loading = new Loading('系统正在查询中 . . .');
 const MAX_RECORD = 10000;
 
-
 export default class TSchProductAnalysis extends React.Component<propsType, stateType>{
     private async: boolean;
     private dataSet: DataSet;
@@ -366,14 +365,10 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         if (this.props.isCustomer) {
             new TGridColumn(grid, "DefaultCW_", "储位");
             new TGridColumn(grid, "SalesStatus_", "销售类别");
-            new TGridColumn(grid, "FirstInDate", "首次入库");// custom，createText
+            new TGridColumn(grid, "FirstInDate", "首次入库时间");// custom，createText
             new TGridColumn(grid, "LowerShelf_", "下架");
         } else {
             new TGridColumn(grid, "NewUP_", "最新单价");// custom
-        }
-
-        if (this.props.isCustomer) {
-            new TGridColumn(grid, "OriUP_", "单价");// custom
         }
 
         // 狼王
@@ -381,7 +376,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             new TGridColumn(grid, "CusNum", "销售家数");
         }
         // 水能
-        if (this.props.corpNo == CUSTOMER_131001) {
+        if (this.props.corpNo == CUSTOMER_181013) {
             new TGridColumn(grid, "OutSumAmount_", "业务成本");// CUSTOMER_181013
             new TGridColumn(grid, "OutSumProfit_", "业务毛利");// CUSTOMER_181013
         }
