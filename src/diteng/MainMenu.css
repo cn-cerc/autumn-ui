@@ -1,0 +1,15 @@
+.MainMenu .groupItem {
+    color: black;
+}
+
+.MainMenu .groupSelected {
+    color: red;
+}
+
+.MainMenu img {
+    height: 2rem;
+}
+
+.MainMenu li {
+    height: 2rem;
+}
