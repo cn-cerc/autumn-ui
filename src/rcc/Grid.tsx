@@ -63,7 +63,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
         let items: any[] = [];
         let ds = this.props.config.dataSet;
         let recNo = ds.recNo;
-        for (let i = this.state.beginPoint; i < this.state.endPoint; i++) {
+        for (let i = this.state.beginPoint; i <= this.state.endPoint; i++) {
             ds.setRecNo(i);
             this.props.config.setCurrent(ds.current);
             items.push(this.getMasterRow(ds.current));
