@@ -1,5 +1,6 @@
 import React from "react";
 import DataRow from "../db/DataRow";
+import GridColumns from "../rcc/GridConfig";
 import TComponent from "../ui/TComponent";
 import TGrid from "./TGrid";
 import TGridGroupChild from "./TGridGroupChild";
@@ -17,7 +18,7 @@ export default class TGridColumn extends TComponent {
     private _export = true;
     private _onRender: onRenderType;
 
-    constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild, code: string, name: string = null) {
+    constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild | GridColumns, code: string, name: string = null) {
         super(owner);
         this._code = code;
         this._name = name ? name : code;

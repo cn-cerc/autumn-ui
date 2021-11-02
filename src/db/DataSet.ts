@@ -56,35 +56,35 @@ export default class DataSet implements DataBind, DataSource {
             else if (this.size == 0)
                 cur = 0;
 
-            this.recNo = cur;
+            this.setRecNo(cur);
             this.refreshBind({ size: true });
         }
     }
 
     first(): boolean {
         if (this._records.length > 0) {
-            this.recNo = 1
+            this.setRecNo(1)
         } else {
-            this.recNo = 0;
+            this.setRecNo(0);
         }
         this._fetchNo = -1
         return this._recNo > 0;
     }
 
     last(): boolean {
-        this.recNo = this._records.length;
+        this.setRecNo(this._records.length);
         return this._recNo > 0;
     }
 
     prior(): boolean {
         if (this._recNo > 0)
-            this.recNo = this.recNo - 1;
+            this.setRecNo(this.recNo - 1);
         return this._recNo > 0 && this._recNo <= this._records.length;
     }
 
     next(): boolean {
         if (this._recNo <= this._records.length)
-            this.recNo = this.recNo + 1;
+            this.setRecNo(this.recNo + 1);
         return this._recNo > 0 && this._recNo <= this._records.length;
     }
 
@@ -98,7 +98,8 @@ export default class DataSet implements DataBind, DataSource {
 
     get size(): number { return this._records.length }
 
-    set recNo(recNo: number) {
+    get recNo(): number { return this._recNo }
+    setRecNo(recNo: number): DataSet {
         if (recNo > (this._records.length + 1)) {
             throw new Error(`RecNo ${this._recNo} 大于总长度 ${this._records.length}`)
         } else if (recNo < 0) {
@@ -107,14 +108,14 @@ export default class DataSet implements DataBind, DataSource {
             this._recNo = recNo;
             this.refreshBind({ recNo: true });
         }
+        return this;
     }
-    get recNo(): number { return this._recNo }
 
     fetch(): boolean {
         var result = false
         if (this._fetchNo < (this._records.length - 1)) {
             this._fetchNo++;
-            this.recNo = this._fetchNo + 1;
+            this.setRecNo(this._fetchNo + 1);
             result = true;
         }
         return result
@@ -193,7 +194,7 @@ export default class DataSet implements DataBind, DataSource {
 
         let record = this._search.get(fields, value)
         if (record) {
-            this.recNo = Array.from(this._records).indexOf(record) + 1;
+            this.setRecNo(Array.from(this._records).indexOf(record) + 1);
             return true;
         } else {
             return false;
@@ -415,7 +416,7 @@ export default class DataSet implements DataBind, DataSource {
             });
         }
         //恢复状态
-        source.recNo = srcRecNo;
+        source.setRecNo(srcRecNo);
         source.setBindEnabled(srcEnable);
         this.setBindEnabled(tarEnable);
     }

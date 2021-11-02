@@ -66,7 +66,7 @@ export default class TGrid extends TTable implements DataControl {
                     group.output(html);
                 });
             }
-            this._dataSet.recNo = recNo;
+            this._dataSet.setRecNo(recNo);
             this._dataSet.setBindEnabled(enable);
         }
 

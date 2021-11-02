@@ -3,52 +3,51 @@ import React, { Component } from 'react';
 import { DataRow, TGridGroupChild, TGridGroupMaster } from '../Autumn-UI';
 import DataSet from '../db/DataSet';
 import KeyValue from '../db/KeyValue';
+import GridConfig from './GridConfig';
+import MutiPage, { OnPageChanged } from './MutiPage';
 
 const defaultProps = {
     id: ''
 }
 
 type PropsType = {
-    dataSet: DataSet;
-    master: TGridGroupMaster;
-    child?: TGridGroupChild;
+    config: GridConfig;
 } & Partial<typeof defaultProps>;
 
-const tableStyle = {
-    // border: '1px solid green',
-    // width: '100%'
+interface stateType {
+    beginPoint: number;
+    endPoint: number;
 }
 
-const tdStyle = {
-    // border: '1px solid green'
-}
-
-const thStyle = {
-    // border: '1px solid green',
-    // backgroundColor: 'green',
-    // color: 'white'
-}
-
-export interface IGridState {
-    dataSet: DataSet
-    master: TGridGroupMaster
-    child?: TGridGroupChild
-}
-
-export default class Grid extends React.Component<PropsType> {
+export default class Grid extends React.Component<PropsType, stateType> {
     static defaultProps = defaultProps;
 
     constructor(props: PropsType) {
         super(props)
+        this.state = { beginPoint: 1, endPoint: Math.min(20, this.props.config.dataSet.size) };
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <table className='dbgrid'>
+                    <tbody>
+                        <tr>{this.getTitles().map(item => item)}</tr>
+                        {this.getRows().map(item => item)}
+                    </tbody>
+                </table >
+                {this.getNavigator()}
+            </React.Fragment>
+        )
     }
 
     getTitles(): any[] {
         let items: any[] = [];
-        if (this.props.master != null) {
-            let total = this.props.master.getTotalWidth();
-            for (let column of this.props.master.columns) {
+        if (this.props.config != null) {
+            let total = this.props.config.getTotalWidth();
+            for (let column of this.props.config.columns) {
                 let title = column.name ? column.name : column.code;
-                let style = { ...thStyle };
+                let style = {};
                 if (total > 0 && column.width > 0) {
                     let rate = column.width / total * 100;
                     let width = `${rate.toFixed(1)}%`;
@@ -62,31 +61,30 @@ export default class Grid extends React.Component<PropsType> {
 
     getRows(): any[] {
         let items: any[] = [];
-        let ds = this.props.dataSet;
+        let ds = this.props.config.dataSet;
         let recNo = ds.recNo;
-        ds.first();
-        while (ds.fetch()) {
-            this.props.master.setCurrent(ds.current);
+        for (let i = this.state.beginPoint; i < this.state.endPoint; i++) {
+            ds.setRecNo(i);
+            this.props.config.setCurrent(ds.current);
             items.push(this.getMasterRow(ds.current));
-            if (this.props.child != null) {
-                this.props.child.setCurrent(ds.current);
-                items.push(this.getChildRow(ds.current));
+            for (let child of this.props.config.children) {
+                items.push(this.getChildRow(child, ds.current));
             }
         }
-        ds.recNo = recNo;
+        ds.setRecNo(recNo);
         return items;
     }
 
     getMasterRow(row: DataRow) {
         let key = "master_" + row.dataSet.recNo;
         let items: any[] = [];
-        for (let column of this.props.master.columns) {
+        for (let column of this.props.config.columns) {
             if (column.visible) {
                 if (column.onRender) {
-                    items.push(<td style={tdStyle} key={column.code}>{column.onRender(column, row)}</td>);
+                    items.push(<td key={column.code}>{column.onRender(column, row)}</td>);
                 } else {
                     let value = row.getText(column.code);
-                    let style = { ...tdStyle }
+                    let style = {}
                     if (column.align)
                         style = { ...style, textAlign: column.align };
                     items.push(<td key={column.code} style={style}>{value}</td>);
@@ -96,10 +94,11 @@ export default class Grid extends React.Component<PropsType> {
         return <tr key={key}>{items}</tr>;
     }
 
-    getChildRow(row: DataRow) {
+    getChildRow(child: GridConfig, row: DataRow) {
+        child.setCurrent(row);
         let key = "child_" + row.dataSet.recNo;
         let value: string = "";
-        for (let column of this.props.child.columns) {
+        for (let column of child.columns) {
             if (column.visible) {
                 let text = row.getText(column.code);
                 if (text)
@@ -107,7 +106,6 @@ export default class Grid extends React.Component<PropsType> {
             }
         }
 
-        let child = this.props.child;
         let display = new KeyValue(child.visible);
         if (child.onOutput)
             child.onOutput(child, display);
@@ -116,24 +114,25 @@ export default class Grid extends React.Component<PropsType> {
         if (!display.asBoolean())
             style = { display: 'none' };
 
-        let colSpan = this.props.master.getColumnCount();
+        let colSpan = this.props.config.columns.length;
         let id = `tr${row.dataSet.recNo}_1`;
         return (<tr key={key} id={id} style={style}>
             <td colSpan={colSpan}>{value}</td>
         </tr>);
     }
 
-    render() {
-        if (this.props.child)
-            this.props.child.setMaster(this.props.master);
+    getNavigator(): React.ReactNode {
+        if (this.props.config.dataSet.size <= 20)
+            return null;
         return (
-            <table style={tableStyle} className='dbgrid'>
-                <tbody>
-                    <tr>{this.getTitles().map(item => item)}</tr>
-                    {this.getRows().map(item => item)}
-                </tbody>
-            </table >
+            <MutiPage total={this.props.config.dataSet.size} onPageChanged={this.onPageChanged} />
         )
+    }
+
+    onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
+        console.log(beginPoint, endPoint);
+        this.setState({ ...this.state, beginPoint, endPoint });
+        console.log(this.state);
     }
 
 }

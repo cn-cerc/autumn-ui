@@ -1,13 +1,10 @@
 import React from "react";
-import { TGridGroupMaster } from "../Autumn-UI";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import TGrid from "../ext/TGrid";
 import TGridColumn from "../ext/TGridColumn";
-import TGridGroupChild from "../ext/TGridGroupChild";
-import Grid, { IGridState } from "../rcc/Grid";
-import HtmlWriter from "../ui/HtmlWriter";
-import TA from "../ui/TA";
+import Grid from "../rcc/Grid";
+import GridColumns from "../rcc/GridConfig";
 import { Loading, showMsg } from "./Summer";
 
 /**
@@ -27,7 +24,11 @@ type propsType = {
     showInUP: boolean;
 }
 
-export default class TSchScmStockInOut extends React.Component<propsType, IGridState> {
+interface stateType {
+    config: GridColumns
+}
+
+export default class TSchScmStockInOut extends React.Component<propsType, stateType> {
     dataSet: DataSet;
     async = false;
 
@@ -35,16 +36,16 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
         super(props);
         this.dataSet = new DataSet();
         // 导出专用
-        let columns = this.dataSet.fieldDefs;
-        columns.add("DescSpecExcel").onGetText = function (row, meta) {
+        let fields = this.dataSet.fieldDefs;
+        fields.add("DescSpecExcel").setOnGetText((row, meta) => {
             let desc = row.getValue("Desc_");
             let spec = row.getValue("Spec_");
             return desc + (spec != '' ? ('，' + spec) : "");
-        }
-        let master = new TGridGroupMaster(null);
+        })
+        let config = new GridColumns();
         // 显示数据源
-        new TGridColumn(master, "sn_", "序").setWidth(3).setAlign("center");
-        new TGridColumn(master, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {
+        new TGridColumn(config, "sn_", "序").setWidth(3).setAlign("center");
+        new TGridColumn(config, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {
             let partCode = row.getValue("PartCode_");
             let desc = row.getValue("Desc_");
             let spec = row.getValue("Spec_");
@@ -55,7 +56,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
                 </React.Fragment>
             )
         });
-        new TGridColumn(master, "tbNo", "异动单号").setWidth(8).setAlign("center").setOnRender((column, row) => {
+        new TGridColumn(config, "tbNo", "异动单号").setWidth(8).setAlign("center").setOnRender((column, row) => {
             let tbNo = row.getValue("TBNo_");
             let it = row.getValue("It_");
             let tb = tbNo.slice(0, 2);
@@ -67,19 +68,19 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
                 </React.Fragment>
             )
         });
-        new TGridColumn(master, "TBDate_", "异动日期").setWidth(6).setAlign("center");
-        new TGridColumn(master, "ShortName_", "对象简称").setWidth(8);
-        new TGridColumn(master, "CWCode_", "仓别").setWidth(4);
+        new TGridColumn(config, "TBDate_", "异动日期").setWidth(6).setAlign("center");
+        new TGridColumn(config, "ShortName_", "对象简称").setWidth(8);
+        new TGridColumn(config, "CWCode_", "仓别").setWidth(4);
 
-        new TGridColumn(master, "Num_", "入库数量").setWidth(4);
-        new TGridColumn(master, "OriAmount_", "入库金额").setWidth(4);
+        new TGridColumn(config, "Num_", "入库数量").setWidth(4);
+        new TGridColumn(config, "OriAmount_", "入库金额").setWidth(4);
 
-        new TGridColumn(master, "OutNum_", "出库数量").setWidth(4);
-        new TGridColumn(master, "OutAmount_", "出库金额").setWidth(4);
+        new TGridColumn(config, "OutNum_", "出库数量").setWidth(4);
+        new TGridColumn(config, "OutAmount_", "出库金额").setWidth(4);
 
-        new TGridColumn(master, "SpareNum_", "赠品数量").setWidth(4);
-        new TGridColumn(master, "SpareAmount_", "赠品金额").setWidth(4);
-        new TGridColumn(master, "salesName", "业务人员").setWidth(4).setOnRender((column, row) => {
+        new TGridColumn(config, "SpareNum_", "赠品数量").setWidth(4);
+        new TGridColumn(config, "SpareAmount_", "赠品金额").setWidth(4);
+        new TGridColumn(config, "salesName", "业务人员").setWidth(4).setOnRender((column, row) => {
             let userCode = row.getValue("SalesCode_");
             let userName = row.getValue("SalesName_");
             let href = `UserInfo?code=${userCode}`;
@@ -98,7 +99,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
             }
         });
 
-        new TGridColumn(master, "Opera", "操作").setWidth(3).setAlign("center").setOnRender((column, row) => {
+        new TGridColumn(config, "Opera", "操作").setWidth(3).setAlign("center").setOnRender((column, row) => {
             let recNo = row.dataSet.recNo;
             let href = `#${recNo}`;
             return (
@@ -106,8 +107,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
             )
         });
 
-        let child = new TGridGroupChild(null);
-        child.setMaster(master);
+        let child = config.newChild();
         new TGridColumn(child, "RemarkB", "单身备注");
         new TGridColumn(child, "Unit_", "单位");
         new TGridColumn(child, "PartType_", "商品类型");
@@ -115,7 +115,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
         new TGridColumn(child, "UpdateDate_", "更新日期");
         child.setOnOutput((sender, display) => {
             let remark = sender.current.getString("RemarkB");
-            display.value = (remark != '');
+            display.setValue(remark != '');
         });
 
         // 初始化查询数据
@@ -140,8 +140,8 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
         exportFile.addEventListener('click', this.exportFileClick);
         //@ts-ignore
         exportFile.href = "#";
-
-        this.state = { dataSet: this.dataSet, master, child };
+        config.setDataSet(this.dataSet);
+        this.state = {config: config };
     }
 
     submitClick = (e: any) => {
@@ -156,7 +156,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
         loading.show();
         loading.hideTime = 300;
         this.dataSet.close();
-        this.setState({ ...this.state, dataSet: this.dataSet })
+        this.setState(this.state);
 
         // 构建请求数据
         let svr = new QueryService(this.props);
@@ -207,14 +207,14 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
                     this.async = false;
                     loading.hide();
                     showMsg(`数据已超过 ${MAX_RECORD} 笔记录，请重新选择查询条件`);
-                    this.setState({ ...this.state, dataSet: this.dataSet })
+                    this.setState(this.state);
                     return;
                 }
             } else {
                 this.async = false;
                 loading.hide();
                 showMsg('数据加载完成');
-                this.setState({ ...this.state, dataSet: this.dataSet })
+                this.setState(this.state);
             }
         }).catch(dataOut => {
             if (dataOut.message) {
@@ -222,7 +222,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
                 showMsg(dataOut.message);
             }
             this.async = false;
-            this.setState({ ...this.state, dataSet: this.dataSet })
+            this.setState(this.state);
         })
     }
 
@@ -249,7 +249,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, IGridS
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
 
         return (
-            <Grid dataSet={this.state.dataSet} master={this.state.master} child={this.state.child} />
+            <Grid config={this.state.config} />
         )
     }
 

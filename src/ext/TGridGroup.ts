@@ -1,4 +1,5 @@
 import DataRow from '../db/DataRow';
+import KeyValue from '../db/KeyValue';
 import HtmlWriter from '../ui/HtmlWriter';
 import TComponent from '../ui/TComponent';
 import TTd from '../ui/TTd';
@@ -9,9 +10,15 @@ import TGridColumn from './TGridColumn';
 
 const MaxWidth = 600;
 
+interface IOnOutput {
+    (child: TGridGroup, display: KeyValue): void
+}
+
 export default class TGridGroup extends TComponent {
     private _titleVisiable: boolean = true;
     private _current: DataRow;
+    private _master: TGridGroup;
+    private _onOutput: (child: TGridGroup, display: KeyValue) => void;
 
     constructor(owner: TComponent) {
         super(owner);
@@ -68,6 +75,12 @@ export default class TGridGroup extends TComponent {
                 fn.call(this, item as TGridColumn);
         }
     }
+
+    get master() { return this._master }
+    setMaster(value: TGridGroup): TGridGroup { this._master = value; return this; }
+
+    get onOutput(): IOnOutput { return this._onOutput }
+    setOnOutput(value: IOnOutput): TGridGroup { this._onOutput = value; return this; }
 
     outputOfGridTitle(html: HtmlWriter) {
         if (!this.titleVisiable)

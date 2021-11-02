@@ -1,9 +1,8 @@
-/**
- * 
- */
-
 import DataRow from "./DataRow";
 import { FieldKind } from "./FieldKind";
+
+export type OnGetText = (row: DataRow, meta: FieldMeta) => string;
+export type OnSetText = (row: DataRow, meta: FieldMeta, value: string) => void;
 
 export default class FieldMeta {
     private _code: string = null;
@@ -11,25 +10,14 @@ export default class FieldMeta {
     private _remark: string = null;
     private _type: string = null;
     private _kind: number = null;
-    private _onGetText: (row: DataRow, meta: FieldMeta) => string;
-    private _onSetText: (row: DataRow, meta: FieldMeta, value: string) => void;
+    private _onGetText: OnGetText;
+    private _onSetText: OnSetText;
 
     constructor(code: string, kind: number = FieldKind.Memory) {
         this._code = code;
         this._kind = kind;
     }
 
-    set json(value: any) {
-        const { code, name, remark, type, kind } = value;
-        if (code) {
-            if (code != this.code)
-                throw new Error(`code(${this.code}) not update`);
-        }
-        if (name) this._name = name;
-        if (remark) this._remark = remark;
-        if (type) this._type = type;
-        if (kind) this._kind = kind;
-    }
     get json(): object {
         let json: any = {};
         json.code = this._code;
@@ -38,6 +26,16 @@ export default class FieldMeta {
         json.type = this._type;
         json.kind = this._kind;
         return json;
+    }
+    setJson(value: any): FieldMeta {
+        const { code, name, remark, type, kind } = value;
+        if (code && (code != this.code))
+            throw new Error(`code(${this.code}) not update`);
+        if (name) this._name = name;
+        if (remark) this._remark = remark;
+        if (type) this._type = type;
+        if (kind) this._kind = kind;
+        return this;
     }
 
     get code() { return this._code };
@@ -54,10 +52,10 @@ export default class FieldMeta {
     get kind(): number { return this._kind }
     setKind(value: number): FieldMeta { this._kind = value; return this; }
 
-    set onGetText(fn: (row: DataRow, meta: FieldMeta) => string) { this._onGetText = fn }
-    get onGetText(): (row: DataRow, meta: FieldMeta) => string { return this._onGetText }
+    get onGetText(): OnGetText { return this._onGetText }
+    setOnGetText(value: OnGetText): FieldMeta { this._onGetText = value; return this; }
 
-    set onSetText(fn: (row: DataRow, meta: FieldMeta, value: string) => void) { this._onSetText = fn }
-    get onSetText(): (row: DataRow, meta: FieldMeta, value: string) => void { return this._onSetText };
+    get onSetText(): OnSetText { return this._onSetText };
+    setOnSetText(value: OnSetText): FieldMeta { this._onSetText = value; return this; }
 
 }

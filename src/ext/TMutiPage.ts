@@ -60,7 +60,7 @@ export default class TMutiPage extends TComponent {
             throw new Error("this.dataSet is null");
 
         for (let i = this.getBegin(); i <= this.getEnd(); i++) {
-            this._dataSet.recNo = i + 1;
+            this._dataSet.setRecNo(i + 1);
             callback(this._dataSet.current);
         }
     }

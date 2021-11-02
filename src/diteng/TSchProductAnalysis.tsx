@@ -1,6 +1,7 @@
 import React from "react";
 import { DataSet, FieldDefs, QueryService, TGrid, TGridColumn, TGridGroupMaster } from "../Autumn-UI";
 import Grid from "../rcc/Grid";
+import GridColumns from "../rcc/GridConfig";
 import { Loading, showMsg } from "./Summer";
 
 type propsType = {
@@ -13,8 +14,7 @@ type propsType = {
 }
 
 type stateType = {
-    dataSet: DataSet,
-    master: TGridGroupMaster
+    config: GridColumns
 }
 
 const CUSTOMER_181013 = "181013";
@@ -45,17 +45,17 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         }
 
         this.dataSet = new DataSet();
-        let columns = this.dataSet.fieldDefs;
+        let fields = this.dataSet.fieldDefs;
         // 导出专用
-        columns.add("DescSpecExcel").onGetText = function (row, meta) {
+        fields.add("DescSpecExcel").setOnGetText((row, meta) => {
             let desc = row.getValue("Desc_");
             let spec = row.getValue("Spec_");
             return desc + (spec != '' ? ('，' + spec) : "");
-        }
-        columns.add("ProfitRate_").onGetText = function (row, meta) {
+        })
+        fields.add("ProfitRate_").setOnGetText((row, meta) => {
             let profitRate = row.getDouble(meta.code);
             return profitRate ? profitRate + "%" : "";
-        }
+        })
 
         // 处理特殊导出栏位
         let items = new Map<string, string>();
@@ -64,21 +64,21 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         items.set('2', "热销");
         items.set('3', "特价");
         items.set('4', "经典");
-        columns.add("SalesStatus_").onGetText = function (row, meta) {
+        fields.add("SalesStatus_").setOnGetText((row, meta) => {
             let salesStatus = row.getString("SalesStatus_");
             if (salesStatus == '')
                 salesStatus = '0';
             return items.get(salesStatus);
-        }
+        })
 
-        columns.add("LowerShelf_").onGetText = function (row, meta) {
+        fields.add("LowerShelf_").setOnGetText((row, meta) => {
             return row.getBoolean('LowerShelf_') ? '已下架' : '未下架';
-        }
+        })
 
-        let master = new TGridGroupMaster(null);
+        let config = new GridColumns();
         // 页面显示数据源
-        new TGridColumn(master, "sn_", "序").setWidth(3).setAlign("center");
-        new TGridColumn(master, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {
+        new TGridColumn(config, "sn_", "序").setWidth(3).setAlign("center");
+        new TGridColumn(config, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {
             let partCode = row.getValue("PartCode_");
             let desc = row.getValue("Desc_");
             let spec = row.getValue("Spec_");
@@ -91,37 +91,37 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         });
 
         if (!this.props.isCustomer) {
-            new TGridColumn(master, "NewUP_", "最新单价").setWidth(4);// custom
+            new TGridColumn(config, "NewUP_", "最新单价").setWidth(4);// custom
         }
 
-        new TGridColumn(master, "Num_", "销售数量").setWidth(4);
-        new TGridColumn(master, "Amount_", "销售金额").setWidth(4);
-        new TGridColumn(master, "BackNum_", "退货数量").setWidth(4);
-        new TGridColumn(master, "BackAmount_", "退货金额").setWidth(4);
-        new TGridColumn(master, "SpareNum_", "赠品数量").setWidth(4);
+        new TGridColumn(config, "Num_", "销售数量").setWidth(4);
+        new TGridColumn(config, "Amount_", "销售金额").setWidth(4);
+        new TGridColumn(config, "BackNum_", "退货数量").setWidth(4);
+        new TGridColumn(config, "BackAmount_", "退货金额").setWidth(4);
+        new TGridColumn(config, "SpareNum_", "赠品数量").setWidth(4);
 
         // 没权限时值全部设置为空串
-        new TGridColumn(master, "CostAmount_", "成本").setWidth(4);
-        new TGridColumn(master, "Profit_", "毛利").setWidth(4);
-        new TGridColumn(master, "ProfitRate_", "毛利率").setWidth(4);// createText 增加 %
+        new TGridColumn(config, "CostAmount_", "成本").setWidth(4);
+        new TGridColumn(config, "Profit_", "毛利").setWidth(4);
+        new TGridColumn(config, "ProfitRate_", "毛利率").setWidth(4);// createText 增加 %
 
-        new TGridColumn(master, "Stock_", "当前库存").setWidth(4);
+        new TGridColumn(config, "Stock_", "当前库存").setWidth(4);
 
         if (this.props.avaiStockOption) {
-            new TGridColumn(master, "AvaiStock_", "可用库存").setWidth(4);// avaiStockOption
+            new TGridColumn(config, "AvaiStock_", "可用库存").setWidth(4);// avaiStockOption
         }
 
         if (this.props.corpNo == CUSTOMER_181013) {
-            new TGridColumn(master, "OutSumAmount_", "业务成本").setWidth(4);// CUSTOMER_181013
-            new TGridColumn(master, "OutSumProfit_", "业务毛利").setWidth(4);// CUSTOMER_181013
+            new TGridColumn(config, "OutSumAmount_", "业务成本").setWidth(4);// CUSTOMER_181013
+            new TGridColumn(config, "OutSumProfit_", "业务毛利").setWidth(4);// CUSTOMER_181013
         }
 
         if (this.props.isCustomer) {
-            new TGridColumn(master, "FirstInDate", "首次入库").setWidth(4);// custom，createText
-            new TGridColumn(master, "OriUP_", "单价").setWidth(4);// custom
+            new TGridColumn(config, "FirstInDate", "首次入库").setWidth(4);// custom，createText
+            new TGridColumn(config, "OriUP_", "单价").setWidth(4);// custom
         }
 
-        new TGridColumn(master, "Opera", "操作").setWidth(4).setAlign("center").setExport(false).setOnRender((column, row) => {
+        new TGridColumn(config, "Opera", "操作").setWidth(4).setAlign("center").setExport(false).setOnRender((column, row) => {
             let partCode = row.getString("PartCode_");
             //@ts-ignore
             let dateFrom = document.getElementById('TBDate_From').value;
@@ -150,7 +150,8 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         //@ts-ignore
         exportFileMergeDescSpec.href = "#";
 
-        this.state = { dataSet: this.dataSet, master };
+        config.setDataSet(this.dataSet);
+        this.state = {config: config };
     }
 
     submitClick = (e: any) => {
@@ -165,7 +166,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         loading.show();
         loading.hideTime = 300;
         this.dataSet.close();
-        this.setState({ ...this.state, dataSet: this.dataSet })
+        this.setState(this.state);
 
         // 构建请求数据
         let svr = new QueryService(this.props);
@@ -229,13 +230,13 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
                     this.async = false;
                     loading.hide();
                     showMsg(`数据已超过 ${MAX_RECORD} 笔记录，请重新选择查询条件`);
-                    this.setState({ ...this.state, dataSet: this.dataSet })
+                    this.setState(this.state);
                 }
             } else {
                 this.async = false;
                 loading.hide();
                 showMsg('数据加载完成');
-                this.setState({ ...this.state, dataSet: this.dataSet })
+                this.setState(this.state);
             }
         }).catch(dataOut => {
             if (dataOut.message) {
@@ -243,7 +244,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
                 showMsg(dataOut.message);
             }
             this.async = false;
-            this.setState({ ...this.state, dataSet: this.dataSet })
+            this.setState(this.state);
         })
     }
 
@@ -305,7 +306,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         document.getElementById('dataSize').innerText = this.dataSet.size;
 
         return (
-            <Grid dataSet={this.state.dataSet} master={this.state.master} />
+            <Grid config={this.state.config} />
         )
     }
 

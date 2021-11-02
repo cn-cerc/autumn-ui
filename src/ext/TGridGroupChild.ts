@@ -6,15 +6,8 @@ import TText from '../ui/TText';
 import TTr from '../ui/TTr';
 import TGridColumn from './TGridColumn';
 import TGridGroup from './TGridGroup';
-import TGridGroupMaster from './TGridGroupMaster';
-
-interface IOnOutput {
-    (child: TGridGroupChild, display: KeyValue): void
-}
 
 export default class TGridGroupChild extends TGridGroup {
-    private _master: TGridGroupMaster;
-    private _onOutput: (child: TGridGroupChild, display: KeyValue) => void;
 
     constructor(owner: TComponent) {
         super(owner);
@@ -24,8 +17,8 @@ export default class TGridGroupChild extends TGridGroup {
 
     output(html: HtmlWriter) {
         let display = new KeyValue(this.visible);
-        if (this._onOutput) {
-            this._onOutput(this, display);
+        if (this.onOutput) {
+            this.onOutput(this, display);
         }
 
         let it = 0;
@@ -50,17 +43,11 @@ export default class TGridGroupChild extends TGridGroup {
             if (!display.asBoolean())
                 tr.setCssStyle('display:none');
             let td = new TTd(tr);
-            if (this._master)
-                td.writeProperty("colspan", "" + this._master.getColumnCount());
+            if (this.master)
+                td.writeProperty("colspan", "" + this.master.getColumnCount());
             new TText(td, { text: value });
             tr.output(html);
         }
     }
-
-    get master() { return this._master }
-    setMaster(value: TGridGroupMaster): TGridGroupChild { this._master = value; return this; }
-
-    get onOutput(): IOnOutput { return this._onOutput }
-    setOnOutput(value: IOnOutput): TGridGroupChild { this._onOutput = value; return this; }
 
 }
