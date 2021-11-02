@@ -24,11 +24,10 @@ module.exports = {
 	// 不会产生单独的map文件，（与eval-source-map类似）但开发者工具就只能看到行，但无法对应到具体的列（符号），对调试不便
 	devtool: 'hidden-source-map',
 	module: {   // new add +
-		rules: [{
-			test: /\.tsx?$/,
-			use: 'ts-loader',
-			exclude: /node_modules/
-		}]
+		rules: [
+			{ test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
+			{ test: /\.css$/, use: ['style-loader', 'css-loader'] }
+		]
 	},
 	resolve: { // new add +
 		extensions: ['.tsx', '.ts', '.js']

@@ -28,6 +28,7 @@ cnpm i --D typescript ts-loader
 cnpm i -D react react-dom
 cnpm i -D @types/react @types/react-dom @babel/preset-react
 cnpm i -D  @types/jquery
+cnpm i style-loader css-loader --D
 ```
 
 二、打包
