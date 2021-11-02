@@ -1,5 +1,9 @@
 import React from "react";
-import { DataSet, FieldDefs, QueryService, TGrid, TGridColumn, TGridGroupMaster } from "../Autumn-UI";
+import DataSet from "../db/DataSet";
+import FieldDefs from "../db/FieldDefs";
+import QueryService from "../db/QueryService";
+import TGrid from "../ext/TGrid";
+import TGridColumn from "../ext/TGridColumn";
 import Grid from "../rcc/Grid";
 import GridColumns from "../rcc/GridConfig";
 import { Loading, showMsg } from "./Summer";
@@ -48,6 +52,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         let fields = this.dataSet.fieldDefs;
         // 导出专用
         fields.add("DescSpecExcel").setOnGetText((row, meta) => {
+            meta.setType('s12');
             let desc = row.getValue("Desc_");
             let spec = row.getValue("Spec_");
             return desc + (spec != '' ? ('，' + spec) : "");
@@ -65,6 +70,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         items.set('3', "特价");
         items.set('4', "经典");
         fields.add("SalesStatus_").setOnGetText((row, meta) => {
+            meta.setType('s2');
             let salesStatus = row.getString("SalesStatus_");
             if (salesStatus == '')
                 salesStatus = '0';
@@ -72,6 +78,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         })
 
         fields.add("LowerShelf_").setOnGetText((row, meta) => {
+            meta.setType('s3');
             return row.getBoolean('LowerShelf_') ? '已下架' : '未下架';
         })
 
@@ -198,8 +205,20 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         this.getDatas(svr);
     }
 
+    // 拷贝数据集栏位信息
+    copyFields(dataIn: DataSet) {
+        if (dataIn.fieldDefs.size == 0) {
+            return;
+        }
+
+        let originFields = this.dataSet.fieldDefs;
+        let targetFields = dataIn.fieldDefs;
+        targetFields.forEach(k => originFields.fields.push(k));
+    }
+
     getDatas(svr: QueryService) {
         svr.open().then(dataOut => {
+            this.copyFields(dataOut);
             dataOut.first();
             while (dataOut.fetch()) {
                 let partCode = dataOut.getString("PartCode_");

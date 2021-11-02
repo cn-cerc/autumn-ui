@@ -1,0 +1,10 @@
+.MutiPage button {
+    background-color: transparent;
+    color: black;
+    border: 1px solid rgb(134, 114, 114);
+    border-radius: 0.2rem;
+    box-sizing: content-box;
+    width: 3rem;
+    min-width: auto;
+    padding: 0;
+}

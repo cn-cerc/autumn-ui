@@ -1,4 +1,5 @@
 import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
+import "./MutiPage.css";
 
 const buttonStyle = {
     margin: '0.2rem'
@@ -6,7 +7,7 @@ const buttonStyle = {
 
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
 
-export const MinPageSize = 10;
+export const MinPageSize = 20;
 
 type propsType = {
     onPageChanged: OnPageChanged
@@ -28,20 +29,28 @@ export default class MutiPage extends React.Component<propsType, stateType> {
     render() {
         let pages = Math.ceil(this.props.total / this.state.pageSize);
         return (
-            <div>
+            <div className='MutiPage' style={{position: 'sticky',
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            background: '#fff',
+            borderTop: '1px solid #eeeeee'
+}}>
                 <span>共 {this.props.total} 条</span>
                 <span style={{ margin: '0.5rem' }} />
                 <span>每页 </span>
-                <select value={this.state.pageSize} onChange={this.onPageSizeChange}>
+                <select value={this.state.pageSize} onChange={this.onPageSizeChange} style={{
+                    width: "4rem",
+                    padding: 0
+                }}>
                     <option value={MinPageSize}>{MinPageSize}</option>
-                    <option value='15'>15</option>
-                    <option value='20'>20</option>
                     <option value='50'>50</option>
                     <option value='100'>100</option>
                 </select>
                 <span> 条</span><span style={{ margin: '0.5rem' }} />
                 <span> 第 </span>
-                <input type="text" style={{ width: '2rem' }} value={this.state.inputValue} onChange={this.onPageNoChange} onKeyPress={this.onPageNoKeyPress}
+                <input type="text" style={{ width: '3rem' }} value={this.state.inputValue} onChange={this.onPageNoChange} onKeyPress={this.onPageNoKeyPress}
                     onBlur={this.onPageNoBlur} />
                 <span> / {pages} 页</span>
                 <span style={{ margin: '0.5rem' }} />

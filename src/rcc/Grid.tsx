@@ -25,19 +25,27 @@ export default class Grid extends React.Component<PropsType, stateType> {
     constructor(props: PropsType) {
         super(props)
         this.state = { beginPoint: 1, endPoint: MinPageSize };
+        $("#page").css({
+            "height": "0",
+            "flex": "1",
+            "display": "flex",
+            "flex-direction": "column"
+        });
     }
 
     render() {
         return (
-            <React.Fragment>
-                <table className='dbgrid'>
+            <div className='dbgrid' style={{
+                position: 'relative'
+            }}>
+                <table>
                     <tbody>
                         <tr>{this.getTitles().map(item => item)}</tr>
                         {this.getRows().map(item => item)}
                     </tbody>
                 </table >
                 {this.getNavigator()}
-            </React.Fragment>
+            </div>
         )
     }
 
@@ -132,9 +140,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
     }
 
     onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
-        console.log(beginPoint, endPoint);
         this.setState({ ...this.state, beginPoint, endPoint });
-        console.log(this.state);
     }
 
 }

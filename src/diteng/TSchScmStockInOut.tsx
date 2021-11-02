@@ -1,5 +1,6 @@
 import React from "react";
 import DataSet from "../db/DataSet";
+import FieldDefs from "../db/FieldDefs";
 import QueryService from "../db/QueryService";
 import TGrid from "../ext/TGrid";
 import TGridColumn from "../ext/TGridColumn";
@@ -35,15 +36,18 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
     constructor(props: propsType) {
         super(props);
         this.dataSet = new DataSet();
+
         // 导出专用
         let fields = this.dataSet.fieldDefs;
         fields.add("DescSpecExcel").setOnGetText((row, meta) => {
+            meta.setType('s12');
             let desc = row.getValue("Desc_");
             let spec = row.getValue("Spec_");
             return desc + (spec != '' ? ('，' + spec) : "");
         })
-        let config = new GridColumns();
+
         // 显示数据源
+        let config = new GridColumns();
         new TGridColumn(config, "sn_", "序").setWidth(3).setAlign("center");
         new TGridColumn(config, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {
             let partCode = row.getValue("PartCode_");
@@ -141,7 +145,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         //@ts-ignore
         exportFile.href = "#";
         config.setDataSet(this.dataSet);
-        this.state = {config: config };
+        this.state = { config: config };
     }
 
     submitClick = (e: any) => {
@@ -195,10 +199,19 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         this.getDatas(svr);
     }
 
+    // 拷贝数据集栏位信息
+    copyFields(dataIn: DataSet) {
+        if (dataIn.fieldDefs.size == 0) {
+            return;
+        }
+        let originFields = this.dataSet.fieldDefs;
+        let targetFields = dataIn.fieldDefs;
+        targetFields.forEach(k => originFields.fields.push(k));
+    }
+
     getDatas(svr: QueryService) {
         svr.open().then(dataOut => {
-            if (dataOut.fieldDefs.size > 0)
-                this.dataSet.fieldDefs.setJson(dataOut.fieldDefs.json);
+            this.copyFields(dataOut);
             this.dataSet.appendDataSet(dataOut);
             if (dataOut.head.getBoolean("_has_next_")) {
                 if (this.dataSet.size < MAX_RECORD) {
