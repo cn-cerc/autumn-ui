@@ -211,7 +211,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             return;
         }
 
-        let originFields = this.dataSet.fieldDefs;
+        let originFields = this.dataSet.fieldDefs;// FIXME 引用修改有风险，需要使用克隆字段的方式
         let targetFields = dataIn.fieldDefs;
         targetFields.forEach(k => originFields.fields.push(k));
     }
@@ -247,7 +247,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
                 } else {
                     this.async = false;
                     loading.hide();
-                    showMsg(`数据已超过 ${MAX_RECORD} 笔记录，请重新选择查询条件`);
+                    showMsg(`数据已超过 ${MAX_RECORD} 笔记录，请重新选择查询条件`, true);
                     this.setState(this.state);
                 }
             } else {
