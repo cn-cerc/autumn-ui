@@ -1,51 +1,34 @@
-import { extend } from 'jquery';
-import React, { Component } from 'react';
-import DataRow from '../db/DataRow';
-import DataSet from '../db/DataSet';
+import React, { MouseEventHandler } from 'react';
+import { DataRow } from '../Autumn-UI';
 import KeyValue from '../db/KeyValue';
 import GridConfig from './GridConfig';
-import MutiPage, { MinPageSize, OnPageChanged } from './MutiPage';
+
+export type OnTrClickEvent = (row: DataRow) => void;
 
 const defaultProps = {
     id: ''
 }
-
 type PropsType = {
     config: GridConfig;
+    onTrClick?: OnTrClickEvent;
 } & Partial<typeof defaultProps>;
 
-interface stateType {
-    beginPoint: number;
-    endPoint: number;
-}
-
-export default class Grid extends React.Component<PropsType, stateType> {
+export default class DialogGrid extends React.Component<PropsType> {
     static defaultProps = defaultProps;
-
     constructor(props: PropsType) {
         super(props)
-        this.state = { beginPoint: 1, endPoint: MinPageSize };
-        $("#page").css({
-            "height": "0",
-            "flex": "1",
-            "display": "flex",
-            "flex-direction": "column"
-        });
     }
 
     render() {
         return (
-            <div className='dbgrid' style={{
-                position: 'relative'
-            }}>
-                <table>
+            <React.Fragment>
+                <table className='dbgrid'>
                     <tbody>
                         <tr>{this.getTitles().map(item => item)}</tr>
                         {this.getRows().map(item => item)}
                     </tbody>
                 </table >
-                {this.getNavigator()}
-            </div>
+            </React.Fragment>
         )
     }
 
@@ -72,18 +55,14 @@ export default class Grid extends React.Component<PropsType, stateType> {
     getRows(): any[] {
         let items: any[] = [];
         let ds = this.props.config.dataSet;
-        let recNo = ds.recNo;
-        for (let i = this.state.beginPoint; i <= this.state.endPoint; i++) {
-            if (i > ds.size)
-                break;
-            ds.setRecNo(i);
+        ds.first()
+        while (ds.fetch()) {
             this.props.config.setCurrent(ds.current);
             items.push(this.getMasterRow(ds.current));
             for (let child of this.props.config.children) {
                 items.push(this.getChildRow(child, ds.current));
             }
         }
-        ds.setRecNo(recNo);
         return items;
     }
 
@@ -92,18 +71,18 @@ export default class Grid extends React.Component<PropsType, stateType> {
         let items: any[] = [];
         for (let column of this.props.config.columns) {
             if (column.visible) {
+                let style = {}
+                if (column.align)
+                    style = { ...style, textAlign: column.align };
                 if (column.onRender) {
-                    items.push(<td key={column.code}>{column.onRender(column, row)}</td>);
+                    items.push(<td key={column.code} style={style}>{column.onRender(column, row)}</td>);
                 } else {
                     let value = row.getText(column.code);
-                    let style = {}
-                    if (column.align)
-                        style = { ...style, textAlign: column.align };
                     items.push(<td key={column.code} style={style}>{value}</td>);
                 }
             }
         }
-        return <tr key={key}>{items}</tr>;
+        return <tr onClick={this.onTrClick} key={key}>{items}</tr>;
     }
 
     getChildRow(child: GridConfig, row: DataRow) {
@@ -133,17 +112,21 @@ export default class Grid extends React.Component<PropsType, stateType> {
         </tr>);
     }
 
-    getNavigator(): React.ReactNode {
-        if (this.props.config.dataSet.size <= MinPageSize)
-            return null;
-        return (
-            <MutiPage total={this.props.config.dataSet.size} onPageChanged={this.onPageChanged} />
-        )
-    }
+    onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
+        let tr = sender.currentTarget;
+        let reactKey: string;
+        Object.keys(tr).forEach(function (key: string) {
+            if (/^__reactInternalInstance/.test(key)) {
+                reactKey = tr[key].key
+            }
+        })
 
-    onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
-        this.setState({ ...this.state, beginPoint, endPoint });
-    }
+        if (!reactKey) throw new Error('请设置key值');
 
+        let recNo: number = Number(reactKey.split('_')[1]);
+        let row: DataRow = this.props.config.dataSet.records[recNo - 1];
+        if (this.props.onTrClick)
+            this.props.onTrClick(row)
+    };
 }
 

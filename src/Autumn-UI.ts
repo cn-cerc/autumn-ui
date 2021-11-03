@@ -25,3 +25,4 @@ export { default as CheckDraftTB } from "./diteng/CheckDraftTB";
 export { default as CheckWorkflow } from "./diteng/CheckWorkflow";
 export { default as CheckReport } from "./diteng/CheckReport";
 export { default as UserDialog } from "./diteng/UserDialog";
+export { default as CusDialog } from "./diteng/CusDialog";
