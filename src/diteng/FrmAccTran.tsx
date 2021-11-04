@@ -1,5 +1,6 @@
 import React from "react";
 import { DataRow, DataSet, DBEdit } from "../Autumn-UI";
+import DBBlock, { Line } from "../rcc/DBBlock";
 import DateDialog from "../rcc/DateDialog";
 import DBGrid, { Column } from "../rcc/DBGrid";
 import MenuItem from "../rcc/MenuItem";
@@ -8,7 +9,6 @@ import StatusBar from "../rcc/StatusBar";
 import ToolPanel, { ToolItem as ToolItem } from "../rcc/ToolPanel";
 import CustomForm, { CustomFormPropsType, CustomFormStateType } from "./CustomForm";
 import "./FrmAccTran.css";
-import MainNavigator from "./MainNavigator";
 
 type stateType = {
     headIn: DataRow;
@@ -40,10 +40,20 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     <DBEdit dataField='name' dataName='名称' ></DBEdit>
                     <DBEdit dataField='tbDate' dataName='日期'><DateDialog /></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSource={this.state.dataOut} readOnly={false}>
+                <DBGrid dataSource={this.state.dataOut}>
                     <Column code='code_'>代码</Column>
                     <Column code='name_'>名称</Column>
+                    <Column code='remark_'>备注</Column>
                 </DBGrid>
+                <DBBlock dataSource={this.state.dataOut}>
+                    <Line>
+                        <Column code='code_' width='2'></Column>
+                        <Column code='name_' width='8'>名称</Column>
+                    </Line>
+                    <Line>
+                        <Column code='remark_'>备注</Column>
+                    </Line>
+                </DBBlock>
                 <StatusBar>
                     <button>添加</button>
                     <button>添加</button>

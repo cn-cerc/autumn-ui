@@ -21,6 +21,7 @@ export default class DBGrid extends React.Component<propsType> {
 
 type ColumnPropsType = {
     code: string;
+    width?: string;
 }
 
 export class Column extends React.Component<ColumnPropsType> {
