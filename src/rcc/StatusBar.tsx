@@ -1,22 +1,13 @@
 import React from "react";
+import TControl from "./Control";
 
-type PropsType = {
-    message: string;
-}
-
-const StatusBarStyle = {
-    padding: '0.5rem'
-}
-
-export default class StatusBar extends React.Component<PropsType> {
-
-    constructor(props: PropsType) {
-        super(props)
-    }
+export default class StatusBar extends TControl {
 
     render() {
         return (
-            <div style={StatusBarStyle} role="statusBar">{this.props.message}</div>
+            <div className="statusBar">
+                {React.Children.map(this.props.children, child => child)}
+            </div>
         )
     }
 }

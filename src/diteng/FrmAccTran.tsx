@@ -1,0 +1,59 @@
+import React from "react";
+import { DataRow, DataSet, DBEdit } from "../Autumn-UI";
+import DateDialog from "../rcc/DateDialog";
+import DBGrid, { Column } from "../rcc/DBGrid";
+import MenuItem from "../rcc/MenuItem";
+import SearchPanel from "../rcc/SearchPanel";
+import StatusBar from "../rcc/StatusBar";
+import ToolPanel, { ToolItem as ToolItem } from "../rcc/ToolPanel";
+import CustomForm, { CustomFormPropsType, CustomFormStateType } from "./CustomForm";
+import "./FrmAccTran.css";
+import MainNavigator from "./MainNavigator";
+
+type stateType = {
+    headIn: DataRow;
+    dataOut: DataSet;
+    title?: string;
+    message: string;
+} & Partial<CustomFormStateType>
+
+export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateType> {
+    constructor(props: CustomFormPropsType) {
+        super(props);
+        this.state = { headIn: new DataRow, dataOut: new DataSet, message: '' }
+    }
+
+    render() {
+        return (
+            <CustomForm title='会计凭证维护'>
+                <MenuItem code='acc' name='财务总帐' />
+                <ToolPanel>
+                    <ToolItem title='操作提示'>
+                        <div>（无）</div>
+                    </ToolItem>
+                    <ToolItem title='相关操作'>
+                        <div>（无） </div>
+                    </ToolItem>
+                </ToolPanel>
+                <SearchPanel dataSource={this.state.headIn} onExecute={this.serachExecute}>
+                    <DBEdit dataField='code' dataName='代码' />
+                    <DBEdit dataField='name' dataName='名称' ></DBEdit>
+                    <DBEdit dataField='tbDate' dataName='日期'><DateDialog /></DBEdit>
+                </SearchPanel>
+                <DBGrid dataSource={this.state.dataOut} readOnly={false}>
+                    <Column code='code_'>代码</Column>
+                    <Column code='name_'>名称</Column>
+                </DBGrid>
+                <StatusBar>
+                    <button>添加</button>
+                    <button>添加</button>
+                </StatusBar>
+            </CustomForm>
+        )
+    }
+
+    serachExecute = (row: DataRow) => {
+        this.setMessage('');
+        return;
+    }
+}
