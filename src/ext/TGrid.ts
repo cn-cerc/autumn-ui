@@ -157,9 +157,9 @@ export default class TGrid extends TTable implements DataControl {
             str += '\r\n';// 下一条记录的换行符
         }
 
+        // 解决Windows中文乱码问题
+        str = "\uFEFF" + str;
         let blob = new Blob([str], { type: "data:text/csv;charset=utf-8" });
-        //解决中文乱码问题
-        blob = new Blob([String.fromCharCode(0xFEFF), blob], { type: blob.type });
         let object_url = window.URL.createObjectURL(blob);
         let link = document.createElement("a");
         link.href = object_url;
