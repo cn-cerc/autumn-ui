@@ -1,5 +1,5 @@
 import React from "react";
-import { DataRow, DataSet, DBEdit } from "../Autumn-UI";
+import { DataRow, DataSet, DBEdit, QueryService } from "../Autumn-UI";
 import DBBlock, { Line } from "../rcc/DBBlock";
 import DateDialog from "../rcc/DateDialog";
 import DBGrid, { Column } from "../rcc/DBGrid";
@@ -63,7 +63,13 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
     }
 
     serachExecute = (row: DataRow) => {
-        this.setMessage('');
-        return;
+        let query = new QueryService(this.props);
+        query.dataIn.head.copyValues(this.state.headIn);
+        query.add('select * from db.Account');
+        query.open().then(dataOut => {
+            this.setState({ ...this.state, dataOut });
+        }).catch(dataOut => {
+            this.setState({ ...this.state, dataOut, message: dataOut.message })
+        })
     }
 }
