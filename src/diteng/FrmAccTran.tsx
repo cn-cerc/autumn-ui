@@ -41,9 +41,9 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     <DBEdit dataField='tbDate' dataName='日期'><DateDialog /></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSource={this.state.dataOut}>
-                    <Column code='code_'>代码</Column>
-                    <Column code='name_'>名称</Column>
-                    <Column code='remark_'>备注</Column>
+                    <Column code='code_' width='10'>代码</Column>
+                    <Column code='name_' width='20'>名称</Column>
+                    <Column code='remark_' width='50'>备注</Column>
                 </DBGrid>
                 <DBBlock dataSource={this.state.dataOut}>
                     <Line>
@@ -51,7 +51,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                         <Column code='name_' width='8'>名称</Column>
                     </Line>
                     <Line>
-                        <Column code='remark_'>备注</Column>
+                        <Column code='remark_' width='50'>备注</Column>
                     </Line>
                 </DBBlock>
                 <StatusBar>
