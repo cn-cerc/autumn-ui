@@ -19,12 +19,20 @@ export default class DBGrid extends React.Component<propsType> {
     }
 }
 
+export enum ColumnType {
+    th, td, span
+}
+
 type ColumnPropsType = {
     code: string;
-    width?: string;
+    width: string;
+    tag?: ColumnType;
 }
 
 export class Column extends React.Component<ColumnPropsType> {
+    static defaultProps = {
+        tag: ColumnType.td
+    }
 
     constructor(props: ColumnPropsType) {
         super(props)
