@@ -12,6 +12,7 @@ import UserDialog from "./diteng/UserDialog";
 import TGrid from "./ext/TGrid";
 import TGridColumn from "./ext/TGridColumn";
 import Grid from "./rcc/Grid";
+import GridConfig from "./rcc/GridConfig";
 import TComponent from "./ui/TComponent";
 
 export default class Diteng {
@@ -19,15 +20,10 @@ export default class Diteng {
     static Datetime = Datetime;
     static DataSet = DataSet;
     static DataRow = DataRow;
-    static RemoteService = RemoteService;
     static QueryService = DataRow;
-    //vcl
-    static TComponent = TComponent;
-    static TGridColumn = TGridColumn;
-    static TGrid = TGrid;
     //rcc
     static Grid = Grid;
-
+    static GridConfig = GridConfig;
     //地藤专用
     static TSchProductAnalysis = TSchProductAnalysis;
     static TSchScmStockInOut = TSchScmStockInOut;
