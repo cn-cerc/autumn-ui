@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FrmAccTran from './FrmAccTran';
+import FrmDept from './FrmDept';
 
-ReactDOM.render(<FrmAccTran title={undefined} />, document.getElementById('app'))
+ReactDOM.render(<FrmDept title={undefined} />, document.getElementById('app'))

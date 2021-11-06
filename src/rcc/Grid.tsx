@@ -1,7 +1,5 @@
-import { extend } from 'jquery';
 import React, { Component } from 'react';
 import DataRow from '../db/DataRow';
-import DataSet from '../db/DataSet';
 import KeyValue from '../db/KeyValue';
 import GridConfig from './GridConfig';
 import MutiPage, { MinPageSize, OnPageChanged } from './MutiPage';

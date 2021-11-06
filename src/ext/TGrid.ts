@@ -1,6 +1,4 @@
-import TGridGroup from './TGridGroup';
-import TGridGroupMaster from './TGridGroupMaster';
-import TGridGroupChild from './TGridGroupChild';
+import TGridGroup, { TGridGroupChild, TGridGroupMaster } from './TGridGroup';
 import TTable from '../ui/TTable';
 import TGridColumn from './TGridColumn';
 import TComponent from '../ui/TComponent';

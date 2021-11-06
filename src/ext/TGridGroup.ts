@@ -105,3 +105,79 @@ export default class TGridGroup extends TComponent {
     }
 
 }
+
+export class TGridGroupChild extends TGridGroup {
+
+    constructor(owner: TComponent) {
+        super(owner);
+        this.setTitleVisiable(false);
+        this.setVisible(false);
+    }
+
+    output(html: HtmlWriter) {
+        let display = new KeyValue(this.visible);
+        if (this.onOutput) {
+            this.onOutput(this, display);
+        }
+
+        let it = 0;
+        for (let child of this.owner.getComponents()) {
+            if (child == this)
+                break;
+            it = it + 1;
+        }
+
+        let value: string = "";
+        this.forEach((child: TGridColumn) => {
+            if (child.visible) {
+                let text = this.current.getText(child.code);
+                if (text)
+                    value = value + child.name + ": " + text + " ";
+            }
+        });
+
+        if (value.length > 0) {
+            let tr = new TTr();
+            tr.setId('tr' + this.current.dataSet.recNo + "_" + it);
+            if (!display.asBoolean())
+                tr.setCssStyle('display:none');
+            let td = new TTd(tr);
+            if (this.master)
+                td.writeProperty("colspan", "" + this.master.getColumnCount());
+            new TText(td, { text: value });
+            tr.output(html);
+        }
+    }
+
+}
+
+export class TGridGroupMaster extends TGridGroup {
+
+    constructor(owner: TComponent) {
+        super(owner);
+    }
+
+    output(html: HtmlWriter): void {
+        let notNull = false;
+        let tr = new TTr();
+        tr.setId('tr' + this.current.dataSet.recNo);
+        this.forEach((child: TGridColumn) => {
+            if (!child.visible)
+                return;
+            let value = this.current.getText(child.code);
+            let td = new TTd(tr);
+            if (child.colSpan)
+                td.writeProperty("colspan", child.colSpan);
+
+            if (child.align) {
+                td.writeProperty("align", child.align);
+            }
+            new TText(td, { text: value });
+            if (value)
+                notNull = true;
+        });
+        if (notNull)
+            tr.output(html);
+    }
+
+}

@@ -82,3 +82,54 @@ export default class GridConfig extends TComponent {
     get dataSet(): DataSet { return this._dataSet };
     setDataSet(value: DataSet): GridConfig { this._dataSet = value; return this; };
 }
+
+interface onRenderType {
+    (column: GridColumn, row: DataRow): React.ReactNode;
+}
+
+export class GridColumn extends TComponent {
+    private _code: string;
+    private _name: string;
+    private _width: number = 0;
+    private _align: string;
+    private _export = true;
+    private _onRender: onRenderType;
+
+    constructor(owner: GridConfig, code: string, name: string = null) {
+        super(owner);
+        this._code = code;
+        this._name = name ? name : code;
+    }
+
+    get code(): string { return this._code }
+
+    get name() { return this._name }
+
+    get colSpan(): string { return this.readProperty("colspan"); }
+    setColSpan(value: string): GridColumn {
+        this.writeProperty("colspan", value);
+        return this;
+    }
+
+    get width(): number { return this._width }
+    setWidth(value: number): GridColumn {
+        this._width = value;
+        return this;
+    }
+
+    get align(): string { return this._align }
+    setAlign(value: string) {
+        this._align = value;
+        return this;
+    }
+
+    get export(): boolean { return this._export; }
+    setExport(value: boolean): GridColumn {
+        this._export = value;
+        return this;
+    }
+
+    get onRender(): onRenderType { return this._onRender }
+    setOnRender(value: onRenderType) { this._onRender = value; return this; }
+
+}

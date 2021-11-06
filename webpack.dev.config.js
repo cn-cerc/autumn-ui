@@ -38,7 +38,7 @@ module.exports = {
 			title: 'autumn-ui 实例',
 			// Load a custom template (lodash by default)
 			template: './public/index.html',
-			filename: './sample-index.html',
+			filename: './index.html',
 		}),
 		// new webpack.HashedModuleIdsPlugin(),
 		new webpack.ProvidePlugin({

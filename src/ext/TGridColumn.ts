@@ -3,8 +3,7 @@ import DataRow from "../db/DataRow";
 import GridColumns from "../rcc/GridConfig";
 import TComponent from "../ui/TComponent";
 import TGrid from "./TGrid";
-import TGridGroupChild from "./TGridGroupChild";
-import TGridGroupMaster from "./TGridGroupMaster";
+import { TGridGroupChild, TGridGroupMaster } from "./TGridGroup";
 
 interface onRenderType {
     (column: TGridColumn, row: DataRow): React.ReactNode;
