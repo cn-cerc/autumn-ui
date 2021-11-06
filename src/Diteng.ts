@@ -1,7 +1,7 @@
 import DataRow from "./db/DataRow";
 import DataSet from "./db/DataSet";
 import Datetime from "./db/Datetime";
-import RemoteService from "./db/RemoteService";
+import QueryService from "./db/QueryService";
 import CheckDraftTB from "./diteng/CheckDraftTB";
 import CheckReport from "./diteng/CheckReport";
 import CheckWorkflow from "./diteng/CheckWorkflow";
@@ -9,29 +9,26 @@ import CusDialog from "./diteng/CusDialog";
 import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
 import UserDialog from "./diteng/UserDialog";
-import TGrid from "./ext/TGrid";
-import TGridColumn from "./ext/TGridColumn";
 import Grid from "./rcc/Grid";
 import GridConfig from "./rcc/GridConfig";
-import TComponent from "./ui/TComponent";
 
-export default class Diteng {
+export default {
     //db
-    static Datetime = Datetime;
-    static DataSet = DataSet;
-    static DataRow = DataRow;
-    static QueryService = DataRow;
+     Datetime,
+     DataSet,
+     DataRow,
+     QueryService,
     //rcc
-    static Grid = Grid;
-    static GridConfig = GridConfig;
+     Grid,
+     GridConfig,
     //地藤专用
-    static TSchProductAnalysis = TSchProductAnalysis;
-    static TSchScmStockInOut = TSchScmStockInOut;
+     TSchProductAnalysis,
+     TSchScmStockInOut,
     //首页检测
-    static CheckDraftTB = CheckDraftTB;
-    static CheckWorkflow = CheckWorkflow;
-    static CheckReport = CheckReport;
+     CheckDraftTB,
+     CheckWorkflow,
+     CheckReport,
     //开窗选择
-    static UserDialog = UserDialog;
-    static CusDialog = CusDialog;
+     UserDialog,
+     CusDialog,
 }
