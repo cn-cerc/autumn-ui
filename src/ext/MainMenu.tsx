@@ -1,18 +1,18 @@
 import React from "react";
-import './TMainMenu.css';
+import './MainMenu.css';
 
-export default class TMainMenu extends React.Component {
+export default class MainMenu extends React.Component {
     constructor(props: any) {
         super(props);
     }
 
     render() {
         return (
-            <div className="TMainMenu">
+            <span className="mainMenu">
                 {React.Children.map(this.props.children, (child, index) => {
                     return child;
                 })}
-            </div>
+            </span>
         )
     }
 

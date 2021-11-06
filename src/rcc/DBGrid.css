@@ -1,0 +1,9 @@
+.grid {
+    border: 1px solid;
+    width: 100%;
+    background: rgb(250, 250, 250);
+}
+
+.column {
+    border: 1px solid;
+}

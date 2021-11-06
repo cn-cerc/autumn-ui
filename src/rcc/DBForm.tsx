@@ -1,6 +1,7 @@
 import React, { MouseEventHandler, ReactNode } from "react";
-import { DataRow, FieldMeta } from "../Autumn-UI";
+import DataRow from "../db/DataRow";
 import DataSource from "../db/DataSource";
+import FieldMeta from "../db/FieldMeta";
 import DBEdit, { OnChangedEvent } from "./DBEdit";
 
 interface propsType {

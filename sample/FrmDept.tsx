@@ -5,14 +5,14 @@ import QueryService from "../src/db/QueryService";
 import TButton from "../src/ext/TButton";
 import TChildForm from "../src/ext/TChildForm";
 import TDBGrid from "../src/ext/TDBGrid";
-import TMainMenu from "../src/ext/TMainMenu";
-import TMenuItem from "../src/ext/TMenuItem";
+import MainMenu from "../src/ext/MainMenu";
+import TMenuItem from "../src/ext/MenuItem";
 import TSearchPanel from "../src/ext/TSearchPanel";
 import TStringField from "../src/ext/TStringField";
 
 type stateType = { dataSet: DataSet, record: DataRow }
 
-export default class TFrmDept extends React.Component<any, stateType> {
+export default class FrmDept extends React.Component<any, stateType> {
 
     constructor(props: any) {
         super(props);
@@ -21,10 +21,10 @@ export default class TFrmDept extends React.Component<any, stateType> {
 
     render() {
         return <TChildForm>
-            <TMainMenu>
+            <MainMenu>
                 <TMenuItem id="mnuOpen" name="打开文件" />
                 <TMenuItem id="mnuSave" name="保存文件" />
-            </TMainMenu>
+            </MainMenu>
             <TSearchPanel dataSource={this.state.record}>
                 <TStringField code="code_" name="代码" />
                 <TStringField code="name_" name="姓名" />

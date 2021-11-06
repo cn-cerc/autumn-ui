@@ -1,4 +1,3 @@
-import { resolve } from "../../webpack.beta.config";
 import DataSet from "./DataSet";
 
 export default class Timeout {

@@ -1,0 +1,61 @@
+html {
+    height: 100%;
+}
+
+body {
+    background: rgb(230, 230, 230);
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+div[id='app'] {
+    height: 100%;
+}
+
+.mainNavigator {
+    height: 5rem;
+}
+
+.main_pc {
+    height: calc(100% - 5rem);
+    overflow: auto;
+}
+
+.main_phone {
+    height: calc(100% - 5rem - 2rem);
+    overflow: auto;
+}
+
+.toolPanel {
+    background: aliceblue;
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    width: 12rem;
+    overflow: auto;
+}
+
+.content {
+    display: inline-block;
+    width: calc(100% - 12rem);
+    height: calc(100% - 1rem);
+    overflow: auto;
+}
+
+article {
+    height: calc(100% - 4rem);
+}
+
+.statusBar {
+    height: 2rem;
+}
+
+.content>.statusBar {
+    height: 2rem;
+}
+
+.mainMessage {
+    height: 2rem;
+    color: red;
+}

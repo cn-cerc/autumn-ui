@@ -10,11 +10,9 @@ export default class MenuItem extends TControl<propsType> {
 
     render() {
         return (
-            <div>
-                <span>
-                    <a href={this.props.code}>{this.props.name}</a>
-                </span>
-            </div>
+            <span>
+                <a href={this.props.code}>{this.props.name}</a>
+            </span>
         )
     }
 }

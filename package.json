@@ -2,12 +2,14 @@
   "name": "autumn-ui",
   "version": "1.1.1",
   "description": "autumn ui components",
-  "main": "index.js",
+  "main": "dist/aui.js",
+  "module": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config webpack.dev.config.js",
     "beta": "webpack --config webpack.beta.config.js",
-    "main": "webpack --config webpack.prod.config.js"
+    "main": "webpack --config webpack.main.config.js",
+    "diteng": "webpack --config webpack.diteng.config.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,7 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.6",
     "typescript": "^4.4.4",
-    "webpack": "^5.61.0",
+    "webpack": "^5.62.1",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.4.0"
   }

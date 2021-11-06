@@ -1,13 +1,16 @@
 import React from "react";
-import { DataRow, DataSet, DBEdit, QueryService } from "../Autumn-UI";
-import DBBlock, { Line } from "../rcc/DBBlock";
-import DateDialog from "../rcc/DateDialog";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import MenuItem from "../rcc/MenuItem";
-import SearchPanel from "../rcc/SearchPanel";
-import StatusBar from "../rcc/StatusBar";
-import ToolPanel, { ToolItem as ToolItem } from "../rcc/ToolPanel";
-import CustomForm, { CustomFormPropsType, CustomFormStateType } from "./CustomForm";
+import DataRow from "../src/db/DataRow";
+import DataSet from "../src/db/DataSet";
+import QueryService from "../src/db/QueryService";
+import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../src/diteng/CustomForm";
+import Block, { Line } from "../src/rcc/Block";
+import DateDialog from "../src/rcc/DateDialog";
+import DBEdit from "../src/rcc/DBEdit";
+import DBGrid, { Column } from "../src/rcc/DBGrid";
+import MenuItem from "../src/rcc/MenuItem";
+import SearchPanel from "../src/rcc/SearchPanel";
+import StatusBar from "../src/rcc/StatusBar";
+import ToolPanel, { ToolItem } from "../src/rcc/ToolPanel";
 import "./FrmAccTran.css";
 
 type stateType = {
@@ -20,7 +23,11 @@ type stateType = {
 export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateType> {
     constructor(props: CustomFormPropsType) {
         super(props);
-        this.state = { headIn: new DataRow, dataOut: new DataSet, message: '' }
+        let dataOut = new DataSet();
+        dataOut.append().setValue('code_', 'a1').setValue('name_', 'jason1');
+        dataOut.append().setValue('code_', 'a2').setValue('name_', 'jason2');
+        dataOut.append().setValue('code_', 'a3').setValue('name_', 'jason3');
+        this.state = { headIn: new DataRow(), dataOut, message: '' }
     }
 
     render() {
@@ -29,10 +36,12 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                 <MenuItem code='acc' name='财务总帐' />
                 <ToolPanel>
                     <ToolItem title='操作提示'>
-                        <div>（无）</div>
+                        <div>（这里是操作提示）</div>
+                        <div>（这里是操作提示）</div>
+                        <div>（这里是操作提示）</div>
                     </ToolItem>
                     <ToolItem title='相关操作'>
-                        <div>（无） </div>
+                        <div>（这里是相关操作） </div>
                     </ToolItem>
                 </ToolPanel>
                 <SearchPanel dataSource={this.state.headIn} onExecute={this.serachExecute}>
@@ -41,22 +50,22 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     <DBEdit dataField='tbDate' dataName='日期'><DateDialog /></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSource={this.state.dataOut}>
-                    <Column code='code_' width='10'>代码</Column>
-                    <Column code='name_' width='20'>名称</Column>
-                    <Column code='remark_' width='50'>备注</Column>
+                    <Column code='code_' name='代码' width='10' />
+                    <Column code='name_' name='名称' width='20' />
+                    <Column code='remark_' name='备注' width='50' />
                 </DBGrid>
-                <DBBlock dataSource={this.state.dataOut}>
+                <Block dataSource={this.state.dataOut}>
                     <Line>
-                        <Column code='code_' width='2'></Column>
-                        <Column code='name_' width='8'>名称</Column>
+                        <Column code='code_' name='代码' width='10' />
+                        <Column code='name_' name='名称' width='20' />
                     </Line>
                     <Line>
-                        <Column code='remark_' width='50'>备注</Column>
+                        <Column code='remark_' name='备注' width='50' />
                     </Line>
-                </DBBlock>
+                </Block>
                 <StatusBar>
                     <button>添加</button>
-                    <button>添加</button>
+                    <button>删除</button>
                 </StatusBar>
             </CustomForm>
         )

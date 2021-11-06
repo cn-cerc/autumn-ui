@@ -27,9 +27,14 @@ export class ToolItem extends TControl<itemPropsType> {
 
     render() {
         return (
-            <div className='toolItem'>
-                {React.Children.map(this.props.children, child => child)}
-            </div>
+            <React.Fragment>
+                <div className='toolGroup'>
+                    {this.props.title}
+                </div>
+                <div className='toolItem'>
+                    {React.Children.map(this.props.children, child => child)}
+                </div>
+            </React.Fragment>
         )
     }
 }

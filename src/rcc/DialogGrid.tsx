@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import { DataRow } from '../Autumn-UI';
+import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
 import GridConfig from './GridConfig';
 

@@ -29,14 +29,7 @@ export default class MutiPage extends React.Component<propsType, stateType> {
     render() {
         let pages = Math.ceil(this.props.total / this.state.pageSize);
         return (
-            <div className='MutiPage' style={{position: 'sticky',
-            bottom: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            background: '#fff',
-            borderTop: '1px solid #eeeeee'
-}}>
+            <div className='MutiPage'>
                 <span>共 {this.props.total} 条</span>
                 <span style={{ margin: '0.5rem' }} />
                 <span>每页 </span>

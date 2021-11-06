@@ -1,5 +1,5 @@
 import React from "react"
-import { QueryService } from "../Autumn-UI";
+import QueryService from "../db/QueryService";
 
 type propsType = {
     token: string;

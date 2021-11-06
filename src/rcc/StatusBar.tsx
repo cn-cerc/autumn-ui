@@ -1,5 +1,6 @@
 import React from "react";
 import TControl from "./Control";
+import './StatusBar.css'
 
 export default class StatusBar extends TControl {
 

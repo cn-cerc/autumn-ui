@@ -5,6 +5,8 @@ import MainNavigator from "./MainNavigator";
 import MainMessage from "../rcc/MainMessage";
 import StatusBar from "../rcc/StatusBar";
 import MenuItem from "../rcc/MenuItem";
+import Block from "../rcc/Block";
+import DBGrid from "../rcc/DBGrid";
 import './CustomForm.css';
 
 export type CustomFormPropsType = {
@@ -16,7 +18,11 @@ export type CustomFormStateType = {
     message: string;
 }
 
-export default class TCustomForm<T extends CustomFormPropsType, S extends CustomFormStateType>
+enum Device {
+    PC, Phone
+}
+
+export default class CustomForm<T extends CustomFormPropsType, S extends CustomFormStateType>
     extends BaseForm<T, S> {
 
     constructor(props: T) {
@@ -30,15 +36,17 @@ export default class TCustomForm<T extends CustomFormPropsType, S extends Custom
                 <MainNavigator >
                     {this.getMenus().map(item => item)}
                 </MainNavigator>
-                <div className='main'>
+                <div className={this.isPhone ? 'main_phone' : 'main_pc'}>
                     {this.getToolPanel()}
                     <div className='content'>
                         <MainMessage message={this.state.message} />
-                        {this.getContentComponents()}
-                        {this.getStatusBar(!this.isPhone)}
+                        <article>
+                            {this.getContentComponents()}
+                        </article>
+                        {this.getStatusBar(Device.PC)}
                     </div>
                 </div>
-                {this.getStatusBar(this.isPhone)}
+                {this.getStatusBar(Device.Phone)}
             </BaseForm>
         )
     }
@@ -70,9 +78,12 @@ export default class TCustomForm<T extends CustomFormPropsType, S extends Custom
         return items[0];
     }
 
-    getStatusBar(isPhone: boolean): React.ReactNode {
-        if (isPhone != this.isPhone)
+    getStatusBar(device: Device): React.ReactNode {
+        if (device == Device.Phone && !this.isPhone)
             return null;
+        if (device == Device.PC && this.isPhone)
+            return null;
+
         if (!this.props.children)
             return null;
 
@@ -95,6 +106,11 @@ export default class TCustomForm<T extends CustomFormPropsType, S extends Custom
                 if (child.type == MenuItem) return;
                 if (child.type == ToolPanel) return;
                 if (child.type == StatusBar) return;
+                if (this.isPhone) {
+                    if (child.type == DBGrid) return;
+                } else {
+                    if (child.type == Block) return;
+                }
                 items.push(child);
             }
         })

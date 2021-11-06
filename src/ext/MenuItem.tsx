@@ -5,14 +5,14 @@ type propsType = {
     name: string;
 }
 
-export default class TMainItem extends React.Component<propsType> {
+export default class MenuItem extends React.Component<propsType> {
     constructor(props: propsType) {
         super(props);
     }
 
     render() {
         return (
-            <span className="TMainItem">
+            <span className="menuItem">
                 <a href={this.props.id}>{this.props.name}</a>
             </span>
         )

@@ -4,9 +4,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './sample/AutumnStart.tsx',
+	entry: './sample/Start.tsx',
 	output: {
-		filename: './autumn-ui.js'
+		filename: './sample-aui.js'
 	},
 	mode: 'development', // production,development,none
 	devServer: {
@@ -38,7 +38,7 @@ module.exports = {
 			title: 'autumn-ui 实例',
 			// Load a custom template (lodash by default)
 			template: './public/index.html',
-			filename: './index.html',
+			filename: './sample-index.html',
 		}),
 		// new webpack.HashedModuleIdsPlugin(),
 		new webpack.ProvidePlugin({

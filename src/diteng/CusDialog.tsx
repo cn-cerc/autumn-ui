@@ -1,14 +1,14 @@
 import React, { ChangeEventHandler, MouseEventHandler } from "react";
-import { DBEdit, TGridColumn } from "../Autumn-UI";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import DBCheckbox from "../rcc/DBCheckbox";
-import { OnChangedEvent } from "../rcc/DBEdit";
+import DBEdit, { OnChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import GridConfig from "../rcc/GridConfig";
 import { showMsg } from "./Summer";
 import './CusDialog.css'
+import TGridColumn from "../ext/TGridColumn";
 
 type propsType = {
     token: string;

@@ -1,5 +1,6 @@
 import React from "react";
-import { DataRow, DataSet } from "../Autumn-UI";
+import DataRow from "../db/DataRow";
+import DataSet from "../db/DataSet";
 import TStringField from "./TStringField";
 
 type propsType = {

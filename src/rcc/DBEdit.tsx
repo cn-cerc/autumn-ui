@@ -1,6 +1,6 @@
 import React from "react";
-import { FieldMeta } from "../Autumn-UI";
 import DataSource from "../db/DataSource";
+import FieldMeta from "../db/FieldMeta";
 import { SearchItem } from "./SearchPanel";
 
 export type OnChangedEvent = (meta: FieldMeta) => void;

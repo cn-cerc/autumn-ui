@@ -4,9 +4,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './src/index.ts',
+	entry: './src/Diteng.ts',
 	output: {
-		filename: './autumn-ui.js'
+		filename: './diteng-aui.js',
+		library: 'aui',
+		libraryExport: 'default',
+		libraryTarget: 'window' //导出到浏览器的 window 对象中
 	},
 	mode: 'production', // production,development,none
 	devServer: {
@@ -38,7 +41,7 @@ module.exports = {
 			title: 'autumn-ui 实例',
 			// Load a custom template (lodash by default)
 			template: './public/index.html',
-			filename: './index.html',
+			filename: './diteng-aui.html',
 		}),
 		// new webpack.HashedModuleIdsPlugin(),
 		new webpack.ProvidePlugin({

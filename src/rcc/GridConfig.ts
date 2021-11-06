@@ -1,5 +1,5 @@
-import { DataSet } from '../Autumn-UI';
 import DataRow from '../db/DataRow';
+import DataSet from '../db/DataSet';
 import KeyValue from '../db/KeyValue';
 import TGridColumn from '../ext/TGridColumn';
 import TComponent from '../ui/TComponent';
