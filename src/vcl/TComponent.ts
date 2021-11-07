@@ -1,6 +1,3 @@
-import { assertEquals } from "../JUnit";
-import HtmlWriter from "./HtmlWriter";
-
 export default class TComponent {
     private _owner: TComponent;
     private _origin: any;
@@ -279,4 +276,34 @@ export default class TComponent {
     }
 
     get props(): any { return this._props }
+}
+
+export class HtmlWriter {
+    private _lines: string[] = [];
+
+    print(text: string): HtmlWriter {
+        this._lines.push(text);
+        return this;
+    }
+
+    println(text: string): HtmlWriter {
+        this._lines.push(text + "\n");
+        return this;
+    }
+
+    getText(): string {
+        let text = "";
+        this._lines.forEach((line) => {
+            text = text + line;
+        })
+        return text;
+    }
+
+}
+
+export class TDiv extends TComponent {
+    constructor(owner: TComponent, props: any = null) {
+        super(owner, props);
+        this.setRootLabel('div');
+    }
 }

@@ -2,10 +2,10 @@ import React from "react";
 import DataSet from "../db/DataSet";
 import FieldDefs from "../db/FieldDefs";
 import QueryService from "../db/QueryService";
-import TGrid from "../ext/TGrid";
-import TGridColumn from "../ext/TGridColumn";
 import Grid from "../rcc/Grid";
 import GridColumns from "../rcc/GridConfig";
+import TGrid from "../vcl/TGrid";
+import TGridColumn from "../vcl/TGridColumn";
 import { Loading, showMsg } from "./Summer";
 
 /**

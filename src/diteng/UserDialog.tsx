@@ -2,10 +2,10 @@ import React, { ChangeEventHandler, MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
-import TGridColumn from "../ext/TGridColumn";
 import DBEdit, { OnChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import GridConfig from "../rcc/GridConfig";
+import TGridColumn from "../vcl/TGridColumn";
 import { showMsg } from "./Summer";
 import './UserDialog.css';
 

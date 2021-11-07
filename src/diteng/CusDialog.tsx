@@ -8,7 +8,7 @@ import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import GridConfig from "../rcc/GridConfig";
 import { showMsg } from "./Summer";
 import './CusDialog.css'
-import TGridColumn from "../ext/TGridColumn";
+import TGridColumn from "../vcl/TGridColumn";
 
 type propsType = {
     token: string;

@@ -1,14 +1,13 @@
 import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import TStringField from "./TStringField";
 
 type propsType = {
     dataSource: DataSet;
     children: React.ReactNode[];
 }
 
-export default class TDBGrid extends React.Component<propsType> {
+export default class DBGrid1 extends React.Component<propsType> {
     constructor(props: propsType) {
         super(props);
     }
@@ -16,7 +15,7 @@ export default class TDBGrid extends React.Component<propsType> {
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         for (let child of this.props.children) {
-            let item: TStringField = child as TStringField;
+            let item: StringField = child as StringField;
             items.push(
                 <th key={item.props.code}>{item.props.name}</th>
             );
@@ -37,7 +36,7 @@ export default class TDBGrid extends React.Component<propsType> {
     getRow(row: DataRow): React.ReactNode {
         let items: React.ReactNode[] = [];
         for (let child of this.props.children) {
-            let item: TStringField = child as TStringField;
+            let item: StringField = child as StringField;
             items.push(
                 <td key={item.props.code}>{row.getString(item.props.code)}</td>
             );
@@ -55,6 +54,29 @@ export default class TDBGrid extends React.Component<propsType> {
                     {this.getBody().map(item => item)}
                 </tbody>
             </table>
+        )
+    }
+
+}
+
+
+type StringFieldPropsType = {
+    code: string;
+    name: string;
+}
+
+export class StringField extends React.Component<StringFieldPropsType> {
+    constructor(props: StringFieldPropsType) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="TStringField">
+                {React.Children.map(this.props.children, (child, index) => {
+                    return child;
+                })}
+            </div>
         )
     }
 

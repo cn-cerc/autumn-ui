@@ -1,8 +1,7 @@
 import TGridGroup, { TGridGroupChild, TGridGroupMaster } from './TGridGroup';
-import TTable from '../ui/TTable';
+import TTable from './TTable';
 import TGridColumn from './TGridColumn';
-import TComponent from '../ui/TComponent';
-import HtmlWriter from '../ui/HtmlWriter';
+import TComponent, { HtmlWriter } from './TComponent';
 import DataSet from '../db/DataSet';
 import FieldDefs from '../db/FieldDefs';
 import DataControl from '../db/DataControl';

@@ -1,5 +1,4 @@
-import HtmlWriter from "./HtmlWriter";
-import TComponent from "./TComponent";
+import TComponent, { HtmlWriter } from "./TComponent";
 import TText from "./TText";
 
 export default class TCustomComponent extends TComponent {

@@ -1,7 +1,7 @@
 import React from "react";
 import DataRow from "../db/DataRow";
 import GridColumns from "../rcc/GridConfig";
-import TComponent from "../ui/TComponent";
+import TComponent from "./TComponent";
 import TGrid from "./TGrid";
 import { TGridGroupChild, TGridGroupMaster } from "./TGridGroup";
 

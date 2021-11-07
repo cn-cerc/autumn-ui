@@ -3,11 +3,11 @@ import DataSet from "./db/DataSet";
 import Datetime from "./db/Datetime";
 import QueryService from "./db/QueryService";
 import RemoteService from "./db/RemoteService";
-import TGrid from "./ext/TGrid";
-import TGridColumn from "./ext/TGridColumn";
 import Grid from "./rcc/Grid";
 import GridConfig from "./rcc/GridConfig";
-import TComponent from "./ui/TComponent";
+import TComponent from "./vcl/TComponent";
+import TGrid from "./vcl/TGrid";
+import TGridColumn from "./vcl/TGridColumn";
 
 export default {
     //db

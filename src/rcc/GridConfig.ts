@@ -1,8 +1,8 @@
 import DataRow from '../db/DataRow';
 import DataSet from '../db/DataSet';
 import KeyValue from '../db/KeyValue';
-import TGridColumn from '../ext/TGridColumn';
-import TComponent from '../ui/TComponent';
+import TComponent from '../vcl/TComponent';
+import TGridColumn from '../vcl/TGridColumn';
 
 const MaxWidth = 600;
 

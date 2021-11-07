@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './sample/index.ts',
+	entry: './sample/sample.ts',
 	output: {
 		filename: './aui.js',
 		library: 'aui',

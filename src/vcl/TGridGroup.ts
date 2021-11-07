@@ -1,12 +1,9 @@
 import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
-import HtmlWriter from '../ui/HtmlWriter';
-import TComponent from '../ui/TComponent';
-import TTd from '../ui/TTd';
-import TText from '../ui/TText';
-import TTh from '../ui/TTh';
-import TTr from '../ui/TTr';
+import TComponent, { HtmlWriter } from './TComponent';
+import TText from './TText';
 import TGridColumn from './TGridColumn';
+import { TTd, TTh, TTr } from './TTable';
 
 const MaxWidth = 600;
 
