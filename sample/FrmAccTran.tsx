@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import DataRow from "../src/db/DataRow";
 import DataSet from "../src/db/DataSet";
 import QueryService from "../src/db/QueryService";
@@ -71,7 +71,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     </Line>
                 </Block>
                 <StatusBar>
-                    <button>添加</button>
+                    <button onClick={this.btnAppend}>添加</button>
                     <button>删除</button>
                 </StatusBar>
             </CustomForm>
@@ -91,5 +91,10 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
 
     onChanged: OnDataSetChangedEvvent = (dataSet: DataSet) => {
         console.log(dataSet.jsonString);
+    }
+
+    btnAppend: MouseEventHandler<HTMLButtonElement> = (sender: any) => {
+        this.state.dataOut.append();
+        this.setState(this.state);
     }
 }
