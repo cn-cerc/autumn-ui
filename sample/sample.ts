@@ -5,6 +5,13 @@ import DataSet from "../src/db/DataSet"
 import Datetime from "../src/db/Datetime"
 import QueryService from "../src/db/QueryService"
 import RemoteService from "../src/db/RemoteService"
+import CheckDraftTB from "../src/diteng/CheckDraftTB"
+import CheckReport from "../src/diteng/CheckReport"
+import CheckWorkflow from "../src/diteng/CheckWorkflow"
+import CusDialog from "../src/diteng/CusDialog"
+import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
+import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
+import UserDialog from "../src/diteng/UserDialog"
 import Grid from "../src/rcc/Grid"
 import GridConfig from "../src/rcc/GridConfig"
 import TComponent from "../src/vcl/TComponent"
@@ -26,6 +33,16 @@ export default {
     //rcc
     Grid,
     GridConfig,
+    //地藤专用
+    TSchProductAnalysis,
+    TSchScmStockInOut,
+    //首页检测
+    CheckDraftTB,
+    CheckWorkflow,
+    CheckReport,
+    //开窗选择
+    UserDialog,
+    CusDialog,
 }
 
 let app = document.getElementById('app');
