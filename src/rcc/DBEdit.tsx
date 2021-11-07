@@ -3,14 +3,14 @@ import DataSource from "../db/DataSource";
 import FieldMeta from "../db/FieldMeta";
 import { ISearchItem } from "./SearchPanel";
 
-export type OnChangedEvent = (meta: FieldMeta) => void;
+export type OnFieldChangedEvent = (meta: FieldMeta) => void;
 
 type PropsType = {
     dataSource?: DataSource;
     dataField: string;
-    dataName: string;
+    dataName?: string;
     placeholder?: string;
-    onChanged?: OnChangedEvent;
+    onChanged?: OnFieldChangedEvent;
     autoFocus?: boolean;
 }
 
@@ -32,7 +32,6 @@ export default class DBEdit extends React.Component<PropsType> implements ISearc
     render() {
         if (!this.dataSource)
             return null;
-
         let value = "";
         let row = this.dataSource.current;
         if (row)

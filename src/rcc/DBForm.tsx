@@ -2,7 +2,7 @@ import React, { MouseEventHandler, ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import DataSource from "../db/DataSource";
 import FieldMeta from "../db/FieldMeta";
-import DBEdit, { OnChangedEvent } from "./DBEdit";
+import DBEdit, { OnFieldChangedEvent } from "./DBEdit";
 
 interface propsType {
     dataSource: DataSource;
@@ -26,7 +26,7 @@ export default class DBForm extends React.Component<propsType, stateType> {
             this.props.onSubmit(this.state.dataSource.current);
     }
 
-    onChanged: OnChangedEvent = (meta: FieldMeta) => {
+    onChanged: OnFieldChangedEvent = (meta: FieldMeta) => {
         this.setState(this.state);
     }
 

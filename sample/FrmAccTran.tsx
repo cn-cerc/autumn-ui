@@ -7,7 +7,7 @@ import MainMenu from "../src/diteng/MainMenu";
 import Block, { Line } from "../src/rcc/Block";
 import DateDialog from "../src/rcc/DateDialog";
 import DBEdit from "../src/rcc/DBEdit";
-import DBGrid, { ChildRow, Column } from "../src/rcc/DBGrid";
+import DBGrid, { ChildRow, Column, OnDataSetChangedEvvent } from "../src/rcc/DBGrid";
 import MenuItem from "../src/rcc/MenuItem";
 import SearchPanel from "../src/rcc/SearchPanel";
 import StatusBar from "../src/rcc/StatusBar";
@@ -41,8 +41,8 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                         <div>（这里是操作提示）</div>
                         <div>（这里是操作提示）</div>
                         <div>（这里是操作提示）</div>
-                    </ToolItem>
-                    <ToolItem title='相关操作'>
+                        </ToolItem>
+                        <ToolItem title='相关操作'>
                         <div>（这里是相关操作） </div>
                     </ToolItem> */}
                 </ToolPanel>
@@ -51,9 +51,12 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     <DBEdit dataField='name' dataName='名称' ></DBEdit>
                     <DBEdit dataField='tbDate' dataName='日期'><DateDialog /></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSource={this.state.dataOut}>
+                <DBGrid dataSource={this.state.dataOut} readOnly={false} onChanged={this.onChanged}>
                     <Column code='code_' name='代码' width='10' />
-                    <Column code='name_' name='名称' width='20' />
+                    <Column code='name_' name='名称' width='20' >
+                        <DBEdit dataField='code_' />
+                        <DBEdit dataField='name_' />
+                    </Column>
                     <ChildRow>
                         <Column code='remark_' name='备注' width='50' />
                     </ChildRow>
@@ -84,5 +87,9 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
         }).catch(dataOut => {
             this.setState({ ...this.state, dataOut, message: dataOut.message })
         })
+    }
+
+    onChanged: OnDataSetChangedEvvent = (dataSet: DataSet) => {
+        console.log(dataSet.jsonString);
     }
 }

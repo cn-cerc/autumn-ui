@@ -2,7 +2,7 @@ import React, { isValidElement, MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSource from "../db/DataSource";
 import FieldMeta from "../db/FieldMeta";
-import { OnChangedEvent } from "./DBEdit";
+import { OnFieldChangedEvent } from "./DBEdit";
 import WebControl from "./WebControl";
 
 type propsType = {
@@ -45,7 +45,7 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
         return items;
     }
 
-    onChanged: OnChangedEvent = (meta: FieldMeta) => {
+    onChanged: OnFieldChangedEvent = (meta: FieldMeta) => {
         this.setState(this.state);
     }
 

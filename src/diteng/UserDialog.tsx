@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
-import DBEdit, { OnChangedEvent } from "../rcc/DBEdit";
+import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { showMsg } from "./Summer";
@@ -77,7 +77,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
         })
     }
 
-    update: OnChangedEvent = (sender: any) => {
+    update: OnFieldChangedEvent = (sender: any) => {
         this.setState(this.state);
         console.log(this.state.dataIn.current.jsonString);
     }

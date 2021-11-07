@@ -3,7 +3,7 @@ import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import DBCheckbox from "../rcc/DBCheckbox";
-import DBEdit, { OnChangedEvent } from "../rcc/DBEdit";
+import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import { showMsg } from "./Summer";
 import './CusDialog.css'
@@ -140,7 +140,7 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         })
     }
 
-    updateDataIn: OnChangedEvent = (sender: any) => {
+    updateDataIn: OnFieldChangedEvent = (sender: any) => {
         let isName = this.state.dataIn.getBoolean('isName');
         let isAddress = this.state.dataIn.getBoolean('isAddress');
         localStorage.setItem('EnableName-Cus', isName + '');
@@ -150,7 +150,7 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         this.setState(this.state);
     }
 
-    updateObjType: OnChangedEvent = (sender: any) => {
+    updateObjType: OnFieldChangedEvent = (sender: any) => {
         let isObjType = this.state.dataIn.getBoolean('isObjType');
         this.state.dataIn.setValue('ObjType_', isObjType ? '1001' : '');
         let objType = localStorage.getItem('EnableObjType-Cus') == 'true';
