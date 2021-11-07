@@ -1,11 +1,8 @@
 import React from "react";
 import DataSet from "../db/DataSet";
-import FieldDefs from "../db/FieldDefs";
 import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
-import GridColumns from "../rcc/GridConfig";
-import TGrid from "../vcl/TGrid";
-import TGridColumn from "../vcl/TGridColumn";
+import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { Loading, showMsg } from "./Summer";
 
 /**
@@ -26,7 +23,7 @@ type propsType = {
 }
 
 interface stateType {
-    config: GridColumns
+    config: TGridConfig
 }
 
 export default class TSchScmStockInOut extends React.Component<propsType, stateType> {
@@ -47,7 +44,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         })
 
         // 显示数据源
-        let config = new GridColumns();
+        let config = new TGridConfig();
         new TGridColumn(config, "sn_", "序").setWidth(3).setAlign("center");
         new TGridColumn(config, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {
             let partCode = row.getValue("PartCode_");

@@ -13,10 +13,8 @@ import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
 import Grid from "../src/rcc/Grid"
-import GridConfig from "../src/rcc/GridConfig"
 import TComponent from "../src/vcl/TComponent"
-import TGrid from "../src/vcl/TGrid"
-import TGridColumn from "../src/vcl/TGridColumn"
+import TGrid, { TGridConfig, TGridColumn } from "../src/vcl/TGrid"
 import FrmDept from "./FrmDept"
 
 export default {
@@ -29,10 +27,10 @@ export default {
     //vcl
     TComponent,
     TGridColumn,
+    TGridConfig,
     TGrid,
     //rcc
     Grid,
-    GridConfig,
     //地藤专用
     TSchProductAnalysis,
     TSchScmStockInOut,

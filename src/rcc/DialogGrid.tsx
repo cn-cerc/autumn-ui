@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
-import GridConfig from './GridConfig';
+import { TGridConfig } from '../vcl/TGrid';
 
 export type OnTrClickEvent = (row: DataRow) => void;
 
@@ -9,7 +9,7 @@ const defaultProps = {
     id: ''
 }
 type PropsType = {
-    config: GridConfig;
+    config: TGridConfig;
     onTrClick?: OnTrClickEvent;
 } & Partial<typeof defaultProps>;
 
@@ -85,7 +85,7 @@ export default class DialogGrid extends React.Component<PropsType> {
         return <tr onClick={this.onTrClick} key={key}>{items}</tr>;
     }
 
-    getChildRow(child: GridConfig, row: DataRow) {
+    getChildRow(child: TGridConfig, row: DataRow) {
         child.setCurrent(row);
         let key = "child_" + row.dataSet.recNo;
         let value: string = "";

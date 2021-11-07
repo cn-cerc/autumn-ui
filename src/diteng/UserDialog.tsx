@@ -4,8 +4,7 @@ import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import DBEdit, { OnChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
-import GridConfig from "../rcc/GridConfig";
-import TGridColumn from "../vcl/TGridColumn";
+import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { showMsg } from "./Summer";
 import './UserDialog.css';
 
@@ -18,7 +17,7 @@ type propsType = {
 
 type stateType = {
     dataIn: DataRow;
-    config: GridConfig;
+    config: TGridConfig;
 }
 
 export default class UserDialog extends React.Component<propsType, stateType> {
@@ -28,7 +27,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
         super(props);
         this._dataSet = new DataSet();
 
-        let config = new GridConfig();
+        let config = new TGridConfig();
         new TGridColumn(config, "Code_", "账号").setWidth(5);
         new TGridColumn(config, "Name_", "姓名").setWidth(10);
         new TGridColumn(config, "Opera", "操作").setWidth(3).setAlign("center").setOnRender((column, row) => {

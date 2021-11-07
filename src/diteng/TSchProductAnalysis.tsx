@@ -3,9 +3,7 @@ import DataSet from "../db/DataSet";
 import FieldDefs from "../db/FieldDefs";
 import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
-import GridColumns from "../rcc/GridConfig";
-import TGrid from "../vcl/TGrid";
-import TGridColumn from "../vcl/TGridColumn";
+import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { Loading, showMsg } from "./Summer";
 
 type propsType = {
@@ -18,7 +16,7 @@ type propsType = {
 }
 
 type stateType = {
-    config: GridColumns
+    config: TGridConfig
 }
 
 const CUSTOMER_181013 = "181013";
@@ -82,7 +80,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             return row.getBoolean('LowerShelf_') ? '已下架' : '未下架';
         })
 
-        let config = new GridColumns();
+        let config = new TGridConfig();
         // 页面显示数据源
         new TGridColumn(config, "sn_", "序").setWidth(3).setAlign("center");
         new TGridColumn(config, "DescSpec", "品名规格").setWidth(12).setOnRender((column, row) => {

@@ -1,10 +1,11 @@
-import TGridGroup, { TGridGroupChild, TGridGroupMaster } from './TGridGroup';
-import TTable from './TTable';
-import TGridColumn from './TGridColumn';
+import TTable, { TTd, TTh, TTr } from './TTable';
 import TComponent, { HtmlWriter } from './TComponent';
 import DataSet from '../db/DataSet';
 import FieldDefs from '../db/FieldDefs';
 import DataControl from '../db/DataControl';
+import DataRow from '../db/DataRow';
+import KeyValue from '../db/KeyValue';
+import TText from './TText';
 
 export default class TGrid extends TTable implements DataControl {
     private _dataSet: DataSet;
@@ -171,6 +172,358 @@ export default class TGrid extends TTable implements DataControl {
         if (size)
             this.repaint();
     }
+}
+
+interface onRenderType {
+    (column: TGridColumn, row: DataRow): React.ReactNode;
+}
+
+export class TGridColumn extends TComponent {
+    private _code: string;
+    private _name: string;
+    private _width: number = 0;
+    private _align: string;
+    private _export = true;
+    private _onRender: onRenderType;
+
+    constructor(owner: TGrid | TGridGroupMaster | TGridGroupChild | TGridConfig, code: string, name: string = null) {
+        super(owner);
+        this._code = code;
+        this._name = name ? name : code;
+    }
+
+    get code(): string { return this._code }
+
+    get name() { return this._name }
+
+    get colSpan(): string { return this.readProperty("colspan"); }
+    setColSpan(value: string): TGridColumn {
+        this.writeProperty("colspan", value);
+        return this;
+    }
+
+    get width(): number { return this._width }
+    setWidth(value: number): TGridColumn {
+        this._width = value;
+        return this;
+    }
+
+    get align(): string { return this._align }
+    setAlign(value: string) {
+        this._align = value;
+        return this;
+    }
+
+    get export(): boolean { return this._export; }
+    setExport(value: boolean): TGridColumn {
+        this._export = value;
+        return this;
+    }
+
+    get onRender(): onRenderType { return this._onRender }
+    setOnRender(value: onRenderType) { this._onRender = value; return this; }
+
+}
+
+const MaxWidth = 600;
+
+interface IGroupOnOutput {
+    (child: TGridGroup, display: KeyValue): void
+}
+
+export class TGridGroup extends TComponent {
+    private _titleVisiable: boolean = true;
+    private _current: DataRow;
+    private _master: TGridGroup;
+    private _onOutput: IGroupOnOutput;
+
+    constructor(owner: TComponent) {
+        super(owner);
+    }
+
+    get current(): DataRow { return this._current }
+    setCurrent(row: DataRow) {
+        this._current = row;
+    }
+
+    get titleVisiable() { return this._titleVisiable }
+    setTitleVisiable(value: boolean): TGridGroup { this._titleVisiable = value; return this; }
+
+    getTotalWidth() {
+        let result = 0;
+        this.getComponents().forEach((item) => {
+            if (item instanceof TGridColumn)
+                result = result + item.width;
+        });
+        if (result < 0) {
+            throw new Error("总列宽不允许小于1");
+        }
+        if (result > MaxWidth) {
+            throw new Error(`总列宽不允许大于 ${MaxWidth}`);
+        }
+        return result;
+    }
+
+    get columns(): TGridColumn[] {
+        let items: TGridColumn[] = [];
+        for (let item of this.getComponents()) {
+            if (item instanceof TGridColumn)
+                items.push(item as TGridColumn);
+        }
+        return items;
+    }
+
+    getColumnCount(): number {
+        return this.columns.length;
+    }
+
+    getColumn(columnCode: string): TGridColumn {
+        for (let item of this.getComponents()) {
+            let column = item as TGridColumn;
+            if (column.code == columnCode)
+                return column;
+        }
+        return null;
+    }
+
+    forEach(fn: (column: TGridColumn) => void) {
+        for (let item of this.getComponents()) {
+            if (item instanceof TGridColumn)
+                fn.call(this, item as TGridColumn);
+        }
+    }
+
+    get master() { return this._master }
+    setMaster(value: TGridGroup): TGridGroup { this._master = value; return this; }
+
+    get onOutput(): IGroupOnOutput { return this._onOutput }
+    setOnOutput(value: IGroupOnOutput): TGridGroup { this._onOutput = value; return this; }
+
+    outputOfGridTitle(html: HtmlWriter) {
+        if (!this.titleVisiable)
+            return;
+        let tr = new TTr();
+        for (let item of this.getComponents()) {
+            if (item instanceof TGridColumn) {
+                let child = item as TGridColumn;
+                if (!child.visible)
+                    continue;
+                let th = new TTh(tr);
+                if (child.colSpan)
+                    th.writeProperty("colspan", child.colSpan);
+                if (this.getTotalWidth() > 0 && child.width > 0) {
+                    let rate = child.width / this.getTotalWidth() * 100;
+                    th.writeProperty("width", rate.toFixed(1) + "%");
+                }
+                new TText(th, { text: child.name });
+            }
+        }
+        tr.output(html);
+    }
+
+}
+
+export class TGridGroupChild extends TGridGroup {
+
+    constructor(owner: TComponent) {
+        super(owner);
+        this.setTitleVisiable(false);
+        this.setVisible(false);
+    }
+
+    output(html: HtmlWriter) {
+        let display = new KeyValue(this.visible);
+        if (this.onOutput) {
+            this.onOutput(this, display);
+        }
+
+        let it = 0;
+        for (let child of this.owner.getComponents()) {
+            if (child == this)
+                break;
+            it = it + 1;
+        }
+
+        let value: string = "";
+        this.forEach((child: TGridColumn) => {
+            if (child.visible) {
+                let text = this.current.getText(child.code);
+                if (text)
+                    value = value + child.name + ": " + text + " ";
+            }
+        });
+
+        if (value.length > 0) {
+            let tr = new TTr();
+            tr.setId('tr' + this.current.dataSet.recNo + "_" + it);
+            if (!display.asBoolean())
+                tr.setCssStyle('display:none');
+            let td = new TTd(tr);
+            if (this.master)
+                td.writeProperty("colspan", "" + this.master.getColumnCount());
+            new TText(td, { text: value });
+            tr.output(html);
+        }
+    }
+
+}
+
+export class TGridGroupMaster extends TGridGroup {
+
+    constructor(owner: TComponent) {
+        super(owner);
+    }
+
+    output(html: HtmlWriter): void {
+        let notNull = false;
+        let tr = new TTr();
+        tr.setId('tr' + this.current.dataSet.recNo);
+        this.forEach((child: TGridColumn) => {
+            if (!child.visible)
+                return;
+            let value = this.current.getText(child.code);
+            let td = new TTd(tr);
+            if (child.colSpan)
+                td.writeProperty("colspan", child.colSpan);
+
+            if (child.align) {
+                td.writeProperty("align", child.align);
+            }
+            new TText(td, { text: value });
+            if (value)
+                notNull = true;
+        });
+        if (notNull)
+            tr.output(html);
+    }
+
+}
+
+interface IOnOutput {
+    (child: TGridConfig, display: KeyValue): void
+}
+
+export class TGridConfig extends TComponent {
+    private _dataSet: DataSet
+    private _titleVisiable: boolean = true;
+    private _current: DataRow;
+    private _children: TGridConfig[] = [];
+    private _onOutput: (child: TGridConfig, display: KeyValue) => void;
+
+    constructor(owner: TGridConfig = null) {
+        super(owner);
+    }
+
+    get current(): DataRow { return this._current }
+    setCurrent(row: DataRow) {
+        this._current = row;
+    }
+
+    get titleVisiable() { return this._titleVisiable }
+    setTitleVisiable(value: boolean): TGridConfig { this._titleVisiable = value; return this; }
+
+    getTotalWidth() {
+        let result = 0;
+        this.getComponents().forEach((item) => {
+            if (item instanceof TGridColumn)
+                result = result + item.width;
+        });
+        if (result < 0) {
+            throw new Error("总列宽不允许小于1");
+        }
+        if (result > MaxWidth) {
+            throw new Error(`总列宽不允许大于 ${MaxWidth}`);
+        }
+        return result;
+    }
+
+    get columns(): TGridColumn[] {
+        let items: TGridColumn[] = [];
+        for (let item of this.getComponents()) {
+            if (item instanceof TGridColumn)
+                items.push(item as TGridColumn);
+        }
+        return items;
+    }
+
+    getColumn(columnCode: string): TGridColumn {
+        for (let item of this.getComponents()) {
+            let column = item as TGridColumn;
+            if (column.code == columnCode)
+                return column;
+        }
+        return null;
+    }
+
+    get master(): TGridConfig {
+        if (this.owner instanceof TGridConfig)
+            return this.owner as TGridConfig;
+        else
+            return null;
+    }
+
+    newChild(): TGridConfig {
+        let child = new TGridConfig(this);
+        this._children.push(child);
+        return child;
+    }
+    get children(): TGridConfig[] { return this._children }
+
+    get onOutput(): IOnOutput { return this._onOutput }
+    setOnOutput(value: IOnOutput): TGridConfig { this._onOutput = value; return this; }
+
+    get dataSet(): DataSet { return this._dataSet };
+    setDataSet(value: DataSet): TGridConfig { this._dataSet = value; return this; };
+}
+
+interface onRenderType {
+    (column: GridColumn, row: DataRow): React.ReactNode;
+}
+
+export class GridColumn extends TComponent {
+    private _code: string;
+    private _name: string;
+    private _width: number = 0;
+    private _align: string;
+    private _export = true;
+    private _onRender: onRenderType;
+
+    constructor(owner: TGridConfig, code: string, name: string = null) {
+        super(owner);
+        this._code = code;
+        this._name = name ? name : code;
+    }
+
+    get code(): string { return this._code }
+
+    get name() { return this._name }
+
+    get colSpan(): string { return this.readProperty("colspan"); }
+    setColSpan(value: string): GridColumn {
+        this.writeProperty("colspan", value);
+        return this;
+    }
+
+    get width(): number { return this._width }
+    setWidth(value: number): GridColumn {
+        this._width = value;
+        return this;
+    }
+
+    get align(): string { return this._align }
+    setAlign(value: string) {
+        this._align = value;
+        return this;
+    }
+
+    get export(): boolean { return this._export; }
+    setExport(value: boolean): GridColumn {
+        this._export = value;
+        return this;
+    }
+
+    get onRender(): onRenderType { return this._onRender }
+    setOnRender(value: onRenderType) { this._onRender = value; return this; }
 
 }
 

@@ -10,25 +10,24 @@ import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
 import UserDialog from "./diteng/UserDialog";
 import Grid from "./rcc/Grid";
-import GridConfig from "./rcc/GridConfig";
+import { TGridConfig } from "./vcl/TGrid";
 
 export default {
     //db
-     Datetime,
-     DataSet,
-     DataRow,
-     QueryService,
+    Datetime,
+    DataSet,
+    DataRow,
+    QueryService,
     //rcc
-     Grid,
-     GridConfig,
+    Grid,
     //地藤专用
-     TSchProductAnalysis,
-     TSchScmStockInOut,
+    TSchProductAnalysis,
+    TSchScmStockInOut,
     //首页检测
-     CheckDraftTB,
-     CheckWorkflow,
-     CheckReport,
+    CheckDraftTB,
+    CheckWorkflow,
+    CheckReport,
     //开窗选择
-     UserDialog,
-     CusDialog,
+    UserDialog,
+    CusDialog,
 }

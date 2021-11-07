@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
-import GridConfig from './GridConfig';
+import { TGridConfig } from '../vcl/TGrid';
 import MutiPage, { MinPageSize, OnPageChanged } from './MutiPage';
 
 const defaultProps = {
@@ -9,7 +9,7 @@ const defaultProps = {
 }
 
 type PropsType = {
-    config: GridConfig;
+    config: TGridConfig;
 } & Partial<typeof defaultProps>;
 
 interface stateType {
@@ -104,7 +104,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
         return <tr key={key}>{items}</tr>;
     }
 
-    getChildRow(child: GridConfig, row: DataRow) {
+    getChildRow(child: TGridConfig, row: DataRow) {
         child.setCurrent(row);
         let key = "child_" + row.dataSet.recNo;
         let value: string = "";

@@ -5,10 +5,9 @@ import QueryService from "../db/QueryService";
 import DBCheckbox from "../rcc/DBCheckbox";
 import DBEdit, { OnChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
-import GridConfig from "../rcc/GridConfig";
 import { showMsg } from "./Summer";
 import './CusDialog.css'
-import TGridColumn from "../vcl/TGridColumn";
+import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 
 type propsType = {
     token: string;
@@ -19,10 +18,10 @@ type propsType = {
 
 type stateType = {
     dataIn: DataRow;
-    config: GridConfig;
+    config: TGridConfig;
     objItems: DataSet;
     cusNameColumn: TGridColumn;
-    child: GridConfig;
+    child: TGridConfig;
 }
 
 export default class CusDialog extends React.Component<propsType, stateType> {
@@ -31,7 +30,7 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         let isObjType: boolean = localStorage.getItem('EnableObjType-Cus') == 'true';
         let isName: boolean = localStorage.getItem('EnableName-Cus') == 'true';
         let isAddress: boolean = localStorage.getItem('EnableAddress-Cus') == 'true';
-        let config = new GridConfig();
+        let config = new TGridConfig();
         config.setDataSet(new DataSet());
 
         new TGridColumn(config, "sn_", "序").setWidth(1).setAlign("center");
