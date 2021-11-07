@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './src/AutumnUI.ts',
+	entry: './src/index.ts',
 	output: {
 		filename: './aui.js',
 		library: 'aui',

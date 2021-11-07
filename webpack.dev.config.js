@@ -6,7 +6,10 @@ const webpack = require('webpack');
 module.exports = {
 	entry: './sample/Start.tsx',
 	output: {
-		filename: './sample-aui.js'
+		filename: './aui.js',
+		library: 'aui',
+		libraryExport: 'default',
+		libraryTarget: 'window' //导出到浏览器的 window 对象中
 	},
 	mode: 'development', // production,development,none
 	devServer: {
@@ -38,7 +41,7 @@ module.exports = {
 			title: 'autumn-ui 实例',
 			// Load a custom template (lodash by default)
 			template: './public/index.html',
-			filename: './index.html',
+			filename: './sample.html',
 		}),
 		// new webpack.HashedModuleIdsPlugin(),
 		new webpack.ProvidePlugin({
