@@ -7,7 +7,7 @@ import MainMenu from "../src/diteng/MainMenu";
 import Block, { Line } from "../src/rcc/Block";
 import DateDialog from "../src/rcc/DateDialog";
 import DBEdit from "../src/rcc/DBEdit";
-import DBGrid, { Column } from "../src/rcc/DBGrid";
+import DBGrid, { ChildRow, Column } from "../src/rcc/DBGrid";
 import MenuItem from "../src/rcc/MenuItem";
 import SearchPanel from "../src/rcc/SearchPanel";
 import StatusBar from "../src/rcc/StatusBar";
@@ -27,7 +27,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
         let dataOut = new DataSet();
         dataOut.append().setValue('code_', 'a1').setValue('name_', 'jason1');
         dataOut.append().setValue('code_', 'a2').setValue('name_', 'jason2');
-        dataOut.append().setValue('code_', 'a3').setValue('name_', 'jason3');
+        dataOut.append().setValue('code_', 'a3').setValue('name_', 'jason3').setValue('remark_', 'abc');
         this.state = { headIn: new DataRow(), dataOut, message: '' }
     }
 
@@ -54,7 +54,9 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                 <DBGrid dataSource={this.state.dataOut}>
                     <Column code='code_' name='代码' width='10' />
                     <Column code='name_' name='名称' width='20' />
-                    <Column code='remark_' name='备注' width='50' />
+                    <ChildRow>
+                        <Column code='remark_' name='备注' width='50' />
+                    </ChildRow>
                 </DBGrid>
                 <Block dataSource={this.state.dataOut}>
                     <Line>

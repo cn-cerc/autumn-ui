@@ -38,6 +38,24 @@ export default class DBGrid extends React.Component<propsType> {
         let items: React.ReactNode[] = [];
         for (let row of this.props.dataSource.records) {
             items.push(<tr key={items.length}>{this.getRow(row).map(item => item)}</tr>)
+
+            let colSpan = 0;
+            React.Children.map(this.props.children, child => {
+                if (isValidElement(child) && child.type == Column) {
+                    colSpan++;
+                }
+            })
+
+            let total = 0;
+            React.Children.map(this.props.children, child => {
+                if (isValidElement(child) && child.type == ChildRow) {
+                    total++;
+                    let key: string = `${items.length}.${total}`;
+                    items.push(<tr key={key}>{React.cloneElement(child, {
+                        key: child.props.code, colSpan, row
+                    })}</tr>);
+                }
+            })
         }
         return items;
     }
@@ -64,6 +82,7 @@ type ColumnPropsType = {
     code: string;
     name: string;
     width: string;
+    colSpan?: number;
 }
 
 export class Column extends React.Component<ColumnPropsType> {
@@ -85,9 +104,10 @@ export class Column extends React.Component<ColumnPropsType> {
                 let value = '';
                 if (this.props.row)
                     value = this.props.row.getString(this.props.code);
-                return (
-                    <td className='column'>{value}</td>
-                )
+                if (this.props.colSpan)
+                    return <td className='column' colSpan={this.props.colSpan}>{value}</td>
+                else
+                    return <td className='column'>{value}</td>
             }
             case ColumnType.span: {
                 let value = '';
@@ -101,5 +121,23 @@ export class Column extends React.Component<ColumnPropsType> {
             default:
                 throw Error('不支持的输出类型')
         }
+    }
+}
+
+type ChildRowPropsType = {
+    row?: DataRow;
+    colSpan?: number;
+}
+
+export class ChildRow extends React.Component<ChildRowPropsType> {
+    render() {
+        let items: React.ReactNode[] = [];
+        React.Children.map(this.props.children, child => {
+            if (isValidElement(child) && child.type == Column)
+                items.push(React.cloneElement(child, {
+                    tag: ColumnType.td, key: child.props.code, row: this.props.row, colSpan: this.props.colSpan
+                }));
+        })
+        return items;
     }
 }
