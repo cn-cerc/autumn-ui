@@ -30,5 +30,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    ReactDOM.render(<FrmDept />, app)
+    let el = React.createElement(FrmDept);
+    ReactDOM.render(el, app)
 }
