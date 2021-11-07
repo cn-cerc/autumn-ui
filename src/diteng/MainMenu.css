@@ -1,15 +1,21 @@
-.MainMenu .groupItem {
+.MainMenu>.groupItem {
     color: black;
 }
 
-.MainMenu .groupSelected {
+.MainMenu>.groupSelected {
     color: red;
 }
 
-.MainMenu img {
+.MainMenu>img {
     height: 2rem;
 }
 
-.MainMenu li {
+.MainMenu>ul {
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+}
+
+.MainMenu>li {
     height: 2rem;
 }

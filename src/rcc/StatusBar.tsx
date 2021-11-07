@@ -1,8 +1,8 @@
 import React from "react";
-import TControl from "./Control";
+import WebControl from "./WebControl";
 import './StatusBar.css'
 
-export default class StatusBar extends TControl {
+export default class StatusBar extends WebControl {
 
     render() {
         return (

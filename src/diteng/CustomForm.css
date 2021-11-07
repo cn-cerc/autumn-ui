@@ -14,11 +14,11 @@ div[id='app'] {
 }
 
 .mainNavigator {
-    height: 5rem;
+    height: 2rem;
 }
 
 .main_pc {
-    height: calc(100% - 5rem);
+    height: calc(100% - 3rem);
     overflow: auto;
 }
 

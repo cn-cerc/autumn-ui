@@ -62,12 +62,12 @@ export default class MainMenu extends React.Component<propsType, stateType> {
             if (this.state.current == group)
                 className = "groupSelected";
             items.push(
-                <React.Fragment>
+                <ul key={group}>
                     <li key={group} role={group} className={className} onClick={this.groupClick}>
                         {value}
                     </li>
                     {this.getGroup(group)}
-                </React.Fragment>
+                </ul>
             );
         })
         return items;
@@ -83,7 +83,7 @@ export default class MainMenu extends React.Component<propsType, stateType> {
             let menuName = item.getString('name');
             let menuIcon = `https://www.diteng.site/911001/images/module/${menuCode}.png`;
             items.push(
-                <li key={i} role={menuCode}>
+                <li key={i++} role={menuCode}>
                     <img src={menuIcon} />
                     <a href={menuCode}>{menuName}</a>
                 </li>

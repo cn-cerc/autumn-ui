@@ -3,6 +3,7 @@ import DataRow from "../src/db/DataRow";
 import DataSet from "../src/db/DataSet";
 import QueryService from "../src/db/QueryService";
 import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../src/diteng/CustomForm";
+import MainMenu from "../src/diteng/MainMenu";
 import Block, { Line } from "../src/rcc/Block";
 import DateDialog from "../src/rcc/DateDialog";
 import DBEdit from "../src/rcc/DBEdit";
@@ -35,14 +36,15 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
             <CustomForm title='会计凭证维护'>
                 <MenuItem code='acc' name='财务总帐' />
                 <ToolPanel>
-                    <ToolItem title='操作提示'>
+                    <MainMenu />
+                    {/* <ToolItem title='操作提示'>
                         <div>（这里是操作提示）</div>
                         <div>（这里是操作提示）</div>
                         <div>（这里是操作提示）</div>
                     </ToolItem>
                     <ToolItem title='相关操作'>
                         <div>（这里是相关操作） </div>
-                    </ToolItem>
+                    </ToolItem> */}
                 </ToolPanel>
                 <SearchPanel dataSource={this.state.headIn} onExecute={this.serachExecute}>
                     <DBEdit dataField='code' dataName='代码' />
@@ -73,7 +75,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
 
     serachExecute = (row: DataRow) => {
         let query = new QueryService(this.props);
-        query.dataIn.head.copyValues(this.state.headIn);
+        query.dataIn.head.copyValues(row);
         query.add('select * from db.Account');
         query.open().then(dataOut => {
             this.setState({ ...this.state, dataOut });

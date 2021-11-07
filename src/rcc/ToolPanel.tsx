@@ -1,10 +1,10 @@
 import React from "react";
-import TControl from "./Control";
+import WebControl from "./WebControl";
 
 type propsType = {
 }
 
-export default class ToolPanel extends TControl<propsType> {
+export default class ToolPanel extends WebControl<propsType> {
 
     constructor(props: propsType) {
         super(props)
@@ -23,7 +23,7 @@ type itemPropsType = {
     title: string;
 }
 
-export class ToolItem extends TControl<itemPropsType> {
+export class ToolItem extends WebControl<itemPropsType> {
 
     render() {
         return (

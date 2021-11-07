@@ -1,12 +1,12 @@
 import React from "react";
-import TControl from "./Control";
+import WebControl from "./WebControl";
 
 type propsType = {
     code: string;
     name: string;
 }
 
-export default class MenuItem extends TControl<propsType> {
+export default class MenuItem extends WebControl<propsType> {
 
     render() {
         return (

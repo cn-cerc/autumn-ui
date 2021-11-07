@@ -15,6 +15,7 @@ import UserDialog from "../src/diteng/UserDialog"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
 import TGrid, { TGridConfig, TGridColumn } from "../src/vcl/TGrid"
+import FrmAccTran from "./FrmAccTran"
 import FrmDept from "./FrmDept"
 
 export default {
@@ -45,6 +46,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmDept);
+    let el = React.createElement(FrmAccTran);
     ReactDOM.render(el, app)
 }

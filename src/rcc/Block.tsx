@@ -1,7 +1,7 @@
 import React, { isValidElement } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import Control from "./Control";
+import Control from "./WebControl";
 import { Column, ColumnType } from "./DBGrid";
 import './Block.css';
 

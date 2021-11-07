@@ -1,10 +1,6 @@
 import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
 import "./MutiPage.css";
 
-const buttonStyle = {
-    margin: '0.2rem'
-}
-
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
 
 export const MinPageSize = 20;
@@ -47,10 +43,10 @@ export default class MutiPage extends React.Component<propsType, stateType> {
                     onBlur={this.onPageNoBlur} />
                 <span> / {pages} 页</span>
                 <span style={{ margin: '0.5rem' }} />
-                <button id='first' onClick={this.onNavigatorClick} style={buttonStyle}>首页</button>
-                <button id='prior' onClick={this.onNavigatorClick} style={buttonStyle}>上页</button>
-                <button id='next' onClick={this.onNavigatorClick} style={buttonStyle}>下页</button>
-                <button id='last' onClick={this.onNavigatorClick} style={buttonStyle}>尾页</button>
+                <button id='first' onClick={this.onNavigatorClick}>首页</button>
+                <button id='prior' onClick={this.onNavigatorClick}>上页</button>
+                <button id='next' onClick={this.onNavigatorClick}>下页</button>
+                <button id='last' onClick={this.onNavigatorClick}>尾页</button>
             </div>
         );
     }

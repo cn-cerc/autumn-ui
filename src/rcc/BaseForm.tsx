@@ -1,11 +1,11 @@
 import React from "react";
-import TControl from "./Control";
+import WebControl from "./WebControl";
 
 export type BaseFormPropsType = {
     title: string;
 }
 
-export default class BaseForm<T extends BaseFormPropsType = { title: null }, S = {}> extends TControl<T, S> {
+export default class BaseForm<T extends BaseFormPropsType = { title: null }, S = {}> extends WebControl<T, S> {
 
     render() {
         document.title = this.props.title;

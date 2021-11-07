@@ -1,7 +1,7 @@
-import React from "react";
+import React, { isValidElement } from "react";
 import DataSource from "../db/DataSource";
 import FieldMeta from "../db/FieldMeta";
-import { SearchItem } from "./SearchPanel";
+import { ISearchItem } from "./SearchPanel";
 
 export type OnChangedEvent = (meta: FieldMeta) => void;
 
@@ -20,7 +20,7 @@ export interface ISelectDialog {
     setOnSelected(value: OnSelectedEvent): Object;
 }
 
-export default class DBEdit extends React.Component<PropsType> implements SearchItem {
+export default class DBEdit extends React.Component<PropsType> implements ISearchItem {
     private _dataSource: DataSource;
 
     constructor(props: PropsType) {
@@ -32,22 +32,23 @@ export default class DBEdit extends React.Component<PropsType> implements Search
     render() {
         if (!this.dataSource)
             return null;
-        let row = this.dataSource.current;
+
         let value = "";
+        let row = this.dataSource.current;
         if (row)
             value = row.getString(this.props.dataField);
 
         let dataName;
-        if (this.props.dataName) {
+        if (this.props.dataName)
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}：</label>)
-        }
+
         return (
             <div>
                 {dataName}
                 <input type="text" autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
                     placeholder={this.props.placeholder} />
-                {this.getDialog()}
+                {/* {this.getDialog()} */}
             </div>
         )
     }
@@ -60,8 +61,12 @@ export default class DBEdit extends React.Component<PropsType> implements Search
             let obj = child as ISelectDialog;
             obj.setOnSelected(this.dialogSelect);
             return child;
-        } else
+        } else {
+            if (isValidElement(child))
+                console.log(child.type);
+
             throw Error('child not is ISelectDialog');
+        }
     }
 
     dialogSelect(value: string) {

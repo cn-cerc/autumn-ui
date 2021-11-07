@@ -1,5 +1,5 @@
 import React from "react";
-import Control from "./Control";
+import Control from "./WebControl";
 import { ISelectDialog, OnSelectedEvent } from "./DBEdit";
 
 export default class DateDialog extends Control implements ISelectDialog {

@@ -1,3 +1,9 @@
 .mainNavigator {
-    background: rgb(240,240,240);
+    background: rgb(240, 240, 240);
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.mainNavigator>div {
+    display: inline-block;
 }
