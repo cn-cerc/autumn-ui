@@ -38,7 +38,20 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         let cusNameColumn = new TGridColumn(config, "Name_", "客户全称").setWidth(8);
         cusNameColumn.setVisible(isName);
         new TGridColumn(config, "Contact_", "联系人").setWidth(5);
-        new TGridColumn(config, "Opera", "操作").setWidth(3).setAlign("center").setOnRender((column, row) => {
+        let cusAddress: TGridColumn | TGridConfig;
+        //@ts-ignore
+        if(!top.isPhone()) {
+            new TGridColumn(config, "Name_", "联系人").setWidth(4);
+            new TGridColumn(config, "Mobile_", "联系人手机").setWidth(5);
+            new TGridColumn(config, "Tel1_", "电话号码").setWidth(5);
+            cusAddress = new TGridColumn(config, "Address_", "地址").setWidth(10);
+            cusAddress.setVisible(isAddress);
+        } else {
+            cusAddress = config.newChild();
+            cusAddress.setVisible(isAddress);
+            new TGridColumn(cusAddress, "Address_", "地址");
+        }
+        new TGridColumn(config, "Opera", "操作").setWidth(5).setAlign("center").setOnRender((column, row) => {
             return (<span style={{ color: '#3273F4' }}>选择</span>)
         });
         let child = config.newChild();
@@ -61,7 +74,7 @@ export default class CusDialog extends React.Component<propsType, stateType> {
             ds.setValue("sn_", ds.recNo);
 
         return (
-            <React.Fragment>
+            <div className="cusDialog">
                 <div className="dialogClose" style={{ display: 'none' }}>
                     {this.props.title}
                     <span>
@@ -104,7 +117,7 @@ export default class CusDialog extends React.Component<propsType, stateType> {
 
                     <DialogGrid config={this.state.config} onTrClick={this.trClick} />
                 </div>
-            </React.Fragment>
+            </div>
         )
     }
 

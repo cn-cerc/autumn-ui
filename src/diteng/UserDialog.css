@@ -1,3 +1,7 @@
 .search input {
     height: 1.7rem;
 }
+
+.userDialog .dbgrid tr td>span {
+    padding-right: 0;
+}

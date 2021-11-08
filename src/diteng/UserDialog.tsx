@@ -41,7 +41,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
 
     render() {
         return (
-            <React.Fragment>
+            <div className="userDialog">
                 <div className="dialogClose" style={{ display: 'none' }}>
                     {this.props.title}
                     <span>
@@ -56,7 +56,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
                     </form>
                     <DialogGrid config={this.state.config} onTrClick={this.trClick} />
                 </div>
-            </React.Fragment>
+            </div>
         )
     }
 

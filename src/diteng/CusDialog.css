@@ -1,21 +1,28 @@
-.search>div,.search .left>div{
+.search>div,
+.search .left>div {
     display: inline-block;
     padding: 0.3rem;
 }
-.search .left{
+
+.search .left {
     clear: both;
     display: inline-block;
     width: calc(100% - 5rem);
     text-align: left;
 }
 
-.search input[type="checkbox"]{
+.search .left>span {
+    display: inline-block;
+    padding-right: 1rem;
+}
+
+.search input[type="checkbox"] {
     height: auto;
     width: auto;
     min-width: auto;
 }
 
-.window form.search input[type="submit"]{
+.window form.search input[type="submit"] {
     position: inherit;
     vertical-align: top;
     top: 0;
@@ -24,6 +31,15 @@
 .dbgrid tr[id^='tr'] td {
     padding: 0;
 }
-article[role="document"]{
+
+.cusDialog .dbgrid tr td {
+    line-height: 1.2rem;
+}
+
+.cusDialog .dbgrid tr td>span {
+    padding-right: 0;
+}
+
+.cusDialog article[role="document"] {
     margin-bottom: 0;
 }
