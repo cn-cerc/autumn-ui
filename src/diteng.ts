@@ -9,6 +9,7 @@ import CusDialog from "./diteng/CusDialog";
 import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
 import UserDialog from "./diteng/UserDialog";
+import DateDialog from "./diteng/DateDialog";
 import Grid from "./rcc/Grid";
 import { TGridConfig } from "./vcl/TGrid";
 
@@ -30,4 +31,5 @@ export default {
     //开窗选择
     UserDialog,
     CusDialog,
+    DateDialog,
 }

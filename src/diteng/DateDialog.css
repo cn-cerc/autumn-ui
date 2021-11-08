@@ -1,0 +1,62 @@
+/* article[role="document"] {
+    padding-left: 0;
+} */
+.dateDialog {
+    padding: .5rem;
+}
+
+.dateDialog .listTitle {
+    display: inline-block;
+    vertical-align: top;
+    margin: .25rem 0;
+}
+
+.dateDialog ul {
+    display: inline-block;
+}
+
+.dateDialog ul>li {
+    display: inline-block;
+}
+
+.dateDialog ul>li {
+    background-color: #ff7431;
+    color: white;
+    padding: .05rem .35rem;
+    margin: .25rem .15rem;
+    border-radius: .3rem;
+    line-height: 1.5rem;
+    cursor: pointer; 
+}
+
+.dateDialog ul>li.checked {
+    background-color: #3273F4;
+}
+
+table tr:hover {
+    background-color: transparent;
+}
+
+.dateDialog tr td, .dateDialog tr th {
+    border: 1px solid #c0c0c0
+}
+
+.dateDialog tr th {
+    background-color: #ececec;
+    font-weight: bold;
+}
+
+.dateDialog tr td.checked {
+    background-color: #3273F4;
+    color: #fff;
+    cursor: pointer;
+}
+
+.dateDialog tr td.date {
+    cursor: pointer;
+}
+
+.dateDialog tr td.date:hover {
+    background-color: #3273F4;
+    color: #fff;
+}
