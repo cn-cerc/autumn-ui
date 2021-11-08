@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
-import "./MutiPage.css";
+import styles from "./MutiPage.css";
 
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
 
@@ -25,7 +25,7 @@ export default class MutiPage extends React.Component<propsType, stateType> {
     render() {
         let pages = Math.ceil(this.props.total / this.state.pageSize);
         return (
-            <div className='MutiPage'>
+            <div className={styles.main}>
                 <span>共 {this.props.total} 条</span>
                 <span style={{ margin: '0.5rem' }} />
                 <span>每页 </span>

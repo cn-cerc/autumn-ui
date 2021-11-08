@@ -1,5 +1,6 @@
 import React from "react";
 import WebControl from "./WebControl";
+import styles from './ToolPanel.css'
 
 type propsType = {
 }
@@ -12,7 +13,7 @@ export default class ToolPanel extends WebControl<propsType> {
 
     render() {
         return (
-            <div className='toolPanel'>
+            <div className={styles.main}>
                 {React.Children.map(this.props.children, child => child)}
             </div>
         )
@@ -28,10 +29,10 @@ export class ToolItem extends WebControl<itemPropsType> {
     render() {
         return (
             <React.Fragment>
-                <div className='toolGroup'>
+                <div className={styles.toolGroup}>
                     {this.props.title}
                 </div>
-                <div className='toolItem'>
+                <div className={styles.toolItem}>
                     {React.Children.map(this.props.children, child => child)}
                 </div>
             </React.Fragment>

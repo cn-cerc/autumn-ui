@@ -4,6 +4,7 @@ import DataSource from "../db/DataSource";
 import FieldMeta from "../db/FieldMeta";
 import { OnFieldChangedEvent } from "./DBEdit";
 import WebControl from "./WebControl";
+import styles from './SearchPanel.css'
 
 type propsType = {
     dataSource: DataSource;
@@ -23,7 +24,7 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
 
     render() {
         return (
-            <div className='searchPanel'>
+            <div className={styles.main}>
                 {this.getItems().map(item => item)}
                 <button onClick={this.btnExecute}>查询</button>
             </div>

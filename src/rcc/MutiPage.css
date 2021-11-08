@@ -1,4 +1,4 @@
-.MutiPage {
+.main {
     position: 'sticky';
     bottom: 0;
     display: 'flex';
@@ -8,7 +8,7 @@
     border-top: '1px solid #eeeeee'
 }
 
-.MutiPage>button {
+.main>button {
     background-color: transparent;
     color: black;
     border: 1px solid rgb(134, 114, 114);
