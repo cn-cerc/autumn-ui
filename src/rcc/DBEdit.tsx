@@ -17,7 +17,7 @@ type PropsType = {
 export type OnSelectedEvent = (value: string) => void;
 
 export interface ISelectDialog {
-    setOnSelected(value: OnSelectedEvent): Object;
+    select(value: string): void;
 }
 
 export default class DBEdit extends React.Component<PropsType> implements ISearchItem {
@@ -42,13 +42,13 @@ export default class DBEdit extends React.Component<PropsType> implements ISearc
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}：</label>)
 
         return (
-            <div>
+            <span>
                 {dataName}
                 <input type="text" autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
                     placeholder={this.props.placeholder} />
-                {/* {this.getDialog()} */}
-            </div>
+                {React.Children.map(this.props.children, item => item)}
+            </span>
         )
     }
 
@@ -58,7 +58,6 @@ export default class DBEdit extends React.Component<PropsType> implements ISearc
         let child = this.props.children as Object;
         if (child.hasOwnProperty('setOnSelected')) {
             let obj = child as ISelectDialog;
-            obj.setOnSelected(this.dialogSelect);
             return child;
         } else {
             if (isValidElement(child))
@@ -66,10 +65,6 @@ export default class DBEdit extends React.Component<PropsType> implements ISearc
 
             throw Error('child not is ISelectDialog');
         }
-    }
-
-    dialogSelect(value: string) {
-        throw new Error("Method not implemented.");
     }
 
     get dataSource(): DataSource { return this._dataSource; }

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { LegacyRef, MouseEventHandler } from "react";
 import DataRow from "../src/db/DataRow";
 import DataSet from "../src/db/DataSet";
 import QueryService from "../src/db/QueryService";
@@ -6,7 +6,7 @@ import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../src/dit
 import MainMenu from "../src/diteng/MainMenu";
 import Block, { Line } from "../src/rcc/Block";
 import DateDialog from "../src/rcc/DateDialog";
-import DBEdit from "../src/rcc/DBEdit";
+import DBEdit, { ISelectDialog, OnSelectedEvent } from "../src/rcc/DBEdit";
 import DBGrid, { ChildRow, Column, OnDataSetChangedEvvent } from "../src/rcc/DBGrid";
 import MenuItem from "../src/rcc/MenuItem";
 import SearchPanel from "../src/rcc/SearchPanel";
@@ -46,7 +46,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                         <div>（这里是相关操作） </div>
                     </ToolItem> */}
                 </ToolPanel>
-                <SearchPanel dataSource={this.state.headIn} onExecute={this.serachExecute}>
+                <SearchPanel dataSource={this.state.headIn} onExecute={this.btnSearch}>
                     <DBEdit dataField='code' dataName='代码' />
                     <DBEdit dataField='name' dataName='名称' ></DBEdit>
                     <DBEdit dataField='tbDate' dataName='日期'><DateDialog /></DBEdit>
@@ -54,7 +54,9 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                 <DBGrid dataSource={this.state.dataOut} readOnly={false} onChanged={this.onChanged}>
                     <Column code='code_' name='代码' width='10' />
                     <Column code='name_' name='名称' width='20' >
-                        <DBEdit dataField='code_' />
+                        <DBEdit dataField='code_' >
+                            <SelectAccCode></SelectAccCode>
+                        </DBEdit>
                         <DBEdit dataField='name_' />
                     </Column>
                     <ChildRow>
@@ -70,15 +72,14 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                         <Column code='remark_' name='备注' width='50' />
                     </Line>
                 </Block>
+                <button onClick={this.btnAppend}>添加</button>
                 <StatusBar>
-                    <button onClick={this.btnAppend}>添加</button>
-                    <button>删除</button>
                 </StatusBar>
             </CustomForm>
         )
     }
 
-    serachExecute = (row: DataRow) => {
+    btnSearch = (row: DataRow) => {
         let query = new QueryService(this.props);
         query.dataIn.head.copyValues(row);
         query.add('select * from db.Account');
@@ -97,4 +98,47 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
         this.state.dataOut.append();
         this.setState(this.state);
     }
+
+}
+
+type SelectAccCodeState = {
+    active: boolean;
+}
+
+export class SelectAccCode extends React.Component<any, SelectAccCodeState> implements ISelectDialog {
+    dialog: HTMLDivElement;
+
+    constructor(props: any) {
+        super(props)
+        this.state = { active: false }
+    }
+
+    render() {
+        return (<div className='selectDialog'>
+            <button onClick={this.btnShow}>...</button>
+            <div className='dialog' style={{ display: this.state.active ? 'inline' : 'none' }}
+                ref={this.setDialog}>
+                <div><span>选择会计科目</span><span className='closeDialog' onClick={this.btnClose}>X</span></div>
+                <div>
+                </div>
+            </div>
+        </div >)
+    }
+
+    setDialog: LegacyRef<HTMLDivElement> = (sender: HTMLDivElement) => {
+        this.dialog = sender;
+    }
+
+    btnShow: any = (sender: any) => {
+        this.setState({ ...this.state, active: !this.state.active })
+    }
+
+    btnClose: any = (sender: any) => {
+        this.setState({ ...this.state, active: false })
+    }
+
+    select(value: string) {
+        alert('ok')
+    }
+
 }

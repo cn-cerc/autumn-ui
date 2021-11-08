@@ -3,7 +3,6 @@ import Control from "./WebControl";
 import { ISelectDialog, OnSelectedEvent } from "./DBEdit";
 
 export default class DateDialog extends Control implements ISelectDialog {
-    private _onSelected: OnSelectedEvent;
 
     render() {
         return (
@@ -12,9 +11,11 @@ export default class DateDialog extends Control implements ISelectDialog {
     }
 
     onSelected: React.MouseEventHandler<HTMLDivElement> = (sender: any) => {
-        if (this._onSelected)
-            this._onSelected('test');
+        this.select('test');
     }
 
-    setOnSelected(value: OnSelectedEvent): DateDialog { this._onSelected = value; return this; }
+    select(value: string): void {
+        throw new Error("Method not implemented.");
+    }
+
 }

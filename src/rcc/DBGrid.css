@@ -7,3 +7,9 @@
 .column {
     border: 1px solid;
 }
+
+.column>span>input {
+    border: 0;
+    padding: 0.2rem;
+    background: white;
+}

@@ -1,0 +1,14 @@
+.selectDialog>.dialog {
+    position: absolute;
+    left: 10%;
+    width: 80%;
+    top: 10%;
+    height: 80%;
+    background: rgb(147, 133, 184);
+}
+
+.closeDialog {
+    background: white;
+    color: red;
+    width: 1rem;
+}
