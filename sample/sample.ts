@@ -13,6 +13,7 @@ import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
 import DateDialog from "../src/diteng/DateDialog"
+import SalesmanDialog from "../src/diteng/SalesmanDialog"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
 import TGrid, { TGridConfig, TGridColumn } from "../src/vcl/TGrid"
@@ -44,6 +45,7 @@ export default {
     UserDialog,
     CusDialog,
     DateDialog,
+    SalesmanDialog,
 }
 
 let app = document.getElementById('app');

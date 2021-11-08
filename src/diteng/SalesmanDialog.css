@@ -1,0 +1,49 @@
+.salesmanDialog ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.salesmanDialog .groupList li {
+    background-color: #f8f8f8;
+    border: 1px solid #cacaca;
+    border-radius: .2rem;
+    line-height: 1.5rem;
+    padding: 0 .25rem;
+    cursor: pointer;
+    margin-left: .5rem;
+    margin-top: .5rem;
+    width: 5rem;
+    text-align: center;
+}
+
+.salesmanDialog .groupList li:hover {
+    border-color: #fecd38;
+}
+
+.salesmanDialog .businessList {
+    border-top: 1px solid #ccc;
+    margin-top: .5rem;
+}
+
+.salesmanDialog .businessList li {
+    height: 3rem;
+    background-color: #f8f8f8;
+    border: 1px solid #cacaca;
+    border-radius: .2rem;
+    width: 7rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: .5rem;
+    margin-top: .5rem;
+    cursor: pointer;
+}
+.salesmanDialog .businessList li>span {
+    line-height: 1.2rem;
+    padding: 0 .5rem;
+}
+
+.salesmanDialog .businessList li:hover {
+    border-color: #fecd38;
+}

@@ -10,6 +10,7 @@ import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
 import UserDialog from "./diteng/UserDialog";
 import DateDialog from "./diteng/DateDialog";
+import SalesmanDialog from "./diteng/SalesmanDialog";
 import Grid from "./rcc/Grid";
 import { TGridConfig } from "./vcl/TGrid";
 
@@ -32,4 +33,5 @@ export default {
     UserDialog,
     CusDialog,
     DateDialog,
+    SalesmanDialog,
 }
