@@ -4,7 +4,7 @@
             "type": "pwa-msedge",
             "name": "http://127.0.0.1:81",
             "request": "launch",
-            "url": "http://127.0.0.1:81"
+            "url": "http://127.0.0.1:81/aui.html"
         }
     ]
 }
