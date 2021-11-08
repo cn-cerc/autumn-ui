@@ -12,6 +12,7 @@ import UserDialog from "./diteng/UserDialog";
 import DateDialog from "./diteng/DateDialog";
 import SalesmanDialog from "./diteng/SalesmanDialog";
 import Grid from "./rcc/Grid";
+import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
 
 export default {
@@ -34,4 +35,5 @@ export default {
     CusDialog,
     DateDialog,
     SalesmanDialog,
+    BrandDialog,
 }

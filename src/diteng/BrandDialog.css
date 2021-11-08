@@ -1,0 +1,39 @@
+.brandDialog form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: auto;
+}
+
+.brandDialog form input[type="submit"] {
+    margin: 0;
+    background-color: #3273F4;
+    color: #fff;
+    cursor: pointer;
+    border-radius: .35rem;
+    width: 4rem;
+    min-width: auto;
+}
+
+.brandDialog form>div {
+    display: flex;
+    align-items: center;
+}
+
+.brandDialog .dbgrid {
+    margin: 0 .15rem;
+    width: calc(100% - .3rem);
+}
+
+.brandDialog table tr td, .brandDialog table tr th {
+    border-color: #c0c0c0;
+}
+
+.brandDialog table tr td span {
+    padding: 0;
+}
+
+.brandDialog table tr td span.search {
+    color: #015bad;
+    background-color: transparent;
+}
