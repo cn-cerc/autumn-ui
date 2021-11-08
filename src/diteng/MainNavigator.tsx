@@ -1,7 +1,7 @@
 import React, { isValidElement } from "react";
 import MenuItem from "../rcc/MenuItem";
 import MainSearch from "./MainSearch";
-import styles from './MainNavigator.css';
+import './MainNavigator.css';
 
 export default class MainNavigator extends React.Component {
 
@@ -9,20 +9,20 @@ export default class MainNavigator extends React.Component {
         let menuCode = window.location.hash;
         let menuName = document.title;
         return (
-            <div className={styles.mainNavigator}>
+            <div className='mainNavigator'>
                 <img src="diteng-icon.png" />
                 <span>欢迎使用地藤管家</span>
-                <div className={styles.menuPath}>
+                <div className='menuPath'>
                     <MenuItem code='index' name='首页' />
                     {this.getMenus().map(item => item)}
                     <MenuItem code={menuCode} name={menuName} />
                 </div>
                 <MainSearch />
-                <div className={styles.corpInfo}>
+                <div className='corpInfo'>
                     <img src="switchCorp.png" />
                     深圳市渔具有限公司
                 </div>
-                <div className={styles.userInfo}>
+                <div className='userInfo'>
                     <img src="my.png" />
                     91100101-张三
                 </div>

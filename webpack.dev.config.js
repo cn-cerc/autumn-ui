@@ -29,20 +29,7 @@ module.exports = {
 	module: {   // new add +
 		rules: [
 			{ test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
-			{
-				test: /\.css$/, use: [
-					'style-loader',
-					{
-						loader: 'css-loader',
-						options: {
-							modules: {
-								localIdentName: '[path][name]__[local]--[hash:base64:5]',
-								exportLocalsConvention: "camelCase",
-							}
-						}
-					}
-				]
-			}
+			{ test: /\.css$/, use: ['style-loader', 'css-loader'] }
 		]
 	},
 	resolve: { // new add +

@@ -53,5 +53,4 @@ npm i --D typescript ts-loader
 npm i -D react react-dom
 npm i -D @types/react @types/react-dom @babel/preset-react
 npm i -D @types/jquery
-npm i -D classnames
 ```

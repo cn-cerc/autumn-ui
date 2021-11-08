@@ -70,8 +70,6 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
     }
 
     onDialogSelect: OnSelectDataRowEvent = (values: DataRow) => {
-        if (values.fieldDefs.fields.length == 0)
-            throw new Error('返回值错误：没有任何字段')
         let value = values.getString(values.fieldDefs.fields[0].code);
         this.state.row.setValue(this.props.dataField, value);
         this.setState(this.state);

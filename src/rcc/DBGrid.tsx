@@ -1,18 +1,16 @@
-import React, { isValidElement, MouseEventHandler } from "react";
+import React, { isValidElement } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import FieldMeta from "../db/FieldMeta";
 import { OnFieldChangedEvent } from "./DBEdit";
-import styles from './DBGrid.css';
+import './DBGrid.css';
 
 export type OnDataSetChangedEvvent = (dataSet: DataSet) => void;
-export type OnRowClickEvent = (row: DataRow) => void;
 
 type propsType = {
     dataSource: DataSet;
     readOnly?: boolean;
     onChanged?: OnDataSetChangedEvvent;
-    onRowClick?: OnRowClickEvent;
 }
 
 type stateType = {
@@ -32,7 +30,7 @@ export default class DBGrid extends React.Component<propsType, stateType> {
 
     render() {
         return (
-            <table className={styles.grid}>
+            <table className='grid'>
                 <tbody>
                     <tr key='head'>{this.getHead().map(item => item)}</tr>
                     {this.getRows().map(item => item)}
@@ -55,11 +53,7 @@ export default class DBGrid extends React.Component<propsType, stateType> {
         let recNo = 0;
         for (let row of this.state.dataSet.records) {
             recNo++;
-            items.push(
-                <tr key={items.length} onClick={this.onTrClick}>
-                    {this.getRow(row, recNo).map(item => item)}
-                </tr>
-            )
+            items.push(<tr key={items.length}>{this.getRow(row, recNo).map(item => item)}</tr>)
 
             let colSpan = 0;
             React.Children.map(this.props.children, child => {
@@ -73,31 +67,13 @@ export default class DBGrid extends React.Component<propsType, stateType> {
                 if (isValidElement(child) && child.type == ChildRow) {
                     total++;
                     let key: string = `${items.length}.${total}`;
-                    items.push(
-                        <tr key={key} onClick={this.onTrClick}>
-                            {React.cloneElement(child, { key: child.props.code, colSpan, row })}
-                        </tr>
-                    );
+                    items.push(<tr key={key}>{React.cloneElement(child, {
+                        key: child.props.code, colSpan, row
+                    })}</tr>);
                 }
             })
         }
         return items;
-    }
-
-    onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
-        if (!this.props.onRowClick)
-            return;
-
-        let tr: HTMLTableRowElement = sender.target.parentElement;
-        let row = new DataRow();
-        for (let i = 0; i < tr.children.length; i++) {
-            let td = tr.children[i];
-            let field = td.getAttribute('data-field');
-            let value = td.innerHTML;
-            if (field)
-                row.setValue(field, value);
-        }
-        this.props.onRowClick(row)
     }
 
     getRow(row: DataRow, recNo: number): React.ReactNode[] {
@@ -141,8 +117,7 @@ type ColumnStateType = {
 
 export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
     static defaultProps = {
-        tag: ColumnType.td,
-        colSpan: 1
+        tag: ColumnType.td
     }
 
     constructor(props: ColumnPropsType) {
@@ -154,7 +129,7 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
         switch (this.props.tag) {
             case ColumnType.th:
                 return (
-                    <th className={styles.column}>{this.props.name}</th>
+                    <th className='column'>{this.props.name}</th>
                 )
             case ColumnType.td: {
                 return this.getTd();
@@ -165,7 +140,7 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
                     value = this.props.row.getString(this.props.code);
                 let text = `${this.props.name}：${value}`;
                 return (
-                    <span className={styles.column}>{text}</span>
+                    <span className='column'>{text}</span>
                 )
             }
             default:
@@ -174,11 +149,10 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
     }
 
     getTd() {
-        return (
-            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan}>
-                {this.getValue()}
-            </td>
-        )
+        if (this.props.colSpan)
+            return <td className='column' colSpan={this.props.colSpan}>{this.getValue()}</td>
+        else
+            return <td className='column'>{this.getValue()}</td>
     }
 
     getValue(): React.ReactNode {
