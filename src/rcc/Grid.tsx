@@ -3,7 +3,6 @@ import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
 import { TGridConfig } from '../vcl/TGrid';
 import MutiPage, { MinPageSize, OnPageChanged } from './MutiPage';
-import styles from './Grid.css';
 
 const defaultProps = {
     id: ''
@@ -34,7 +33,9 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     render() {
         return (
-            <div className={styles.dbgrid}>
+            <div className='dbgrid' style={{
+                position: 'relative'
+            }}>
                 <table>
                     <tbody>
                         <tr>{this.getTitles().map(item => item)}</tr>

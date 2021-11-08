@@ -1,8 +1,7 @@
 import React, { MouseEventHandler } from "react";
-import classNames from "../../node_modules/classnames/index";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import styles from './MainMenu.css';
+import './MainMenu.css';
 
 type propsType = {
 
@@ -40,7 +39,7 @@ export default class MainMenu extends React.Component<propsType, stateType> {
 
     render() {
         return (
-            <div className={styles.MainMenu}>
+            <div className="MainMenu">
                 {this.getGroups().map(item => item)}
             </div>
         )
@@ -59,9 +58,9 @@ export default class MainMenu extends React.Component<propsType, stateType> {
         }
 
         groups.forEach((value, group) => {
-            let className = styles.groupItem;
+            let className = "groupItem";
             if (this.state.current == group)
-                className = styles.groupSelected;
+                className = "groupSelected";
             items.push(
                 <ul key={group}>
                     <li key={group} role={group} className={className} onClick={this.groupClick}>

@@ -2,7 +2,7 @@ import React from "react";
 import DataRow from "../db/DataRow";
 import DialogComponent, { DialogComponentProps, DialogComponentState } from "./DialogComponent";
 import { DialogForm } from "./DialogForm";
-import styles from "./YearDialog.module.css";
+import './YearDialog.css';
 
 export default class YearDialog extends DialogComponent<DialogComponentProps, DialogComponentState> {
 
@@ -13,7 +13,7 @@ export default class YearDialog extends DialogComponent<DialogComponentProps, Di
     render() {
         return (
             <DialogForm title={this.props.title} active={this.active} setActive={this.setActive}>
-                <ul className={styles.dialog}>
+                <ul>
                     <li onClick={this.onSelect}>2019</li>
                     <li onClick={this.onSelect}>2020</li>
                     <li onClick={this.onSelect}>2021</li>

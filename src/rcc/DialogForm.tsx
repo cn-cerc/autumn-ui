@@ -2,7 +2,7 @@ import React, { isValidElement, LegacyRef } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import DataSource from "../db/DataSource";
-import styles from './DialogForm.css'
+import './DialogForm.css'
 
 export type OnSelectDataSetEvent = (values: DataSet) => void;
 
@@ -22,14 +22,14 @@ export class DialogForm extends React.Component<DialogFormProps> {
     }
 
     render() {
-        return (<div className={styles.dialogForm}>
+        return (<div className='dialogForm'>
             <button style={{ cursor: 'pointer' }} onClick={this.btnShow}>...</button>
-            <div className={styles.dialogClient} style={{ display: this.props.active() ? 'inline' : 'none' }}>
-                <div className={styles.dialogTitle}>
+            <div className='dialogClient' style={{ display: this.props.active() ? 'inline' : 'none' }}>
+                <div className='dialogTitle'>
                     <span>{this.props.title}</span>
-                    <span className={styles.dialogClose} onClick={this.btnClose}>X</span>
+                    <span className='dialogClose' onClick={this.btnClose}>X</span>
                 </div>
-                <div className={styles.dialogContent}>
+                <div className='dialogContent'>
                     {React.Children.map(this.props.children, child => {
                         if (isValidElement(child))
                             return React.cloneElement(child, { onSelect: this.onSelect })

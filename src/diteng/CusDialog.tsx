@@ -6,8 +6,8 @@ import DBCheckbox from "../rcc/DBCheckbox";
 import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import { showMsg } from "./Summer";
+import './CusDialog.css'
 import { TGridColumn, TGridConfig } from "../vcl/TGrid";
-import styles from './CusDialog.css'
 
 type propsType = {
     token: string;
@@ -74,16 +74,16 @@ export default class CusDialog extends React.Component<propsType, stateType> {
             ds.setValue("sn_", ds.recNo);
 
         return (
-            <div className={styles.cusDialog}>
-                <div className={styles.dialogClose} style={{ display: 'none' }}>
+            <div className="cusDialog">
+                <div className="dialogClose" style={{ display: 'none' }}>
                     {this.props.title}
                     <span>
                         <a onClick={this.closeDialog} href='#'><b>×</b></a>
                     </span>
                 </div>
-                <div className={styles.window}>
-                    <form method="post" className={styles.search}>
-                        <div className={styles.left}>
+                <div className="window">
+                    <form method="post" className="search" style={{ minHeight: '4em' }}>
+                        <div className='left'>
                             <DBEdit dataSource={this.state.dataIn} dataField={'SearchText_'} dataName='查询条件'
                                 onChanged={this.updateDataIn} placeholder='请输入查询条件' autoFocus={true} />
 
@@ -100,7 +100,7 @@ export default class CusDialog extends React.Component<propsType, stateType> {
                         <DBCheckbox dataSource={this.state.dataIn} dataField={'isAddress'} dataName='客户地址'
                             onChanged={this.updateDataIn} />
 
-                        <section className={styles.operction}>
+                        <section className="operction">
                             {
                                 this.state.objItems.records.map((row: DataRow) => {
                                     return (

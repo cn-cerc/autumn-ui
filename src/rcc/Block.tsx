@@ -3,7 +3,7 @@ import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import Control from "./WebControl";
 import { Column, ColumnType } from "./DBGrid";
-import styles from './Block.css';
+import './Block.css';
 
 type propsType = {
     dataSource?: DataSet;
@@ -14,7 +14,7 @@ export default class Block extends Control<propsType> {
 
     render() {
         return (
-            <div className={styles.block}>
+            <div className='block'>
                 {this.getRows().map(item => item)}
             </div>
         )
@@ -23,7 +23,7 @@ export default class Block extends Control<propsType> {
     getRows(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         for (let row of this.props.dataSource.records) {
-            items.push(<div className={styles.row} key={items.length}>{this.getLines(row).map(item => item)}</div>)
+            items.push(<div className='row' key={items.length}>{this.getLines(row).map(item => item)}</div>)
         }
         return items;
     }
@@ -48,7 +48,7 @@ type LinePropsType = {
 export class Line extends Control<LinePropsType> {
     render() {
         return (
-            <div className={styles.line}>
+            <div className='line'>
                 {this.getRow().map(item => item)}
             </div>
         )

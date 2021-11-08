@@ -1,6 +1,3 @@
-.search {
-    min-height: '4em'
-}
 .search>div,
 .search .left>div {
     display: inline-block;
