@@ -60,7 +60,8 @@ export default class Grid extends React.Component<PropsType, stateType> {
                         let width = `${rate.toFixed(1)}%`;
                         style = { ...style, width }
                     }
-                    items.push(<th key={column.code} style={style}>{title}</th>);
+                    //
+                    items.push(<th key={column.code} style={style} onClick={(e)=>this.gridSort(e,column.code)}>{title}</th>);
                 }
             }
         }
@@ -91,17 +92,17 @@ export default class Grid extends React.Component<PropsType, stateType> {
         for (let column of this.props.config.columns) {
             if (column.visible) {
                 if (column.onRender) {
-                    items.push(<td key={column.code}>{column.onRender(column, row)}</td>);
+                    items.push(<td key={column.code} role={column.code}>{column.onRender(column, row)}</td>);
                 } else {
                     let value = row.getText(column.code);
                     let style = {}
                     if (column.align)
                         style = { ...style, textAlign: column.align };
-                    items.push(<td key={column.code} style={style}>{value}</td>);
+                    items.push(<td key={column.code} style={style} role={column.code}>{value}</td>);
                 }
             }
         }
-        return <tr key={key}>{items}</tr>;
+        return <tr key={key} id={`tr${row.dataSet.recNo}`}>{items}</tr>;
     }
 
     getChildRow(child: TGridConfig, row: DataRow) {
@@ -141,6 +142,11 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
         this.setState({ ...this.state, beginPoint, endPoint });
+    }
+
+    gridSort(render: any, code: string) {
+        //@ts-ignore
+        top.gridSort(render.currentTarget, code);
     }
 
 }
