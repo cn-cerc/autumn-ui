@@ -5,9 +5,10 @@ import QueryService from "../src/db/QueryService";
 import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../src/diteng/CustomForm";
 import MainMenu from "../src/diteng/MainMenu";
 import Block, { Line } from "../src/rcc/Block";
-import DateDialog from "../src/rcc/DateDialog";
-import DBEdit, { ISelectDialog, OnSelectedEvent } from "../src/rcc/DBEdit";
+import YearDialog from "../src/rcc/YearDialog";
+import DBEdit, { ISelectDialog, OnSelectValueEvent } from "../src/rcc/DBEdit";
 import DBGrid, { ChildRow, Column, OnDataSetChangedEvvent } from "../src/rcc/DBGrid";
+import { DialogForm } from "../src/rcc/DialogForm";
 import MenuItem from "../src/rcc/MenuItem";
 import SearchPanel from "../src/rcc/SearchPanel";
 import StatusBar from "../src/rcc/StatusBar";
@@ -49,13 +50,15 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                 <SearchPanel dataSource={this.state.headIn} onExecute={this.btnSearch}>
                     <DBEdit dataField='code' dataName='代码' />
                     <DBEdit dataField='name' dataName='名称' ></DBEdit>
-                    <DBEdit dataField='tbDate' dataName='日期'><DateDialog /></DBEdit>
+                    <DBEdit dataField='year' dataName='年份'>
+                        <YearDialog />
+                    </DBEdit>
                 </SearchPanel>
-                <DBGrid dataSource={this.state.dataOut} readOnly={false} onChanged={this.onChanged}>
+                <DBGrid dataSource={this.state.dataOut} readOnly={false} onChanged={this.onDataSetChanged}>
                     <Column code='code_' name='代码' width='10' />
                     <Column code='name_' name='名称' width='20' >
                         <DBEdit dataField='code_' >
-                            <SelectAccCode></SelectAccCode>
+                            <YearDialog />
                         </DBEdit>
                         <DBEdit dataField='name_' />
                     </Column>
@@ -90,55 +93,13 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
         })
     }
 
-    onChanged: OnDataSetChangedEvvent = (dataSet: DataSet) => {
-        console.log(dataSet.jsonString);
-    }
-
     btnAppend: MouseEventHandler<HTMLButtonElement> = (sender: any) => {
         this.state.dataOut.append();
         this.setState(this.state);
     }
 
-}
-
-type SelectAccCodeState = {
-    active: boolean;
-}
-
-export class SelectAccCode extends React.Component<any, SelectAccCodeState> implements ISelectDialog {
-    dialog: HTMLDivElement;
-
-    constructor(props: any) {
-        super(props)
-        this.state = { active: false }
-    }
-
-    render() {
-        return (<div className='selectDialog'>
-            <button onClick={this.btnShow}>...</button>
-            <div className='dialog' style={{ display: this.state.active ? 'inline' : 'none' }}
-                ref={this.setDialog}>
-                <div><span>选择会计科目</span><span className='closeDialog' onClick={this.btnClose}>X</span></div>
-                <div>
-                </div>
-            </div>
-        </div >)
-    }
-
-    setDialog: LegacyRef<HTMLDivElement> = (sender: HTMLDivElement) => {
-        this.dialog = sender;
-    }
-
-    btnShow: any = (sender: any) => {
-        this.setState({ ...this.state, active: !this.state.active })
-    }
-
-    btnClose: any = (sender: any) => {
-        this.setState({ ...this.state, active: false })
-    }
-
-    select(value: string) {
-        alert('ok')
+    onDataSetChanged: OnDataSetChangedEvvent = (dataSet: DataSet) => {
+        console.log(dataSet.jsonString);
     }
 
 }

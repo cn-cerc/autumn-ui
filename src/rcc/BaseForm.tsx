@@ -5,7 +5,8 @@ export type BaseFormPropsType = {
     title: string;
 }
 
-export default class BaseForm<T extends BaseFormPropsType = { title: null }, S = {}> extends WebControl<T, S> {
+export default class BaseForm<T extends BaseFormPropsType = { title: null }, S = {}>
+    extends WebControl<T, S> {
 
     render() {
         document.title = this.props.title;

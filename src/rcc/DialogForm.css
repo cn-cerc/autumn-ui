@@ -1,0 +1,23 @@
+.dialogClient {
+    position: absolute;
+    left: 10%;
+    width: 80%;
+    top: 10%;
+    height: 80%;
+    background: rgb(196, 240, 207);
+}
+
+.dialogTitle {
+    color: white;
+    background: green;
+    padding: 0.5rem;
+}
+
+.dialogClose {
+    background: white;
+    color: red;
+    width: 1.5rem;
+    float: right;
+    text-align: center;
+    cursor: pointer;
+}
