@@ -2,7 +2,6 @@ import React, { isValidElement, LegacyRef } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import DataSource from "../db/DataSource";
-import { ISelectDialog } from "./DBEdit";
 import './DialogForm.css'
 
 export type OnSelectDataSetEvent = (values: DataSet) => void;
@@ -16,7 +15,6 @@ type DialogFormProps = {
 }
 
 export class DialogForm extends React.Component<DialogFormProps> {
-    dialog: HTMLDivElement;
 
     constructor(props: DialogFormProps) {
         super(props)
@@ -26,8 +24,7 @@ export class DialogForm extends React.Component<DialogFormProps> {
     render() {
         return (<div className='dialogForm'>
             <button style={{ cursor: 'pointer' }} onClick={this.btnShow}>...</button>
-            <div className='dialogClient' style={{ display: this.props.active() ? 'inline' : 'none' }}
-                ref={this.setDialog}>
+            <div className='dialogClient' style={{ display: this.props.active() ? 'inline' : 'none' }}>
                 <div className='dialogTitle'>
                     <span>{this.props.title}</span>
                     <span className='dialogClose' onClick={this.btnClose}>X</span>
@@ -51,10 +48,6 @@ export class DialogForm extends React.Component<DialogFormProps> {
             this.setState({ ...this.state, active: false })
             this.props.onSelect(ds);
         }
-    }
-
-    setDialog: LegacyRef<HTMLDivElement> = (sender: HTMLDivElement) => {
-        this.dialog = sender;
     }
 
     btnShow: any = (sender: any) => {
