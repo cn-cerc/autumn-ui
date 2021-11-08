@@ -11,7 +11,7 @@ type DialogFormProps = {
     title: string;
     dataSource?: DataSource;
     onSelect?: OnSelectDataSetEvent;
-    active: boolean;
+    active: () => boolean;
     setActive: (active: boolean) => void;
 }
 
@@ -26,7 +26,7 @@ export class DialogForm extends React.Component<DialogFormProps> {
     render() {
         return (<div className='dialogForm'>
             <button style={{ cursor: 'pointer' }} onClick={this.btnShow}>...</button>
-            <div className='dialogClient' style={{ display: this.props.active ? 'inline' : 'none' }}
+            <div className='dialogClient' style={{ display: this.props.active() ? 'inline' : 'none' }}
                 ref={this.setDialog}>
                 <div className='dialogTitle'>
                     <span>{this.props.title}</span>

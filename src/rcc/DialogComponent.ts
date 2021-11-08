@@ -4,22 +4,26 @@ import DataRow from "../db/DataRow";
 export type OnSelectDataRowEvent = (value: DataRow) => void;
 
 export type DialogComponentProps = {
+    title?: string;
     onSelect?: OnSelectDataRowEvent;
 }
 
 export type DialogComponentState = {
-    active: boolean;
+    active: () => boolean;
 }
 
-export default class DialogComponent<T extends DialogComponentProps, S extends DialogComponentState>
-    extends React.Component<T, S> {
+export default class DialogComponent<T extends DialogComponentProps, DialogComponentState>
+    extends React.Component<T, DialogComponentState> {
+    private _active: boolean;
 
     constructor(props: T) {
         super(props)
+        this._active = false;
     }
 
+    active = () => { return this._active }
     setActive = (active: boolean) => {
-        this.setState({ ...this.state, active })
-    }
-
+        this._active = active;
+        this.setState({ ...this.state})
+    };
 }
