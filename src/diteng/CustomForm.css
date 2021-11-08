@@ -27,7 +27,7 @@ div[id='app'] {
     overflow: auto;
 }
 
-.toolPanel {
+.auiMain .toolPanel {
     background: aliceblue;
     display: inline-block;
     vertical-align: top;
@@ -36,26 +36,26 @@ div[id='app'] {
     overflow: auto;
 }
 
-.content {
+.auiMain .content {
     display: inline-block;
     width: calc(100% - 12rem);
     height: calc(100% - 1rem);
     overflow: auto;
 }
 
-article {
+.auiMain article {
     height: calc(100% - 4rem);
 }
 
-.statusBar {
+.auiMain .statusBar {
     height: 2rem;
 }
 
-.content>.statusBar {
+.auiMain .content>.statusBar {
     height: 2rem;
 }
 
-.mainMessage {
+.auiMain .mainMessage {
     height: 2rem;
     color: red;
 }

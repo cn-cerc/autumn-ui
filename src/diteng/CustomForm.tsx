@@ -36,7 +36,7 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
                 <MainNavigator >
                     {this.getMenus().map(item => item)}
                 </MainNavigator>
-                <div className={this.isPhone ? 'main_phone' : 'main_pc'}>
+                <div className={this.isPhone ? 'main_phone auiMain' : 'main_pc auiMain'}>
                     {this.getToolPanel()}
                     <div className='content'>
                         <MainMessage message={this.state.message} />
