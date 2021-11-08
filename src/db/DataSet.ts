@@ -121,15 +121,14 @@ export default class DataSet implements DataBind, DataSource {
         return result
     }
 
-    copyRecord(source: DataRow, defs: FieldDefs) {
-        let record = this.current;
-
+    copyRecord(source: DataRow, fieldDefs: FieldDefs = null) {
+        let defs = fieldDefs ? fieldDefs : source.fieldDefs;
         if (this._search) {
-            this._search.remove(record)
-            record.copyValues(source, defs)
-            this._search.append(record)
+            this._search.remove(this.current)
+            this.current.copyValues(source, defs)
+            this._search.append(this.current)
         } else {
-            record.copyValues(source, defs)
+            this.current.copyValues(source, defs)
         }
     }
 
