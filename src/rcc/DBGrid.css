@@ -1,15 +1,30 @@
-.grid {
-    border: 1px solid;
+.dbgrid {
+    margin-top: .5rem;
+    height: 0;
+    flex: 1;
+    overflow: auto;
+}
+
+.dbgrid table {
     width: 100%;
-    background: rgb(250, 250, 250);
+    background-color: #fff;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-radius: .25rem;
 }
 
-.column {
-    border: 1px solid;
+.dbgrid table th {
+    border: 1px solid #eeeeee;
+    background-color: #eaeaea;
+    padding: .25rem;
+    position: sticky;
+    top: -1px;
+    line-height: 1.2rem;
 }
 
-.column>span>input {
-    border: 0;
-    padding: 0.2rem;
-    background: white;
+.dbgrid table td {
+    line-height: 1.6em;
+    border: 1px solid #eeeeee;
+    padding: 0 .2em;
+    cursor: pointer;
 }

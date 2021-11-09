@@ -1,31 +1,36 @@
-.cusDialog .search>div,
-.cusDialog .search .left>div {
+.search {
+    padding: .5rem;
+    background-color: #fff;
+}
+
+.search>div,
+.search .left>div {
     display: inline-block;
     padding: 0.3rem;
 }
 
-.cusDialog .search .left {
+.search .left {
     clear: both;
     display: inline-block;
     width: calc(100% - 5rem);
     text-align: left;
 }
 
-.cusDialog .search .left>span {
+.search .left>span {
     display: inline-block;
     padding-right: 1rem;
 }
 
-.cusDialog .search input[type="checkbox"] {
+.search input[type="checkbox"] {
     height: auto;
     width: auto;
     min-width: auto;
 }
 
-.cusDialog .window form.search input[type="submit"] {
-    position: inherit;
-    vertical-align: top;
-    top: 0;
+.search input[type="submit"] {
+    background-color: #3273F4;
+    color: #fff;
+    cursor: pointer;
 }
 
 .cusDialog .dbgrid tr[id^='tr'] td {

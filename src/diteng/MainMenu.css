@@ -1,9 +1,5 @@
-.MainMenu>.groupItem {
-    color: black;
-}
-
-.MainMenu>.groupSelected {
-    color: red;
+.MainMenu {
+    width: 15.37rem;
 }
 
 .MainMenu>img {
@@ -12,10 +8,63 @@
 
 .MainMenu>ul {
     list-style: none;
-    padding: 1rem;
-    margin: 0;
 }
 
-.MainMenu>li {
-    height: 2rem;
+.MainMenu .title {
+    position: relative;
+    padding-left: 4.3rem;
+    line-height: 3.5rem;
+    box-sizing: border-box;
+    color: #333333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.MainMenu .title::after {
+    width: 1rem;
+    height: 1rem;
+    background-size: 1rem 1rem;
+    top: 1.29rem;
+    position: absolute;
+    left: 11.3rem;
+    content: "";
+    background-image: url(https://www.diteng.site/911001/images/webdefault/menuList_icon.png);
+}
+
+.MainMenu section>ul>li {
+    padding-left: 4.4rem;
+    position: relative;
+    cursor: pointer;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.MainMenu section>ul>li:hover {
+    background-color: #fff;
+    border-right: .28rem solid #3273F4;
+}
+
+.MainMenu section li img {
+    width: 1.4rem;
+    margin-right: .56rem;
+}
+
+.MainMenu section li a {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 60%;
+    color: black;
+    text-decoration: none;
+}
+
+.MainMenu section li a::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }

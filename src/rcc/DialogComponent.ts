@@ -5,6 +5,7 @@ export type OnSelectDataRowEvent = (value: DataRow) => void;
 
 export type DialogComponentProps = {
     title?: string;
+    style?: object;
     onSelect?: OnSelectDataRowEvent;
 }
 
@@ -24,6 +25,6 @@ export default class DialogComponent<T extends DialogComponentProps, DialogCompo
     active = () => { return this._active }
     setActive = (active: boolean) => {
         this._active = active;
-        this.setState({ ...this.state})
+        this.setState({ ...this.state })
     };
 }

@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, MouseEventHandler } from 'react';
 import DataSet from '../db/DataSet';
-import './SalesmanDialog.css';
+import styles from './SalesmanDialog.css';
 
 type propsType = {
     inputId: string,
@@ -38,7 +38,7 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
     getGroupList() {
         let groups = this.state.groups.map((group) => (<li key={group} onClick={() => this.setDeptName(group)}>{group}</li>));
         groups.unshift((<li key="所有部门" onClick={() => this.setDeptName("")}>所有部门</li>))
-        return ((<ul className='groupList'>{groups}</ul>))
+        return ((<ul className={styles.groupList}>{groups}</ul>))
     }
 
     getBusinessList() {
@@ -59,7 +59,7 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
                 ))
             }
         }
-        return ((<ul className='businessList'>{businesses}</ul>))
+        return ((<ul className={styles.businessList}>{businesses}</ul>))
     }
 
     setDeptName(deptName: string) {
@@ -79,7 +79,7 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
 
     render() {
         return (
-            <div className='salesmanDialog'>
+            <div className={styles.salesmanDialog}>
                 {this.getGroupList()}
                 {this.getBusinessList()}
             </div>

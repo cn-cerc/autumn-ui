@@ -1,9 +1,50 @@
 .mainNavigator {
-    background: rgb(240, 240, 240);
-    padding: 0.5rem;
-    width: 100%;
+    background: #D4D4D4;
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    height: 3.75rem;
+    box-sizing: border-box;
 }
 
-.mainNavigator>div {
-    display: inline-block;
+.navigatorLeft {
+    width: 15.37rem;
+    display: flex;
+    align-items: center;
+}
+
+.navigatorLeft>img {
+    height: 1.5rem;
+    margin-top: .25rem;
+    margin-left: 1rem;
+}
+
+.navigatorLeft>span {
+    color: #009307;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.navigatorCenter {
+    flex: 1;
+}
+
+.navigatorRight {
+    display: flex;
+    align-items: center;
+}
+
+.navigatorRight>div {
+    margin-right: 2rem;
+}
+
+.navigatorRight img {
+    width: 1.25rem;
+    height: 1.25rem;
+    vertical-align: middle;
+    margin-right: .25rem;
+}
+
+.userInfo>img {
+    border-radius: 50%;
 }

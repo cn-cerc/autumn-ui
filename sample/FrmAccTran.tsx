@@ -14,6 +14,9 @@ import SearchPanel from "../src/rcc/SearchPanel";
 import StatusBar from "../src/rcc/StatusBar";
 import ToolPanel, { ToolItem } from "../src/rcc/ToolPanel";
 import "./FrmAccTran.css";
+import SelectAccCode from "../src/diteng/SelectAccCode";
+import ComboBox from "../src/rcc/ComboBox";
+import ListAccCode from "../src/diteng/ListAccCode";
 
 type stateType = {
     headIn: DataRow;
@@ -48,18 +51,21 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     </ToolItem> */}
                 </ToolPanel>
                 <SearchPanel dataSource={this.state.headIn} onExecute={this.btnSearch}>
-                    <DBEdit dataField='code' dataName='代码' />
+                    <DBEdit dataField='code' dataName='会计科目' >
+                        <SelectAccCode style={{ width: '60%', height: '50%' }} />
+                    </DBEdit>
                     <DBEdit dataField='name' dataName='名称' ></DBEdit>
                     <DBEdit dataField='year' dataName='年份'>
-                        <YearDialog />
+                        <YearDialog style={{ width: '20rem', height: '10rem' }} />
                     </DBEdit>
                 </SearchPanel>
                 <DBGrid dataSource={this.state.dataOut} readOnly={false} onChanged={this.onDataSetChanged}>
-                    <Column code='code_' name='代码' width='10' />
+                    <Column code='code_' name='代码' width='10' >
+                        <ComboBox dataField='code_' >
+                            <ListAccCode />
+                        </ComboBox>
+                    </Column>
                     <Column code='name_' name='名称' width='20' >
-                        <DBEdit dataField='code_' >
-                            <YearDialog />
-                        </DBEdit>
                         <DBEdit dataField='name_' />
                     </Column>
                     <ChildRow>

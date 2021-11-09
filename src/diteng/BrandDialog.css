@@ -3,6 +3,8 @@
     align-items: center;
     justify-content: space-between;
     min-width: auto;
+    background-color: #fff;
+    padding: .5rem;
 }
 
 .brandDialog form input[type="submit"] {

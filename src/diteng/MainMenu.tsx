@@ -1,7 +1,8 @@
 import React, { MouseEventHandler } from "react";
+import classNames from "../../node_modules/classnames/index";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import './MainMenu.css';
+import styles from './MainMenu.css';
 
 type propsType = {
 
@@ -39,8 +40,8 @@ export default class MainMenu extends React.Component<propsType, stateType> {
 
     render() {
         return (
-            <div className="MainMenu">
-                {this.getGroups().map(item => item)}
+            <div className={styles.MainMenu}>
+                {this.getGroups()}
             </div>
         )
     }
@@ -58,16 +59,18 @@ export default class MainMenu extends React.Component<propsType, stateType> {
         }
 
         groups.forEach((value, group) => {
-            let className = "groupItem";
+            let className = styles.groupItem;
             if (this.state.current == group)
-                className = "groupSelected";
+                className = styles.groupSelected;
             items.push(
-                <ul key={group}>
-                    <li key={group} role={group} className={className} onClick={this.groupClick}>
+                <section key={group}>
+                    <div key={group} role={group} className={styles.title} onClick={this.groupClick}>
                         {value}
-                    </li>
-                    {this.getGroup(group)}
-                </ul>
+                    </div>
+                    <ul key={group}>
+                        {this.getGroup(group)}
+                    </ul>
+                </section>
             );
         })
         return items;
@@ -92,8 +95,8 @@ export default class MainMenu extends React.Component<propsType, stateType> {
         return items;
     }
 
-    groupClick: MouseEventHandler<HTMLLIElement> = (sender: any) => {
-        let el: HTMLLIElement = sender.target;
+    groupClick: MouseEventHandler<HTMLElement> = (sender: any) => {
+        let el: HTMLElement = sender.target;
         let current = el.getAttribute('role');
         this.setState({ ...this.state, current })
     }

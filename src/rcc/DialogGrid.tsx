@@ -22,7 +22,7 @@ export default class DialogGrid extends React.Component<PropsType> {
     render() {
         return (
             <React.Fragment>
-                <table className='dbgrid'>
+                <table className='dbgrid' style={{margin: "0"}}>
                     <tbody>
                         <tr>{this.getTitles().map(item => item)}</tr>
                         {this.getRows().map(item => item)}

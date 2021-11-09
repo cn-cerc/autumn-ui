@@ -5,21 +5,21 @@ import DataSet from "../src/db/DataSet"
 import Datetime from "../src/db/Datetime"
 import QueryService from "../src/db/QueryService"
 import RemoteService from "../src/db/RemoteService"
+import BrandDialog from "../src/diteng/BrandDialog"
 import CheckDraftTB from "../src/diteng/CheckDraftTB"
 import CheckReport from "../src/diteng/CheckReport"
 import CheckWorkflow from "../src/diteng/CheckWorkflow"
 import CusDialog from "../src/diteng/CusDialog"
+import DateDialog from "../src/diteng/DateDialog"
+import SalesmanDialog from "../src/diteng/SalesmanDialog"
 import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
-import DateDialog from "../src/diteng/DateDialog"
-import SalesmanDialog from "../src/diteng/SalesmanDialog"
-import BrandDialog from "../src/diteng/BrandDialog"
+import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
-import TGrid, { TGridConfig, TGridColumn } from "../src/vcl/TGrid"
+import TGrid, { TGridColumn, TGridConfig } from "../src/vcl/TGrid"
 import FrmAccTran from "./FrmAccTran"
-import FrmDept from "./FrmDept"
 
 export default {
     //db
@@ -48,6 +48,8 @@ export default {
     DateDialog,
     SalesmanDialog,
     BrandDialog,
+    //ksdl
+    IndexKsdl,
 }
 
 let app = document.getElementById('app');

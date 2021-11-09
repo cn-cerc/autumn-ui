@@ -1,13 +1,15 @@
 import React, { isValidElement, LegacyRef } from "react";
+import classNames from "../../node_modules/classnames/index";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import DataSource from "../db/DataSource";
-import './DialogForm.css'
+import styles from './DialogForm.css'
 
 export type OnSelectDataSetEvent = (values: DataSet) => void;
 
 type DialogFormProps = {
     title: string;
+    style?: object;
     dataSource?: DataSource;
     onSelect?: OnSelectDataSetEvent;
     active: () => boolean;
@@ -22,14 +24,16 @@ export class DialogForm extends React.Component<DialogFormProps> {
     }
 
     render() {
-        return (<div className='dialogForm'>
-            <button style={{ cursor: 'pointer' }} onClick={this.btnShow}>...</button>
-            <div className='dialogClient' style={{ display: this.props.active() ? 'inline' : 'none' }}>
-                <div className='dialogTitle'>
+        return (<div className={styles.main}>
+            <button className={styles.btnShow} onClick={this.btnShow}>...</button>
+            <div className={styles.client}
+                style={Object.assign({ display: this.props.active() ? 'inline' : 'none' },
+                    { height: '80%', width: '80%' }, this.props.style)}>
+                <div className={styles.title}>
                     <span>{this.props.title}</span>
-                    <span className='dialogClose' onClick={this.btnClose}>X</span>
+                    <span className={styles.btnClose} onClick={this.btnClose}>X</span>
                 </div>
-                <div className='dialogContent'>
+                <div>
                     {React.Children.map(this.props.children, child => {
                         if (isValidElement(child))
                             return React.cloneElement(child, { onSelect: this.onSelect })

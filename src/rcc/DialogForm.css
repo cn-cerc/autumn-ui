@@ -1,23 +1,30 @@
-.dialogForm .dialogClient {
+.main {}
+
+.client {
     position: absolute;
-    left: 10%;
-    width: 80%;
-    top: 10%;
-    height: 80%;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
     background: rgb(196, 240, 207);
 }
 
-.dialogForm .dialogTitle {
+.title {
     color: white;
     background: green;
     padding: 0.5rem;
 }
 
-.dialogForm .dialogClose {
+.btnClose {
     background: white;
     color: red;
     width: 1.5rem;
     float: right;
     text-align: center;
     cursor: pointer;
+}
+
+.btnShow {
+    cursor: pointer
 }

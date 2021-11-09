@@ -1,4 +1,5 @@
 import React from "react";
+import styles from './MainMessage.css'
 
 type propsType = {
     message: string;
@@ -12,7 +13,7 @@ export default class MainMessage extends React.Component<propsType> {
 
     render() {
         return (
-            <div className='mainMessage'></div>
+            <div className={styles.main}></div>
         )
     }
 }

@@ -6,7 +6,7 @@ import DataRow from "../db/DataRow";
 import DBEdit from "../rcc/DBEdit";
 import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { showMsg } from "./Summer";
-import './BrandDialog.css';
+import styles from './BrandDialog.css';
 
 type propsType = {
     token: any,
@@ -79,8 +79,8 @@ export default class BrandDialog extends React.Component<propsType, stateType> {
 
     render() {
         return (
-            <div className="brandDialog">
-                <form method="post" className="search" style={{ minHeight: '4em' }}>
+            <div className={styles.brandDialog}>
+                <form method="post" className={styles.search} style={{ minHeight: '4em' }}>
                     <DBEdit dataSource={this.state.dataIn} dataField={'SearchText_'} dataName='品牌查询'
                         onChanged={()=>this.update()} placeholder='请输入查询条件' autoFocus={true} />
                     <input type="submit" name="submit" onClick={(e)=>this.handleSubmit(e)} value="查询" style={{ height: '1.75rem' }} />

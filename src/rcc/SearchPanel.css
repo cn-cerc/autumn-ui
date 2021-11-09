@@ -1,0 +1,55 @@
+.main {
+    background-color: #fff;
+    border-radius: .35rem;
+    display: flex;
+    padding: .5rem 1.25rem 0 1.25rem;
+}
+
+.search {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.search>span {
+    width: 25%;
+    display: flex;
+    align-items: center;
+    padding-bottom: .5rem;
+}
+
+.search>span>label {
+    display: inline-block;
+    min-width: 5em;
+    max-width: 7em;
+    text-align: left;
+}
+
+.search>span>input {
+    min-width: 11.63rem;
+    height: 1.68rem;
+    border-radius: .12rem;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #C2CAD8;
+    padding-left: .6rem;
+}
+
+.search>span>input:hover {
+    border: 1px solid #058FCA;
+}
+
+.main>button {
+    margin-right: 1rem;
+    min-width: 4.13rem;
+    height: 1.88rem;
+    padding: 0 1rem;
+    background-color: #009307;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: .24rem;
+    line-height: 1.88rem;
+}

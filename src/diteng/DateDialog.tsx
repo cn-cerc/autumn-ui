@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, MouseEventHandler } from "react";
-import './DateDialog.css';
+import styles from './DateDialog.css';
 
 type YearType = {
     years: any[],
@@ -15,7 +15,7 @@ class Year extends React.Component<YearType> {
     render() {
         return (
             <div className='yearList'>
-                <div className='listTitle'>年：</div>
+                <div className={styles.listTitle}>年：</div>
                 <ul key="yearList">{this.getList()}</ul>
             </div>
             
@@ -24,7 +24,7 @@ class Year extends React.Component<YearType> {
 
     getList() {
         let list = this.props.years.map((year) => (
-            <li key={"year" + year} className={year == this.props.year ? 'checked' : ''} onClick={() => this.props.onClick(year)}>{year}</li>
+            <li key={"year" + year} className={year == this.props.year ? styles.checked : ''} onClick={() => this.props.onClick(year)}>{year}</li>
         ))
         return list;
     }
@@ -44,7 +44,7 @@ class Month extends React.Component<MonthType> {
     render() {
         return (
             <div className='monthList'>
-                <div className='listTitle'>月：</div>
+                <div className={styles.listTitle}>月：</div>
                 <ul key="monthList">{this.getList()}</ul>
             </div>
         )
@@ -53,7 +53,7 @@ class Month extends React.Component<MonthType> {
     getList() {
         let list = this.props.months.map((month, index) => (
             <React.Fragment key={"month" + month+index}>
-                <li className={Number(month) == this.props.month ? 'checked' : ''} onClick={() => this.props.onClick(Number(month))}>{month}</li>{index == 5 ? (<br/>) : ""}
+                <li className={Number(month) == this.props.month ? styles.checked : ''} onClick={() => this.props.onClick(Number(month))}>{month}</li>{index == 5 ? (<br/>) : ""}
             </React.Fragment>
         ))
         return list;
@@ -110,7 +110,7 @@ class DayTable extends React.Component<TableProp, TableState> {
                 start++;
                 let day = begin;
                 line.push((
-                    <td align="center" key={"td" + (weekIndex + 1) + "_" + (start + 1)} className={begin == this.props.date ? 'checked' : 'date'} onClick={() => this.props.onClick(day)}>{begin < 10 ? "0" + begin : begin}</td>
+                    <td align="center" key={"td" + (weekIndex + 1) + "_" + (start + 1)} className={begin == this.props.date ? styles.checked : styles.date} onClick={() => this.props.onClick(day)}>{begin < 10 ? "0" + begin : begin}</td>
                 ))
                 beginDay++;
                 begin++;
@@ -151,7 +151,7 @@ export default class DateDialog extends React.Component<propsType, stateType> {
     }
     render() {
         return (
-            <div className='dateDialog'>
+            <div className={styles.dateDialog}>
                 <div className='date'>
                     <Year years={this.state.years} year={this.state.year} onClick={this.handleClickByYear.bind(this)} />
                     <Month months={this.state.months} month={this.state.month} onClick={this.handleClickByMonth.bind(this)} />

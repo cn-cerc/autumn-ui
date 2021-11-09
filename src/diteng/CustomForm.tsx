@@ -7,7 +7,8 @@ import StatusBar from "../rcc/StatusBar";
 import MenuItem from "../rcc/MenuItem";
 import Block from "../rcc/Block";
 import DBGrid from "../rcc/DBGrid";
-import './CustomForm.css';
+import styles from './CustomForm.css';
+import classNames from "../../node_modules/classnames/index";
 
 export type CustomFormPropsType = {
     title: string;
@@ -34,11 +35,11 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
         return (
             <BaseForm title={this.props.title}>
                 <MainNavigator >
-                    {this.getMenus().map(item => item)}
+                    {this.getMenus()}
                 </MainNavigator>
-                <div className={this.isPhone ? 'main_phone auiMain' : 'main_pc auiMain'}>
+                <div className={classNames(styles.main_content, this.isPhone ? styles.main_phone : styles.main_pc)}>
                     {this.getToolPanel()}
-                    <div className='content'>
+                    <div className={styles.content}>
                         <MainMessage message={this.state.message} />
                         <article>
                             {this.getContentComponents()}
@@ -101,6 +102,7 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
 
     getContentComponents(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
+        console.log(this.props.children)
         React.Children.map(this.props.children, (child) => {
             if (isValidElement(child)) {
                 if (child.type == MenuItem) return;
