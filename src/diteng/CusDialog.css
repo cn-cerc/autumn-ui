@@ -1,34 +1,34 @@
-.search>div,
-.search .left>div {
+.cusDialog .search>div,
+.cusDialog .search .left>div {
     display: inline-block;
     padding: 0.3rem;
 }
 
-.search .left {
+.cusDialog .search .left {
     clear: both;
     display: inline-block;
     width: calc(100% - 5rem);
     text-align: left;
 }
 
-.search .left>span {
+.cusDialog .search .left>span {
     display: inline-block;
     padding-right: 1rem;
 }
 
-.search input[type="checkbox"] {
+.cusDialog .search input[type="checkbox"] {
     height: auto;
     width: auto;
     min-width: auto;
 }
 
-.window form.search input[type="submit"] {
+.cusDialog .window form.search input[type="submit"] {
     position: inherit;
     vertical-align: top;
     top: 0;
 }
 
-.dbgrid tr[id^='tr'] td {
+.cusDialog .dbgrid tr[id^='tr'] td {
     padding: 0;
 }
 
@@ -42,4 +42,23 @@
 
 .cusDialog article[role="document"] {
     margin-bottom: 0;
+}
+
+@media only screen and (max-width: 1000px) and (min-width: 767px) {
+    body {
+        min-width: auto;
+    }
+    article[role="document"] {
+        min-width: auto;
+        padding-left: 0;
+        height: 100%;
+    }
+
+    article[role="document"] section[role="content"] {
+        width: 100%;
+        margin: 0;
+        height: 100%;
+        overflow: auto;
+        position: relative;
+    }
 }
