@@ -1,8 +1,10 @@
 .dbgrid {
-    margin-top: .5rem;
     height: 0;
     flex: 1;
     overflow: auto;
+    margin-top: .5rem;
+    background-color: #fff;
+    border-radius: .25rem;
 }
 
 .dbgrid table {
@@ -10,7 +12,11 @@
     background-color: #fff;
     border-spacing: 0;
     border-collapse: collapse;
-    border-radius: .25rem;
+    margin-top: 0;
+}
+
+.dbgrid table tr {
+    height: 2.45rem;
 }
 
 .dbgrid table th {
@@ -20,6 +26,18 @@
     position: sticky;
     top: -1px;
     line-height: 1.2rem;
+    font-weight: normal;
+}
+
+.dbgrid tr>th:not(tr>th:last-child):before {
+    content: "";
+    position: absolute;
+    right: -1px;
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    background-color: #fafafa;
+    z-index: 10;
 }
 
 .dbgrid table td {
