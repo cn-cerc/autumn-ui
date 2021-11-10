@@ -21,7 +21,7 @@ type stateType = {
     config: TGridConfig;
     objItems: DataSet;
     cusNameColumn: TGridColumn;
-    child: TGridConfig;
+    child: TGridConfig | TGridColumn;
 }
 
 export default class CusDialog extends React.Component<propsType, stateType> {
@@ -54,9 +54,6 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         new TGridColumn(config, "Opera", "操作").setWidth(5).setAlign("center").setOnRender((column, row) => {
             return (<span style={{ color: '#3273F4', paddingRight: "0" }}>选择</span>)
         });
-        let child = config.newChild();
-        child.setVisible(isAddress);
-        new TGridColumn(child, "Address_", "地址");
 
         let dataIn = new DataRow();
         dataIn.setValue('MaxRecord_', 100);
@@ -64,7 +61,7 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         dataIn.setValue('isName', isName);
         dataIn.setValue('isAddress', isAddress);
         dataIn.setValue('ObjType_', isObjType ? '1001' : '');
-        this.state = { dataIn, config, objItems: new DataSet(), cusNameColumn, child };
+        this.state = { dataIn, config, objItems: new DataSet(), cusNameColumn, child: cusAddress };
         this.buttonClick(null);
     }
 
