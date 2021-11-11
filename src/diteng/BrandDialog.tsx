@@ -47,7 +47,7 @@ export default class BrandDialog extends React.Component<propsType, stateType> {
             return span;
         });
         new TGridColumn(config, "Opera", "操作").setWidth(2).setAlign("center").setOnRender((column, row) => {
-            return (<span onClick={()=>this.handleClick(row.getString("Brand_"))} className="search">选择</span>);
+            return (<span onClick={()=>this.handleClick(row.getString("Brand_"))} className={styles.searchSpan}>选择</span>);
         })
         config.setDataSet(dataSet);
         this.state = { dataIn: new DataRow(), config };
