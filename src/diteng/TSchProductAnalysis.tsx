@@ -297,6 +297,10 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         let spareNum = 0;
         let totalAmount = 0;
         let costAmount = 0;
+
+        // 客制化
+        let outSumAmount = 0;
+        let outSumProfit = 0;
         this.dataSet.forEach((dataRow) => {
             outNum += dataRow.getDouble("Num_");
             outAmount += dataRow.getDouble("Amount_");
@@ -305,6 +309,8 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             spareNum += dataRow.getDouble("SpareNum_");
             totalAmount += dataRow.getDouble("Amount_") - dataRow.getDouble("BackAmount_");
             costAmount += dataRow.getDouble("CostAmount_");
+            outSumAmount += dataRow.getDouble("OutSumAmount_");
+            outSumProfit += dataRow.getDouble("OutSumProfit_");
         })
         document.getElementById('outNum').innerText = outNum.toFixed(2);
         document.getElementById('outAmount').innerText = outAmount.toFixed(2);
@@ -312,6 +318,12 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         document.getElementById('backAmount').innerText = backAmount.toFixed(2);
         document.getElementById('spareNum').innerText = spareNum.toFixed(2);
         document.getElementById('totalAmount').innerText = totalAmount.toFixed(2);
+
+        if (document.getElementById('outSumAmount'))
+            document.getElementById('outSumAmount').innerText = outSumAmount.toFixed(2);
+        if (document.getElementById('outSumProfit'))
+            document.getElementById('outSumProfit').innerText = outSumProfit.toFixed(2);
+
         if (this.props.allowViewProfit) {
             document.getElementById('costAmount').innerText = costAmount.toFixed(2);
             // 毛利 = 销售金额 - 退货金额 - 成本
