@@ -29,6 +29,7 @@ interface stateType {
 export default class TSchScmStockInOut extends React.Component<propsType, stateType> {
     dataSet: DataSet;
     async = false;
+    grid: Grid;
 
     constructor(props: propsType) {
         super(props);
@@ -237,6 +238,9 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
     }
 
     render() {
+        if(this.grid) {
+            this.grid.initGrid()
+        }
         this.dataSet.first();
         while (this.dataSet.fetch())
             this.dataSet.setValue("sn_", this.dataSet.recNo);
@@ -259,7 +263,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
 
         return (
-            <Grid config={this.state.config} />
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)}/>
         )
     }
 
@@ -330,6 +334,10 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
             else
                 style.setProperty('display', 'none');
         }
+    }
+
+    setChild(_grid: Grid) {
+        this.grid = _grid;
     }
 
 }

@@ -16,7 +16,7 @@ type propsType = {
 }
 
 type stateType = {
-    config: TGridConfig
+    config: TGridConfig,
 }
 
 const CUSTOMER_181013 = "181013";
@@ -29,6 +29,7 @@ const MAX_RECORD = 10000;
 export default class TSchProductAnalysis extends React.Component<propsType, stateType>{
     private async: boolean;
     private dataSet: DataSet;
+    private grid: Grid;
 
     constructor(props: propsType) {
         super(props);
@@ -265,6 +266,9 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
     }
 
     render() {
+        if(this.grid) {
+            this.grid.initGrid()
+        }
         // 重置显示次序和金额计算
         this.dataSet.first();
         while (this.dataSet.fetch()) {
@@ -332,9 +336,8 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         }
         //@ts-ignore
         document.getElementById('dataSize').innerText = this.dataSet.size;
-
         return (
-            <Grid config={this.state.config} />
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)}/>
         )
     }
 
@@ -414,6 +417,10 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             new TGridColumn(grid, "BoxNum_", "单位包装量");
             new TGridColumn(grid, "TotalBox", "总箱数");
         }
+    }
+
+    setChild(_grid: Grid) {
+        this.grid = _grid;
     }
 
 }

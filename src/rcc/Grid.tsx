@@ -11,6 +11,7 @@ const defaultProps = {
 
 type PropsType = {
     config: TGridConfig;
+    setChild: Function;
 } & Partial<typeof defaultProps>;
 
 interface stateType {
@@ -30,6 +31,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
             "display": "flex",
             "flex-direction": "column"
         });
+        this.props.setChild(this);
     }
 
     render() {
@@ -146,6 +148,13 @@ export default class Grid extends React.Component<PropsType, stateType> {
     gridSort(render: any, code: string) {
         //@ts-ignore
         top.gridSort(render.currentTarget, code);
+    }
+
+    initGrid() {
+        this.setState({
+            beginPoint: 1,
+            endPoint: MinPageSize
+        })
     }
 
 }
