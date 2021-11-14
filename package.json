@@ -6,10 +6,10 @@
   "module": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":    "webpack-dev-server --config webpack.dev.config.js",
-    "ksdl":   "webpack --config webpack.ksdl.config.js",
-    "beta":   "webpack --config webpack.beta.config.js",
-    "main":   "webpack --config webpack.main.config.js",
+    "dev": "webpack-dev-server --config webpack.dev.config.js",
+    "ksdl": "webpack --config webpack.ksdl.config.js",
+    "beta": "webpack --config webpack.beta.config.js",
+    "main": "webpack --config webpack.main.config.js",
     "diteng": "webpack --config webpack.diteng.config.js"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "webpack-dev-server": "^4.4.0"
   },
   "dependencies": {
+    "@types/mathjs": "^9.4.2",
     "classnames": "^2.3.1"
   }
 }

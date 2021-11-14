@@ -4,6 +4,10 @@ import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { Loading, showMsg } from "./Summer";
+//@ts-ignore
+import { all, create } from 'mathjs';
+const config = {}
+const math = create(all, config);
 
 /**
  * 页面查询 sessionStorage
@@ -256,10 +260,10 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
             outNumTotal += dataRow.getDouble("OutNum_");
             outAmountTotal += dataRow.getDouble("OutAmount_");
         })
-        document.getElementById('inNumTotal').innerText = inNumTotal.toFixed(2);
-        document.getElementById('inAmountTotal').innerText = inAmountTotal.toFixed(2);
-        document.getElementById('outNumTotal').innerText = outNumTotal.toFixed(2);
-        document.getElementById('outAmountTotal').innerText = outAmountTotal.toFixed(2);
+        document.getElementById('inNumTotal').innerText = math.round(inNumTotal, 2);
+        document.getElementById('inAmountTotal').innerText = math.round(inAmountTotal, 2);
+        document.getElementById('outNumTotal').innerText = math.round(outNumTotal, 2);
+        document.getElementById('outAmountTotal').innerText = math.round(outAmountTotal, 2);
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
 
         return (
