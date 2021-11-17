@@ -133,9 +133,11 @@ export default class TGrid extends TTable implements DataControl {
                     let column = item as TGridColumn;
                     if (column.export) {
                         let code = column.code;
-                        let value = this.dataSet.getText(code);
-                        value = value.replace(/\r|\n|\\s/g, "");// 替换掉内容自带的换行符
-                        value = value.replace(/,/g, "，");// 将英文逗号替换为中文逗号
+                        let value: any = this.dataSet.getValue(code);
+                        if (typeof value == 'string') {
+                            value = value.replace(/\r|\n|\\s/g, "");// 替换掉内容自带的换行符
+                            value = value.replace(/,/g, "，");// 将英文逗号替换为中文逗号
+                        }
                         dataIn.setValue(code, value);
                     }
                 });
