@@ -3,6 +3,7 @@ import DataRow from '../db/DataRow';
 import DataSet from '../db/DataSet';
 import FieldDefs from '../db/FieldDefs';
 import KeyValue from '../db/KeyValue';
+import { showMsg } from '../diteng/Summer';
 import TComponent, { HtmlWriter } from './TComponent';
 import TTable, { TTd, TTh, TTr } from './TTable';
 import TText from './TText';
@@ -122,8 +123,12 @@ export default class TGrid extends TTable implements DataControl {
      * @param filename  要导出的文件名称
      */
     exportExcel(exportUrl: string, filename: string): void {
-        let dataIn = new DataSet();
+        if (this.dataSet.size == 0) {
+            showMsg("没有要导出的数据");
+            return;
+        }
 
+        let dataIn = new DataSet();
         // 复制要导出的栏位数据
         this.dataSet.first();
         while (this.dataSet.fetch()) {
@@ -134,6 +139,13 @@ export default class TGrid extends TTable implements DataControl {
                     if (column.export) {
                         let code = column.code;
                         let value: any = this.dataSet.getValue(code);
+
+                        // 如果自定义栏位则输出自定义栏位信息
+                        let meta = this.dataSet.fieldDefs.get(code);
+                        if (meta.onGetText != undefined) {
+                            value = meta.onGetText(this.dataSet.current, meta);
+                        }
+
                         if (typeof value == 'string') {
                             value = value.replace(/\r|\n|\\s/g, "");// 替换掉内容自带的换行符
                             value = value.replace(/,/g, "，");// 将英文逗号替换为中文逗号
@@ -147,7 +159,6 @@ export default class TGrid extends TTable implements DataControl {
         // 构建要导出的数据栏位
         dataIn.setMetaInfo(true);
         let newFields = dataIn.fieldDefs;
-        let oldFields = this.dataSet.fieldDefs;
         for (let group of this._groups) {
             group.getComponents().forEach((item) => {
                 let column = item as TGridColumn;

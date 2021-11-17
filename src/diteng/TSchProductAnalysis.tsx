@@ -60,8 +60,9 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             let spec = row.getValue("Spec_");
             return desc + (spec != '' ? ('，' + spec) : "");
         })
-        fields.add("ProfitRate_").setOnGetText((row, meta) => {
-            let profitRate = row.getDouble(meta.code);
+        fields.add("ProfitRateExcel").setOnGetText((row, meta) => {
+            meta.setType('s6');
+            let profitRate = row.getString("ProfitRate_");
             return profitRate ? profitRate + "%" : "";
         })
 
@@ -112,7 +113,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         // 没权限时值全部设置为空串
         new TGridColumn(config, "CostAmount_", "成本").setWidth(4);
         new TGridColumn(config, "Profit_", "毛利").setWidth(4);
-        new TGridColumn(config, "ProfitRate_", "毛利率").setWidth(4);// createText 增加 %
+        new TGridColumn(config, "ProfitRateExcel", "毛利率").setWidth(4);// createText 增加 %
 
         new TGridColumn(config, "Stock_", "当前库存").setWidth(4);
 
@@ -293,7 +294,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             let profitRate = '';
             if (total != 0)
                 profitRate = math.round((totalProfit / total) * 100, 2);
-            this.dataSet.setValue("ProfitRate_", profitRate);
+            this.dataSet.setValue("ProfitRateExcel", profitRate);
         }
 
         // 数据合计
@@ -391,7 +392,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         new TGridColumn(grid, "SpareNum_", "赠品数量");
         new TGridColumn(grid, "CostAmount_", "成本");
         new TGridColumn(grid, "Profit_", "毛利");
-        new TGridColumn(grid, "ProfitRate_", "毛利率");// createText 增加 %
+        new TGridColumn(grid, "ProfitRateExcel", "毛利率");// createText 增加 %
 
         if (this.props.avaiStockOption) {
             new TGridColumn(grid, "AvaiStock_", "可用库存");// avaiStockOption
