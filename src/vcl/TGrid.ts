@@ -123,29 +123,7 @@ export default class TGrid extends TTable implements DataControl {
      */
     exportExcel(exportUrl: string, filename: string): void {
         let dataIn = new DataSet();
-        let newFields = dataIn.fieldDefs;
-        let oldFields = this.dataSet.fieldDefs;
 
-        // 构建要导出的数据栏位
-        for (let group of this._groups) {
-            group.getComponents().forEach((item) => {
-                let column = item as TGridColumn;
-                // 找出当前表格要导出的栏位，并复制到新的数据集
-                oldFields.forEach(meta => {
-                    if (column.export) {
-                        if (column.code == meta.code) {
-                            newFields.fields.push(meta);
-                        }
-                    }
-                })
-                // 为新的数据集栏位赋予名字
-                newFields.forEach(meta => {
-                    if (meta.code == column.code) {
-                        meta.setName(column.name);
-                    }
-                });
-            });
-        }
         // 复制要导出的栏位数据
         this.dataSet.first();
         while (this.dataSet.fetch()) {
@@ -163,8 +141,24 @@ export default class TGrid extends TTable implements DataControl {
                 });
             }
         }
-        // 发送dataSet与后台交换生成excel文件
+
+        // 构建要导出的数据栏位
         dataIn.setMetaInfo(true);
+        let newFields = dataIn.fieldDefs;
+        let oldFields = this.dataSet.fieldDefs;
+        for (let group of this._groups) {
+            group.getComponents().forEach((item) => {
+                let column = item as TGridColumn;
+                // 为新的数据集栏位赋予名字
+                newFields.forEach(meta => {
+                    if (meta.code == column.code) {
+                        meta.setName(column.name);
+                    }
+                });
+            });
+        }
+
+        // 发送dataSet与后台交换生成excel文件
         fetch(exportUrl + "?filename=" + filename, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
