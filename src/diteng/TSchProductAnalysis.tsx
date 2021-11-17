@@ -1,11 +1,12 @@
+//@ts-ignore
+import { all, create } from 'mathjs';
 import React from "react";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
+import { exportUrl } from './ExportConfig';
 import { Loading, showMsg } from "./Summer";
-//@ts-ignore
-import { all, create } from 'mathjs';
 const config = {}
 const math = create(all, config);
 
@@ -268,7 +269,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
     }
 
     render() {
-        if(this.grid) {
+        if (this.grid) {
             this.grid.initGrid()
         }
         // 重置显示次序和金额计算
@@ -339,7 +340,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         //@ts-ignore
         document.getElementById('dataSize').innerText = this.dataSet.size;
         return (
-            <Grid config={this.state.config} setChild={this.setChild.bind(this)}/>
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)} />
         )
     }
 
@@ -357,9 +358,9 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         new TGridColumn(grid, "PartCode_", "商品编号");
         new TGridColumn(grid, "Desc_", "品名");
         new TGridColumn(grid, "Spec_", "规格");
-        this.exportFile(grid);
+        this.buildExport(grid);
 
-        grid.exportFile("单品销售分析.csv");
+        grid.exportExcel(exportUrl, "单品销售分析.xls");
     }
 
     /**
@@ -376,12 +377,12 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         new TGridColumn(grid, "PartCode_", "商品编号");
         new TGridColumn(grid, "DescSpecExcel", "品名规格");
 
-        this.exportFile(grid);
+        this.buildExport(grid);
 
-        grid.exportFile("单品销售分析（品名规格合并）.csv");
+        grid.exportExcel(exportUrl, "单品销售分析（品名规格合并）.xls");
     }
 
-    exportFile(grid: TGrid) {
+    buildExport(grid: TGrid) {
         new TGridColumn(grid, "Stock_", "当前库存");
         new TGridColumn(grid, "Num_", "销售数量");
         new TGridColumn(grid, "Amount_", "销售金额");

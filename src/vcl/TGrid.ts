@@ -1,10 +1,10 @@
-import TTable, { TTd, TTh, TTr } from './TTable';
-import TComponent, { HtmlWriter } from './TComponent';
-import DataSet from '../db/DataSet';
-import FieldDefs from '../db/FieldDefs';
 import DataControl from '../db/DataControl';
 import DataRow from '../db/DataRow';
+import DataSet from '../db/DataSet';
+import FieldDefs from '../db/FieldDefs';
 import KeyValue from '../db/KeyValue';
+import TComponent, { HtmlWriter } from './TComponent';
+import TTable, { TTd, TTh, TTr } from './TTable';
 import TText from './TText';
 
 export default class TGrid extends TTable implements DataControl {
@@ -17,7 +17,10 @@ export default class TGrid extends TTable implements DataControl {
         this.setCssStyle('width:100%');
     }
 
-    get dataSet(): DataSet { return this._dataSet }
+    get dataSet(): DataSet {
+        return this._dataSet
+    }
+
     setDataSet(dataSet: DataSet): TGrid {
         this._dataSet = dataSet;
         dataSet.registerBind(this);
@@ -30,8 +33,6 @@ export default class TGrid extends TTable implements DataControl {
         } else {
             this.style.delete('display');
         }
-
-        let sumWidth = 0;
         this.beginOutput(html);
 
         //先输出主行标题
@@ -115,7 +116,69 @@ export default class TGrid extends TTable implements DataControl {
         this._dataSet = null;
     }
 
-    exportFile(fileName: string): void {
+    /**
+     * 将dataSet与后台交换生成excel文件
+     * @param exportUrl 后台excel转换网址
+     * @param filename  要导出的文件名称
+     */
+    exportExcel(exportUrl: string, filename: string): void {
+        let dataIn = new DataSet();
+        let newFields = dataIn.fieldDefs;
+        let oldFields = this.dataSet.fieldDefs;
+
+        // 构建要导出的数据栏位
+        for (let group of this._groups) {
+            group.getComponents().forEach((item) => {
+                let column = item as TGridColumn;
+                // 找出当前表格要导出的栏位，并复制到新的数据集
+                oldFields.forEach(meta => {
+                    if (column.export) {
+                        if (column.code == meta.code) {
+                            newFields.fields.push(meta);
+                        }
+                    }
+                })
+                // 为新的数据集栏位赋予名字
+                newFields.forEach(meta => {
+                    if (meta.code == column.code) {
+                        meta.setName(column.name);
+                    }
+                });
+            });
+        }
+        // 复制要导出的栏位数据
+        this.dataSet.first();
+        while (this.dataSet.fetch()) {
+            dataIn.append();
+            for (let group of this._groups) {
+                group.getComponents().forEach((item) => {
+                    let column = item as TGridColumn;
+                    if (column.export) {
+                        let code = column.code;
+                        let value = this.dataSet.getText(code);
+                        value = value.replace(/\r|\n|\\s/g, "");// 替换掉内容自带的换行符
+                        value = value.replace(/,/g, "，");// 将英文逗号替换为中文逗号
+                        dataIn.setValue(code, value);
+                    }
+                });
+            }
+        }
+        // 发送dataSet与后台交换生成excel文件
+        dataIn.setMetaInfo(true);
+        fetch(exportUrl + "?filename=" + filename, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: dataIn.jsonString,
+        }).then(response => response.blob())
+            .then(blob => {
+                TGrid.download(filename, blob);
+            });
+    }
+
+    /**
+     * 输出纯文本的csv格式
+     */
+    exportText(fileName: string): void {
         //CSV格式可以自己设定，适用MySQL导入或者excel打开。
         //由于Excel单元格对于数字只支持15位，且首位为0会舍弃 建议用 =“数值” 
         let str = "";
@@ -142,7 +205,7 @@ export default class TGrid extends TTable implements DataControl {
                         let dataType = this._dataSet.fieldDefs.get(column.code).type;
                         if (dataType && dataType.indexOf('s') > -1) {
                             if (value.length > 0) {
-                                value = '\t' + value;
+                                value = '\t' + value;// 标记为文本栏位
                                 value = value.replace(/,/g, "，");
                             }
                         } else {
@@ -157,14 +220,29 @@ export default class TGrid extends TTable implements DataControl {
 
         // 解决Windows中文乱码问题
         str = "\uFEFF" + str;
-        let blob = new Blob([str], { type: "data:text/csv;charset=utf-8" });
-        let object_url = window.URL.createObjectURL(blob);
-        let link = document.createElement("a");
-        link.href = object_url;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        let blob = new Blob([str], { type: "application/vnd.ms-excel" });
+        TGrid.download(fileName, blob);
+    }
+
+    /**
+     *  构建下载链接
+     *
+     * @param fileName 文件名称（自带后缀名）
+     * @param blob 大数据快
+     */
+    private static download(fileName: string, blob: Blob): void {
+        let now = new Date();
+        let date = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
+        fileName = date + '_' + fileName;
+
+        const objectURL = URL.createObjectURL(blob);
+        let downloadElement = document.createElement("a");
+        downloadElement.style.display = 'none';
+        downloadElement.href = objectURL;
+        downloadElement.download = fileName;
+        document.body.appendChild(downloadElement);
+        downloadElement.click();
+        document.body.removeChild(downloadElement);
     }
 
     doChange(content: any = undefined): void {
@@ -192,36 +270,58 @@ export class TGridColumn extends TComponent {
         this._name = name ? name : code;
     }
 
-    get code(): string { return this._code }
+    get code(): string {
+        return this._code
+    }
 
-    get name() { return this._name }
+    get name() {
+        return this._name
+    }
 
-    get colSpan(): string { return this.readProperty("colspan"); }
+    get colSpan(): string {
+        return this.readProperty("colspan");
+    }
+
     setColSpan(value: string): TGridColumn {
         this.writeProperty("colspan", value);
         return this;
     }
 
-    get width(): number { return this._width }
+    get width(): number {
+        return this._width
+    }
+
     setWidth(value: number): TGridColumn {
         this._width = value;
         return this;
     }
 
-    get align(): string { return this._align }
+    get align(): string {
+        return this._align
+    }
+
     setAlign(value: string) {
         this._align = value;
         return this;
     }
 
-    get export(): boolean { return this._export; }
+    get export(): boolean {
+        return this._export;
+    }
+
     setExport(value: boolean): TGridColumn {
         this._export = value;
         return this;
     }
 
-    get onRender(): onRenderType { return this._onRender }
-    setOnRender(value: onRenderType) { this._onRender = value; return this; }
+    get onRender(): onRenderType {
+        return this._onRender
+    }
+
+    setOnRender(value: onRenderType) {
+        this._onRender = value;
+        return this;
+    }
 
 }
 
@@ -241,13 +341,22 @@ export class TGridGroup extends TComponent {
         super(owner);
     }
 
-    get current(): DataRow { return this._current }
+    get current(): DataRow {
+        return this._current
+    }
+
     setCurrent(row: DataRow) {
         this._current = row;
     }
 
-    get titleVisiable() { return this._titleVisiable }
-    setTitleVisiable(value: boolean): TGridGroup { this._titleVisiable = value; return this; }
+    get titleVisiable() {
+        return this._titleVisiable
+    }
+
+    setTitleVisiable(value: boolean): TGridGroup {
+        this._titleVisiable = value;
+        return this;
+    }
 
     getTotalWidth() {
         let result = 0;
@@ -293,11 +402,23 @@ export class TGridGroup extends TComponent {
         }
     }
 
-    get master() { return this._master }
-    setMaster(value: TGridGroup): TGridGroup { this._master = value; return this; }
+    get master() {
+        return this._master
+    }
 
-    get onOutput(): IGroupOnOutput { return this._onOutput }
-    setOnOutput(value: IGroupOnOutput): TGridGroup { this._onOutput = value; return this; }
+    setMaster(value: TGridGroup): TGridGroup {
+        this._master = value;
+        return this;
+    }
+
+    get onOutput(): IGroupOnOutput {
+        return this._onOutput
+    }
+
+    setOnOutput(value: IGroupOnOutput): TGridGroup {
+        this._onOutput = value;
+        return this;
+    }
 
     outputOfGridTitle(html: HtmlWriter) {
         if (!this.titleVisiable)
@@ -414,13 +535,22 @@ export class TGridConfig extends TComponent {
         super(owner);
     }
 
-    get current(): DataRow { return this._current }
+    get current(): DataRow {
+        return this._current
+    }
+
     setCurrent(row: DataRow) {
         this._current = row;
     }
 
-    get titleVisiable() { return this._titleVisiable }
-    setTitleVisiable(value: boolean): TGridConfig { this._titleVisiable = value; return this; }
+    get titleVisiable() {
+        return this._titleVisiable
+    }
+
+    setTitleVisiable(value: boolean): TGridConfig {
+        this._titleVisiable = value;
+        return this;
+    }
 
     getTotalWidth() {
         let result = 0;
@@ -467,13 +597,28 @@ export class TGridConfig extends TComponent {
         this._children.push(child);
         return child;
     }
-    get children(): TGridConfig[] { return this._children }
 
-    get onOutput(): IOnOutput { return this._onOutput }
-    setOnOutput(value: IOnOutput): TGridConfig { this._onOutput = value; return this; }
+    get children(): TGridConfig[] {
+        return this._children
+    }
 
-    get dataSet(): DataSet { return this._dataSet };
-    setDataSet(value: DataSet): TGridConfig { this._dataSet = value; return this; };
+    get onOutput(): IOnOutput {
+        return this._onOutput
+    }
+
+    setOnOutput(value: IOnOutput): TGridConfig {
+        this._onOutput = value;
+        return this;
+    }
+
+    get dataSet(): DataSet {
+        return this._dataSet
+    };
+
+    setDataSet(value: DataSet): TGridConfig {
+        this._dataSet = value;
+        return this;
+    };
 }
 
 interface onRenderType {
@@ -494,36 +639,58 @@ export class GridColumn extends TComponent {
         this._name = name ? name : code;
     }
 
-    get code(): string { return this._code }
+    get code(): string {
+        return this._code
+    }
 
-    get name() { return this._name }
+    get name() {
+        return this._name
+    }
 
-    get colSpan(): string { return this.readProperty("colspan"); }
+    get colSpan(): string {
+        return this.readProperty("colspan");
+    }
+
     setColSpan(value: string): GridColumn {
         this.writeProperty("colspan", value);
         return this;
     }
 
-    get width(): number { return this._width }
+    get width(): number {
+        return this._width
+    }
+
     setWidth(value: number): GridColumn {
         this._width = value;
         return this;
     }
 
-    get align(): string { return this._align }
+    get align(): string {
+        return this._align
+    }
+
     setAlign(value: string) {
         this._align = value;
         return this;
     }
 
-    get export(): boolean { return this._export; }
+    get export(): boolean {
+        return this._export;
+    }
+
     setExport(value: boolean): GridColumn {
         this._export = value;
         return this;
     }
 
-    get onRender(): onRenderType { return this._onRender }
-    setOnRender(value: onRenderType) { this._onRender = value; return this; }
+    get onRender(): onRenderType {
+        return this._onRender
+    }
+
+    setOnRender(value: onRenderType) {
+        this._onRender = value;
+        return this;
+    }
 
 }
 

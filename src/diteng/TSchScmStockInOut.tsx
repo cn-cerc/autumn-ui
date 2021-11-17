@@ -1,11 +1,12 @@
+//@ts-ignore
+import { all, create } from 'mathjs';
 import React from "react";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
+import { exportUrl } from './ExportConfig';
 import { Loading, showMsg } from "./Summer";
-//@ts-ignore
-import { all, create } from 'mathjs';
 const config = {}
 const math = create(all, config);
 
@@ -242,7 +243,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
     }
 
     render() {
-        if(this.grid) {
+        if (this.grid) {
             this.grid.initGrid()
         }
         this.dataSet.first();
@@ -267,7 +268,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
 
         return (
-            <Grid config={this.state.config} setChild={this.setChild.bind(this)}/>
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)} />
         )
     }
 
@@ -323,7 +324,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
             new TGridColumn(grid, "InUP_", "进货价");
         }
 
-        grid.exportFile("进出库查询导出.csv");
+        grid.exportExcel(exportUrl, "进出库查询导出.xls");
     }
 
     onOperaClick(sender: any) {
