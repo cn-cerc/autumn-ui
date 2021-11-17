@@ -6,6 +6,7 @@ import RemoteService from "./db/RemoteService";
 import Grid from "./rcc/Grid";
 import TComponent from "./vcl/TComponent";
 import TGrid, { TGridColumn, TGridConfig } from "./vcl/TGrid";
+import TCustomComponent from "./vcl/TCustomComponent";
 
 export default {
     //db
@@ -21,4 +22,6 @@ export default {
     TGridConfig,
     //rcc
     Grid,
+    //地藤jsp转java中js继承类
+    TCustomComponent
 }

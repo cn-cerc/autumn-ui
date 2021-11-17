@@ -20,6 +20,7 @@ import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
 import TGrid, { TGridColumn, TGridConfig } from "../src/vcl/TGrid"
 import FrmAccTran from "./FrmAccTran"
+import TCustomComponent from "../src/vcl/TCustomComponent"
 
 export default {
     //db
@@ -50,6 +51,8 @@ export default {
     BrandDialog,
     //ksdl
     IndexKsdl,
+    //地藤jsp转java中js继承类
+    TCustomComponent
 }
 
 let app = document.getElementById('app');

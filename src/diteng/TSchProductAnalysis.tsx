@@ -291,7 +291,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             // 毛利率
             let profitRate = '';
             if (total != 0)
-                profitRate = math.round((totalProfit / total) * 100, 2);
+                profitRate = String(math.round((totalProfit / total) * 100, 2));
             this.dataSet.setValue("ProfitRate_", profitRate);
         }
 
@@ -318,23 +318,23 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             outSumAmount += dataRow.getDouble("OutSumAmount_");
             outSumProfit += dataRow.getDouble("OutSumProfit_");
         })
-        document.getElementById('outNum').innerText = math.round(outNum, 2);
-        document.getElementById('outAmount').innerText = math.round(outAmount, 2);
-        document.getElementById('backNum').innerText = math.round(backNum, 2);
-        document.getElementById('backAmount').innerText = math.round(backAmount, 2);
-        document.getElementById('spareNum').innerText = math.round(spareNum, 2);
-        document.getElementById('totalAmount').innerText = math.round(totalAmount, 2);
+        document.getElementById('outNum').innerText = String(math.round(outNum, 2));
+        document.getElementById('outAmount').innerText = String(math.round(outAmount, 2));
+        document.getElementById('backNum').innerText = String(math.round(backNum, 2));
+        document.getElementById('backAmount').innerText = String(math.round(backAmount, 2));
+        document.getElementById('spareNum').innerText = String(math.round(spareNum, 2));
+        document.getElementById('totalAmount').innerText = String(math.round(totalAmount, 2));
 
         if (document.getElementById('outSumAmount'))
-            document.getElementById('outSumAmount').innerText = math.round(outSumAmount, 2);
+            document.getElementById('outSumAmount').innerText = String(math.round(outSumAmount, 2));
         if (document.getElementById('outSumProfit'))
-            document.getElementById('outSumProfit').innerText = math.round(outSumProfit, 2);
+            document.getElementById('outSumProfit').innerText = String(math.round(outSumProfit, 2));
 
         if (this.props.allowViewProfit) {
-            document.getElementById('costAmount').innerText = math.round(costAmount, 2);
+            document.getElementById('costAmount').innerText = String(math.round(costAmount, 2));
             // 毛利 = 销售金额 - 退货金额 - 成本
             let profit = outAmount - backAmount - costAmount;
-            document.getElementById('profit').innerText = math.round(profit, 2);
+            document.getElementById('profit').innerText = String(math.round(profit, 2));
         }
         //@ts-ignore
         document.getElementById('dataSize').innerText = this.dataSet.size;

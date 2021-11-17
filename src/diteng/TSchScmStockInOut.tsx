@@ -260,10 +260,10 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
             outNumTotal += dataRow.getDouble("OutNum_");
             outAmountTotal += dataRow.getDouble("OutAmount_");
         })
-        document.getElementById('inNumTotal').innerText = math.round(inNumTotal, 2);
-        document.getElementById('inAmountTotal').innerText = math.round(inAmountTotal, 2);
-        document.getElementById('outNumTotal').innerText = math.round(outNumTotal, 2);
-        document.getElementById('outAmountTotal').innerText = math.round(outAmountTotal, 2);
+        document.getElementById('inNumTotal').innerText = String(math.round(inNumTotal, 2));
+        document.getElementById('inAmountTotal').innerText = String(math.round(inAmountTotal, 2));
+        document.getElementById('outNumTotal').innerText = String(math.round(outNumTotal, 2));
+        document.getElementById('outAmountTotal').innerText = String(math.round(outAmountTotal, 2));
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
 
         return (
