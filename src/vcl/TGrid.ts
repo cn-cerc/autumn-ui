@@ -142,7 +142,7 @@ export default class TGrid extends TTable implements DataControl {
 
                         // 如果自定义栏位则输出自定义栏位信息
                         let meta = this.dataSet.fieldDefs.get(code);
-                        if (meta.onGetText != undefined) {
+                        if (meta != null && meta.onGetText != undefined) {
                             value = meta.onGetText(this.dataSet.current, meta);
                         }
 
