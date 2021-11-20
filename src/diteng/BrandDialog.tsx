@@ -67,6 +67,7 @@ export default class BrandDialog extends React.Component<propsType, stateType> {
         sender.preventDefault();
         let query = new QueryService(this.props);
         query.dataIn.head.copyValues(this.state.dataIn.current);
+        query.dataIn.head.setValue("i", 0);
         query.add("select Brand_,ShareMode_ from TAppSCMBrand.Search_Brand");
         query.open().then((dataOut: DataSet)=>{
             this.setState({
