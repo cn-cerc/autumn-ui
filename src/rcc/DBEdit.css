@@ -1,0 +1,25 @@
+.dbEdit {
+    display: flex;
+    width: 25%;
+    align-items: center;
+    padding-bottom: .5rem;
+}
+.dbEdit>label {
+    min-width: 5em;
+    max-width: 7em;
+    text-align: left;
+}
+
+.dbEdit>input {
+    min-width: 11.63rem;
+    height: 1.68rem;
+    border-radius: .12rem;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #C2CAD8;
+    padding-left: .6rem;
+}
+
+.dbEdit>input:hover {
+    border: 1px solid #058FCA;
+}

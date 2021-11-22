@@ -3,7 +3,7 @@ import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 
 type propsType = {
-    dataSource: DataSet;
+    dataSet: DataSet;
     children: React.ReactNode[];
 }
 
@@ -25,9 +25,9 @@ export default class DBGrid1 extends React.Component<propsType> {
 
     getBody(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        let ds = this.props.dataSource;
+        let ds = this.props.dataSet;
         let i = 0;
-        for (let row of this.props.dataSource.records) {
+        for (let row of this.props.dataSet.records) {
             items.push(<tr key={++i}>{this.getRow(row)}</tr>)
         }
         return items;

@@ -1,21 +1,18 @@
-import { assertEquals } from "../JUnit";
-import DataBind from "./DataBind";
-import DataControl from "./DataControl";
 import DataSet from "./DataSet";
-import DataSource from "./DataSource";
+import DataSource, { IDataSource } from "./DataSource";
 import FieldDefs from "./FieldDefs";
 import FieldMeta from "./FieldMeta";
 import { RecordState } from "./RecordState";
 
-export default class DataRow implements DataBind, DataSource {
+export default class DataRow implements IDataSource {
     private _dataSet: DataSet;
     private _fieldDefs: FieldDefs;
     private _state: number = RecordState.dsNone;
     private _items: Map<string, any> = new Map<string, any>();
     private _delta: Map<string, any> = new Map<string, any>();
     //提供数据绑定服务
-    private _bindControls: Set<DataControl> = new Set<DataControl>();
-    private _bindEnabled: boolean = true;
+    // private _bindControls: Set<DataControl> = new Set<DataControl>();
+    // private _bindEnabled: boolean = true;
 
     constructor(dataSet: DataSet = null) {
         if (dataSet) {
@@ -24,6 +21,10 @@ export default class DataRow implements DataBind, DataSource {
         } else {
             this._fieldDefs = new FieldDefs();
         }
+    }
+
+    asDataSource(): DataSource {
+        return new DataSource([this]);
     }
 
     set state(recordState: number) {
@@ -51,8 +52,7 @@ export default class DataRow implements DataBind, DataSource {
 
         this._items.set(field, value);
 
-        if (this.bindEnabled)
-            this.refreshBind();
+        // if (this.bindEnabled) this.refreshBind();
 
         return this;
     }
@@ -179,21 +179,22 @@ export default class DataRow implements DataBind, DataSource {
 
     get dataSet(): DataSet { return this._dataSet }
 
-    registerBind(client: DataControl, register: boolean = true): void {
-        if (register)
-            this._bindControls.add(client);
-        else
-            this._bindControls.delete(client);
-    }
-    refreshBind(content: any = undefined): void {
-        if (this._bindEnabled) {
-            this._bindControls.forEach(child => {
-                child.doChange(content);
-            });
-        }
-    }
-    get bindEnabled(): boolean { return this._bindEnabled };
-    setBindEnabled(value: boolean): DataRow { this._bindEnabled = value; return this; }
+    // interfact DataBind
+    // registerBind(client: DataControl, register: boolean = true): void {
+    //     if (register)
+    //         this._bindControls.add(client);
+    //     else
+    //         this._bindControls.delete(client);
+    // }
+    // refreshBind(content: any = undefined): void {
+    //     if (this._bindEnabled) {
+    //         this._bindControls.forEach(child => {
+    //             child.doChange(content);
+    //         });
+    //     }
+    // }
+    // get bindEnabled(): boolean { return this._bindEnabled };
+    // setBindEnabled(value: boolean): DataRow { this._bindEnabled = value; return this; }
 
     get current(): DataRow {
         return this;

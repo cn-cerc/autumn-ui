@@ -1,13 +1,13 @@
-.dbgrid {
+.main {
     height: 0;
     flex: 1;
-    overflow: auto;
+    /* overflow: auto; */
     margin-top: .5rem;
     background-color: #fff;
     border-radius: .25rem;
 }
 
-.dbgrid table {
+.main table {
     width: 100%;
     background-color: #fff;
     border-spacing: 0;
@@ -15,21 +15,21 @@
     margin-top: 0;
 }
 
-.dbgrid table tr {
+.main table tr {
     height: 2.45rem;
 }
 
-.dbgrid table th {
+.main table th {
     border: 1px solid #eeeeee;
     background-color: #eaeaea;
     padding: .25rem;
-    position: sticky;
+    /* position: sticky; */
     top: -1px;
     line-height: 1.2rem;
     font-weight: normal;
 }
 
-.dbgrid tr>th:not(tr>th:last-child):before {
+.main tr>th:not(tr>th:last-child):before {
     content: "";
     position: absolute;
     right: -1px;
@@ -40,9 +40,18 @@
     z-index: 10;
 }
 
-.dbgrid table td {
+.main table td {
     line-height: 1.6em;
     border: 1px solid #eeeeee;
     padding: 0 .2em;
     cursor: pointer;
+}
+
+.main input {
+    width: 90%;
+    margin: 0 auto;
+    height: 1.5rem;
+    border: 1px solid #C2CAD8;
+    border-radius: .12rem;
+    outline: none;
 }

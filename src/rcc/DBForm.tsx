@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, ReactNode } from "react";
+import React, { MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSource from "../db/DataSource";
 import FieldMeta from "../db/FieldMeta";
@@ -23,7 +23,7 @@ export default class DBForm extends React.Component<propsType, stateType> {
     buttonClick: MouseEventHandler<HTMLButtonElement> = (sender: any) => {
         sender.preventDefault();
         if (this.props.onSubmit)
-            this.props.onSubmit(this.state.dataSource.current);
+            this.props.onSubmit(this.state.dataSource.first);
     }
 
     onChanged: OnFieldChangedEvent = (meta: FieldMeta) => {
@@ -31,7 +31,7 @@ export default class DBForm extends React.Component<propsType, stateType> {
     }
 
     render() {
-        let row = this.state.dataSource.current;
+        let row = this.state.dataSource.first;
         return (
             <form>
                 {this.getItems().map(item => item)}
@@ -42,9 +42,9 @@ export default class DBForm extends React.Component<propsType, stateType> {
 
     getItems(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        for (let meta of this.state.dataSource.current.fieldDefs.fields) {
+        for (let meta of this.state.dataSource.first.fieldDefs.fields) {
             items.push(
-                <DBEdit key={meta.code} dataSource={this.state.dataSource} dataField={meta.code} dataName={meta.name} placeholder={meta.remark} onChanged={this.onChanged} />
+                <DBEdit key={meta.code} dataRow={this.state.dataSource.first} dataField={meta.code} dataName={meta.name} placeholder={meta.remark} onChanged={this.onChanged} />
             )
         }
         return items;

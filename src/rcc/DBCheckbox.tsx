@@ -1,11 +1,11 @@
 import React from "react";
-import DataSource from "../db/DataSource";
+import DataRow from "../db/DataRow";
 import FieldMeta from "../db/FieldMeta";
 
 export type OnChangedEvent = (meta: FieldMeta) => void;
 
 type PropsType = {
-    dataSource: DataSource;
+    dataRow: DataRow;
     dataField: string;
     dataName: string;
     onChanged: OnChangedEvent;
@@ -18,10 +18,9 @@ export default class DBCheckbox extends React.Component<PropsType> {
     }
 
     render() {
-        let ds = this.props.dataSource;
-        if (!ds)
+        let row = this.props.dataRow;
+        if (!row)
             return null;
-        let row = this.props.dataSource.current;
         let value = false;
         if (row)
             value = row.getBoolean(this.props.dataField);
@@ -40,9 +39,9 @@ export default class DBCheckbox extends React.Component<PropsType> {
 
     onChange = (sender: any) => {
         let el: HTMLInputElement = sender.target;
-        let row = this.props.dataSource.current;
+        let row = this.props.dataRow;
         row.setValue(this.props.dataField, !row.getBoolean(this.props.dataField));
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataSource.current.fieldDefs.get(el.name));
+            this.props.onChanged(this.props.dataRow.fieldDefs.get(el.name));
     }
 }

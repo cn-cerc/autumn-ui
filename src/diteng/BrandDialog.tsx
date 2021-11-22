@@ -82,7 +82,7 @@ export default class BrandDialog extends React.Component<propsType, stateType> {
         return (
             <div className={styles.brandDialog}>
                 <form method="post" className={styles.search} style={{ minHeight: '4em' }}>
-                    <DBEdit dataSource={this.state.dataIn} dataField={'SearchText_'} dataName='品牌查询'
+                    <DBEdit dataRow={this.state.dataIn} dataField={'SearchText_'} dataName='品牌查询'
                         onChanged={()=>this.update()} placeholder='请输入查询条件' autoFocus={true} />
                     <input type="submit" name="submit" onClick={(e)=>this.handleSubmit(e)} value="查询" style={{ height: '1.75rem' }} />
                 </form>

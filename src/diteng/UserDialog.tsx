@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
@@ -50,7 +50,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
                 </div>
                 <div className="window">
                     <form method="post" className="search" style={{ minHeight: '4em' }}>
-                        <DBEdit dataSource={this.state.dataIn} dataField={'SearchText_'} dataName=''
+                        <DBEdit dataRow={this.state.dataIn} dataField={'SearchText_'} dataName=''
                             onChanged={this.update} placeholder='请输入查询条件' autoFocus={true} />
                         <input type="submit" name="submit" onClick={this.buttonClick} value="查询" style={{ height: '1.75rem' }} />
                     </form>

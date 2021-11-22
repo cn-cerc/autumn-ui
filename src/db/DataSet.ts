@@ -1,12 +1,10 @@
 import DataRow from './DataRow';
+import DataSource, { IDataSource } from './DataSource';
 import FieldDefs from './FieldDefs';
 import FieldMeta from './FieldMeta';
 import SearchDataSet from './SearchDataSet';
-import DataBind from './DataBind';
-import DataControl from './DataControl';
-import DataSource from './DataSource';
 
-export default class DataSet implements DataBind, DataSource {
+export default class DataSet implements IDataSource {
     private _recNo: number = 0;
     private _fetchNo: number = -1;
     private _state: number = 0;
@@ -18,8 +16,8 @@ export default class DataSet implements DataBind, DataSource {
     private _records: DataRow[] = [];
     private _search: SearchDataSet;
     //提供数据绑定服务
-    private _bindControls: Set<DataControl> = new Set<DataControl>();
-    private _bindEnabled: boolean = true;
+    // private _bindControls: Set<DataControl> = new Set<DataControl>();
+    // private _bindEnabled: boolean = true;
 
     constructor(props: any = null) {
         if (props) {
@@ -29,6 +27,10 @@ export default class DataSet implements DataBind, DataSource {
             if (message)
                 this._message = message;
         }
+    }
+
+    asDataSource(): DataSource {
+        return new DataSource(this.records);
     }
 
     get current(): DataRow {
@@ -57,7 +59,7 @@ export default class DataSet implements DataBind, DataSource {
                 cur = 0;
 
             this.setRecNo(cur);
-            this.refreshBind({ size: true });
+            // this.refreshBind({ size: true });
         }
     }
 
@@ -106,7 +108,7 @@ export default class DataSet implements DataBind, DataSource {
             throw new Error(`RecNo ${this._recNo} 不允许小于零`)
         } else if (this._recNo != recNo) {
             this._recNo = recNo;
-            this.refreshBind({ recNo: true });
+            // this.refreshBind({ recNo: true });
         }
         return this;
     }
@@ -401,12 +403,12 @@ export default class DataSet implements DataBind, DataSource {
             this.head.setValue(meta.code, source.head.getValue(meta.code))
         })
         //保存当前状态
-        let srcEnable = source.bindEnabled;
+        // let srcEnable = source.bindEnabled;
         let srcRecNo = source.recNo;
-        let tarEnable = this.bindEnabled;
+        // let tarEnable = this.bindEnabled;
         //开始复制
-        source.setBindEnabled(false);
-        this.setBindEnabled(false);
+        // source.setBindEnabled(false);
+        // this.setBindEnabled(false);
         source.first();
         while (source.fetch()) {
             this.append();
@@ -416,8 +418,8 @@ export default class DataSet implements DataBind, DataSource {
         }
         //恢复状态
         source.setRecNo(srcRecNo);
-        source.setBindEnabled(srcEnable);
-        this.setBindEnabled(tarEnable);
+        // source.setBindEnabled(srcEnable);
+        // this.setBindEnabled(tarEnable);
     }
 
     forEach(fn: (row: DataRow) => void) {
@@ -425,21 +427,22 @@ export default class DataSet implements DataBind, DataSource {
             fn.call(this, row);
     }
 
-    registerBind(client: DataControl, register: boolean = true): void {
-        if (register)
-            this._bindControls.add(client);
-        else
-            this._bindControls.delete(client);
-    }
-    refreshBind(content: any = undefined): void {
-        if (this._bindEnabled) {
-            this._bindControls.forEach(child => {
-                child.doChange(content);
-            });
-        }
-    }
-    get bindEnabled(): boolean { return this._bindEnabled };
-    setBindEnabled(value: boolean): DataSet { this._bindEnabled = value; return this; }
+    // interfact DataBind
+    // registerBind(client: DataControl, register: boolean = true): void {
+    //     if (register)
+    //         this._bindControls.add(client);
+    //     else
+    //         this._bindControls.delete(client);
+    // }
+    // refreshBind(content: any = undefined): void {
+    //     if (this._bindEnabled) {
+    //         this._bindControls.forEach(child => {
+    //             child.doChange(content);
+    //         });
+    //     }
+    // }
+    // get bindEnabled(): boolean { return this._bindEnabled };
+    // setBindEnabled(value: boolean): DataSet { this._bindEnabled = value; return this; }
 
     getPromise(): Promise<DataSet> {
         return new Promise<DataSet>((resolve, reject) => {

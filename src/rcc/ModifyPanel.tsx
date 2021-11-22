@@ -2,7 +2,7 @@ import React, { isValidElement, MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import FieldMeta from "../db/FieldMeta";
 import { OnFieldChangedEvent } from "./DBEdit";
-import styles from './SearchPanel.css';
+import styles from './ModifyPanel.css';
 import WebControl from "./WebControl";
 
 type propsType = {
@@ -14,7 +14,7 @@ type stateType = {
     dataRow: DataRow;
 }
 
-export default class SearchPanel extends WebControl<propsType, stateType> {
+export default class ModifyPanel extends WebControl<propsType, stateType> {
 
     constructor(props: propsType) {
         super(props);
@@ -24,8 +24,13 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
     render() {
         return (
             <div className={styles.main}>
-                <div className={styles.search}>{this.getItems()}</div>
-                <button onClick={this.btnExecute}>查询</button>
+                <div className={styles.head}>{this.getItems()}</div>
+                <div className={styles.opera}>
+                    <button onClick={this.btnExecute}>保存</button>
+                    <button onClick={this.btnExecute}>生效</button>
+                    <button onClick={this.btnExecute}>撤消</button>
+                    <button onClick={this.btnExecute}>作废</button>
+                </div>
             </div>
         )
     }
@@ -53,8 +58,4 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
         if (this.props.onExecute)
             this.props.onExecute(this.state.dataRow);
     }
-}
-
-export interface ISearchItem {
-    setDataSource(value: DataRow): Object;
 }

@@ -1,16 +1,13 @@
 import React, { isValidElement } from "react";
 import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import DataSource from "../db/DataSource";
 import FieldMeta from "../db/FieldMeta";
 import { OnSelectDataRowEvent } from "./DialogComponent";
-import { DialogForm, OnSelectDataSetEvent } from "./DialogForm";
-import { ISearchItem } from "./SearchPanel";
+import styles from "./DBEdit.css"
 
 export type OnFieldChangedEvent = (meta: FieldMeta) => void;
 
 type PropsType = {
-    dataSource?: DataSource;
+    dataRow?: DataRow;
     dataField: string;
     dataName?: string;
     placeholder?: string;
@@ -33,8 +30,8 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
     constructor(props: PropsType) {
         super(props);
         let row
-        if (props.dataSource != undefined)
-            row = props.dataSource.current
+        if (props.dataRow != undefined)
+            row = props.dataRow
         else
             row = new DataRow()
         this.state = { row }
@@ -47,7 +44,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}：</label>)
 
         return (
-            <span>
+            <span className={styles.dbEdit}>
                 {dataName}
                 <input type="text" autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
@@ -66,7 +63,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
         this.state.row.setValue(this.props.dataField, el.value);
         this.setState(this.state);
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataSource.current.fieldDefs.get(el.name));
+            this.props.onChanged(this.props.dataRow.fieldDefs.get(el.name));
     }
 
     onDialogSelect: OnSelectDataRowEvent = (values: DataRow) => {
@@ -76,7 +73,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
         this.state.row.setValue(this.props.dataField, value);
         this.setState(this.state);
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataSource.current.fieldDefs.get(this.props.dataField));
+            this.props.onChanged(this.props.dataRow.fieldDefs.get(this.props.dataField));
     }
 
 }

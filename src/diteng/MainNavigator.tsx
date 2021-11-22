@@ -17,8 +17,8 @@ export default class MainNavigator extends React.Component {
                 <div className={styles.navigatorCenter}>
                     <div className={styles.menuPath}>
                         <MenuItem code='index' name='首页' />
-                        {this.getMenus().map(item => item)}
-                        <MenuItem code={menuCode} name={menuName} />
+                        {this.getMenus()}
+                        <MenuItem code={menuCode} name={menuName} last={true}/>
                     </div>
                     <MainSearch />
                 </div>

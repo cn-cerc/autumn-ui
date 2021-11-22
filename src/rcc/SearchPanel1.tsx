@@ -1,18 +1,19 @@
 import React from "react";
-import DataSource from "../db/DataSource";
+import DataRow from "../db/DataRow";
+import styles from './SearchPanel1.css'
 
 type propsType = {
-    dataSource: DataSource;
+    dataRow: DataRow;
 }
 
-export default class TSearchPanel extends React.Component<propsType> {
+export default class SearchPanel1 extends React.Component<propsType> {
     constructor(props: propsType) {
         super(props);
     }
 
     render() {
         return (
-            <div className="TSearchPanel">
+            <div className={styles.main}>
                 {React.Children.map(this.props.children, (child, index) => {
                     return child;
                 })}

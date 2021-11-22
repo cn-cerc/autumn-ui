@@ -1,4 +1,5 @@
 import React from "react";
+import AccCodeLists from "../../AccCodeLists";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import { ClientSite, ListGrid, OnListFilterEvent } from "../rcc/ComboBox";
@@ -11,6 +12,7 @@ type TypeProps = {
     style?: object;
     filterText?: string;
     onSelect?: OnSelectDataRowEvent;
+    showTable?: boolean
 }
 
 type TypeState = {
@@ -23,22 +25,18 @@ export default class ListAccCode extends React.Component<TypeProps, TypeState> {
 
     constructor(props: TypeProps) {
         super(props);
-        let dataSet = new DataSet();
-        dataSet.append().setValue('code_', '1001').setValue('name_', '固定资产');
-        dataSet.append().setValue('code_', '1001-001').setValue('name_', '固定资产-办公设备');
-        dataSet.append().setValue('code_', '1002').setValue('name_', '流动资产');
-        dataSet.append().setValue('code_', '1002-001').setValue('name_', '流动资产-现金');
-        dataSet.append().setValue('code_', '1002-002').setValue('name_', '流动资产-银行存款');
-        this.state = { dataSet, active: this.props.site.left > -1 }
+        let lists = new AccCodeLists();
+        this.state = { dataSet: lists.dataSet, active: this.props.site.left > -1 }
     }
 
     render() {
+        console.log(this.props)
         let style = { ...this.props.site };
         if (!this.state.active)
             return null;
         return (
-            <div className={styles.main} style={style}>
-                <ListGrid dataSource={this.state.dataSet} onFilter={this.onFilter} onRowClick={this.onRowClick}>
+            <div className={styles.main} style={Object.assign({'display': this.props.showTable ? 'block' : 'none'}, style)}>
+                <ListGrid dataSet={this.state.dataSet} onFilter={this.onFilter} onRowClick={this.onRowClick}>
                     <Column code='code_' name='会计科目' width='10'></Column>
                     <Column code='name_' name='科目名称' width='20'></Column>
                 </ListGrid>
@@ -58,6 +56,7 @@ export default class ListAccCode extends React.Component<TypeProps, TypeState> {
     onRowClick: OnRowClickEvent = (row: DataRow) => {
         if (this.props.onSelect)
             this.props.onSelect(row);
+        console.log("我触发了")
         this.setState({ ...this.state, active: false })
     }
 

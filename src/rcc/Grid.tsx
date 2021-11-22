@@ -36,7 +36,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     render() {
         return (
-            <div className={styles.dbgrid}>
+            <div className={styles.main}>
                 <table>
                     <tbody>
                         <tr>{this.getTitles().map(item => item)}</tr>
@@ -87,15 +87,15 @@ export default class Grid extends React.Component<PropsType, stateType> {
         return items;
     }
 
-    getMasterRow(row: DataRow) {
-        let key = "master_" + row.dataSet.recNo;
+    getMasterRow(dataRow: DataRow) {
+        let key = "master_" + dataRow.dataSet.recNo;
         let items: any[] = [];
         for (let column of this.props.config.columns) {
             if (column.visible) {
                 if (column.onRender) {
-                    items.push(<td key={column.code} role={column.code}>{column.onRender(column, row)}</td>);
+                    items.push(<td key={column.code} role={column.code}>{column.onRender(column, dataRow)}</td>);
                 } else {
-                    let value = row.getText(column.code);
+                    let value = dataRow.getText(column.code);
                     let style = {}
                     if (column.align)
                         style = { ...style, textAlign: column.align };
@@ -103,16 +103,16 @@ export default class Grid extends React.Component<PropsType, stateType> {
                 }
             }
         }
-        return <tr key={key} id={`tr${row.dataSet.recNo}`}>{items}</tr>;
+        return <tr key={key} id={`tr${dataRow.dataSet.recNo}`}>{items}</tr>;
     }
 
-    getChildRow(child: TGridConfig, row: DataRow) {
-        child.setCurrent(row);
-        let key = "child_" + row.dataSet.recNo;
+    getChildRow(child: TGridConfig, dataRow: DataRow) {
+        child.setCurrent(dataRow);
+        let key = "child_" + dataRow.dataSet.recNo;
         let value: string = "";
         for (let column of child.columns) {
             if (column.visible) {
-                let text = row.getText(column.code);
+                let text = dataRow.getText(column.code);
                 if (text)
                     value = value + column.name + ": " + text + " ";
             }
@@ -127,7 +127,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
             style = { display: 'none' };
 
         let colSpan = this.props.config.columns.length;
-        let id = `tr${row.dataSet.recNo}_1`;
+        let id = `tr${dataRow.dataSet.recNo}_1`;
         return (<tr key={key} id={id} style={style}>
             <td colSpan={colSpan}>{value}</td>
         </tr>);

@@ -6,7 +6,7 @@ import { Column, ColumnType } from "./DBGrid";
 import styles from './Block.css';
 
 type propsType = {
-    dataSource?: DataSet;
+    dataSet?: DataSet;
     readOnly?: boolean;
 }
 
@@ -22,7 +22,7 @@ export default class Block extends Control<propsType> {
 
     getRows(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        for (let row of this.props.dataSource.records) {
+        for (let row of this.props.dataSet.records) {
             items.push(<div className={styles.row} key={items.length}>{this.getLines(row).map(item => item)}</div>)
         }
         return items;

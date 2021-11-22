@@ -24,7 +24,7 @@ export default class TGrid extends TTable implements DataControl {
 
     setDataSet(dataSet: DataSet): TGrid {
         this._dataSet = dataSet;
-        dataSet.registerBind(this);
+        // dataSet.registerBind(this);
         return this;
     }
 
@@ -55,8 +55,8 @@ export default class TGrid extends TTable implements DataControl {
 
         //再输出表格数据
         if (this._dataSet) {
-            let enable = this._dataSet.bindEnabled;
-            this._dataSet.setBindEnabled(false);
+            // let enable = this._dataSet.bindEnabled;
+            // this._dataSet.setBindEnabled(false);
             let recNo = this._dataSet.recNo;
             this._dataSet.first();
             while (this._dataSet.fetch()) {
@@ -67,7 +67,7 @@ export default class TGrid extends TTable implements DataControl {
                 });
             }
             this._dataSet.setRecNo(recNo);
-            this._dataSet.setBindEnabled(enable);
+            // this._dataSet.setBindEnabled(enable);
         }
 
         this.endOutput(html);

@@ -1,16 +1,16 @@
-.MainMenu {
+.main {
     width: 15.37rem;
 }
 
-.MainMenu>img {
+.main>img {
     height: 2rem;
 }
 
-.MainMenu>ul {
+.main>ul {
     list-style: none;
 }
 
-.MainMenu .title {
+.main .title {
     position: relative;
     padding-left: 4.3rem;
     line-height: 3.5rem;
@@ -20,7 +20,7 @@
     cursor: pointer;
 }
 
-.MainMenu .title::after {
+.main .title::after {
     width: 1rem;
     height: 1rem;
     background-size: 1rem 1rem;
@@ -31,7 +31,7 @@
     background-image: url(https://www.diteng.site/911001/images/webdefault/menuList_icon.png);
 }
 
-.MainMenu section>ul>li {
+.menuItem {
     padding-left: 4.4rem;
     position: relative;
     cursor: pointer;
@@ -42,17 +42,17 @@
     position: relative;
 }
 
-.MainMenu section>ul>li:hover {
+.menuItem:hover {
     background-color: #fff;
     border-right: .28rem solid #3273F4;
 }
 
-.MainMenu section li img {
+.menuItem img {
     width: 1.4rem;
     margin-right: .56rem;
 }
 
-.MainMenu section li a {
+.menuItem a {
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 60%;
@@ -60,7 +60,7 @@
     text-decoration: none;
 }
 
-.MainMenu section li a::after {
+.menuItem a::after {
     position: absolute;
     content: "";
     left: 0;

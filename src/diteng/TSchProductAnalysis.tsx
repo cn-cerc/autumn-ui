@@ -37,7 +37,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
 
     constructor(props: propsType) {
         super(props);
-
+ 
         // 初始化查询数据
         let value = sessionStorage.getItem(SEARCH_SESSION_KEY);
         if (value) {

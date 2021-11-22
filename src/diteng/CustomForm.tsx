@@ -11,8 +11,9 @@ import styles from './CustomForm.css';
 import classNames from "../../node_modules/classnames/index";
 
 export type CustomFormPropsType = {
-    title: string;
     token?: string;
+    title: string;
+    className?: string;
 } & Partial<BaseFormPropsType>;
 
 export type CustomFormStateType = {
@@ -37,7 +38,7 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
                 <MainNavigator >
                     {this.getMenus()}
                 </MainNavigator>
-                <div className={classNames(styles.main_content, this.isPhone ? styles.main_phone : styles.main_pc)}>
+                <div className={classNames(this.props.className, styles.main_content, this.isPhone ? styles.main_phone : styles.main_pc)}>
                     {this.getToolPanel()}
                     <div className={styles.content}>
                         <MainMessage message={this.state.message} />
@@ -102,7 +103,6 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
 
     getContentComponents(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        console.log(this.props.children)
         React.Children.map(this.props.children, (child) => {
             if (isValidElement(child)) {
                 if (child.type == MenuItem) return;

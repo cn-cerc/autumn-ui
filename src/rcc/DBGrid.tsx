@@ -9,7 +9,7 @@ export type OnDataSetChangedEvvent = (dataSet: DataSet) => void;
 export type OnRowClickEvent = (row: DataRow) => void;
 
 type DBGridProps = {
-    dataSource: DataSet;
+    dataSet: DataSet;
     readOnly?: boolean;
     onChanged?: OnDataSetChangedEvvent;
     onRowClick?: OnRowClickEvent;
@@ -19,7 +19,7 @@ type DBGridState = {
     dataSet: DataSet;
 }
 
-export type OnDataRowChangedEvent = (recNo: number, field: string, value: object) => void;
+export type OnDataRowChangedEvent = (recNo: number, field: string, value: string) => void;
 
 export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
     static defaultProps = {
@@ -27,15 +27,15 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
     }
     constructor(props: DBGridProps) {
         super(props);
-        this.state = { dataSet: this.props.dataSource }
+        this.state = { dataSet: this.props.dataSet }
     }
 
     render() {
         return (
-            <div className={styles.dbgrid}>
+            <div className={styles.main}>
                 <table className={styles.grid}>
                     <tbody>
-                        <tr key='head'>{this.getHead().map(item => item)}</tr>
+                        <tr key='head'>{this.getHead()}</tr>
                         {this.getRows().map(item => item)}
                     </tbody>
                 </table>
@@ -55,21 +55,22 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
     getRows(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         let recNo = 0;
-        for (let row of this.state.dataSet.records) {
+        for (let dataRow of this.state.dataSet.records) {
             recNo++;
+            //输出主行
             items.push(
                 <tr key={items.length} onClick={this.onTrClick}>
-                    {this.getRow(row, recNo).map(item => item)}
+                    {this.getRow(dataRow, recNo).map(item => item)}
                 </tr>
             )
 
+            //输出子行 
             let colSpan = 0;
             React.Children.map(this.props.children, child => {
                 if (isValidElement(child) && child.type == Column) {
                     colSpan++;
                 }
             })
-
             let total = 0;
             React.Children.map(this.props.children, child => {
                 if (isValidElement(child) && child.type == ChildRow) {
@@ -77,7 +78,7 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
                     let key: string = `${items.length}.${total}`;
                     items.push(
                         <tr key={key} onClick={this.onTrClick}>
-                            {React.cloneElement(child, { key: child.props.code, colSpan, row })}
+                            {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
                 }
@@ -102,19 +103,19 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
         this.props.onRowClick(row)
     }
 
-    getRow(row: DataRow, recNo: number): React.ReactNode[] {
+    getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Column)
                 items.push(React.cloneElement(child, {
-                    tag: ColumnType.td, key: child.props.code, row, recNo,
-                    onChanged: this.onChanged
+                    tag: ColumnType.td, key: child.props.code, dataRow, recNo,
+                    onChangedOwner: this.onChanged
                 }));
         })
         return items;
     }
 
-    onChanged: OnDataRowChangedEvent = (recNo: number, field: string, value: object) => {
+    onChanged: OnDataRowChangedEvent = (recNo: number, field: string, value: string) => {
         this.state.dataSet.setRecNo(recNo);
         this.state.dataSet.setValue(field, value);
         if (this.props.onChanged)
@@ -128,17 +129,18 @@ export enum ColumnType {
 
 type ColumnPropsType = {
     tag?: ColumnType;
-    row?: DataRow;
+    dataRow?: DataRow;
     recNo?: number;
     code: string;
     name: string;
     width: string;
     colSpan?: number;
     onChanged?: OnDataRowChangedEvent;
+    onChangedOwner?: OnDataRowChangedEvent;
 }
 
 type ColumnStateType = {
-    row: DataRow;
+    dataRow: DataRow;
 }
 
 export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
@@ -149,7 +151,7 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
 
     constructor(props: ColumnPropsType) {
         super(props)
-        this.state = { row: this.props.row }
+        this.state = { dataRow: this.props.dataRow }
     }
 
     render() {
@@ -163,8 +165,8 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
             }
             case ColumnType.span: {
                 let value = '';
-                if (this.props.row)
-                    value = this.props.row.getString(this.props.code);
+                if (this.props.dataRow)
+                    value = this.props.dataRow.getString(this.props.code);
                 let text = `${this.props.name}：${value}`;
                 return (
                     <span className={styles.column}>{text}</span>
@@ -186,8 +188,8 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
     getValue(): React.ReactNode {
         if (!this.props.children) {
             let value = '';
-            if (this.props.row)
-                value = this.props.row.getString(this.props.code);
+            if (this.props.dataRow)
+                value = this.props.dataRow.getString(this.props.code);
             return value;
         }
         return (
@@ -202,7 +204,7 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
         React.Children.map(this.props.children, child => {
             if (isValidElement(child))
                 items.push(React.cloneElement(child, {
-                    key: items.length, dataSource: this.state.row,
+                    key: items.length, dataRow: this.state.dataRow,
                     onChanged: this.onChanged
                 }))
         })
@@ -211,14 +213,18 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
 
     onChanged: OnFieldChangedEvent = (meta: FieldMeta) => {
         this.setState(this.state);
-        if (this.props.row && this.props.onChanged && this.props.recNo)
-            this.props.onChanged(this.props.recNo, meta.code, this.state.row.getValue(meta.code));
+        if (this.props.dataRow && this.props.recNo) {
+            if (this.props.onChangedOwner)
+                this.props.onChangedOwner(this.props.recNo, meta.code, this.state.dataRow.getValue(meta.code));
+            if (this.props.onChanged)
+                this.props.onChanged(this.props.recNo, meta.code, this.state.dataRow.getValue(meta.code));
+        }
     }
 
 }
 
 type ChildRowPropsType = {
-    row?: DataRow;
+    dataRow?: DataRow;
     colSpan?: number;
 }
 
@@ -228,7 +234,8 @@ export class ChildRow extends React.Component<ChildRowPropsType> {
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Column)
                 items.push(React.cloneElement(child, {
-                    tag: ColumnType.td, key: child.props.code, row: this.props.row, colSpan: this.props.colSpan
+                    tag: ColumnType.td, key: child.props.code, dataRow: this.props.dataRow,
+                    colSpan: this.props.colSpan
                 }));
         })
         return items;

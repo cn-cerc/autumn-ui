@@ -1,13 +1,13 @@
-import React, { ChangeEventHandler, MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import DBCheckbox from "../rcc/DBCheckbox";
 import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
-import { showMsg } from "./Summer";
 import { TGridColumn, TGridConfig } from "../vcl/TGrid";
-import styles from './CusDialog.css'
+import styles from './CusDialog.css';
+import { showMsg } from "./Summer";
 
 type propsType = {
     token: string;
@@ -81,20 +81,20 @@ export default class CusDialog extends React.Component<propsType, stateType> {
                 <div className={styles.window}>
                     <form method="post" className={styles.search}>
                         <div className={styles.left}>
-                            <DBEdit dataSource={this.state.dataIn} dataField={'SearchText_'} dataName='查询条件'
+                            <DBEdit dataRow={this.state.dataIn} dataField={'SearchText_'} dataName='查询条件'
                                 onChanged={this.updateDataIn} placeholder='请输入查询条件' autoFocus={true} />
 
-                            <DBEdit dataSource={this.state.dataIn} dataField={'MaxRecord_'} dataName='载入笔数'
+                            <DBEdit dataRow={this.state.dataIn} dataField={'MaxRecord_'} dataName='载入笔数'
                                 onChanged={this.updateDataIn} placeholder='请输载入笔数' />
                         </div>
                         <input type="submit" name="submit" onClick={this.buttonClick} value="查询" style={{ height: '1.75rem' }} />
-                        <DBCheckbox dataSource={this.state.dataIn} dataField={'isObjType'} dataName='客户分类'
+                        <DBCheckbox dataRow={this.state.dataIn} dataField={'isObjType'} dataName='客户分类'
                             onChanged={this.updateObjType} />
 
-                        <DBCheckbox dataSource={this.state.dataIn} dataField={'isName'} dataName='客户全称'
+                        <DBCheckbox dataRow={this.state.dataIn} dataField={'isName'} dataName='客户全称'
                             onChanged={this.updateDataIn} />
 
-                        <DBCheckbox dataSource={this.state.dataIn} dataField={'isAddress'} dataName='客户地址'
+                        <DBCheckbox dataRow={this.state.dataIn} dataField={'isAddress'} dataName='客户地址'
                             onChanged={this.updateDataIn} />
 
                         <section className={styles.operction}>

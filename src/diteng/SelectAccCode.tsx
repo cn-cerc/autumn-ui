@@ -1,4 +1,5 @@
 import React from "react";
+import AccCodeLists from "../../AccCodeLists";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import DBGrid, { Column, OnRowClickEvent } from "../rcc/DBGrid";
@@ -18,17 +19,14 @@ export default class SelectAccCode extends DialogComponent<DialogComponentProps,
 
     constructor(props: DialogComponentProps) {
         super(props);
-        let dataSet = new DataSet();
-        dataSet.append().setValue('code_', '1001').setValue('name_', '固定资产');
-        dataSet.append().setValue('code_', '1002').setValue('name_', '流动资产');
-        this.state = { dataSet }
+        this.state = { dataSet: new AccCodeLists().dataSet }
     }
 
     render() {
         return (
             <DialogForm title={this.props.title} style={this.props.style}
                 active={this.active} setActive={this.setActive}>
-                <DBGrid dataSource={this.state.dataSet} onRowClick={this.onRowClick}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.onRowClick}>
                     <Column code='code_' name='会计科目' width='10'></Column>
                     <Column code='name_' name='科目名称' width='20'></Column>
                 </DBGrid>
@@ -37,6 +35,8 @@ export default class SelectAccCode extends DialogComponent<DialogComponentProps,
     }
 
     onRowClick: OnRowClickEvent = (row: DataRow) => {
+        
+        console.log("我触发了点击选中事件")
         if (this.props.onSelect)
             this.props.onSelect(row);
         this.setActive(false);

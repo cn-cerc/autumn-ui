@@ -1,12 +1,8 @@
 import React, { MouseEventHandler } from "react";
-import classNames from "../../node_modules/classnames/index";
-import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import styles from './MainMenu.css';
 
-type propsType = {
-
-}
+type propsType = {}
 
 type stateType = {
     dataSet: DataSet;
@@ -40,7 +36,7 @@ export default class MainMenu extends React.Component<propsType, stateType> {
 
     render() {
         return (
-            <div className={styles.MainMenu}>
+            <div className={styles.main}>
                 {this.getGroups()}
             </div>
         )
@@ -67,7 +63,7 @@ export default class MainMenu extends React.Component<propsType, stateType> {
                     <div key={group} role={group} className={styles.title} onClick={this.groupClick}>
                         {value}
                     </div>
-                    <ul key={group}>
+                    <ul key={group + '.2'}>
                         {this.getGroup(group)}
                     </ul>
                 </section>
@@ -86,7 +82,7 @@ export default class MainMenu extends React.Component<propsType, stateType> {
             let menuName = item.getString('name');
             let menuIcon = `https://www.diteng.site/911001/images/module/${menuCode}.png`;
             items.push(
-                <li key={i++} role={menuCode}>
+                <li key={i++} className={styles.menuItem} role={menuCode}>
                     <img src={menuIcon} />
                     <a href={menuCode}>{menuName}</a>
                 </li>
@@ -97,6 +93,23 @@ export default class MainMenu extends React.Component<propsType, stateType> {
 
     groupClick: MouseEventHandler<HTMLElement> = (sender: any) => {
         let el: HTMLElement = sender.target;
+        // 菜单收起和展开逻辑
+        let ul = $(el).siblings();
+        let section = $(el).closest("section");
+        if(section.hasClass("shrunk")) {
+            section.removeClass("shrunk").css({
+                "overflow": "inherit"
+            }).stop().animate({
+                "height": $(el).height() + ul.height()
+            }, 500)
+        } else {
+            section.addClass("shrunk").stop().css({
+                "overflow": "hidden"
+            }).animate({
+                "height": $(el).height()
+            }, 500)
+        }
+
         let current = el.getAttribute('role');
         this.setState({ ...this.state, current })
     }
