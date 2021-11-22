@@ -12,7 +12,7 @@ export default class MenuItem extends WebControl<propsType> {
 
     render() {
         return (
-            <span className={styles.menu}>
+            <span className={styles.main}>
                 <a href={this.props.code}>{this.props.name}</a>
                 {!this.props.last? <i style={{"padding": "0 .25rem"}}>{`->`}</i> : ''}
             </span>

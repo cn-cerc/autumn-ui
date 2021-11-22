@@ -44,7 +44,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}：</label>)
 
         return (
-            <span className={styles.dbEdit}>
+            <span className={styles.main}>
                 {dataName}
                 <input type="text" autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}

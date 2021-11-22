@@ -45,19 +45,18 @@ export class DialogForm extends React.Component<DialogFormProps, stateType> {
     }
 
     render() {
-        return (<div className={styles.dialogForm}>
+        return (<div className={styles.main}>
             <button className={styles.btnShow} onClick={this.btnShow}>
                 <img src="https://www.diteng.site/911001/images/searchIocn.png" />
             </button>
             <div className={this.props.active() ? styles.client : styles.clientHidden}
                 style={this.getStyle.bind(this)()}
-                onMouseDown={(e)=>this.handleMouseDown(e)}
                 id="dialogMain"
                 >
                 <div className={styles.main}    >
-                    <div className={styles.title}>
+                    <div className={styles.title} onMouseDown={(e)=>this.handleMouseDown(e)}>
                         <span>{this.props.title}</span>
-                        <span className={styles.btnClose} onClick={this.btnClose}>X</span>
+                        <span className={styles.btnClose} onClick={(e)=>this.btnClose(e)}>X</span>
                     </div>
                     <div className={styles.content}>
                         {React.Children.map(this.props.children, child => {
@@ -94,14 +93,18 @@ export class DialogForm extends React.Component<DialogFormProps, stateType> {
     }
 
     btnClose: any = (sender: any) => {
+        sender.preventDefault();
+        sender.stopPropagation();
         if (this.props.setActive)
             this.props.setActive(false);
     }
 
     handleMouseDown: MouseEventHandler<HTMLDivElement> = (sender: any) => {
-        this.state.move.moving = true;
-        this.state.move.startX = sender.pageX;
-        this.state.move.startY = sender.pageY;
+        if(!$(sender.target).hasClass(styles.btnClose)) {
+            this.state.move.moving = true;
+            this.state.move.startX = sender.pageX;
+            this.state.move.startY = sender.pageY;
+        }
     }
 
     handleMouseMove: any = (sender: any) => {

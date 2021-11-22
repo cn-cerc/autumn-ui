@@ -31,6 +31,9 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
     }
 
     render() {
+        if (this.props.dataSet == undefined)
+            return (<div>props.dataSet is undefined</div>);
+            
         return (
             <div className={styles.main}>
                 <table className={styles.grid}>

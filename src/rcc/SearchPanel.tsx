@@ -5,9 +5,11 @@ import { OnFieldChangedEvent } from "./DBEdit";
 import styles from './SearchPanel.css';
 import WebControl from "./WebControl";
 
+export type SearchPanelOnExecute = (row: DataRow) => void;
+
 type propsType = {
     dataRow: DataRow;
-    onExecute: (row: DataRow) => void;
+    onExecute: SearchPanelOnExecute;
 }
 
 type stateType = {

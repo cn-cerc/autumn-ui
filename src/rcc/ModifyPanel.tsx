@@ -5,9 +5,11 @@ import { OnFieldChangedEvent } from "./DBEdit";
 import styles from './ModifyPanel.css';
 import WebControl from "./WebControl";
 
+export type ModifyOnExecute = (row: DataRow, opera: string) => void;
+
 type propsType = {
     dataRow: DataRow;
-    onExecute: (row: DataRow) => void;
+    onExecute: ModifyOnExecute;
 }
 
 type stateType = {
@@ -26,10 +28,10 @@ export default class ModifyPanel extends WebControl<propsType, stateType> {
             <div className={styles.main}>
                 <div className={styles.head}>{this.getItems()}</div>
                 <div className={styles.opera}>
-                    <button onClick={this.btnExecute}>保存</button>
-                    <button onClick={this.btnExecute}>生效</button>
-                    <button onClick={this.btnExecute}>撤消</button>
-                    <button onClick={this.btnExecute}>作废</button>
+                    <button data-opera='save' onClick={this.btnExecute}>保存</button>
+                    <button data-opera='final' onClick={this.btnExecute}>生效</button>
+                    <button data-opera='unchange' onClick={this.btnExecute}>撤消</button>
+                    <button data-opera='reclace' onClick={this.btnExecute}>作废</button>
                 </div>
             </div>
         )
@@ -55,7 +57,10 @@ export default class ModifyPanel extends WebControl<propsType, stateType> {
     }
 
     btnExecute: MouseEventHandler<HTMLButtonElement> = (sender: any) => {
-        if (this.props.onExecute)
-            this.props.onExecute(this.state.dataRow);
+        let button: HTMLButtonElement = sender.target;
+        let opera = button.dataset.opera;
+        if (this.props.onExecute) {
+            this.props.onExecute(this.state.dataRow, opera);
+        }
     }
 }
