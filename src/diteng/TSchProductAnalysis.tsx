@@ -1,14 +1,11 @@
 //@ts-ignore
-import { all, create } from 'mathjs';
 import React from "react";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { exportUrl } from './ExportConfig';
-import { Loading, showMsg } from "./Summer";
-const config = {}
-const math = create(all, config);
+import { AuiMath, Loading, showMsg } from "./Summer";
 
 type propsType = {
     token: string;
@@ -221,26 +218,29 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
     }
 
     getDatas(svr: QueryService) {
+        let math = new AuiMath();
         svr.open().then(dataOut => {
             this.copyFields(dataOut);
             dataOut.first();
             while (dataOut.fetch()) {
                 let partCode = dataOut.getString("PartCode_");
                 if (this.dataSet.locate("PartCode_", partCode)) {
-                    this.dataSet.setValue("Num_", math.round(this.dataSet.getDouble("Num_") + dataOut.getDouble("Num_"), 2));
-                    this.dataSet.setValue("Amount_", math.round(this.dataSet.getDouble("Amount_") + dataOut.getDouble("Amount_"), 2));
-                    this.dataSet.setValue("BackNum_", math.round(this.dataSet.getDouble("BackNum_") + dataOut.getDouble("BackNum_"), 2));
-                    this.dataSet.setValue("BackAmount_", math.round(this.dataSet.getDouble("BackAmount_") + dataOut.getDouble("BackAmount_"), 2));
-                    this.dataSet.setValue("SpareNum_", math.round(this.dataSet.getDouble("SpareNum_") + dataOut.getDouble("SpareNum_"), 2));
+                    this.dataSet.setValue("Num_", math.toFixed((this.dataSet.getDouble("Num_") + dataOut.getDouble("Num_")), 2));
+                    this.dataSet.setValue("Amount_", math.toFixed(this.dataSet.getDouble("Amount_") + dataOut.getDouble("Amount_"), 2));
+                    this.dataSet.setValue("BackNum_", math.toFixed(this.dataSet.getDouble("BackNum_") + dataOut.getDouble("BackNum_"), 2));
+                    this.dataSet.setValue("BackAmount_", math.toFixed(this.dataSet.getDouble("BackAmount_") + dataOut.getDouble("BackAmount_"), 2));
+                    this.dataSet.setValue("SpareNum_", math.toFixed(this.dataSet.getDouble("SpareNum_") + dataOut.getDouble("SpareNum_"), 2));
 
                     // 成本金额
-                    this.dataSet.setValue("CostAmount_", math.round(this.dataSet.getDouble("CostAmount_") + dataOut.getDouble("CostAmount_"), 2));
-                    this.dataSet.setValue("OutSumAmount_", math.round(this.dataSet.getDouble("OutSumAmount_") + dataOut.getDouble("OutSumAmount_"), 2));
-                    this.dataSet.setValue("OutSumProfit_", math.round(this.dataSet.getDouble("OutSumProfit_") + dataOut.getDouble("OutSumProfit_"), 2));
+                    this.dataSet.setValue("CostAmount_", math.toFixed(this.dataSet.getDouble("CostAmount_") + dataOut.getDouble("CostAmount_"), 2));
+                    this.dataSet.setValue("OutSumAmount_", math.toFixed(this.dataSet.getDouble("OutSumAmount_") + dataOut.getDouble("OutSumAmount_"), 2));
+                    this.dataSet.setValue("OutSumProfit_", math.toFixed(this.dataSet.getDouble("OutSumProfit_") + dataOut.getDouble("OutSumProfit_"), 2));
                 } else {
                     this.dataSet.append();
                     this.dataSet.copyRecord(dataOut.current, dataOut.fieldDefs);
                 }
+                console.log(this.dataSet)
+                console.log("******");
             }
 
             // 是否加载下一页
@@ -270,6 +270,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
     }
 
     render() {
+        let math = new AuiMath();
         if (this.grid) {
             this.grid.initGrid()
         }
@@ -288,12 +289,12 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             let total = amount - backAmount;
 
             // 成本栏位要重新计算
-            this.dataSet.setValue("Profit_", math.round(totalProfit, 2));// 毛利
+            this.dataSet.setValue("Profit_", math.toFixed(totalProfit, 2));// 毛利
 
             // 毛利率
-            let profitRate = '';
+            let profitRate = 0;
             if (total != 0)
-                profitRate = math.round((totalProfit / total) * 100, 2);
+                profitRate = math.toFixed((totalProfit / total) * 100, 2);
             this.dataSet.setValue("ProfitRateExcel", profitRate);
         }
 
@@ -320,23 +321,23 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             outSumAmount += dataRow.getDouble("OutSumAmount_");
             outSumProfit += dataRow.getDouble("OutSumProfit_");
         })
-        document.getElementById('outNum').innerText = math.round(outNum, 2);
-        document.getElementById('outAmount').innerText = math.round(outAmount, 2);
-        document.getElementById('backNum').innerText = math.round(backNum, 2);
-        document.getElementById('backAmount').innerText = math.round(backAmount, 2);
-        document.getElementById('spareNum').innerText = math.round(spareNum, 2);
-        document.getElementById('totalAmount').innerText = math.round(totalAmount, 2);
+        document.getElementById('outNum').innerText = math.toFixed(outNum, 2).toString();
+        document.getElementById('outAmount').innerText = math.toFixed(outAmount, 2).toString();
+        document.getElementById('backNum').innerText = math.toFixed(backNum, 2).toString();
+        document.getElementById('backAmount').innerText = math.toFixed(backAmount, 2).toString();
+        document.getElementById('spareNum').innerText = math.toFixed(spareNum, 2).toString();
+        document.getElementById('totalAmount').innerText = math.toFixed(totalAmount, 2).toString();
 
         if (document.getElementById('outSumAmount'))
-            document.getElementById('outSumAmount').innerText = math.round(outSumAmount, 2);
+            document.getElementById('outSumAmount').innerText = math.toFixed(outSumAmount, 2).toString();
         if (document.getElementById('outSumProfit'))
-            document.getElementById('outSumProfit').innerText = math.round(outSumProfit, 2);
+            document.getElementById('outSumProfit').innerText = math.toFixed(outSumProfit, 2).toString();
 
         if (this.props.allowViewProfit) {
-            document.getElementById('costAmount').innerText = math.round(costAmount, 2);
+            document.getElementById('costAmount').innerText = math.toFixed(costAmount, 2).toString();
             // 毛利 = 销售金额 - 退货金额 - 成本
             let profit = outAmount - backAmount - costAmount;
-            document.getElementById('profit').innerText = math.round(profit, 2);
+            document.getElementById('profit').innerText = math.toFixed(profit, 2).toString();
         }
         //@ts-ignore
         document.getElementById('dataSize').innerText = this.dataSet.size;

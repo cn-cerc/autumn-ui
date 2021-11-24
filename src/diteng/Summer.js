@@ -153,4 +153,50 @@ function showMsg(msg, remain) {
 
 }
 
-export {Loading, showMsg}
+// 用于处理数据精度丢失的方法类
+class AuiMath {
+    getMultiple(num1, num2) {
+        num1 = String(num1);
+        num2 = String(num2);
+        let length1 = num1.indexOf(".") > -1 ? num1.length - num1.indexOf(".") - 1 : 0;
+        let length2 = num2.indexOf(".") > -1 ? num2.length - num2.indexOf(".") - 1 : 0;
+        let multiple = length1 > length2 ? Math.pow(10, length1) : Math.pow(10, length2);
+        return multiple;
+    }
+
+    add(num1, num2) {
+        let multiple = this.getMultiple(num1, num2);
+        return ((num1 * multiple) + (num2 * multiple)) / multiple;
+    }
+
+    sub(num1, num2) {
+        let multiple = this.getMultiple(num1, num2);
+        return ((num1 * multiple) - (num2 * multiple)) / multiple;
+    }
+
+    mul(num1, num2) {
+        let multiple = this.getMultiple(num1, num2);
+        return ((num1 * multiple) * (num2 * multiple)) / Math.pow(multiple, 2);
+    }
+
+    div(num1, num2) {
+        let multiple = this.getMultiple(num1, num2);
+        return ((num1 * multiple) / (num2 * multiple)) / Math.pow(multiple, 2);
+    }
+
+    toFixed(num, len) {
+        num = String(num)
+        let number = num.indexOf(".") > -1 ? num.length - num.indexOf(".") - 1 : 0;
+        if(number < len) {
+            return Number(num);
+        }
+        num = String(Math.floor(num * Math.pow(10, len+1)));
+        if(num[num.length - 1] > 4) {
+            return (Math.floor(num/10) + 1) / Math.pow(10, len)
+        } else {
+            return Math.floor(num/10) / Math.pow(10, len)
+        }
+    }
+}
+
+export {Loading, showMsg, AuiMath}

@@ -1,14 +1,11 @@
 //@ts-ignore
-import { all, create } from 'mathjs';
 import React from "react";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { exportUrl } from './ExportConfig';
-import { Loading, showMsg } from "./Summer";
-const config = {}
-const math = create(all, config);
+import { AuiMath, Loading, showMsg } from "./Summer";
 
 /**
  * 页面查询 sessionStorage
@@ -261,10 +258,11 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
             outNumTotal += dataRow.getDouble("OutNum_");
             outAmountTotal += dataRow.getDouble("OutAmount_");
         })
-        document.getElementById('inNumTotal').innerText = math.round(inNumTotal, 2);
-        document.getElementById('inAmountTotal').innerText = math.round(inAmountTotal, 2);
-        document.getElementById('outNumTotal').innerText = math.round(outNumTotal, 2);
-        document.getElementById('outAmountTotal').innerText = math.round(outAmountTotal, 2);
+        let math = new AuiMath();
+        document.getElementById('inNumTotal').innerText = math.toFixed(inNumTotal, 2).toString();
+        document.getElementById('inAmountTotal').innerText = math.toFixed(inAmountTotal, 2).toString();
+        document.getElementById('outNumTotal').innerText = math.toFixed(outNumTotal, 2).toString();
+        document.getElementById('outAmountTotal').innerText = math.toFixed(outAmountTotal, 2).toString();
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
 
         return (
