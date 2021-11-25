@@ -25,10 +25,10 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
 
     render() {
         return (
-            <div className={styles.main}>
+            <form className={styles.main} role="searchPanel" onSubmit={this.btnExecute}>
                 <div className={styles.search}>{this.getItems()}</div>
                 <button onClick={this.btnExecute}>查询</button>
-            </div>
+            </form>
         )
     }
 
@@ -51,7 +51,8 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
         this.setState(this.state);
     }
 
-    btnExecute: MouseEventHandler<HTMLButtonElement> = (sender: any) => {
+    btnExecute: any = (sender: any) => {
+        sender.preventDefault();
         if (this.props.onExecute)
             this.props.onExecute(this.state.dataRow);
     }

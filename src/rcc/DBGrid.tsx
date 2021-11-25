@@ -17,6 +17,7 @@ type DBGridProps = {
 
 type DBGridState = {
     dataSet: DataSet;
+    allWidth: number
 }
 
 export type OnDataRowChangedEvent = (recNo: number, field: string, value: string) => void;
@@ -27,7 +28,10 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
     }
     constructor(props: DBGridProps) {
         super(props);
-        this.state = { dataSet: this.props.dataSet }
+        this.state = { 
+            dataSet: this.props.dataSet,
+            allWidth: this.getAllWidth()
+         }
     }
 
     render() {
@@ -35,11 +39,11 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
             return (<div>props.dataSet is undefined</div>);
             
         return (
-            <div className={styles.main}>
+            <div className={styles.main} role="dbgrid">
                 <table className={styles.grid}>
                     <tbody>
                         <tr key='head'>{this.getHead()}</tr>
-                        {this.getRows().map(item => item)}
+                        {this.getRows()}
                     </tbody>
                 </table>
             </div>
@@ -49,8 +53,9 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column)
-                items.push(React.cloneElement(child, { tag: ColumnType.th, key: child.props.code }));
+            if (isValidElement(child) && child.type == Column){
+                items.push(React.cloneElement(child, { tag: ColumnType.th, key: child.props.code, width: this.getWidth(child.props.width) }));
+            }
         })
         return items;
     }
@@ -58,7 +63,7 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
     getRows(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         let recNo = 0;
-        for (let dataRow of this.state.dataSet.records) {
+        for (let dataRow of this.props.dataSet.records) {
             recNo++;
             //输出主行
             items.push(
@@ -124,6 +129,20 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
         if (this.props.onChanged)
             this.props.onChanged(this.state.dataSet);
     }
+
+    getAllWidth() {
+        let width: number = 0;
+        React.Children.map(this.props.children, child=>{
+            if(isValidElement(child) && child.type == Column) {
+                width += Number(child.props.width)
+            }
+        })
+        return width;
+    }
+
+    getWidth(width: string) {
+        return (Number(width) / this.state.allWidth) * 100 + "%";
+    }
 }
 
 export enum ColumnType {
@@ -140,6 +159,8 @@ type ColumnPropsType = {
     colSpan?: number;
     onChanged?: OnDataRowChangedEvent;
     onChangedOwner?: OnDataRowChangedEvent;
+    textAlign?: "left" | "right" | "center" | "char";
+    customText?: Function;  // 用于自定义table中的行
 }
 
 type ColumnStateType = {
@@ -158,10 +179,13 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
     }
 
     render() {
+        if(this.props.customText && this.props.tag != ColumnType.th) {
+            return this.props.customText(this.props.dataRow);
+        }
         switch (this.props.tag) {
             case ColumnType.th:
                 return (
-                    <th className={styles.column}>{this.props.name}</th>
+                    <th className={styles.column} style={{"width": this.props.width}}>{this.props.name}</th>
                 )
             case ColumnType.td: {
                 return this.getTd();
@@ -182,7 +206,7 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
 
     getTd() {
         return (
-            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan}>
+            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : "left"}>
                 {this.getValue()}
             </td>
         )

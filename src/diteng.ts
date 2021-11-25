@@ -13,6 +13,7 @@ import DateDialog from "./diteng/DateDialog";
 import SalesmanDialog from "./diteng/SalesmanDialog";
 import productClassDialog from "./diteng/productClassDialog";
 import DateYMDialog from "../src/diteng/DateYMDialog";
+import StaffDialog from "./diteng/StaffDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -41,6 +42,7 @@ export default {
     BrandDialog,
     productClassDialog,
     DateYMDialog,
+    StaffDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }
