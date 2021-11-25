@@ -1,0 +1,62 @@
+.caseCards {
+    background-color: #fff;
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
+}
+
+.caseCard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.initFirst>li:first-child {
+    color: #67c23a;
+    border-color: #c2e7b0;
+    background-color: #f0f9eb;
+}
+
+.caseCard li {
+    min-width: 4.5em;
+    text-align: center;
+    padding: 0 .25rem;
+    border-radius: .29rem;
+    border: 1px solid #d3d4d6;
+    background-color: #f4f4f4;
+    color: #909399;
+    cursor: pointer;
+    margin-left: 1.5rem;
+    margin-top: 1rem;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    box-sizing: content-box;
+}
+
+.caseCard li:hover {
+    color: #67c23a;
+    border-color: #c2e7b0;
+    background-color: #f0f9eb;
+}
+
+.caseCard li.selected {
+    color: #67c23a;
+    border-color: #c2e7b0;
+    background-color: #f0f9eb;
+}
+
+.submit {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4.5rem;
+    line-height: 1.55rem;
+    color: #409eff;
+    background-color: #ecf5ff;
+    border: 1px solid #b3d8ff;
+    border-radius: .29rem;
+    box-sizing: content-box;
+    text-align: center;
+    cursor: pointer;
+}

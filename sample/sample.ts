@@ -17,6 +17,7 @@ import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
+import productClassDialog from "../src/diteng/productClassDialog";
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
 import TGrid, { TGridColumn, TGridConfig } from "../src/vcl/TGrid"
@@ -50,6 +51,7 @@ export default {
     DateDialog,
     SalesmanDialog,
     BrandDialog,
+    productClassDialog,
     DateYMDialog,
     //ksdl
     IndexKsdl,
