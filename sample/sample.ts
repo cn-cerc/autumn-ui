@@ -15,6 +15,7 @@ import SalesmanDialog from "../src/diteng/SalesmanDialog"
 import productClassDialog from "../src/diteng/productClassDialog";
 import DateYMDialog from "../src/diteng/DateYMDialog"
 import StaffDialog from "../src/diteng/StaffDialog"
+import SupDialog from "../src/diteng/SupDialog"
 import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
@@ -55,6 +56,7 @@ export default {
     productClassDialog,
     DateYMDialog,
     StaffDialog,
+    SupDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

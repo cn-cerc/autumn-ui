@@ -5,6 +5,10 @@ div[role="content"] {
     flex-direction: column;
 }
 
+[role="opera"] {
+    color: #0283f7;
+}
+
 div[role="dbgrid"] {
     height: 0;
     flex: 1;
@@ -16,4 +20,8 @@ div[role="dbgrid"] {
 div[role="dbgrid"] th {
     position: sticky;
     top: -1px;
+}
+
+div[role="dbgrid"] td {
+    padding: 0 .5rem;
 }

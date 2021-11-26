@@ -15,6 +15,7 @@
 
 .search>span {
     width: 25%;
+    min-width: 15rem;
     display: flex;
     align-items: center;
     padding-bottom: .5rem;
@@ -27,8 +28,9 @@
     text-align: left;
 }
 
-.search>span>input {
-    min-width: 11.63rem;
+.search>span>input,.search>span>select {
+    width: 11.63rem;
+    max-width: 50%;
     height: 1.68rem;
     border-radius: .12rem;
     font-size: 1rem;
