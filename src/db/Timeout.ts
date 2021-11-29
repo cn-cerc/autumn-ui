@@ -7,11 +7,11 @@ export default class Timeout {
     }
 
     getPromise(): Promise<DataSet> {
-        let value = this._times / 1000;
+        let value = this._times;
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 reject(new DataSet().setMessage(`执行超时(${value}秒)，请检查您的操作，建议变更操作方法`));
-            }, this._times);
+            }, this._times * 1000);
         });
     }
 }

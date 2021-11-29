@@ -22,7 +22,13 @@ export default class QueryService extends RemoteService {
     get sql(): string { return this._sql }
     setSql(sql: string): QueryService { this._sql = sql; return this; }
 
-    open(timeout: number = 10000): Promise<DataSet> {
+    /**
+     * 调用远程服务获取数据
+     *
+     * @param timeout 超时时间（单位秒）
+     * @returns DataSet
+     */
+    open(timeout: number = 15): Promise<DataSet> {
         if (this._sql)
             this.setService(this.findService(this._sql));
         this.dataIn.head.setValue("_RecordFilter_", this._sql);
