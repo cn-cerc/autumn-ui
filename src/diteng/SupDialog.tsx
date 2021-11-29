@@ -91,7 +91,7 @@ export default class SupDialog extends React.Component<propsType, stateType> {
     }
 
     initOpera(dataRow: DataRow) {
-        return <td role="opera" onClick={()=>this.handleClick(dataRow)} align="center">操作</td>
+        return <td role="opera" onClick={()=>this.handleClick(dataRow)} align="center">选择</td>
     }
 
     handleClick(dataRow: DataRow) {
