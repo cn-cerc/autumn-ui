@@ -8,6 +8,7 @@ import CheckWorkflow from "./diteng/CheckWorkflow";
 import CusDialog from "./diteng/CusDialog";
 import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
+import DialogDOM from "./diteng/DialogDOM";
 import UserDialog from "./diteng/UserDialog";
 import DateDialog from "./diteng/DateDialog";
 import SalesmanDialog from "./diteng/SalesmanDialog";
@@ -36,6 +37,7 @@ export default {
     CheckWorkflow,
     CheckReport,
     //开窗选择
+    DialogDOM,
     UserDialog,
     CusDialog,
     DateDialog,

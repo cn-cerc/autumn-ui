@@ -9,6 +9,7 @@ import BrandDialog from "../src/diteng/BrandDialog"
 import CheckDraftTB from "../src/diteng/CheckDraftTB"
 import CheckReport from "../src/diteng/CheckReport"
 import CheckWorkflow from "../src/diteng/CheckWorkflow"
+import DialogDOM from "../src/diteng/DialogDOM"
 import CusDialog from "../src/diteng/CusDialog"
 import DateDialog from "../src/diteng/DateDialog"
 import SalesmanDialog from "../src/diteng/SalesmanDialog"
@@ -48,6 +49,7 @@ export default {
     CheckWorkflow,
     CheckReport,
     //开窗选择
+    DialogDOM,
     UserDialog,
     CusDialog,
     DateDialog,

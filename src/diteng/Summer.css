@@ -25,3 +25,12 @@ div[role="dbgrid"] th {
 div[role="dbgrid"] td {
     padding: 0 .5rem;
 }
+
+div[role="dialog"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;
+}

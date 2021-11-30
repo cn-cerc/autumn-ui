@@ -1,4 +1,5 @@
-import React, { ChangeEventHandler, MouseEventHandler } from "react";
+import React from "react";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import styles from './DateDialog.css';
 
 type YearType = {
@@ -18,7 +19,7 @@ class Year extends React.Component<YearType> {
                 <div className={styles.listTitle}>年：</div>
                 <ul key="yearList">{this.getList()}</ul>
             </div>
-            
+
         )
     }
 
@@ -52,8 +53,8 @@ class Month extends React.Component<MonthType> {
 
     getList() {
         let list = this.props.months.map((month, index) => (
-            <React.Fragment key={"month" + month+index}>
-                <li className={Number(month) == this.props.month ? styles.checked : ''} onClick={() => this.props.onClick(Number(month))}>{month}</li>{index == 5 ? (<br/>) : ""}
+            <React.Fragment key={"month" + month + index}>
+                <li className={Number(month) == this.props.month ? styles.checked : ''} onClick={() => this.props.onClick(Number(month))}>{month}</li>{index == 5 ? (<br />) : ""}
             </React.Fragment>
         ))
         return list;
@@ -127,38 +128,30 @@ class DayTable extends React.Component<TableProp, TableState> {
 
 type propsType = {
     inputId: string,
-    viewId: string
-}
+} & Partial<BaseDialogPropsType>
 
 type stateType = {
     years: number[],
     months: string[],
     year: number,
     month: number,
-    date: number
-}
+    date: number,
+} & Partial<BaseDialogStateType>
 
-export default class DateDialog extends React.Component<propsType, stateType> {
+export default class DateDialog extends BaseDialog<propsType, stateType> {
     constructor(props: propsType) {
         super(props);
         this.state = {
+            ...this.state,
             years: this.getYears(),
             months: this.getMonths(),
             year: Number(new Date().getFullYear()),
             month: Number(new Date().getMonth() + 1),
-            date: Number(new Date().getDate())
+            date: Number(new Date().getDate()),
+            width: "37.5rem",
+            height: "26rem"
         }
-    }
-    render() {
-        return (
-            <div className={styles.dateDialog}>
-                <div className='date'>
-                    <Year years={this.state.years} year={this.state.year} onClick={this.handleClickByYear.bind(this)} />
-                    <Month months={this.state.months} month={this.state.month} onClick={this.handleClickByMonth.bind(this)} />
-                </div>
-                <DayTable year={this.state.year} month={this.state.month} date={this.state.date} onClick={this.handleClickByDate.bind(this)} />
-            </div>
-        )
+        this.setTitle('日期选择');
     }
 
     getYears(): number[] {
@@ -180,7 +173,7 @@ export default class DateDialog extends React.Component<propsType, stateType> {
     handleClickByYear(year: number) {
         this.setState({
             year,
-            date: 0
+            date: 0,
         })
     }
 
@@ -195,8 +188,19 @@ export default class DateDialog extends React.Component<propsType, stateType> {
         let month = this.state.month < 10 ? "0" + this.state.month : this.state.month;
         let day = date < 10 ? "0" + date : date;
         $("#" + this.props.inputId, parent.document).val(this.state.year + "-" + month + "-" + day);
-        this.setState({ date })
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
+        this.setState({ date });
+        this.handleClose();
+    }
+
+    content(): JSX.Element {
+        return (
+        <div className={styles.dateDialog} >
+            <div className='date'>
+                <Year years={this.state.years} year={this.state.year} onClick={this.handleClickByYear.bind(this)} />
+                <Month months={this.state.months} month={this.state.month} onClick={this.handleClickByMonth.bind(this)} />
+            </div>
+            <DayTable year={this.state.year} month={this.state.month} date={this.state.date} onClick={this.handleClickByDate.bind(this)} />
+        </div>
+        )
     }
 }
