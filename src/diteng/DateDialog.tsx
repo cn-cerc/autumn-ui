@@ -126,10 +126,6 @@ class DayTable extends React.Component<TableProp, TableState> {
     }
 }
 
-type propsType = {
-    inputId: string,
-} & Partial<BaseDialogPropsType>
-
 type stateType = {
     years: number[],
     months: string[],
@@ -138,8 +134,8 @@ type stateType = {
     date: number,
 } & Partial<BaseDialogStateType>
 
-export default class DateDialog extends BaseDialog<propsType, stateType> {
-    constructor(props: propsType) {
+export default class DateDialog extends BaseDialog<BaseDialogPropsType, stateType> {
+    constructor(props: BaseDialogPropsType) {
         super(props);
         this.state = {
             ...this.state,
@@ -189,7 +185,7 @@ export default class DateDialog extends BaseDialog<propsType, stateType> {
         let day = date < 10 ? "0" + date : date;
         $("#" + this.props.inputId, parent.document).val(this.state.year + "-" + month + "-" + day);
         this.setState({ date });
-        this.handleClose();
+        this.handleSelect();
     }
 
     content(): JSX.Element {

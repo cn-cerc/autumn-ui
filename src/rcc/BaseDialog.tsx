@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from "react";
 import styles from "./BaseDialog.css";
 
 export type BaseDialogPropsType = {
+    inputId: string,
     width?: string,
     height?: string,
 }
@@ -22,7 +23,7 @@ export type BaseDialogStateType = {
     height?: string
 }
 
-export default abstract class BaseDialog<T extends BaseDialogPropsType = {} , S extends BaseDialogStateType = BaseDialogStateType> extends React.Component<T, S> {
+export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDialogPropsType , S extends BaseDialogStateType = BaseDialogStateType> extends React.Component<T, S> {
     state = {
         dialogData: {
             moving: false,
@@ -124,8 +125,16 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = {} , S 
         return style;
     }
 
+    // 用于关闭窗口
     handleClose() {
         let box = $(`[role="${this._dialogRole}"]`).closest("[role='dialogBox']");
         if (box.length > 0) box.remove();
+    }
+
+    // 用于弹窗选择完成之后关闭窗口
+    handleSelect() {
+        var evt = new Event("input", {"bubbles":true, "cancelable":true});
+        document.querySelector('#' + this.props.inputId).dispatchEvent(evt);
+        this.handleClose();
     }
 }
