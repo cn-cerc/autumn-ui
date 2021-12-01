@@ -92,7 +92,7 @@ export default class SchAccTran extends CustomForm<CustomFormPropsType, stateTyp
     }
 
     btnSearch: SearchPanelOnExecute = (row: DataRow) => {
-        console.log(row.jsonString);
+        console.log(row.json);
     }
 
     btnAppend: MouseEventHandler<HTMLButtonElement> = (sender: any) => {

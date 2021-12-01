@@ -1,25 +1,33 @@
-import DataRow from './DataRow';
+import DataRow, { DataRowState } from './DataRow';
 import DataSource, { IDataSource } from './DataSource';
 import FieldDefs from './FieldDefs';
 import FieldMeta from './FieldMeta';
 import SearchDataSet from './SearchDataSet';
+
+export type DataSetProps = {
+    state?: number;
+    message?: string;
+}
+
 
 export default class DataSet implements IDataSource {
     private _recNo: number = 0;
     private _fetchNo: number = -1;
     private _state: number = 0;
     private _message: string = '';
-    private _fieldDefs: FieldDefs = new FieldDefs();
+    private _fields: FieldDefs = new FieldDefs();
     private _metaInfo: boolean = false;
     private _meta: any;
     private _head: DataRow = new DataRow();
     private _records: DataRow[] = [];
+    private _garbage: DataRow[] = [];
     private _search: SearchDataSet;
+    private _curd: boolean;
     //提供数据绑定服务
     // private _bindControls: Set<DataControl> = new Set<DataControl>();
     // private _bindEnabled: boolean = true;
 
-    constructor(props: any = null) {
+    constructor(props: DataSetProps = {}) {
         if (props) {
             const { state, message } = props;
             if (state)
@@ -43,24 +51,36 @@ export default class DataSet implements IDataSource {
 
     append(): DataSet {
         let record = new DataRow(this);
+        record.setState(DataRowState.Insert);
         this._records.push(record)
         this._recNo = this._records.length;
         return this
     }
 
-    delete(): void {
+    edit(): DataSet {
         let row = this.current;
-        if (row) {
-            let cur = this.recNo;
-            this._records.splice(this.recNo - 1, 1);
-            if (cur > this.size && this.size > 0)
-                cur = this.size;
-            else if (this.size == 0)
-                cur = 0;
-
-            this.setRecNo(cur);
-            // this.refreshBind({ size: true });
+        if (row.state == DataRowState.None) {
+            row.setHistory(row.clone());
+            row.setState(DataRowState.Update);
         }
+        return this;
+    }
+
+    delete(): DataSet {
+        if (!this.current)
+            throw new Error("current is null, delete fail")
+        this._garbage.push(this.current.setState(DataRowState.Delete));
+
+        let cur = this.recNo;
+        this._records.splice(this.recNo - 1, 1);
+        if (cur > this.size && this.size > 0)
+            cur = this.size;
+        else if (this.size == 0)
+            cur = 0;
+        this.setRecNo(cur);
+
+        // this.refreshBind({ size: true });
+        return this;
     }
 
     first(): boolean {
@@ -123,8 +143,8 @@ export default class DataSet implements IDataSource {
         return result
     }
 
-    copyRecord(source: DataRow, fieldDefs: FieldDefs = null) {
-        let defs = fieldDefs ? fieldDefs : source.fieldDefs;
+    copyRecord(source: DataRow, fields: FieldDefs = null) {
+        let defs = fields ? fields : source.fields;
         if (this._search) {
             this._search.remove(this.current)
             this.current.copyValues(source, defs)
@@ -135,7 +155,7 @@ export default class DataSet implements IDataSource {
     }
 
     exists(field: string) {
-        return this._fieldDefs.exists(field);
+        return this._fields.exists(field);
     }
 
     get head(): DataRow {
@@ -150,7 +170,7 @@ export default class DataSet implements IDataSource {
         return this._records;
     }
 
-    get fieldDefs(): FieldDefs { return this._fieldDefs }
+    get fields(): FieldDefs { return this._fields }
 
     setValue(field: string, value: any): DataSet {
         this.current.setValue(field, value)
@@ -173,9 +193,19 @@ export default class DataSet implements IDataSource {
         return this.current.getText(field);
     }
 
+    mergeChangeLog(): DataSet {
+        for (let row of this.records) {
+            row.setState(DataRowState.None);
+            row.setHistory(null);
+        }
+        this._garbage = [];
+        this._recNo = 0;
+        return this;
+    }
+
     clear(): void {
-        this.head.fieldDefs.clear();
-        this._fieldDefs.clear();
+        this.head.fields.clear();
+        this._fields.clear();
         this.close();
     }
 
@@ -202,20 +232,20 @@ export default class DataSet implements IDataSource {
         }
     }
 
-    get jsonString(): string {
-        let json: any = {}
+    get json(): string {
+        let jsonObj: any = {}
         if (this._state !== 0) {
-            json.state = this._state
+            jsonObj.state = this._state
         }
         if (this._message) {
-            json.message = this._message
+            jsonObj.message = this._message
         }
         if (this._metaInfo) {
-            json.meta = {};
+            jsonObj.meta = {};
 
-            if (this.head.fieldDefs.size > 0) {
+            if (this.head.fields.size > 0) {
                 let head: any = [];
-                this.head.fieldDefs.forEach((meta: FieldMeta) => {
+                this.head.fields.forEach((meta: FieldMeta) => {
                     let item: any = {};
                     if (meta.remark) {
                         item[meta.code] = [meta.name, meta.type, meta.remark];
@@ -228,12 +258,12 @@ export default class DataSet implements IDataSource {
                     }
                     head.push(item);
                 })
-                json.meta.head = head;
+                jsonObj.meta.head = head;
             }
 
             if (this._records.length > 0) {
                 let body: any = [];
-                this._fieldDefs.forEach((meta: FieldMeta) => {
+                for (let meta of this.fields.items) {
                     let item: any = {};
                     if (meta.remark) {
                         item[meta.code] = [meta.name, meta.type, meta.remark];
@@ -245,45 +275,79 @@ export default class DataSet implements IDataSource {
                         item[meta.code] = [];
                     }
                     body.push(item);
-                });
-                json.meta.body = body;
+                }
+                if (this._curd)
+                    body.push({ _state: [] });
+                jsonObj.meta.body = body;
             }
         }
         if (this._head.size > 0) {
             if (this._metaInfo) {
-                json.head = []
-                this._head.fieldDefs.forEach((meta: FieldMeta) => {
-                    json.head.push(this._head.getValue(meta.code))
+                jsonObj.head = []
+                this._head.fields.forEach((meta: FieldMeta) => {
+                    jsonObj.head.push(this._head.getValue(meta.code))
                 })
             } else {
-                json.head = {};
+                jsonObj.head = {};
                 this._head.forEach((key: string, value: any) => {
-                    json.head[key] = value;
+                    jsonObj.head[key] = value;
                 });
             }
         }
-        if (this.size > 0) {
-            json.body = [];
-
-            if (!this._metaInfo) {
-                let item: any = [];
-                for (let meta of this._fieldDefs.fields)
-                    item.push(meta.code);
-                json.body.push(item);
+        jsonObj.body = [];
+        if (!this._metaInfo) {
+            let item: any = [];
+            for (let meta of this._fields.items)
+                item.push(meta.code);
+            item.push('_state_');
+            jsonObj.body.push(item);
+        }
+        if (this.curd) {
+            //insert && update
+            for (let row of this._records) {
+                if (row.state == DataRowState.Insert) {
+                    let item: any = [];
+                    for (let meta of this._fields.items) {
+                        item.push(row.getValue(meta.code));
+                        item.push(row.state);
+                    }
+                    jsonObj.body.push(item)
+                } else if (row.state == DataRowState.Update) {
+                    let item: any = [];
+                    for (let meta of this._fields.items) {
+                        item.push(row.history.getValue(meta.code));
+                        item.push(row.history.state);
+                    }
+                    jsonObj.body.push(item)
+                    item = [];
+                    for (let meta of this._fields.items) {
+                        item.push(row.getValue(meta.code));
+                        item.push(row.state);
+                    }
+                    jsonObj.body.push(item)
+                }
             }
-
+            //delete
+            for (let row of this._garbage) {
+                var item: any = []
+                for (let meta of this._fields.items) {
+                    item.push(row.getValue(meta.code));
+                    item.push(row.state);
+                }
+                jsonObj.body.push(item)
+            }
+        } else if (this.size > 0) {
             for (let row of this._records) {
                 var item: any = []
-                for (let meta of this._fieldDefs.fields) {
-                    item.push(row.getValue(meta.code))
-                }
-                json.body.push(item)
+                for (let meta of this._fields.items)
+                    item.push(row.getValue(meta.code));
+                jsonObj.body.push(item)
             }
         }
-        return JSON.stringify(json);
+        return JSON.stringify(jsonObj);
     }
 
-    setJsonString(jsonObj: any) {
+    setJson(jsonObj: any) {
         this.clear();
         if (!jsonObj) {
             return;
@@ -301,7 +365,7 @@ export default class DataSet implements IDataSource {
             this._message = jsonObj.message
         }
 
-        let fields: string[] = [];
+        let defs: string[] = [];
         if (jsonObj.hasOwnProperty('meta')) {
             this.setMetaInfo(true);
             this._meta = jsonObj.meta;
@@ -311,7 +375,7 @@ export default class DataSet implements IDataSource {
                 this._meta.head.forEach((map: any) => {
                     for (let key in map) {
                         let values = map[key];
-                        let meta = this._head.fieldDefs.add(key);
+                        let meta = this._head.fields.add(key);
                         if (values.length > 2)
                             meta.setRemark(values[2]);
                         if (values.length > 1)
@@ -327,15 +391,19 @@ export default class DataSet implements IDataSource {
                 let i = 0;
                 this._meta.body.forEach((map: any) => {
                     for (let key in map) {
+                        defs[i] = key;
+                        if ('_state_' == key) {
+                            this.setCurd(true);
+                            continue;
+                        }
                         let values = map[key];
-                        let meta = this._fieldDefs.add(key);
+                        let meta = this._fields.add(key);
                         if (values.length > 2)
                             meta.setRemark(values[2]);
                         if (values.length > 1)
                             meta.setType(values[1]);
                         if (values.length > 0)
                             meta.setName(values[0]);
-                        fields[i] = key;
                         i = i + 1;
                     }
                 });
@@ -343,40 +411,72 @@ export default class DataSet implements IDataSource {
         } else {
             this.setMetaInfo(false);
             if (jsonObj.hasOwnProperty('head'))
-                this._head.setJson(jsonObj.head);
+                this._head.setJsonObject(jsonObj.head);
         }
 
         var data = jsonObj.dataset || jsonObj.body;
         if (data) {
             if (data && data.length > 0) {
+                let history: DataRow = null;
                 for (var i = 0; i < data.length; i++) {
                     if (!this._meta && i == 0) {
-                        fields = data[0];
+                        defs = data[0];
+                        if (this._curd)
+                            defs.push('_state_');
                         continue;
                     }
                     let item = data[i];
-                    let row = this.append().current
-                    for (let j = 0; j < fields.length; j++)
-                        row.setValue(fields[j], item[j]);
+                    let row = new DataRow(this);
+                    for (let j = 0; j < defs.length; j++) {
+                        if ('_state_' == defs[i]) {
+                            switch (item[j]) {
+                                case 0: row.setState(DataRowState.None); break;
+                                case 1: row.setState(DataRowState.Insert); break;
+                                case 2: row.setState(DataRowState.Update); break;
+                                case 3: {
+                                    row.setState(DataRowState.Delete); break;
+                                }
+                                case 4: row.setState(DataRowState.History); break;
+                                default:
+                                    throw Error('error state value: ' + item[j]);
+                            }
+                        } else
+                            row.setValue(defs[j], item[j]);
+                    }
+                    //
+                    if (row.state == DataRowState.Delete)
+                        this._garbage.push(row);
+                    else if (row.state == DataRowState.History) {
+                        if (history == null)
+                            throw Error("history is not null");
+                        history = row;
+                    } else if (row.state == DataRowState.Update) {
+                        if (history == null)
+                            throw Error("history is null");
+                        row.setHistory(history);
+                        history = null;
+                        this.records.push(row);
+                    } else
+                        this.records.push(row);
                 }
             }
             this.first()
         }
     }
-    get json(): object {
+    get jsonObject(): object {
         let json: any = {};
         json.state = this._state;
         json.message = this._message;
-        json.head = this.head.json;
-        json.body = [];
-        for (let row of this._records)
-            json.body.push(row.json);
-        json.metaInfo = this._metaInfo;
         if (this._metaInfo) {
             json.meta = { head: {}, body: {} };
-            json.meta.head = this.head.fieldDefs.json;
-            json.meta.body = this.fieldDefs.json;;
+            json.meta.head = this.head.fields.json;
+            json.meta.body = this.fields.json;;
         }
+        json.head = this.head.jsonObject;
+        json.body = [];
+        for (let row of this._records)
+            json.body.push(row.jsonObject);
+        json.metaInfo = this._metaInfo;
         return json;
     }
 
@@ -392,14 +492,17 @@ export default class DataSet implements IDataSource {
         return this;
     }
 
-    get metaInfo() { return this._metaInfo }
+    get metaInfo(): boolean { return this._metaInfo }
     setMetaInfo(metaInfo: boolean): DataSet {
         this._metaInfo = metaInfo;
         return this;
     }
 
+    get curd(): boolean { return this._curd }
+    setCurd(value: boolean): DataSet { this._curd = value; return this; }
+
     appendDataSet(source: DataSet) {
-        source.head.fieldDefs.forEach((meta: FieldMeta) => {
+        source.head.fields.forEach((meta: FieldMeta) => {
             this.head.setValue(meta.code, source.head.getValue(meta.code))
         })
         //保存当前状态
@@ -412,7 +515,7 @@ export default class DataSet implements IDataSource {
         source.first();
         while (source.fetch()) {
             this.append();
-            source._fieldDefs.forEach((meta: FieldMeta) => {
+            source._fields.forEach((meta: FieldMeta) => {
                 this.setValue(meta.code, source.getValue(meta.code))
             });
         }
@@ -463,7 +566,7 @@ export default class DataSet implements IDataSource {
 // ds.append();
 // ds.setValue('code', 'b');
 // ds.setValue('name', 'bade');
-// ds.fieldDefs.get("code").name = "代码";
+// ds.fields.get("code").name = "代码";
 // ds.metaInfo = true;
 // console.log(ds.json);
 

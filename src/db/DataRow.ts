@@ -2,14 +2,22 @@ import DataSet from "./DataSet";
 import DataSource, { IDataSource } from "./DataSource";
 import FieldDefs from "./FieldDefs";
 import FieldMeta from "./FieldMeta";
-import { RecordState } from "./RecordState";
+
+export enum DataRowState {
+    None,
+    Insert,
+    Update,
+    Delete,
+    History
+}
 
 export default class DataRow implements IDataSource {
     private _dataSet: DataSet;
-    private _fieldDefs: FieldDefs;
-    private _state: number = RecordState.dsNone;
+    private _fields: FieldDefs;
+    private _state: number = DataRowState.None;
     private _items: Map<string, any> = new Map<string, any>();
     private _delta: Map<string, any> = new Map<string, any>();
+    private _history: DataRow;
     //提供数据绑定服务
     // private _bindControls: Set<DataControl> = new Set<DataControl>();
     // private _bindEnabled: boolean = true;
@@ -17,9 +25,9 @@ export default class DataRow implements IDataSource {
     constructor(dataSet: DataSet = null) {
         if (dataSet) {
             this._dataSet = dataSet;
-            this._fieldDefs = dataSet.fieldDefs;
+            this._fields = dataSet.fields;
         } else {
-            this._fieldDefs = new FieldDefs();
+            this._fields = new FieldDefs();
         }
     }
 
@@ -27,18 +35,17 @@ export default class DataRow implements IDataSource {
         return new DataSource([this]);
     }
 
-    set state(recordState: number) {
-        if (recordState == RecordState.dsEdit) {
-            if (this._state == RecordState.dsInsert) {
-                // throw new Error("当前记录为插入状态 不允许被修改");
+    get state(): number { return this._state }
+    setState(value: DataRowState): DataRow {
+        if (this._state != value) {
+            this._state = value;
+            if (this._state == DataRowState.None) {
+                this._delta.clear();
+                this.setHistory(null);
             }
         }
-        if (recordState == RecordState.dsNone) {
-            this._delta.clear();
-        }
-        this._state = recordState;
+        return this;
     }
-    get state(): number { return this._state }
 
     close(): void {
         this._items.clear();
@@ -59,7 +66,7 @@ export default class DataRow implements IDataSource {
 
     copyValues(source: DataRow, defs: FieldDefs = null) {
         if (defs == null)
-            defs = source.fieldDefs;
+            defs = source.fields;
 
         defs.forEach((meta: FieldMeta) => {
             this.setValue(meta.code, source.getValue(meta.code));
@@ -69,8 +76,8 @@ export default class DataRow implements IDataSource {
     private addFieldDef(field: string) {
         if (field == null)
             throw new Error("field is null");
-        if (!this._fieldDefs.exists(field)) {
-            this._fieldDefs.add(field);
+        if (!this._fields.exists(field)) {
+            this._fields.add(field);
         }
     }
 
@@ -108,7 +115,7 @@ export default class DataRow implements IDataSource {
     }
 
     getText(field: string) {
-        let meta = this.fieldDefs.add(field);
+        let meta = this.fields.add(field);
         if (meta.onGetText != undefined) {
             return meta.onGetText(this, meta);
         } else
@@ -116,7 +123,7 @@ export default class DataRow implements IDataSource {
     }
 
     setText(field: string, value: string): DataRow {
-        let meta = this.fieldDefs.add(field);
+        let meta = this.fields.add(field);
         if (meta.onSetText != undefined) {
             this.setValue(meta.code, meta.onSetText(this, meta, value));
         } else
@@ -128,15 +135,15 @@ export default class DataRow implements IDataSource {
 
     get delta(): Map<string, any> { return this._delta }
 
-    get jsonString(): string {
+    get json(): string {
         let obj: any = {}
-        for (let meta of this._fieldDefs.fields) {
+        for (let meta of this._fields.items) {
             let key = meta.code;
             obj[key] = this.getValue(key);
         }
         return JSON.stringify(obj);
     }
-    setJsonString(jsonObj: string): DataRow {
+    setJson(jsonObj: string): DataRow {
         if (!jsonObj)
             throw new Error('jsonText is null!')
         let json = JSON.parse(jsonObj)
@@ -145,33 +152,33 @@ export default class DataRow implements IDataSource {
         return this;
     }
 
-    get json(): object {
+    get jsonObject(): object {
         let json: any = {};
-        for (let meta of this._fieldDefs.fields)
+        for (let meta of this._fields.items)
             json[meta.code] = this.getValue(meta.code);
         return json;
     }
-    setJson(jsonObject: any): DataRow {
+    setJsonObject(jsonObject: any): DataRow {
         let keys = Object.keys(jsonObject);
         for (let key of keys)
             this.setValue(key, jsonObject[key]);
         return this;
     }
 
-    get fieldDefs(): FieldDefs {
+    get fields(): FieldDefs {
         if (this._dataSet) {
-            return this._dataSet.fieldDefs;
+            return this._dataSet.fields;
         } else {
-            if (!this._fieldDefs)
-                this._fieldDefs = new FieldDefs();
-            return this._fieldDefs;
+            if (!this._fields)
+                this._fields = new FieldDefs();
+            return this._fields;
         }
     }
 
     get items(): Map<string, object> { return this._items }
 
     forEach(fn: (key: string, value: any) => void) {
-        for (let meta of this._fieldDefs.fields) {
+        for (let meta of this._fields.items) {
             let key = meta.code;
             fn.call(this, key, this.getValue(key));
         }
@@ -198,6 +205,23 @@ export default class DataRow implements IDataSource {
 
     get current(): DataRow {
         return this;
+    }
+
+    clone(): DataRow {
+        let row = new DataRow();
+        for (let meta of this._fields.items) {
+            let key = meta.code;
+            row.setValue(key, this.getValue(key));
+        }
+        return row;
+    }
+
+    get history(): DataRow { return this._history }
+    setHistory(history: DataRow) {
+        this._history = history;
+        if (this._history)
+            this._history.setState(DataRowState.History);
+        return this
     }
 }
 

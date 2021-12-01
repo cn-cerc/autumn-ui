@@ -21,7 +21,7 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
     constructor(props: propsType) {
         super(props);
         let dataSet: DataSet = new DataSet();
-        dataSet.setJsonString(this.props.items);
+        dataSet.setJson(this.props.items);
         console.log(JSON.parse(this.props.items));
         console.log(dataSet)
         let str: string = this.props.groups.replace("[", "");

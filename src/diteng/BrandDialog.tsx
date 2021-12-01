@@ -24,7 +24,7 @@ export default class BrandDialog extends React.Component<propsType, stateType> {
     constructor(props: propsType) {
         super(props);
         let dataSet: DataSet = new DataSet();
-        dataSet.setJsonString(this.props.items);
+        dataSet.setJson(this.props.items);
         let config: TGridConfig = new TGridConfig();
         new TGridColumn(config, "Brand_", "品牌").setWidth(4);
         new TGridColumn(config, "ShareMode_", "开放模式").setWidth(3).setOnRender((column, row) => {

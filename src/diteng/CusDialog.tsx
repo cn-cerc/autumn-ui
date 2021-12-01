@@ -136,9 +136,9 @@ export default class CusDialog extends React.Component<propsType, stateType> {
             dataOut.first();
             while (dataOut.fetch()) {
                 if (!dataOut.getString("CorpNo_")) {
-                    objDs.append().copyRecord(dataOut.current, dataOut.fieldDefs);
+                    objDs.append().copyRecord(dataOut.current, dataOut.fields);
                 } else {
-                    ds.append().copyRecord(dataOut.current, dataOut.fieldDefs);
+                    ds.append().copyRecord(dataOut.current, dataOut.fields);
                 }
             }
             this.state.config.setDataSet(ds);

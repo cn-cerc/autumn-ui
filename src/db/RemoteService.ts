@@ -6,7 +6,7 @@ export default class RemoteService {
     private _service: string;
     private _dataIn: DataSet;
 
-    constructor(props: any) {
+    constructor(props: any = {}) {
         this._dataIn = new DataSet();
         this._host = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/services/";
         if (props) {
@@ -36,7 +36,7 @@ export default class RemoteService {
             url = `${url}?sid=${this._token}`;
 
         return fetch(url, {
-            method: 'POST', body: "dataIn=" + this.dataIn.jsonString,
+            method: 'POST', body: "dataIn=" + this.dataIn.json,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 // "Content-Type": "multipart/form-data",
@@ -50,7 +50,7 @@ export default class RemoteService {
             }
         }).then((json) => {
             let dataOut = new DataSet();
-            dataOut.setJsonString(JSON.stringify(json));
+            dataOut.setJson(JSON.stringify(json));
             return dataOut.getPromise();
         })
     }

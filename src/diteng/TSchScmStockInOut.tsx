@@ -38,7 +38,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         this.dataSet = new DataSet();
 
         // 导出专用
-        let fields = this.dataSet.fieldDefs;
+        let fields = this.dataSet.fields;
         fields.add("DescSpecExcel").setOnGetText((row, meta) => {
             meta.setType('s12');
             let desc = row.getValue("Desc_");
@@ -201,12 +201,12 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
 
     // 拷贝数据集栏位信息
     copyFields(dataIn: DataSet) {
-        if (dataIn.fieldDefs.size == 0) {
+        if (dataIn.fields.size == 0) {
             return;
         }
-        let originFields = this.dataSet.fieldDefs;// FIXME 引用修改有风险，需要使用克隆字段的方式
-        let targetFields = dataIn.fieldDefs;
-        targetFields.forEach(k => originFields.fields.push(k));
+        let originFields = this.dataSet.fields;// FIXME 引用修改有风险，需要使用克隆字段的方式
+        let targetFields = dataIn.fields;
+        targetFields.forEach(k => originFields.items.push(k));
     }
 
     getDatas(svr: QueryService) {

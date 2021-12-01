@@ -2,22 +2,22 @@ import { FieldKind } from "./FieldKind";
 import FieldMeta from "./FieldMeta";
 
 export default class FieldDefs {
-    private _fields: FieldMeta[] = [];
+    private _items: FieldMeta[] = [];
 
     get json(): object {
         let json: any = [];
-        for (let meta of this._fields)
+        for (let meta of this._items)
             json.push(meta.json);
         return json;
     }
     setJson(json: any): FieldDefs {
-        this._fields = [];
+        this._items = [];
         for (let field of json) {
             const { code, kind, remark, type } = field;
             let meta = new FieldMeta(code, kind);
             meta.setRemark(remark);
             meta.setType(type);
-            this._fields.push(meta);
+            this._items.push(meta);
         }
         return this;
     }
@@ -26,13 +26,13 @@ export default class FieldDefs {
         if (this.exists(code))
             return this.get(code);
         let item = new FieldMeta(code, kind);
-        this._fields.push(item);
+        this._items.push(item);
         return item;
     }
 
     exists(code: string): boolean {
-        for (let i = 0; i < this._fields.length; i++) {
-            let meta = this._fields[i];
+        for (let i = 0; i < this._items.length; i++) {
+            let meta = this._items[i];
             if (meta.code == code) {
                 return true;
             }
@@ -42,7 +42,7 @@ export default class FieldDefs {
 
     get(code: string): FieldMeta {
         let result = null;
-        this._fields.forEach((item) => {
+        this._items.forEach((item) => {
             if (item.code == code) {
                 result = item;
                 return;
@@ -51,21 +51,21 @@ export default class FieldDefs {
         return result;
     }
 
-    get size(): number { return this._fields.length }
+    get size(): number { return this._items.length }
 
-    clear(): void { this._fields = [] }
+    clear(): void { this._items = [] }
 
     forEach(fn: ((meta: FieldMeta) => void)) {
-        for (let meta of this._fields)
+        for (let meta of this._items)
             fn.call(this, meta);
     }
 
-    get fields(): FieldMeta[] { return this._fields }
+    get items(): FieldMeta[] { return this._items }
 
     copy(src: FieldDefs) {
-        for (let meta of src.fields) {
+        for (let meta of src.items) {
             if (!this.exists(meta.code))
-                this._fields.push(meta);
+                this._items.push(meta);
         }
     }
 

@@ -79,7 +79,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
 
     update: OnFieldChangedEvent = (sender: any) => {
         this.setState(this.state);
-        console.log(this.state.dataIn.current.jsonString);
+        console.log(this.state.dataIn.current.json);
     }
 
     closeDialog = () => {

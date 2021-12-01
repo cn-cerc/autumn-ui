@@ -63,17 +63,17 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
         this.state.row.setValue(this.props.dataField, el.value);
         this.setState(this.state);
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataRow.fieldDefs.get(el.name));
+            this.props.onChanged(this.props.dataRow.fields.get(el.name));
     }
 
     onDialogSelect: OnSelectDataRowEvent = (values: DataRow) => {
-        if (values.fieldDefs.fields.length == 0)
+        if (values.fields.items.length == 0)
             throw new Error('返回值错误：没有任何字段')
-        let value = values.getString(values.fieldDefs.fields[0].code);
+        let value = values.getString(values.fields.items[0].code);
         this.state.row.setValue(this.props.dataField, value);
         this.setState(this.state);
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataRow.fieldDefs.get(this.props.dataField));
+            this.props.onChanged(this.props.dataRow.fields.get(this.props.dataField));
     }
 
 }

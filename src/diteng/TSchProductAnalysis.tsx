@@ -49,7 +49,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         }
 
         this.dataSet = new DataSet();
-        let fields = this.dataSet.fieldDefs;
+        let fields = this.dataSet.fields;
         // 导出专用
         fields.add("DescSpecExcel").setOnGetText((row, meta) => {
             meta.setType('s12');
@@ -208,13 +208,13 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
 
     // 拷贝数据集栏位信息
     copyFields(dataIn: DataSet) {
-        if (dataIn.fieldDefs.size == 0) {
+        if (dataIn.fields.size == 0) {
             return;
         }
 
-        let originFields = this.dataSet.fieldDefs;// FIXME 引用修改有风险，需要使用克隆字段的方式
-        let targetFields = dataIn.fieldDefs;
-        targetFields.forEach(k => originFields.fields.push(k));
+        let originFields = this.dataSet.fields;// FIXME 引用修改有风险，需要使用克隆字段的方式
+        let targetFields = dataIn.fields;
+        targetFields.forEach(k => originFields.items.push(k));
     }
 
     getDatas(svr: QueryService) {
@@ -237,7 +237,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
                     this.dataSet.setValue("OutSumProfit_", math.toFixed(this.dataSet.getDouble("OutSumProfit_") + dataOut.getDouble("OutSumProfit_"), 2));
                 } else {
                     this.dataSet.append();
-                    this.dataSet.copyRecord(dataOut.current, dataOut.fieldDefs);
+                    this.dataSet.copyRecord(dataOut.current, dataOut.fields);
                 }
             }
 

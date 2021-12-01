@@ -42,7 +42,7 @@ export default class DBForm extends React.Component<propsType, stateType> {
 
     getItems(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        for (let meta of this.state.dataSource.first.fieldDefs.fields) {
+        for (let meta of this.state.dataSource.first.fields.items) {
             items.push(
                 <DBEdit key={meta.code} dataRow={this.state.dataSource.first} dataField={meta.code} dataName={meta.name} placeholder={meta.remark} onChanged={this.onChanged} />
             )

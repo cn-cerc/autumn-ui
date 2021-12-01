@@ -27,7 +27,7 @@ export default class SupDialog extends React.Component<propsType, stateType> {
     constructor(props: propsType) {
         super(props);
         let dataSet = new DataSet();
-        dataSet.setJsonString(this.props.items);
+        dataSet.setJson(this.props.items);
         this.state = {
             dataIn: new DataRow(),
             dataSet,

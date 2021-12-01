@@ -42,6 +42,6 @@ export default class DBCheckbox extends React.Component<PropsType> {
         let row = this.props.dataRow;
         row.setValue(this.props.dataField, !row.getBoolean(this.props.dataField));
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataRow.fieldDefs.get(el.name));
+            this.props.onChanged(this.props.dataRow.fields.get(el.name));
     }
 }

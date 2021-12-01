@@ -73,8 +73,8 @@ export default class TGrid extends TTable implements DataControl {
         this.endOutput(html);
     }
 
-    addColumns(fieldDefs: FieldDefs): void {
-        for (let meta of fieldDefs.fields) {
+    addColumns(fields: FieldDefs): void {
+        for (let meta of fields.items) {
             if (!this.getColumn(meta.code))
                 new TGridColumn(this, meta.code, meta.name ? meta.name : meta.code);
         }
@@ -141,7 +141,7 @@ export default class TGrid extends TTable implements DataControl {
                         let value: any = this.dataSet.getValue(code);
 
                         // 如果自定义栏位则输出自定义栏位信息
-                        let meta = this.dataSet.fieldDefs.get(code);
+                        let meta = this.dataSet.fields.get(code);
                         if (meta != null && meta.onGetText != undefined) {
                             value = meta.onGetText(this.dataSet.current, meta);
                         }
@@ -158,7 +158,7 @@ export default class TGrid extends TTable implements DataControl {
 
         // 构建要导出的数据栏位
         dataIn.setMetaInfo(true);
-        let newFields = dataIn.fieldDefs;
+        let newFields = dataIn.fields;
         for (let group of this._groups) {
             group.getComponents().forEach((item) => {
                 let column = item as TGridColumn;
@@ -175,7 +175,7 @@ export default class TGrid extends TTable implements DataControl {
         fetch(exportUrl + "?filename=" + filename, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: dataIn.jsonString,
+            body: dataIn.json,
         }).then(response => response.blob())
             .then(blob => {
                 TGrid.download(filename, blob);
@@ -209,7 +209,7 @@ export default class TGrid extends TTable implements DataControl {
                     if (column.export) {
                         let value = this._dataSet.getText(column.code);
                         value = value.replace(/\r|\n|\\s/g, "");// 替换掉内容自带的换行符
-                        let dataType = this._dataSet.fieldDefs.get(column.code).type;
+                        let dataType = this._dataSet.fields.get(column.code).type;
                         if (dataType && dataType.indexOf('s') > -1) {
                             if (value.length > 0) {
                                 value = '\t' + value;// 标记为文本栏位
@@ -711,7 +711,7 @@ export class GridColumn extends TComponent {
 // new TGridColumn(grid.getGroup(1), "sex_", "性别").setCols('2');
 // grid.dataSet = ds;
 
-// ds.fieldDefs.get("sex_").onGetText = (row: DataRow, meta: FieldMeta) => {
+// ds.fields.get("sex_").onGetText = (row: DataRow, meta: FieldMeta) => {
 //     return row.getValue(meta.code) == 1 ? "男" : "女";
 // };
 
