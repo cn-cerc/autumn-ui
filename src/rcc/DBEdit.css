@@ -41,7 +41,7 @@
         font-size: 14px;
     }
     .main {
-        width: 33.3%;
+        min-width: 33.3%;
     }
     .main input[type="text"], .main select {
         min-width: 10.63rem;
@@ -53,7 +53,7 @@
         font-size: 14px;
     }
     .main {
-        width: 33.3%;
+        min-width: 33.3%;
     }
     .main input[type="text"], .main select {
         min-width: 8.63rem;

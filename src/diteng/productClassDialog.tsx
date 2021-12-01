@@ -21,10 +21,8 @@ type StateType = {
 export default class CaseCardDialog extends React.Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props);
-        console.log(this.props)
         let items = JSON.parse(this.props.items);
-        console.log(items)
-        this.state = { items, value: '' }
+        this.state = { items, value: '' };
     }
 
     render() {

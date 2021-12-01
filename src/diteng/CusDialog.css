@@ -17,7 +17,6 @@
 }
 
 .search .left>span {
-    display: inline-block;
     padding-right: 1rem;
 }
 
@@ -49,6 +48,12 @@
     margin-bottom: 0;
 }
 
+@media only screen and (min-width: 768px) {
+    .search .left>span {
+        display: inline-block;
+    }
+}
+
 @media only screen and (max-width: 1000px) and (min-width: 767px) {
     body {
         min-width: auto;
@@ -62,7 +67,6 @@
     article[role="document"] section[role="content"] {
         width: 100%;
         margin: 0;
-        height: 100%;
         overflow: auto;
         position: relative;
     }

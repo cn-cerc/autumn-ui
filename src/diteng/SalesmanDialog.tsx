@@ -22,8 +22,6 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
         super(props);
         let dataSet: DataSet = new DataSet();
         dataSet.setJson(this.props.items);
-        console.log(JSON.parse(this.props.items));
-        console.log(dataSet)
         let str: string = this.props.groups.replace("[", "");
         let groups: string[] = str.replace("]", "").split(",");
         this.state = {
@@ -69,7 +67,6 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
     }
 
     setBusiness(code: string, business: string) {
-        console.log($("#" + this.state.inputId, parent.document))
         let inputIds = this.props.inputId.split(",");
         $("#" + inputIds[0], parent.document).val(code);
         $("#" + inputIds[1], parent.document).val(business);

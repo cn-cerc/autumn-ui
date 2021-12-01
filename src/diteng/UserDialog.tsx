@@ -6,6 +6,7 @@ import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
 import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { showMsg } from "./Summer";
+import SearchPanel from "../rcc/SearchPanel";
 import './UserDialog.css';
 
 type propsType = {
@@ -36,7 +37,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
 
         config.setDataSet(this._dataSet);
         this.state = { dataIn: new DataRow(), config };
-        this.buttonClick(null);
+        this.buttonClick();
     }
 
     render() {
@@ -49,21 +50,16 @@ export default class UserDialog extends React.Component<propsType, stateType> {
                     </span>
                 </div>
                 <div className="window">
-                    <form method="post" className="search" style={{ minHeight: '4em' }}>
-                        <DBEdit dataRow={this.state.dataIn} dataField={'SearchText_'} dataName=''
-                            onChanged={this.update} placeholder='请输入查询条件' autoFocus={true} />
-                        <input type="submit" name="submit" onClick={this.buttonClick} value="查询" style={{ height: '1.75rem' }} />
-                    </form>
+                    <SearchPanel dataRow={this.state.dataIn} onExecute={this.buttonClick.bind(this)}>
+                        <DBEdit dataName="查询条件" dataField="SearchText_" placeholder="请输入查询条件" autoFocus={true}></DBEdit>
+                    </SearchPanel>
                     <DialogGrid config={this.state.config} onTrClick={this.trClick} />
                 </div>
             </div>
         )
     }
 
-    buttonClick: MouseEventHandler<HTMLInputElement> = (sender: any) => {
-        if (sender)
-            sender.preventDefault();
-
+    buttonClick() {
         let query = new QueryService(this.props);
         query.dataIn.head.copyValues(this.state.dataIn.current);
         query.dataIn.head.setValue('Enabled_', 1);
@@ -79,7 +75,6 @@ export default class UserDialog extends React.Component<propsType, stateType> {
 
     update: OnFieldChangedEvent = (sender: any) => {
         this.setState(this.state);
-        console.log(this.state.dataIn.current.json);
     }
 
     closeDialog = () => {

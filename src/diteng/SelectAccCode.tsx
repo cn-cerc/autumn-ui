@@ -35,7 +35,6 @@ export default class SelectAccCode extends DialogComponent<DialogComponentProps,
     }
 
     onRowClick: OnRowClickEvent = (row: DataRow) => {
-        console.log(this.props.onSelect)
         if (this.props.onSelect)
             this.props.onSelect(row);
         this.setActive(false);
