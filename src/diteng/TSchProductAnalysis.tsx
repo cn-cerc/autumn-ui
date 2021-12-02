@@ -25,7 +25,7 @@ const CUSTOMER_131001 = "131001";
 const CUSTOMER_194005 = "194005";
 const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
 const loading = new Loading('系统正在查询中 . . .');
-const MAX_RECORD = 10000;
+const MAX_RECORD = 100000;
 
 export default class TSchProductAnalysis extends React.Component<propsType, stateType>{
     private async: boolean;
@@ -235,6 +235,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
                     this.dataSet.setValue("CostAmount_", math.toFixed(this.dataSet.getDouble("CostAmount_") + dataOut.getDouble("CostAmount_"), 2));
                     this.dataSet.setValue("OutSumAmount_", math.toFixed(this.dataSet.getDouble("OutSumAmount_") + dataOut.getDouble("OutSumAmount_"), 2));
                     this.dataSet.setValue("OutSumProfit_", math.toFixed(this.dataSet.getDouble("OutSumProfit_") + dataOut.getDouble("OutSumProfit_"), 2));
+                    this.dataSet.setValue("NewUP_", dataOut.getDouble("NewUP_"));
                 } else {
                     this.dataSet.append();
                     this.dataSet.copyRecord(dataOut.current, dataOut.fields);

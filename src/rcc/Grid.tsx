@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
 import { TGridConfig } from '../vcl/TGrid';
-import MutiPage, { MinPageSize, OnPageChanged } from './MutiPage';
+import MutiPage, { DefaultPageSize, OnPageChanged } from './MutiPage';
 import styles from './Grid.css';
 
 const defaultProps = {
@@ -24,7 +24,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     constructor(props: PropsType) {
         super(props)
-        this.state = { beginPoint: 1, endPoint: MinPageSize };
+        this.state = { beginPoint: 1, endPoint: DefaultPageSize };
         $("#page").css({
             "height": "0",
             "flex": "1",
@@ -134,7 +134,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
     }
 
     getNavigator(): React.ReactNode {
-        if (this.props.config.dataSet.size <= MinPageSize)
+        if (this.props.config.dataSet.size <= DefaultPageSize)
             return null;
         return (
             <MutiPage total={this.props.config.dataSet.size} onPageChanged={this.onPageChanged} />
@@ -153,7 +153,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
     initGrid() {
         this.setState({
             beginPoint: 1,
-            endPoint: MinPageSize
+            endPoint: DefaultPageSize
         })
     }
 

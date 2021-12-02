@@ -2,8 +2,9 @@ import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } fr
 import styles from "./MutiPage.css";
 
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
+export const DefaultPageSize = 100;
 
-export const MinPageSize = 20;
+const USER_PAGE_SIZE_KEY = 'user:pageSize';
 
 type propsType = {
     onPageChanged: OnPageChanged
@@ -19,7 +20,13 @@ type stateType = {
 export default class MutiPage extends React.Component<propsType, stateType> {
     constructor(props: propsType) {
         super(props);
-        this.state = { pageSize: MinPageSize, pageNo: 1, inputValue: '1' }
+        let value = localStorage.getItem(USER_PAGE_SIZE_KEY);
+        let size = Number(value);
+        if (!size) {
+            size = DefaultPageSize;
+            localStorage.setItem(USER_PAGE_SIZE_KEY, String(size));
+        }
+        this.state = { pageSize: size, pageNo: 1, inputValue: '1' }
     }
 
     render() {
@@ -33,9 +40,11 @@ export default class MutiPage extends React.Component<propsType, stateType> {
                     width: "4rem",
                     padding: 0
                 }}>
-                    <option value={MinPageSize}>{MinPageSize}</option>
+                    <option value='20'>20</option>
                     <option value='50'>50</option>
-                    <option value='100'>100</option>
+                    <option value={DefaultPageSize}>{DefaultPageSize}</option>
+                    <option value='200'>200</option>
+                    <option value='500'>500</option>
                 </select>
                 <span> 条</span><span style={{ margin: '0.5rem' }} />
                 <span> 第 </span>
@@ -54,6 +63,9 @@ export default class MutiPage extends React.Component<propsType, stateType> {
     onPageSizeChange: ChangeEventHandler<HTMLSelectElement> = (sender: any) => {
         let el: HTMLSelectElement = sender.target;
         let pageSize = Number.parseInt(el.value);
+        if (pageSize) {
+            localStorage.setItem(USER_PAGE_SIZE_KEY, String(pageSize));
+        }
         let pageNo = this.state.pageNo;
         let maxPage = Math.ceil(this.props.total / pageSize);
         if (pageNo > maxPage)

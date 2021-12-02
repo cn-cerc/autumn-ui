@@ -12,7 +12,7 @@ import { AuiMath, Loading, showMsg } from "./Summer";
  */
 const SEARCH_SESSION_KEY = 'TSchScmStockInOut:search';
 const loading = new Loading('系统正在查询中 . . .');
-const MAX_RECORD = 10000;
+const MAX_RECORD = 100000;
 
 const CUSTOMER_164003 = "164003";
 const CUSTOMER_214015 = "214015";
