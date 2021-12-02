@@ -134,7 +134,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
     // 用于弹窗选择完成之后关闭窗口
     handleSelect() {
         var evt = new Event("input", {"bubbles":true, "cancelable":true});
-        document.querySelector('#' + this.props.inputId).dispatchEvent(evt);
+        document.getElementById(this.props.inputId).dispatchEvent(evt);
         this.handleClose();
     }
 }
