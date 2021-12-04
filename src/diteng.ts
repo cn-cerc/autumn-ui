@@ -12,7 +12,7 @@ import DialogDOM from "./diteng/DialogDOM";
 import UserDialog from "./diteng/UserDialog";
 import DateDialog from "./diteng/DateDialog";
 import SalesmanDialog from "./diteng/SalesmanDialog";
-import ProductClassDialog from "./diteng/productClassDialog";
+import ProductClassDialog from "./diteng/ProductClassDialog";
 import DateYMDialog from "../src/diteng/DateYMDialog";
 import StaffDialog from "./diteng/StaffDialog";
 import SupDialog from "./diteng/SupDialog";
