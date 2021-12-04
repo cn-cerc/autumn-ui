@@ -13,7 +13,7 @@ import DialogDOM from "../src/diteng/DialogDOM"
 import CusDialog from "../src/diteng/CusDialog"
 import DateDialog from "../src/diteng/DateDialog"
 import SalesmanDialog from "../src/diteng/SalesmanDialog"
-import productClassDialog from "../src/diteng/productClassDialog";
+import ProductClassDialog from "../src/diteng/productClassDialog";
 import DateYMDialog from "../src/diteng/DateYMDialog"
 import StaffDialog from "../src/diteng/StaffDialog"
 import SupDialog from "../src/diteng/SupDialog"
@@ -55,7 +55,7 @@ export default {
     DateDialog,
     SalesmanDialog,
     BrandDialog,
-    productClassDialog,
+    ProductClassDialog,
     DateYMDialog,
     StaffDialog,
     SupDialog,

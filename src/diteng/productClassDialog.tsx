@@ -1,117 +1,187 @@
 import React from "react";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
+import styles from "./ProductClassDialog.css";
+import DialogApi from "./DialogApi";
 import DataSet from "../db/DataSet";
-import styles from "./productClassDialog.css"
+import DataRow from "../db/DataRow";
 
-type PropsType = {
-    inputId: string,
-    viewId: string,
-    items: string,
-    action: string
+type ProductListProp = {
+    dataSet: DataSet,
+    title: string,
+    filed: string,
+    handleClick: Function,
+    defaultVal: string
 }
 
-type StateType = {
-    items: {
-        class1: Array<string>,
-        class2: Array<string> | null,
-        class3: Array<string> | null;
-    },
-    value: string
-}
-
-export default class CaseCardDialog extends React.Component<PropsType, StateType> {
-    constructor(props: PropsType) {
+class ProductList extends React.Component<ProductListProp>{
+    constructor(props: ProductListProp) {
         super(props);
-        let items = JSON.parse(this.props.items);
-        this.state = { items, value: '' };
     }
-
     render() {
         return (
-            <div className={styles.caseCards}>
-                {this.getCaseCards()}
-                <div className={styles.submit} onClick={()=>this.handleSubmit()}>确认</div>
+            <ul className={this.props.dataSet.size == 0 ? styles.hidePartClass : styles.caseCard} >
+                <li onClick={() => this.props.handleClick('')} className={'' == this.props.defaultVal ? styles.selected : ''}>{this.props.title}</li>
+                {
+                    this.props.dataSet.records.map((row: DataRow, index: number) => {
+                        let name = row.getString(this.props.filed);
+                        return (
+                            <li key={index} onClick={() => this.props.handleClick(name)}
+                                className={name == this.props.defaultVal ? styles.selected : ''}>
+                                {name}
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        )
+    }
+}
+
+type PropType = {
+    productClass: string,
+    brand: string,
+    inputId: string,
+} & Partial<BaseDialogPropsType>
+
+type StateType = {
+    class1: DataSet,
+    class2: DataSet,
+    class3: DataSet,
+    value1: string,
+    value2: string,
+    value3: string,
+    value: string
+} & Partial<BaseDialogStateType>
+
+export default class ProductClassDialog extends BaseDialog<PropType, StateType> {
+    constructor(props: PropType) {
+        super(props);
+        this.state = {
+            ...this.state,
+            class1: new DataSet(),
+            class2: new DataSet(),
+            class3: new DataSet(),
+            value1: '',
+            value2: '',
+            value3: '',
+            width: '55rem',
+        };
+        this.init();
+        this.setTitle('选择商品类别');
+    }
+
+    async init() {
+        let partClass: string[] = new Array(3).fill('');
+        if (this.props.productClass) {
+            let productArr = this.props.productClass.split('->');
+            if (productArr[0])
+                partClass[0] = productArr[0]
+            if (productArr[1])
+                partClass[1] = productArr[1]
+            if (productArr[2])
+                partClass[2] = productArr[2]
+        }
+        try {
+            let class1 = await DialogApi.getClass1();
+            let class2 = new DataSet();
+            let class3 = new DataSet();
+            let value1 = partClass[0];
+            let value2 = partClass[1];
+            let value3 = partClass[2];
+            if (value1)
+                class2 = await DialogApi.getClass2({ 'Brand_': this.props.brand, 'Class1_': this.replaceChar(value1) });
+
+            if (value2)
+                class3 = await DialogApi.getClass3({ 'Brand_': this.props.brand, 'Class1_': this.replaceChar(value1), 'Class2_': this.replaceChar(value2) });
+            this.setState({
+                ...this.state,
+                class1,
+                class2,
+                class3,
+                value1,
+                value2,
+                value3,
+            });
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
+
+    content(): JSX.Element {
+        return (
+            <div className={styles.main}>
+                <div className={styles.content}>
+                    {<ProductList title='所有大类' dataSet={this.state.class1} filed='Name_' handleClick={this.handleClass1.bind(this)} defaultVal={this.state.value1} />}
+                    {<ProductList title='所有中类' dataSet={this.state.class2} filed='Class2_' handleClick={this.handleClass2.bind(this)} defaultVal={this.state.value2} />}
+                    {<ProductList title='所有系列' dataSet={this.state.class3} filed='Class3_' handleClick={this.handleClass3.bind(this)} defaultVal={this.state.value3} />}
+                </div>
+                <div className={styles.submit} onClick={() => this.handleSubmit()}>确认</div>
             </div>
         )
     }
 
-    getCaseCards() {
-        let class1 = this.state.items.class1.slice(0, this.state.items.class1.length + 1);
-        let class2 = this.state.items.class2.slice(0, this.state.items.class2.length + 1);
-        let class3 = this.state.items.class3.slice(0, this.state.items.class3.length + 1);
-        let arr = [class1, class2, class3];
-        let str = "";
-        let cards = arr.map((item, index) => {
-            let startText: string = str;
-            let bool: boolean = false;
-            let cardList = item.map((t: any, i) => {
-                let endText = t.code;
-                if (t.selected) {
-                    str = str + t.code + "->";
-                    bool = true;
-                }
-                if (t.code) {
-                    for (let k: number = index + 1; k < arr.length; k++) {
-                        endText = endText + "->*";
-                    }
-                    return (
-                        <li key={t.code} onClick={() => this.handleClick(startText + endText)} className={t.selected ? styles.selected : ''}>{t.name}</li>
-                    )
-                }
-            })
-            cardList = cardList.filter((card)=>{
-                return card;
-            })
-            if(cardList.length <= 1)
-                cardList = [];
-
-            return (<ul className={bool ? styles.caseCard : styles.caseCard + " " + styles.initFirst} key={"caseCard2" + index}>{cardList}</ul>)
+    async handleClass1(name: string): Promise<void> {
+        let class2 = new DataSet();
+        let class3 = new DataSet();
+        this.state.value2 = '';
+        this.state.value3 = '';
+        class2 = await DialogApi.getClass2({
+            Brand_: this.props.brand,
+            Class1_: this.replaceChar(name)
         })
-        return cards;
+        this.setState({
+            ...this.state,
+            class2,
+            class3,
+            value1: name,
+        })
     }
-
-    handleClick(value: string) {
-        fetch('TWebSelectDialog.productClassServe?productClass=' + value + '&brand').then((res) => {
-            return res.json();
-        }).then((res) => {
-            if (res.class1) {
-                this.state.items.class1 = res.class1.slice(0, res.class1.length + 1);
-            }
-            if (res.class2) {
-                this.state.items.class2 = res.class2.slice(0, res.class2.length + 1);
-            }
-            if (res.class3) {
-                this.state.items.class3 = res.class3.slice(0, res.class3.length + 1);
-            }
-            this.setState({ value })
+    async handleClass2(name: string): Promise<void> {
+        let class3 = new DataSet();
+        this.state.value3 = '';
+        class3 = await DialogApi.getClass3({
+            Brand_: this.props.brand,
+            Class1_: this.replaceChar(this.state.value1),
+            Class2_: this.replaceChar(name)
+        })
+        this.setState({
+            ...this.state,
+            class3,
+            value2: name,
+        })
+    }
+    async handleClass3(name: string): Promise<void> {
+        this.setState({
+            ...this.state,
+            value3: name,
+        }, () => {
+            this.handleSubmit()
         })
     }
 
     handleSubmit() {
-        let data = this.state.value;
-        while(data.indexOf("->*") > -1) {
-            data = data.replace("->*", "");
+        let inputIds = this.props.inputId.split(',');
+        if (inputIds.length == 1) {
+            let val: string = this.state.value1;
+            if (this.state.value2)
+                val += `->${this.state.value2}`
+            if (this.state.value3)
+                val += `->${this.state.value3}`
+            let input = document.getElementById(inputIds[0]) as HTMLInputElement;
+            input.value = val;
+        } else if (inputIds.length == 3) {
+            let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+            let input3 = document.getElementById(inputIds[2]) as HTMLInputElement;
+            input1.value = this.state.value1;
+            input2.value = this.state.value2;
+            input3.value = this.state.value3;
         }
-        data.replace("*", "");
-        let value = data.split(",");
-        let inputIds = this.props.inputId.split(",");
-        if(inputIds.length == 1) {
-            value.forEach((t,i)=>{
-                $("#" + inputIds[i], parent.document).val(value[i]);
-            })
-        } else if(inputIds.length == 3) {
-            value = data.split("->");
-            if(value.length > 1)
-                $("#" + inputIds[0], parent.document).val(value[0]);
-            if (value.length > 1)
-                $("#" + inputIds[1], parent.document).val(value[1]);
-            else
-                $("#" + inputIds[1], parent.document).val('');
-            if (value.length > 2)
-                $("#" + inputIds[2], parent.document).val(value[2]);
-            else
-                $("#" + inputIds[2], parent.document).val('');
-        }
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
+        this.handleSelect();
+    }
+
+    replaceChar(str: string) {
+        let res = str.indexOf('&') > -1 ? encodeURI(str).replace(/&/g, '%26') : str;
+        return res;
     }
 }
