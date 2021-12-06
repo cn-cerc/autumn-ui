@@ -75,8 +75,9 @@ export default class DataSet implements IDataSource {
         this._records.splice(this.recNo - 1, 1);
         if (cur > this.size && this.size > 0)
             cur = this.size;
-        else if (this.size == 0)
-            cur = 0;
+        if (this._fetchNo > -1) {
+            this._fetchNo--;
+        }
         this.setRecNo(cur);
 
         // this.refreshBind({ size: true });
@@ -586,4 +587,3 @@ export default class DataSet implements IDataSource {
 // ds2.last();
 // ds2.delete();
 // JUnit.assertEquals(14, ds2.json, '{"head":{"id":100}}');
-
