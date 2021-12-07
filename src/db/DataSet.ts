@@ -1,3 +1,4 @@
+import { devServer } from '../../webpack.beta.config';
 import DataRow, { DataRowState } from './DataRow';
 import DataSource, { IDataSource } from './DataSource';
 import FieldDefs from './FieldDefs';
@@ -278,7 +279,7 @@ export default class DataSet implements IDataSource {
                     body.push(item);
                 }
                 if (this._curd)
-                    body.push({ _state: [] });
+                    body.push({ _state_: [] });
                 jsonObj.meta.body = body;
             }
         }
@@ -310,21 +311,21 @@ export default class DataSet implements IDataSource {
                     let item: any = [];
                     for (let meta of this._fields.items) {
                         item.push(row.getValue(meta.code));
-                        item.push(row.state);
                     }
+                    item.push(row.state);
                     jsonObj.body.push(item)
                 } else if (row.state == DataRowState.Update) {
                     let item: any = [];
                     for (let meta of this._fields.items) {
                         item.push(row.history.getValue(meta.code));
-                        item.push(row.history.state);
                     }
+                    item.push(row.history.state);
                     jsonObj.body.push(item)
                     item = [];
                     for (let meta of this._fields.items) {
                         item.push(row.getValue(meta.code));
-                        item.push(row.state);
                     }
+                    item.push(row.state);
                     jsonObj.body.push(item)
                 }
             }
@@ -348,17 +349,11 @@ export default class DataSet implements IDataSource {
         return JSON.stringify(jsonObj);
     }
 
-    setJson(jsonObj: any) {
+    setJson(value: string) {
         this.clear();
-        if (!jsonObj) {
-            return;
-        }
-        if (!jsonObj) {
+        if (!value) 
             throw new Error('json is null!')
-        }
-        if (typeof jsonObj === 'string') {
-            jsonObj = JSON.parse(jsonObj)
-        }
+        let jsonObj = JSON.parse(value);
         if (jsonObj.hasOwnProperty('state')) {
             this._state = jsonObj.state
         }
@@ -429,7 +424,7 @@ export default class DataSet implements IDataSource {
                     let item = data[i];
                     let row = new DataRow(this);
                     for (let j = 0; j < defs.length; j++) {
-                        if ('_state_' == defs[i]) {
+                        if ('_state_' == defs[j]) {
                             switch (item[j]) {
                                 case 0: row.setState(DataRowState.None); break;
                                 case 1: row.setState(DataRowState.Insert); break;

@@ -38,11 +38,13 @@ export default class DataRow implements IDataSource {
     get state(): number { return this._state }
     setState(value: DataRowState): DataRow {
         if (this._state != value) {
+            if ((this.state == DataRowState.Insert) && (value == DataRowState.Update))
+                throw new Error("change state error: insert => update");
             this._state = value;
-            if (this._state == DataRowState.None) {
-                this._delta.clear();
+            if (this._state == DataRowState.None)
                 this.setHistory(null);
-            }
+            else if (this._state == DataRowState.Update)
+                this.setHistory(this.clone());
         }
         return this;
     }
