@@ -89,20 +89,17 @@ export default class DialogApi {
 
     /** 获取商品明细 */
     static async getProducts(params: DataRow) {
-        let ds = await DialogApi.getDataOut('TAppPartStock.SelectProduct', params);
-        return ds;
+        return await DialogApi.getDataOut('TAppPartStock.SelectProduct', params);
     }
 
     /** 获取商品子项列表 */
     static async getSubItem(params: { Marque_: string }) {
-        let ds = await DialogApi.getService('SvrMarque.getSubItem', params);
-        return ds;
+        return await DialogApi.getService('SvrMarque.getSubItem', params);
     }
 
     /** 查询当前用户的所有下属 */
     static async getSubordinate(params: DataRow) {
-        let ds = await DialogApi.getDataOut('TAppDept.searchSubordinate', params);
-        return ds;
+        return await DialogApi.getDataOut('TAppDept.searchSubordinate', params);
     }
 
     /** 获取资产规格 */
@@ -119,5 +116,10 @@ export default class DialogApi {
         if(bool)
             ds.append().setValue("WareSpec_", text);
         return ds;
+    }
+
+    /** 获取物流公司列表 */
+    static async getLogistics(params: DataRow) {
+        return await DialogApi.getDataOut('TAppLogistics.SearchDialogLogistics', params);
     }
 }
