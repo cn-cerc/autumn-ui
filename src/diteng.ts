@@ -18,6 +18,7 @@ import StaffDialog from "./diteng/StaffDialog";
 import SupDialog from "./diteng/SupDialog";
 import ProductDialog from "./diteng/ProductDialog";
 import SubordinateDialog from "./diteng/SubordinateDialog";
+import WareBasicDialog from "./diteng/WareBasicDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -51,6 +52,7 @@ export default {
     SupDialog,
     ProductDialog,
     SubordinateDialog,
+    WareBasicDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }

@@ -104,4 +104,20 @@ export default class DialogApi {
         let ds = await DialogApi.getDataOut('TAppDept.searchSubordinate', params);
         return ds;
     }
+
+    /** 获取资产规格 */
+    static async getWareBasic(params: DataRow) {
+        let ds = await DialogApi.getDataOut('SvrWareBasic.search', params);
+        let bool = true;
+        let text = params.getString("SearchText_");
+        while(ds.fetch()) {
+            if (ds.getString("WareSpec_").indexOf(text) > -1) {
+                bool = false;
+                break;
+            }
+        }
+        if(bool)
+            ds.append().setValue("WareSpec_", text);
+        return ds;
+    }
 }

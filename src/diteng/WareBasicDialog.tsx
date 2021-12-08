@@ -1,4 +1,3 @@
-
 import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
@@ -10,19 +9,19 @@ import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
 
-type SubordinateTypeState = {
+type WareBasicTypeState = {
     dataSet: DataSet,
     dataIn: DataRow
 } & Partial<BaseDialogStateType>
 
-export default class SubordinateDialog extends BaseDialog<BaseDialogPropsType, SubordinateTypeState> {
+export default class WareBasicDialog extends BaseDialog<BaseDialogPropsType, WareBasicTypeState> {
     constructor(props: BaseDialogPropsType) {
         super(props);
         this.state = {
             ...this.state,
             dataSet: new DataSet(),
             dataIn: new DataRow(),
-            width: '40rem'
+            width: '50rem'
         }
     }
 
@@ -45,12 +44,11 @@ export default class SubordinateDialog extends BaseDialog<BaseDialogPropsType, S
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='规格' dataField='SearchText_'></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
-                    <Column name='员工代码' code='Code_' width='60'></Column>
-                    <Column name='员工名称' code='Name_' width='50'></Column>
-                    <Column name='操作' code='opera' width='20' customText={
+                <DBGrid dataSet={this.state.dataSet} showOrder={true}>
+                    <Column name='规格' code='WareSpec_' width='50'></Column>
+                    <Column name='选择' code='opera' width='10' customText={
                         (row: DataRow) => {
                             return <td role='opera' align='center' onClick={this.handleClick.bind(this, row)}>选择</td>
                         }
@@ -62,17 +60,14 @@ export default class SubordinateDialog extends BaseDialog<BaseDialogPropsType, S
 
     async getSubordinate(): Promise<DataSet> {
         this.setLoad(true);
-        let dataSet = await DialogApi.getSubordinate(this.state.dataIn);
+        let dataSet = await DialogApi.getWareBasic(this.state.dataIn);
         this.setLoad(false);
         return dataSet;
     }
 
     handleClick(row: DataRow) {
-        let inputIds = this.props.inputId.split(',');
-        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-        input1.value = row.getString('Code_');
-        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input2.value = row.getString('Name_');
+        let input = document.getElementById(this.props.inputId) as HTMLInputElement;
+        input.value = row.getString('WareSpec_');
         this.handleSelect();
     }
 }
