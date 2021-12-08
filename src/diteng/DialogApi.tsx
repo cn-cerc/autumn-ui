@@ -98,4 +98,10 @@ export default class DialogApi {
         let ds = await DialogApi.getService('SvrMarque.getSubItem', params);
         return ds;
     }
+
+    /** 查询当前用户的所有下属 */
+    static async getSubordinate(params: DataRow) {
+        let ds = await DialogApi.getDataOut('TAppDept.searchSubordinate', params);
+        return ds;
+    }
 }

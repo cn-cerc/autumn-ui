@@ -1,19 +1,17 @@
 import React from "react";
-import SearchPanel from "../rcc/SearchPanel";
-import DBGrid from "../rcc/DBGrid";
-import { Column } from "../rcc/DBGrid";
-import DBEdit from "../rcc/DBEdit";
-import DBDrop from "../rcc/DBDrop";
-import DataSet from "../db/DataSet";
-import styles from "./StaffDialog.css";
 import DataRow from "../db/DataRow";
+import DataSet from "../db/DataSet";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import QueryService from "../db/QueryService";
-import { showMsg } from "./Summer";
-import ProductClassDialog from "./ProductClassDialog";
+import Block, { Line } from "../rcc/Block";
+import DBDrop from "../rcc/DBDrop";
+import DBEdit from "../rcc/DBEdit";
+import DBGrid, { Column } from "../rcc/DBGrid";
+import SearchPanel from "../rcc/SearchPanel";
 import DialogApi from "./DialogApi";
 import GetMarque from "./GetMarque";
-import Block, { Line } from "../rcc/Block";
+import ProductClassDialog from "./ProductClassDialog";
+import styles from "./StaffDialog.css";
+import { showMsg } from "./Summer";
 
 type propsType = {
     inputId: string,
