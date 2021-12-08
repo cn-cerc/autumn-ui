@@ -188,7 +188,7 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
 
     render() {
         if (this.props.customText && this.props.tag != ColumnType.th) {
-            return this.props.customText(this.props.dataRow);
+            return <td>{this.props.customText(this.props.dataRow)}</td>
         }
         switch (this.props.tag) {
             case ColumnType.th:

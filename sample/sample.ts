@@ -29,6 +29,7 @@ import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
 import TGrid, { TGridColumn, TGridConfig } from "../src/vcl/TGrid"
 import FrmAccTran from "./FrmAccTran"
+import AcPaySet from "./AcPaySet"
 import TCustomComponent from "../src/vcl/TCustomComponent"
 
 export default {
@@ -75,6 +76,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmAccTran);
+    let el = React.createElement(AcPaySet);
     ReactDOM.render(el, app)
 }

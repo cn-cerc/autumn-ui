@@ -5,10 +5,13 @@ import SServer from "./SServer";
 export default class SClient extends DataSet {
     private _service: string;
     private _server: SServer;
+    constructor(props: any) {
+        super(props);
+    }
 
     get server(): SServer {
         if (!this._server)
-            this._server = new SServer;
+            this._server = new SServer();
         return this._server;
     }
     setServer(value: SServer): SClient {
@@ -22,24 +25,49 @@ export default class SClient extends DataSet {
         return this;
     }
 
-    open(func: (sender: SClient) => void) {
-        let self = this;
+    async open(): Promise<void> {
         let rs = new RemoteService();
         rs.setHost(this.server.host);
         rs.setToken(this.server.token);
-        rs.setService(this._service);
         rs.dataIn.setJson(this.json);
-        rs.exec((dataOut => {
-            self.setJson(dataOut.json);
-            self.mergeChangeLog();
-            func.call(self);
-        }));
+
+        rs.setService(this._service);
+        if (this._service.toLowerCase().indexOf(' from ') > -1) {
+            rs.dataIn.setValue('_sql_', this._service);
+            this.setService(this.findService(this._service));
+        }
+        try {
+            await rs.exec()
+            this.setJson(rs.dataOut.json);
+        } catch (err) {
+            this.setJson(err.json);
+        }
+        this.mergeChangeLog();
     }
 
-    save(func: (sender: SClient) => void) {
-        this.setCurd(true);
-        this.open(func);
-        this.setCurd(false);
+    async save(): Promise<void> {
+        this.setCrud(true);
+        await this.open();
+        this.setCrud(false);
     }
 
+    private findService(sql: string): string {
+        let result: string = null;
+        let items: string[] = sql.split(' ');
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].toLowerCase() == "from") {
+                // 防止取到空值
+                while (items[i + 1] == null || "" == items[i + 1].trim()) {
+                    i++;
+                }
+                result = items[++i]; // 获取数据库表名
+                break;
+            }
+        }
+
+        if (result == null)
+            throw new Error("sql command error");
+
+        return result;
+    }
 }

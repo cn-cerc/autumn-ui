@@ -61,6 +61,11 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
 
     inputOnChange = (sender: any) => {
         let el: HTMLInputElement = sender.target;
+        if (this.props.dataRow.dataSet) {
+            let recNo = this.props.dataRow.dataSet.locationRow(this.state.row);
+            this.props.dataRow.dataSet.setRecNo(recNo);
+            this.props.dataRow.dataSet.edit();
+        }
         this.state.row.setValue(this.props.dataField, el.value);
         this.setState(this.state);
         if (this.props.onChanged)
@@ -71,6 +76,12 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
         if (values.fields.items.length == 0)
             throw new Error('返回值错误：没有任何字段')
         let value = values.getString(values.fields.items[0].code);
+
+        let dataSet = this.props.dataRow.dataSet;
+        if (dataSet) {
+            dataSet.setRecNo(dataSet.locationRow(this.props.dataRow) + 1);
+            dataSet.edit();
+        }
         this.state.row.setValue(this.props.dataField, value);
         this.setState(this.state);
         if (this.props.onChanged)

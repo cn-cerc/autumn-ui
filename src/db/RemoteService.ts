@@ -5,6 +5,7 @@ export default class RemoteService {
     private _host = '/services/';
     private _service: string;
     private _dataIn: DataSet;
+    private _dataOut: DataSet;
 
     constructor(props: any = {}) {
         this._dataIn = new DataSet();
@@ -22,8 +23,9 @@ export default class RemoteService {
         }
     }
 
-    exec(func: (dataOut: DataSet) => void): void {
-        this.getPromise().then(dataOut => func.call(this, dataOut)).catch(dataOut => func.call(this, dataOut))
+    async exec(): Promise<boolean> {
+        this._dataOut = await this.getPromise();
+        return this._dataOut.state > 0;
     }
 
 
@@ -66,4 +68,19 @@ export default class RemoteService {
 
     get service(): string { return this._service }
     setService(service: string): RemoteService { this._service = service; return this; }
+
+    get dataOut(): DataSet { return this._dataOut; }
+    setDataOut(value: DataSet) { this._dataOut = value; }
 }
+
+// 调用范例
+// (async () => {
+//     let app = new aui.RemoteService({ sid: '0df4a65ae8c3439382dbc45656404fa7', host: 'http://127.0.0.1/services/' });
+//     app.setService('TAppUserInfo.DownloadSingle');
+// 	   app.dataIn.head.setValue('Code_','911001162')
+//     if (!await app.exec()) {
+//         console.log('错误信息：', app.dataOut.message)
+// 		return false;
+//     }
+//     console.log('正确结果',app.dataOut)
+// })();

@@ -1,4 +1,3 @@
-import { devServer } from '../../webpack.beta.config';
 import DataRow, { DataRowState } from './DataRow';
 import DataSource, { IDataSource } from './DataSource';
 import FieldDefs from './FieldDefs';
@@ -23,7 +22,7 @@ export default class DataSet implements IDataSource {
     private _records: DataRow[] = [];
     private _garbage: DataRow[] = [];
     private _search: SearchDataSet;
-    private _curd: boolean;
+    private _crud: boolean;
     //提供数据绑定服务
     // private _bindControls: Set<DataControl> = new Set<DataControl>();
     // private _bindEnabled: boolean = true;
@@ -72,14 +71,11 @@ export default class DataSet implements IDataSource {
             throw new Error("current is null, delete fail")
         this._garbage.push(this.current.setState(DataRowState.Delete));
 
-        let cur = this.recNo;
         this._records.splice(this.recNo - 1, 1);
-        if (cur > this.size && this.size > 0)
-            cur = this.size;
+
         if (this._fetchNo > -1) {
             this._fetchNo--;
         }
-        this.setRecNo(cur);
 
         // this.refreshBind({ size: true });
         return this;
@@ -263,7 +259,7 @@ export default class DataSet implements IDataSource {
                 jsonObj.meta.head = head;
             }
 
-            if (this._records.length > 0) {
+            if (this.fields.items.length > 0) {
                 let body: any = [];
                 for (let meta of this.fields.items) {
                     let item: any = {};
@@ -278,7 +274,7 @@ export default class DataSet implements IDataSource {
                     }
                     body.push(item);
                 }
-                if (this._curd)
+                if (this._crud)
                     body.push({ _state_: [] });
                 jsonObj.meta.body = body;
             }
@@ -304,7 +300,7 @@ export default class DataSet implements IDataSource {
             item.push('_state_');
             jsonObj.body.push(item);
         }
-        if (this.curd) {
+        if (this.crud) {
             //insert && update
             for (let row of this._records) {
                 if (row.state == DataRowState.Insert) {
@@ -334,8 +330,8 @@ export default class DataSet implements IDataSource {
                 var item: any = []
                 for (let meta of this._fields.items) {
                     item.push(row.getValue(meta.code));
-                    item.push(row.state);
                 }
+                item.push(row.state);
                 jsonObj.body.push(item)
             }
         } else if (this.size > 0) {
@@ -351,7 +347,7 @@ export default class DataSet implements IDataSource {
 
     setJson(value: string) {
         this.clear();
-        if (!value) 
+        if (!value)
             throw new Error('json is null!')
         let jsonObj = JSON.parse(value);
         if (jsonObj.hasOwnProperty('state')) {
@@ -389,7 +385,7 @@ export default class DataSet implements IDataSource {
                     for (let key in map) {
                         defs[i] = key;
                         if ('_state_' == key) {
-                            this.setCurd(true);
+                            this.setCrud(true);
                             continue;
                         }
                         let values = map[key];
@@ -417,7 +413,7 @@ export default class DataSet implements IDataSource {
                 for (var i = 0; i < data.length; i++) {
                     if (!this._meta && i == 0) {
                         defs = data[0];
-                        if (this._curd)
+                        if (this._crud)
                             defs.push('_state_');
                         continue;
                     }
@@ -443,7 +439,7 @@ export default class DataSet implements IDataSource {
                     if (row.state == DataRowState.Delete)
                         this._garbage.push(row);
                     else if (row.state == DataRowState.History) {
-                        if (history == null)
+                        if (history != null)
                             throw Error("history is not null");
                         history = row;
                     } else if (row.state == DataRowState.Update) {
@@ -494,8 +490,8 @@ export default class DataSet implements IDataSource {
         return this;
     }
 
-    get curd(): boolean { return this._curd }
-    setCurd(value: boolean): DataSet { this._curd = value; return this; }
+    get crud(): boolean { return this._crud }
+    setCrud(value: boolean): DataSet { this._crud = value; return this; }
 
     appendDataSet(source: DataSet) {
         source.head.fields.forEach((meta: FieldMeta) => {
@@ -552,6 +548,16 @@ export default class DataSet implements IDataSource {
         });
     }
 
+    locationRow(row: DataRow): number {
+        let recNo = 0;
+        this.records.forEach((value, index) => {
+            if (value.json === row.json) {
+                recNo = index + 1
+                return recNo;
+            }
+        })
+        return recNo
+    }
 }
 
 // let ds = new DataSet();

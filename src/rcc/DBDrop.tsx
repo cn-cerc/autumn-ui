@@ -6,14 +6,12 @@ import styles from "./DBEdit.css"
 type PropsType = {
     dataRow?: DataRow,
     options?: Map<string, string>;
-    dataName: string;
+    dataName?: string;
     dataField: string;
     onChanged?: OnFieldChangedEvent;
 }
 
 export default class DBDrop extends React.Component<PropsType> {
-    private defaultValue: string;
-
     constructor(props: PropsType) {
         super(props);
     }
@@ -35,16 +33,24 @@ export default class DBDrop extends React.Component<PropsType> {
 
     getOptions() {
         let options: any[] = [];
-        this.props.options.forEach((value, key)=>{
+        this.props.options.forEach((value, key) => {
             options.push(<option key={key} value={value}>{key}</option>)
         })
         return options;
     }
 
     handleChange = (sender: any) => {
-        let el: HTMLInputElement = sender.target;
-        this.props.dataRow.setValue(this.props.dataField, el.value);
-        this.setState({...this.state});
+        let el: HTMLSelectElement = sender.target;
+        let option: HTMLOptionElement = el.selectedOptions[0];
+        let dataSet = this.props.dataRow.dataSet;
+        if (dataSet) {
+            dataSet.setRecNo(dataSet.locationRow(this.props.dataRow) + 1);
+            dataSet.edit();
+        }
+        this.props.dataRow.setValue(this.props.dataField, option.value);
+        this.setState({ ...this.state });
+        if (this.props.onChanged)
+            this.props.onChanged(this.props.dataRow.fields.get(this.props.dataField));
     }
 
 }

@@ -86,7 +86,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     <Column code='crAmount_' name='贷方金额' width='10' >
                         <DBEdit dataField='crAmount_' />
                     </Column>
-                    <Column code='remark_' name='备注' width='50' >
+                    <Column code='remark_' name='备注' width='50'>
                         <DBEdit dataField='remark_' />
                     </Column>
                 </DBGrid>
