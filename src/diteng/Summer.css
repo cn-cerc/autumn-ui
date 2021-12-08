@@ -33,4 +33,12 @@ div[role="dialog"] {
     right: 0;
     bottom: 0;
     z-index: 1001;
+    background-color: rgba(0,0,0,.2);
+}
+
+@media screen and (max-width: 767px) {
+    div[role="dbgrid"] {
+        height: auto;
+        flex: none;
+    }
 }

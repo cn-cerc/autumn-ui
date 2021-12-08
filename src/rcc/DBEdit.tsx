@@ -13,6 +13,7 @@ type PropsType = {
     placeholder?: string;
     onChanged?: OnFieldChangedEvent;
     autoFocus?: boolean;
+    readOnly?: boolean;
 }
 
 type DBEditState = {
@@ -48,7 +49,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
                 {dataName}
                 <input type="text" autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
-                    placeholder={this.props.placeholder} />
+                    placeholder={this.props.placeholder} readOnly={this.props.readOnly}/>
                 {React.Children.map(this.props.children, child => {
                     if (isValidElement(child)) {
                         return React.cloneElement(child, { onSelect: this.onDialogSelect })

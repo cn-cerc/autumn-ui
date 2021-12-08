@@ -13,10 +13,11 @@ import DialogDOM from "../src/diteng/DialogDOM"
 import CusDialog from "../src/diteng/CusDialog"
 import DateDialog from "../src/diteng/DateDialog"
 import SalesmanDialog from "../src/diteng/SalesmanDialog"
-import ProductClassDialog from "../src/diteng/productClassDialog";
+import ProductClassDialog from "../src/diteng/ProductClassDialog";
 import DateYMDialog from "../src/diteng/DateYMDialog"
 import StaffDialog from "../src/diteng/StaffDialog"
 import SupDialog from "../src/diteng/SupDialog"
+import ProductDialog from "../src/diteng/ProductDialog"
 import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
@@ -59,6 +60,7 @@ export default {
     DateYMDialog,
     StaffDialog,
     SupDialog,
+    ProductDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

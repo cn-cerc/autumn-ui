@@ -15,25 +15,27 @@ export default class Block extends Control<propsType> {
     render() {
         return (
             <div className={styles.block}>
-                {this.getRows().map(item => item)}
+                {this.getRows()}
             </div>
         )
     }
 
     getRows(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
+        let recNo = 0;
         for (let row of this.props.dataSet.records) {
-            items.push(<div className={styles.row} key={items.length}>{this.getLines(row).map(item => item)}</div>)
+            recNo++;
+            items.push(<div className={styles.row} key={items.length}>{this.getLines(row, recNo)}</div>)
         }
         return items;
     }
 
-    getLines(row: DataRow): React.ReactNode[] {
+    getLines(row: DataRow, recNo: number): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         let lineNo = 0;
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Line) {
-                items.push(React.cloneElement(child, { row, key: lineNo++ }));
+                items.push(React.cloneElement(child, { row, key: lineNo++, recNo: recNo }));
             }
         })
         return items;
@@ -43,25 +45,58 @@ export default class Block extends Control<propsType> {
 type LinePropsType = {
     row?: DataRow;
     readOnly?: boolean;
+    className?: string;
+    showOrder?: boolean;
+    recNo?: number
 }
 
-export class Line extends Control<LinePropsType> {
+type LineTypeState = {
+    allWidth: number
+}
+
+export class Line extends Control<LinePropsType, LineTypeState> {
+    constructor(props: LinePropsType) {
+        super(props);
+        this.state = {
+            allWidth: this.getAllWidth()
+        }
+    }
+
     render() {
         return (
-            <div className={styles.line}>
-                {this.getRow().map(item => item)}
+            <div className={this.props.className ? styles.line + ` ${this.props.className}` : styles.line}>
+                {this.getRow()}
             </div>
         )
     }
 
     getRow(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
+        if (this.props.showOrder) {
+            items.push((
+                <span style={{ 'width': '5%', 'display': 'inline-block' }}>{this.props.recNo}</span>
+            ))
+        }
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Column)
                 items.push(React.cloneElement(child, {
-                    tag: ColumnType.span, key: child.props.code, row: this.props.row
+                    tag: ColumnType.span, key: child.props.code, dataRow: this.props.row, width: this.getWidth(child.props.width)
                 }));
         })
         return items;
+    }
+
+    getAllWidth() {
+        let width: number = 0;
+        React.Children.map(this.props.children, child => {
+            if (isValidElement(child) && child.type == Column) {
+                width += Number(child.props.width)
+            }
+        })
+        return width;
+    }
+
+    getWidth(width: string) {
+        return (Number(width) / this.state.allWidth) * 100 + "%";
     }
 }

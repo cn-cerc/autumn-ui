@@ -4,6 +4,7 @@ import DataSet from "../db/DataSet";
 import FieldMeta from "../db/FieldMeta";
 import { OnFieldChangedEvent } from "./DBEdit";
 import styles from './DBGrid.css';
+import WebControl from "./WebControl";
 
 export type OnDataSetChangedEvvent = (dataSet: DataSet) => void;
 export type OnRowClickEvent = (row: DataRow) => void;
@@ -13,6 +14,7 @@ type DBGridProps = {
     readOnly?: boolean;
     onChanged?: OnDataSetChangedEvvent;
     onRowClick?: OnRowClickEvent;
+    showOrder?: boolean
 }
 
 type DBGridState = {
@@ -22,22 +24,22 @@ type DBGridState = {
 
 export type OnDataRowChangedEvent = (recNo: number, field: string, value: string) => void;
 
-export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
+export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     static defaultProps = {
         readOnly: true
     }
     constructor(props: DBGridProps) {
         super(props);
-        this.state = { 
+        this.state = {
             dataSet: this.props.dataSet,
             allWidth: this.getAllWidth()
-         }
+        }
+
     }
 
     render() {
         if (this.props.dataSet == undefined)
             return (<div>props.dataSet is undefined</div>);
-            
         return (
             <div className={styles.main} role="dbgrid">
                 <table className={styles.grid}>
@@ -52,8 +54,11 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
 
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
+        if (this.props.showOrder) {
+            items.push(<Column key="orderTitle" code="order" name="序号" width={this.getWidth('5')} tag={ColumnType.th}></Column>)
+        }
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column){
+            if (isValidElement(child) && child.type == Column) {
                 items.push(React.cloneElement(child, { tag: ColumnType.th, key: child.props.code, width: this.getWidth(child.props.width) }));
             }
         })
@@ -67,8 +72,8 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
             recNo++;
             //输出主行
             items.push(
-                <tr key={items.length} onClick={this.onTrClick}>
-                    {this.getRow(dataRow, recNo).map(item => item)}
+                <tr key={recNo} onClick={this.onTrClick}>
+                    {this.getRow(dataRow, recNo)}
                 </tr>
             )
 
@@ -113,6 +118,9 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
 
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
         let items: React.ReactNode[] = [];
+        if (this.props.showOrder) {
+            items.push(<Column key={`order${recNo}`} code="order" name="序号" width="10" customText={() => <td align="center">{recNo}</td>}></Column>)
+        }
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Column)
                 items.push(React.cloneElement(child, {
@@ -132,8 +140,8 @@ export default class DBGrid extends React.Component<DBGridProps, DBGridState> {
 
     getAllWidth() {
         let width: number = 0;
-        React.Children.map(this.props.children, child=>{
-            if(isValidElement(child) && child.type == Column) {
+        React.Children.map(this.props.children, child => {
+            if (isValidElement(child) && child.type == Column) {
                 width += Number(child.props.width)
             }
         })
@@ -154,7 +162,7 @@ type ColumnPropsType = {
     dataRow?: DataRow;
     recNo?: number;
     code: string;
-    name: string;
+    name?: string;
     width: string;
     colSpan?: number;
     onChanged?: OnDataRowChangedEvent;
@@ -179,24 +187,27 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
     }
 
     render() {
-        if(this.props.customText && this.props.tag != ColumnType.th) {
+        if (this.props.customText && this.props.tag != ColumnType.th) {
             return this.props.customText(this.props.dataRow);
         }
         switch (this.props.tag) {
             case ColumnType.th:
                 return (
-                    <th className={styles.column} style={{"width": this.props.width}}>{this.props.name}</th>
+                    <th className={styles.column} style={{ "width": this.props.width }}>{this.props.name}</th>
                 )
             case ColumnType.td: {
                 return this.getTd();
             }
             case ColumnType.span: {
                 let value = '';
+                let name = '';
                 if (this.props.dataRow)
                     value = this.props.dataRow.getString(this.props.code);
-                let text = `${this.props.name}：${value}`;
+                if(this.props.name)
+                    name = `${this.props.name}：`
+                let text = `${name}${value}`;
                 return (
-                    <span className={styles.column}>{text}</span>
+                    <span className={styles.column} style={{ "width": this.props.width, 'display': 'inline-block' }}>{text}</span>
                 )
             }
             default:

@@ -1,7 +1,7 @@
-.search input {
-    height: 1.7rem;
+.main form {
+    flex-direction: row;
 }
 
-.userDialog .dbgrid tr td>span {
-    padding-right: 0;
+.main form span {
+    justify-content: flex-start;
 }

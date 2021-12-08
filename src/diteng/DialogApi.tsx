@@ -1,3 +1,4 @@
+import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import { showMsg } from "./Summer";
@@ -21,7 +22,7 @@ export default class DialogApi {
         }
     }
 
-    static getService(url: string, params?: any): Promise<DataSet> {
+    static async getService(url: string, params?: any): Promise<DataSet> {
         let sid = DialogApi.getToken();
         if (!sid) {
             let error = new DataSet();
@@ -37,7 +38,25 @@ export default class DialogApi {
                 service.dataIn.head.setValue(param, params[param])
             })
         }
-        return service.open();
+        // e为请求失败时抛出的异常，类型为DataSet
+        let ds: DataSet = await service.open().catch(e => e);
+        return ds;
+    }
+
+    static async getDataOut(url: string, params: DataRow): Promise<DataSet> {
+        let sid = DialogApi.getToken();
+        if (!sid) {
+            let error = new DataSet();
+            error.setMessage('当前用户信息错误');
+            error.setState(-1);
+            return error.getPromise();
+        }
+        let service = new QueryService({ sid });
+        service.setService(url);
+        service.dataIn.head.copyValues(params.current);
+        // e为请求失败时抛出的异常，类型为DataSet
+        let ds: DataSet = await service.open().catch(e => e);
+        return ds;
     }
 
     /** 获取商品大类 */
@@ -51,7 +70,7 @@ export default class DialogApi {
         while (ds.fetch()) {
             if (ds.getString('Class2_') == '') ds.delete()
         }
-        return ds.getPromise();
+        return ds;
     }
 
     /** 获取商品系列 */
@@ -60,6 +79,23 @@ export default class DialogApi {
         while (ds.fetch()) {
             if (ds.getString('Class3_') == '') ds.delete()
         }
-        return ds.getPromise();
+        return ds;
+    }
+
+    /** 获取商品品牌 */
+    static getBrandList() {
+        return DialogApi.getService('TAppSCMBrand.GetBrandList')
+    }
+
+    /** 获取商品明细 */
+    static async getProducts(params: DataRow) {
+        let ds = await DialogApi.getDataOut('TAppPartStock.SelectProduct', params);
+        return ds;
+    }
+
+    /** 获取商品子项列表 */
+    static async getSubItem(params: { Marque_: string }) {
+        let ds = await DialogApi.getService('SvrMarque.getSubItem', params);
+        return ds;
     }
 }

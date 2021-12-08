@@ -7,7 +7,7 @@ import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
 import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { showMsg } from "./Summer";
 import SearchPanel from "../rcc/SearchPanel";
-import './UserDialog.css';
+import styles from './UserDialog.css';
 
 type propsType = {
     token: string;
@@ -42,7 +42,7 @@ export default class UserDialog extends React.Component<propsType, stateType> {
 
     render() {
         return (
-            <div className="userDialog">
+            <div className={styles.main}>
                 <div className="dialogClose" style={{ display: 'none' }}>
                     {this.props.title}
                     <span>

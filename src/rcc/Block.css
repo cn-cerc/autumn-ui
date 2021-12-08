@@ -1,5 +1,7 @@
 .row {
-    border: 1px solid;
-    margin: 2px;
-    background: rgb(250, 250, 250);
+    border-top: 1px solid #8c8c8c;
+    padding: .5rem .25rem;
+    margin: 0 .5rem;
+    font-size: 1rem;
+    line-height: 1.35rem;
 }

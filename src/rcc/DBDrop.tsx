@@ -26,28 +26,17 @@ export default class DBDrop extends React.Component<PropsType> {
         return (
             <span className={styles.main}>
                 {dataName}
-                <select id={this.props.dataField} onChange={this.handleChange}>
+                <select id={this.props.dataField} onChange={this.handleChange} value={this.props.dataRow.getString(this.props.dataField)}>
                     {this.getOptions()}
                 </select>
             </span>
         )
     }
 
-    componentDidMount() {
-        this.props.dataRow.setValue(this.props.dataField, this.defaultValue);
-    }
-
     getOptions() {
         let options: any[] = [];
-        let i = 0;
         this.props.options.forEach((value, key)=>{
-            if(i == 0)
-                this.defaultValue = value;
-            if(value == this.props.dataRow.getValue(this.props.dataField))
-                options.push(<option key={key} value={value} selected>{key}</option>)
-            else
-                options.push(<option key={key} value={value}>{key}</option>)
-            i++;
+            options.push(<option key={key} value={value}>{key}</option>)
         })
         return options;
     }

@@ -14,8 +14,6 @@
 }
 
 .search>span {
-    width: 25%;
-    min-width: 15rem;
     display: flex;
     align-items: center;
     padding-bottom: .5rem;
@@ -28,7 +26,8 @@
     text-align: left;
 }
 
-.search>span>input,.search>span>select {
+.search input,.search select {
+    min-width: 11.63rem;
     width: 11.63rem;
     max-width: 50%;
     height: 1.68rem;
@@ -56,4 +55,44 @@
     cursor: pointer;
     border-radius: .24rem;
     line-height: 1.88rem;
+}
+
+@media only screen and (max-width: 1600px) and (min-width: 1400px) {
+    .search input,.search select {
+        width: 9.63rem;
+    }
+}
+
+@media only screen and (max-width: 1399px) and (min-width: 1200px) {
+    .search input,.search select {
+        min-width: 10.63rem;
+    }
+}
+
+@media only screen and (max-width: 1199px) and (min-width: 768px) {
+    .search input,.search select {
+        min-width: 8.63rem;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .main {
+        flex-direction: column;
+        padding: .5rem;
+        align-items: center;
+    }
+
+    .search {
+        width: 100%;
+    }
+
+    .search span {
+        width: 100%;
+        justify-content: center;
+        position: relative;
+    }
+
+    .main>button {
+        margin-right: 0;
+    }
 }

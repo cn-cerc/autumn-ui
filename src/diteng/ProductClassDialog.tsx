@@ -4,8 +4,9 @@ import styles from "./ProductClassDialog.css";
 import DialogApi from "./DialogApi";
 import DataSet from "../db/DataSet";
 import DataRow from "../db/DataRow";
+import { OnSelectDataRowEvent } from "../rcc/DialogComponent";
 
-type ProductListProp = {
+type ProductListTypeProps = {
     dataSet: DataSet,
     title: string,
     filed: string,
@@ -13,8 +14,8 @@ type ProductListProp = {
     defaultVal: string
 }
 
-class ProductList extends React.Component<ProductListProp>{
-    constructor(props: ProductListProp) {
+class ProductList extends React.Component<ProductListTypeProps>{
+    constructor(props: ProductListTypeProps) {
         super(props);
     }
     render() {
@@ -37,13 +38,14 @@ class ProductList extends React.Component<ProductListProp>{
     }
 }
 
-type PropType = {
+type ProductClassTypeProps = {
     productClass: string,
     brand: string,
     inputId: string,
+    onSelect?: OnSelectDataRowEvent
 } & Partial<BaseDialogPropsType>
 
-type StateType = {
+type ProductClassTypeState = {
     class1: DataSet,
     class2: DataSet,
     class3: DataSet,
@@ -53,8 +55,8 @@ type StateType = {
     value: string
 } & Partial<BaseDialogStateType>
 
-export default class ProductClassDialog extends BaseDialog<PropType, StateType> {
-    constructor(props: PropType) {
+export default class ProductClassDialog extends BaseDialog<ProductClassTypeProps, ProductClassTypeState> {
+    constructor(props: ProductClassTypeProps) {
         super(props);
         this.state = {
             ...this.state,
@@ -160,24 +162,36 @@ export default class ProductClassDialog extends BaseDialog<PropType, StateType> 
     }
 
     handleSubmit() {
-        let inputIds = this.props.inputId.split(',');
-        if (inputIds.length == 1) {
+        if(this.props.onSelect) {
+            let row = new DataRow();
             let val: string = this.state.value1;
             if (this.state.value2)
                 val += `->${this.state.value2}`
             if (this.state.value3)
                 val += `->${this.state.value3}`
-            let input = document.getElementById(inputIds[0]) as HTMLInputElement;
-            input.value = val;
-        } else if (inputIds.length == 3) {
-            let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-            let input3 = document.getElementById(inputIds[2]) as HTMLInputElement;
-            input1.value = this.state.value1;
-            input2.value = this.state.value2;
-            input3.value = this.state.value3;
+            row.setValue("ProductClass_", val);
+            this.props.onSelect(row);
+            this.handleClose();
+        } else {
+            let inputIds = this.props.inputId.split(',');
+            if (inputIds.length == 1) {
+                let val: string = this.state.value1;
+                if (this.state.value2)
+                    val += `->${this.state.value2}`
+                if (this.state.value3)
+                    val += `->${this.state.value3}`
+                let input = document.getElementById(inputIds[0]) as HTMLInputElement;
+                input.value = val;
+            } else if (inputIds.length == 3) {
+                let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+                let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+                let input3 = document.getElementById(inputIds[2]) as HTMLInputElement;
+                input1.value = this.state.value1;
+                input2.value = this.state.value2;
+                input3.value = this.state.value3;
+            }
+            this.handleSelect();
         }
-        this.handleSelect();
     }
 
     replaceChar(str: string) {

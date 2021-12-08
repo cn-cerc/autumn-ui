@@ -30,6 +30,33 @@ div[role='dialog'] .content {
     flex: 1;
     background-color: #fff;
     overflow: auto;
+    position: relative;
+}
+
+.load {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load img {
+    width: 2rem;
+}
+
+.load span {
+    color: red;
+}
+
+.showDialog {
+    cursor: pointer;
+    margin-left: .5rem;
+    width: 1rem;
 }
 
 @media screen and (min-width: 768px) {
@@ -43,5 +70,10 @@ div[role='dialog'] .content {
     div[role='dialog'] .main {
         max-width: 100%;
         width: 100%;
+    }
+
+    .showDialog {
+        position: absolute;
+        right: 1rem;
     }
 }

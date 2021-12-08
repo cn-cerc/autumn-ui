@@ -1,4 +1,9 @@
-.brandDialog form {
+.main {
+    height: 100%;
+    overflow: auto;
+}
+
+.main form {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -7,7 +12,7 @@
     padding: .5rem;
 }
 
-.brandDialog form input[type="submit"] {
+.main form input[type="submit"] {
     margin: 0;
     background-color: #3273F4;
     color: #fff;
@@ -17,25 +22,25 @@
     min-width: auto;
 }
 
-.brandDialog form>div {
+.main form>div {
     display: flex;
     align-items: center;
 }
 
-.brandDialog .dbgrid {
+.main .dbgrid {
     margin: 0 .15rem;
     width: calc(100% - .3rem);
 }
 
-.brandDialog table tr td, .brandDialog table tr th {
+.main table tr td, .brandDialog table tr th {
     border-color: #c0c0c0;
 }
 
-.brandDialog table tr td span {
+.main table tr td span {
     padding: 0;
 }
 
-.brandDialog table tr td span.searchSpan {
+.main table tr td span.searchSpan {
     color: #015bad;
     background-color: transparent;
 }
