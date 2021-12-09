@@ -41,7 +41,7 @@ export default class StaffDialog extends React.Component<propsType, stateType> {
                 <DBGrid dataSet={this.state.dataSet}>
                     <Column code="Code_" name="员工代码" width="50"></Column>
                     <Column code="Name_" name="员工名称" width="30"></Column>
-                    <Column code="opera" name="操作" width="20" customText={this.customText.bind(this)}></Column>
+                    <Column code="opera" name="操作" width="20" textAlign='center' customText={this.customText.bind(this)}></Column>
                 </DBGrid>
             </div>
         )
@@ -49,7 +49,7 @@ export default class StaffDialog extends React.Component<propsType, stateType> {
 
     customText(dataRow: DataRow) {
         return (
-            <td role="opera" onClick={()=>this.handleClick(dataRow)} align="center">选择</td>
+            <span role="opera" onClick={()=>this.handleClick(dataRow)}>选择</span>
         )
     }
 

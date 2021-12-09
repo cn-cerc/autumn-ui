@@ -84,7 +84,7 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
                 <Block dataSet={this.state.dataSet}>
                     <Line>
                         <Column code='Code_' name='编号' width='90' />
-                        <Column code='opera' name='操作' width='10' customText={this.initOpera.bind(this)} />
+                        <Column code='opera' width='20' textAlign='right' customText={this.initOpera.bind(this)} />
                     </Line>
                     <Line>
                         <Column code='Brand_' name='品牌' width='100' />
@@ -103,7 +103,7 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
                     <Column code='Brand_' name='品牌' width='20'></Column>
                     <Column code='Spec_' name='品名' width='40' customText={this.initSpec}></Column>
                     <Column code='Code_' name='料号' width='30'></Column>
-                    <Column code='opera' name='操作' width='15' customText={this.initOpera.bind(this)}></Column>
+                    <Column code='opera' name='操作' width='15' textAlign='center' customText={this.initOpera.bind(this)}></Column>
                 </DBGrid>
             )
         }
@@ -146,18 +146,18 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
         let text;
         if (dataRow.getValue('Spec_'))
             text = ',' + dataRow.getValue('Spec_')
-        return <td>{dataRow.getValue('Desc_')}{text}</td>
+        return <span>{dataRow.getValue('Desc_')}{text}</span>
     }
 
     initOpera(dataRow: DataRow) {
         if (this.isPhone) {
             if (dataRow.getString('Classify_') == '1') {
                 return (
-                    <span style={{ 'display': 'inline-block', 'width': '10%' }}><GetMarque partCode={dataRow.getString('Code_')} isChild={true} name='展开' handleClose={this.handleClick.bind(this)} /></span>
+                    <span><GetMarque partCode={dataRow.getString('Code_')} isChild={true} name='展开' handleClose={this.handleClick.bind(this)} /></span>
                 )
             }
             else
-                return <span role='opera' style={{ 'display': 'inline-block', 'width': '10%' }} onClick={() => this.handleClick(dataRow)}>选择</span>
+                return <span role='opera' onClick={() => this.handleClick(dataRow)}>选择</span>
         }
         else {
             if (dataRow.getString('Classify_') == '1')
@@ -165,7 +165,7 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
                     <GetMarque partCode={dataRow.getString('Code_')} isChild={true} name='展开' handleClose={this.handleClick.bind(this)} />
                 )
             else
-                return <td role='opera' onClick={() => this.handleClick(dataRow)} align='center'>选择</td>
+                return <span role='opera' onClick={() => this.handleClick(dataRow)} >选择</span>
         }
     }
 

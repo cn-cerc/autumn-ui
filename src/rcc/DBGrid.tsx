@@ -119,7 +119,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         if (this.props.showOrder) {
-            items.push(<Column key={`order${recNo}`} code="order" name="序号" width="10" customText={() => <td align="center">{recNo}</td>}></Column>)
+            items.push(<Column key={`order${recNo}`} code="order" textAlign='center' name="序号" width="10" customText={() => <span>{recNo}</span>}></Column>)
         }
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Column)
@@ -175,7 +175,7 @@ type ColumnStateType = {
     dataRow: DataRow;
 }
 
-export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
+export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
     static defaultProps = {
         tag: ColumnType.td,
         colSpan: 1
@@ -188,7 +188,12 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
 
     render() {
         if (this.props.customText && this.props.tag != ColumnType.th) {
-            return <td>{this.props.customText(this.props.dataRow)}</td>
+            let child: JSX.Element = this.props.customText(this.props.dataRow);
+            if (this.props.tag == ColumnType.td)
+                return <td align={this.props.textAlign ? this.props.textAlign : 'left'}>{child}</td>
+            else
+                return <span style={{ 'width': this.props.width, 'display': 'inline-block', 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{child}</span>
+
         }
         switch (this.props.tag) {
             case ColumnType.th:
@@ -203,7 +208,7 @@ export class Column extends React.Component<ColumnPropsType, ColumnStateType> {
                 let name = '';
                 if (this.props.dataRow)
                     value = this.props.dataRow.getString(this.props.code);
-                if(this.props.name)
+                if (this.props.name)
                     name = `${this.props.name}：`
                 let text = `${name}${value}`;
                 return (

@@ -46,18 +46,20 @@
     }
     .main {
         min-width: 33.3%;
+        max-width: 45%;
     }
     .main input[type="text"], .main select {
         min-width: 10.63rem;
     }
 }
 
-@media only screen and (max-width: 1199px) {
+@media only screen and (max-width: 1199px) and (min-width: 768px) {
     html {
         font-size: 14px;
     }
     .main {
         min-width: 33.3%;
+        max-width: 45%;
     }
     .main input[type="text"], .main select {
         min-width: 8.63rem;

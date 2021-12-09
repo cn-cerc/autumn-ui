@@ -74,7 +74,7 @@ export class Line extends Control<LinePropsType, LineTypeState> {
         let items: React.ReactNode[] = [];
         if (this.props.showOrder) {
             items.push((
-                <span style={{ 'width': '5%', 'display': 'inline-block' }}>{this.props.recNo}</span>
+                <Column width={this.getWidth('5')} key={'order'} code='order' tag={ColumnType.span} customText={() => <span>{this.props.recNo}</span>}></Column>
             ))
         }
         React.Children.map(this.props.children, child => {
@@ -93,6 +93,9 @@ export class Line extends Control<LinePropsType, LineTypeState> {
                 width += Number(child.props.width)
             }
         })
+        if (this.props.showOrder) {
+            width += 5;
+        }
         return width;
     }
 

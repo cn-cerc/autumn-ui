@@ -49,9 +49,9 @@ export default class LogisticsDialog extends BaseDialog<BaseDialogPropsType, Log
                 <DBGrid dataSet={this.state.dataSet}>
                     <Column name='公司名称' code='Name_' width='50'></Column>
                     <Column name='电话号码' code='Tel_' width='50'></Column>
-                    <Column name='操作' code='opera' width='20' customText={
+                    <Column name='操作' code='opera' width='20' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <td role='opera' align='center' onClick={this.handleClick.bind(this, row)}>选择</td>
+                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }
                     }></Column>
                 </DBGrid>

@@ -48,9 +48,9 @@ export default class WareBasicDialog extends BaseDialog<BaseDialogPropsType, War
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} showOrder={true}>
                     <Column name='规格' code='WareSpec_' width='50'></Column>
-                    <Column name='选择' code='opera' width='10' customText={
+                    <Column name='选择' code='opera' width='10' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <td role='opera' align='center' onClick={this.handleClick.bind(this, row)}>选择</td>
+                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }
                     }></Column>
                 </DBGrid>

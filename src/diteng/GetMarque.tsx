@@ -74,7 +74,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
     }
 
     getAdornment(): JSX.Element {
-        return <td role='opera' onClick={this.init.bind(this)} align='center'>{this.props.name}</td>;
+        return <span role='opera' onClick={this.init.bind(this)}>{this.props.name}</span>;
     }
 
     getTable() {
@@ -99,7 +99,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
                     <Column code='Brand_' name='品牌' width='15' />
                     <Column code='DescSepc' name='品名规格' width='30' customText={this.initDescSepc} />
                     <Column code='Code_' name='料号' width='20' />
-                    <Column code='opera' name='操作' width='12' customText={this.initOpera.bind(this)} />
+                    <Column code='opera' name='操作' textAlign='center' width='12' customText={this.initOpera.bind(this)} />
                 </DBGrid>
             )
         }
@@ -123,14 +123,14 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         if (this.isPhone)
             return <span style={{ width: '85%', 'display': 'inline-block' }}>{dataRow.getValue('Desc_')}{text}</span>
         else
-            return <td>{dataRow.getValue('Desc_')}{text}</td>
+            return <span>{dataRow.getValue('Desc_')}{text}</span>
     }
 
     initOpera(dataRow: DataRow) {
         if (this.isPhone)
-            return <span role='opera' onClick={() => this.handleClick(dataRow)} style={{ 'width': '10%', 'display': 'inline-block' }}>选择</span>
+            return <span role='opera' onClick={() => this.handleClick(dataRow)}>选择</span>
         else
-            return <td role='opera' onClick={() => this.handleClick(dataRow)} align='center'>选择</td>
+            return <span role='opera' onClick={() => this.handleClick(dataRow)}>选择</span>
     }
 
     handleClick(dataRow: DataRow) {

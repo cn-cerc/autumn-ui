@@ -74,6 +74,6 @@ div[role='dialog'] .content {
 
     .showDialog {
         position: absolute;
-        right: 1rem;
+        right: 0;
     }
 }

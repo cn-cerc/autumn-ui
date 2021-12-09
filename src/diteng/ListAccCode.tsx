@@ -56,7 +56,6 @@ export default class ListAccCode extends React.Component<TypeProps, TypeState> {
     onRowClick: OnRowClickEvent = (row: DataRow) => {
         if (this.props.onSelect)
             this.props.onSelect(row);
-        console.log("我触发了")
         this.setState({ ...this.state, active: false })
     }
 

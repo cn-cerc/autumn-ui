@@ -25,8 +25,8 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
 
     render() {
         return (
-            <form className={styles.main} role="searchPanel" onSubmit={this.btnExecute}>
-                <div className={styles.search}>{this.getItems()}</div>
+            <form className={styles.main} role="searchPanel" onSubmit={this.btnExecute} style={{ 'flex-direction': this.isPhone ? 'column' : 'row' }}>
+                <div className={this.isPhone ? `${styles.search} ${styles.searchPhone}` : styles.search}>{this.getItems()}</div>
                 <button onClick={this.btnExecute}>查询</button>
             </form>
         )

@@ -55,7 +55,7 @@ export default class SupDialog extends React.Component<propsType, stateType> {
                     <Column code="Name_" name="厂商简称" width="40"></Column>
                     <Column code="SupType_" name="厂商分类" width="20" customText={this.initSupType.bind(this)}></Column>
                     {contact}
-                    <Column code="Code_" name="操作" width="15" customText={this.initOpera.bind(this)}></Column>
+                    <Column code="Code_" name="操作" width="15" textAlign='center' customText={this.initOpera.bind(this)}></Column>
                 </DBGrid>
             </div>
         )
@@ -82,16 +82,16 @@ export default class SupDialog extends React.Component<propsType, stateType> {
         else
             text = "协力厂商"
         return (
-            <td>{text}</td>
+            <span>{text}</span>
         )
     }
 
     initContact(dataRow: DataRow) {
-        return <td>{dataRow.getValue("Contact_")},{dataRow.getValue("Tel1_")}</td>
+        return <span>{dataRow.getValue("Contact_")},{dataRow.getValue("Tel1_")}</span>
     }
 
     initOpera(dataRow: DataRow) {
-        return <td role="opera" onClick={()=>this.handleClick(dataRow)} align="center">选择</td>
+        return <span role="opera" onClick={()=>this.handleClick(dataRow)}>选择</span>
     }
 
     handleClick(dataRow: DataRow) {

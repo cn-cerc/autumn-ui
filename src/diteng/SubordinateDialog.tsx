@@ -50,9 +50,9 @@ export default class SubordinateDialog extends BaseDialog<BaseDialogPropsType, S
                 <DBGrid dataSet={this.state.dataSet}>
                     <Column name='员工代码' code='Code_' width='60'></Column>
                     <Column name='员工名称' code='Name_' width='50'></Column>
-                    <Column name='操作' code='opera' width='20' customText={
+                    <Column name='操作' code='opera' width='20' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <td role='opera' align='center' onClick={this.handleClick.bind(this, row)}>选择</td>
+                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }
                     }></Column>
                 </DBGrid>
