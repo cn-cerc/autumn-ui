@@ -132,4 +132,9 @@ export default class DialogApi {
     static async getDisplay(params: { SearchText_?: string, PartCode_: string }) {
         return await DialogApi.getService('TAppStockCW.Display', params);
     }
+
+    /** 获取会员客户的基本资料 */
+    static async getVipCardInfo(params: DataRow) {
+        return await DialogApi.getDataOut('TAppVipCard.Search', params);
+    }
 }

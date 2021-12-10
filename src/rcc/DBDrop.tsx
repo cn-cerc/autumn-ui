@@ -5,7 +5,7 @@ import styles from "./DBEdit.css"
 
 type PropsType = {
     dataRow?: DataRow,
-    options?: Map<string, string>;
+    options?: Map<string, any>;
     dataName?: string;
     dataField: string;
     onChanged?: OnFieldChangedEvent;

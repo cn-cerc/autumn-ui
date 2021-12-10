@@ -37,7 +37,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
             y: 0
         },
         width: '50%',
-        height: '37.5rem',
+        height: this.isPhone ? '25rem' : '37.5rem',
     } as S;
     private _title: string = '弹窗选择';
     private _dialogRole: string = '';

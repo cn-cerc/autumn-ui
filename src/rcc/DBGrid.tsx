@@ -14,7 +14,8 @@ type DBGridProps = {
     readOnly?: boolean;
     onChanged?: OnDataSetChangedEvvent;
     onRowClick?: OnRowClickEvent;
-    showOrder?: boolean
+    showOrder?: boolean,
+    orderWidth?: string
 }
 
 type DBGridState = {
@@ -55,7 +56,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         if (this.props.showOrder) {
-            items.push(<Column key="orderTitle" code="order" name="序号" width={this.getWidth('5')} tag={ColumnType.th}></Column>)
+            items.push(<Column key="orderTitle" code="order" name="序号" width={this.props.orderWidth ? this.getWidth(this.props.orderWidth) : this.getWidth('5')} tag={ColumnType.th}></Column>)
         }
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Column) {
@@ -119,7 +120,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         if (this.props.showOrder) {
-            items.push(<Column key={`order${recNo}`} code="order" textAlign='center' name="序号" width="10" customText={() => <span>{recNo}</span>}></Column>)
+            items.push(<Column key={`order${recNo}`} code="order" textAlign='center' name="序号" width={this.props.orderWidth ? this.props.orderWidth : '5'} customText={() => <span>{recNo}</span>}></Column>)
         }
         React.Children.map(this.props.children, child => {
             if (isValidElement(child) && child.type == Column)
@@ -145,6 +146,8 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                 width += Number(child.props.width)
             }
         })
+        if (this.props.showOrder)
+            width += Number(this.props.orderWidth) || 5;
         return width;
     }
 
