@@ -30,7 +30,7 @@ export default class WareBasicDialog extends BaseDialog<BaseDialogPropsType, War
     }
 
     async init() {
-        let dataSet = await this.getSubordinate();
+        let dataSet = await this.getWareBasic();
         if (dataSet.state <= 0) {
             showMsg(dataSet.message);
         } else {
@@ -58,7 +58,7 @@ export default class WareBasicDialog extends BaseDialog<BaseDialogPropsType, War
         )
     }
 
-    async getSubordinate(): Promise<DataSet> {
+    async getWareBasic(): Promise<DataSet> {
         this.setLoad(true);
         let dataSet = await DialogApi.getWareBasic(this.state.dataIn);
         this.setLoad(false);

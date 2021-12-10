@@ -517,6 +517,47 @@ export default class DataSet implements IDataSource {
         // this.setBindEnabled(tarEnable);
     }
 
+    setSort(...fields: string[]) {
+        let sort = 0;
+        this._records.sort(function (row1, row2) {
+            for (let i = 0; i < fields.length; i++) {
+                let item = fields[i];
+                if (!item) {
+                    throw new Error("sort field is empty");
+                }
+                let params = item.split(" ");
+                let field = params[0];
+                let param1 = row1.getValue(field);
+                let param2 = row2.getValue(field);
+                if (typeof param1 == "number" && typeof param2 == "number") {
+                    if (param1 > param2) sort = 1;
+                    if (param1 == param2) sort = 0;
+                    if (param1 < param2) sort = -1;
+                } else {
+                    param1 = String(param1);
+                    param2 = String(param2);
+                    if (param1 == param2)
+                        sort = 0;
+                    else
+                        sort = param1 > param2 ? 1 : -1;
+
+                }
+
+                if (sort != 0) {
+                    if (params.length == 1 || params[1].toLowerCase() == "asc") {
+                        sort = sort > 0 ? 1 : -1;
+                    } else if (params[1].toLowerCase() == "desc") {
+                        sort = sort > 0 ? -1 : 1;
+                    } else {
+                        throw new Error(`not support [${params[1]}] sort mode`);
+                    }
+                    return sort;
+                }
+            }
+            return sort;
+        })
+    }
+
     forEach(fn: (row: DataRow) => void) {
         for (let row of this._records)
             fn.call(this, row);

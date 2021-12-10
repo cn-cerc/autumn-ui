@@ -30,7 +30,7 @@ export default class LogisticsDialog extends BaseDialog<BaseDialogPropsType, Log
     }
 
     async init() {
-        let dataSet = await this.getSubordinate();
+        let dataSet = await this.getLogistics();
         if (dataSet.state <= 0) {
             showMsg(dataSet.message);
         } else {
@@ -59,7 +59,7 @@ export default class LogisticsDialog extends BaseDialog<BaseDialogPropsType, Log
         )
     }
 
-    async getSubordinate(): Promise<DataSet> {
+    async getLogistics(): Promise<DataSet> {
         this.setLoad(true);
         let dataSet = await DialogApi.getLogistics(this.state.dataIn);
         this.setLoad(false);

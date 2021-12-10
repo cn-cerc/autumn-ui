@@ -122,4 +122,14 @@ export default class DialogApi {
     static async getLogistics(params: DataRow) {
         return await DialogApi.getDataOut('TAppLogistics.SearchDialogLogistics', params);
     }
+
+     /** 获取存储仓别位置列表 */
+     static async getDfPartCWList(params: { RepairedCW_?: string, SearchText_?: string }) {
+        return await DialogApi.getService('TAppPartStock.GetDfPartCWList', params);
+    }
+
+    /** 商品总库存与分仓别的调整显示 */
+    static async getDisplay(params: { SearchText_?: string, PartCode_: string }) {
+        return await DialogApi.getService('TAppStockCW.Display', params);
+    }
 }
