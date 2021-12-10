@@ -26,6 +26,7 @@ import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
 import VipCardDialog from "../src/diteng/VipCardDialog"
+import PartStockDialog from "../src/diteng/PartStockDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -72,6 +73,7 @@ export default {
     LogisticsDialog,
     PartCodePartStockDialog,
     VipCardDialog,
+    PartStockDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类
