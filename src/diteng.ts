@@ -24,6 +24,7 @@ import PartCodePartStockDialog from "./diteng/PartCodePartStockDialog";
 import VipCardDialog from "./diteng/VipCardDialog";
 import PartStockDialog from "./diteng/PartStockDialog";
 import BankAccountDialog from "./diteng/BankAccount";
+import CardTypeDialog from "./diteng/CardTypeDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -63,6 +64,7 @@ export default {
     VipCardDialog,
     PartStockDialog,
     BankAccountDialog,
+    CardTypeDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }
