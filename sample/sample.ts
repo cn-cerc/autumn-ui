@@ -31,6 +31,7 @@ import BankAccountDialog from "../src/diteng/BankAccount"
 import CardTypeDialog from "../src/diteng/CardTypeDialog"
 import OutInfoDialog from "../src/diteng/OurInfoDialog"
 import PartModeldDialog from "../src/diteng/PartModeldDialog"
+import FastCorpDialog from "../src/diteng/FastCorpDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -82,6 +83,7 @@ export default {
     CardTypeDialog,
     OutInfoDialog,
     PartModeldDialog,
+    FastCorpDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

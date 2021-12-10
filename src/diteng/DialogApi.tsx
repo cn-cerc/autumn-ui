@@ -152,4 +152,9 @@ export default class DialogApi {
     static async getPartModel(params: DataRow) {
         return await DialogApi.getDataOut('TAppPartModel.download', params);
     }
+
+    /** 查询客户基本资料 */
+    static async getFastCorp(params: DataRow) {
+        return await DialogApi.getDataOut('TAppUserInfo.Search_FastCorp', params);
+    }
 }
