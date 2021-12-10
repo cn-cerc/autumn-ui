@@ -46,3 +46,7 @@
     padding: 0 .2em;
     cursor: pointer;
 }
+
+.sort {
+    color: red;
+}

@@ -165,6 +165,12 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         // 取消默认的post事件
         e.preventDefault();
 
+        // 删除表格排序符号
+        let thList = document.querySelectorAll('th span');
+        for(let i=0;i<thList.length;i++) {
+            thList[i].remove();
+        }
+
         // 正在异步请求时不允许重复提交事件
         if (this.async) {
             return;
@@ -340,8 +346,10 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         }
         //@ts-ignore
         document.getElementById('dataSize').innerText = this.dataSet.size;
+        let dataSet = new DataSet();
+        dataSet.appendDataSet(this.state.config.dataSet);
         return (
-            <Grid config={this.state.config} setChild={this.setChild.bind(this)} />
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} />
         )
     }
 

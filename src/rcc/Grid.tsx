@@ -4,6 +4,7 @@ import KeyValue from '../db/KeyValue';
 import { TGridConfig } from '../vcl/TGrid';
 import MutiPage, { DefaultPageSize, OnPageChanged } from './MutiPage';
 import styles from './Grid.css';
+import DataSet from '../db/DataSet';
 
 const defaultProps = {
     id: ''
@@ -12,11 +13,13 @@ const defaultProps = {
 type PropsType = {
     config: TGridConfig;
     setChild: Function;
+    dataSet: DataSet
 } & Partial<typeof defaultProps>;
 
 interface stateType {
     beginPoint: number;
     endPoint: number;
+    mutiPage: MutiPage | null;
 }
 
 export default class Grid extends React.Component<PropsType, stateType> {
@@ -24,7 +27,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     constructor(props: PropsType) {
         super(props)
-        this.state = { beginPoint: 1, endPoint: DefaultPageSize };
+        this.state = { beginPoint: 1, endPoint: DefaultPageSize, mutiPage: null };
         $("#page").css({
             "height": "0",
             "flex": "1",
@@ -62,7 +65,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
                         style = { ...style, width }
                     }
                     //
-                    items.push(<th key={column.code} style={style} onClick={(e)=>this.gridSort(e,column.code)}>{title}</th>);
+                    items.push(<th key={column.code} style={style} onClick={(e) => this.gridSort(e, column.code)}>{title}</th>);
                 }
             }
         }
@@ -71,7 +74,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     getRows(): any[] {
         let items: any[] = [];
-        let ds = this.props.config.dataSet;
+        let ds = this.props.dataSet;
         let recNo = ds.recNo;
         for (let i = this.state.beginPoint; i <= this.state.endPoint; i++) {
             if (i > ds.size)
@@ -137,8 +140,14 @@ export default class Grid extends React.Component<PropsType, stateType> {
         if (this.props.config.dataSet.size <= DefaultPageSize)
             return null;
         return (
-            <MutiPage total={this.props.config.dataSet.size} onPageChanged={this.onPageChanged} />
+            <MutiPage total={this.props.config.dataSet.size} bindMutiPage={this.bindMutiPage.bind(this)} onPageChanged={this.onPageChanged} />
         )
+    }
+
+    bindMutiPage(mutiPage: MutiPage) {
+        this.setState({
+            mutiPage
+        });
     }
 
     onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
@@ -146,8 +155,42 @@ export default class Grid extends React.Component<PropsType, stateType> {
     }
 
     gridSort(render: any, code: string) {
-        //@ts-ignore
-        top.gridSort(render.currentTarget, code);
+        // 第一次升序↑，第二次降序
+        let th = render.currentTarget as HTMLElement;
+        let span = th.querySelector('span');
+        let sorts = document.getElementsByClassName(styles.sort);
+        for (let i = 0; i < sorts.length; i++) {
+            if (sorts[i] != span)
+                sorts[i].remove();
+        }
+        if (!span) {
+            let span = document.createElement('span');
+            span.setAttribute('class', styles.sort)
+            span.innerText = '↑';
+            th.appendChild(span)
+            this.props.dataSet.clear();
+            this.props.dataSet.appendDataSet(this.props.config.dataSet);
+            this.props.dataSet.setSort(`${code} ASC`);
+        } else {
+            if (span.innerHTML == '↑') {
+                span.innerHTML = '↓';
+                this.props.dataSet.clear();
+                this.props.dataSet.appendDataSet(this.props.config.dataSet);
+                this.props.dataSet.setSort(`${code} DESC`);
+            } else {
+                span.innerHTML = '↑';
+                this.props.dataSet.clear();
+                this.props.dataSet.appendDataSet(this.props.config.dataSet);
+                this.props.dataSet.setSort(`${code} ASC`);
+            }
+        }
+        if (this.state.mutiPage)
+            this.state.mutiPage.reload();
+        this.setState({
+            ...this.state,
+            beginPoint: 1,
+            endPoint: DefaultPageSize
+        })
     }
 
     initGrid() {

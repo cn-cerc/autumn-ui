@@ -157,6 +157,12 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
             return;
         }
 
+        // 删除表格排序符号
+        let thList = document.querySelectorAll('th span');
+        for(let i=0;i<thList.length;i++) {
+            thList[i].remove();
+        }
+
         loading.show();
         loading.hideTime = 300;
         this.dataSet.close();
@@ -264,9 +270,10 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         document.getElementById('outNumTotal').innerText = math.toFixed(outNumTotal, 2).toString();
         document.getElementById('outAmountTotal').innerText = math.toFixed(outAmountTotal, 2).toString();
         document.getElementById('dataSize').innerText = "" + this.dataSet.size;
-
+        let dataSet = new DataSet();
+        dataSet.appendDataSet(this.state.config.dataSet);
         return (
-            <Grid config={this.state.config} setChild={this.setChild.bind(this)} />
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} />
         )
     }
 

@@ -9,6 +9,7 @@ const USER_PAGE_SIZE_KEY = 'user:pageSize';
 type propsType = {
     onPageChanged: OnPageChanged
     total: number;
+    bindMutiPage: Function
 }
 
 type stateType = {
@@ -130,6 +131,10 @@ export default class MutiPage extends React.Component<propsType, stateType> {
         }
     }
 
+    componentDidMount() {
+        this.props.bindMutiPage(this);
+    }
+
     pageChanged(pageSize: number, pageNo: number) {
         if (!this.props.onPageChanged)
             return;
@@ -139,5 +144,15 @@ export default class MutiPage extends React.Component<propsType, stateType> {
         let endPoint = pageNo * pageSize > total ? total : pageNo * pageSize;
 
         this.props.onPageChanged(beginPoint, endPoint)
+    }
+
+    reload() {
+        let value = localStorage.getItem(USER_PAGE_SIZE_KEY);
+        let size = Number(value);
+        if (!size) {
+            size = DefaultPageSize;
+            localStorage.setItem(USER_PAGE_SIZE_KEY, String(size));
+        }
+        this.setState({ pageSize: size, pageNo: 1, inputValue: '1' });
     }
 }
