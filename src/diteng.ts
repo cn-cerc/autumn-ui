@@ -26,6 +26,7 @@ import PartStockDialog from "./diteng/PartStockDialog";
 import BankAccountDialog from "./diteng/BankAccount";
 import CardTypeDialog from "./diteng/CardTypeDialog";
 import OutInfoDialog from "./diteng/OurInfoDialog";
+import PartModeldDialog from "./diteng/PartModeldDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -67,6 +68,7 @@ export default {
     BankAccountDialog,
     CardTypeDialog,
     OutInfoDialog,
+    PartModeldDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }

@@ -147,4 +147,9 @@ export default class DialogApi {
     static async getOurInfo(params: DataRow) {
         return await DialogApi.getDataOut('TAppOurInfo.Download', params);
     }
+
+    /** 获取商品型号信息 */
+    static async getPartModel(params: DataRow) {
+        return await DialogApi.getDataOut('TAppPartModel.download', params);
+    }
 }
