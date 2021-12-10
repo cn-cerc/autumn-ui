@@ -29,6 +29,7 @@ import VipCardDialog from "../src/diteng/VipCardDialog"
 import PartStockDialog from "../src/diteng/PartStockDialog"
 import BankAccountDialog from "../src/diteng/BankAccount"
 import CardTypeDialog from "../src/diteng/CardTypeDialog"
+import OutInfoDialog from "../src/diteng/OurInfoDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -78,6 +79,7 @@ export default {
     PartStockDialog,
     BankAccountDialog,
     CardTypeDialog,
+    OutInfoDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

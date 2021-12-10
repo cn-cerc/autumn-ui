@@ -142,4 +142,9 @@ export default class DialogApi {
     static async getBankInfos(params: DataRow) {
         return await DialogApi.getDataOut('TAppBankInfo.Download', params);
     }
+
+    /** 获取收费记录卡 */
+    static async getOurInfo(params: DataRow) {
+        return await DialogApi.getDataOut('TAppOurInfo.Download', params);
+    }
 }
