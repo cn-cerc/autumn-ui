@@ -137,4 +137,9 @@ export default class DialogApi {
     static async getVipCardInfo(params: DataRow) {
         return await DialogApi.getDataOut('TAppVipCard.Search', params);
     }
+
+    /** 获取银行列表 */
+    static async getBankInfos(params: DataRow) {
+        return await DialogApi.getDataOut('TAppBankInfo.Download', params);
+    }
 }
