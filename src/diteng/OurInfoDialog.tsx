@@ -9,17 +9,17 @@ import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
 
-type OutInfoDialogTypeProps = {
+type OutInfoTypeProps = {
     maxRecord: number
 } & Partial<BaseDialogPropsType>
 
-type OutInfoDialogTypeState = {
+type OutInfoTypeState = {
     dataSet: DataSet,
     dataIn: DataRow
 } & Partial<BaseDialogStateType>
 
-export default class OutInfoDialog extends BaseDialog<OutInfoDialogTypeProps, OutInfoDialogTypeState> {
-    constructor(props: OutInfoDialogTypeProps) {
+export default class OutInfoDialog extends BaseDialog<OutInfoTypeProps, OutInfoTypeState> {
+    constructor(props: OutInfoTypeProps) {
         super(props);
         let dataIn = new DataRow();
         dataIn.setValue('MaxRecord_', this.props.maxRecord);

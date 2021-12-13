@@ -9,17 +9,17 @@ import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
 
-type FastCorpDialogTypeProps = {
+type FastCorpTypeProps = {
     salesMode: string
 } & Partial<BaseDialogPropsType>
 
-type FastCorpDialogTypeState = {
+type FastCorpTypeState = {
     dataSet: DataSet,
     dataIn: DataRow
 } & Partial<BaseDialogStateType>
 
-export default class FastCorpDialog extends BaseDialog<FastCorpDialogTypeProps, FastCorpDialogTypeState> {
-    constructor(props: FastCorpDialogTypeProps) {
+export default class FastCorpDialog extends BaseDialog<FastCorpTypeProps, FastCorpTypeState> {
+    constructor(props: FastCorpTypeProps) {
         super(props);
         let dataIn = new DataRow();
         dataIn.setValue('SalesMode_', this.props.salesMode);

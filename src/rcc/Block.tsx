@@ -47,6 +47,7 @@ type LinePropsType = {
     readOnly?: boolean;
     className?: string;
     showOrder?: boolean;
+    orderName?: string,
     recNo?: number
 }
 
@@ -74,7 +75,7 @@ export class Line extends Control<LinePropsType, LineTypeState> {
         let items: React.ReactNode[] = [];
         if (this.props.showOrder) {
             items.push((
-                <Column width={this.getWidth('5')} key={'order'} code='order' tag={ColumnType.span} customText={() => <span>{this.props.recNo}</span>}></Column>
+                <Column width={this.getWidth('5')} key={'order'} code='order' tag={ColumnType.span} customText={() => <span>{this.props.orderName ? this.props.orderName + '：' : ''}{this.props.recNo}</span>}></Column>
             ))
         }
         React.Children.map(this.props.children, child => {

@@ -157,4 +157,26 @@ export default class DialogApi {
     static async getFastCorp(params: DataRow) {
         return await DialogApi.getDataOut('TAppUserInfo.Search_FastCorp', params);
     }
+
+    /** 查找制程基本单据(模糊查询、载入数查询) */
+    static async getSearchBOMProcess() {
+        let dataIn = new DataRow();
+        dataIn.setValue('Disable_', false);
+        return await DialogApi.getDataOut('TAppBOM.SearchBOMProcess', dataIn);
+    }
+
+    /** 获取客户区域列表 */
+    static async getAreaList(params: DataRow) {
+        return await DialogApi.getDataOut('TAppCusInfo.GetAreaList', params);
+    }
+
+    /** 查询所有员工数 */
+    static async getWorkers(params: DataRow) {
+        return await DialogApi.getDataOut('SvrStaffMan.search', params);
+    }
+
+    /** 部门和人事表关联，获得部门代码以及人事表中的名称 */
+    static async getDeptAndHRList() {
+        return await DialogApi.getService('TAppDept.getDeptAndHRList');
+    }
 }

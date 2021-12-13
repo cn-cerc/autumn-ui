@@ -28,6 +28,9 @@ import CardTypeDialog from "./diteng/CardTypeDialog";
 import OutInfoDialog from "./diteng/OurInfoDialog";
 import PartModeldDialog from "./diteng/PartModeldDialog";
 import FastCorpDialog from "./diteng/FastCorpDialog";
+import BOMProcessDialog from "./diteng/BOMProcessDialog";
+import CusAreaDialog from "./diteng/CusAreaDialog";
+import WorkerDialog from "./diteng/WorkerDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -71,6 +74,9 @@ export default {
     OutInfoDialog,
     PartModeldDialog,
     FastCorpDialog,
+    BOMProcessDialog,
+    CusAreaDialog,
+    WorkerDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }

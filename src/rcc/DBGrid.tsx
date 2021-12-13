@@ -104,8 +104,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
         if (!this.props.onRowClick)
             return;
-
-        let tr: HTMLTableRowElement = sender.target.parentElement;
+        let tr: HTMLTableRowElement = sender.target.closest('tr');
         let row = new DataRow();
         for (let i = 0; i < tr.children.length; i++) {
             let td = tr.children[i];

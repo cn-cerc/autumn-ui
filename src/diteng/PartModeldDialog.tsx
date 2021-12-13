@@ -9,12 +9,12 @@ import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
 
-type PartModeldDialogTypeState = {
+type PartModeldTypeState = {
     dataSet: DataSet,
     dataIn: DataRow
 } & Partial<BaseDialogStateType>
 
-export default class PartModeldDialog extends BaseDialog<BaseDialogPropsType, PartModeldDialogTypeState> {
+export default class PartModeldDialog extends BaseDialog<BaseDialogPropsType, PartModeldTypeState> {
     constructor(props: BaseDialogPropsType) {
         super(props);
         this.state = {
