@@ -35,6 +35,9 @@ import FastCorpDialog from "../src/diteng/FastCorpDialog"
 import BOMProcessDialog from "../src/diteng/BOMProcessDialog"
 import CusAreaDialog from "../src/diteng/CusAreaDialog"
 import WorkerDialog from "../src/diteng/WorkerDialog"
+import ProcStepDialog from "../src/diteng/ProcStepDialog"
+import RemarkDialog from "../src/diteng/RemarkDialog"
+import SaleCurrentNumDialog from "../src/diteng/SaleCurrentNumDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -94,6 +97,9 @@ export default {
     WorkerDialog,
     BaseAreaDialog,
     AreaDialog,
+    ProcStepDialog,
+    RemarkDialog,
+    SaleCurrentNumDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

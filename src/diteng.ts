@@ -31,6 +31,9 @@ import FastCorpDialog from "./diteng/FastCorpDialog";
 import BOMProcessDialog from "./diteng/BOMProcessDialog";
 import CusAreaDialog from "./diteng/CusAreaDialog";
 import WorkerDialog from "./diteng/WorkerDialog";
+import ProcStepDialog from "./diteng/ProcStepDialog";
+import RemarkDialog from "./diteng/RemarkDialog";
+import SaleCurrentNumDialog from "./diteng/SaleCurrentNumDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -81,6 +84,9 @@ export default {
     WorkerDialog,
     BaseAreaDialog,
     AreaDialog,
+    ProcStepDialog,
+    RemarkDialog,
+    SaleCurrentNumDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }

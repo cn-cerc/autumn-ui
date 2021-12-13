@@ -200,4 +200,22 @@ export default class DialogApi {
         })
         return await DialogApi.getDataOut('TAppCusArea.searchArea', params);
     }
+
+    /** 获取制程选择下拉列表 */
+    static async getProcessList() {
+        return await DialogApi.getService('SvrWorkStep.getProcess');
+    }
+
+    /** 获取制程列表 */
+    static async getProcSteps(params: DataRow) {
+        return await DialogApi.getDataOut('SvrWorkStep.search', params);
+    }
+
+    static async getSaleCurrentNum(params: DataRow) {
+        let ds = await DialogApi.getDataOut('TAppSaleForecast.searchSale', params);
+        while (ds.fetch()) {
+            ds.setValue("RemainCurrentNum", ds.getDouble("CurForecastNum") - ds.getDouble("OutNum_"));
+        }
+        return ds.getPromise();
+    }
 }
