@@ -92,6 +92,10 @@ export default class BaseAreaDialog extends BaseDialog<BaseAreaProps, BaseAreaSt
         this.state.area2 = '';
         this.state.area3 = '';
         this.state.area4 = '';
+        if (!area) {
+            this.handleSubmit()
+            return
+        }
         let dataIn = new DataRow();
         dataIn.setValue('Area1_', this.state.area1);
         dataIn.setValue('Area2_', this.state.area2);
@@ -108,6 +112,10 @@ export default class BaseAreaDialog extends BaseDialog<BaseAreaProps, BaseAreaSt
         this.state.area2 = area;
         this.state.area3 = '';
         this.state.area4 = '';
+        if (!area) {
+            this.handleSubmit()
+            return
+        }
         let dataIn = new DataRow();
         dataIn.setValue('Area1_', this.state.area1);
         dataIn.setValue('Area2_', this.state.area2);
@@ -122,6 +130,10 @@ export default class BaseAreaDialog extends BaseDialog<BaseAreaProps, BaseAreaSt
     async handleArea3(area: string): Promise<void> {
         this.state.area3 = area;
         this.state.area4 = '';
+        if (!area) {
+            this.handleSubmit()
+            return
+        }
         let dataIn = new DataRow();
         dataIn.setValue('Area1_', this.state.area1);
         dataIn.setValue('Area2_', this.state.area2);

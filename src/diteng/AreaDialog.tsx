@@ -81,7 +81,7 @@ export default class AreaDialog extends BaseDialog<BaseAreaProps, BaseAreaState>
                 </SearchPanel>
                 <div className={styles.content}>
                     <Cascade dataSet={this.state.areaList} filed='Area_' handleClick={this.handleAreaList.bind(this)} defaultVal={this.state.area1} />
-                    <Cascade dataSet={this.state.areaData1} filed='Area1_' handleClick={this.handleArea1.bind(this)} defaultVal={this.state.area1} />
+                    <Cascade title='请选择' dataSet={this.state.areaData1} filed='Area1_' handleClick={this.handleArea1.bind(this)} defaultVal={this.state.area1} />
                     <Cascade title='请选择' dataSet={this.state.areaData2} filed='Area2_' handleClick={this.handleArea2.bind(this)} defaultVal={this.state.area2} />
                     <Cascade title='请选择' dataSet={this.state.areaData3} filed='Area3_' handleClick={this.handleArea3.bind(this)} defaultVal={this.state.area3} />
                 </div>
@@ -135,6 +135,10 @@ export default class AreaDialog extends BaseDialog<BaseAreaProps, BaseAreaState>
         this.state.area1 = area;
         this.state.area2 = '';
         this.state.area3 = '';
+        if (!area) {
+            this.handleSubmit()
+            return
+        }
         let dataIn = new DataRow();
         dataIn.setValue('Area1_', this.state.area1);
         dataIn.setValue('Area2_', this.state.area2);
@@ -147,9 +151,12 @@ export default class AreaDialog extends BaseDialog<BaseAreaProps, BaseAreaState>
         })
     }
     async handleArea2(area: string): Promise<void> {
-        if (!area) return
         this.state.area2 = area;
         this.state.area3 = '';
+        if (!area) {
+            this.handleSubmit()
+            return
+        }
         let dataIn = new DataRow();
         dataIn.setValue('Area1_', this.state.area1);
         dataIn.setValue('Area2_', this.state.area2);
@@ -161,7 +168,6 @@ export default class AreaDialog extends BaseDialog<BaseAreaProps, BaseAreaState>
         })
     }
     async handleArea3(area: string): Promise<void> {
-        if (!area) return
         this.state.area3 = area;
         this.setState({
             ...this.state,
