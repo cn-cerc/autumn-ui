@@ -7,6 +7,11 @@ import { showMsg } from "./Summer";
 const initSid = window.localStorage.getItem('ErpKey_sid');
 
 export default class DialogApi {
+    static replaceChar(str: string) {
+        if (!str) return str
+        let res = str.indexOf('&') > -1 ? encodeURI(str).replace(/&/g, '%26') : str;
+        return res;
+    }
     static getToken(): string {
         // 发起请求时获取的最新sid
         let newSid = window.localStorage.getItem('ErpKey_sid');
@@ -123,8 +128,8 @@ export default class DialogApi {
         return await DialogApi.getDataOut('TAppLogistics.SearchDialogLogistics', params);
     }
 
-     /** 获取存储仓别位置列表 */
-     static async getDfPartCWList(params: { RepairedCW_?: string, SearchText_?: string }) {
+    /** 获取存储仓别位置列表 */
+    static async getDfPartCWList(params: { RepairedCW_?: string, SearchText_?: string }) {
         return await DialogApi.getService('TAppPartStock.GetDfPartCWList', params);
     }
 
@@ -178,5 +183,13 @@ export default class DialogApi {
     /** 部门和人事表关联，获得部门代码以及人事表中的名称 */
     static async getDeptAndHRList() {
         return await DialogApi.getService('TAppDept.getDeptAndHRList');
+    }
+
+    /** 获取客户区域 */
+    static async getCusArea(params: DataRow) {
+        params.fields.forEach((item) => {
+            params.setValue(item.code, DialogApi.replaceChar(params.getValue(item.code)))
+        })
+        return await DialogApi.getDataOut('TAppCusArea.Download_Area', params);
     }
 }

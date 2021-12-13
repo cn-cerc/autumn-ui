@@ -42,6 +42,7 @@ import TGrid, { TGridColumn, TGridConfig } from "../src/vcl/TGrid"
 import FrmAccTran from "./FrmAccTran"
 import AcPaySet from "./AcPaySet"
 import TCustomComponent from "../src/vcl/TCustomComponent"
+import BaseAreaDialog from "../src/diteng/BaseAreaDialog"
 
 export default {
     //db
@@ -90,6 +91,7 @@ export default {
     BOMProcessDialog,
     CusAreaDialog,
     WorkerDialog,
+    BaseAreaDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

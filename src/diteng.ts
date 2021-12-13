@@ -35,6 +35,7 @@ import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
 import TCustomComponent from "./vcl/TCustomComponent";
+import BaseAreaDialog from "./diteng/BaseAreaDialog";
 
 export default {
     //db
@@ -77,6 +78,7 @@ export default {
     BOMProcessDialog,
     CusAreaDialog,
     WorkerDialog,
+    BaseAreaDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }
