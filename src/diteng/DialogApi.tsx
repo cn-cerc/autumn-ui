@@ -192,4 +192,12 @@ export default class DialogApi {
         })
         return await DialogApi.getDataOut('TAppCusArea.Download_Area', params);
     }
+
+    /** 获取客户区域 */
+    static async getSearchCusArea(params: DataRow) {
+        params.fields.forEach((item) => {
+            params.setValue(item.code, DialogApi.replaceChar(params.getValue(item.code)))
+        })
+        return await DialogApi.getDataOut('TAppCusArea.searchArea', params);
+    }
 }

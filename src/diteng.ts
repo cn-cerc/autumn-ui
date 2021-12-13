@@ -36,6 +36,7 @@ import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
 import TCustomComponent from "./vcl/TCustomComponent";
 import BaseAreaDialog from "./diteng/BaseAreaDialog";
+import AreaDialog from "./diteng/AreaDialog";
 
 export default {
     //db
@@ -79,6 +80,7 @@ export default {
     CusAreaDialog,
     WorkerDialog,
     BaseAreaDialog,
+    AreaDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }

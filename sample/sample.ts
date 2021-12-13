@@ -43,6 +43,7 @@ import FrmAccTran from "./FrmAccTran"
 import AcPaySet from "./AcPaySet"
 import TCustomComponent from "../src/vcl/TCustomComponent"
 import BaseAreaDialog from "../src/diteng/BaseAreaDialog"
+import AreaDialog from "../src/diteng/AreaDialog"
 
 export default {
     //db
@@ -92,6 +93,7 @@ export default {
     CusAreaDialog,
     WorkerDialog,
     BaseAreaDialog,
+    AreaDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

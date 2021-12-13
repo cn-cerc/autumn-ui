@@ -29,6 +29,9 @@
     overflow: auto;
     width: 100%;
 }
+.main form[role="searchPanel"] {
+    width: 100%;
+}
 
 .initFirst>li:first-child {
     color: #67c23a;
@@ -37,15 +40,15 @@
 }
 
 .main li {
-    min-width: 4.5em;
+    min-width: 15%;
     text-align: center;
-    padding: 0 .25rem;
+    padding: .25rem;
     border-radius: .29rem;
     border: 1px solid #b3b4b6;
     background-color: #f4f4f4;
     cursor: pointer;
     margin-left: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     line-height: 1.5rem;
     height: 1.5rem;
     box-sizing: content-box;
