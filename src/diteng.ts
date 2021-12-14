@@ -34,6 +34,9 @@ import WorkerDialog from "./diteng/WorkerDialog";
 import ProcStepDialog from "./diteng/ProcStepDialog";
 import RemarkDialog from "./diteng/RemarkDialog";
 import SaleCurrentNumDialog from "./diteng/SaleCurrentNumDialog";
+import SupBankDialog from "./diteng/SupBankDialog";
+import CusTypeDialog from "./diteng/CusTypeDialog";
+import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -87,6 +90,9 @@ export default {
     ProcStepDialog,
     RemarkDialog,
     SaleCurrentNumDialog,
+    SupBankDialog,
+    CusTypeDialog,
+    TempPrefererntialDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }

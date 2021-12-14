@@ -218,4 +218,24 @@ export default class DialogApi {
         }
         return ds.getPromise();
     }
+
+    /** 获取厂商账户 */
+    static async getSupBanks(params: { SupCode_: string }) {
+        return await DialogApi.getService('SvrSupBank.download', params);
+    }
+
+    /** 获取优惠原因 */
+    static async getTempPrefererntial() {
+        return await DialogApi.getService('TAppCoupon.download');
+    }
+
+    /** 增加优惠原因 */
+    static async appendTempPrefererntial(params: DataRow) {
+        return await DialogApi.getDataOut('TAppCoupon.append', params);
+    }
+
+    /** 删除优惠原因 */
+    static async removeTempPrefererntial(params: { UID_: string }) {
+        return await DialogApi.getService('TAppCoupon.delete', params);
+    }
 }

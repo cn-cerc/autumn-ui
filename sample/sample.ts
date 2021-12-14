@@ -38,6 +38,9 @@ import WorkerDialog from "../src/diteng/WorkerDialog"
 import ProcStepDialog from "../src/diteng/ProcStepDialog"
 import RemarkDialog from "../src/diteng/RemarkDialog"
 import SaleCurrentNumDialog from "../src/diteng/SaleCurrentNumDialog"
+import SupBankDialog from "../src/diteng/SupBankDialog"
+import CusTypeDialog from "../src/diteng/CusTypeDialog"
+import TempPrefererntialDialog from "../src/diteng/TempPrefererntialDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -100,6 +103,9 @@ export default {
     ProcStepDialog,
     RemarkDialog,
     SaleCurrentNumDialog,
+    SupBankDialog,
+    CusTypeDialog,
+    TempPrefererntialDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

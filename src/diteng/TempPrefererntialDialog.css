@@ -1,0 +1,104 @@
+.main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+    padding: .5rem 1rem;
+}
+
+.button span {
+    cursor: pointer;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    margin-bottom: .5rem;
+}
+
+.form>div {
+    width: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.formHide {
+    display: none;
+}
+
+.form label {
+    display: inline-block;
+    min-width: 5em;
+    max-width: 7em;
+    text-align: left;
+}
+
+.form input {
+    min-width: 9.63rem;
+    width: 9.63rem;
+    max-width: 50%;
+    height: 1.68rem;
+    border-radius: .12rem;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #C2CAD8;
+    padding-left: .6rem;
+}
+
+.form>button {
+    margin-right: 1rem;
+    min-width: 4.13rem;
+    height: 1.88rem;
+    padding: 0 1rem;
+    background-color: #009307;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: .24rem;
+    line-height: 1.88rem;
+}
+
+@media only screen and (max-width: 1600px) and (min-width: 1400px) {
+    .form input {
+        width: 9.63rem;
+    }
+}
+
+@media only screen and (max-width: 1399px) and (min-width: 1200px) {
+    .form input {
+        min-width: 9.63rem;
+    }
+}
+
+@media only screen and (max-width: 1199px) and (min-width: 768px) {
+    .form input {
+        min-width: 8.63rem;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form input {
+        min-width: 11.63rem;
+        width: 11.63rem;
+        max-width: 50%;
+    }
+
+    .form>div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: .5rem;
+    }
+}
