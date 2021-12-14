@@ -25,6 +25,7 @@ import PartCodePartStockDialog from "../src/diteng/PartCodePartStockDialog"
 import TSchProductAnalysis from "../src/diteng/TSchProductAnalysis"
 import TSchScmStockInOut from "../src/diteng/TSchScmStockInOut"
 import UserDialog from "../src/diteng/UserDialog"
+import DepartmentDialog from "../src/diteng/DepartmentDialog"
 import VipCardDialog from "../src/diteng/VipCardDialog"
 import PartStockDialog from "../src/diteng/PartStockDialog"
 import BankAccountDialog from "../src/diteng/BankAccount"
@@ -41,6 +42,7 @@ import SaleCurrentNumDialog from "../src/diteng/SaleCurrentNumDialog"
 import SupBankDialog from "../src/diteng/SupBankDialog"
 import CusTypeDialog from "../src/diteng/CusTypeDialog"
 import TempPrefererntialDialog from "../src/diteng/TempPrefererntialDialog"
+import AccountEditDialog from "../src/diteng/AccountEditDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -87,6 +89,7 @@ export default {
     SubordinateDialog,
     WareBasicDialog,
     LogisticsDialog,
+    DepartmentDialog,
     PartCodePartStockDialog,
     VipCardDialog,
     PartStockDialog,
@@ -106,6 +109,7 @@ export default {
     SupBankDialog,
     CusTypeDialog,
     TempPrefererntialDialog,
+    AccountEditDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

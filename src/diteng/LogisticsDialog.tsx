@@ -46,12 +46,12 @@ export default class LogisticsDialog extends BaseDialog<BaseDialogPropsType, Log
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
                     <Column name='公司名称' code='Name_' width='50'></Column>
                     <Column name='电话号码' code='Tel_' width='50'></Column>
                     <Column name='操作' code='opera' width='20' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                            return <span role='opera'>选择</span>
                         }
                     }></Column>
                 </DBGrid>

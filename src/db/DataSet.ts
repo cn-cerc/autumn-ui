@@ -533,6 +533,12 @@ export default class DataSet implements IDataSource {
                     if (param1 > param2) sort = 1;
                     if (param1 == param2) sort = 0;
                     if (param1 < param2) sort = -1;
+                } else if(Number(param1) && Number(param2)) {
+                    param1 = Number(param1);
+                    param2 = Number(param2);
+                    if (param1 > param2) sort = 1;
+                    if (param1 == param2) sort = 0;
+                    if (param1 < param2) sort = -1;
                 } else {
                     param1 = String(param1);
                     param2 = String(param2);

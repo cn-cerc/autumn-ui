@@ -20,6 +20,7 @@ import ProductDialog from "./diteng/ProductDialog";
 import SubordinateDialog from "./diteng/SubordinateDialog";
 import WareBasicDialog from "./diteng/WareBasicDialog";
 import LogisticsDialog from "./diteng/LogisticsDialog";
+import DepartmentDialog from "./diteng/DepartmentDialog";
 import PartCodePartStockDialog from "./diteng/PartCodePartStockDialog";
 import VipCardDialog from "./diteng/VipCardDialog";
 import PartStockDialog from "./diteng/PartStockDialog";
@@ -74,6 +75,7 @@ export default {
     SubordinateDialog,
     WareBasicDialog,
     LogisticsDialog,
+    DepartmentDialog,
     PartCodePartStockDialog,
     VipCardDialog,
     PartStockDialog,

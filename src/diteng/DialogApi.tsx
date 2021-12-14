@@ -64,6 +64,11 @@ export default class DialogApi {
         return ds;
     }
 
+    /** 获取当前用户信息 */
+    static async getUserInfo() {
+        return DialogApi.getService('TAppUserInfo.getUserDetail');
+    }
+
     /** 获取商品大类 */
     static getClass1() {
         return DialogApi.getService('TAppPartClass.GetNameList');
@@ -237,5 +242,15 @@ export default class DialogApi {
     /** 删除优惠原因 */
     static async removeTempPrefererntial(params: { UID_: string }) {
         return await DialogApi.getService('TAppCoupon.delete', params);
+    }
+
+    /** 获取部门列表 */
+    static async getDepartments(params: DataRow) {
+        return await DialogApi.getDataOut('TAppDept.Download', params);
+    }
+
+    /** 显示会计科目余额 */
+    static async getAccountEdit(params: DataRow) {
+        return await DialogApi.getDataOut('TAppAccType2.Download', params);
     }
 }
