@@ -43,6 +43,14 @@ import SupBankDialog from "../src/diteng/SupBankDialog"
 import CusTypeDialog from "../src/diteng/CusTypeDialog"
 import TempPrefererntialDialog from "../src/diteng/TempPrefererntialDialog"
 import AccountEditDialog from "../src/diteng/AccountEditDialog"
+import AERemarkDialog from "../src/diteng/AERemarkDialog"
+import RABChangeDialog from "../src/diteng/RABChangeDialog"
+import PABChangeDialog from "../src/diteng/PABChangeDialog"
+import AORemarkDialog from "../src/diteng/AORemarkDialog"
+import BRRemarkDialog from "../src/diteng/BRRemarkDialog"
+import AHRemarkDialog from "../src/diteng/AHRemarkDialog"
+import MLRemarkDialog from "../src/diteng/MLRemarkDialog"
+import BIRemarkDialog from "../src/diteng/BIRemarkDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -111,6 +119,14 @@ export default {
     CusTypeDialog,
     TempPrefererntialDialog,
     AccountEditDialog,
+    AERemarkDialog,
+    RABChangeDialog,
+    PABChangeDialog,
+    AORemarkDialog,
+    BRRemarkDialog,
+    AHRemarkDialog,
+    MLRemarkDialog,
+    BIRemarkDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

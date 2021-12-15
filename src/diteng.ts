@@ -38,6 +38,14 @@ import SaleCurrentNumDialog from "./diteng/SaleCurrentNumDialog";
 import SupBankDialog from "./diteng/SupBankDialog";
 import CusTypeDialog from "./diteng/CusTypeDialog";
 import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
+import AERemarkDialog from "./diteng/AERemarkDialog";
+import RABChangeDialog from "./diteng/RABChangeDialog";
+import PABChangeDialog from "./diteng/PABChangeDialog";
+import AORemarkDialog from "./diteng/AORemarkDialog";
+import BRRemarkDialog from "./diteng/BRRemarkDialog";
+import AHRemarkDialog from "./diteng/AHRemarkDialog";
+import MLRemarkDialog from "./diteng/MLRemarkDialog";
+import BIRemarkDialog from "./diteng/BIRemarkDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -95,6 +103,14 @@ export default {
     SupBankDialog,
     CusTypeDialog,
     TempPrefererntialDialog,
+    AERemarkDialog,
+    RABChangeDialog,
+    PABChangeDialog,
+    AORemarkDialog,
+    BRRemarkDialog,
+    AHRemarkDialog,
+    MLRemarkDialog,
+    BIRemarkDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }
