@@ -8,6 +8,8 @@ import DataRow from "../db/DataRow";
 import styles from "./GetMarque.css";
 import Block, { Line } from "../rcc/Block";
 import { showMsg } from "./Summer";
+import { ColumnIt } from "../rcc/ColumnIt";
+import { Checkbox } from "../rcc/Checkbox";
 
 type GetMarqueTypeProps = {
     partCode: string,
@@ -36,16 +38,19 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         }
     }
 
+    componentWillMount() {
+        this.init();
+    }
+
     async init() {
-        this.showAsChild();
         this.setLoad(true);
         let dataSet = await DialogApi.getSubItem({ Marque_: this.props.partCode });
-        if(dataSet.state <= 0) {
+        if (dataSet.state <= 0) {
             showMsg(dataSet)
         }
         let headData = new DataSet();
         let options = dataSet.head.getValue('Option_');
-        if(options)
+        if (options)
             headData.setJson(dataSet.head.getValue('Option_'));
         let filters: Map<string, string> = new Map();
         headData.records.forEach((row: DataRow) => {
@@ -73,10 +78,6 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         )
     }
 
-    getAdornment(): JSX.Element {
-        return <span role='opera' onClick={this.init.bind(this)}>{this.props.name}</span>;
-    }
-
     getTable() {
         if (this.isPhone) {
             return (
@@ -96,6 +97,8 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         } else {
             return (
                 <DBGrid dataSet={this.state.dbData} showOrder={true}>
+                    <Checkbox code='_select_2' width="5" />
+                    <ColumnIt width="5" />
                     <Column code='Brand_' name='品牌' width='15' />
                     <Column code='DescSepc' name='品名规格' width='30' customText={this.initDescSepc} />
                     <Column code='Code_' name='料号' width='20' />

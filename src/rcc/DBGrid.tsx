@@ -2,6 +2,7 @@ import React, { isValidElement, MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import FieldMeta from "../db/FieldMeta";
+import { ColumnIt } from "./ColumnIt";
 import { OnFieldChangedEvent } from "./DBEdit";
 import styles from './DBGrid.css';
 import WebControl from "./WebControl";
@@ -55,11 +56,10 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        if (this.props.showOrder) {
-            items.push(<Column key="orderTitle" code="order" name="序号" width={this.props.orderWidth ? this.getWidth(this.props.orderWidth) : this.getWidth('5')} tag={ColumnType.th}></Column>)
-        }
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column) {
+            // @ts-ignore
+            let className = child.type.className || ''
+            if (isValidElement(child) && className == Column.className) {
                 items.push(React.cloneElement(child, { tag: ColumnType.th, key: child.props.code, width: this.getWidth(child.props.width) }));
             }
         })
@@ -68,9 +68,11 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     getRows(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        let recNo = 0;
-        for (let dataRow of this.props.dataSet.records) {
-            recNo++;
+        let ds: DataSet = this.props.dataSet;
+        ds.first()
+        while (ds.fetch()) {
+            let recNo: number = ds.recNo
+            let dataRow: DataRow = ds.current
             //输出主行
             items.push(
                 <tr key={recNo} onClick={this.onTrClick}>
@@ -118,11 +120,10 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        if (this.props.showOrder) {
-            items.push(<Column key={`order${recNo}`} code="order" textAlign='center' name="序号" width={this.props.orderWidth ? this.props.orderWidth : '5'} customText={() => <span>{recNo}</span>}></Column>)
-        }
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column)
+            // @ts-ignore
+            let className = child.type.className || ''
+            if (isValidElement(child) && className == Column.className)
                 items.push(React.cloneElement(child, {
                     tag: ColumnType.td, key: child.props.code, dataRow, recNo,
                     onChangedOwner: this.onChanged
@@ -141,12 +142,12 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     getAllWidth() {
         let width: number = 0;
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column) {
+            // @ts-ignore
+            let className = child.type.className || ''
+            if (isValidElement(child) && className == Column.className) {
                 width += Number(child.props.width)
             }
         })
-        if (this.props.showOrder)
-            width += Number(this.props.orderWidth) || 5;
         return width;
     }
 
@@ -159,7 +160,7 @@ export enum ColumnType {
     th, td, span
 }
 
-type ColumnPropsType = {
+export type ColumnPropsType = {
     tag?: ColumnType;
     dataRow?: DataRow;
     recNo?: number;
@@ -178,6 +179,8 @@ type ColumnStateType = {
 }
 
 export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
+    static className: string = "Column";
+
     static defaultProps = {
         tag: ColumnType.td,
         colSpan: 1
@@ -190,6 +193,8 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 
     render() {
         if (this.props.customText && this.props.tag != ColumnType.th) {
+            if (this.props.recNo)
+                this.props.dataRow.dataSet.setRecNo(this.props.recNo)
             let child: JSX.Element = this.props.customText(this.props.dataRow);
             if (this.props.tag == ColumnType.td)
                 return <td align={this.props.textAlign ? this.props.textAlign : 'left'}>{child}</td>

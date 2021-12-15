@@ -52,6 +52,7 @@ import AcPaySet from "./AcPaySet"
 import TCustomComponent from "../src/vcl/TCustomComponent"
 import BaseAreaDialog from "../src/diteng/BaseAreaDialog"
 import AreaDialog from "../src/diteng/AreaDialog"
+import GetMarque from "../src/diteng/GetMarque"
 
 export default {
     //db
@@ -110,6 +111,7 @@ export default {
     CusTypeDialog,
     TempPrefererntialDialog,
     AccountEditDialog,
+    GetMarque,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类
