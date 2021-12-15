@@ -2,6 +2,7 @@ import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
+import { ColumnIt } from "../rcc/ColumnIt";
 import DBEdit from "../rcc/DBEdit";
 import DBGrid, { Column } from "../rcc/DBGrid";
 import SearchPanel from "../rcc/SearchPanel";
@@ -69,7 +70,8 @@ export default class PartCodePartStockDialog extends BaseDialog<PartCodePartStoc
                     <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
                 </SearchPanel>
                 <div className={styles.dbgridSum}>数量汇总：{this.state.tStock}</div>
-                <DBGrid dataSet={this.state.dataSet} showOrder={true}>
+                <DBGrid dataSet={this.state.dataSet}>
+                    <ColumnIt/>
                     <Column name='仓别' code='CWCode_' width='20'></Column>
                     <Column name='仓存量' code='Stock_' width='20'></Column>
                     <Column name='操作' code='opera' width='10' textAlign='center' customText={

@@ -6,6 +6,7 @@ import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from "./DialogApi";
 import styles from "./TempPrefererntialDialog.css";
 import { showMsg } from "./Summer";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type TempPrefererntialTypeState = {
     dataIn: DataRow,
@@ -52,7 +53,8 @@ export default class TempPrefererntialDialog extends BaseDialog<BaseDialogPropsT
                     </div>
                     <button type='submit'>保存</button>
                 </form>
-                <DBGrid dataSet={this.state.dataSet} showOrder={true}>
+                <DBGrid dataSet={this.state.dataSet}>
+                    <ColumnIt/>
                     <Column name='优惠原因' code='Subject_' width='15'></Column>
                     <Column name='操作' code='opera' width='15' textAlign='center' customText={(row: DataRow) => {
                         return (

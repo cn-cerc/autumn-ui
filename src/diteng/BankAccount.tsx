@@ -5,6 +5,7 @@ import DataRow from "../db/DataRow";
 import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from "./DialogApi";
 import styles from "./StaffDialog.css";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type BankAccountTypeProps = {
     inputId: string,
@@ -32,14 +33,16 @@ export default class BankAccountDialog extends BaseDialog<BankAccountTypeProps, 
             ...this.state,
             dataIn,
             dataSet: new DataSet(),
-            width: '40rem'
+            width: '40rem',
+            height: this.isPhone ? '25rem' : '30rem'
         }
     }
 
     content(): JSX.Element {
         return (
             <div role='content' className={styles.main}>
-                <DBGrid dataSet={this.state.dataSet} showOrder={true} orderWidth={this.isPhone ? '8' : '5'}>
+                <DBGrid dataSet={this.state.dataSet}>
+                    <ColumnIt width={this.isPhone ? '8' : '5'}/>
                     <Column code='Name_' name='账户简称' width='20'></Column>
                     <Column code='AccountBank_' name='开户行' width='25'></Column>
                     <Column code='opera' name='操作' width={this.isPhone ? '10' : '8'} textAlign='center' customText={(row: DataRow) => {

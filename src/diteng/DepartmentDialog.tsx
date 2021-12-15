@@ -10,6 +10,7 @@ import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
 import DBDrop from "../rcc/DBDrop";
 import Block, { Line } from "../rcc/Block";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 const CUSTOMER_204008 = '204008';
 
@@ -112,7 +113,8 @@ export default class DepartmentDialog extends BaseDialog<BaseDialogPropsType, De
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} showOrder={true}>
+                <DBGrid dataSet={this.state.dataSet}>
+                    <ColumnIt/>
                     <Column name='部门代码' code='Code_' width='20'></Column>
                     <Column name='部门名称' code='Name_' width='20' customText={(row: DataRow) => {
                         return <span role='opera' onClick={this.nameClick.bind(this, row)}>{row.getString('Name_')}</span>

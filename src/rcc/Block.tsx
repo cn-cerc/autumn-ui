@@ -1,9 +1,9 @@
 import React, { isValidElement } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import Control from "./WebControl";
-import { Column, ColumnType } from "./DBGrid";
 import styles from './Block.css';
+import { Column, ColumnType } from "./DBGrid";
+import Control from "./WebControl";
 
 type propsType = {
     dataSet?: DataSet;
@@ -22,10 +22,12 @@ export default class Block extends Control<propsType> {
 
     getRows(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        let recNo = 0;
-        for (let row of this.props.dataSet.records) {
-            recNo++;
-            items.push(<div className={styles.row} key={items.length}>{this.getLines(row, recNo)}</div>)
+        let ds = this.props.dataSet;
+        ds.first();
+        while (ds.fetch()) {
+            let recNo: number = ds.recNo
+            let dataRow: DataRow = ds.current
+            items.push(<div className={styles.row} key={items.length}>{this.getLines(dataRow, recNo)}</div>)
         }
         return items;
     }
@@ -46,9 +48,6 @@ type LinePropsType = {
     row?: DataRow;
     readOnly?: boolean;
     className?: string;
-    showOrder?: boolean;
-    orderName?: string,
-    orderWidth?: string,
     recNo?: number
 }
 
@@ -74,16 +73,16 @@ export class Line extends Control<LinePropsType, LineTypeState> {
 
     getRow(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        if (this.props.showOrder) {
-            items.push((
-                <Column width={this.props.orderWidth ? this.getWidth(this.props.orderWidth) : this.getWidth('5')} key={'order'} code='order' tag={ColumnType.span} customText={() => <span>{this.props.orderName ? this.props.orderName + '：' : ''}{this.props.recNo}</span>}></Column>
-            ))
-        }
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column)
-                items.push(React.cloneElement(child, {
-                    tag: ColumnType.span, key: child.props.code, dataRow: this.props.row, width: this.getWidth(child.props.width)
-                }));
+            if (isValidElement(child)) {
+                // @ts-ignore
+                let className = child.type.className || ''
+                if (className == Column.className)
+                    items.push(React.cloneElement(child, {
+                        tag: ColumnType.span, key: child.props.code, dataRow: this.props.row, recNo: this.props.recNo, width: this.getWidth(child.props.width)
+                    }));
+            }
+
         })
         return items;
     }
@@ -91,12 +90,14 @@ export class Line extends Control<LinePropsType, LineTypeState> {
     getAllWidth() {
         let width: number = 0;
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column) {
-                width += Number(child.props.width)
+            if (isValidElement(child)) {
+                // @ts-ignore
+                let className = child.type.className || ''
+                if (className == Column.className) {
+                    width += Number(child.props.width)
+                }
             }
         })
-        if (this.props.showOrder)
-            width += Number(this.props.orderWidth) || 5;
         return width;
     }
 

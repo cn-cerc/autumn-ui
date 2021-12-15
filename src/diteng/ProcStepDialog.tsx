@@ -9,6 +9,7 @@ import SearchPanel from "../rcc/SearchPanel";
 import styles from "./StaffDialog.css";
 import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type ProcStepTypeProps = {
     showProc?: string,
@@ -47,7 +48,8 @@ export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcSt
                     <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
                     <DBDrop dataName='制程选择' dataField='ProcCode_' options={this.state.options}></DBDrop>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} showOrder={true} orderWidth='10' onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                    <ColumnIt width='10'/>
                     <Column name='制程' textAlign='center' code='ProName_' width='15'></Column>
                     <Column name='工序' textAlign='right' code='StepName_' width='25'></Column>
                     <Column name='报价' textAlign='right' code='StepWage_' width='15'></Column>

@@ -3,6 +3,7 @@ import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import Block, { Line } from "../rcc/Block";
+import { ColumnIt } from "../rcc/ColumnIt";
 import DBGrid, { Column } from "../rcc/DBGrid";
 import styles from "./StaffDialog.css";
 
@@ -63,7 +64,8 @@ export default class RemarkDialog extends BaseDialog<BaseDialogPropsType, Remark
         if (this.isPhone) {
             return (
                 <Block dataSet={this.state.dataSet}>
-                    <Line showOrder={true} orderName='序号' orderWidth='80'>
+                    <Line>
+                        <ColumnIt width='80' name='序号' />
                         <Column code='opera' textAlign='right' width='20' customText={(row: DataRow) => {
                             return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }}></Column>
@@ -75,7 +77,8 @@ export default class RemarkDialog extends BaseDialog<BaseDialogPropsType, Remark
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} showOrder={true} orderWidth='10' onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                    <ColumnIt width='10'/>
                     <Column name='原因备注项' code='Remark_' width='70'></Column>
                     <Column name='选择' textAlign='center' code='opera' width='10' customText={(row: DataRow) => {
                         return <span role='opera'>选择</span>

@@ -5,6 +5,7 @@ import DBGrid, { Column } from "../rcc/DBGrid";
 import DataRow from "../db/DataRow";
 import DialogApi from "./DialogApi";
 import styles from "./StaffDialog.css";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type SupBankTypeProps = {
     supCode: string
@@ -42,7 +43,8 @@ export default class SupBankDialog extends BaseDialog<SupBankTypeProps, SupBankT
     content(): JSX.Element {
         return (
             <div className={styles.main} role='content'>
-                <DBGrid dataSet={this.state.dataSet} showOrder={true} orderWidth={this.isPhone ? '10' : '5'} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                    <ColumnIt width={this.isPhone ? '10' : '5'}/>
                     <Column name='银行名称' code='Name_' width='16'></Column>
                     <Column name='银行帐号' code='AccountNo_' width='40'></Column>
                     <Column name='操作' code='opera' textAlign='center' width='10' customText={(row: DataRow) => {

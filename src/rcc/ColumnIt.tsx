@@ -6,7 +6,7 @@ export class ColumnIt extends Column {
         tag: ColumnType.td,
         colSpan: 1,
         code: '_it_',
-        width: '3',
+        width: '5',
         textAlign: 'center',
         name: '序'
     }

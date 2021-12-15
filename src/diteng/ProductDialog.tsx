@@ -3,6 +3,7 @@ import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import Block, { Line } from "../rcc/Block";
+import { ColumnIt } from "../rcc/ColumnIt";
 import DBDrop from "../rcc/DBDrop";
 import DBEdit from "../rcc/DBEdit";
 import DBGrid, { Column } from "../rcc/DBGrid";
@@ -99,7 +100,8 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} showOrder={true}>
+                <DBGrid dataSet={this.state.dataSet}>
+                    <ColumnIt/>
                     <Column code='Brand_' name='品牌' width='20'></Column>
                     <Column code='Spec_' name='品名' width='40' customText={this.initSpec}></Column>
                     <Column code='Code_' name='料号' width='30'></Column>

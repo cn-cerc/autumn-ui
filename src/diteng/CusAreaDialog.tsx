@@ -9,6 +9,7 @@ import Block, { Line } from "../rcc/Block";
 import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type CusAreaTypeState = {
     dataSet: DataSet,
@@ -65,7 +66,9 @@ export default class CusAreaDialog extends BaseDialog<BaseDialogPropsType, CusAr
         if (this.isPhone) {
             return (
                 <Block dataSet={this.state.dataSet}>
-                    <Line showOrder={true} orderName='序号'></Line>
+                    <Line>
+                        <ColumnIt />
+                    </Line>
                     <Line>
                         <Column name='区域' code='SalesArea_' width='40'></Column>
                         <Column name='选择' code='opera' width='10' textAlign='right' customText={
@@ -78,7 +81,8 @@ export default class CusAreaDialog extends BaseDialog<BaseDialogPropsType, CusAr
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} showOrder={true} orderWidth='10' onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                    <ColumnIt width='10' />
                     <Column name='区域' code='SalesArea_' width='30'></Column>
                     <Column name='选择' code='opera' width='12' textAlign='center' customText={
                         (row: DataRow) => {

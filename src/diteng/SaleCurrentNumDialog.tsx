@@ -9,6 +9,7 @@ import SearchPanel from "../rcc/SearchPanel";
 import styles from "./StaffDialog.css";
 import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type SaleCurrentNumTypeProps = {
     partCode: string,
@@ -52,7 +53,8 @@ export default class SaleCurrentNumDialog extends BaseDialog<SaleCurrentNumTypeP
                     <DBEdit dataName='年月' dataField='YM_' readOnly={true}></DBEdit>
                     <DBEdit dataName='商品编号' dataField='PartCode_' readOnly={true}></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} showOrder={this.isPhone ? false : true} orderWidth='8' onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet}  onRowClick={this.handleClick.bind(this)}>
+                    {this.isPhone ? '' : <ColumnIt width='8'/>}
                     <Column name='主责业务' textAlign='center' code='SalesName_' width='25'></Column>
                     {this.props.forecastTeam == 'true' ? <Column name='成本中心' textAlign='center' code='CostTypeName' width='25'></Column> : ''}
                     <Column name='当月预售量' textAlign='right' code='CurrentNum' width='30'></Column>

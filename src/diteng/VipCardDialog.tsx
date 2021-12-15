@@ -9,6 +9,7 @@ import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
 import DBDrop from "../rcc/DBDrop";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type VipCardTypeProps = {
     cusCode: string,
@@ -33,7 +34,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
         let dataIn = new DataRow();
         dataIn.setValue('Status_', this.props.status);
         dataIn.setValue('MaxRecord_', 100);
-        if(this.props.cusCode)
+        if (this.props.cusCode)
             dataIn.setValue('CusCode_', this.props.cusCode);
         this.state = {
             ...this.state,
@@ -73,7 +74,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
     }
 
     getTable() {
-        if(this.isPhone) {
+        if (this.isPhone) {
             return (
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
                     <Column name='卡号' code='Code_' width='10'></Column>
@@ -83,11 +84,12 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} showOrder={true}>
+                <DBGrid dataSet={this.state.dataSet}>
+                    <ColumnIt />
                     <Column name='会员卡号' code='Code_' width='10'></Column>
                     <Column name='会员名称' code='Name_' width='10'></Column>
                     <Column name='手机号码' code='Phone_' width='15'></Column>
-                    <Column name='打折信息' code='DisAcountType_' width='10' customText={(row:DataRow)=>{
+                    <Column name='打折信息' code='DisAcountType_' width='10' customText={(row: DataRow) => {
                         let disAcountTypeName = '';
                         let disAcountType = row.getValue('DisAcountType_');
                         switch (disAcountType) {
@@ -103,7 +105,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
                         }
                         return <span>{disAcountTypeName}</span>
                     }}></Column>
-                    <Column name='会员等级' code='Level_' width='10' customText={(row: DataRow)=>{
+                    <Column name='会员等级' code='Level_' width='10' customText={(row: DataRow) => {
                         let levelName;
                         let level = row.getValue('Level_');
                         switch (level) {

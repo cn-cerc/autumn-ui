@@ -8,6 +8,7 @@ import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from './DialogApi';
 import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
+import { ColumnIt } from "../rcc/ColumnIt";
 
 type WareBasicTypeState = {
     dataSet: DataSet,
@@ -46,7 +47,8 @@ export default class WareBasicDialog extends BaseDialog<BaseDialogPropsType, War
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName='规格' dataField='SearchText_'></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} showOrder={true} orderWidth='10'>
+                <DBGrid dataSet={this.state.dataSet}>
+                    <ColumnIt width='10'/>
                     <Column name='规格' code='WareSpec_' width='50'></Column>
                     <Column name='选择' code='opera' width='10' textAlign='center' customText={
                         (row: DataRow) => {
