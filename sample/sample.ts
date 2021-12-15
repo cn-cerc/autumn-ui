@@ -111,7 +111,6 @@ export default {
     CusTypeDialog,
     TempPrefererntialDialog,
     AccountEditDialog,
-    GetMarque,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类
