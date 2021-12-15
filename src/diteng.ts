@@ -52,6 +52,7 @@ import { TGridConfig } from "./vcl/TGrid";
 import TCustomComponent from "./vcl/TCustomComponent";
 import BaseAreaDialog from "./diteng/BaseAreaDialog";
 import AreaDialog from "./diteng/AreaDialog";
+import AccountEditDialog from "./diteng/AccountEditDialog";
 
 export default {
     //db
@@ -111,6 +112,7 @@ export default {
     AHRemarkDialog,
     MLRemarkDialog,
     BIRemarkDialog,
+    AccountEditDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }
