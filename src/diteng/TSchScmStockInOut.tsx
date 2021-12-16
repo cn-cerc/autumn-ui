@@ -215,6 +215,22 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         targetFields.forEach(k => originFields.items.push(k));
     }
 
+    setSortCode(code: string): string {
+        switch(code) {
+            case 'DescSpec':
+                code = 'Desc_,Spec';
+                break;
+            case 'tbNo':
+                code = 'TBNo_,It_';
+                break;
+            case 'salesName':
+                code = 'SalesName_'
+            default:
+                break;
+        }
+        return code;
+    }
+
     getDatas(svr: QueryService) {
         svr.open().then(dataOut => {
             this.copyFields(dataOut);
@@ -273,7 +289,7 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         let dataSet = new DataSet();
         dataSet.appendDataSet(this.state.config.dataSet);
         return (
-            <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} />
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} sortFilter={this.setSortCode} />
         )
     }
 

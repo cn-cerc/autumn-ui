@@ -548,7 +548,6 @@ export default class DataSet implements IDataSource {
                         sort = param1 > param2 ? 1 : -1;
 
                 }
-
                 if (sort != 0) {
                     if (params.length == 1 || params[1].toLowerCase() == "asc") {
                         sort = sort > 0 ? 1 : -1;

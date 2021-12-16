@@ -13,7 +13,8 @@ const defaultProps = {
 type PropsType = {
     config: TGridConfig;
     setChild: Function;
-    dataSet: DataSet
+    dataSet: DataSet,
+    sortFilter?: Function,
 } & Partial<typeof defaultProps>;
 
 interface stateType {
@@ -155,6 +156,10 @@ export default class Grid extends React.Component<PropsType, stateType> {
     }
 
     gridSort(render: any, code: string) {
+        if (this.props.sortFilter)
+            code = this.props.sortFilter(code);
+        let codes: string[] = code.split(',');
+        let sort = '';
         // 第一次升序↑，第二次降序
         let th = render.currentTarget as HTMLElement;
         let span = th.querySelector('span');
@@ -163,27 +168,31 @@ export default class Grid extends React.Component<PropsType, stateType> {
             if (sorts[i] != span)
                 sorts[i].remove();
         }
+        codes.forEach((code, index) => {
+            if (!span)
+                codes[index] = `${code} ASC`
+            else {
+                if (span.innerHTML == '↑')
+                    codes[index] = `${code} DESC`
+                else
+                    codes[index] = `${code} ASC`
+            }
+        })
         if (!span) {
             let span = document.createElement('span');
             span.setAttribute('class', styles.sort)
             span.innerText = '↑';
             th.appendChild(span)
-            this.props.dataSet.clear();
-            this.props.dataSet.appendDataSet(this.props.config.dataSet);
-            this.props.dataSet.setSort(`${code} ASC`);
         } else {
             if (span.innerHTML == '↑') {
                 span.innerHTML = '↓';
-                this.props.dataSet.clear();
-                this.props.dataSet.appendDataSet(this.props.config.dataSet);
-                this.props.dataSet.setSort(`${code} DESC`);
             } else {
                 span.innerHTML = '↑';
-                this.props.dataSet.clear();
-                this.props.dataSet.appendDataSet(this.props.config.dataSet);
-                this.props.dataSet.setSort(`${code} ASC`);
             }
         }
+        this.props.dataSet.clear();
+        this.props.dataSet.appendDataSet(this.props.config.dataSet);
+        this.props.dataSet.setSort(...codes);
         if (this.state.mutiPage)
             this.state.mutiPage.reload();
         this.setState({

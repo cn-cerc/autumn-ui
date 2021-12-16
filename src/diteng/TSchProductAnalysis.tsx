@@ -34,7 +34,6 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
 
     constructor(props: propsType) {
         super(props);
- 
         // 初始化查询数据
         let value = sessionStorage.getItem(SEARCH_SESSION_KEY);
         if (value) {
@@ -167,7 +166,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
 
         // 删除表格排序符号
         let thList = document.querySelectorAll('th span');
-        for(let i=0;i<thList.length;i++) {
+        for (let i = 0; i < thList.length; i++) {
             thList[i].remove();
         }
 
@@ -221,6 +220,13 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         let originFields = this.dataSet.fields;// FIXME 引用修改有风险，需要使用克隆字段的方式
         let targetFields = dataIn.fields;
         targetFields.forEach(k => originFields.items.push(k));
+    }
+
+    setSortCode(code: string): string {
+        if (code == 'DescSpec') {
+            return 'Desc_,Spec_'
+        }
+        return code;
     }
 
     getDatas(svr: QueryService) {
@@ -349,7 +355,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         let dataSet = new DataSet();
         dataSet.appendDataSet(this.state.config.dataSet);
         return (
-            <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} />
+            <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} sortFilter={this.setSortCode}/>
         )
     }
 

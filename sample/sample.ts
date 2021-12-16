@@ -18,6 +18,7 @@ import DateYMDialog from "../src/diteng/DateYMDialog"
 import StaffDialog from "../src/diteng/StaffDialog"
 import SupDialog from "../src/diteng/SupDialog"
 import ProductDialog from "../src/diteng/ProductDialog"
+import NewProductDialog from "../src/diteng/NewProductDialog"
 import SubordinateDialog from "../src/diteng/SubordinateDialog"
 import WareBasicDialog from "../src/diteng/WareBasicDialog"
 import LogisticsDialog from "../src/diteng/LogisticsDialog"
@@ -97,6 +98,7 @@ export default {
     StaffDialog,
     SupDialog,
     ProductDialog,
+    NewProductDialog,
     SubordinateDialog,
     WareBasicDialog,
     LogisticsDialog,

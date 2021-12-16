@@ -6,6 +6,7 @@ import styles from './SearchPanel.css';
 import WebControl from "./WebControl";
 
 export type SearchPanelOnExecute = (row: DataRow) => void;
+export type SearchPanelonFileChange = (file: string) => void;
 
 type propsType = {
     dataRow: DataRow;
@@ -37,9 +38,15 @@ export default class SearchPanel extends WebControl<propsType, stateType> {
         let key = 0;
         React.Children.map(this.props.children, child => {
             if (isValidElement(child)) {
+                let changed = child.props.onChanged
                 let item = React.cloneElement(child, {
                     key: key++,
-                    dataRow: this.state.dataRow, onChanged: this.onChanged
+                    dataRow: this.state.dataRow,
+                    onChanged: (meta: FieldMeta) => {
+                        if (changed)
+                            changed();
+                        this.onChanged.bind(this, meta)();
+                    }
                 });
                 items.push(item);
             }
