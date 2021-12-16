@@ -253,4 +253,9 @@ export default class DialogApi {
     static async getAccountEdit(params: DataRow) {
         return await DialogApi.getDataOut('TAppAccType2.Download', params);
     }
+
+    /** 获取商品规格 */
+    static async getPartSpec(params: DataRow) {
+        return await DialogApi.getDataOut('SvrPartSpec.search', params);
+    }
 }
