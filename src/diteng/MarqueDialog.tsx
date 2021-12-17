@@ -31,6 +31,7 @@ type MarqueDialogTypeState = {
     params: DataRow,
     shopData: DataSet,
     searchData: DataRow,
+    showAll: boolean
 } & Partial<BaseDialogStateType>
 
 export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, MarqueDialogTypeState>{
@@ -68,6 +69,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             width,
             height,
             shopData,
+            showAll: false,
             params,
         }
         this.setTitle(`型号选择,当前单别：${tb}`);
@@ -276,14 +278,32 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
                 </SearchPanel>
             )
         } else {
-            this.state.headData.forEach((row: DataRow) => {
+            let bool = true;
+            let num = 0;
+            let dataSet = this.state.headData;
+            for (let index = 0; index < dataSet.size; index++) {
+                let row: DataRow = dataSet.records[index];
+                if (num > 3 && !this.state.showAll) {
+                    heads.push(
+                        <div style={{ 'text-align': 'right' }} key='setAll'>
+                            <span role='opera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
+                        </div>
+                    )
+                    break;
+                }
                 let name = row.getString('Name_');
                 heads.push(
-                    <div className={styles.head} key={name}>
-                        <Head dataRow={row} selectValue={this.state.filters.get(name)} handleClick={this.filter.bind(this)} />
-                    </div>
+                    <div className={styles.head} key={name}><Head dataRow={row} selectValue={this.state.filters.get(name)} handleClick={this.filter.bind(this)} /></div>
                 );
-            })
+                num++;
+            }
+            if (dataSet.size > 4 && this.state.showAll) {
+                heads.push(
+                    <div style={{ 'text-align': 'right' }} key='setAll'>
+                        <span role='opera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
+                    </div>
+                )
+            }
         }
         return heads;
     }
@@ -411,6 +431,12 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             }
         }).catch((result) => {
             showMsg(result.message);
+        })
+    }
+
+    changeShowAll() {
+        this.setState({
+            showAll: !this.state.showAll
         })
     }
 

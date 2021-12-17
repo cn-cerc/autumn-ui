@@ -35,7 +35,8 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
             filters: new Map(),
             dbData: new DataSet(),
             showAll: false,
-            width: '55rem'
+            width: '55rem',
+            height: this.isPhone ? '100%' : '37.5rem'
         }
     }
 

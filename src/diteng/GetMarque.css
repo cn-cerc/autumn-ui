@@ -4,7 +4,6 @@
 
 .headContent {
     padding: 1rem;
-    max-height: 20rem;
     overflow: auto;
 }
 
@@ -52,8 +51,21 @@
     height: auto;
 }
 
+@media screen and (min-width: 768px) {
+    .headContent {
+        max-height: 20rem;
+    }
+}
+
 @media screen and (max-width: 767px) {
     .head ul li {
         font-size: 1rem;
+    }
+    .head {
+        flex-direction: column;
+    }
+    .head ul {
+        width: 100%;
+        flex-direction: row;
     }
 }

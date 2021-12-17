@@ -37,7 +37,8 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
             brandList,
             dataSet: new DataSet(),
             dataIn,
-            width: '60rem'
+            width: '60rem',
+            height: this.isPhone ? '100%' : '37.5rem'
         }
         this.init();
     }
