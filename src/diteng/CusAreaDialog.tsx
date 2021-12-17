@@ -48,7 +48,7 @@ export default class CusAreaDialog extends BaseDialog<BaseDialogPropsType, CusAr
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='区域搜索' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
                 {this.getTable()}
             </div>

@@ -57,7 +57,7 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSearch.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
                 {this.state.showBack ? <div style={{ 'padding': '0 1rem' }}><span role='opera' style={{ 'cursor': 'pointer' }} onClick={this.handleBack.bind(this)}>返回上一级</span></div> : ''}
                 {this.getTable()}
@@ -170,8 +170,10 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getString('Code_');
-        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input2.value = row.getString('Name_');
+        if(inputIds.length > 1) {
+            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+            input2.value = row.getString('Name_');
+        }
         this.handleSelect();
     }
 }

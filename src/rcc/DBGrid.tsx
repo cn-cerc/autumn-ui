@@ -82,8 +82,12 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             //输出子行 
             let colSpan = 0;
             React.Children.map(this.props.children, child => {
-                if (isValidElement(child) && child.type == Column) {
-                    colSpan++;
+                if (isValidElement(child)) {
+                    // @ts-ignore
+                    let className = child.type.className || ''
+                    if (className == Column.className) {
+                        colSpan++;
+                    }
                 }
             })
             let total = 0;
@@ -92,7 +96,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     total++;
                     let key: string = `${recNo}.${total}`;
                     items.push(
-                        <tr key={`child_${key}`} onClick={this.onTrClick}>
+                        <tr key={`child_${key}`} onClick={this.onTrClick} style={{'display': child.props.visible ? 'none' : 'table-row'}}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -177,6 +181,7 @@ export type ColumnPropsType = {
     onChangedOwner?: OnDataRowChangedEvent;
     textAlign?: "left" | "right" | "center" | "char";
     customText?: Function;  // 用于自定义table中的行
+    visible?: boolean; //用于控制子行的
 }
 
 type ColumnStateType = {
@@ -202,7 +207,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
         if (this.props.customText && this.props.tag != ColumnType.th) {
             let child: JSX.Element = this.props.customText(this.props.dataRow);
             if (this.props.tag == ColumnType.td)
-                return <td align={this.props.textAlign ? this.props.textAlign : 'left'}>{child}</td>
+                return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
             else
                 return <span style={{ 'width': this.props.width, 'display': 'inline-block', 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{child}</span>
 
@@ -210,7 +215,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
         switch (this.props.tag) {
             case ColumnType.th:
                 return (
-                    <th className={styles.column} style={{ "width": this.props.width }}>{this.props.name}</th>
+                    <th className={styles.column} style={{ "width": this.props.width, 'display': this.props.visible ? 'none' : 'table-cell' }}>{this.props.name}</th>
                 )
             case ColumnType.td: {
                 return this.getTd();
@@ -230,7 +235,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 
     getTd() {
         return (
-            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : "left"}>
+            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : "left"} style={{'display': this.props.visible ? 'none' : 'table-cell' }}>
                 {this.getValue()}
             </td>
         )
@@ -276,6 +281,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 type ChildRowPropsType = {
     dataRow?: DataRow;
     colSpan?: number;
+    visible?: boolean
 }
 
 export class ChildRow extends React.Component<ChildRowPropsType> {
@@ -285,7 +291,8 @@ export class ChildRow extends React.Component<ChildRowPropsType> {
             if (isValidElement(child) && child.type == Column)
                 items.push(React.cloneElement(child, {
                     tag: ColumnType.td, key: child.props.code, dataRow: this.props.dataRow,
-                    colSpan: this.props.colSpan
+                    colSpan: this.props.colSpan,
+                    visible: this.props.visible
                 }));
         })
         return items;

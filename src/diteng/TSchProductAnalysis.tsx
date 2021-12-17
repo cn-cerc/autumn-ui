@@ -6,6 +6,7 @@ import Grid from "../rcc/Grid";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import { exportUrl } from './ExportConfig';
 import { AuiMath, Loading, showMsg } from "./Summer";
+import DitengCommon from "./DitengCommon";
 
 type propsType = {
     token: string;
@@ -20,9 +21,6 @@ type stateType = {
     config: TGridConfig,
 }
 
-const CUSTOMER_181013 = "181013";
-const CUSTOMER_131001 = "131001";
-const CUSTOMER_194005 = "194005";
 const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
 const loading = new Loading('系统正在查询中 . . .');
 const MAX_RECORD = 100000;
@@ -116,10 +114,9 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         if (this.props.avaiStockOption) {
             new TGridColumn(config, "AvaiStock_", "可用库存").setWidth(4);// avaiStockOption
         }
-
-        if (this.props.corpNo == CUSTOMER_181013) {
-            new TGridColumn(config, "OutSumAmount_", "业务成本").setWidth(4);// CUSTOMER_181013
-            new TGridColumn(config, "OutSumProfit_", "业务毛利").setWidth(4);// CUSTOMER_181013
+        if (this.props.corpNo == DitengCommon.CUSTOMER_181013) {
+            new TGridColumn(config, "OutSumAmount_", "业务成本").setWidth(4);// DitengCommon.CUSTOMER_181013
+            new TGridColumn(config, "OutSumProfit_", "业务毛利").setWidth(4);// DitengCommon.CUSTOMER_181013
         }
 
         if (this.props.isCustomer) {
@@ -422,16 +419,16 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         }
 
         // 狼王
-        if (this.props.corpNo == CUSTOMER_131001) {
+        if (this.props.corpNo == DitengCommon.CUSTOMER_131001) {
             new TGridColumn(grid, "CusNum", "销售家数");
         }
         // 水能
-        if (this.props.corpNo == CUSTOMER_181013) {
-            new TGridColumn(grid, "OutSumAmount_", "业务成本");// CUSTOMER_181013
-            new TGridColumn(grid, "OutSumProfit_", "业务毛利");// CUSTOMER_181013
+        if (this.props.corpNo == DitengCommon.CUSTOMER_181013) {
+            new TGridColumn(grid, "OutSumAmount_", "业务成本");// DitengCommon.CUSTOMER_181013
+            new TGridColumn(grid, "OutSumProfit_", "业务毛利");// DitengCommon.CUSTOMER_181013
         }
         // 精工社
-        if (this.props.corpNo == CUSTOMER_194005) {
+        if (this.props.corpNo == DitengCommon.CUSTOMER_194005) {
             new TGridColumn(grid, "BoxNum_", "单位包装量");
             new TGridColumn(grid, "TotalBox", "总箱数");
         }

@@ -77,7 +77,7 @@ export default class AreaDialog extends BaseDialog<BaseAreaProps, BaseAreaState>
         return (
             <div className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.search.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
                 <div className={styles.content}>
                     <Cascade dataSet={this.state.areaList} filed='Area_' handleClick={this.handleAreaList.bind(this)} defaultVal={this.state.area1} />

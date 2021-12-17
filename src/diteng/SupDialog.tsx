@@ -1,83 +1,76 @@
 import React from "react";
-import SearchPanel from "../rcc/SearchPanel";
-import DBGrid, { Column } from "../rcc/DBGrid";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import "./Summer.css";
-import styles from "./StaffDialog.css";
-import DBEdit from "../rcc/DBEdit";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import DBDrop from "../rcc/DBDrop";
-import QueryService from "../db/QueryService";
-import { showMsg } from "./Summer";
+import DBEdit from "../rcc/DBEdit";
+import DBGrid, { Column } from "../rcc/DBGrid";
+import SearchPanel from "../rcc/SearchPanel";
+import DialogApi from "./DialogApi";
+import styles from "./StaffDialog.css";
+import "./Summer.css";
 
-type propsType = {
-    token: string,
-    inputId: string,
-    viewId: string,
-    items: any,
-    isExecute: boolean
-}
-
-type stateType = {
+type SupTypeState = {
     dataIn: DataRow,
-    dataSet: DataSet
-}
+    dataSet: DataSet,
+    typeList: Map<string, string>
+} & Partial<BaseDialogStateType>
 
-export default class SupDialog extends React.Component<propsType, stateType> {
-    constructor(props: propsType) {
+export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeState> {
+    constructor(props: BaseDialogStateType) {
         super(props);
         let dataSet = new DataSet();
-        dataSet.setJson(this.props.items);
+        let typeList = new Map();
+        typeList.set("所有厂商", "");
+        typeList.set("普通厂商", "0");
+        typeList.set("协力厂商", "1");
         this.state = {
+            ...this.state,
             dataIn: new DataRow(),
             dataSet,
+            typeList,
+            width: '45rem',
+            height: this.isPhone ? '25rem' : '30rem'
         }
     }
 
-    render() {
-        let options = new Map();
-        options.set("所有厂商", "");
-        options.set("普通厂商", "0");
-        options.set("协力厂商", "1");
-        let contact;
-        if(this.props.isExecute) 
-            contact = <Column code="Contact_" name="联系方式" width="35" customText={this.initContact.bind(this)}></Column>
-        else
-            contact = <Column code="Contact_" name="联系方式" width="35"></Column>
-        let bool = true;
+    componentWillMount() {
+        this.init();
+    }
+
+    async init() {
+        this.setLoad(true);
+        let dataSet = await DialogApi.getSupInfo(this.state.dataIn);
+        this.setLoad(false);
+        this.setState({
+            dataSet
+        })
+    }
+
+    content() {
         return (
             <div role="content" className={styles.main}>
-                <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSubmit.bind(this)}>
-                    <DBEdit dataField="SearchText_" dataName="查询条件"></DBEdit>
-                    <DBDrop dataField="SupType_" dataName="厂商类别" options={options}></DBDrop>
+                <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
+                    <DBEdit dataField="SearchText_" dataName="查询条件" autoFocus></DBEdit>
+                    <DBDrop dataField="SupType_" dataName="厂商类别" options={this.state.typeList}></DBDrop>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet}>
                     <Column code="Name_" name="厂商简称" width="40"></Column>
                     <Column code="SupType_" name="厂商分类" width="20" customText={this.initSupType.bind(this)}></Column>
-                    {contact}
-                    <Column code="Code_" name="操作" width="15" textAlign='center' customText={this.initOpera.bind(this)}></Column>
+                    <Column code="Contact_" name="联系方式" width="35" customText={(row: DataRow) => {
+                        return <span>{row.getValue("Contact_")},{row.getValue("Tel1_")}</span>
+                    }}></Column>
+                    <Column code="Code_" name="操作" width="15" textAlign='center' customText={(row: DataRow) => {
+                        return <span role="opera" onClick={this.handleClick.bind(this, row)}>选择</span>
+                    }}></Column>
                 </DBGrid>
             </div>
         )
     }
 
-    handleSubmit(dataRow: DataRow) {
-        let query = new QueryService(this.props);
-        query.setService("TAppSupInfo.Download");
-        query.dataIn.head.copyValues(this.state.dataIn);
-        query.dataIn.head.setValue("Disable_", false);
-        query.open().then((dataOut: DataSet)=>{
-            this.setState({
-                dataSet: dataOut
-            })
-        }).catch((dataOut: DataSet)=>{
-            showMsg(dataOut.message)
-        })
-    }
-
     initSupType(dataRow: DataRow) {
         let text = "";
-        if(dataRow.getValue("SupType_") == 0)
+        if (dataRow.getValue("SupType_") == 0)
             text = "普通厂商"
         else
             text = "协力厂商"
@@ -86,19 +79,12 @@ export default class SupDialog extends React.Component<propsType, stateType> {
         )
     }
 
-    initContact(dataRow: DataRow) {
-        return <span>{dataRow.getValue("Contact_")},{dataRow.getValue("Tel1_")}</span>
-    }
-
-    initOpera(dataRow: DataRow) {
-        return <span role="opera" onClick={()=>this.handleClick(dataRow)}>选择</span>
-    }
-
     handleClick(dataRow: DataRow) {
         let inputIds = this.props.inputId.split(",");
-        $("#" + inputIds[0], parent.document).val(dataRow.getValue("Code_"));
-        $("#" + inputIds[1], parent.document).val(dataRow.getValue("Name_"));
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
+        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+        input1.value = dataRow.getValue("Code_");
+        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+        input2.value = dataRow.getValue("Name_");
+        this.handleSelect();
     }
 }

@@ -58,18 +58,27 @@
 }
 
 @media only screen and (max-width: 1600px) and (min-width: 1400px) {
+    .main>span {
+        width: 50%;
+    }
     .search input,.search select {
         width: 9.63rem;
     }
 }
 
 @media only screen and (max-width: 1399px) and (min-width: 1200px) {
+    .main>span {
+        width: 50%;
+    }
     .search input,.search select {
         min-width: 9.63rem;
     }
 }
 
 @media only screen and (max-width: 1199px) and (min-width: 768px) {
+    .main>span {
+        width: 50%;
+    }
     .search input,.search select {
         min-width: 8.63rem;
     }

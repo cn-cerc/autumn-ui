@@ -54,6 +54,7 @@ import MLRemarkDialog from "../src/diteng/MLRemarkDialog"
 import BIRemarkDialog from "../src/diteng/BIRemarkDialog"
 import FreightWayDialog from "../src/diteng/FreightWayDialog"
 import SpecCodeDialog from "../src/diteng/SpecCodeDialog"
+import PartClassDialog from "../src/diteng/PartClassDialog"
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import Grid from "../src/rcc/Grid"
 import TComponent from "../src/vcl/TComponent"
@@ -134,6 +135,7 @@ export default {
     FreightWayDialog,
     SpecCodeDialog,
     MarqueDialog,
+    PartClassDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

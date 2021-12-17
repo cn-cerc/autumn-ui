@@ -95,7 +95,7 @@ export default class NewProductDialog extends BaseDialog<propsType, stateType> {
                     <DBDrop dataField='Class1_' dataName='商品大类' options={this.state.class1List} onChanged={this.class1Change.bind(this)}></DBDrop>
                     <DBDrop dataField='Class2_' dataName='商品中类' options={this.state.class2List} onChanged={this.class2Change.bind(this)}></DBDrop>
                     <DBDrop dataField='Class3_' dataName='商品系列' options={this.state.class3List}></DBDrop>
-                    <DBEdit dataField='SearchText_' dataName='查询条件'></DBEdit>
+                    <DBEdit dataField='SearchText_' dataName='查询条件' autoFocus></DBEdit>
                     <DBEdit dataField='MaxRecord_' dataName='载入笔数'></DBEdit>
                 </SearchPanel>
                 {this.getTable()}

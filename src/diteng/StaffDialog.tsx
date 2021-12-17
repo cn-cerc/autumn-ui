@@ -1,76 +1,71 @@
 import React from "react";
 import DataRow from "../db/DataRow";
-import SearchPanel from "../rcc/SearchPanel";
+import DataSet from "../db/DataSet";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import DBEdit from "../rcc/DBEdit";
 import DBGrid, { Column } from "../rcc/DBGrid";
-import DataSet from "../db/DataSet";
-import styles from "./StaffDialog.css"; 
+import SearchPanel from "../rcc/SearchPanel";
+import DialogApi from "./DialogApi";
+import styles from "./StaffDialog.css";
 import "./Summer.css";
-import QueryService from "../db/QueryService";
-import { showMsg } from "./Summer";
 
-type propsType = {
-    token: string,
-    inputId: string,
-    viewId: string,
-    items: any,
-}
-
-type stateType = {
+type StaffTypeState = {
     dataIn: DataRow,
     dataSet: DataSet
-}
+} & Partial<BaseDialogStateType>
 
-export default class StaffDialog extends React.Component<propsType, stateType> {
-    constructor(props: propsType) {
+export default class StaffDialog extends BaseDialog<BaseDialogPropsType, StaffTypeState> {
+    constructor(props: BaseDialogPropsType) {
         super(props)
-        let dataSet = new DataSet();
-        dataSet.setJson(this.props.items);
+        let dataIn = new DataRow();
+        dataIn.setValue('Disable_', false);
         this.state = {
-            dataIn: new DataRow(),
-            dataSet,
+            ...this.state,
+            dataIn,
+            dataSet: new DataSet(),
+            width: '45rem',
+            height: this.isPhone ? '25rem' : '30rem'
         }
     }
 
-    render() {
+    componentWillMount() {
+        this.init();
+    }
+
+    async init() {
+        this.setLoad(true);
+        let dataSet = await DialogApi.getWorkers(this.state.dataIn);
+        this.setLoad(false);
+        this.setState({
+            dataSet
+        })
+    }
+
+    content() {
         return (
             <div role="content" className={styles.main}>
-                <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSubmit.bind(this)}>
-                    <DBEdit dataField="SearchText_" dataName="查询条件"></DBEdit>
+                <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
+                    <DBEdit dataField="SearchText_" dataName="查询条件" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet}>
                     <Column code="Code_" name="员工代码" width="50"></Column>
                     <Column code="Name_" name="员工名称" width="30"></Column>
-                    <Column code="opera" name="操作" width="20" textAlign='center' customText={this.customText.bind(this)}></Column>
+                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
+                        return <span role="opera" onClick={this.handleClick.bind(this, row)}>选择</span>
+                    }}></Column>
                 </DBGrid>
             </div>
         )
     }
 
-    customText(dataRow: DataRow) {
-        return (
-            <span role="opera" onClick={()=>this.handleClick(dataRow)}>选择</span>
-        )
-    }
-
-    handleSubmit(dataRow: DataRow) {
-        let query = new QueryService(this.props);
-        query.dataIn.head.copyValues(dataRow);
-        query.setService("SvrStaffMan.search");
-        query.open().then((dataOut: DataSet)=>{
-            this.setState({
-                dataSet: dataOut
-            })
-        }).catch((dataOut: DataSet) => {
-            showMsg(dataOut.message);
-        })
-    }
-
     handleClick(dataRow: DataRow) {
         let inputIds = this.props.inputId.split(",");
-        $("#" + inputIds[0], parent.document).val(dataRow.getValue("Code_"));
-        $("#" + inputIds[1], parent.document).val(dataRow.getValue("Name_"));
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
+        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+        input1.value = dataRow.getValue("Code_");
+        if(inputIds.length > 1) {
+            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+            input2.value = dataRow.getValue("Name_");
+        }
+        this.handleSelect();
     }
 }

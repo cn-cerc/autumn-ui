@@ -1,3 +1,9 @@
+.main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .search {
     padding: .5rem;
     background-color: #fff;
@@ -32,19 +38,19 @@
     cursor: pointer;
 }
 
-.cusDialog .dbgrid tr[id^='tr'] td {
+.main .dbgrid tr[id^='tr'] td {
     padding: 0;
 }
 
-.cusDialog .dbgrid tr td {
+.main .dbgrid tr td {
     line-height: 1.2rem;
 }
 
-.cusDialog .dbgrid tr td>span {
+.main .dbgrid tr td>span {
     padding-right: 0;
 }
 
-.cusDialog article[role="document"] {
+.main article[role="document"] {
     margin-bottom: 0;
 }
 

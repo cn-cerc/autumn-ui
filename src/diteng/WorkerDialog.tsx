@@ -52,7 +52,7 @@ export default class WorkerDialog extends BaseDialog<BaseDialogPropsType, Worker
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='区域搜索' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBDrop dataName='部门查询' dataField='DeptCode_' options={this.state.options}></DBDrop>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>

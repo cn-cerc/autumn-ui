@@ -64,7 +64,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBDrop dataName='使用状态' dataField='Status_' options={this.state.options}></DBDrop>
                     <DBEdit dataName='载入笔数' dataField='MaxRecord_'></DBEdit>
                 </SearchPanel>

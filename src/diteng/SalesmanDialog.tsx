@@ -1,41 +1,59 @@
-import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import React from 'react';
 import DataSet from '../db/DataSet';
+import BaseDialog, { BaseDialogStateType } from '../rcc/BaseDialog';
+import DialogApi from './DialogApi';
 import styles from './SalesmanDialog.css';
 
-type propsType = {
+type SalesmanTypeProps = {
     inputId: string,
-    viewId: string,
-    items: string,
-    groups: string
 }
 
-type stateType = {
-    inputId: string,
-    viewId: string,
+type SalesmanTypeState = {
     dataSet: DataSet,
-    groups: string[],
+    groups: Map<string, string>,
     deptName: string
-}
+} & Partial<BaseDialogStateType>
 
-export default class SalesmanDialog extends React.Component<propsType, stateType> {
-    constructor(props: propsType) {
+export default class SalesmanDialog extends BaseDialog<SalesmanTypeProps, SalesmanTypeState> {
+    constructor(props: SalesmanTypeProps) {
         super(props);
-        let dataSet: DataSet = new DataSet();
-        dataSet.setJson(this.props.items);
-        let str: string = this.props.groups.replace("[", "");
-        let groups: string[] = str.replace("]", "").split(",");
         this.state = {
-            inputId: this.props.inputId,
-            viewId: this.props.viewId,
-            dataSet,
-            groups,
-            deptName: ""
+            ...this.state,
+            dataSet: new DataSet(),
+            groups: new Map(),
+            deptName: "",
+            width: '25rem',
+            height: '25rem'
         }
     }
 
+    componentWillMount() {
+        this.init();
+    }
+
+    async init() {
+        this.setLoad(true);
+        let dataSet = await DialogApi.getUserList();
+        dataSet.first();
+        let groups = new Map();
+        groups.set('所有部门', '');
+        while (dataSet.fetch()) {
+            let deptName = dataSet.getString('DeptName_');
+            if (deptName)
+                groups.set(deptName, deptName);
+        }
+        this.setLoad(false);
+        this.setState({
+            dataSet,
+            groups
+        })
+    }
+
     getGroupList() {
-        let groups = this.state.groups.map((group) => (<li key={group} onClick={() => this.setDeptName(group)}>{group}</li>));
-        groups.unshift((<li key="所有部门" onClick={() => this.setDeptName("")}>所有部门</li>))
+        let groups: any[] = [];
+        this.state.groups.forEach((value, key) => {
+            groups.push(<li key={key} onClick={this.setDeptName.bind(this, value)}>{key}</li>)
+        })
         return ((<ul className={styles.groupList}>{groups}</ul>))
     }
 
@@ -48,12 +66,12 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
             if (this.state.deptName) {
                 if (this.state.deptName == this.state.dataSet.getString("DeptName_")) {
                     businesses.push((
-                        <li key={code} onClick={() => this.setBusiness(code, name)}><span>{name}</span></li>
+                        <li key={code} onClick={this.setBusiness.bind(this, code, name)}><span>{name}</span></li>
                     ))
                 }
             } else {
                 businesses.push((
-                    <li key={code} onClick={() => this.setBusiness(code, name)}><span>{name}</span></li>
+                    <li key={code} onClick={this.setBusiness.bind(this, code, name)}><span>{name}</span></li>
                 ))
             }
         }
@@ -68,15 +86,18 @@ export default class SalesmanDialog extends React.Component<propsType, stateType
 
     setBusiness(code: string, business: string) {
         let inputIds = this.props.inputId.split(",");
-        $("#" + inputIds[0], parent.document).val(code);
-        $("#" + inputIds[1], parent.document).val(business);
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
+        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+        input1.value = code;
+        if (inputIds.length > 1) {
+            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+            input2.value = business;
+        }
+        this.handleSelect();
     }
 
-    render() {
+    content() {
         return (
-            <div className={styles.salesmanDialog}>
+            <div className={styles.main}>
                 {this.getGroupList()}
                 {this.getBusinessList()}
             </div>

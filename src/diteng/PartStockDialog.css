@@ -6,7 +6,7 @@
 .main li {
     height: 3rem;
     line-height: 3rem;
-    width: 7em;
+    min-width: 7em;
     text-align: center;
     padding: 0 .5rem;
     margin: .125rem;
@@ -23,6 +23,6 @@
 
 @media screen and (max-width: 767px) {
     .main li {
-        width: 6em;
+        min-width: 6em;
     }    
 }

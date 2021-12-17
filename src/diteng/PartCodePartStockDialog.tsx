@@ -67,7 +67,7 @@ export default class PartCodePartStockDialog extends BaseDialog<PartCodePartStoc
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
                 <div className={styles.dbgridSum}>数量汇总：{this.state.tStock}</div>
                 <DBGrid dataSet={this.state.dataSet}>

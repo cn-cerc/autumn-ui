@@ -71,7 +71,7 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
                     <DBEdit dataField='PartClass_' dataName='商品类别' readOnly={true}>
                         <ProductClassDialog brand='' inputId='' productClass='' isChild={true} />
                     </DBEdit>
-                    <DBEdit dataField='SearchText_' dataName='查询条件'></DBEdit>
+                    <DBEdit dataField='SearchText_' dataName='查询条件' autoFocus></DBEdit>
                     <DBEdit dataField='MaxRecord_' dataName='载入笔数'></DBEdit>
                 </SearchPanel>
                 {this.getTable()}

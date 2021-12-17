@@ -52,7 +52,7 @@ export default class FastCorpDialog extends BaseDialog<FastCorpTypeProps, FastCo
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='搜索条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet}>
                     <Column name='代收企业' code='Code_' width='25'></Column>

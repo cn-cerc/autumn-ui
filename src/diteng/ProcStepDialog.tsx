@@ -45,7 +45,7 @@ export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcSt
         return (
             <div className={styles.main} role='content'>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSearch.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBDrop dataName='制程选择' dataField='ProcCode_' options={this.state.options}></DBDrop>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>

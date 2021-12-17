@@ -272,7 +272,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         if (this.state.headData.head.getString('corpNo') == DitengCommon.CUSTOMER_184021) {
             heads.push(
                 <SearchPanel dataRow={this.state.searchData} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
             )
         } else {

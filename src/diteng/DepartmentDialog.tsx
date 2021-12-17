@@ -74,7 +74,7 @@ export default class DepartmentDialog extends BaseDialog<BaseDialogPropsType, De
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSearch.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBDrop dataName='部门层架' dataField='DeptLevel_' options={this.state.options}></DBDrop>
                 </SearchPanel>
                 {this.state.showBack ? <div style={{ 'padding': '0 1rem' }}><span role='opera' style={{ 'cursor': 'pointer' }} onClick={this.handleBack.bind(this)}>返回上一级</span></div> : ''}

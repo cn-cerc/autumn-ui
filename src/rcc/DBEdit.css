@@ -11,7 +11,7 @@
 }
 
 .main>input {
-    min-width: 11.63rem;
+    min-width: 9.63rem;
     height: 1.68rem;
     border-radius: .12rem;
     font-size: 1rem;
@@ -32,9 +32,6 @@
     html {
         font-size: 14px;
     }
-    .main {
-        width: 25%;
-    }
     .main input[type="text"], .main select {
         min-width: 9.63rem;
     }
@@ -44,10 +41,6 @@
     html {
         font-size: 14px;
     }
-    .main {
-        min-width: 33.3%;
-        max-width: 45%;
-    }
     .main input[type="text"], .main select {
         min-width: 10.63rem;
     }
@@ -56,10 +49,6 @@
 @media only screen and (max-width: 1199px) and (min-width: 768px) {
     html {
         font-size: 14px;
-    }
-    .main {
-        min-width: 33.3%;
-        max-width: 45%;
     }
     .main input[type="text"], .main select {
         min-width: 8.63rem;

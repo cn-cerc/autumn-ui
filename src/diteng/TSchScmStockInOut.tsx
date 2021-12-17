@@ -4,6 +4,7 @@ import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
 import Grid from "../rcc/Grid";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
+import DitengCommon from "./DitengCommon";
 import { exportUrl } from './ExportConfig';
 import { AuiMath, Loading, showMsg } from "./Summer";
 
@@ -13,10 +14,6 @@ import { AuiMath, Loading, showMsg } from "./Summer";
 const SEARCH_SESSION_KEY = 'TSchScmStockInOut:search';
 const loading = new Loading('系统正在查询中 . . .');
 const MAX_RECORD = 100000;
-
-const CUSTOMER_164003 = "164003";
-const CUSTOMER_214015 = "214015";
-const CUSTOMER_214007 = "214007";
 
 type propsType = {
     token: string;
@@ -330,13 +327,11 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
 
         new TGridColumn(grid, "UpdateDate_", "更新日期");
 
-        // 剑华
-        if (this.props.corpNo == CUSTOMER_164003 || this.props.corpNo == CUSTOMER_214015) {
+        if (this.props.corpNo == DitengCommon.CUSTOMER_164003 || this.props.corpNo == DitengCommon.CUSTOMER_214015) {
             new TGridColumn(grid, "ODRemark", "订单备注");
         }
 
-        // 汉辉
-        if (this.props.corpNo == CUSTOMER_214007) {
+        if (this.props.corpNo == DitengCommon.CUSTOMER_214007) {
             new TGridColumn(grid, "PurNo_", "采购单号");
             new TGridColumn(grid, "PurIt_", "采购单序");
         }

@@ -21,7 +21,8 @@ type GetMarqueTypeState = {
     headData: DataSet,
     dataSet: DataSet,
     filters: Map<string, string>,
-    dbData: DataSet
+    dbData: DataSet,
+    showAll: boolean
 } & Partial<BaseDialogStateType>
 
 export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueTypeState>{
@@ -33,6 +34,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
             dataSet: new DataSet(),
             filters: new Map(),
             dbData: new DataSet(),
+            showAll: false,
             width: '55rem'
         }
     }
@@ -98,7 +100,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         } else {
             return (
                 <DBGrid dataSet={this.state.dbData}>
-                    <ColumnIt/>
+                    <ColumnIt />
                     <Column code='Brand_' name='品牌' width='15' />
                     <Column code='DescSepc' name='品名规格' width='30' customText={this.initDescSepc} />
                     <Column code='Code_' name='料号' width='20' />
@@ -110,12 +112,32 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
 
     getHead() {
         let heads: JSX.Element[] = [];
-        this.state.headData.forEach((row: DataRow) => {
+        let bool = true;
+        let num = 0;
+        let dataSet = this.state.headData;
+        for (let index = 0; index < dataSet.size; index++) {
+            let row: DataRow = dataSet.records[index];
+            if (num > 3 && !this.state.showAll) {
+                heads.push(
+                    <div style={{ 'text-align': 'right' }} key='setAll'>
+                        <span role='opera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
+                    </div>
+                )
+                break;
+            }
             let name = row.getString('Name_');
             heads.push(
                 <div className={styles.head} key={name}><Head dataRow={row} selectValue={this.state.filters.get(name)} handleClick={this.filter.bind(this)} /></div>
             );
-        })
+            num++;
+        }
+        if (dataSet.size > 4 && this.state.showAll) {
+            heads.push(
+                <div style={{ 'text-align': 'right' }} key='setAll'>
+                    <span role='opera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
+                </div>
+            )
+        }
         return heads;
     }
 
@@ -141,6 +163,12 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
             this.props.handleClose(dataRow);
         }
         // 后期若作为独立开窗选择子项商品之后的事件处理可放在else中
+    }
+
+    changeShowAll() {
+        this.setState({
+            showAll: !this.state.showAll
+        })
     }
 
     filter(key: string, value: string) {

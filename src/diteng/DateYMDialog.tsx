@@ -1,37 +1,41 @@
 import React from "react";
+import BaseDialog, { BaseDialogStateType, BaseDialogPropsType } from "../rcc/BaseDialog";
 import styles from "./DateYMDialog.css";
 
-type propType = {
+type DateYMTypeProps = {
     inputId: string,
-    viewId: string
-}
+} & Partial<BaseDialogStateType>
 
-type stateType = {
+type DateYMTypeState = {
     years: number[],
     months: string[],
     year: number,
     month: string
-}
-export default class DateYMDialog extends React.Component<propType, stateType> {
-    constructor(props: propType) {
+}  & Partial<BaseDialogPropsType>
+export default class DateYMDialog extends BaseDialog<DateYMTypeProps, DateYMTypeState> {
+    constructor(props: DateYMTypeProps) {
         super(props);
         let month = String(new Date().getMonth() + 1);
         if (new Date().getMonth() + 1 < 10) {
             month = "0" + month
         }
+        this.setTitle('请选择年月');
         this.state = {
+            ...this.state,
             years: this.getYears(),
             months: this.getMonths(),
             year: new Date().getFullYear(),
-            month
+            month,
+            width: '25rem',
+            height: '16rem'
         }
     }
 
-    render() {
+    content() {
         return (
             <div className={styles.main}>
                 <ul className={styles.years}>
-                    {this.state.years.map((year) => <li key={year} className={year == this.state.year ? styles.checked : ''} onClick={()=>this.handleClick(year)}>{year}</li>)}
+                    {this.state.years.map((year) => <li key={year} className={year == this.state.year ? styles.checked : ''} onClick={() => this.handleClick(year)}>{year}</li>)}
                 </ul>
                 <ul className={styles.months}>
                     {this.getMonthList()}
@@ -60,7 +64,7 @@ export default class DateYMDialog extends React.Component<propType, stateType> {
     getMonthList() {
         let arr = this.state.months.map((m) => {
             let date = this.state.year.toString() + m;
-            return <li key={date} className={m == this.state.month ? styles.checked : ''} onClick={()=>this.handleSubmit(m)}>{date}</li>
+            return <li key={date} className={m == this.state.month ? styles.checked : ''} onClick={() => this.handleSubmit(m)}>{date}</li>
         })
         return arr;
     }
@@ -74,10 +78,9 @@ export default class DateYMDialog extends React.Component<propType, stateType> {
 
     handleSubmit(month: string) {
         $("#" + this.props.inputId, parent.document).val(this.state.year.toString() + month)
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
         this.setState({
             month
-        })
+        });
+        this.handleSelect();
     }
 }

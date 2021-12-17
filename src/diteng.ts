@@ -56,6 +56,7 @@ import TCustomComponent from "./vcl/TCustomComponent";
 import BaseAreaDialog from "./diteng/BaseAreaDialog";
 import AreaDialog from "./diteng/AreaDialog";
 import AccountEditDialog from "./diteng/AccountEditDialog";
+import PartClassDialog from "./diteng/PartClassDialog";
 
 export default {
     //db
@@ -119,6 +120,7 @@ export default {
     AccountEditDialog,
     FreightWayDialog,
     SpecCodeDialog,
+    PartClassDialog,
     //地藤jsp转java中js继承类
     TCustomComponent
 }

@@ -1,94 +1,76 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import QueryService from "../db/QueryService";
-import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
-import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
-import { TGridColumn, TGridConfig } from "../vcl/TGrid";
-import { showMsg } from "./Summer";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
+import DBEdit from "../rcc/DBEdit";
+import DBGrid, { Column } from "../rcc/DBGrid";
 import SearchPanel from "../rcc/SearchPanel";
-import styles from './UserDialog.css';
+import DialogApi from "./DialogApi";
+import styles from "./StaffDialog.css";
 
-type propsType = {
-    token: string;
-    inputId: string;
-    viewId: string;
+type UserTypeProps = {
     title: string;
-}
+} & Partial<BaseDialogPropsType>
 
-type stateType = {
+type UserTypeState = {
     dataIn: DataRow;
-    config: TGridConfig;
-}
+    dataSet: DataSet;
+} & Partial<BaseDialogStateType>
 
-export default class UserDialog extends React.Component<propsType, stateType> {
-    private _dataSet: DataSet;
+export default class UserDialog extends BaseDialog<UserTypeProps, UserTypeState> {
 
-    constructor(props: propsType) {
+    constructor(props: UserTypeProps) {
         super(props);
-        this._dataSet = new DataSet();
-
-        let config = new TGridConfig();
-        new TGridColumn(config, "Code_", "账号").setWidth(5);
-        new TGridColumn(config, "Name_", "姓名").setWidth(10);
-        new TGridColumn(config, "Opera", "操作").setWidth(3).setAlign("center").setOnRender((column, row) => {
-            return (<span style={{ color: '#3273F4' }}>选择</span>)
-        });
-
-        config.setDataSet(this._dataSet);
-        this.state = { dataIn: new DataRow(), config };
-        this.buttonClick();
+        let dataIn = new DataRow();
+        dataIn.setValue('Enabled_', 1);
+        if(this.props.title)
+            this.setTitle(this.props.title);
+        this.state = {
+            ...this.state,
+            dataIn,
+            dataSet: new DataSet(),
+            width: '45rem',
+            height: this.isPhone ? '25rem' : '30rem'
+        };
     }
 
-    render() {
+    componentWillMount() {
+        this.init();
+    }
+
+    async init() {
+        this.setLoad(true);
+        let dataSet = await DialogApi.getCusList(this.state.dataIn);
+        this.setLoad(false);
+        this.setState({
+            dataSet
+        })
+    }
+    content() {
         return (
-            <div className={styles.main}>
-                <div className="dialogClose" style={{ display: 'none' }}>
-                    {this.props.title}
-                    <span>
-                        <a onClick={this.closeDialog} href='#'><b>×</b></a>
-                    </span>
-                </div>
-                <div className="window">
-                    <SearchPanel dataRow={this.state.dataIn} onExecute={this.buttonClick.bind(this)}>
-                        <DBEdit dataName="查询条件" dataField="SearchText_" placeholder="请输入查询条件" autoFocus={true}></DBEdit>
-                    </SearchPanel>
-                    <DialogGrid config={this.state.config} onTrClick={this.trClick} />
-                </div>
+            <div className={styles.main} role='content'>
+                <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
+                    <DBEdit dataName="查询条件" dataField="SearchText_" placeholder="请输入查询条件" autoFocus></DBEdit>
+                </SearchPanel>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                    <Column name='账号' code='Code_' width='5'></Column>
+                    <Column name='姓名' code='Name_' width='10'></Column>
+                    <Column name='操作' code='opera' width='3' textAlign='center' customText={(row: DataRow) => {
+                        return <span role='opera'>选择</span>
+                    }}></Column>
+                </DBGrid>
             </div>
         )
     }
 
-    buttonClick() {
-        let query = new QueryService(this.props);
-        query.dataIn.head.copyValues(this.state.dataIn.current);
-        query.dataIn.head.setValue('Enabled_', 1);
-        query.add('select Code_,Name_ from TAppUserInfo.userList');
-        query.open().then((dataOut: DataSet) => {
-            this.state.config.setDataSet(dataOut);
-            this.setState({ ...this.state });
-            showMsg(dataOut.message);
-        }).catch((dataOut: DataSet) => {
-            showMsg(dataOut.message);
-        })
-    }
-
-    update: OnFieldChangedEvent = (sender: any) => {
-        this.setState(this.state);
-    }
-
-    closeDialog = () => {
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
-    }
-
-    trClick: OnTrClickEvent = (row: DataRow) => {
-        let userCode = row.getValue('Code_');
-        let userName = row.getValue('Name_');
-
+    handleClick(row: DataRow) {
         var inputIds = this.props.inputId.split(",");
-        $("#" + inputIds[0], parent.document).val(userCode);
-        $("#" + inputIds[1], parent.document).val(userName);
-        this.closeDialog();
+        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+        input1.value = row.getValue('Code_');
+        if (inputIds.length > 1) {
+            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+            input2.value = row.getValue('Name_');
+        }
+        this.handleSelect();
     }
 }

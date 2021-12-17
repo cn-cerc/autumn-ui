@@ -45,7 +45,7 @@ export default class SubordinateDialog extends BaseDialog<BaseDialogPropsType, S
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet}>
                     <Column name='员工代码' code='Code_' width='60'></Column>

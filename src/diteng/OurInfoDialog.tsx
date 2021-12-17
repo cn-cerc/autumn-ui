@@ -77,7 +77,7 @@ export default class OutInfoDialog extends BaseDialog<OutInfoTypeProps, OutInfoT
         return (
             <div role='content' className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataName='查询条件' dataField='SearchText_'></DBEdit>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBEdit dataName='载入笔数' dataField='MaxRecord_'></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet}>

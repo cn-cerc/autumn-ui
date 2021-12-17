@@ -2,152 +2,143 @@ import React, { MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from '../rcc/BaseDialog';
+import { ColumnIt } from "../rcc/ColumnIt";
 import DBCheckbox from "../rcc/DBCheckbox";
 import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
-import DialogGrid, { OnTrClickEvent } from "../rcc/DialogGrid";
+import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
+import { OnTrClickEvent } from "../rcc/DialogGrid";
 import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import styles from './CusDialog.css';
+import DialogApi from "./DialogApi";
 import { showMsg } from "./Summer";
 
-type propsType = {
-    token: string;
-    inputId: string;
-    viewId: string;
+type CusTypeProps = {
     title: string;
-}
+} & Partial<BaseDialogPropsType>
 
-type stateType = {
+type CusTypeState = {
     dataIn: DataRow;
-    config: TGridConfig;
     objItems: DataSet;
-    cusNameColumn: TGridColumn;
-    child: TGridConfig | TGridColumn;
-}
+    dataSet: DataSet;
+} & Partial<BaseDialogStateType>
 
-export default class CusDialog extends React.Component<propsType, stateType> {
-    constructor(props: propsType) {
+export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
+    constructor(props: CusTypeProps) {
         super(props);
         let isObjType: boolean = localStorage.getItem('EnableObjType-Cus') == 'true';
         let isName: boolean = localStorage.getItem('EnableName-Cus') == 'true';
         let isAddress: boolean = localStorage.getItem('EnableAddress-Cus') == 'true';
-        let config = new TGridConfig();
-        config.setDataSet(new DataSet());
-
-        new TGridColumn(config, "sn_", "序").setWidth(1).setAlign("center");
-        new TGridColumn(config, "ShortName_", "客户简称").setWidth(8);
-        let cusNameColumn = new TGridColumn(config, "Name_", "客户全称").setWidth(8);
-        cusNameColumn.setVisible(isName);
-        new TGridColumn(config, "Contact_", "联系人").setWidth(5);
-        let cusAddress: TGridColumn | TGridConfig;
-        //@ts-ignore
-        if(!top.isPhone()) {
-            new TGridColumn(config, "Name_", "联系人").setWidth(4);
-            new TGridColumn(config, "Mobile_", "联系人手机").setWidth(5);
-            new TGridColumn(config, "Tel1_", "电话号码").setWidth(5);
-            cusAddress = new TGridColumn(config, "Address_", "地址").setWidth(10);
-            cusAddress.setVisible(isAddress);
-        } else {
-            cusAddress = config.newChild();
-            cusAddress.setVisible(isAddress);
-            new TGridColumn(cusAddress, "Address_", "地址");
-        }
-        new TGridColumn(config, "Opera", "操作").setWidth(5).setAlign("center").setOnRender((column, row) => {
-            return (<span style={{ color: '#3273F4', paddingRight: "0" }}>选择</span>)
-        });
-
         let dataIn = new DataRow();
         dataIn.setValue('MaxRecord_', 100);
         dataIn.setValue('isObjType', isObjType);
         dataIn.setValue('isName', isName);
         dataIn.setValue('isAddress', isAddress);
         dataIn.setValue('ObjType_', isObjType ? '1001' : '');
-        this.state = { dataIn, config, objItems: new DataSet(), cusNameColumn, child: cusAddress };
-        this.buttonClick(null);
+        this.setTitle('请选择客户');
+        this.state = {
+            ...this.state,
+            dataIn,
+            objItems: new DataSet(),
+            dataSet: new DataSet(),
+            width: '62rem'
+        };
     }
 
-    render() {
-        let ds = this.state.config.dataSet;
-        while (ds.fetch())
-            ds.setValue("sn_", ds.recNo);
+    componentWillMount() {
+        this.init();
+    }
 
+    async init() {
+        this.setLoad(true);
+        let dataSet = await DialogApi.getCusInfos(this.state.dataIn);
+        this.setLoad(false);
+        this.setState({
+            dataSet
+        })
+    }
+
+    content() {
         return (
-            <div className={styles.cusDialog}>
-                <div className={styles.dialogClose} style={{ display: 'none' }}>
-                    {this.props.title}
-                    <span>
-                        <a onClick={this.closeDialog} href='#'><b>×</b></a>
-                    </span>
-                </div>
-                <div className={styles.window}>
-                    <form method="post" className={styles.search}>
-                        <div className={styles.left}>
-                            <DBEdit dataRow={this.state.dataIn} dataField={'SearchText_'} dataName='查询条件'
-                                onChanged={this.updateDataIn} placeholder='请输入查询条件' autoFocus={true} />
+            <div className={styles.main}>
+                <form method="post" className={styles.search}>
+                    <div className={styles.left}>
+                        <DBEdit dataRow={this.state.dataIn} dataField={'SearchText_'} dataName='查询条件'
+                            onChanged={this.updateDataIn} placeholder='请输入查询条件' autoFocus />
 
-                            <DBEdit dataRow={this.state.dataIn} dataField={'MaxRecord_'} dataName='载入笔数'
-                                onChanged={this.updateDataIn} placeholder='请输载入笔数' />
-                        </div>
-                        <input type="submit" name="submit" onClick={this.buttonClick} value="查询" style={{ height: '1.75rem' }} />
-                        <DBCheckbox dataRow={this.state.dataIn} dataField={'isObjType'} dataName='客户分类'
-                            onChanged={this.updateObjType} />
+                        <DBEdit dataRow={this.state.dataIn} dataField={'MaxRecord_'} dataName='载入笔数'
+                            onChanged={this.updateDataIn} placeholder='请输载入笔数' />
+                    </div>
+                    <input type="submit" name="submit" onClick={this.buttonClick.bind(this)} value="查询" style={{ height: '1.75rem' }} />
+                    <DBCheckbox dataRow={this.state.dataIn} dataField={'isObjType'} dataName='客户分类'
+                        onChanged={this.updateObjType} />
 
-                        <DBCheckbox dataRow={this.state.dataIn} dataField={'isName'} dataName='客户全称'
-                            onChanged={this.updateDataIn} />
+                    <DBCheckbox dataRow={this.state.dataIn} dataField={'isName'} dataName='客户全称'
+                        onChanged={this.updateDataIn} />
 
-                        <DBCheckbox dataRow={this.state.dataIn} dataField={'isAddress'} dataName='客户地址'
-                            onChanged={this.updateDataIn} />
+                    <DBCheckbox dataRow={this.state.dataIn} dataField={'isAddress'} dataName='客户地址'
+                        onChanged={this.updateDataIn} />
 
-                        <section className={styles.operction}>
-                            {
-                                this.state.objItems.records.map((row: DataRow) => {
-                                    return (
-                                        <button name="objType" value={row.getString('Code_')} onClick={this.objTypeClick}>{row.getString('ShortName_')}</button>
-                                    )
-                                })
-                            }
-                            {
-                                this.state.objItems.records.length == 0 && this.state.dataIn.getBoolean('isObjType') ?
-                                    (<button name="objType" value='1001' onClick={this.objTypeClick}>返回第一层</button>) : ''
-                            }
-                        </section>
-                    </form>
+                    <section className={styles.operction}>
+                        {
+                            this.state.objItems.records.map((row: DataRow) => {
+                                return (
+                                    <button name="objType" value={row.getString('Code_')} onClick={this.objTypeClick}>{row.getString('ShortName_')}</button>
+                                )
+                            })
+                        }
+                        {
+                            this.state.objItems.records.length == 0 && this.state.dataIn.getBoolean('isObjType') ?
+                                (<button name="objType" value='1001' onClick={this.objTypeClick}>返回第一层</button>) : ''
+                        }
+                    </section>
+                </form>
 
-                    <DialogGrid config={this.state.config} onTrClick={this.trClick} />
-                </div>
+                <DBGrid dataSet={this.state.dataSet} key={this.getKey()} onRowClick={this.isPhone ? '' : this.trClick.bind(this)}>
+                    <ColumnIt width='1' />
+                    <Column name='客户简称' code='ShortName_' width='8'></Column>
+                    {this.state.dataIn.getValue('isName') ? <Column name='客户全称' code='Name_' width='8'></Column> : ''}
+                    {this.isPhone ? '' : <Column name='联系人' code='Contact_' width='5'></Column>}
+                    {this.isPhone ? '' : <Column name='联系人手机' code='Mobile_' width='5'></Column>}
+                    {this.isPhone ? '' : <Column name='电话号码' code='Tel1_' width='5'></Column>}
+                    {this.getAddress()}
+                    <Column name='操作' code='opera' width={this.isPhone ? '5' : '3'} textAlign='center' customText={(row: DataRow) => {
+                        return <span role='opera' onClick={this.isPhone ? this.trClick.bind(this, row) : ''}>选择</span>
+                    }}></Column>
+                </DBGrid>
             </div>
         )
+    }
+
+    getKey() {
+        let str = '1';
+        str += this.state.dataIn.getValue('isName') ? '1' : '0';
+        str += this.state.dataIn.getValue('isAddress') ? '1' : '0';
+        return str;
+    }
+
+    getAddress() {
+        if (this.isPhone) {
+            return (
+                <ChildRow visible={!this.state.dataIn.getValue('isAddress')} colSpan={7}>
+                    <Column name='地址' code='Address_' width='100' customText={(row: DataRow) => {
+                        return <span>地址：{row.getString('Address_')}</span>
+                    }}></Column>
+                </ChildRow>
+            )
+        } else {
+            return (
+                <Column name='地址' code='Address_' width='8' visible={!this.state.dataIn.getValue('isAddress')} customText={(row: DataRow) => {
+                    return <span>地址：{row.getString('Address_')}</span>
+                }}></Column>
+            )
+        }
     }
 
     buttonClick: MouseEventHandler<HTMLInputElement> = (sender: any) => {
         if (sender && !sender.code)
             sender.preventDefault();
-
-        let query = new QueryService(this.props);
-        query.dataIn.head.copyValues(this.state.dataIn.current);
-        query.dataIn.head.setValue('Disable_', false);
-        query.dataIn.head.setValue('ShowCusOrd', false);
-        query.dataIn.head.setValue('Final_', true);
-
-        query.add('select ShortName_,Code_,Name_,Contact_,Address_,CorpNo_ from TAppCusInfo.Download');
-        query.open().then((dataOut: DataSet) => {
-            this.state.objItems.clear();
-            let ds = new DataSet();
-            let objDs = new DataSet();
-            dataOut.first();
-            while (dataOut.fetch()) {
-                if (!dataOut.getString("CorpNo_")) {
-                    objDs.append().copyRecord(dataOut.current, dataOut.fields);
-                } else {
-                    ds.append().copyRecord(dataOut.current, dataOut.fields);
-                }
-            }
-            this.state.config.setDataSet(ds);
-            this.state.objItems.appendDataSet(objDs);
-            this.setState(this.state);
-            showMsg(dataOut.message);
-        }).catch((dataOut: DataSet) => {
-            showMsg(dataOut.message);
-        })
+        this.init();
     }
 
     updateDataIn: OnFieldChangedEvent = (sender: any) => {
@@ -155,8 +146,6 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         let isAddress = this.state.dataIn.getBoolean('isAddress');
         localStorage.setItem('EnableName-Cus', isName + '');
         localStorage.setItem('EnableAddress-Cus', isAddress + '');
-        this.state.cusNameColumn.setVisible(isName);
-        this.state.child.setVisible(isAddress);
         this.setState(this.state);
     }
 
@@ -169,24 +158,20 @@ export default class CusDialog extends React.Component<propsType, stateType> {
         }
         this.setState(this.state);
         if (objType != isObjType) {
-            this.buttonClick(sender);
             localStorage.setItem('EnableObjType-Cus', isObjType + '');
+            this.buttonClick(sender);
         }
     }
 
-    closeDialog = () => {
-        //@ts-ignore
-        top.deleteDialog(this.props.viewId);
-    }
-
     trClick: OnTrClickEvent = (row: DataRow) => {
-        let userCode = row.getValue('Code_');
-        let userName = row.getValue('ShortName_');
-
-        var inputIds = this.props.inputId.split(",");
-        $("#" + inputIds[0], parent.document).val(userCode);
-        $("#" + inputIds[1], parent.document).val(userName);
-        this.closeDialog();
+        let inputIds = this.props.inputId.split(",");
+        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+        input1.value = row.getValue('Code_');
+        if (inputIds.length > 1) {
+            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+            input2.value = row.getValue('ShortName_');
+        }
+        this.handleSelect();
     }
 
     objTypeClick: MouseEventHandler<HTMLButtonElement> = (sender: any) => {

@@ -69,6 +69,16 @@ export default class DialogApi {
         return DialogApi.getService('TAppUserInfo.getUserDetail');
     }
 
+    /** 获取客户基本资料 */
+    static async getCusList(params: DataRow) {
+        return DialogApi.getDataOut('TAppUserInfo.userList', params);
+    }
+
+    /** 获取用户列表信息 */
+    static async getUserList() {
+        return DialogApi.getService('TAppUserInfo.GetUserList');
+    }
+
     /** 获取商品大类 */
     static getClass1() {
         return DialogApi.getService('TAppPartClass.GetNameList');
@@ -97,14 +107,19 @@ export default class DialogApi {
         return DialogApi.getService('TAppSCMBrand.GetBrandList')
     }
 
+    /** */
+    static getSearchBrand(params: DataRow) {
+        return DialogApi.getDataOut('TAppSCMBrand.Search_Brand', params);
+    }
+
     /** 获取商品明细 */
-    static async getProducts(params: DataRow) {
-        return await DialogApi.getDataOut('TAppPartStock.SelectProduct', params);
+    static getProducts(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartStock.SelectProduct', params);
     }
 
     /** 获取商品子项列表 */
-    static async getSubItem(params: { Marque_: string }) {
-        return await DialogApi.getService('SvrMarque.getSubItem', params);
+    static getSubItem(params: { Marque_: string }) {
+        return DialogApi.getService('SvrMarque.getSubItem', params);
     }
 
     /** 获取商品型号子项列表 */
@@ -136,8 +151,8 @@ export default class DialogApi {
     }
 
     /** 查询当前用户的所有下属 */
-    static async getSubordinate(params: DataRow) {
-        return await DialogApi.getDataOut('TAppDept.searchSubordinate', params);
+    static getSubordinate(params: DataRow) {
+        return DialogApi.getDataOut('TAppDept.searchSubordinate', params);
     }
 
     /** 获取资产规格 */
@@ -157,91 +172,91 @@ export default class DialogApi {
     }
 
     /** 获取物流公司列表 */
-    static async getLogistics(params: DataRow) {
-        return await DialogApi.getDataOut('TAppLogistics.SearchDialogLogistics', params);
+    static getLogistics(params: DataRow) {
+        return DialogApi.getDataOut('TAppLogistics.SearchDialogLogistics', params);
     }
 
     /** 获取存储仓别位置列表 */
-    static async getDfPartCWList(params: { RepairedCW_?: string, SearchText_?: string }) {
-        return await DialogApi.getService('TAppPartStock.GetDfPartCWList', params);
+    static getDfPartCWList(params: { RepairedCW_?: string, SearchText_?: string }) {
+        return DialogApi.getService('TAppPartStock.GetDfPartCWList', params);
     }
 
     /** 商品总库存与分仓别的调整显示 */
-    static async getDisplay(params: { SearchText_?: string, PartCode_: string }) {
-        return await DialogApi.getService('TAppStockCW.Display', params);
+    static getDisplay(params: { SearchText_?: string, PartCode_: string }) {
+        return DialogApi.getService('TAppStockCW.Display', params);
     }
 
     /** 获取会员客户的基本资料 */
-    static async getVipCardInfo(params: DataRow) {
-        return await DialogApi.getDataOut('TAppVipCard.Search', params);
+    static getVipCardInfo(params: DataRow) {
+        return DialogApi.getDataOut('TAppVipCard.Search', params);
     }
 
     /** 获取银行列表 */
-    static async getBankInfos(params: DataRow) {
-        return await DialogApi.getDataOut('TAppBankInfo.Download', params);
+    static getBankInfos(params: DataRow) {
+        return DialogApi.getDataOut('TAppBankInfo.Download', params);
     }
 
     /** 获取收费记录卡 */
-    static async getOurInfo(params: DataRow) {
-        return await DialogApi.getDataOut('TAppOurInfo.Download', params);
+    static getOurInfo(params: DataRow) {
+        return DialogApi.getDataOut('TAppOurInfo.Download', params);
     }
 
     /** 获取商品型号信息 */
-    static async getPartModel(params: DataRow) {
-        return await DialogApi.getDataOut('TAppPartModel.download', params);
+    static getPartModel(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartModel.download', params);
     }
 
     /** 查询客户基本资料 */
-    static async getFastCorp(params: DataRow) {
-        return await DialogApi.getDataOut('TAppUserInfo.Search_FastCorp', params);
+    static getFastCorp(params: DataRow) {
+        return DialogApi.getDataOut('TAppUserInfo.Search_FastCorp', params);
     }
 
     /** 查找制程基本单据(模糊查询、载入数查询) */
-    static async getSearchBOMProcess() {
+    static getSearchBOMProcess() {
         let dataIn = new DataRow();
         dataIn.setValue('Disable_', false);
-        return await DialogApi.getDataOut('TAppBOM.SearchBOMProcess', dataIn);
+        return DialogApi.getDataOut('TAppBOM.SearchBOMProcess', dataIn);
     }
 
     /** 获取客户区域列表 */
-    static async getAreaList(params: DataRow) {
-        return await DialogApi.getDataOut('TAppCusInfo.GetAreaList', params);
+    static getAreaList(params: DataRow) {
+        return DialogApi.getDataOut('TAppCusInfo.GetAreaList', params);
     }
 
     /** 查询所有员工数 */
-    static async getWorkers(params: DataRow) {
-        return await DialogApi.getDataOut('SvrStaffMan.search', params);
+    static getWorkers(params: DataRow) {
+        return DialogApi.getDataOut('SvrStaffMan.search', params);
     }
 
     /** 部门和人事表关联，获得部门代码以及人事表中的名称 */
-    static async getDeptAndHRList() {
-        return await DialogApi.getService('TAppDept.getDeptAndHRList');
+    static getDeptAndHRList() {
+        return DialogApi.getService('TAppDept.getDeptAndHRList');
     }
 
     /** 获取客户区域 */
-    static async getCusArea(params: DataRow) {
+    static getCusArea(params: DataRow) {
         params.fields.forEach((item) => {
             params.setValue(item.code, DialogApi.replaceChar(params.getValue(item.code)))
         })
-        return await DialogApi.getDataOut('TAppCusArea.Download_Area', params);
+        return DialogApi.getDataOut('TAppCusArea.Download_Area', params);
     }
 
     /** 获取客户区域 */
-    static async getSearchCusArea(params: DataRow) {
+    static getSearchCusArea(params: DataRow) {
         params.fields.forEach((item) => {
             params.setValue(item.code, DialogApi.replaceChar(params.getValue(item.code)))
         })
-        return await DialogApi.getDataOut('TAppCusArea.searchArea', params);
+        return DialogApi.getDataOut('TAppCusArea.searchArea', params);
     }
 
     /** 获取制程选择下拉列表 */
-    static async getProcessList() {
-        return await DialogApi.getService('SvrWorkStep.getProcess');
+    static getProcessList() {
+        return DialogApi.getService('SvrWorkStep.getProcess');
     }
 
     /** 获取制程列表 */
-    static async getProcSteps(params: DataRow) {
-        return await DialogApi.getDataOut('SvrWorkStep.search', params);
+    static getProcSteps(params: DataRow) {
+        return DialogApi.getDataOut('SvrWorkStep.search', params);
     }
 
     static async getSaleCurrentNum(params: DataRow) {
@@ -253,37 +268,47 @@ export default class DialogApi {
     }
 
     /** 获取厂商账户 */
-    static async getSupBanks(params: { SupCode_: string }) {
-        return await DialogApi.getService('SvrSupBank.download', params);
+    static getSupBanks(params: { SupCode_: string }) {
+        return DialogApi.getService('SvrSupBank.download', params);
     }
 
     /** 获取优惠原因 */
-    static async getTempPrefererntial() {
-        return await DialogApi.getService('TAppCoupon.download');
+    static getTempPrefererntial() {
+        return DialogApi.getService('TAppCoupon.download');
     }
 
     /** 增加优惠原因 */
-    static async appendTempPrefererntial(params: DataRow) {
-        return await DialogApi.getDataOut('TAppCoupon.append', params);
+    static appendTempPrefererntial(params: DataRow) {
+        return DialogApi.getDataOut('TAppCoupon.append', params);
     }
 
     /** 删除优惠原因 */
-    static async removeTempPrefererntial(params: { UID_: string }) {
-        return await DialogApi.getService('TAppCoupon.delete', params);
+    static removeTempPrefererntial(params: { UID_: string }) {
+        return DialogApi.getService('TAppCoupon.delete', params);
     }
 
     /** 获取部门列表 */
-    static async getDepartments(params: DataRow) {
-        return await DialogApi.getDataOut('TAppDept.Download', params);
+    static getDepartments(params: DataRow) {
+        return DialogApi.getDataOut('TAppDept.Download', params);
     }
 
     /** 显示会计科目余额 */
-    static async getAccountEdit(params: DataRow) {
-        return await DialogApi.getDataOut('TAppAccType2.Download', params);
+    static getAccountEdit(params: DataRow) {
+        return DialogApi.getDataOut('TAppAccType2.Download', params);
     }
 
     /** 获取商品规格 */
-    static async getPartSpec(params: DataRow) {
-        return await DialogApi.getDataOut('SvrPartSpec.search', params);
+    static getPartSpec(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartSpec.search', params);
+    }
+
+    /** 获取采购信息 */
+    static getSupInfo(params: DataRow) {
+        return DialogApi.getDataOut('TAppSupInfo.Download', params);
+    }
+
+    /** 显示客户专卖区域 */
+    static getCusInfos(params: DataRow) {
+        return DialogApi.getDataOut('TAppCusInfo.Download', params);
     }
 }
