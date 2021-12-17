@@ -156,7 +156,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
     getDialog() {
         if (!this.props.isChild || this._showAsChild) {
             return (
-                <div role='dialog'>
+                <div role='dialog' id='dialog'>
                     <div className={styles.main} style={this.getStyle.bind(this)()} role={this._dialogRole}>
                         <div className={styles.title} onMouseDown={(e) => this.handleMouseDown(e)}>
                             <span>{this._title}</span>

@@ -53,8 +53,8 @@ export default class SaleCurrentNumDialog extends BaseDialog<SaleCurrentNumTypeP
                     <DBEdit dataName='年月' dataField='YM_' readOnly={true}></DBEdit>
                     <DBEdit dataName='商品编号' dataField='PartCode_' readOnly={true}></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}  onRowClick={this.handleClick.bind(this)}>
-                    {this.isPhone ? '' : <ColumnIt width='8'/>}
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                    {this.isPhone ? '' : <ColumnIt width='8' />}
                     <Column name='主责业务' textAlign='center' code='SalesName_' width='25'></Column>
                     {this.props.forecastTeam == 'true' ? <Column name='成本中心' textAlign='center' code='CostTypeName' width='25'></Column> : ''}
                     <Column name='当月预售量' textAlign='right' code='CurrentNum' width='30'></Column>
@@ -63,7 +63,7 @@ export default class SaleCurrentNumDialog extends BaseDialog<SaleCurrentNumTypeP
                     {this.props.forecastTeam != 'true' ? <Column name='借调预售量' textAlign='right' code='AdjustNum_' width='20'></Column> : ''}
                     {this.props.forecastTeam != 'true' ? <Column name='剩余预售' textAlign='right' code='RemainCurrentNum' width='20'></Column> : ''}
                     <Column name='选择' textAlign='center' code='opera' width={this.isPhone ? '15' : '10'} customText={(row: DataRow) => {
-                        return <span role='opera'>选择</span>
+                        return <span role={row.getString('SalesCode_') != this.props.userCode ? 'opera' : ''}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>
@@ -95,11 +95,11 @@ export default class SaleCurrentNumDialog extends BaseDialog<SaleCurrentNumTypeP
     handleClick(row: DataRow) {
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement
-        input1.value = row.getString('SalesCode_');
-        if (row.getString('SalesCode_') == this.props.userCode) {
+        if (row.getString('SalesCode_') != this.props.userCode) {
+            input1.value = row.getString('SalesCode_');
             let input2 = document.getElementById(inputIds[1]) as HTMLInputElement
             input2.value = row.getString('SalesName_');
+            this.handleSelect();
         }
-        this.handleSelect();
     }
 }

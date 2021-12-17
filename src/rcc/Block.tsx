@@ -1,13 +1,14 @@
-import React, { isValidElement } from "react";
+import React, { isValidElement, MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import styles from './Block.css';
-import { Column, ColumnType } from "./DBGrid";
+import { Column, ColumnType, OnRowClickEvent } from "./DBGrid";
 import Control from "./WebControl";
 
 type propsType = {
     dataSet?: DataSet;
     readOnly?: boolean;
+    onRowClick?: OnRowClickEvent;
 }
 
 export default class Block extends Control<propsType> {
@@ -27,7 +28,11 @@ export default class Block extends Control<propsType> {
         while (ds.fetch()) {
             let recNo: number = ds.recNo
             let dataRow: DataRow = ds.current
-            items.push(<div className={styles.row} key={items.length}>{this.getLines(dataRow, recNo)}</div>)
+            items.push(
+                <div className={styles.row} key={`master_${recNo}`} role='tr' onClick={this.onTrClick}>
+                    {this.getLines(dataRow, recNo)}
+                </div>
+            )
         }
         return items;
     }
@@ -42,6 +47,24 @@ export default class Block extends Control<propsType> {
         })
         return items;
     }
+
+    onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
+        if (!this.props.onRowClick)
+            return;
+        let tr = sender.target.closest('div[role="tr"]');
+        let reactKey: string;
+        Object.keys(tr).forEach(function (key: string) {
+            if (/^__reactInternalInstance/.test(key)) {
+                reactKey = tr[key].key
+            }
+        })
+        if (!reactKey) throw new Error('请设置key值');
+
+        let recNo: number = Number(reactKey.split('_')[1].split('\.')[0]);
+        this.props.dataSet.setRecNo(recNo);
+        this.props.onRowClick(this.props.dataSet.current)
+    }
+
 }
 
 type LinePropsType = {

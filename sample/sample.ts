@@ -63,7 +63,7 @@ import AcPaySet from "./AcPaySet"
 import TCustomComponent from "../src/vcl/TCustomComponent"
 import BaseAreaDialog from "../src/diteng/BaseAreaDialog"
 import AreaDialog from "../src/diteng/AreaDialog"
-import GetMarque from "../src/diteng/GetMarque"
+import MarqueDialog from "../src/diteng/MarqueDialog"
 
 export default {
     //db
@@ -133,6 +133,7 @@ export default {
     BIRemarkDialog,
     FreightWayDialog,
     SpecCodeDialog,
+    MarqueDialog,
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类

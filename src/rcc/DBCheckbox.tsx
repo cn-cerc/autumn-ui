@@ -5,13 +5,17 @@ import FieldMeta from "../db/FieldMeta";
 export type OnChangedEvent = (meta: FieldMeta) => void;
 
 type PropsType = {
-    dataRow: DataRow;
+    dataRow?: DataRow;
     dataField: string;
-    dataName: string;
-    onChanged: OnChangedEvent;
+    dataName?: string;
+    isUseChangedEvent?: boolean;
+    onChanged?: OnChangedEvent;
 }
 
 export default class DBCheckbox extends React.Component<PropsType> {
+    static defaultProps = {
+        isUseChangedEvent: true
+    }
 
     constructor(props: PropsType) {
         super(props);
@@ -38,6 +42,8 @@ export default class DBCheckbox extends React.Component<PropsType> {
     }
 
     onChange = (sender: any) => {
+        if (!this.props.isUseChangedEvent) return;
+
         let el: HTMLInputElement = sender.target;
         let row = this.props.dataRow;
         row.setValue(this.props.dataField, !row.getBoolean(this.props.dataField));

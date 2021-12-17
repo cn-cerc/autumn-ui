@@ -42,7 +42,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         this.setLoad(true);
         let dataSet = await DialogApi.getSubItem({ Marque_: this.props.partCode });
         if (dataSet.state <= 0) {
-            showMsg(dataSet)
+            showMsg(dataSet.message)
         }
         let headData = new DataSet();
         let options = dataSet.head.getValue('Option_');

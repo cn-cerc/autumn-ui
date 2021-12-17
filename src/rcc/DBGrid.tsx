@@ -74,7 +74,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             let dataRow: DataRow = ds.current
             //输出主行
             items.push(
-                <tr key={recNo} onClick={this.onTrClick}>
+                <tr key={`master_${recNo}`} onClick={this.onTrClick}>
                     {this.getRow(dataRow, recNo)}
                 </tr>
             )
@@ -90,9 +90,9 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             React.Children.map(this.props.children, child => {
                 if (isValidElement(child) && child.type == ChildRow) {
                     total++;
-                    let key: string = `${items.length}.${total}`;
+                    let key: string = `${recNo}.${total}`;
                     items.push(
-                        <tr key={key} onClick={this.onTrClick}>
+                        <tr key={`child_${key}`} onClick={this.onTrClick}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -105,16 +105,18 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
         if (!this.props.onRowClick)
             return;
-        let tr: HTMLTableRowElement = sender.target.closest('tr');
-        let row = new DataRow();
-        for (let i = 0; i < tr.children.length; i++) {
-            let td = tr.children[i];
-            let field = td.getAttribute('data-field');
-            let value = td.innerHTML;
-            if (field)
-                row.setValue(field, value);
-        }
-        this.props.onRowClick(row)
+        let tr = sender.target.closest('tr');
+        let reactKey: string;
+        Object.keys(tr).forEach(function (key: string) {
+            if (/^__reactInternalInstance/.test(key)) {
+                reactKey = tr[key].key
+            }
+        })
+        if (!reactKey) throw new Error('请设置key值');
+
+        let recNo: number = Number(reactKey.split('_')[1].split('\.')[0]);
+        this.props.dataSet.setRecNo(recNo);
+        this.props.onRowClick(this.props.dataSet.current)
     }
 
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
@@ -134,10 +136,10 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     }
 
     onChanged: OnDataRowChangedEvent = (recNo: number, field: string, value: string) => {
-        this.state.dataSet.setRecNo(recNo);
-        this.state.dataSet.setValue(field, value);
+        this.props.dataSet.setRecNo(recNo);
+        this.props.dataSet.setValue(field, value);
         if (this.props.onChanged)
-            this.props.onChanged(this.state.dataSet);
+            this.props.onChanged(this.props.dataSet);
     }
 
     getAllWidth() {
@@ -269,7 +271,6 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
                 this.props.onChanged(this.props.recNo, meta.code, this.state.dataRow.getValue(meta.code));
         }
     }
-
 }
 
 type ChildRowPropsType = {

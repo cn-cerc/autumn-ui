@@ -107,6 +107,34 @@ export default class DialogApi {
         return await DialogApi.getService('SvrMarque.getSubItem', params);
     }
 
+    /** 获取商品型号子项列表 */
+    static async getMarqueList(params: { Marque_: string, param: string, searchText: string }) {
+        let dataIn: DataRow = new DataRow();
+        dataIn.setJson(params.param || '');
+        dataIn.setValue('Marque_', params.Marque_);
+        dataIn.setValue('Classify_', 2);
+        dataIn.setValue('SearchText_', params.searchText);
+        let ds: DataSet = await DialogApi.getDataOut(dataIn.getString("serviceCode"), dataIn);
+
+        let res = await fetch('TWebShopping.getShoppingStatus', {
+            method: 'POST',
+            body: 'TB=' + dataIn.getString('tb'),
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        }).then(function (response) {
+            return response.json();
+        }).catch((result) => {
+            return result;
+        })
+        if (res.result) {
+            ds.head.setValue('shopStatus', res.shopStatus);
+        } else {
+            showMsg(res.message)
+        }
+        return ds;
+    }
+
     /** 查询当前用户的所有下属 */
     static async getSubordinate(params: DataRow) {
         return await DialogApi.getDataOut('TAppDept.searchSubordinate', params);

@@ -92,7 +92,7 @@ export default class DataRow implements IDataSource {
 
     getNumber(field: string): number {
         let value = this.getValue(field);
-        if (value == null) {
+        if (value == null || value == '') {
             return 0;
         }
         if (typeof value == 'number') {
@@ -101,7 +101,7 @@ export default class DataRow implements IDataSource {
             let tmp: Number = value;
             return tmp.valueOf();
         } else {
-            Number.parseFloat("");
+            return Number.parseFloat(value);
         }
     }
     getInt(field: string): number { return this.getNumber(field) }
@@ -224,6 +224,10 @@ export default class DataRow implements IDataSource {
         if (this._history)
             this._history.setState(DataRowState.History);
         return this
+    }
+
+    has(field: string): boolean {
+        return this.fields.exists(field) && this.getString(field) != '';
     }
 }
 

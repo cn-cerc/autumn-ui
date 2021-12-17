@@ -55,3 +55,11 @@
     border-radius: .12rem;
     outline: none;
 }
+.main input[type='checkbox'] {
+    width: 100%;
+    margin: 0 auto;
+    height: 1.5rem;
+    border: 1px solid #C2CAD8;
+    border-radius: .12rem;
+    outline: none;
+}

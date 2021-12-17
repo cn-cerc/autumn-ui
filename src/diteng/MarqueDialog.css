@@ -1,0 +1,92 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.headContent {
+    padding: 1rem;
+}
+
+.head {
+    display: flex;
+    align-items: flex-start;
+
+}
+
+.head label {
+    margin: .25rem 0;
+    line-height: 1.5rem;
+    width: 5em;
+}
+
+.head ul {
+    width: 0;
+    flex: 1;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+}
+
+.head ul li {
+    background-color: #e6f4fa;
+    color: #058fca;
+    font-size: .85rem;
+    margin: .25rem;
+    padding: 0 .5rem;
+    border-radius: .25rem;
+    cursor: pointer;
+    line-height: 1.5rem;
+    min-width: 3rem;
+    text-align: center;
+}
+
+.head ul li.selected {
+    background-color: #058fca;
+    color: #fff;
+}
+.bottom {
+    display: flex;
+    padding: 0 1rem;
+    height: 3rem;
+    align-items: center;
+}
+.bottom>* {
+    margin-right: 1rem;
+}
+.bottom label {
+    min-width: 3rem;
+}
+
+.bottom div[role='shopNum'] span {
+    min-width: initial;
+    max-width: initial;
+    margin-right: initial;
+    padding-bottom: inherit;
+}
+
+.bottom div[role='shopNum'] input {
+    max-width: initial;
+    min-width: inherit;
+    width: 3rem;
+}
+.bottom span[role='button'] {
+    color: #0283f7;
+    cursor: pointer;
+}
+.upperPart {
+    height: 0;
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+.upperPart div[role='tr']>div {
+    display: flex;
+}
+@media screen and (max-width: 767px) {
+    .head ul li {
+        font-size: 1rem;
+    }
+}
