@@ -57,6 +57,9 @@ import BaseAreaDialog from "./diteng/BaseAreaDialog";
 import AreaDialog from "./diteng/AreaDialog";
 import AccountEditDialog from "./diteng/AccountEditDialog";
 import PartClassDialog from "./diteng/PartClassDialog";
+import FrmPrivacyRight from "../src/diteng/FrmPrivacyRight";
+import FrmUserAgreement from "../src/diteng/FrmUserAgreement";
+import ErrorPage from "./diteng/ErrorPage";
 
 export default {
     //db
@@ -122,5 +125,10 @@ export default {
     SpecCodeDialog,
     PartClassDialog,
     //地藤jsp转java中js继承类
-    TCustomComponent
+    TCustomComponent,
+    //用户政策与隐私协议
+    FrmPrivacyRight,
+    FrmUserAgreement,
+    //地藤原jsp页面
+    ErrorPage,
 }

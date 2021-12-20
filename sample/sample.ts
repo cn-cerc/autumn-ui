@@ -65,6 +65,9 @@ import TCustomComponent from "../src/vcl/TCustomComponent"
 import BaseAreaDialog from "../src/diteng/BaseAreaDialog"
 import AreaDialog from "../src/diteng/AreaDialog"
 import MarqueDialog from "../src/diteng/MarqueDialog"
+import FrmPrivacyRight from "../src/diteng/FrmPrivacyRight"
+import FrmUserAgreement from "../src/diteng/FrmUserAgreement"
+import ErrorPage from "../src/diteng/ErrorPage"
 
 export default {
     //db
@@ -139,7 +142,12 @@ export default {
     //ksdl
     IndexKsdl,
     //地藤jsp转java中js继承类
-    TCustomComponent
+    TCustomComponent,
+    //用户政策与隐私协议
+    FrmPrivacyRight,
+    FrmUserAgreement,
+    //地藤原jsp页面
+    ErrorPage,
 }
 
 let app = document.getElementById('app');

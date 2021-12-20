@@ -132,7 +132,7 @@ export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
         } else {
             return (
                 <Column name='地址' code='Address_' width='8' visible={!this.state.dataIn.getValue('isAddress')} customText={(row: DataRow) => {
-                    return <span>地址：{row.getString('Address_')}</span>
+                    return <span>{row.getString('Address_')}</span>
                 }}></Column>
             )
         }
