@@ -35,6 +35,9 @@ export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
         dataIn.setValue('isName', isName);
         dataIn.setValue('isAddress', isAddress);
         dataIn.setValue('ObjType_', isObjType ? '1001' : '');
+        dataIn.setValue('Disable_', false);
+        dataIn.setValue('ShowCusOrd', false);
+        dataIn.setValue('Final_', true);
         this.setTitle('请选择客户');
         this.state = {
             ...this.state,

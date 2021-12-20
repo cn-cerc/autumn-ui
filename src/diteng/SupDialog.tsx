@@ -54,14 +54,14 @@ export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeSt
                     <DBEdit dataField="SearchText_" dataName="查询条件" autoFocus></DBEdit>
                     <DBDrop dataField="SupType_" dataName="厂商类别" options={this.state.typeList}></DBDrop>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
                     <Column code="Name_" name="厂商简称" width="40"></Column>
                     <Column code="SupType_" name="厂商分类" width="20" customText={this.initSupType.bind(this)}></Column>
                     <Column code="Contact_" name="联系方式" width="35" customText={(row: DataRow) => {
                         return <span>{row.getValue("Contact_")},{row.getValue("Tel1_")}</span>
                     }}></Column>
                     <Column code="Code_" name="操作" width="15" textAlign='center' customText={(row: DataRow) => {
-                        return <span role="opera" onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role="opera">选择</span>
                     }}></Column>
                 </DBGrid>
             </div>
