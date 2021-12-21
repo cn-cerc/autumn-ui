@@ -76,7 +76,7 @@ export default class BrandDialog extends BaseDialog<BaseDialogPropsType, BrandTy
                         return <span>{span}</span>;
                     }}></Column>
                     <Column code='opera' name='操作' width='2' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.handleClick.bind(this, row.getString("Brand_"))}>操作</span>
+                        return <span role='opera' onClick={this.handleClick.bind(this, row.getString("Brand_"))}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>
