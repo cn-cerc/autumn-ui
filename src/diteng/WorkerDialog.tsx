@@ -18,8 +18,19 @@ type WorkerTypeState = {
 export default class WorkerDialog extends BaseDialog<BaseDialogPropsType, WorkerTypeState> {
     constructor(props: BaseDialogPropsType) {
         super(props);
+        let workerEndTime = new Date().getTime();
+        let woekerStartTime = this.getStorage('WorkerTime');
+        if(woekerStartTime && workerEndTime - Number(woekerStartTime) > this.searchTimeOut) {
+            this.delStorage('Worker');
+            this.delStorage('WorkerTime');
+        }
+        let storageData = this.getStorage('Worker');
         let dataIn = new DataRow();
-        dataIn.setValue('WorkStatus_', 1);
+        if (storageData)
+            dataIn.setJson(storageData)
+        else
+            dataIn.setValue('WorkStatus_', 1);
+
         this.state = {
             ...this.state,
             dataSet: new DataSet(),
@@ -71,6 +82,9 @@ export default class WorkerDialog extends BaseDialog<BaseDialogPropsType, Worker
 
     async getWorkers(): Promise<DataSet> {
         this.setLoad(true);
+        let data = this.state.dataIn.json;
+        this.setStorage('Worker', data);
+        this.setStorage('WorkerTime', new Date().getTime());
         let dataSet = await DialogApi.getWorkers(this.state.dataIn);
         this.setLoad(false);
         return dataSet;

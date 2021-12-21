@@ -24,8 +24,20 @@ type ProcStepTypeState = {
 export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcStepTypeState> {
     constructor(props: ProcStepTypeProps) {
         super(props);
+
+        let procStepEndTime = new Date().getTime();
+        let procStepStartTime = this.getStorage('ProcStepTime');
+        if (procStepStartTime && procStepEndTime - Number(procStepStartTime) > this.searchTimeOut) {
+            this.delStorage('ProcStep');
+            this.delStorage('ProcStepTime');
+        }
+        let storageData = this.getStorage('ProcStep');
         let dataIn = new DataRow();
-        dataIn.setValue('Disable_', false);
+        if (storageData)
+            dataIn.setJson(storageData)
+        else
+            dataIn.setValue('Disable_', false);
+
         this.state = {
             ...this.state,
             dataIn,
@@ -49,7 +61,7 @@ export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcSt
                     <DBDrop dataName='制程选择' dataField='ProcCode_' options={this.state.options}></DBDrop>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
-                    <ColumnIt width='10'/>
+                    <ColumnIt width='10' />
                     <Column name='制程' textAlign='center' code='ProName_' width='15'></Column>
                     <Column name='工序' textAlign='right' code='StepName_' width='25'></Column>
                     <Column name='报价' textAlign='right' code='StepWage_' width='15'></Column>
@@ -77,6 +89,9 @@ export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcSt
 
     async getProcSteps(): Promise<DataSet> {
         this.setLoad(true);
+        let data = this.state.dataIn.json;
+        this.setStorage('ProcStep', data);
+        this.setStorage('ProcStepTime', new Date().getTime());
         let dataSet = await DialogApi.getProcSteps(this.state.dataIn);
         this.setLoad(false);
         return dataSet;
@@ -97,7 +112,7 @@ export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcSt
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        if(this.props.showProc) {
+        if (this.props.showProc) {
             input1.value = row.getString('StepCode_');
             input2.value = row.getString('StepName_');
         } else {

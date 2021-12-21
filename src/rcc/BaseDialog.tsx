@@ -43,6 +43,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
     private _dialogRole: string = '';
     private _load: boolean = false;
     private _showAsChild: boolean = false;
+    private _searchTimeOut: number = 259200000 //查询缓存超时时间(3天);
     get title(): string { return this._title }
     setTitle(value: string): BaseDialog<T, S> {
         this._title = value;
@@ -54,6 +55,20 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
         this.setState({ ...this.state });
         return this;
     }
+    setStorage(key: string, value: any): void {
+        window.localStorage.setItem(this.getStorageKey(key), value);
+    }
+    getStorage(key: string): string {
+        return window.localStorage.getItem(this.getStorageKey(key));
+    }
+    delStorage(key: string): void {
+        window.localStorage.removeItem(this.getStorageKey(key))
+    }
+    getStorageKey(key: string): string {
+        let account = localStorage.getItem('ErpKey_Account1');
+        return `ditengDialog_${account}_${key}`
+    }
+    get searchTimeOut(): number { return this._searchTimeOut }
     /** 弹窗主体内容 */
     abstract content(): JSX.Element;
     render() {
