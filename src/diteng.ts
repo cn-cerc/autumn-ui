@@ -1,75 +1,64 @@
-import DataRow from "./db/DataRow";
-import DataSet from "./db/DataSet";
-import Datetime from "./db/Datetime";
-import QueryService from "./db/QueryService";
+import DateYMDialog from "../src/diteng/DateYMDialog";
+import FrmPrivacyRight from "../src/diteng/FrmPrivacyRight";
+import FrmUserAgreement from "../src/diteng/FrmUserAgreement";
+import index from '../src/index';
+import AccountEditDialog from "./diteng/AccountEditDialog";
+import AERemarkDialog from "./diteng/AERemarkDialog";
+import AHRemarkDialog from "./diteng/AHRemarkDialog";
+import AORemarkDialog from "./diteng/AORemarkDialog";
+import AreaDialog from "./diteng/AreaDialog";
+import BankAccountDialog from "./diteng/BankAccount";
+import BaseAreaDialog from "./diteng/BaseAreaDialog";
+import BIRemarkDialog from "./diteng/BIRemarkDialog";
+import BOMProcessDialog from "./diteng/BOMProcessDialog";
+import BrandDialog from "./diteng/BrandDialog";
+import BRRemarkDialog from "./diteng/BRRemarkDialog";
+import CardTypeDialog from "./diteng/CardTypeDialog";
 import CheckDraftTB from "./diteng/CheckDraftTB";
 import CheckReport from "./diteng/CheckReport";
 import CheckWorkflow from "./diteng/CheckWorkflow";
-import CusDialog from "./diteng/CusDialog";
-import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
-import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
-import DialogDOM from "./diteng/DialogDOM";
-import UserDialog from "./diteng/UserDialog";
-import DateDialog from "./diteng/DateDialog";
-import SalesmanDialog from "./diteng/SalesmanDialog";
-import ProductClassDialog from "./diteng/ProductClassDialog";
-import DateYMDialog from "../src/diteng/DateYMDialog";
-import StaffDialog from "./diteng/StaffDialog";
-import SupDialog from "./diteng/SupDialog";
-import ProductDialog from "./diteng/ProductDialog";
-import NewProductDialog from "./diteng/NewProductDialog";
-import SubordinateDialog from "./diteng/SubordinateDialog";
-import WareBasicDialog from "./diteng/WareBasicDialog";
-import LogisticsDialog from "./diteng/LogisticsDialog";
-import DepartmentDialog from "./diteng/DepartmentDialog";
-import PartCodePartStockDialog from "./diteng/PartCodePartStockDialog";
-import VipCardDialog from "./diteng/VipCardDialog";
-import PartStockDialog from "./diteng/PartStockDialog";
-import BankAccountDialog from "./diteng/BankAccount";
-import CardTypeDialog from "./diteng/CardTypeDialog";
-import OutInfoDialog from "./diteng/OurInfoDialog";
-import PartModeldDialog from "./diteng/PartModeldDialog";
-import FastCorpDialog from "./diteng/FastCorpDialog";
-import BOMProcessDialog from "./diteng/BOMProcessDialog";
 import CusAreaDialog from "./diteng/CusAreaDialog";
-import WorkerDialog from "./diteng/WorkerDialog";
+import CusDialog from "./diteng/CusDialog";
+import CusTypeDialog from "./diteng/CusTypeDialog";
+import DateDialog from "./diteng/DateDialog";
+import DepartmentDialog from "./diteng/DepartmentDialog";
+import DialogDOM from "./diteng/DialogDOM";
+import ErrorPage from "./diteng/ErrorPage";
+import FastCorpDialog from "./diteng/FastCorpDialog";
+import FreightWayDialog from "./diteng/FreightWayDialog";
+import LogisticsDialog from "./diteng/LogisticsDialog";
+import MarqueDialog from "./diteng/MarqueDialog";
+import MLRemarkDialog from "./diteng/MLRemarkDialog";
+import NewProductDialog from "./diteng/NewProductDialog";
+import OutInfoDialog from "./diteng/OurInfoDialog";
+import PABChangeDialog from "./diteng/PABChangeDialog";
+import PartClassDialog from "./diteng/PartClassDialog";
+import PartCodePartStockDialog from "./diteng/PartCodePartStockDialog";
+import PartModeldDialog from "./diteng/PartModeldDialog";
+import PartStockDialog from "./diteng/PartStockDialog";
 import ProcStepDialog from "./diteng/ProcStepDialog";
+import ProductClassDialog from "./diteng/ProductClassDialog";
+import ProductDialog from "./diteng/ProductDialog";
+import RABChangeDialog from "./diteng/RABChangeDialog";
 import RemarkDialog from "./diteng/RemarkDialog";
 import SaleCurrentNumDialog from "./diteng/SaleCurrentNumDialog";
-import SupBankDialog from "./diteng/SupBankDialog";
-import CusTypeDialog from "./diteng/CusTypeDialog";
-import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
-import AERemarkDialog from "./diteng/AERemarkDialog";
-import RABChangeDialog from "./diteng/RABChangeDialog";
-import PABChangeDialog from "./diteng/PABChangeDialog";
-import AORemarkDialog from "./diteng/AORemarkDialog";
-import BRRemarkDialog from "./diteng/BRRemarkDialog";
-import AHRemarkDialog from "./diteng/AHRemarkDialog";
-import MLRemarkDialog from "./diteng/MLRemarkDialog";
-import BIRemarkDialog from "./diteng/BIRemarkDialog";
-import FreightWayDialog from "./diteng/FreightWayDialog";
+import SalesmanDialog from "./diteng/SalesmanDialog";
 import SpecCodeDialog from "./diteng/SpecCodeDialog";
-import MarqueDialog from "./diteng/MarqueDialog";
-import Grid from "./rcc/Grid";
-import BrandDialog from "./diteng/BrandDialog";
-import { TGridConfig } from "./vcl/TGrid";
+import StaffDialog from "./diteng/StaffDialog";
+import SubordinateDialog from "./diteng/SubordinateDialog";
+import SupBankDialog from "./diteng/SupBankDialog";
+import SupDialog from "./diteng/SupDialog";
+import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
+import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
+import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
+import UserDialog from "./diteng/UserDialog";
+import VipCardDialog from "./diteng/VipCardDialog";
+import WareBasicDialog from "./diteng/WareBasicDialog";
+import WorkerDialog from "./diteng/WorkerDialog";
 import TCustomComponent from "./vcl/TCustomComponent";
-import BaseAreaDialog from "./diteng/BaseAreaDialog";
-import AreaDialog from "./diteng/AreaDialog";
-import AccountEditDialog from "./diteng/AccountEditDialog";
-import PartClassDialog from "./diteng/PartClassDialog";
-import FrmPrivacyRight from "../src/diteng/FrmPrivacyRight";
-import FrmUserAgreement from "../src/diteng/FrmUserAgreement";
-import ErrorPage from "./diteng/ErrorPage";
 
 export default {
-    //db
-    Datetime,
-    DataSet,
-    DataRow,
-    QueryService,
-    //rcc
-    Grid,
+    ...index,
     //地藤专用
     TSchProductAnalysis,
     TSchScmStockInOut,
