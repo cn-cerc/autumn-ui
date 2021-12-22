@@ -96,7 +96,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     total++;
                     let key: string = `${recNo}.${total}`;
                     items.push(
-                        <tr key={`child_${key}`} onClick={this.onTrClick} style={{'display': child.props.visible ? 'none' : 'table-row'}}>
+                        <tr key={`child_${key}`} onClick={this.onTrClick} style={{ 'display': child.props.visible ? 'none' : 'table-row' }}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -120,7 +120,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
         let recNo: number = Number(reactKey.split('_')[1].split('\.')[0]);
         this.props.dataSet.setRecNo(recNo);
-        this.props.onRowClick(this.props.dataSet.current)
+        this.props.onRowClick(this.props.dataSet.current);
     }
 
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
@@ -207,7 +207,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
         if (this.props.customText && this.props.tag != ColumnType.th) {
             let child: JSX.Element = this.props.customText(this.props.dataRow);
             if (this.props.tag == ColumnType.td)
-                return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
+                return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
             else
                 return <span style={{ 'width': this.props.width, 'display': 'inline-block', 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{child}</span>
 
@@ -235,7 +235,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 
     getTd() {
         return (
-            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : "left"} style={{'display': this.props.visible ? 'none' : 'table-cell' }}>
+            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : "left"} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>
                 {this.getValue()}
             </td>
         )

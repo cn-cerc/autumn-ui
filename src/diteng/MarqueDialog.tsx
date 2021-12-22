@@ -137,9 +137,10 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
     }
 
     getTable() {
+        let key = this.state.dbData.head.getString('updateTime');
         if (this.isPhone) {
             return (
-                <Block dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
+                <Block key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
                     <Line>
                         <Column code='_select_' width='3' >
                             <DBCheckbox dataField="_select_" isUseChangedEvent={false} />
@@ -166,7 +167,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
                     <Column code='_select_' name='选择' width='3' >
                         <DBCheckbox dataField="_select_" isUseChangedEvent={false} />
                     </Column>
@@ -367,7 +368,10 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
 
     handleClick(dataRow: DataRow) {
         dataRow.setValue('_select_', !dataRow.getBoolean('_select_'))
-        this.setState(this.state)
+        if (this.state.dataSet.locate('Code_', dataRow.getString('Code_'))) {
+            this.state.dataSet.setValue('_select_', dataRow.getBoolean('_select_'));
+        }
+        this.setState({ ...this.state })
     }
 
     chkPartCode(meta: FieldMeta) {
@@ -386,7 +390,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
     postPartCode(spareStatus: boolean): void {
         let tb = this.state.params.getString('tb');
         var products: string[] = [];
-        let ds = this.state.dbData;
+        let ds = this.state.dataSet;
         ds.first();
         while (ds.fetch()) {
             if (ds.current.getBoolean('_select_')) {
@@ -446,11 +450,12 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         else
             this.state.filters.set(key, value);
         let dbData: DataSet = new DataSet();
+        dbData.head.setValue('updateTime', new Date().getTime());
         dbData.appendDataSet(this.state.dataSet);
         dbData.first();
         while (dbData.fetch()) {
             let bool = true;
-            this.state.filters.forEach((value, key) => {
+            this.state.filters.forEach((value) => {
                 let str: string = dbData.getString('Desc_') + ',' + dbData.getValue('Spec_')
                 if (value && str.indexOf(value) < 0) {
                     bool = false;
