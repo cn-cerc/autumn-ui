@@ -382,6 +382,9 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             while (ds.fetch()) {
                 ds.current.getBoolean('_select_')
                 ds.setValue('_select_', check);
+                if (this.state.dataSet.locate('Code_', ds.getString('Code_'))) {
+                    this.state.dataSet.setValue('_select_', check);
+                }
             }
         }
         this.setState(this.state)
