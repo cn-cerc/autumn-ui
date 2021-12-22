@@ -50,7 +50,6 @@ import SupBankDialog from "./diteng/SupBankDialog";
 import SupDialog from "./diteng/SupDialog";
 import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
 import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
-import TSchProductInOutAnalysis from "./diteng/TSchProductInOutAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
 import UserDialog from "./diteng/UserDialog";
 import VipCardDialog from "./diteng/VipCardDialog";
@@ -63,7 +62,6 @@ export default {
     //地藤专用
     TSchProductAnalysis,
     TSchScmStockInOut,
-    TSchProductInOutAnalysis,
     //首页检测
     CheckDraftTB,
     CheckWorkflow,
