@@ -49,6 +49,7 @@ import MLRemarkDialog from "./diteng/MLRemarkDialog";
 import BIRemarkDialog from "./diteng/BIRemarkDialog";
 import FreightWayDialog from "./diteng/FreightWayDialog";
 import SpecCodeDialog from "./diteng/SpecCodeDialog";
+import MarqueDialog from "./diteng/MarqueDialog";
 import Grid from "./rcc/Grid";
 import BrandDialog from "./diteng/BrandDialog";
 import { TGridConfig } from "./vcl/TGrid";
@@ -124,6 +125,7 @@ export default {
     FreightWayDialog,
     SpecCodeDialog,
     PartClassDialog,
+    MarqueDialog,
     //地藤jsp转java中js继承类
     TCustomComponent,
     //用户政策与隐私协议
