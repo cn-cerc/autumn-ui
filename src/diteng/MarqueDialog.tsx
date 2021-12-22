@@ -50,8 +50,6 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             shopData.head.setValue('postUrl', 'TFrmTranAL.addDetail');
             shopData.head.setValue('confirmText', '添加出库');
             shopData.head.setValue('freeText', '添加入库');
-        } else if (tb == 'OM') {
-            shopData.head.setValue('postUrl', 'TFrmBOM.nextStep');
         }
         let width: string = '95%';
         let height: string = '95%';
@@ -98,8 +96,12 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         headData.records.forEach((row: DataRow) => {
             filters.set(row.getString('Name_'), '');
         })
-        headData.head.setValue('shopStatus', dataSet.head.getBoolean('shopStatus'))
+        let shopStatus = dataSet.head.getBoolean('shopStatus');
+        headData.head.setValue('shopStatus', shopStatus)
 
+        if (this.state.params.getString('tb') == 'OM' && !shopStatus) {
+            this.state.shopData.head.setValue('postUrl', 'TFrmBOM.nextStep');
+        }
         let userInfo: DataSet = await DialogApi.getUserInfo();
         if (userInfo.state <= 0) {
             showMsg(userInfo.message)
@@ -371,6 +373,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         if (this.state.dataSet.locate('Code_', dataRow.getString('Code_'))) {
             this.state.dataSet.setValue('_select_', dataRow.getBoolean('_select_'));
         }
+        this.checkChkPartCodeState(this.state.dbData);
         this.setState({ ...this.state })
     }
 
@@ -388,6 +391,17 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             }
         }
         this.setState(this.state)
+    }
+    checkChkPartCodeState(dbData: DataSet) {
+        let chkPartCode: boolean = true;
+        dbData.first();
+        while (dbData.fetch()) {
+            if (chkPartCode && !dbData.current.getBoolean('_select_')) {
+                chkPartCode = false;
+                break;
+            }
+        }
+        this.state.shopData.head.setValue('chkPartCode', chkPartCode);
     }
 
     postPartCode(spareStatus: boolean): void {
@@ -455,6 +469,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         let dbData: DataSet = new DataSet();
         dbData.head.setValue('updateTime', new Date().getTime());
         dbData.appendDataSet(this.state.dataSet);
+        let chkPartCode: boolean = true;
         dbData.first();
         while (dbData.fetch()) {
             let bool = true;
@@ -467,7 +482,9 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             if (!bool) dbData.delete();
         }
         this.setState({ dbData });
+        this.checkChkPartCodeState(dbData);
     }
+
 }
 
 type HeadTypeProps = {
