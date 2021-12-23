@@ -54,10 +54,21 @@ export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
 
     async init() {
         this.setLoad(true);
-        let dataSet = await DialogApi.getCusInfos(this.state.dataIn);
+        let dataOut: DataSet = await DialogApi.getCusInfos(this.state.dataIn);
+        let ds = new DataSet();
+        let objDs = new DataSet();
+        dataOut.first();
+        while (dataOut.fetch()) {
+            if (!dataOut.getString("CorpNo_")) {
+                objDs.append().copyRecord(dataOut.current, dataOut.fields);
+            } else {
+                ds.append().copyRecord(dataOut.current, dataOut.fields);
+            }
+        }
         this.setLoad(false);
         this.setState({
-            dataSet
+            dataSet: ds,
+            objItems: objDs
         })
     }
 
