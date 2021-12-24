@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } fr
 import styles from "./MutiPage.css";
 
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
-export const DefaultPageSize = 100;
+export const DefaultPageSize = 10000;
 
 const USER_PAGE_SIZE_KEY = 'user:pageSize';
 
@@ -125,6 +125,8 @@ export default class MutiPage extends React.Component<propsType, stateType> {
             default:
                 throw Error('error: ' + el.target.id);
         }
+        let dbgrid = document.querySelector('div[role="dbgrid"]');
+        if (dbgrid) dbgrid.scroll({ top: 0 });
         if (pageNo != this.state.pageNo) {
             this.setState({ ...this.state, pageNo, inputValue: '' + pageNo })
             this.pageChanged(this.state.pageSize, pageNo);
