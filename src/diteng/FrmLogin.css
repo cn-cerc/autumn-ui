@@ -1,0 +1,16 @@
+.main {
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: #fff;
+    font-size: 1rem;
+    line-height: 1rem;
+}
+
+.loginMsg {
+    margin: 0 3em;
+}
+
+.loginMsg>a {
+    color: #fff;
+}

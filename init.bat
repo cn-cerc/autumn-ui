@@ -7,5 +7,6 @@ call cnpm i -D react react-dom
 call cnpm i -D @types/react @types/react-dom @babel/preset-react @types/jquery
 call cnpm i -D style-loader css-loader
 call cnpm i -D classnames
+call cnpm i -D fingerprintjs2
 call cnpm run dev
 pause

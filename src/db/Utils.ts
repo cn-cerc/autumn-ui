@@ -7,3 +7,22 @@ export default class Utils {
         });
     }
 }
+
+export class ClientStorage {
+    private section:string;
+    constructor(section: string) {
+        this.section = section;
+    }
+
+    set(key: string, value: any): void {
+        localStorage.setItem(this.section + '_' + key, value);
+    }
+
+    get(key: string, def?: any): any {
+        return localStorage.getItem(this.section + '_' + key) || def;
+    }
+
+    remove(key: string): void {
+        localStorage.removeItem(this.section + '_' + key);
+    }
+}

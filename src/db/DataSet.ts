@@ -297,7 +297,8 @@ export default class DataSet implements IDataSource {
             let item: any = [];
             for (let meta of this._fields.items)
                 item.push(meta.code);
-            item.push('_state_');
+            if (this._crud)
+                item.push('_state_');
             jsonObj.body.push(item);
         }
         if (this.crud) {
@@ -533,7 +534,7 @@ export default class DataSet implements IDataSource {
                     if (param1 > param2) sort = 1;
                     if (param1 == param2) sort = 0;
                     if (param1 < param2) sort = -1;
-                } else if(Number(param1) && Number(param2)) {
+                } else if (Number(param1) && Number(param2)) {
                     param1 = Number(param1);
                     param2 = Number(param2);
                     if (param1 > param2) sort = 1;

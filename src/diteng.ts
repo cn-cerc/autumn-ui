@@ -26,6 +26,7 @@ import DialogDOM from "./diteng/DialogDOM";
 import ErrorPage from "./diteng/ErrorPage";
 import FastCorpDialog from "./diteng/FastCorpDialog";
 import FreightWayDialog from "./diteng/FreightWayDialog";
+import FrmLogin from "./diteng/FrmLogin";
 import LogisticsDialog from "./diteng/LogisticsDialog";
 import MarqueDialog from "./diteng/MarqueDialog";
 import MLRemarkDialog from "./diteng/MLRemarkDialog";
@@ -122,4 +123,5 @@ export default {
     FrmUserAgreement,
     //地藤原jsp页面
     ErrorPage,
+    FrmLogin
 }

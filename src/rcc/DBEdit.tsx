@@ -14,6 +14,8 @@ type PropsType = {
     onChanged?: OnFieldChangedEvent;
     autoFocus?: boolean;
     readOnly?: boolean;
+    type?: 'text' | 'password' | 'checkbox' | 'number' | 'radio';
+    autoComplete?: 'off' | 'on'
 }
 
 type DBEditState = {
@@ -27,7 +29,9 @@ export interface ISelectDialog {
 }
 
 export default class DBEdit extends React.Component<PropsType, DBEditState> {
-
+    static defaultProps = {
+        type: 'text'
+    }
     constructor(props: PropsType) {
         super(props);
         let row
@@ -47,10 +51,10 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
         return (
             <span className={styles.main}>
                 {dataName}
-                <input type="text" autoFocus={this.props.autoFocus} id={this.props.dataField}
+                <input type={this.props.type} autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
-                    placeholder={this.props.placeholder} readOnly={this.props.readOnly}
-                    onClick={this.selectAllText.bind(this)}/>
+                    placeholder={this.props.placeholder} readOnly={this.props.readOnly} onClick={this.
+                    .bind(this)} autoComplete={this.props.autoComplete}/>
                 {React.Children.map(this.props.children, child => {
                     if (isValidElement(child)) {
                         return React.cloneElement(child, { onSelect: this.onDialogSelect })

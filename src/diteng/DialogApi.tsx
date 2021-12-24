@@ -311,4 +311,9 @@ export default class DialogApi {
     static getCusInfos(params: DataRow) {
         return DialogApi.getDataOut('TAppCusInfo.Download', params);
     }
+
+    /** 用户登录 */
+    static UserLogin(params: DataRow) {
+        return DialogApi.getDataOut('SvrUserLogin.getToken', params);
+    }
 }
