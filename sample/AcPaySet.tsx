@@ -34,7 +34,7 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
         let client = new SClient(this.props);
         client.server.setHost('http://127.0.0.1:8080/');
         client.server.setToken(this.props.token);
-        client.setService('ac_PaySet');
+        client.setService('AC_PaySet');
         this.state = { client, message: '' };
         this.btnSearch(this.state.client.head)
     }
