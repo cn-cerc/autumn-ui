@@ -53,7 +53,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
                 {dataName}
                 <input type={this.props.type} autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
-                    placeholder={this.props.placeholder} readOnly={this.props.readOnly} onClick={this.
+                    placeholder={this.props.placeholder} readOnly={this.props.readOnly} onClick={this.selectAllText
                     .bind(this)} autoComplete={this.props.autoComplete}/>
                 {React.Children.map(this.props.children, child => {
                     if (isValidElement(child)) {
