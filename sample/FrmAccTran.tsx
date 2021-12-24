@@ -10,7 +10,7 @@ import SelectAccCode from "../src/diteng/SelectAccCode";
 import Block, { Line } from "../src/rcc/Block";
 import ComboBox from "../src/rcc/ComboBox";
 import DBEdit from "../src/rcc/DBEdit";
-import DBGrid, { ChildRow, Column, OnDataRowChangedEvent, OnDataSetChangedEvvent } from "../src/rcc/DBGrid";
+import DBGrid, { ChildRow, Column, OnDataRowChangedEvent, OnRowChangedEvent } from "../src/rcc/DBGrid";
 import MenuItem from "../src/rcc/MenuItem";
 import ModifyPanel, { ModifyOnExecute } from "../src/rcc/ModifyPanel";
 import SearchPanel from "../src/rcc/SearchPanel";
@@ -69,7 +69,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                     </DBEdit>
                     <DBEdit dataField='name' dataName='凭证摘要' ></DBEdit>
                 </ModifyPanel>
-                <DBGrid dataSet={this.state.dataOut} readOnly={false} onChanged={this.onDataSetChanged}>
+                <DBGrid dataSet={this.state.dataOut} readOnly={false} onChanged={this.onRowChanged.bind(this)}>
                     <Column code='code_' name='会计科目' width='10' onChanged={this.onChangedByCode}>
                         <ComboBox dataField='code_' >
                             <ListAccCode />
@@ -123,9 +123,9 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
         this.setState(this.state);
     }
 
-    onDataSetChanged: OnDataSetChangedEvvent = (dataSet: DataSet) => {
-        console.log(dataSet)
-        // console.log(dataSet.jsonString);
+    onRowChanged: OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => {
+        console.log(row, field, oldValue)
+        this.setState({ ...this.state });
     }
 
     onChangedByCode: OnDataRowChangedEvent = (recNo: number, field: string, value: string) => {

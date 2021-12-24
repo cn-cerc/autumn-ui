@@ -6,13 +6,13 @@ import { OnFieldChangedEvent } from "./DBEdit";
 import styles from './DBGrid.css';
 import WebControl from "./WebControl";
 
-export type OnDataSetChangedEvvent = (dataSet: DataSet) => void;
+export type OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => void;
 export type OnRowClickEvent = (row: DataRow) => void;
 
 type DBGridProps = {
     dataSet: DataSet;
     readOnly?: boolean;
-    onChanged?: OnDataSetChangedEvvent;
+    onChanged?: OnRowChangedEvent;
     onRowClick?: OnRowClickEvent;
 }
 
@@ -141,9 +141,11 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     onChanged: OnDataRowChangedEvent = (recNo: number, field: string, value: string) => {
         this.props.dataSet.setRecNo(recNo);
-        this.props.dataSet.setValue(field, value);
+        let row: DataRow = this.props.dataSet.current;
+        let oldValue = row.getValue(field);
+        row.setValue(field, value);
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataSet);
+            this.props.onChanged(row, field, oldValue);
     }
 
     getAllWidth() {

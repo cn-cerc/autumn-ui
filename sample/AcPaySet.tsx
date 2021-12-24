@@ -7,7 +7,7 @@ import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../src/dit
 import MainMenu from "../src/diteng/MainMenu";
 import DBDrop from "../src/rcc/DBDrop";
 import DBEdit from "../src/rcc/DBEdit";
-import DBGrid, { Column } from "../src/rcc/DBGrid";
+import DBGrid, { Column, OnRowChangedEvent } from "../src/rcc/DBGrid";
 import MenuItem from "../src/rcc/MenuItem";
 import OperatePanel from "../src/rcc/OperatePanel";
 import SearchPanel, { SearchPanelOnExecute } from "../src/rcc/SearchPanel";
@@ -58,7 +58,7 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
                 <SearchPanel dataRow={this.state.client.head} onExecute={this.btnSearch}>
                     <DBEdit dataField='Code_' dataName='类别代码' />
                 </SearchPanel>
-                <DBGrid dataSet={this.state.client} readOnly={false}>
+                <DBGrid dataSet={this.state.client} readOnly={false} onChanged={this.onRowChanged.bind(this)}>
                     <Column code='Code_' name='代码' width='10' >
                         <DBEdit dataField='Code_' />
                     </Column>
@@ -131,10 +131,9 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
         this.setState({ ...this.state });
     }
 
-    OnDataRowChangedEvent = (recNo: number, field: string, value: string) => {
-        let row = this.state.client.setRecNo(recNo).current;
-        if (field == 'Type_') {
-        }
+    onRowChanged: OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => {
+        console.log(row, field, oldValue)
+        this.setState({ ...this.state });
     }
 
     deleteRow = async (row: DataRow): Promise<void> => {
