@@ -30,10 +30,12 @@ export class ToolItem extends WebControl<itemPropsType> {
         return (
             <React.Fragment>
                 <div className={styles.toolGroup}>
-                    {this.props.title}
-                </div>
-                <div className={styles.toolItem}>
-                    {React.Children.map(this.props.children, child => child)}
+                    <div className={styles.toolTitle}>
+                        {this.props.title}
+                    </div>
+                    <div className={styles.toolItems}>
+                        {React.Children.map(this.props.children, child => child)}
+                    </div>
                 </div>
             </React.Fragment>
         )
