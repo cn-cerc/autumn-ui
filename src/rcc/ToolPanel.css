@@ -1,3 +1,44 @@
 .main {
     background-color: #E0E0E0;
+    height: 100%;
+    overflow: auto;
+}
+
+.toolGroup {
+    max-width: 100%;
+    width: 15.37rem;
+    margin-top: .75rem;
+    /* width: 15.99rem;
+    margin: .75rem .69rem 0 .69rem; */
+    border-radius: .28rem;
+    padding: .69rem 1rem;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.toolTitle {
+    color: #009307;
+    font-weight: bold;
+    height: 2.31rem;
+    line-height: 2.31rem;
+    position: relative;
+    padding-left: .8em;
+    margin-left: 1rem;
+    position: relative;
+}
+
+.toolTitle::before {
+    content: '';
+    width: .12em;
+    height: .9em;
+    color: #009307;
+    background-color: #009307;
+    position: absolute;
+    top: .71em;
+    left: 0;
+}
+
+.toolItems {
+    font-size: .8rem;
+    line-height: 1.5rem;
 }

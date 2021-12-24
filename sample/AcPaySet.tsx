@@ -9,6 +9,7 @@ import DBDrop from "../src/rcc/DBDrop";
 import DBEdit from "../src/rcc/DBEdit";
 import DBGrid, { Column } from "../src/rcc/DBGrid";
 import MenuItem from "../src/rcc/MenuItem";
+import OperatePanel from "../src/rcc/OperatePanel";
 import SearchPanel, { SearchPanelOnExecute } from "../src/rcc/SearchPanel";
 import StatusBar from "../src/rcc/StatusBar";
 import ToolPanel, { ToolItem } from "../src/rcc/ToolPanel";
@@ -86,8 +87,10 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
                         })
                     } />
                 </DBGrid>
-                <button className={styles.operaButton} onClick={this.btnAppend}>新增</button>
-                <button className={styles.operaButton} onClick={this.btnSave}>保存</button>
+                <OperatePanel>
+                    <button className={styles.operaButton} onClick={this.btnAppend}>新增</button>
+                    <button className={styles.operaButton} onClick={this.btnSave}>保存</button>
+                </OperatePanel>
                 <StatusBar>
                 </StatusBar>
             </CustomForm>
@@ -125,7 +128,6 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
             console.log(this.state.client.message);
             return;
         }
-        console.log('保存成功')
         this.setState({ ...this.state });
     }
 
