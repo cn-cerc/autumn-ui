@@ -58,15 +58,21 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
                     <DBEdit dataField='Code_' dataName='类别代码' />
                 </SearchPanel>
                 <DBGrid dataSet={this.state.client} readOnly={false}>
-                    <Column code='Code_' name='代码' width='10' ><DBEdit dataField='Code_' /></Column>
-                    <Column code='Name_' name='描述' width='30' ><DBEdit dataField='Name_' /></Column>
+                    <Column code='Code_' name='代码' width='10' >
+                        <DBEdit dataField='Code_' />
+                    </Column>
+                    <Column code='Name_' name='描述' width='30' >
+                        <DBEdit dataField='Name_' />
+                    </Column>
                     <Column code='Type_' name='付款类别' width='10'>
                         <DBDrop dataField="Type_" options={this.typeList}></DBDrop>
                     </Column>
                     <Column code='Style_' name='付款方式' width='10'>
                         <DBDrop dataField="Style_" options={this.styleList}></DBDrop>
                     </Column>
-                    <Column code='DayNum_' name='期限' width='10' ><DBEdit dataField='DayNum_' /></Column>
+                    <Column code='DayNum_' name='期限' width='10' >
+                        <DBEdit dataField='DayNum_' />
+                    </Column>
                     <Column code='Mode_' name='期限类型' width='10'>
                         <DBDrop dataField="Mode_" options={this.modeList}></DBDrop>
                     </Column>

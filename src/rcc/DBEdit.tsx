@@ -53,7 +53,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
                 {dataName}
                 <input type={this.props.type} autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
-                    placeholder={this.props.placeholder} readOnly={this.props.readOnly} onClick={this.selectAllText
+                    placeholder={this.props.placeholder} readOnly={this.props.readOnly} onFocus={this.selectAllText
                     .bind(this)} autoComplete={this.props.autoComplete}/>
                 {React.Children.map(this.props.children, child => {
                     if (isValidElement(child)) {
@@ -64,15 +64,9 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
         )
     }
 
-    selectAllText() {
-        let input = document.querySelector(`.${styles.main} input[name=${this.props.dataField}]`) as HTMLInputElement;
+    selectAllText(sender: any){
+        let input = sender.target as HTMLInputElement;
         input.select();
-    }
-
-    componentDidMount(): void {
-        if(this.props.autoFocus) {
-            this.selectAllText();
-        }
     }
 
     inputOnChange = (sender: any) => {
