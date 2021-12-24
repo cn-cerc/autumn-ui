@@ -44,7 +44,7 @@ export default class DBDrop extends React.Component<PropsType> {
         let option: HTMLOptionElement = el.selectedOptions[0];
         let dataSet = this.props.dataRow.dataSet;
         if (dataSet) {
-            dataSet.setRecNo(dataSet.locationRow(this.props.dataRow) + 1);
+            dataSet.setRecNo(dataSet.locationRow(this.props.dataRow));
             dataSet.edit();
         }
         this.props.dataRow.setValue(this.props.dataField, option.value);

@@ -133,7 +133,7 @@ export default class DialogApi {
 
         let res = await fetch('TWebShopping.getShoppingStatus', {
             method: 'POST',
-            body: 'TB=' + dataIn.getString('tb'),
+            body: 'TB=OM',
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },

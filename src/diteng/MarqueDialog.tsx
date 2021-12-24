@@ -188,9 +188,10 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
     }
 
     getTableAD() {
+        let key = this.state.dbData.head.getString('updateTime');
         if (this.isPhone) {
             return (
-                <Block dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
+                <Block key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
                     <Line>
                         <Column code='_select_' width='3' >
                             <DBCheckbox dataField="_select_" isUseChangedEvent={false} />
@@ -240,7 +241,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
                     <Column code='_select_' name='选择' width='3' >
                         <DBCheckbox dataField="_select_" isUseChangedEvent={false} />
                     </Column>
@@ -311,7 +312,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         return heads;
     }
     getBottom() {
-        if (!this.state.headData.head.getBoolean('shopStatus')) {
+        if (this.state.params.getString('tb') == 'OM' && !this.state.headData.head.getBoolean('shopStatus')) {
             return (
                 <span role='button' onClick={this.postPartCode.bind(this, false)}>
                     下一步
@@ -469,7 +470,6 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         let dbData: DataSet = new DataSet();
         dbData.head.setValue('updateTime', new Date().getTime());
         dbData.appendDataSet(this.state.dataSet);
-        let chkPartCode: boolean = true;
         dbData.first();
         while (dbData.fetch()) {
             let bool = true;
