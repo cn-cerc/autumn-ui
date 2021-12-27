@@ -30,8 +30,6 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
         dataIn.setValue('Class_', 13);
         dataIn.setValue('Code_', '*');
         dataIn.setValue('MaxRecord', 100);
-        client.server.setHost('http://127.0.0.1:8080/');
-        client.server.setToken(this.props.token);
         client.setService('SysList');
         this.state = {
             client,
