@@ -20,9 +20,6 @@ type SysListTypeState = {
 } & Partial<CustomFormStateType>
 
 export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysListTypeState> {
-    get pageTitle(): string {
-        return '会计摘要维护'
-    }
     constructor(props: CustomFormPropsType) {
         super(props);
         let client = new SClient(this.props);
@@ -37,6 +34,10 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
             message: ''
         }
         this.handleSearch(this.state.client.head);
+    }
+
+    get pageTitle(): string {
+        return '会计摘要维护'
     }
 
     content(): JSX.Element {
