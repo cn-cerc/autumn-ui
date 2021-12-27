@@ -33,7 +33,6 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
             dataIn,
             message: ''
         }
-        this.handleSearch(this.state.client.head);
     }
 
     get pageTitle(): string {
@@ -79,6 +78,10 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
                 </OperatePanel>
             </React.Fragment>
         )
+    }
+
+    componentDidMount(): void {
+        this.handleSearch(this.state.client.head);
     }
 
     handleSearch: SearchPanelOnExecute = async (row: DataRow) => {
