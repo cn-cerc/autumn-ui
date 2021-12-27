@@ -5,8 +5,22 @@ import SServer from "./SServer";
 export default class SClient extends DataSet {
     private _service: string;
     private _server: SServer;
+    private _updateKey: number;
+
     constructor(props: any) {
         super(props);
+        this.server.setHost('http://127.0.0.1:8080/');
+        if (props) {
+            const { sid, token, host, service } = props;
+            if (sid)
+                this.server.setToken(sid);
+            else if (token)
+                this.server.setToken(token);
+            if (host)
+                this.server.setHost(props.host);
+            if (service)
+                this._service = props.service;
+        }
     }
 
     get server(): SServer {
@@ -25,7 +39,10 @@ export default class SClient extends DataSet {
         return this;
     }
 
+    get updateKey(): number { return this._updateKey; }
+
     async open(): Promise<void> {
+        this._updateKey = new Date().getTime();
         let rs = new RemoteService();
         rs.setHost(this.server.host);
         rs.setToken(this.server.token);

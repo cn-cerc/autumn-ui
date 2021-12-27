@@ -429,6 +429,9 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         products.forEach((value) => {
             params.push(`products=${value}`);
         })
+        if (tb == 'AL') {
+            params.push(`type=${spareStatus}`);
+        }
 
         fetch(this.state.shopData.head.getString('postUrl'), {
             method: 'POST',
