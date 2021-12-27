@@ -7,6 +7,18 @@ export default class SClient extends DataSet {
     private _server: SServer;
     constructor(props: any) {
         super(props);
+        this.server.setHost('http://127.0.0.1:8080/');
+        if (props) {
+            const { sid, token, host, service } = props;
+            if (sid)
+                this.server.setToken(sid);
+            else if (token)
+                this.server.setToken(token);
+            if (host)
+                this.server.setHost(props.host);
+            if (service)
+                this._service = props.service;
+        }
     }
 
     get server(): SServer {

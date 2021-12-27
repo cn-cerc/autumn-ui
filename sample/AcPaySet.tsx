@@ -33,16 +33,18 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
     constructor(props: CustomFormPropsType) {
         super(props);
         let client = new SClient(this.props);
-        client.server.setHost('http://127.0.0.1:8080/');
-        client.server.setToken(this.props.token);
         client.setService('AC_PaySet');
         this.state = { client, message: '' };
         this.btnSearch(this.state.client.head)
     }
 
-    render() {
+    get pageTitle(): string {
+        return '结算方式资料维护';
+    }
+
+    content(): JSX.Element {
         return (
-            <CustomForm title='结算方式资料维护' className={styles.main}>
+            <React.Fragment>
                 <MenuItem code='acc' name='财务总帐' />
                 <ToolPanel>
                     <MainMenu />
@@ -93,7 +95,7 @@ export default class AcPaySet extends CustomForm<CustomFormPropsType, stateType>
                 </OperatePanel>
                 <StatusBar>
                 </StatusBar>
-            </CustomForm>
+            </React.Fragment>
         )
     }
 

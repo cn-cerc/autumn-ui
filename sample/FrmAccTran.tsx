@@ -10,10 +10,9 @@ import SelectAccCode from "../src/diteng/SelectAccCode";
 import Block, { Line } from "../src/rcc/Block";
 import ComboBox from "../src/rcc/ComboBox";
 import DBEdit from "../src/rcc/DBEdit";
-import DBGrid, { ChildRow, Column, OnDataRowChangedEvent, OnRowChangedEvent } from "../src/rcc/DBGrid";
+import DBGrid, { Column, OnDataRowChangedEvent, OnRowChangedEvent } from "../src/rcc/DBGrid";
 import MenuItem from "../src/rcc/MenuItem";
 import ModifyPanel, { ModifyOnExecute } from "../src/rcc/ModifyPanel";
-import SearchPanel from "../src/rcc/SearchPanel";
 import StatusBar from "../src/rcc/StatusBar";
 import ToolPanel from "../src/rcc/ToolPanel";
 import YearDialog from "../src/rcc/YearDialog";
@@ -45,9 +44,13 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
         this.state = { headIn: new DataRow(), dataOut, message: '' }
     }
 
-    render() {
+    get pageTitle(): string {
+        return '会计凭证维护';
+    }
+
+    content(): JSX.Element {
         return (
-            <CustomForm title='会计凭证维护' className={styles.main}>
+            <React.Fragment>
                 <MenuItem code='acc' name='财务总帐' />
                 <ToolPanel>
                     <MainMenu />
@@ -102,7 +105,7 @@ export default class FrmAccTran extends CustomForm<CustomFormPropsType, stateTyp
                 <button className={styles.operaButton} onClick={this.btnAppend}>添加</button>
                 <StatusBar>
                 </StatusBar>
-            </CustomForm>
+            </React.Fragment>
         )
     }
 

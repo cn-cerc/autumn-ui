@@ -20,7 +20,6 @@ type stateType = {
 } & Partial<CustomFormStateType>
 
 export default class SchAccTran extends CustomForm<CustomFormPropsType, stateType> {
-
     accCodeLists = new AccCodeLists();
     constructor(props: CustomFormPropsType) {
         super(props);
@@ -39,9 +38,13 @@ export default class SchAccTran extends CustomForm<CustomFormPropsType, stateTyp
         this.state = { headIn: new DataRow(), dataOut, message: '' }
     }
 
-    render() {
+    get pageTitle(): string {
+        return '会计凭证维护'
+    }
+
+    content(): JSX.Element {
         return (
-            <CustomForm title='会计凭证维护' className={styles.main}>
+            <React.Fragment>
                 <MenuItem code='acc' name='财务总帐' />
                 <ToolPanel>
                     <MainMenu />
@@ -87,7 +90,7 @@ export default class SchAccTran extends CustomForm<CustomFormPropsType, stateTyp
                 <button className={styles.operaButton} onClick={this.btnAppend}>创建新的凭证</button>
                 <StatusBar>
                 </StatusBar>
-            </CustomForm>
+            </React.Fragment>
         )
     }
 
