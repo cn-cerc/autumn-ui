@@ -85,8 +85,7 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
     }
 
     handleSearch: SearchPanelOnExecute = async (row: DataRow) => {
-        this.state.client.head.close
-        console.log(this.state.dataIn)
+        this.state.client.head.close;
         this.state.client.head.copyValues(this.state.dataIn)
         await this.state.client.open();
         if (this.state.client.state <= 0) {
