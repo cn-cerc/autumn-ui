@@ -14,3 +14,9 @@
 .loginMsg>a {
     color: #fff;
 }
+
+.electronicFlag img {
+    vertical-align: middle;
+    height: auto;
+    width: 4rem;
+}
