@@ -17,6 +17,7 @@ import CardTypeDialog from "./diteng/CardTypeDialog";
 import CheckDraftTB from "./diteng/CheckDraftTB";
 import CheckReport from "./diteng/CheckReport";
 import CheckWorkflow from "./diteng/CheckWorkflow";
+import CopyReportDialog from "./diteng/CopyReportDialog";
 import CusAreaDialog from "./diteng/CusAreaDialog";
 import CusDialog from "./diteng/CusDialog";
 import CusTypeDialog from "./diteng/CusTypeDialog";
@@ -123,5 +124,6 @@ export default {
     FrmUserAgreement,
     //地藤原jsp页面
     ErrorPage,
-    FrmLogin
+    FrmLogin,
+    CopyReportDialog
 }
