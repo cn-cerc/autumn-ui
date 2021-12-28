@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } fr
 import styles from "./MutiPage.css";
 
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
-export const DefaultPageSize = 10000;
+export const DefaultPageSize = 100;
 
 const USER_PAGE_SIZE_KEY = 'user:pageSize';
 

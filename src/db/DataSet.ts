@@ -41,6 +41,8 @@ export default class DataSet implements IDataSource {
         return new DataSource(this.records);
     }
 
+    get search(): SearchDataSet { return this._search; }
+
     get current(): DataRow {
         if (this.eof() || this.bof())
             return null;
@@ -54,6 +56,8 @@ export default class DataSet implements IDataSource {
         record.setState(DataRowState.Insert);
         this._records.push(record)
         this._recNo = this._records.length;
+        if (this._search)
+            this._search.append(record);
         return this
     }
 
@@ -71,13 +75,15 @@ export default class DataSet implements IDataSource {
             throw new Error("current is null, delete fail")
         this._garbage.push(this.current.setState(DataRowState.Delete));
 
-        this._records.splice(this.recNo - 1, 1);
+        let record: DataRow[] = this._records.splice(this.recNo - 1, 1);
+
+        if (this._search)
+            this._search.append(record[0]);
 
         if (this._fetchNo > -1) {
             this._fetchNo--;
         }
 
-        // this.refreshBind({ size: true });
         return this;
     }
 
@@ -533,7 +539,7 @@ export default class DataSet implements IDataSource {
                     if (param1 > param2) sort = 1;
                     if (param1 == param2) sort = 0;
                     if (param1 < param2) sort = -1;
-                } else if(Number(param1) && Number(param2)) {
+                } else if (Number(param1) && Number(param2)) {
                     param1 = Number(param1);
                     param2 = Number(param2);
                     if (param1 > param2) sort = 1;

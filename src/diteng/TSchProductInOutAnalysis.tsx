@@ -1,8 +1,9 @@
 import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
+import FieldMeta from "../db/FieldMeta";
 import QueryService from "../db/QueryService";
-import Utils from "../db/Utils";
+import { Excel } from "../db/Utils";
 import { ColumnIt } from "../rcc/ColumnIt";
 import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
 import { AuiMath, Loading, showMsg } from "./Summer";
@@ -26,9 +27,21 @@ const SEARCH_SESSION_KEY = 'TAppStockInOut:getStockInOut';
 const loading = new Loading('系统正在查询中 . . .');
 const MAX_RECORD = 100000;
 
+const ClassDescSpec = "ClassDescSpec"; // 类别及品名规格
+const InitStock = "InitStock"; // 期初库存
+const EndStock = "EndStock"; // 期末库存
+const InNum = "InNum"; // 入库数量
+const OutNum = "OutNum"; // 出库数量
+const BGNum = "BGNum"; // 退回数量
+const BackNum = "BackNum"; // 退货数量
+const ALNum = "ALNum"; // 拆装数量
+const BRNum = "BRNum"; // 报损数量
+const AENum = "AENum"; // 盈亏数量
+
 export default class TSchProductInOutAnalysis extends React.Component<propsType, stateType>{
     private async: boolean;
     private _key: number = new Date().getTime();
+    private ds: DataSet = new DataSet();
 
     constructor(props: propsType) {
         super(props);
@@ -74,6 +87,7 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
         loading.show();
         loading.hideTime = 600;
         this.state.dataSet.close();
+        this.state.totalData.close();
         this.setState(this.state);
 
         // 构建请求数据
@@ -145,50 +159,48 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
     }
 
     getDatas(svr: QueryService) {
+        let headIn: DataRow = svr.dataIn.head;
         svr.open().then(dataOut => {
             this.copyFields(dataOut);
             let math = new AuiMath();
             let field = ['InitAmount_', 'InitStock_', 'Remark_', 'Brand_', 'Class1_', 'Class2_',
-                'Class3_', 'PartCode_', 'Desc_', 'Spec_', 'Unit_', 'CostUP_'];
+                'Class3_', 'PartCode_', 'Desc_', 'Spec_', 'Unit_', 'CostUP_', 'PartCode_'];
             if (dataOut.size >= 2) {
                 dataOut.last();
                 let row = dataOut.current;
                 let totalRow = this.state.totalData;
                 dataOut.fields.forEach(item => {
-                    if (item.code == 'InitAmount_' || item.code == 'InitStock_') {
-                        totalRow.setValue(item.code, math.toFixed(totalRow.getDouble(item.code) + row.getDouble(item.code), 2));
+                    if (item.code == 'InitAmount_' || item.code == 'InitStock_' || item.code == 'CostUP_') {
+                        totalRow.setValue(item.code, math.toFixed(totalRow.getDouble(item.code) + row.getDouble(item.code), 4));
                     }
                 })
                 dataOut.delete();
             }
-            let ds = this.state.dataSet;
+            let ds = this.ds;
             dataOut.first();
             while (dataOut.fetch()) {
-                if (ds.locate('PartCode_', dataOut.getString('PartCode_'))) {
+                let code = dataOut.getString('PartCode_');
+                if (ds.locate('PartCode_', code)) {
                     ds.fields.forEach(item => {
                         if (field.indexOf(item.code) == -1) {
-                            ds.setValue(item.code, math.toFixed(ds.getDouble(item.code) + dataOut.getDouble(item.code), 2));
+                            ds.setValue(item.code, math.toFixed(ds.getDouble(item.code) + dataOut.getDouble(item.code), 4));
                         }
                     })
-                    // ds.setValue("Stock_", ds.getDouble("InitStock_") + ds.getDouble("Num_") - ds.getDouble("BGNum_")
-                    //     - ds.getDouble("OutNum_") + ds.getDouble("BackNum_")
-                    //     - ds.getDouble("BRNum_") + ds.getDouble("AENum_")
-                    //     + ds.getDouble("AHNum_") + ds.getDouble("ALNum_"));
                 } else {
                     ds.append();
                     dataOut.fields.forEach(item => {
                         let value: any = dataOut.getValue(item.code);
-                        if (Number(value)) {
-                            value = math.toFixed(dataOut.getValue(item.code), 2);
+                        if (typeof value == 'number' && Number(value)) {
+                            value = math.toFixed(dataOut.getValue(item.code), 4);
                         }
                         ds.current.setValue(item.code, value);
                     })
                 }
+                ds.setValue("EndAmount_", math.toFixed(ds.getDouble("Stock_") * ds.getDouble("CostUP_"), 4));
             }
             // 是否加载下一页
             if (dataOut.head.getBoolean("_has_next_")) {
                 if (this.state.dataSet.size < MAX_RECORD) {
-                    svr.dataIn.head.setValue('notCountInitStock', true);
                     this.getDatas(svr);
                 } else {
                     this.async = false;
@@ -202,17 +214,41 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
                 showMsg('数据加载完成');
                 let totalRow = this.state.totalData;
                 ds.records.forEach((row: DataRow) => {
-                    dataOut.fields.forEach(item => {
+                    ds.fields.forEach(item => {
                         if (field.indexOf(item.code) == -1) {
-                            totalRow.setValue(item.code, math.toFixed(totalRow.getDouble(item.code) + row.getDouble(item.code), 2));
+                            totalRow.setValue(item.code, math.toFixed(totalRow.getDouble(item.code) + row.getDouble(item.code), 4));
                         }
                     })
                 })
-                totalRow.setValue("Stock_", totalRow.getDouble("InitStock_") + totalRow.getDouble("Num_") - totalRow.getDouble("BGNum_")
-                    - totalRow.getDouble("OutNum_") + totalRow.getDouble("BackNum_")
-                    - totalRow.getDouble("BRNum_") + totalRow.getDouble("AENum_")
-                    + totalRow.getDouble("AHNum_") + totalRow.getDouble("ALNum_"));
-                this.setState(this.state);
+                totalRow.fields.forEach(item => {
+                    totalRow.setValue(item.code, math.toFixed(totalRow.getDouble(item.code), 2));
+                })
+                if (headIn.has("Sort")) {
+                    if (ClassDescSpec == headIn.getString("Sort")) {
+                        ds.setSort("Class1_", "Class2_", "Class3_", "Desc_", "Spec_");
+                    } else if (InitStock == headIn.getString("Sort")) {
+                        ds.setSort("InitStock_ DESC");
+                    } else if (EndStock == headIn.getString("Sort")) {
+                        ds.setSort("EndStock_ DESC");
+                    } else if (InNum == headIn.getString("Sort")) {
+                        ds.setSort("Num_ DESC");
+                    } else if (OutNum == headIn.getString("Sort")) {
+                        ds.setSort("OutNum_ DESC");
+                    } else if (BGNum == headIn.getString("Sort")) {
+                        ds.setSort("BGNum_ DESC");
+                    } else if (BackNum == headIn.getString("Sort")) {
+                        ds.setSort("BackNum_ DESC");
+                    } else if (ALNum == headIn.getString("Sort")) {
+                        ds.setSort("ALNum_ DESC");
+                    } else if (BRNum == headIn.getString("Sort")) {
+                        ds.setSort("BRNum_ DESC");
+                    } else if (AENum == headIn.getString("Sort")) {
+                        ds.setSort("AENum_ DESC");
+                    } else if (ALNum == headIn.getString("Sort")) {
+                        ds.setSort("AHNum_ DESC");
+                    }
+                }
+                this.setState({ ...this.state, dataSet: ds });
             }
         }).catch(dataOut => {
             if (dataOut.message) {
@@ -224,6 +260,16 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
         })
     }
 
+    download() {
+        let ds: DataSet = new DataSet();
+        ds.appendDataSet(this.state.dataSet);
+        if (ds.size > 0) {
+            ds.fields.forEach((meta: FieldMeta) => {
+                meta.setName(meta.code);
+            })
+            new Excel().exportExcel(ds, '测试.xlsx')
+        }
+    }
     render() {
         let row: DataRow = this.state.totalData;
         let section: HTMLElement = document.createElement('section') as HTMLElement;
@@ -245,6 +291,7 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
                 <li>盈亏数量：<strong>${row.getDouble('AENum_')}</strong></li>
                 <li>调拨数量：<strong>${row.getDouble('AHNum_')}</strong></li>
                 <li>借调数量：<strong>${row.getDouble('BorrowNum_')}</strong></li>
+                <li><button id='download'>下载</button></li>
             </ul>
         </div>`;
         let asideList = document.querySelector('.asideList');
@@ -252,6 +299,7 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
         if (total) total.remove();
         asideList.appendChild(section);
 
+        document.getElementById('download').addEventListener('click', this.download.bind(this));
         return (
             <div className={styles.main}>
                 <DBGrid key={this._key} dataSet={this.state.dataSet} readOnly={false}>
