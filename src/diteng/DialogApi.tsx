@@ -316,4 +316,8 @@ export default class DialogApi {
     static UserLogin(params: DataRow) {
         return DialogApi.getDataOut('SvrUserLogin.getToken', params);
     }
+    /** 复制报表 */
+    static postCopyReport(params: DataRow) {
+        return DialogApi.getDataOut('SvrSendPrint.copyReport', params);
+    }
 }

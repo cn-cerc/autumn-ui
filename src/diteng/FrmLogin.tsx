@@ -122,9 +122,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     getMessage() {
-        if(this.props.lowVersion) {
-            return <a href='FrmBrowserRecommend' target='_blank' style={{'color': '#ff4545'}}>你的浏览器版本太低，请使用推荐的浏览器</a>
-        } else 
+        if (this.props.lowVersion) {
+            return <a href='FrmBrowserRecommend' target='_blank' style={{ 'color': '#ff4545' }}>你的浏览器版本太低，请使用推荐的浏览器</a>
+        } else
             return this.state.message;
     }
 
@@ -415,6 +415,18 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                             </div>
                         </div>
                     </div>
+                    <footer id="status" style={{ 'clear': 'both', 'textAlign': 'center' }}>
+                        <div className="foot-right">
+                            &copy;
+                            <a href="http://www.mimrc.com">
+                                <small>深圳市华软资讯科技有限公司</small>
+                            </a>
+                            <div style={{ 'padding': '0.5em' }}>
+                                <small><a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a></small>
+                            </div>
+                        </div>
+                        <div className="electronicFlag"></div>
+                    </footer>
                 </React.Fragment>
             )
         }
@@ -439,11 +451,12 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     componentDidMount(): void {
+        this.getFlag();
         let device = this.state.client.get('device') || '';
         let clientId = ''
         if (!device) {
             let href = window.location.href;
-            if(href.indexOf('?') > -1) {
+            if (href.indexOf('?') > -1) {
                 let params = href.split('?')[1].split('&');
                 params.forEach((param) => {
                     let arr = param.split('=');
@@ -531,6 +544,17 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             });
         } else {
             this.state.dataIn.setValue('clientId', fingerprient);
+        }
+    }
+
+    getFlag() {
+        let flag = document.querySelector('.electronicFlag');
+        if (flag && location.href.indexOf('www.diteng.site') > -1) {
+            let script = document.createElement('script');
+            script.id = 'ebsgovicon';
+            script.type = 'text/javascript';
+            script.src = 'https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&width=112&height=40&type=2';
+            flag.appendChild(script);
         }
     }
 }

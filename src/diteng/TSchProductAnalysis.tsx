@@ -106,8 +106,20 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
 
         // 没权限时值全部设置为空串
         new TGridColumn(config, "CostAmount_", "成本").setWidth(4);
-        new TGridColumn(config, "Profit_", "毛利").setWidth(4);
-        new TGridColumn(config, "ProfitRateExcel", "毛利率").setWidth(4);// createText 增加 %
+        new TGridColumn(config, "Profit_", "毛利").setWidth(4).setOnRender((column, row) => {
+            let text = '';
+            if (this.props.allowViewProfit)
+                text = row.getString('Profit_')
+            return <span>{text}</span>
+        });
+        new TGridColumn(config, "ProfitRateExcel", "毛利率").setWidth(4).setOnRender((column, row) => {
+            let text = '';
+            if (this.props.allowViewProfit) {
+                let pro = row.getString('ProfitRateExcel');
+                text = pro ? `${pro}%` : '0%';
+            }
+            return <span>{text}</span>
+        });// createText 增加 %
 
         new TGridColumn(config, "Stock_", "当前库存").setWidth(4);
 
