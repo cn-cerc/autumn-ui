@@ -29,7 +29,7 @@ export default class Block extends Control<propsType> {
             let recNo: number = ds.recNo
             let dataRow: DataRow = ds.current
             items.push(
-                <div className={styles.row} key={`master_${recNo}`} role='tr' onClick={this.onTrClick}>
+                <div className={styles.row} key={`master_${recNo}`} data-key={`master_${recNo}`} role='tr' onClick={this.onTrClick}>
                     {this.getLines(dataRow, recNo)}
                 </div>
             )
@@ -51,14 +51,8 @@ export default class Block extends Control<propsType> {
     onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
         if (!this.props.onRowClick)
             return;
-        let tr = sender.target.closest('div[role="tr"]');
-        let reactKey: string;
-        Object.keys(tr).forEach(function (key: string) {
-            if (/^__reactInternalInstance/.test(key)) {
-                reactKey = tr[key].key
-            }
-        })
-        if (!reactKey) throw new Error('请设置key值');
+        let tr: HTMLElement = sender.target.closest('div[role="tr"]');
+        let reactKey: string = tr.dataset.key;
 
         let recNo: number = Number(reactKey.split('_')[1].split('\.')[0]);
         this.props.dataSet.setRecNo(recNo);

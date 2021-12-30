@@ -1,4 +1,5 @@
 import React from "react";
+import DataRow from "../db/DataRow";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import styles from './DateDialog.css';
 
@@ -83,8 +84,10 @@ class DayTable extends React.Component<TableProp, TableState> {
     render() {
         return (
             <table>
-                {this.getTableHead()}
-                {this.getTableContent()}
+                <tbody>
+                    {this.getTableHead()}
+                    {this.getTableContent()}
+                </tbody>
             </table>
         )
     }
@@ -126,6 +129,12 @@ class DayTable extends React.Component<TableProp, TableState> {
     }
 }
 
+type DateTypeProps = {
+    dataRow?: DataRow,
+    dataField?: string,
+    handleSelect?: Function
+} & Partial<BaseDialogPropsType>
+
 type stateType = {
     years: number[],
     months: string[],
@@ -134,8 +143,8 @@ type stateType = {
     date: number,
 } & Partial<BaseDialogStateType>
 
-export default class DateDialog extends BaseDialog<BaseDialogPropsType, stateType> {
-    constructor(props: BaseDialogPropsType) {
+export default class DateDialog extends BaseDialog<DateTypeProps, stateType> {
+    constructor(props: DateTypeProps) {
         super(props);
         this.state = {
             ...this.state,
@@ -183,20 +192,28 @@ export default class DateDialog extends BaseDialog<BaseDialogPropsType, stateTyp
     handleClickByDate(date: number) {
         let month = this.state.month < 10 ? "0" + this.state.month : this.state.month;
         let day = date < 10 ? "0" + date : date;
-        $("#" + this.props.inputId, parent.document).val(this.state.year + "-" + month + "-" + day);
-        this.setState({ date });
-        this.handleSelect();
+        let resultDate = this.state.year + "-" + month + "-" + day;
+        if (this.props.isChild) {
+            this.props.dataRow.setValue(this.props.dataField, resultDate);
+            this.props.handleSelect();
+            this.handleClose();
+        } else {
+            $("#" + this.props.inputId, parent.document).val(resultDate);
+            this.setState({ date });
+            this.handleSelect();
+        }
+
     }
 
     content(): JSX.Element {
         return (
-        <div className={styles.dateDialog} >
-            <div className='date'>
-                <Year years={this.state.years} year={this.state.year} onClick={this.handleClickByYear.bind(this)} />
-                <Month months={this.state.months} month={this.state.month} onClick={this.handleClickByMonth.bind(this)} />
+            <div className={styles.dateDialog} >
+                <div className='date'>
+                    <Year years={this.state.years} year={this.state.year} onClick={this.handleClickByYear.bind(this)} />
+                    <Month months={this.state.months} month={this.state.month} onClick={this.handleClickByMonth.bind(this)} />
+                </div>
+                <DayTable year={this.state.year} month={this.state.month} date={this.state.date} onClick={this.handleClickByDate.bind(this)} />
             </div>
-            <DayTable year={this.state.year} month={this.state.month} date={this.state.date} onClick={this.handleClickByDate.bind(this)} />
-        </div>
         )
     }
 }

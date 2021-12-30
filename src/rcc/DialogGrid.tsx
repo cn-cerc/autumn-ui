@@ -82,7 +82,7 @@ export default class DialogGrid extends React.Component<PropsType> {
                 }
             }
         }
-        return <tr onClick={this.onTrClick} key={key}>{items}</tr>;
+        return <tr onClick={this.onTrClick} key={key} data-key={key}>{items}</tr>;
     }
 
     getChildRow(child: TGridConfig, row: DataRow) {
@@ -107,22 +107,14 @@ export default class DialogGrid extends React.Component<PropsType> {
 
         let colSpan = this.props.config.columns.length;
         let id = `tr${row.dataSet.recNo}_1`;
-        return (<tr key={key} id={id} style={style}>
+        return (<tr key={key} data-key={key} id={id} style={style}>
             <td colSpan={colSpan}>{value}</td>
         </tr>);
     }
 
     onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
-        let tr = sender.currentTarget;
-        let reactKey: string;
-        Object.keys(tr).forEach(function (key: string) {
-            if (/^__reactInternalInstance/.test(key)) {
-                reactKey = tr[key].key
-            }
-        })
-
-        if (!reactKey) throw new Error('请设置key值');
-
+        let tr: HTMLElement = sender.target.closest('tr');
+        let reactKey: string = tr.dataset.key;
         let recNo: number = Number(reactKey.split('_')[1]);
         let row: DataRow = this.props.config.dataSet.records[recNo - 1];
         if (this.props.onTrClick)
