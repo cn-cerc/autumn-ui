@@ -1,6 +1,7 @@
 import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
+import Datetime from "../db/Datetime";
 import FieldMeta from "../db/FieldMeta";
 import QueryService from "../db/QueryService";
 import { Excel } from "../db/Utils";
@@ -262,12 +263,38 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
 
     download() {
         let ds: DataSet = new DataSet();
-        ds.appendDataSet(this.state.dataSet);
-        if (ds.size > 0) {
-            ds.fields.forEach((meta: FieldMeta) => {
-                meta.setName(meta.code);
+        if (this.state.dataSet.size > 0) {
+            let meta: any = {
+                'PartCode_': '商品编号',
+                'DescSpec': '品名规格',
+                'Unit_': '单位',
+                'CostUP_': '成本价',
+                'InitStock_': '期初库存', 'InitAmount_': '期初金额',
+                'EndAmount_': '期末金额', 'Stock_': '现库存数',
+                'Num_': '入库数量', 'OriAmount_': '入库金额',
+                'BGNum_': '退回数量', 'BGAmount_': '退回金额',
+                'OutNum_': '出库数量', 'OutAmount_': '出库金额',
+                'BackNum_': '退货数量', 'BackAmount_': '退货金额',
+                'BRNum_': '报损数量', 'BRAmount_': '报损金额',
+                'AENum_': '盈亏数量', 'AEAmount_': '盈亏金额',
+                'AHNum_': '调拨数量', 'ALNum_': '拆装数量',
+                'ALOriAmount_': '拆装金额', 'Brand_': '品牌',
+                'Class1_': '商品大类', 'Class2_': '商品中类', 'Class3_': '商品系列', 'Remark_': '备注'
+            }
+            for (let key of Object.keys(meta)) {
+                ds.fields.items.push(new FieldMeta(key).setName(meta[key]))
+            }
+            this.state.dataSet.records.forEach((row: DataRow) => {
+                ds.append();
+                ds.fields.forEach((meta: FieldMeta) => {
+                    ds.setValue(meta.code, row.getValue(meta.code));
+                });
+                let desc: string[] = [row.getString('Desc_')]
+                if (row.getString('Spec_'))
+                    desc.push(row.getString('Spec_'));
+                ds.setValue('DescSpec', desc.join(','));
             })
-            new Excel().exportExcel(ds, '测试.xlsx')
+            new Excel().exportExcel(ds, `商品出入明细-${new Datetime().format('yyyyMMdd')}.xls`)
         }
     }
     render() {
@@ -291,7 +318,6 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
                 <li>盈亏数量：<strong>${row.getDouble('AENum_')}</strong></li>
                 <li>调拨数量：<strong>${row.getDouble('AHNum_')}</strong></li>
                 <li>借调数量：<strong>${row.getDouble('BorrowNum_')}</strong></li>
-                <li><button id='download'>下载</button></li>
             </ul>
         </div>`;
         let asideList = document.querySelector('.asideList');
@@ -299,7 +325,16 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
         if (total) total.remove();
         asideList.appendChild(section);
 
-        document.getElementById('download').addEventListener('click', this.download.bind(this));
+        let contents = document.querySelectorAll('.asideList section')[1].querySelector('.contents');
+        let xlsxDown: HTMLElement = document.createElement('a') as HTMLElement;
+        xlsxDown.setAttribute('href', '#');
+        xlsxDown.setAttribute('id', 'download');
+        xlsxDown.innerText = '导出到XLS';
+        xlsxDown.onclick = this.download.bind(this);
+        let download = asideList.querySelector('#download');
+        if (download) download.remove();
+        contents.appendChild(xlsxDown);
+
         return (
             <div className={styles.main}>
                 <DBGrid key={this._key} dataSet={this.state.dataSet} readOnly={false}>
@@ -309,7 +344,7 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
                             <React.Fragment>
                                 <a href={`PartInfo?code=${dataRow.getString('PartCode_')}`} target={"_blank"}>
                                     {dataRow.getString('Desc_')}
-                                </a>，{dataRow.getString('Spec_')}
+                                </a>{dataRow.getString('Spec_') ? '，' + dataRow.getString('Spec_') : ''}
                             </React.Fragment>
                         )
                     }} />
@@ -340,6 +375,7 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
                         <Column code='ALOriAmount_' width='3' textAlign="right" />
                         <Column code='BRAmount_' width='3' textAlign="right" />
                         <Column code='AEAmount_' width='3' textAlign="right" />
+                        <Column code='AHAmount_' width='3' textAlign="right" />
                         <Column code='BorrowAmount_' width='3' textAlign="right" />
                     </ChildRow>
                 </DBGrid>

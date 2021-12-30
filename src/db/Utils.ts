@@ -75,18 +75,17 @@ export class Excel {
         data.fields.items.forEach((item: FieldMeta, index: number) => {
             output[this.excelKey(index) + '1'] = {
                 v: item.name,
-                key: item.code
+                key: item.code,
             }
         })
         data.records.forEach((row: DataRow, no: number) => {
             let serial = no + 2;
             data.fields.items.forEach((item: FieldMeta, index: number) => {
                 output[this.excelKey(index) + serial] = {
-                    v: row.getString(item.code)
+                    v: row.getString(item.code),
                 }
             })
         })
-        console.log(output);
         // 获取所有单元格的位置
         const outputPos = Object.keys(output);
         // 计算出范围 ,["A1",..., "H2"]
@@ -94,9 +93,9 @@ export class Excel {
 
         // 构建 workbook 对象
         const wb = {
-            SheetNames: ['mySheet'],
+            SheetNames: ['Sheet1'],
             Sheets: {
-                mySheet: Object.assign(
+                Sheet1: Object.assign(
                     {},
                     output,
                     {
