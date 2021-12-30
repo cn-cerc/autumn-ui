@@ -397,6 +397,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                 </React.Fragment>
             )
         } else {
+            const iFrame = '<div><script id="ebsgovicon" src="https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&amp;width=112&amp;height=40&amp;type=2" type="text/javascript"></script></div>'
             return (
                 <React.Fragment>
                     <div className="header">
@@ -425,7 +426,9 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                                 <small><a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a></small>
                             </div>
                         </div>
-                        <div className="electronicFlag"></div>
+                        <div className="electronicFlag">
+                            <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
+                        </div>
                     </footer>
                 </React.Fragment>
             )
@@ -524,6 +527,14 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         script: "hideFooter();"
                     })
                 }
+            }
+        }
+        if (!this.isPhone && location.href.indexOf('www.diteng.site') > -1) {
+            let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
+            let iWindow = iframe.contentWindow;
+            iWindow.onload = function () {
+                iWindow.document.body.setAttribute('style', 'margin: 0; padding: 0;height: 40px; overflow: hidden;');
+                iframe.style.visibility = 'inherit';
             }
         }
     }
