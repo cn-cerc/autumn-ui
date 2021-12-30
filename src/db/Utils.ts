@@ -76,6 +76,7 @@ export class Excel {
             output[this.excelKey(index) + '1'] = {
                 v: item.name,
                 key: item.code,
+                t: 's',
             }
         })
         data.records.forEach((row: DataRow, no: number) => {
@@ -83,6 +84,7 @@ export class Excel {
             data.fields.items.forEach((item: FieldMeta, index: number) => {
                 output[this.excelKey(index) + serial] = {
                     v: row.getString(item.code),
+                    t: 's',
                 }
             })
         })
