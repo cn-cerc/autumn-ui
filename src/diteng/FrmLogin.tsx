@@ -212,7 +212,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 )
             } else {
                 return (
-                    <p className="keyInput">
+                    <p className="keyInput verify">
                         <img src="images/verify.png" />
                         <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码'></DBEdit>
                         <div onClick={this.sendCode.bind(this)} id="sendCode">发送验证码</div>
