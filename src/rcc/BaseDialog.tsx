@@ -80,17 +80,9 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
             </React.Fragment>
         )
     }
+
     componentDidMount() {
-        $(document).on('mousemove', (e) => this.handleMouseMove(e));
-        $(document).on('mouseup', (e) => this.handleMouseUp(e));
-        let dialogData = {
-            x: ($(window).outerWidth() - $('.' + styles.main).outerWidth()) / 2,
-            y: ($(window).outerHeight() - $('.' + styles.main).outerHeight()) / 2,
-        }
-        this.setState({
-            ...this.state,
-            dialogData: Object.assign({ ...this.state.dialogData, ...dialogData }),
-        });
+        this.initSite();
     }
 
     handleMouseDown: MouseEventHandler<HTMLDivElement> = (sender: any) => {
@@ -125,6 +117,19 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
             this.state.dialogData.y = this.state.dialogData.y + this.state.dialogData.moveY;
             this.setState({ ...this.state });
         }
+    }
+
+    initSite() {
+        $(document).on('mousemove', (e) => this.handleMouseMove(e));
+        $(document).on('mouseup', (e) => this.handleMouseUp(e));
+        let dialogData = {
+            x: ($(window).outerWidth() - $('.' + styles.main).outerWidth()) / 2,
+            y: ($(window).outerHeight() - $('.' + styles.main).outerHeight()) / 2,
+        }
+        this.setState({
+            ...this.state,
+            dialogData: Object.assign({ ...this.state.dialogData, ...dialogData }),
+        });
     }
 
     getStyle() {
@@ -205,6 +210,8 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
 
     showAsChild() {
         this._showAsChild = true;
-        this.setState({ ...this.state });
+        this.setState({ ...this.state }, () => {
+            this.initSite();
+        });
     }
 }

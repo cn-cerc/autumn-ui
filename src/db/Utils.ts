@@ -6,6 +6,22 @@ export default class Utils {
             return v.toString(16);
         });
     }
+
+    // 获取当前月份第一天
+    static getMonthStartDay() {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        return `${year}-${month < 10 ? '0' + month : month}-01`
+    }
+
+    // 获取当前月份最后一天
+    static getMonthEndDay() {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        return `${year}-${month < 10 ? '0' + month : month}-${new Date(year, month, 0).getDate()}`
+    }
 }
 
 export class ClientStorage {

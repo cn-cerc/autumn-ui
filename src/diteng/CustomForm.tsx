@@ -28,6 +28,27 @@ export default abstract class CustomForm<T extends CustomFormPropsType, S extend
     extends BaseForm<T, S> {
     abstract get pageTitle(): string;
 
+    private _load:  boolean = false;
+    // 查询或保存时的提示信息，默认为查询
+    private _loadMessage: string = '系统正在查询中,请稍后...';
+    setLoad(bool: boolean) {
+        this._load = bool;
+        this.setState({...this.state});
+    }
+    setLoadMessage(message: string) {
+        this._loadMessage = message;
+    }
+    showLoadMessage(message: string) {
+        this._load = true;
+        this._loadMessage = message;
+        this.setState({...this.state});
+    }
+    showLoad() {
+        this.setLoad(true);
+    }
+    closeLoad() {
+        this.setLoad(false);
+    }
     constructor(props: T) {
         super(props);
         this.state = { ...this.state, message: '' };
@@ -50,6 +71,7 @@ export default abstract class CustomForm<T extends CustomFormPropsType, S extend
                     </div>
                 </div>
                 {this.getStatusBar(Device.Phone)}
+                {this.getLoading()}
             </BaseForm>
         )
     }
@@ -120,6 +142,17 @@ export default abstract class CustomForm<T extends CustomFormPropsType, S extend
             }
         })
         return items;
+    }
+
+    getLoading() {
+        if(this._load) {
+            return (
+                <div className={styles.load}>
+                    <img src='https://www.diteng.site/public/images/loading.gif' />
+                    <span>{this._loadMessage}</span>
+                </div>
+            )
+        }
     }
 
     get message(): string { return this.state.message }

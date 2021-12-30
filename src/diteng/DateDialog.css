@@ -33,8 +33,21 @@
     background-color: #3273F4;
 }
 
+.dateDialog table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 0;
+    margin-top: 0.5em;
+}
+
 table tr:hover {
     background-color: transparent;
+}
+
+.dateDialog table td {
+    height: 2em;
+    line-height: 2em;
 }
 
 .dateDialog tr td, .dateDialog tr th {
