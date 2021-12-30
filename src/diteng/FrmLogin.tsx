@@ -476,13 +476,13 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         this.state.client.set('device', device);
         this.state.dataIn.setValue('device', device);
         // 获取用户指纹
-        if (!clientId)
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud() || !clientId) {
             this.getFingerprient();
-        else {
+        } else {
             this.state.dataIn.setValue('clientId', clientId);
             this.state.client.set('fingerprint', clientId);
         }
-
         // @ts-ignore
         setAppliedTitleStatus(false);
         $("body").css('height', $(document).height());
@@ -540,7 +540,21 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     async getFingerprient() {
-        let fingerprient = this.state.client.get('fingerprint')
+        let fingerprient
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud()) {
+            let href = window.location.href;
+            if (href.indexOf('?') > -1) {
+                let params = href.split('?')[1].split('&');
+                params.forEach((param) => {
+                    let arr = param.split('=');
+                    if (arr[0] == 'CLIENTID')
+                        fingerprient = arr[1]
+                })
+            }
+        } else {
+            fingerprient = this.state.client.get('fingerprint');
+        }
         if (!fingerprient) {
             Fingerprint2.get((components: any) => {
                 let values = components.map((component: any, index: number) => {
