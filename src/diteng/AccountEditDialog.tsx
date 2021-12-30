@@ -19,7 +19,7 @@ type AccountEditTypeState = {
 } & Partial<BaseDialogStateType>
 
 export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, AccountEditTypeState> {
-    private isZerolevel = true;
+    private showOpera = false;
 
     constructor(props: BaseDialogPropsType) {
         super(props);
@@ -68,7 +68,7 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
     getTable() {
         if (this.isPhone) {
             return (
-                <Block dataSet={this.state.dataSet} key={this.state.history.length + this.state.dataIn.getString('SearchText_')}>
+                <Block dataSet={this.state.dataSet} key={new Date().getTime()}>
                     <Line>
                         <Column name='科目属性' code='DrCr_' width='100' customText={(row: DataRow) => {
                             return row.getString('DrCr_') == 'true' ? <span>科目属性：贷</span> : <span>科目属性：借</span>
@@ -85,8 +85,9 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
                     </Line>
                     <Line>
                         <Column name='对象代码' code='ObjCode_' width='80'></Column>
-                        {!this.isZerolevel ? <Column name='操作' code='opera' width='20' textAlign='right' customText={(row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}  >选择</span>
+                        {this.showOpera ? <Column name='操作' code='opera' width='20' textAlign='right' customText={(row: DataRow) => {
+                            if (row.getNumber('Level_') > 0)
+                                return <span role='opera' onClick={this.handleClick.bind(this, row)}  >选择</span>
                         }}></Column> : ''}
                     </Line>
 
@@ -94,7 +95,7 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} key={this.state.history.length + this.state.dataIn.getString('SearchText_')}>
+                <DBGrid dataSet={this.state.dataSet} key={new Date().getTime()}>
                     <Column name='科目属性' code='DrCr_' textAlign='center' width='20' customText={(row: DataRow) => {
                         return row.getString('DrCr_') == 'true' ? <span>贷</span> : <span>借</span>
                     }}></Column>
@@ -104,8 +105,9 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
                         return row.getValue('Children_') == '0' ? <span>{name}</span> : <span role='opera' onClick={this.nameClick.bind(this, row)}>{name}</span>;
                     }}></Column>
                     <Column name='对象代码' code='ObjCode_' width='20' textAlign='center'></Column>
-                    {!this.isZerolevel ? <Column name='操作' code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.handleClick.bind(this, row)}  >选择</span>
+                    {this.showOpera ? <Column name='操作' code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
+                        if (row.getNumber('Level_') > 0)
+                            return <span role='opera' onClick={this.handleClick.bind(this, row)}  >选择</span>
                     }}></Column> : ''}
                 </DBGrid>
             )
@@ -116,16 +118,19 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
         this.setLoad(true);
         let dataIn = new DataRow();
         let text = this.state.dataIn.getString('SearchText_');
-        if (!this.state.codeHistory.length && !text) {
-            this.isZerolevel = true;
+        if (!this.state.codeHistory.length && !text)
             dataIn.setValue('Level_', '0');
-        }
-        else {
+        else
             dataIn.setValue('PCode_', this.state.codeHistory[this.state.codeHistory.length - 1]);
-            this.isZerolevel = false;
-        }
         dataIn.setValue('SearchText_', text)
         let dataSet = await DialogApi.getAccountEdit(dataIn);
+        dataSet.first();
+        let bool = true;
+        while (dataSet.fetch()) {
+            if (dataSet.getDouble('Level_') !== 0)
+                bool = false;
+        }
+        this.showOpera = bool ? false : true;
         this.setLoad(false);
         return dataSet;
     }
@@ -170,7 +175,7 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getString('Code_');
-        if(inputIds.length > 1) {
+        if (inputIds.length > 1) {
             let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
             input2.value = row.getString('Name_');
         }

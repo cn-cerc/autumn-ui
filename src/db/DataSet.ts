@@ -303,7 +303,8 @@ export default class DataSet implements IDataSource {
             let item: any = [];
             for (let meta of this._fields.items)
                 item.push(meta.code);
-            item.push('_state_');
+            if (this._crud)
+                item.push('_state_');
             jsonObj.body.push(item);
         }
         if (this.crud) {

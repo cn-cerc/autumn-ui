@@ -29,6 +29,7 @@ cnpm i -D react react-dom
 cnpm i -D @types/react @types/react-dom @babel/preset-react
 cnpm i -D  @types/jquery
 cnpm i --D style-loader css-loader
+cnpm i -D fingerprintjs2
 ```
 
 二、打包

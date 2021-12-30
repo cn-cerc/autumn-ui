@@ -1,14 +1,14 @@
-import React, { Children, isValidElement } from "react";
+import React, { isValidElement } from "react";
+import classNames from "../../node_modules/classnames/index";
 import BaseForm, { BaseFormPropsType } from "../rcc/BaseForm";
-import ToolPanel from "../rcc/ToolPanel";
-import MainNavigator from "./MainNavigator";
-import MainMessage from "../rcc/MainMessage";
-import StatusBar from "../rcc/StatusBar";
-import MenuItem from "../rcc/MenuItem";
 import Block from "../rcc/Block";
 import DBGrid from "../rcc/DBGrid";
+import MainMessage from "../rcc/MainMessage";
+import MenuItem from "../rcc/MenuItem";
+import StatusBar from "../rcc/StatusBar";
+import ToolPanel from "../rcc/ToolPanel";
 import styles from './CustomForm.css';
-import classNames from "../../node_modules/classnames/index";
+import MainNavigator from "./MainNavigator";
 
 export type CustomFormPropsType = {
     token?: string;
@@ -24,9 +24,31 @@ enum Device {
     PC, Phone
 }
 
-export default class CustomForm<T extends CustomFormPropsType, S extends CustomFormStateType>
+export default abstract class CustomForm<T extends CustomFormPropsType, S extends CustomFormStateType>
     extends BaseForm<T, S> {
+    abstract get pageTitle(): string;
 
+    private _load:  boolean = false;
+    // 查询或保存时的提示信息，默认为查询
+    private _loadMessage: string = '系统正在查询中,请稍后...';
+    setLoad(bool: boolean) {
+        this._load = bool;
+        this.setState({...this.state});
+    }
+    setLoadMessage(message: string) {
+        this._loadMessage = message;
+    }
+    showLoadMessage(message: string) {
+        this._load = true;
+        this._loadMessage = message;
+        this.setState({...this.state});
+    }
+    showLoad() {
+        this.setLoad(true);
+    }
+    closeLoad() {
+        this.setLoad(false);
+    }
     constructor(props: T) {
         super(props);
         this.state = { ...this.state, message: '' };
@@ -34,7 +56,7 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
 
     render() {
         return (
-            <BaseForm title={this.props.title}>
+            <BaseForm title={this.pageTitle}>
                 <MainNavigator >
                     {this.getMenus()}
                 </MainNavigator>
@@ -49,13 +71,16 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
                     </div>
                 </div>
                 {this.getStatusBar(Device.Phone)}
+                {this.getLoading()}
             </BaseForm>
         )
     }
+    /** 页面内容 */
+    abstract content(): JSX.Element;
 
     getMenus(): React.ReactElement[] {
         let items: React.ReactElement[] = [];
-        React.Children.map(this.props.children, child => {
+        React.Children.map(this.content().props.children, child => {
             if (isValidElement(child) && (child.type == MenuItem)) {
                 items.push(child);
             }
@@ -64,10 +89,10 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
     }
 
     getToolPanel(): React.ReactElement {
-        if (!this.props.children)
+        if (!this.content().props.children)
             return null;
         let items: React.ReactElement[] = [];
-        React.Children.map(this.props.children, child => {
+        React.Children.map(this.content().props.children, child => {
             if (isValidElement(child) && (child.type == ToolPanel)) {
                 items.push(child);
             }
@@ -86,11 +111,11 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
         if (device == Device.PC && this.isPhone)
             return null;
 
-        if (!this.props.children)
+        if (!this.content().props.children)
             return null;
 
         let items: React.ReactElement[] = [];
-        React.Children.map(this.props.children, (child) => {
+        React.Children.map(this.content().props.children, (child) => {
             if (isValidElement(child) && (child.type == StatusBar))
                 items.push(child);
         });
@@ -103,7 +128,7 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
 
     getContentComponents(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        React.Children.map(this.props.children, (child) => {
+        React.Children.map(this.content().props.children, (child) => {
             if (isValidElement(child)) {
                 if (child.type == MenuItem) return;
                 if (child.type == ToolPanel) return;
@@ -117,6 +142,17 @@ export default class CustomForm<T extends CustomFormPropsType, S extends CustomF
             }
         })
         return items;
+    }
+
+    getLoading() {
+        if(this._load) {
+            return (
+                <div className={styles.load}>
+                    <img src='https://www.diteng.site/public/images/loading.gif' />
+                    <span>{this._loadMessage}</span>
+                </div>
+            )
+        }
     }
 
     get message(): string { return this.state.message }

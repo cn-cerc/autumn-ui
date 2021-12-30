@@ -17,6 +17,7 @@ import CardTypeDialog from "./diteng/CardTypeDialog";
 import CheckDraftTB from "./diteng/CheckDraftTB";
 import CheckReport from "./diteng/CheckReport";
 import CheckWorkflow from "./diteng/CheckWorkflow";
+import CopyReportDialog from "./diteng/CopyReportDialog";
 import CusAreaDialog from "./diteng/CusAreaDialog";
 import CusDialog from "./diteng/CusDialog";
 import CusTypeDialog from "./diteng/CusTypeDialog";
@@ -26,6 +27,7 @@ import DialogDOM from "./diteng/DialogDOM";
 import ErrorPage from "./diteng/ErrorPage";
 import FastCorpDialog from "./diteng/FastCorpDialog";
 import FreightWayDialog from "./diteng/FreightWayDialog";
+import FrmLogin from "./diteng/FrmLogin";
 import LogisticsDialog from "./diteng/LogisticsDialog";
 import MarqueDialog from "./diteng/MarqueDialog";
 import MLRemarkDialog from "./diteng/MLRemarkDialog";
@@ -50,7 +52,6 @@ import SupBankDialog from "./diteng/SupBankDialog";
 import SupDialog from "./diteng/SupDialog";
 import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
 import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
-import TSchProductInOutAnalysis from "./diteng/TSchProductInOutAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
 import UserDialog from "./diteng/UserDialog";
 import VipCardDialog from "./diteng/VipCardDialog";
@@ -63,7 +64,6 @@ export default {
     //地藤专用
     TSchProductAnalysis,
     TSchScmStockInOut,
-    TSchProductInOutAnalysis,
     //首页检测
     CheckDraftTB,
     CheckWorkflow,
@@ -124,4 +124,6 @@ export default {
     FrmUserAgreement,
     //地藤原jsp页面
     ErrorPage,
+    FrmLogin,
+    CopyReportDialog
 }

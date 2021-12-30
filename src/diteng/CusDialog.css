@@ -54,6 +54,18 @@
     margin-bottom: 0;
 }
 
+.operction button {
+    background-color: transparent;
+    border: 1px solid #b3b4b6;
+    background-color: #f4f4f4;
+    margin-right: .5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    color: black;
+    padding: 0 .5rem;
+    border-radius: .25rem;
+}
+
 @media only screen and (min-width: 768px) {
     .search .left>span {
         display: inline-block;

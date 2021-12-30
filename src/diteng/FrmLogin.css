@@ -1,0 +1,22 @@
+.main {
+    width: 100vw;
+    height: 100%;
+    background-color: #fff;
+    font-size: 1rem;
+    line-height: 1rem;
+    min-width: 1024px;
+}
+
+.loginMsg {
+    margin: 0 3em;
+}
+
+.loginMsg>a {
+    color: #fff;
+}
+
+.electronicFlag img {
+    vertical-align: middle;
+    height: auto;
+    width: 4rem;
+}

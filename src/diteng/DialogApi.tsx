@@ -133,7 +133,7 @@ export default class DialogApi {
 
         let res = await fetch('TWebShopping.getShoppingStatus', {
             method: 'POST',
-            body: 'TB=' + dataIn.getString('tb'),
+            body: 'TB=OM',
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
@@ -310,5 +310,14 @@ export default class DialogApi {
     /** 显示客户专卖区域 */
     static getCusInfos(params: DataRow) {
         return DialogApi.getDataOut('TAppCusInfo.Download', params);
+    }
+
+    /** 用户登录 */
+    static UserLogin(params: DataRow) {
+        return DialogApi.getDataOut('SvrUserLogin.getToken', params);
+    }
+    /** 复制报表 */
+    static postCopyReport(params: DataRow) {
+        return DialogApi.getDataOut('SvrSendPrint.copyReport', params);
     }
 }

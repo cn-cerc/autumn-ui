@@ -7,13 +7,13 @@ import styles from './DBGrid.css';
 import MutiPage, { DefaultPageSize, OnPageChanged } from "./MutiPage";
 import WebControl from "./WebControl";
 
-export type OnDataSetChangedEvvent = (dataSet: DataSet) => void;
+export type OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => void;
 export type OnRowClickEvent = (row: DataRow) => void;
 
 type DBGridProps = {
     dataSet: DataSet;
     readOnly?: boolean;
-    onChanged?: OnDataSetChangedEvvent;
+    onChanged?: OnRowChangedEvent;
     onRowClick?: OnRowClickEvent;
 }
 
@@ -82,7 +82,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             let dataRow: DataRow = ds.current
             //输出主行
             items.push(
-                <tr role='masterRow' key={`master_${recNo}`} onClick={this.onTrClick}>
+                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`}>
                     {this.getRow(dataRow, recNo)}
                 </tr>
             )
@@ -104,7 +104,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     total++;
                     let key: string = `${recNo}.${total}`;
                     items.push(
-                        <tr role='childRow' key={`child_${key}`} onClick={this.onTrClick} style={{ 'display': child.props.visible ? 'none' : 'table-row' }}>
+                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': child.props.visible ? 'none' : 'table-row' }}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -117,15 +117,8 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
         if (!this.props.onRowClick)
             return;
-        let tr = sender.target.closest('tr');
-        let reactKey: string;
-        Object.keys(tr).forEach(function (key: string) {
-            if (/^__reactInternalInstance/.test(key)) {
-                reactKey = tr[key].key
-            }
-        })
-        if (!reactKey) throw new Error('请设置key值');
-
+        let tr: HTMLElement = sender.target.closest('tr');
+        let reactKey: string = tr.dataset.key;
         let recNo: number = Number(reactKey.split('_')[1].split('\.')[0]);
         this.props.dataSet.setRecNo(recNo);
         this.props.onRowClick(this.props.dataSet.current);
@@ -149,9 +142,11 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     onChanged: OnDataRowChangedEvent = (recNo: number, field: string, value: string) => {
         this.props.dataSet.setRecNo(recNo);
-        this.props.dataSet.setValue(field, value);
+        let row: DataRow = this.props.dataSet.current;
+        let oldValue = row.getValue(field);
+        row.setValue(field, value);
         if (this.props.onChanged)
-            this.props.onChanged(this.props.dataSet);
+            this.props.onChanged(row, field, oldValue);
     }
 
     getNavigator(): React.ReactNode {
