@@ -192,6 +192,7 @@ export default class FrmMoneyRate extends CustomForm<CustomFormPropsType, MoneyR
                 Toast.error(this.state.client.message);
                 return;
             }
+            Toast.success(('删除成功'));
             this.setState({ ...this.state });
         }
     }

@@ -69,15 +69,22 @@ export default class DataSet implements IDataSource {
     delete(): DataSet {
         if (!this.current)
             throw new Error("current is null, delete fail")
-        this._garbage.push(this.current.setState(DataRowState.Delete));
 
-        this._records.splice(this.recNo - 1, 1);
+        let record: DataRow = this._records.splice(this.recNo - 1, 1)[0];
+
+        if (this._search)
+            this._search.remove(record);
 
         if (this._fetchNo > -1) {
             this._fetchNo--;
         }
+        if (record.state == DataRowState.Insert)
+            return this;
 
-        // this.refreshBind({ size: true });
+        if (record.state == DataRowState.Update)
+            record = record.history;
+        this._garbage.push(record.setState(DataRowState.Delete));
+
         return this;
     }
 

@@ -3,6 +3,7 @@ import DataRow from "../../db/DataRow";
 import DataSet from "../../db/DataSet";
 import Datetime from "../../db/Datetime";
 import SClient from "../../db/SClient";
+import Toast from "../../db/Toast";
 import Utils from "../../db/Utils";
 import DBEdit from "../../rcc/DBEdit";
 import DBGrid, { Column } from "../../rcc/DBGrid";
@@ -52,7 +53,7 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
                     <DBEdit dataField='Code_' dataName='代码编号'></DBEdit>
                     <DBEdit dataField='MaxRecord' dataName='载入笔数'></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.client} key={this.state.dataIn.json}>
+                <DBGrid dataSet={this.state.client} key={this.state.client.updateKey}>
                     <Column name='代码' code='Code_' width='65'>
                         <DBEdit dataField='Code_'></DBEdit>
                     </Column>
@@ -86,9 +87,12 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
 
     handleSearch: SearchPanelOnExecute = async (row: DataRow) => {
         this.state.client.head.close;
+        this.showLoadMessage('系统正在查询中...');
         this.state.client.head.copyValues(this.state.dataIn)
         await this.state.client.open();
+        this.setLoad(false);
         if (this.state.client.state <= 0) {
+            Toast.error(this.state.client.message);
             return;
         }
         this.setState({ ...this.state });
@@ -116,25 +120,29 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
                 bool = false;
         }
         if (!bool) {
+            Toast.error('币别代码不能为空');
             return;
         }
-        this.state.client.save();
+        await this.state.client.save();
         if (this.state.client.state <= 0)
-            showMsg(this.state.client.message);
+            Toast.error(this.state.client.message);
+        else
+            Toast.success('保存成功');
+        console.log(this.state.client)
         this.setState({ ...this.state });
     }
 
     handleDelete(row: DataRow) {
-        let recNo = this.state.client.records.indexOf(row);
-        if (recNo > -1) {
-            this.state.client.setRecNo(recNo + 1);
+        console.log(this.state.client)
+        this.state.client.first();
+        while(this.state.client.fetch()) {
+            console.log(this.state.client.current == row)
+        }
+        let recNo = this.state.client.locationRow(row);
+        if (recNo > 0) {
+            this.state.client.setRecNo(recNo);
             this.state.client.delete();
-            this.state.client.save();
-            if (this.state.client.state <= 0) {
-                console.log(this.state.client.message);
-                return;
-            }
-            console.log('删除成功')
+            Toast.success(('删除成功'));
             this.setState({ ...this.state });
         }
     }
