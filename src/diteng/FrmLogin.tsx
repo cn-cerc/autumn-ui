@@ -24,11 +24,12 @@ type LoginTypeState = {
     client: ClientStorage,
     message: string,
     savePwd: boolean,
-    showVerify: boolean,
     hasSendCode: boolean,
     showLoad: boolean,
     timer: any
 }
+
+var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     constructor(props: LoginTypeProps) {
@@ -43,7 +44,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             accountData,
             client,
             savePwd,
-            showVerify: false,
             hasSendCode: false,
             showLoad: false,
             timer: null,
@@ -114,7 +114,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         let device = this.state.client.get('device') || '';
         let clientId = ''
         if (!device) {
@@ -237,12 +237,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     changeUserCode = (sender: any) => {
+        showVerify = false;
         this.setState({
             showAccountList: false,
-            showVerify: false,
             hasSendCode: false,
             timer: null
         })
+
     }
 
     chooseUser() {
@@ -275,20 +276,21 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     setAccount(row: DataRow) {
         this.props.dataRow.setValue('userCode', row.getString('account'));
         this.props.dataRow.setValue('password', row.getString('password'));
+        showVerify = false;
         this.setState({
             showAccountList: false,
-            showVerify: false,
             hasSendCode: false,
             timer: null
         })
+
     }
 
     chooseListRemove(row: DataRow) {
         if (this.state.accountData.locate('account', row.getString('account')))
             this.state.accountData.delete();
+        showVerify = false;
         this.setState({
-            showAccountList: false,
-            showVerify: false
+            showAccountList: false
         });
     }
 
@@ -310,7 +312,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     getVerify() {
-        if (this.state.showVerify) {
+        if (showVerify) {
             if (this.isPhone) {
                 return (
                     <div className="inputGroup verify">
@@ -389,6 +391,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             })
             return;
         }
+        if (showVerify && !this.props.dataRow.getBoolean('verifyCode_')) {
+            this.setState({
+                message: '请输入验证码',
+                showLoad: false
+            })
+            return;
+        }
         let ds1 = new DataSet();
         if (this.state.client.get('Accounts'))
             ds1.setJson(this.state.client.get('Accounts'))
@@ -419,8 +428,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             this.setState({ showLoad: false })
             if (dataOut.head.getValue('status') == -8) {
                 this.props.dataRow.setValue('verifyCode', '??????');
+                showVerify = true
                 this.setState({
-                    showVerify: true,
                     message: ''
                 })
             } else {
@@ -449,7 +458,7 @@ type FrmLoginTypeState = {
     dataIn: DataRow,
     client: any,
     message: string,
-    protocol: boolean,
+    protocol: boolean
 }
 
 export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginTypeState> {
@@ -562,13 +571,22 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         })
     }
 
-    componentWillMount(): void {
-        if (!this.isPhone && location.href.indexOf('www.diteng.site') > -1) {
-            let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
-            let iWindow = iframe.contentWindow;
-            iWindow.onload = function () {
-                iWindow.document.body.setAttribute('style', 'margin: 0; padding: 0;height: 40px; overflow: hidden;');
-                iframe.style.visibility = 'inherit';
+    componentDidMount(): void {
+        if (!this.isPhone) {
+            try {
+                if (location.href.indexOf('www.diteng.site') > -1) {
+                    let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
+                    let iWindow = iframe.contentWindow;
+                    iWindow.onload = function () {
+                        iWindow.document.body.setAttribute('style', 'margin: 0; padding: 0;height: 40px; overflow: hidden;');
+                        iframe.style.visibility = 'inherit';
+                    }
+                } else {
+                    let dom = document.querySelector('.electronicFlag');
+                    dom.remove();
+                }
+            } catch (error) {
+                console.log(error.message);
             }
         }
     }
