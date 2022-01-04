@@ -1,5 +1,4 @@
-
-// @ts-ignore
+//@ts-ignore
 import XLSX from "xlsx";
 import DataRow from "./DataRow";
 import DataSet from "./DataSet";
@@ -32,7 +31,7 @@ export default class Utils {
 }
 
 export class ClientStorage {
-    private section:string;
+    private section: string;
     constructor(section: string) {
         this.section = section;
     }
@@ -117,12 +116,14 @@ export class Excel {
         data.records.forEach((row: DataRow, no: number) => {
             let serial = no + 2;
             data.fields.items.forEach((item: FieldMeta, index: number) => {
+                let value = item.type == 'n' ? row.getNumber(item.code) : row.getString(item.code);
                 output[this.excelKey(index) + serial] = {
-                    v: row.getString(item.code),
-                    t: 's',
+                    v: value,
+                    t: item.type,
                 }
             })
         })
+
         // 获取所有单元格的位置
         const outputPos = Object.keys(output);
         // 计算出范围 ,["A1",..., "H2"]

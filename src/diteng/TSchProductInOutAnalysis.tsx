@@ -290,8 +290,14 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
                     'Stock_': '现库存数', 'Remark_': '备注'
                 }
             }
+            let ruleOut = ['PartCode_', 'DescSpec','Unit_', 'Brand_', 'Class1_', 'Class2_', 'Class3_', 'Remark_']
             for (let key of Object.keys(meta)) {
-                ds.fields.items.push(new FieldMeta(key).setName(meta[key]))
+                let fm = new FieldMeta(key).setName(meta[key]);
+                if (ruleOut.indexOf(fm.code) == -1)
+                    fm.setType('n');
+                else
+                    fm.setType('s');
+                ds.fields.items.push(fm)
             }
             this.state.dataSet.records.forEach((row: DataRow) => {
                 ds.append();
