@@ -54,10 +54,13 @@ export default class SClient extends DataSet {
             this.setService(this.findService(this._service));
         }
         try {
-            await rs.exec()
+            await rs.exec();
             this.setJson(rs.dataOut.json);
         } catch (err) {
-            this.setJson(err.json);
+            let ds: DataSet = new DataSet();
+            ds.setJson(err.json);
+            this.setState(ds.state);
+            this.setMessage(ds.message);
         }
         this.mergeChangeLog();
     }
