@@ -115,9 +115,117 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     componentDidMount() {
-        if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg) {
+        let device = this.state.client.get('device') || '';
+        let clientId = ''
+        if (!device) {
+            let href = window.location.href;
+            if (href.indexOf('?') > -1) {
+                let params = href.split('?')[1].split('&');
+                params.forEach((param) => {
+                    let arr = param.split('=');
+                    if (arr[0] == 'device')
+                        device = arr[1]
+                    if (arr[0] == 'CLIENTID')
+                        clientId = arr[1]
+                })
+            }
+        }
+        if (!device) {
+            device = this.isPhone ? 'phone' : 'pc';
+        }
+        this.state.client.set('device', device);
+        this.props.dataRow.setValue('device', device);
+        // 获取用户指纹
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud() || !clientId) {
+            this.getFingerprient();
+        } else {
+            this.props.dataRow.setValue('clientId', clientId);
+            this.state.client.set('fingerprint', clientId);
+        }
+        // @ts-ignore
+        setAppliedTitleStatus(false);
+        $("body").css('height', $(document).height());
+        // @ts-ignore
+        window.addPhoneKeyBoardListener(function () {
+            $(document).scrollTop($('.logo').outerHeight() - 20);
+        }, function () {
+            $(document).scrollTop(0);
+        });
+        $(window).on('resize', function () {
+            $("body").css('height', $(document).height());
+        });
+
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud()) {
+            if (window.localStorage.getItem("alreadyLogin")) {
+                window.localStorage.removeItem("alreadyLogin")
+                //@ts-ignore
+                apiready = function () {
+                    //@ts-ignore
+                    api.execScript({
+                        script: "closeAllFrames();"
+                    })
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideHeader(true, 'main');"
+                    })
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideFooter();"
+                    })
+                }
+            } else {
+                //@ts-ignore
+                apiready = function () {
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideHeader(true, 'main');"
+                    })
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideFooter();"
+                    })
+                }
+            }
+        }
+
+        if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password')) {
             this.setState({ showLoad: true })
             this.onSubmit();
+        }
+    }
+
+    async getFingerprient() {
+        let fingerprient
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud()) {
+            let href = window.location.href;
+            if (href.indexOf('?') > -1) {
+                let params = href.split('?')[1].split('&');
+                params.forEach((param) => {
+                    let arr = param.split('=');
+                    if (arr[0] == 'CLIENTID')
+                        fingerprient = arr[1]
+                })
+            }
+        } else {
+            fingerprient = this.state.client.get('fingerprint');
+        }
+        if (!fingerprient) {
+            Fingerprint2.get((components: any) => {
+                let values = components.map((component: any, index: number) => {
+                    if (index === 0) {
+                        return component.value.replace(/\bNetType\/\w+\b/, '')
+                    }
+                    return component.value
+                })
+                fingerprient = 'b-' + Fingerprint2.x64hash128(values.join(''), 31);
+                this.props.dataRow.setValue('clientId', fingerprient);
+                this.state.client.set('fingerprint', fingerprient);
+            });
+        } else {
+            this.props.dataRow.setValue('clientId', fingerprient);
         }
     }
 
@@ -351,7 +459,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         let dataIn = new DataRow();
         dataIn.setValue('languageId', this.props.language);
         dataIn.setValue('userCode', client.get('Account1') || '');
-        dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') : '');
+        dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') || '' : '');
         let protocol = client.get("protocol") == 'true' ? true : false;
         this.state = {
             client,
@@ -455,80 +563,6 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     componentWillMount(): void {
-        let device = this.state.client.get('device') || '';
-        let clientId = ''
-        if (!device) {
-            let href = window.location.href;
-            if (href.indexOf('?') > -1) {
-                let params = href.split('?')[1].split('&');
-                params.forEach((param) => {
-                    let arr = param.split('=');
-                    if (arr[0] == 'device')
-                        device = arr[1]
-                    if (arr[0] == 'CLIENTID')
-                        clientId = arr[1]
-                })
-            }
-        }
-        if (!device) {
-            device = this.isPhone ? 'phone' : 'pc';
-        }
-        this.state.client.set('device', device);
-        this.state.dataIn.setValue('device', device);
-        // 获取用户指纹
-        //@ts-ignore
-        if (window.ApiCloud.isApiCloud() || !clientId) {
-            this.getFingerprient();
-        } else {
-            this.state.dataIn.setValue('clientId', clientId);
-            this.state.client.set('fingerprint', clientId);
-        }
-        // @ts-ignore
-        setAppliedTitleStatus(false);
-        $("body").css('height', $(document).height());
-        // @ts-ignore
-        window.addPhoneKeyBoardListener(function () {
-            $(document).scrollTop($('.logo').outerHeight() - 20);
-        }, function () {
-            $(document).scrollTop(0);
-        });
-        $(window).on('resize', function () {
-            $("body").css('height', $(document).height());
-        });
-
-        //@ts-ignore
-        if (window.ApiCloud.isApiCloud()) {
-            if (window.localStorage.getItem("alreadyLogin")) {
-                window.localStorage.removeItem("alreadyLogin")
-                //@ts-ignore
-                apiready = function () {
-                    //@ts-ignore
-                    api.execScript({
-                        script: "closeAllFrames();"
-                    })
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideHeader(true, 'main');"
-                    })
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideFooter();"
-                    })
-                }
-            } else {
-                //@ts-ignore
-                apiready = function () {
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideHeader(true, 'main');"
-                    })
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideFooter();"
-                    })
-                }
-            }
-        }
         if (!this.isPhone && location.href.indexOf('www.diteng.site') > -1) {
             let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
             let iWindow = iframe.contentWindow;
@@ -536,39 +570,6 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                 iWindow.document.body.setAttribute('style', 'margin: 0; padding: 0;height: 40px; overflow: hidden;');
                 iframe.style.visibility = 'inherit';
             }
-        }
-    }
-
-    async getFingerprient() {
-        let fingerprient
-        //@ts-ignore
-        if (window.ApiCloud.isApiCloud()) {
-            let href = window.location.href;
-            if (href.indexOf('?') > -1) {
-                let params = href.split('?')[1].split('&');
-                params.forEach((param) => {
-                    let arr = param.split('=');
-                    if (arr[0] == 'CLIENTID')
-                        fingerprient = arr[1]
-                })
-            }
-        } else {
-            fingerprient = this.state.client.get('fingerprint');
-        }
-        if (!fingerprient) {
-            Fingerprint2.get((components: any) => {
-                let values = components.map((component: any, index: number) => {
-                    if (index === 0) {
-                        return component.value.replace(/\bNetType\/\w+\b/, '')
-                    }
-                    return component.value
-                })
-                fingerprient = 'b-' + Fingerprint2.x64hash128(values.join(''), 31);
-                this.state.dataIn.setValue('clientId', fingerprient);
-                this.state.client.set('fingerprint', fingerprient);
-            });
-        } else {
-            this.state.dataIn.setValue('clientId', fingerprient);
         }
     }
 }
