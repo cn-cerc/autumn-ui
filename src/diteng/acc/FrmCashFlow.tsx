@@ -21,17 +21,17 @@ type stateType = {
     message: string;
 } & Partial<CustomFormStateType>
 
-export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateType> {
+export default class FrmCashFlow extends CustomForm<CustomFormPropsType, stateType> {
 
     constructor(props: CustomFormPropsType) {
         super(props);
         let client = new SClient(this.props);
-        client.setService('AC_ObjT');
+        client.setService('AC_CashFlow');
         this.state = { client, dataIn: new DataRow(), message: '' };
     }
 
     get pageTitle(): string {
-        return '对象类别资料设置';
+        return '现金流量项目维护';
     }
 
     content(): JSX.Element {
@@ -50,26 +50,45 @@ export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateTyp
                     </ToolItem>
                 </ToolPanel>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.btnSearch}>
-                    <DBEdit dataField='Type_' dataName='类别代码' />
-                    <DBEdit dataField='Name_' dataName='类别名称' />
+                    <DBEdit dataField='Code_' dataName='项目代码' />
                 </SearchPanel>
                 <DBGrid key={this.state.client.updateKey} dataSet={this.state.client} readOnly={false} onChanged={this.onRowChanged.bind(this)}>
-                    <Column code='Type_' name='类别代码' width='5' textAlign="center" customText={(row: DataRow) => {
-                        return <span>{row.getBoolean('Type_') ? row.getString('Type_') : '0'}</span>
-                    }}>
+                    <Column code='Code_' name='项目代码' width='10' >
+                        <DBEdit dataField='Code_' />
                     </Column>
-                    <Column code='Name_' name='类别名称' width='10' >
+                    <Column code='Name_' name='项目名称' width='10' >
                         <DBEdit dataField='Name_' />
                     </Column>
-                    <Column code='Remark_' name='备注' width='30' >
+                    <Column code='Remark_' name='备注' width='20' >
                         <DBEdit dataField='Remark_' />
+                    </Column>
+                    <Column code='FnlFinal_' name='末级否' width='30' >
+                        <DBEdit dataField='FnlFinal_' />
+                    </Column>
+                    <Column code='Stage_' name='项目级次' width='30' >
+                        <DBEdit dataField='Stage_' />
+                    </Column>
+                    <Column code='NextNode_' name='项目父阶' width='30' >
+                        <DBEdit dataField='NextNode_' />
+                    </Column>
+                    <Column code='Resource_' name='数量来源' width='30' >
+                        <DBEdit dataField='Resource_' />
+                    </Column>
+                    <Column code='Attribute_' name='项目属性' width='30' >
+                        <DBEdit dataField='Attribute_' />
                     </Column>
                     <Column code='AppUser_' name='建档人员' width='10' />
                     <Column code='AppDate_' name='建档时间' width='15' />
                     <Column code='UpdateUser_' name='更新人员' width='10' />
                     <Column code='UpdateDate_' name='更新时间' width='15' />
+                    <Column code='opera' name='操作' textAlign='center' width='10' customText={
+                        ((dataRow: DataRow) => {
+                            return <span role='opera' onClick={this.deleteRow.bind(this, dataRow)}>删除</span>
+                        })
+                    } />
                 </DBGrid>
                 <OperatePanel>
+                    <button className={styles.operaButton} onClick={this.btnAppend}>新增</button>
                     <button className={styles.operaButton} onClick={this.btnSave}>保存</button>
                 </OperatePanel>
                 <StatusBar>
@@ -98,6 +117,11 @@ export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateTyp
         row.setValue('UpdateUser_', 'admin');
         row.setValue('UpdateDate_', new Datetime().toString());
         row.setValue('UpdateKey_', Utils.guid());
+        row.setValue('FnlFinal_', 'False');
+        row.setValue('Stage_', 0);
+        row.setValue('NextNode_', '');
+        row.setValue('Resource_', 0);
+        row.setValue('Attribute_', 0);
         this.setState({ ...this.state });
     }
 

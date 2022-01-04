@@ -41,7 +41,7 @@ export default class FrmMoneyRate extends CustomForm<CustomFormPropsType, MoneyR
         dataIn.setValue('StartDate_min', Utils.getMonthStartDay())
         dataIn.setValue('StartDate_max', Utils.getMonthEndDay())
         dataIn.setValue('MaxRecord', 100);
-        client.setService('MoneyRate');
+        client.setService('MoneyRate_');
         this.state = {
             client,
             dataIn,
@@ -80,7 +80,7 @@ export default class FrmMoneyRate extends CustomForm<CustomFormPropsType, MoneyR
                     <DBDatePicker dataField='StartDate_max' dataName='结束时间'></DBDatePicker>
                     <DBEdit dataField='Rate_' dataName='币别换算率'></DBEdit>
                     <DBDrop dataField='RateType_' dataName='汇率类别' options={this._typeList}></DBDrop>
-                    <DBEdit dataField='MaxRecord' dataName='载入笔数'></DBEdit>
+                    <DBEdit dataField='MaxRecord_' dataName='载入笔数'></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.client} key={this.state.client.updateKey} onChanged={this.handleChange.bind(this)}>
                     <Column name='代码' code='Code_' width='65'>

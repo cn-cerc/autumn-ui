@@ -4,6 +4,7 @@ import Datetime from "../../db/Datetime";
 import SClient from "../../db/SClient";
 import Toast from "../../db/Toast";
 import Utils from "../../db/Utils";
+import DBDrop from "../../rcc/DBDrop";
 import DBEdit from "../../rcc/DBEdit";
 import DBGrid, { Column, OnRowChangedEvent } from "../../rcc/DBGrid";
 import MenuItem from "../../rcc/MenuItem";
@@ -21,17 +22,47 @@ type stateType = {
     message: string;
 } & Partial<CustomFormStateType>
 
-export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateType> {
+export default class FrmAccObjSet extends CustomForm<CustomFormPropsType, stateType> {
+    private _typeList: Map<string, string> = new Map<string, string>([['所有类别', '']]);
+    private _nameList: Map<string, string> = new Map();
+
+    get typeList(): Map<string, string> {
+        return this._typeList;
+    }
 
     constructor(props: CustomFormPropsType) {
         super(props);
         let client = new SClient(this.props);
-        client.setService('AC_ObjT');
-        this.state = { client, dataIn: new DataRow(), message: '' };
+        client.setService('AC_ObjSet');
+        let dataIn = new DataRow();
+        dataIn.setValue('MaxRecord_', 100);
+        this.state = { client, dataIn, message: '' };
+        this.getTypeNameList();
+        this.getNameList();
+    }
+
+    async getTypeNameList() {
+        let typeClient = new SClient(this.props);
+        typeClient.setService('AC_ObjT');
+        await typeClient.open();
+        typeClient.forEach((row: DataRow) => {
+            this._typeList.set((row.getInt('Type_') + '.' + row.getString('Name_')), row.getInt('Type_') + '');
+        })
+        this.btnSearch(this.state.dataIn)
+    }
+
+    async getNameList() {
+        let nameClient = new SClient(this.props);
+        nameClient.setService('AccSubject');
+        await nameClient.open();
+        nameClient.forEach((row: DataRow) => {
+            this._nameList.set(row.getString('AccCode_'), row.getString('Name_'));
+        })
+        this.btnSearch(this.state.dataIn)
     }
 
     get pageTitle(): string {
-        return '对象类别资料设置';
+        return '科目辅助核算设置';
     }
 
     content(): JSX.Element {
@@ -50,26 +81,35 @@ export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateTyp
                     </ToolItem>
                 </ToolPanel>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.btnSearch}>
-                    <DBEdit dataField='Type_' dataName='类别代码' />
-                    <DBEdit dataField='Name_' dataName='类别名称' />
+                    <DBEdit dataField='AccCode_' dataName='科目代码' />
+                    <DBDrop dataField='Type_' dataName='对象类别' options={this._typeList} />
+                    <DBEdit dataField='MaxRecord_' dataName='载入笔数' />
                 </SearchPanel>
                 <DBGrid key={this.state.client.updateKey} dataSet={this.state.client} readOnly={false} onChanged={this.onRowChanged.bind(this)}>
-                    <Column code='Type_' name='类别代码' width='5' textAlign="center" customText={(row: DataRow) => {
-                        return <span>{row.getBoolean('Type_') ? row.getString('Type_') : '0'}</span>
-                    }}>
+                    <Column code='AccCode_' name='会计科目' width='10' >
+                        <DBEdit dataField='AccCode_' />
                     </Column>
-                    <Column code='Name_' name='类别名称' width='10' >
-                        <DBEdit dataField='Name_' />
+                    <Column code='Name_' name='科目名称' width='10' customText={(row: DataRow) => {
+                        return <span>{this._nameList.get(row.getString('AccCode_'))}</span>
+                    }} />
+                    <Column code='Type_' name='对象类别' width='10'>
+                        <DBEdit dataField='Type_' />
                     </Column>
-                    <Column code='Remark_' name='备注' width='30' >
-                        <DBEdit dataField='Remark_' />
+                    <Column code='Final_' name='确认否' width='10' >
+                        <DBEdit dataField='Final_' />
                     </Column>
                     <Column code='AppUser_' name='建档人员' width='10' />
                     <Column code='AppDate_' name='建档时间' width='15' />
                     <Column code='UpdateUser_' name='更新人员' width='10' />
                     <Column code='UpdateDate_' name='更新时间' width='15' />
+                    <Column code='opera' name='操作' textAlign='center' width='10' customText={
+                        ((dataRow: DataRow) => {
+                            return <span role='opera' onClick={this.deleteRow.bind(this, dataRow)}>删除</span>
+                        })
+                    } />
                 </DBGrid>
                 <OperatePanel>
+                    <button className={styles.operaButton} onClick={this.btnAppend}>新增</button>
                     <button className={styles.operaButton} onClick={this.btnSave}>保存</button>
                 </OperatePanel>
                 <StatusBar>

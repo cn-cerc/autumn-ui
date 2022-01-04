@@ -2,10 +2,10 @@ import React, { MouseEventHandler } from "react";
 import DataRow from "../../db/DataRow";
 import Datetime from "../../db/Datetime";
 import SClient from "../../db/SClient";
+import Toast from "../../db/Toast";
 import Utils from "../../db/Utils";
 import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../../diteng/CustomForm";
 import MainMenu from "../../diteng/MainMenu";
-import DBDrop from "../../rcc/DBDrop";
 import DBEdit from "../../rcc/DBEdit";
 import DBGrid, { Column, OnRowChangedEvent } from "../../rcc/DBGrid";
 import MenuItem from "../../rcc/MenuItem";
@@ -64,9 +64,9 @@ export default class FrmACSubjectType extends CustomForm<CustomFormPropsType, st
                     <Column code='AppDate_' name='建档时间' width='15' />
                     <Column code='UpdateUser_' name='更新人员' width='10' />
                     <Column code='UpdateDate_' name='更新时间' width='15' />
-                    <Column code='opera' name='操作' width='10' customText={
+                    <Column code='opera' name='操作' textAlign='center' width='10' customText={
                         ((dataRow: DataRow) => {
-                            return <a href='#' onClick={this.deleteRow.bind(this, dataRow)}>删除</a>
+                            return <span role='opera' onClick={this.deleteRow.bind(this, dataRow)}>删除</span>
                         })
                     } />
                 </DBGrid>
@@ -87,8 +87,9 @@ export default class FrmACSubjectType extends CustomForm<CustomFormPropsType, st
         if (this.state.client.state <= 0) {
             console.log(this.state.client.message);
             return;
+        } else {
+            Toast.success('查询成功');
         }
-        console.log('查询成功')
         this.setState(this.state);
     }
 
@@ -107,6 +108,8 @@ export default class FrmACSubjectType extends CustomForm<CustomFormPropsType, st
         if (this.state.client.state <= 0) {
             console.log(this.state.client.message);
             return;
+        } else {
+            Toast.success('保存成功');
         }
         this.setState({ ...this.state });
     }
@@ -126,8 +129,9 @@ export default class FrmACSubjectType extends CustomForm<CustomFormPropsType, st
             if (this.state.client.state <= 0) {
                 console.log(this.state.client.message);
                 return;
+            } else {
+                Toast.success('删除成功');
             }
-            console.log('删除成功')
             this.setState({ ...this.state });
         }
     }

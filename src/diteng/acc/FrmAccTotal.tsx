@@ -4,16 +4,16 @@ import Datetime from "../../db/Datetime";
 import SClient from "../../db/SClient";
 import Toast from "../../db/Toast";
 import Utils from "../../db/Utils";
+import DBDatePicker from "../../rcc/DBDatePicker";
+import DBDrop from "../../rcc/DBDrop";
 import DBEdit from "../../rcc/DBEdit";
 import DBGrid, { Column, OnRowChangedEvent } from "../../rcc/DBGrid";
 import MenuItem from "../../rcc/MenuItem";
-import OperatePanel from "../../rcc/OperatePanel";
 import SearchPanel, { SearchPanelOnExecute } from "../../rcc/SearchPanel";
 import StatusBar from "../../rcc/StatusBar";
 import ToolPanel, { ToolItem } from "../../rcc/ToolPanel";
 import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../CustomForm";
 import MainMenu from "../MainMenu";
-import styles from "/sample/SchAccTran.css";
 
 type stateType = {
     client: SClient;
@@ -21,17 +21,22 @@ type stateType = {
     message: string;
 } & Partial<CustomFormStateType>
 
-export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateType> {
+export default class FrmAccTotal extends CustomForm<CustomFormPropsType, stateType> {
+
+    private _ABTypeList: Map<string, string> = new Map<string, string>([['所有种类', ''], ['0.普通凭证', '0'], ['1.手工结转损益', '1'], ['2.自动结转损益', '2']]);
 
     constructor(props: CustomFormPropsType) {
         super(props);
         let client = new SClient(this.props);
-        client.setService('AC_ObjT');
-        this.state = { client, dataIn: new DataRow(), message: '' };
+        client.setService('ABB.searchAccTotal');
+        let dataIn = new DataRow();
+        dataIn.setValue('TBDate__from', Utils.getMonthStartDay());
+        dataIn.setValue('TBDate__to', Utils.getMonthEndDay());
+        this.state = { client, dataIn, message: '' };
     }
 
     get pageTitle(): string {
-        return '对象类别资料设置';
+        return '凭证汇总查询';
     }
 
     content(): JSX.Element {
@@ -50,28 +55,18 @@ export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateTyp
                     </ToolItem>
                 </ToolPanel>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.btnSearch}>
-                    <DBEdit dataField='Type_' dataName='类别代码' />
-                    <DBEdit dataField='Name_' dataName='类别名称' />
+                    <DBDatePicker dataField='TBDate__from' dataName='会计期间'></DBDatePicker>
+                    <DBDatePicker dataField='TBDate__to' dataName='至'></DBDatePicker>
+                    <DBEdit dataField='TBNo__from' dataName='凭证编号' />
+                    <DBEdit dataField='TBNo__to' dataName='至' />
+                    <DBDrop dataField='ABType_' dataName='凭证种类' options={this._ABTypeList}> </DBDrop>
                 </SearchPanel>
                 <DBGrid key={this.state.client.updateKey} dataSet={this.state.client} readOnly={false} onChanged={this.onRowChanged.bind(this)}>
-                    <Column code='Type_' name='类别代码' width='5' textAlign="center" customText={(row: DataRow) => {
-                        return <span>{row.getBoolean('Type_') ? row.getString('Type_') : '0'}</span>
-                    }}>
-                    </Column>
-                    <Column code='Name_' name='类别名称' width='10' >
-                        <DBEdit dataField='Name_' />
-                    </Column>
-                    <Column code='Remark_' name='备注' width='30' >
-                        <DBEdit dataField='Remark_' />
-                    </Column>
-                    <Column code='AppUser_' name='建档人员' width='10' />
-                    <Column code='AppDate_' name='建档时间' width='15' />
-                    <Column code='UpdateUser_' name='更新人员' width='10' />
-                    <Column code='UpdateDate_' name='更新时间' width='15' />
+                    <Column code='AccCode_' name='科目代码 ' width='5' />
+                    <Column code='AccName_' name='科目名称 ' width='20' />
+                    <Column code='DrAmount_' name='借方金额' width='5' />
+                    <Column code='CrAmount_' name='贷方金额' width='5' />
                 </DBGrid>
-                <OperatePanel>
-                    <button className={styles.operaButton} onClick={this.btnSave}>保存</button>
-                </OperatePanel>
                 <StatusBar>
                 </StatusBar>
             </React.Fragment>
@@ -101,35 +96,8 @@ export default class FrmAccObjT extends CustomForm<CustomFormPropsType, stateTyp
         this.setState({ ...this.state });
     }
 
-    btnSave: MouseEventHandler<HTMLButtonElement> = (sender: any) => {
-        this.state.client.save();
-        if (this.state.client.state <= 0) {
-            console.log(this.state.client.message);
-            return;
-        } else {
-            Toast.success('保存成功');
-        }
-        this.setState({ ...this.state });
-    }
-
     onRowChanged: OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => {
         this.setState({ ...this.state });
     }
 
-    deleteRow = async (row: DataRow): Promise<void> => {
-        let recNo = this.state.client.records.indexOf(row);
-        if (recNo > -1) {
-            this.state.client.setRecNo(recNo + 1);
-            this.state.client.delete();
-            this.state.client.head.copyValues(this.state.dataIn);
-            await this.state.client.save();
-            if (this.state.client.state <= 0) {
-                console.log(this.state.client.message);
-                return;
-            } else {
-                Toast.success('删除成功');
-            }
-            this.setState({ ...this.state });
-        }
-    }
 }
