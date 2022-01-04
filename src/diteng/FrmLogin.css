@@ -4,7 +4,6 @@
     background-color: #fff;
     font-size: 1rem;
     line-height: 1rem;
-    min-width: 1024px;
 }
 
 .loginMsg {
@@ -19,4 +18,25 @@
     vertical-align: middle;
     height: auto;
     width: 4rem;
+}
+
+.iframe {
+    height: 40px;
+    border: none;
+    overflow: hidden;
+    margin-left: 1rem;
+    visibility: hidden;
+}
+
+@media screen and (min-width: 768px) {
+    .main {
+        min-width: 1024px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .main {
+        height: 100vh;
+        overflow: auto;
+    }
 }
