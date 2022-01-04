@@ -190,7 +190,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             }
         }
 
-        if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password')) {
+        if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password') && this.isPhone) {
             this.setState({ showLoad: true })
             this.onSubmit();
         }
