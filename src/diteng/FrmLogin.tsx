@@ -24,11 +24,12 @@ type LoginTypeState = {
     client: ClientStorage,
     message: string,
     savePwd: boolean,
-    showVerify: boolean,
     hasSendCode: boolean,
     showLoad: boolean,
     timer: any
 }
+
+var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     constructor(props: LoginTypeProps) {
@@ -43,7 +44,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             accountData,
             client,
             savePwd,
-            showVerify: false,
             hasSendCode: false,
             showLoad: false,
             timer: null,
@@ -115,9 +115,117 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     componentWillMount() {
-        if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg) {
+        let device = this.state.client.get('device') || '';
+        let clientId = ''
+        if (!device) {
+            let href = window.location.href;
+            if (href.indexOf('?') > -1) {
+                let params = href.split('?')[1].split('&');
+                params.forEach((param) => {
+                    let arr = param.split('=');
+                    if (arr[0] == 'device')
+                        device = arr[1]
+                    if (arr[0] == 'CLIENTID')
+                        clientId = arr[1]
+                })
+            }
+        }
+        if (!device) {
+            device = this.isPhone ? 'phone' : 'pc';
+        }
+        this.state.client.set('device', device);
+        this.props.dataRow.setValue('device', device);
+        // 获取用户指纹
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud() || !clientId) {
+            this.getFingerprient();
+        } else {
+            this.props.dataRow.setValue('clientId', clientId);
+            this.state.client.set('fingerprint', clientId);
+        }
+        // @ts-ignore
+        setAppliedTitleStatus(false);
+        $("body").css('height', $(document).height());
+        // @ts-ignore
+        window.addPhoneKeyBoardListener(function () {
+            $(document).scrollTop($('.logo').outerHeight() - 20);
+        }, function () {
+            $(document).scrollTop(0);
+        });
+        $(window).on('resize', function () {
+            $("body").css('height', $(document).height());
+        });
+
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud()) {
+            if (window.localStorage.getItem("alreadyLogin")) {
+                window.localStorage.removeItem("alreadyLogin")
+                //@ts-ignore
+                apiready = function () {
+                    //@ts-ignore
+                    api.execScript({
+                        script: "closeAllFrames();"
+                    })
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideHeader(true, 'main');"
+                    })
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideFooter();"
+                    })
+                }
+            } else {
+                //@ts-ignore
+                apiready = function () {
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideHeader(true, 'main');"
+                    })
+                    //@ts-ignore
+                    api.execScript({
+                        script: "hideFooter();"
+                    })
+                }
+            }
+        }
+
+        if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password') && this.isPhone) {
             this.setState({ showLoad: true })
             this.onSubmit();
+        }
+    }
+
+    async getFingerprient() {
+        let fingerprient
+        //@ts-ignore
+        if (window.ApiCloud.isApiCloud()) {
+            let href = window.location.href;
+            if (href.indexOf('?') > -1) {
+                let params = href.split('?')[1].split('&');
+                params.forEach((param) => {
+                    let arr = param.split('=');
+                    if (arr[0] == 'CLIENTID')
+                        fingerprient = arr[1]
+                })
+            }
+        } else {
+            fingerprient = this.state.client.get('fingerprint');
+        }
+        if (!fingerprient) {
+            Fingerprint2.get((components: any) => {
+                let values = components.map((component: any, index: number) => {
+                    if (index === 0) {
+                        return component.value.replace(/\bNetType\/\w+\b/, '')
+                    }
+                    return component.value
+                })
+                fingerprient = 'b-' + Fingerprint2.x64hash128(values.join(''), 31);
+                this.props.dataRow.setValue('clientId', fingerprient);
+                this.state.client.set('fingerprint', fingerprient);
+            });
+        } else {
+            this.props.dataRow.setValue('clientId', fingerprient);
         }
     }
 
@@ -129,12 +237,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     changeUserCode = (sender: any) => {
+        showVerify = false;
         this.setState({
             showAccountList: false,
-            showVerify: false,
             hasSendCode: false,
             timer: null
         })
+
     }
 
     chooseUser() {
@@ -167,20 +276,21 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     setAccount(row: DataRow) {
         this.props.dataRow.setValue('userCode', row.getString('account'));
         this.props.dataRow.setValue('password', row.getString('password'));
+        showVerify = false;
         this.setState({
             showAccountList: false,
-            showVerify: false,
             hasSendCode: false,
             timer: null
         })
+
     }
 
     chooseListRemove(row: DataRow) {
         if (this.state.accountData.locate('account', row.getString('account')))
             this.state.accountData.delete();
+        showVerify = false;
         this.setState({
-            showAccountList: false,
-            showVerify: false
+            showAccountList: false
         });
     }
 
@@ -202,7 +312,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     getVerify() {
-        if (this.state.showVerify) {
+        if (showVerify) {
             if (this.isPhone) {
                 return (
                     <div className="inputGroup verify">
@@ -212,7 +322,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 )
             } else {
                 return (
-                    <p className="keyInput">
+                    <p className="keyInput verify">
                         <img src="images/verify.png" />
                         <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码'></DBEdit>
                         <div onClick={this.sendCode.bind(this)} id="sendCode">发送验证码</div>
@@ -272,9 +382,19 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     onSubmit(sender?: any) {
         if (sender)
             sender.preventDefault();
+        if (this.props.verify && !this.props.verify())
+            return;
         if (!this.props.dataRow.getString('userCode') || !this.props.dataRow.getString('password')) {
             this.setState({
-                message: '请输入正确的帐号和密码'
+                message: '请输入正确的帐号和密码',
+                showLoad: false
+            })
+            return;
+        }
+        if (showVerify && !this.props.dataRow.getBoolean('verifyCode_')) {
+            this.setState({
+                message: '请输入验证码',
+                showLoad: false
             })
             return;
         }
@@ -292,8 +412,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             }
             this.state.client.set("Accounts", ds1.json);
         }
-        if (this.props.verify && !this.props.verify())
-            return;
         this.postData();
     }
 
@@ -310,8 +428,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             this.setState({ showLoad: false })
             if (dataOut.head.getValue('status') == -8) {
                 this.props.dataRow.setValue('verifyCode', '??????');
+                showVerify = true
                 this.setState({
-                    showVerify: true,
                     message: ''
                 })
             } else {
@@ -340,7 +458,7 @@ type FrmLoginTypeState = {
     dataIn: DataRow,
     client: any,
     message: string,
-    protocol: boolean,
+    protocol: boolean
 }
 
 export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginTypeState> {
@@ -350,7 +468,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         let dataIn = new DataRow();
         dataIn.setValue('languageId', this.props.language);
         dataIn.setValue('userCode', client.get('Account1') || '');
-        dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') : '');
+        dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') || '' : '');
         let protocol = client.get("protocol") == 'true' ? true : false;
         this.state = {
             client,
@@ -397,6 +515,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                 </React.Fragment>
             )
         } else {
+            const iFrame = '<div><script id="ebsgovicon" src="https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&amp;width=112&amp;height=40&amp;type=2" type="text/javascript"></script></div>'
             return (
                 <React.Fragment>
                     <div className="header">
@@ -425,7 +544,9 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                                 <small><a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a></small>
                             </div>
                         </div>
-                        <div className="electronicFlag"></div>
+                        <div className="electronicFlag">
+                            <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
+                        </div>
                     </footer>
                 </React.Fragment>
             )
@@ -451,110 +572,22 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     componentDidMount(): void {
-        this.getFlag();
-        let device = this.state.client.get('device') || '';
-        let clientId = ''
-        if (!device) {
-            let href = window.location.href;
-            if (href.indexOf('?') > -1) {
-                let params = href.split('?')[1].split('&');
-                params.forEach((param) => {
-                    let arr = param.split('=');
-                    if (arr[0] == 'device')
-                        device = arr[1]
-                    if (arr[0] == 'CLIENTID')
-                        clientId = arr[1]
-                })
-            }
-        }
-        if (!device) {
-            device = this.isPhone ? 'phone' : 'pc';
-        }
-        this.state.client.set('device', device);
-        this.state.dataIn.setValue('device', device);
-        // 获取用户指纹
-        if (!clientId)
-            this.getFingerprient();
-        else {
-            this.state.dataIn.setValue('clientId', clientId);
-            this.state.client.set('fingerprint', clientId);
-        }
-
-        // @ts-ignore
-        setAppliedTitleStatus(false);
-        $("body").css('height', $(document).height());
-        // @ts-ignore
-        window.addPhoneKeyBoardListener(function () {
-            $(document).scrollTop($('.logo').outerHeight() - 20);
-        }, function () {
-            $(document).scrollTop(0);
-        });
-        $(window).on('resize', function () {
-            $("body").css('height', $(document).height());
-        });
-
-        //@ts-ignore
-        if (window.ApiCloud.isApiCloud()) {
-            if (window.localStorage.getItem("alreadyLogin")) {
-                window.localStorage.removeItem("alreadyLogin")
-                //@ts-ignore
-                apiready = function () {
-                    //@ts-ignore
-                    api.execScript({
-                        script: "closeAllFrames();"
-                    })
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideHeader(true, 'main');"
-                    })
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideFooter();"
-                    })
-                }
-            } else {
-                //@ts-ignore
-                apiready = function () {
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideHeader(true, 'main');"
-                    })
-                    //@ts-ignore
-                    api.execScript({
-                        script: "hideFooter();"
-                    })
-                }
-            }
-        }
-    }
-
-    async getFingerprient() {
-        let fingerprient = this.state.client.get('fingerprint')
-        if (!fingerprient) {
-            Fingerprint2.get((components: any) => {
-                let values = components.map((component: any, index: number) => {
-                    if (index === 0) {
-                        return component.value.replace(/\bNetType\/\w+\b/, '')
+        if (!this.isPhone) {
+            try {
+                if (location.href.indexOf('www.diteng.site') > -1) {
+                    let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
+                    let iWindow = iframe.contentWindow;
+                    iWindow.onload = function () {
+                        iWindow.document.body.setAttribute('style', 'margin: 0; padding: 0;height: 40px; overflow: hidden;');
+                        iframe.style.visibility = 'inherit';
                     }
-                    return component.value
-                })
-                fingerprient = 'b-' + Fingerprint2.x64hash128(values.join(''), 31);
-                this.state.dataIn.setValue('clientId', fingerprient);
-                this.state.client.set('fingerprint', fingerprient);
-            });
-        } else {
-            this.state.dataIn.setValue('clientId', fingerprient);
-        }
-    }
-
-    getFlag() {
-        let flag = document.querySelector('.electronicFlag');
-        if (flag && location.href.indexOf('www.diteng.site') > -1) {
-            let script = document.createElement('script');
-            script.id = 'ebsgovicon';
-            script.type = 'text/javascript';
-            script.src = 'https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&width=112&height=40&type=2';
-            flag.appendChild(script);
+                } else {
+                    let dom = document.querySelector('.electronicFlag');
+                    dom.remove();
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
         }
     }
 }
