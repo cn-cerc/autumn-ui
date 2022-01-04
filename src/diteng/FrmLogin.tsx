@@ -114,7 +114,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg) {
             this.setState({ showLoad: true })
             this.onSubmit();
@@ -272,9 +272,12 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     onSubmit(sender?: any) {
         if (sender)
             sender.preventDefault();
+        if (this.props.verify && !this.props.verify())
+            return;
         if (!this.props.dataRow.getString('userCode') || !this.props.dataRow.getString('password')) {
             this.setState({
-                message: '请输入正确的帐号和密码'
+                message: '请输入正确的帐号和密码',
+                showLoad: false
             })
             return;
         }
@@ -292,8 +295,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             }
             this.state.client.set("Accounts", ds1.json);
         }
-        if (this.props.verify && !this.props.verify())
-            return;
         this.postData();
     }
 
@@ -453,8 +454,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         })
     }
 
-    componentDidMount(): void {
-        this.getFlag();
+    componentWillMount(): void {
         let device = this.state.client.get('device') || '';
         let clientId = ''
         if (!device) {
@@ -569,17 +569,6 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             });
         } else {
             this.state.dataIn.setValue('clientId', fingerprient);
-        }
-    }
-
-    getFlag() {
-        let flag = document.querySelector('.electronicFlag');
-        if (flag && location.href.indexOf('www.diteng.site') > -1) {
-            let script = document.createElement('script');
-            script.id = 'ebsgovicon';
-            script.type = 'text/javascript';
-            script.src = 'https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&width=112&height=40&type=2';
-            flag.appendChild(script);
         }
     }
 }
