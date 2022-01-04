@@ -308,11 +308,20 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
     }
 
     tranDetail(row: DataRow, filed: string, tb: string) {
-        if (row.getString(filed))
+        if (row.getString(filed)) {
+            //@ts-ignore
+            let elements = document.getElementById('form1').elements;
+            let param: string[] = [];
+            param.push(`partCode=${row.getString('PartCode_')}`);
+            param.push(`dateFrom=${elements['dateFrom'].value}`);
+            param.push(`dateTo=${elements['dateTo'].value}`);
+            param.push(`CWCode=${elements['CWCode'].value}`);
+            param.push(`tb=${tb}`);
             return <a target='TSchProductInOutAnalysis.detail'
-                href={`TSchProductInOutAnalysis.detail?partCode=${row.getString('PartCode_')}&tb=${tb}`}>
+                href={`TSchProductInOutAnalysis.detail?${param.join('&')}`}>
                 {row.getString(filed)}
             </a>
+        }
         else
             return ''
     }
