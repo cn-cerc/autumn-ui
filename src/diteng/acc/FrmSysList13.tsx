@@ -116,8 +116,10 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
         let bool = true;
         this.state.client.first();
         while (this.state.client.fetch()) {
-            if (!this.state.client.getString('Code_'))
+            if (!this.state.client.getString('Code_')) {
                 bool = false;
+                break;
+            }
         }
         if (!bool) {
             Toast.error('币别代码不能为空');
@@ -128,16 +130,10 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
             Toast.error(this.state.client.message);
         else
             Toast.success('保存成功');
-        console.log(this.state.client)
         this.setState({ ...this.state });
     }
 
     handleDelete(row: DataRow) {
-        console.log(this.state.client)
-        this.state.client.first();
-        while(this.state.client.fetch()) {
-            console.log(this.state.client.current == row)
-        }
         let recNo = this.state.client.locationRow(row);
         if (recNo > 0) {
             this.state.client.setRecNo(recNo);
