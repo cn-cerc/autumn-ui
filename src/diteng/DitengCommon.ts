@@ -5,5 +5,5 @@ export default class DitengCommon {
     static CUSTOMER_184021: string = '184021';
     static CUSTOMER_194005: string = '194005';
     static CUSTOMER_214015: string = '214015';
-    static CUSTOMER_214007: string = '214007'
+    static CUSTOMER_214007: string = '214007';
 }

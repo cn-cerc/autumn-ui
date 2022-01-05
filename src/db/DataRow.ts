@@ -59,7 +59,16 @@ export default class DataRow implements IDataSource {
 
         this.addFieldDef(field);
 
-        this._items.set(field, value);
+        if (this.dataSet && this._dataSet.search) {
+            let search = this._dataSet.search;
+            search.remove(this);
+            this._items.set(field, value);
+            search.append(this);
+        } else {
+            this._items.set(field, value);
+        }
+
+
 
         // if (this.bindEnabled) this.refreshBind();
 

@@ -41,6 +41,8 @@ export default class DataSet implements IDataSource {
         return new DataSource(this.records);
     }
 
+    get search(): SearchDataSet { return this._search; }
+
     get current(): DataRow {
         if (this.eof() || this.bof())
             return null;
@@ -54,6 +56,8 @@ export default class DataSet implements IDataSource {
         record.setState(DataRowState.Insert);
         this._records.push(record)
         this._recNo = this._records.length;
+        if (this._search)
+            this._search.append(record);
         return this
     }
 
