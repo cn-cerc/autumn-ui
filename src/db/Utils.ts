@@ -41,6 +41,11 @@ export default class Utils {
         })
         client.set(tb, dataSet.json);
     }
+
+    static removeSort(userNo: string, tb: string) {
+        let client = new ClientStorage(`diteng_${userNo}`);
+        client.remove(tb);
+    }
 }
 
 export class ClientStorage {
@@ -156,7 +161,36 @@ export class Excel {
                 ),
             },
         };
+        console.log(wb);
+        // return;
         // 导出 Excel
         XLSX.writeFile(wb, fileName);
+    }
+
+    // OD单订单明细导出
+    exportODDetail(dataSet: DataSet, fileName: string = 'demo.xlsx') {
+        let output: any = {};
+        let w = 15, h = 13;
+    }
+
+    generateODDetail(dataSet: DataSet, startNum: number) {
+        let meta: any = {
+            TBNo_: '订单编号',
+            It_: '订序',
+            PartCode_: '商品编号',
+            Class1_: '大类',
+            Class2_: '中类',
+            Desc_: '品名',
+            Spec_: '规格',
+            Unit_: '单位',
+            Rate1_: '包装量',
+            Num1_: '件数',
+            Num_: '数量',
+            SpareNum_: '内含备品',
+            OriUP_: '单价',
+            OriAmount_: '金额',
+            Remark_: '备注',
+        }
+        
     }
 }
