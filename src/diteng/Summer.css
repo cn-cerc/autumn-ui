@@ -20,6 +20,7 @@ div[role="dbgrid"] {
 div[role="dbgrid"] th {
     position: sticky;
     top: -1px;
+    z-index: 10;
 }
 
 div[role="dbgrid"] td {

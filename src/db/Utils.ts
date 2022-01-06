@@ -28,6 +28,19 @@ export default class Utils {
         let month = date.getMonth() + 1;
         return `${year}-${month < 10 ? '0' + month : month}-${new Date(year, month, 0).getDate()}`
     }
+
+    static saveSort(userNo: string, tb: string) {
+        let client = new ClientStorage(`diteng_${userNo}`);
+        let dataSet = new DataSet();
+        let checkboxs = document.querySelectorAll('.dbgrid tr input[type="checkbox"]');
+        checkboxs.forEach((checkbox: HTMLInputElement) => {
+            dataSet.append();
+            dataSet.setValue('field', checkbox.value);
+            let bool = checkbox.checked ? 'false' : 'true';
+            dataSet.setValue('visible', bool);
+        })
+        client.set(tb, dataSet.json);
+    }
 }
 
 export class ClientStorage {

@@ -2,6 +2,7 @@ import DateYMDialog from "../src/diteng/DateYMDialog";
 import FrmPrivacyRight from "../src/diteng/FrmPrivacyRight";
 import FrmUserAgreement from "../src/diteng/FrmUserAgreement";
 import index from '../src/index';
+import Utils, { ClientStorage } from "./db/Utils";
 import AccountEditDialog from "./diteng/AccountEditDialog";
 import AERemarkDialog from "./diteng/AERemarkDialog";
 import AHRemarkDialog from "./diteng/AHRemarkDialog";
@@ -51,6 +52,7 @@ import SubordinateDialog from "./diteng/SubordinateDialog";
 import SupBankDialog from "./diteng/SupBankDialog";
 import SupDialog from "./diteng/SupDialog";
 import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
+import TFrmTranOD from "./diteng/TFrmTranOD";
 import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
 import TSchProductInOutAnalysis from "./diteng/TSchProductInOutAnalysis";
 import TSchScmStockInOut from "./diteng/TSchScmStockInOut";
@@ -66,6 +68,7 @@ export default {
     TSchProductAnalysis,
     TSchScmStockInOut,
     TSchProductInOutAnalysis,
+    TFrmTranOD,
     //首页检测
     CheckDraftTB,
     CheckWorkflow,
@@ -127,5 +130,8 @@ export default {
     //地藤原jsp页面
     ErrorPage,
     FrmLogin,
-    CopyReportDialog
+    CopyReportDialog,
+    //工具类
+    Utils,
+    ClientStorage
 }

@@ -15,6 +15,7 @@ type DBGridProps = {
     readOnly?: boolean;
     onChanged?: OnRowChangedEvent;
     onRowClick?: OnRowClickEvent;
+    dataJson?: string;
 }
 
 type DBGridState = {
@@ -30,6 +31,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     static defaultProps = {
         readOnly: true
     }
+    private colunmMap: Map<string, JSX.Element>;
     constructor(props: DBGridProps) {
         super(props);
         this.state = {
@@ -38,7 +40,20 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             endPoint: DefaultPageSize,
             mutiPage: null
         }
+        this.initColumnMap();
+    }
 
+    initColumnMap() {
+        this.colunmMap = new Map();
+        React.Children.map(this.props.children, child => {
+            if (isValidElement(child)) {
+                // @ts-ignore
+                let className = child.type.className || ''
+                if (className == Column.className) {
+                    this.colunmMap.set(child.props.code, React.cloneElement(child, { tag: ColumnType.td, key: child.props.code }))
+                }
+            }
+        })
     }
 
     render() {
@@ -59,15 +74,28 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        React.Children.map(this.props.children, child => {
-            if (isValidElement(child)) {
-                // @ts-ignore
-                let className = child.type.className || ''
-                if (className == Column.className) {
-                    items.push(React.cloneElement(child, { tag: ColumnType.th, key: child.props.code, width: this.getWidth(child.props.width) }));
-                }
+        let arr: React.ReactNode[] = Array.from(this.colunmMap.values());
+        if (this.props.dataJson) {
+            let dataSet = new DataSet();
+            dataSet.setJson(this.props.dataJson);
+            dataSet.first();
+            while (dataSet.fetch()) {
+                arr.forEach((child) => {
+                    if (isValidElement(child)) {
+                        if (child.props.code == dataSet.getString('field')) {
+                            items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width), visible: dataSet.getString('visible') == 'true' ? true : false }))
+                        }
+                    }
+                })
             }
-        })
+        } else {
+            arr.forEach((child) => {
+                if (isValidElement(child)) {
+                    items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width) }))
+                }
+            })
+        }
+
         return items;
     }
 
@@ -101,10 +129,19 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             let total = 0;
             React.Children.map(this.props.children, child => {
                 if (isValidElement(child) && child.type == ChildRow) {
+                    let isHide = true;
+                    React.Children.map(child.props.children, item => {
+                        if (dataRow.has(item.props.code) && isHide) {
+                            isHide = false;
+                        }
+                    })
                     total++;
                     let key: string = `${recNo}.${total}`;
+                    let display = 'table-row';
+                    if(child.props.visible || isHide)
+                        display = 'none'
                     items.push(
-                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': child.props.visible ? 'none' : 'table-row' }}>
+                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -126,17 +163,27 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
         let items: React.ReactNode[] = [];
-        React.Children.map(this.props.children, child => {
-            if (isValidElement(child)) {
-                // @ts-ignore
-                let className = child.type.className || ''
-                if (className == Column.className)
-                    items.push(React.cloneElement(child, {
-                        tag: ColumnType.td, key: child.props.code, dataRow, recNo,
-                        onChangedOwner: this.onChanged
-                    }));
+        let arr: React.ReactNode[] = Array.from(this.colunmMap.values());
+        if (this.props.dataJson) {
+            let dataSet = new DataSet();
+            dataSet.setJson(this.props.dataJson);
+            dataSet.first();
+            while (dataSet.fetch()) {
+                arr.forEach((child) => {
+                    if (isValidElement(child)) {
+                        if (child.props.code == dataSet.getString('field')) {
+                            items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo, visible: dataSet.getString('visible') == 'true' ? true : false }))
+                        }
+                    }
+                })
             }
-        })
+        } else {
+            arr.forEach((child) => {
+                if (isValidElement(child)) {
+                    items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo }))
+                }
+            })
+        }
         return items;
     }
 

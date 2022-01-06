@@ -48,6 +48,11 @@
     position: relative;
 }
 
+.main table tr[data-key*=\.] {
+    font-size: .9rem;
+    color: #6a6a6a;
+}
+
 .main input {
     width: 90%;
     margin: 0 auto;
