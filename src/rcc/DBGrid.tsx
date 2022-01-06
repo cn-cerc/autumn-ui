@@ -130,15 +130,17 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             React.Children.map(this.props.children, child => {
                 if (isValidElement(child) && child.type == ChildRow) {
                     let isHide = true;
-                    React.Children.map(child.props.children, item => {
-                        if (dataRow.has(item.props.code) && isHide) {
-                            isHide = false;
-                        }
-                    })
+                    if(child.props.autoJudge) {
+                        React.Children.map(child.props.children, item => {
+                            if (item && dataRow.has(item.props.code) && isHide) {
+                                isHide = false;
+                            }
+                        })
+                    }
                     total++;
                     let key: string = `${recNo}.${total}`;
                     let display = 'table-row';
-                    if(child.props.visible || isHide)
+                    if(child.props.visible || (child.props.autoJudge && isHide))
                         display = 'none'
                     items.push(
                         <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }}>
@@ -349,7 +351,8 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 type ChildRowPropsType = {
     dataRow?: DataRow;
     colSpan?: number;
-    visible?: boolean
+    visible?: boolean;
+    autoJudge?: boolean
 }
 
 export class ChildRow extends React.Component<ChildRowPropsType> {
