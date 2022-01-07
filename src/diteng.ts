@@ -52,6 +52,7 @@ import SubordinateDialog from "./diteng/SubordinateDialog";
 import SupBankDialog from "./diteng/SupBankDialog";
 import SupDialog from "./diteng/SupDialog";
 import TempPrefererntialDialog from "./diteng/TempPrefererntialDialog";
+import TFrmProProcess from "./diteng/TFrmProProcess";
 import TFrmTranOD from "./diteng/TFrmTranOD";
 import TSchProductAnalysis from "./diteng/TSchProductAnalysis";
 import TSchProductInOutAnalysis from "./diteng/TSchProductInOutAnalysis";
@@ -69,6 +70,7 @@ export default {
     TSchScmStockInOut,
     TSchProductInOutAnalysis,
     TFrmTranOD,
+    TFrmProProcess,
     //首页检测
     CheckDraftTB,
     CheckWorkflow,

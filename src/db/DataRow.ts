@@ -118,7 +118,10 @@ export default class DataRow implements IDataSource {
 
     getString(field: string): string {
         let value = this.getValue(field);
-        return value ? "" + value : "";
+        if (typeof value == 'number' || value)
+            return value.toString()
+        else
+            return "";
     }
 
     getBoolean(field: string): boolean {
@@ -236,7 +239,7 @@ export default class DataRow implements IDataSource {
     }
 
     has(field: string): boolean {
-        return this.fields.exists(field) && this.getString(field) != '';
+        return this.fields.exists(field) && this.getString(field) !== '';
     }
 }
 

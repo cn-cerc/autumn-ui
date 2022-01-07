@@ -53,7 +53,7 @@ export default class TempPrefererntialDialog extends BaseDialog<BaseDialogPropsT
                     </div>
                     <button type='submit'>保存</button>
                 </form>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt/>
                     <Column name='优惠原因' code='Subject_' width='15'></Column>
                     <Column name='操作' code='opera' width='15' textAlign='center' customText={(row: DataRow) => {
