@@ -53,7 +53,7 @@ export default class SaleCurrentNumDialog extends BaseDialog<SaleCurrentNumTypeP
                     <DBEdit dataName='年月' dataField='YM_' readOnly={true}></DBEdit>
                     <DBEdit dataName='商品编号' dataField='PartCode_' readOnly={true}></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     {this.isPhone ? '' : <ColumnIt width='8' />}
                     <Column name='主责业务' textAlign='center' code='SalesName_' width='25'></Column>
                     {this.props.forecastTeam == 'true' ? <Column name='成本中心' textAlign='center' code='CostTypeName' width='25'></Column> : ''}

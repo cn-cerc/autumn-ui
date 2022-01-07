@@ -101,7 +101,7 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt/>
                     <Column code='Brand_' name='品牌' width='20'></Column>
                     <Column code='Spec_' name='品名' width='40' customText={this.initSpec}></Column>

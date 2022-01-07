@@ -70,7 +70,7 @@ export default class PartCodePartStockDialog extends BaseDialog<PartCodePartStoc
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
                 <div className={styles.dbgridSum}>数量汇总：{this.state.tStock}</div>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt/>
                     <Column name='仓别' code='CWCode_' width='20'></Column>
                     <Column name='仓存量' code='Stock_' width='20'></Column>

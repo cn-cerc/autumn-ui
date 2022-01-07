@@ -84,7 +84,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt />
                     <Column name='会员卡号' code='Code_' width='10'></Column>
                     <Column name='会员名称' code='Name_' width='10'></Column>

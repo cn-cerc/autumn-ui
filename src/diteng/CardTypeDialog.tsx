@@ -34,7 +34,7 @@ export default class CardTypeDialog extends BaseDialog<CardTypeTypeProps, CardTy
     content(): JSX.Element {
         return (
             <div role='content' className={styles.main}>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column code='Type_' name='类型' width='10'></Column>
                     <Column code='Text_' name='说明' width='45'></Column>
                     <Column code='opera' name='操作' width='10' textAlign='center' customText={(row: DataRow) => {

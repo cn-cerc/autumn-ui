@@ -52,7 +52,7 @@ export default class UserDialog extends BaseDialog<UserTypeProps, UserTypeState>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName="查询条件" dataField="SearchText_" placeholder="请输入查询条件" autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <Column name='账号' code='Code_' width='5'></Column>
                     <Column name='姓名' code='Name_' width='10'></Column>
                     <Column name='操作' code='opera' width='3' textAlign='center' customText={(row: DataRow) => {

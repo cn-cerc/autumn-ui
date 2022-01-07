@@ -47,7 +47,7 @@ export default class PartModeldDialog extends BaseDialog<BaseDialogPropsType, Pa
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName='查询条件' dataField='CheckText_'></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column name='商品型号' code='Code_' width='25'></Column>
                     <Column name='型号名称' code='Name_' width='25'></Column>
                     <Column name='操作' code='opera' width='10' textAlign='center' customText={

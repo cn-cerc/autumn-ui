@@ -43,7 +43,7 @@ export default class SupBankDialog extends BaseDialog<SupBankTypeProps, SupBankT
     content(): JSX.Element {
         return (
             <div className={styles.main} role='content'>
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <ColumnIt width={this.isPhone ? '10' : '5'}/>
                     <Column name='银行名称' code='Name_' width='16'></Column>
                     <Column name='银行帐号' code='AccountNo_' width='40'></Column>

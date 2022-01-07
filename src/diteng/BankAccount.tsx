@@ -41,7 +41,7 @@ export default class BankAccountDialog extends BaseDialog<BankAccountTypeProps, 
     content(): JSX.Element {
         return (
             <div role='content' className={styles.main}>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt width={this.isPhone ? '8' : '5'}/>
                     <Column code='Name_' name='账户简称' width='20'></Column>
                     <Column code='AccountBank_' name='开户行' width='25'></Column>

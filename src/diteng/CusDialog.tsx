@@ -108,7 +108,7 @@ export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
                     </section>
                 </form>
 
-                <DBGrid dataSet={this.state.dataSet} key={this.getKey()} onRowClick={this.isPhone ? '' : this.trClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} key={this.getKey()} onRowClick={this.isPhone ? '' : this.trClick.bind(this)} openPage={false}>
                     <ColumnIt width='1' />
                     <Column name='客户简称' code='ShortName_' width='8'></Column>
                     {this.state.dataIn.getValue('isName') ? <Column name='客户全称' code='Name_' width='8'></Column> : ''}

@@ -95,7 +95,7 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} key={new Date().getTime()}>
+                <DBGrid dataSet={this.state.dataSet} key={new Date().getTime()} openPage={false}>
                     <Column name='科目属性' code='DrCr_' textAlign='center' width='20' customText={(row: DataRow) => {
                         return row.getString('DrCr_') == 'true' ? <span>贷</span> : <span>借</span>
                     }}></Column>

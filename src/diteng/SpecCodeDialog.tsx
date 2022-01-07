@@ -49,7 +49,7 @@ export default class SpecCodeDialog extends BaseDialog<BaseDialogPropsType, Spec
                     <DBEdit dataName='规格类码' dataField='Code_'></DBEdit>
                     <DBEdit dataName='规格名称' dataField='Name_'></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt width='10'/>
                     <Column name='规格类码' code='Code_' width='20'></Column>
                     <Column name='规格名称' code='Name_' width='25'></Column>
