@@ -134,10 +134,11 @@ export class Excel {
         data.records.forEach((row: DataRow, no: number) => {
             let serial = no + 2;
             data.fields.items.forEach((item: FieldMeta, index: number) => {
+                let bool = row.items.has(item.code);
                 let value = item.type == 'n' ? row.getNumber(item.code) : row.getString(item.code);
                 output[this.excelKey(index) + serial] = {
-                    v: value,
-                    t: item.type,
+                    v: bool ? value : '',
+                    t: bool ? item.type : 's',
                 }
             })
         })
@@ -161,36 +162,43 @@ export class Excel {
                 ),
             },
         };
-        console.log(wb);
-        // return;
         // 导出 Excel
         XLSX.writeFile(wb, fileName);
     }
 
-    // OD单订单明细导出
-    exportODDetail(dataSet: DataSet, fileName: string = 'demo.xlsx') {
+    // 根据DataSet中的records来生成excel表格
+    exportExcelByRecords = (data: DataSet, fileName: string = 'demo.xlsx') => {
         let output: any = {};
-        let w = 15, h = 13;
-    }
-
-    generateODDetail(dataSet: DataSet, startNum: number) {
-        let meta: any = {
-            TBNo_: '订单编号',
-            It_: '订序',
-            PartCode_: '商品编号',
-            Class1_: '大类',
-            Class2_: '中类',
-            Desc_: '品名',
-            Spec_: '规格',
-            Unit_: '单位',
-            Rate1_: '包装量',
-            Num1_: '件数',
-            Num_: '数量',
-            SpareNum_: '内含备品',
-            OriUP_: '单价',
-            OriAmount_: '金额',
-            Remark_: '备注',
-        }
-        
+        data.records.forEach((row: DataRow, no: number) => {
+            let serial = no + 1;
+            data.fields.items.forEach((item: FieldMeta, index: number) => {
+                let value = row.getValue(item.code);
+                let bool = typeof value == 'object' && value != null;
+                output[this.excelKey(index) + serial] = {
+                    v: bool ? value.text : row.getString(item.code),
+                    t: bool ? 'n' : 's',
+                }
+            })
+        })
+        // 获取所有单元格的位置
+        const outputPos = Object.keys(output);
+        // 计算出范围 ,["A1",..., "H2"]
+        const ref = `${outputPos[0]}:${outputPos[outputPos.length - 1]}`;
+        // 构建 workbook 对象
+        const wb = {
+            SheetNames: ['Sheet1'],
+            Sheets: {
+                Sheet1: Object.assign(
+                    {},
+                    output,
+                    {
+                        '!ref': ref,
+                        // '!cols': [{ wpx: 45 }, { wpx: 100 }, { wpx: 200 }, { wpx: 80 }, { wpx: 150 }, { wpx: 100 }, { wpx: 300 }, { wpx: 300 }],
+                    },
+                ),
+            },
+        };
+        // 导出 Excel
+        XLSX.writeFile(wb, fileName);
     }
 }

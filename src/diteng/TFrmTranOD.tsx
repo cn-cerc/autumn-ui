@@ -25,16 +25,19 @@ type TFrmTranODTypeStates = {
     dataSet: DataSet,
     amount: number,
     number: number,
-    originalAmount: number
+    originalAmount: number,
+    details: DataSet[]
 }
 
 const SEARCH_SESSION_KEY = 'TAppTranOD.search_od';
 const loading = new Loading('系统正在查询中 . . .');
+const exportLoading = new Loading('系统正在导出中 . . .');
 const MAX_RECORD = 100000;
 
 export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFrmTranODTypeStates> {
     private _async: boolean;
-    private _client: ClientStorage = new ClientStorage(`diteng_${this.props.userNo}`)
+    private _client: ClientStorage = new ClientStorage(`diteng_${this.props.userNo}`);
+    private _total: number;
     constructor(props: TFrmTranODTypeProps) {
         super(props);
         // 初始化查询数据
@@ -53,7 +56,8 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
             dataSet: new DataSet(),
             amount: 0,
             number: 0,
-            originalAmount: 0
+            originalAmount: 0,
+            details: []
         }
     }
 
@@ -63,15 +67,9 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
             item[0].addEventListener('click', this.submitClick.bind(this));
         }
         let download1 = document.querySelector('#download1');
-        if (download1) download1.addEventListener('click', this.download1.bind(this));
+        if (download1) download1.addEventListener('click', this.getDetails.bind(this));
         let download2 = document.querySelector('#download2');
         if (download2) download2.addEventListener('click', this.download2.bind(this));
-        let service = new QueryService(this.props);
-        service.setService('TAppTranOD.getDetailData');
-        service.dataIn.head.setValue('TBNo_', 'ODA211206001')
-        service.open().then(dataOut => {
-            console.log(dataOut)
-        })
     }
 
     render(): React.ReactNode {
@@ -82,7 +80,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
         let originalAmount = document.querySelector('#originalAmount');
         if (originalAmount) originalAmount.innerHTML = this.state.originalAmount.toString();
         return (
-            <DBGrid dataSet={this.state.dataSet} dataJson={this._client.get('OD')}>
+            <DBGrid dataSet={this.state.dataSet} dataJson={this._client.get('OD')} key={new Date().getTime()}>
                 {this.getCloumns()}
             </DBGrid>
         )
@@ -117,7 +115,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
         headIn.setValue('TBDate_To', search['TBDate_To']);
         headIn.setValue('MaxRecord_', search['MaxRecord_']);
         headIn.setValue('Status_', search['Status_'])
-        let process = search['Process_ '];
+        let process = search['Process_'];
         if (process >= 0) headIn.setValue('Process_', process);
         let prepareStatus = search['PrepareStatus_'];
         if (prepareStatus >= 0) headIn.setValue('PrepareStatus_', prepareStatus);
@@ -143,7 +141,6 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
         if (searchText) headIn.setValue('SearchText_', searchText);
         let cusOrdNo = search['CusOrdNo_'];
         if (cusOrdNo) headIn.setValue('CusOrdNo_', cusOrdNo);
-
 
         headIn.setValue("segmentQuery", true);
         headIn.setValue('timestamp', new Date().getTime());
@@ -246,11 +243,12 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
                 this.setState({
                     amount: math.toFixed(amount, 2),
                     number: math.toFixed(number, 2),
-                    originalAmount: math.toFixed(originalAmount, 2)
+                    originalAmount: math.toFixed(originalAmount, 2),
                 }, () => {
                     loading.hide();
                     showMsg('数据加载完成');
                     this._async = false;
+                    this._total = this.state.dataSet.size;
                 });
             }
         }).catch(dataOut => {
@@ -287,51 +285,135 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
         return <div className={`progress${num + 1}`} title={title}><span></span></div>
     }
 
-    download1(e: any) {
-        e.preventDefault();
-        let dataSet = new DataSet();
-        if (this.state.dataSet.size > 1) {
-            let meta: any = {
-
+    download1() {
+        this.state.dataSet.first();
+        let meta: any = {
+            TBNo_: '订单编号',
+            It_: '订序',
+            PartCode_: '商品编号',
+            Class1_: '大类',
+            Class2_: '中类',
+            Desc_: '品名',
+            Spec_: '规格',
+            Unit_: '单位',
+            Rate1_: '包装量',
+            Num1_: '件数',
+            Num_: '数量',
+            SpareNum_: '内含备品',
+            OriUP_: '单价',
+            OriAmount_: '金额',
+            Remark_: '备注',
+        }
+        let ds = new DataSet();
+        let ruleOut = ['It_', 'Rate1_', 'Num1_', 'Num_', 'SpareNum_', 'OriUP_', 'OriAmount_']
+        while (this.state.dataSet.fetch()) {
+            let ds2 = new DataSet();
+            ds2.appendDataSet(this.state.details[this.state.dataSet.recNo - 1]);
+            ds2.first();
+            if (ds2.size > 0) {
+                ds.append().setValue('TBNo_', '业务订单').setValue('It_', this.state.dataSet.getString('TBNo_'));
+                ds.append().setValue('TBNo_', '订单日期').setValue('It_', this.state.dataSet.getString('TBDate_'));
+                ds.append().setValue('TBNo_', '客户简称').setValue('It_', this.state.dataSet.getString('CusName'));
+                let statu: string = '';
+                switch (this.state.dataSet.getDouble('Status_')) {
+                    case 0:
+                        statu = '草稿';
+                        break;
+                    case 1:
+                        statu = '生效';
+                        break;
+                    case -1:
+                        statu = '作废';
+                        break;
+                    default:
+                        statu = '';
+                        break;
+                }
+                ds.append().setValue('TBNo_', '单据状态').setValue('It_', statu);
+                ds.append();
+                for (let key in meta) {
+                    ds.setValue(key, meta[key])
+                }
+                let totalNum = 0;
+                let totalMoney = 0;
+                while (ds2.fetch()) {
+                    ds.append();
+                    for (let key in meta) {
+                        if (ruleOut.indexOf(key) > -1)
+                            ds.setValue(key, { text: ds2.getDouble(key) })
+                        else
+                            ds.setValue(key, ds2.getString(key))
+                    }
+                    totalNum += ds2.getDouble('Num_');
+                    totalMoney += ds2.getDouble('OriAmount_');
+                }
+                ds.append().setValue('TBNo_', '合计数量').setValue('It_', totalNum);
+                ds.append().setValue('TBNo_', '合计金额').setValue('It_', totalMoney);
+                ds.append();
+                ds.append();
+                ds.append();
             }
-            new Excel().exportExcel(this.state.dataSet, `业务订单明细-${new Datetime().format('yyyyMMdd')}.xls`)
+        }
+        exportLoading.hide();
+        new Excel().exportExcelByRecords(ds, `业务订单明细-${new Datetime().format('yyyyMMdd')}.xls`)
+    }
+
+    getDetails(e: any) {
+        e.preventDefault();
+        if (this.state.dataSet.size > 0) {
+            this.state.dataSet.first();
+            exportLoading.show();
+            while (this.state.dataSet.fetch()) {
+                let service = new QueryService(this.props);
+                let recNo = this.state.dataSet.recNo;
+                service.setService('TAppTranOD.getDetailData');
+                service.dataIn.head.setValue('TBNo_', this.state.dataSet.getString('TBNo_'))
+                service.open(30).then(dataOut => {
+                    this.state.details[recNo - 1] = dataOut;
+                    this._total--;
+                    if (this._total <= 0) {
+                        this.download1()
+                    }
+                })
+            }
         }
     }
 
     download2(e: any) {
         e.preventDefault();
         let dataSet = new DataSet();
-        if (this.state.dataSet.size > 1) {
+        if (this.state.dataSet.size > 0) {
+            exportLoading.show();
             let meta: any = {
-                CusCode_: '客户代码',
-                CusName: '客户简称',
-                TBNo_: '订单单号',
-                TBDate_: '单据日期',
-                OutDate_: '订单交期',
-                TOriAmount_: '订单金额',
-                Status_: '单据状态',
-                CusType_: '客户类型',
-                CusOrdNo_: '客户订单号',
-                PrintTimes_: '打印次数',
-                SalesName: '业务人员',
-                WHCode_: '发货仓别',
-                Logistics_: '物流公司',
-                FastMail_: '运单号码',
-                FreightWay_: '货运方式',
-                ERPControl_: 'ERP状态',
-                Process_: '出货进度',
-                Remark_: '备注',
-                PayTypeDetail: '收款类别明细',
-                Tax_: '税金',
-                Currency_: '币别',
-                ExRate_: '汇率',
-                ManageNo_: '管理编号',
-                PayType_: '收款类别',
-                UpdateUser_: '更新人员',
-                UpdateDate_: '更新日期',
-                AppUser_: '建档人员',
-                AppDate_: '建档日期',
-                DeptName: '部门名称'
+                'CusCode_': '客户代码',
+                'CusName': '客户简称',
+                'TBNo_': '订单单号',
+                'TBDate_': '单据日期',
+                'OutDate_': '订单交期',
+                'TOriAmount_': '订单金额',
+                'Status_': '单据状态',
+                'CusType_': '客户类型',
+                'CusOrdNo_': '客户订单号',
+                'PrintTimes_': '打印次数',
+                'SalesName': '业务人员',
+                'WHCode_': '发货仓别',
+                'Logistics_': '物流公司',
+                'FastMail_': '运单号码',
+                'FreightWay_': '货运方式',
+                'ERPControl_': 'ERP状态',
+                'Process_': '出货进度',
+                'Remark_': '备注',
+                'PayTypeDetail': '收款类别明细',
+                'Tax_': '税金',
+                'Currency_': '币别',
+                'ExRate_': '汇率',
+                'ManageNo_': '管理编号',
+                'PayType_': '收款类别',
+                'UpdateUser_': '更新人员',
+                'UpdateDate_': '更新日期',
+                'AppUser_': '建档人员',
+                'AppDate_': '建档日期',
+                'DeptName': '部门名称'
             }
             let ruleOut = ['TOriAmount_', 'PrintTimes_', 'ERPControl_', 'Tax_', 'ExRate_', 'PayType_']
             for (let key of Object.keys(meta)) {
@@ -342,7 +424,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
                     fm.setType('n');
                 dataSet.fields.items.push(fm)
             }
-            
+
             this.state.dataSet.records.forEach((row: DataRow) => {
                 dataSet.append();
                 dataSet.fields.forEach((meta: FieldMeta) => {
@@ -385,7 +467,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
             })
             dataSet.append();
             dataSet.setValue('CusCode_', '合计金额').setValue('TOriAmount_', this.state.amount);
-
+            exportLoading.hide();
             new Excel().exportExcel(dataSet, `订单数据-${new Datetime().format('yyyyMMdd')}.xls`)
         }
     }
