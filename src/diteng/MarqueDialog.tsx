@@ -24,6 +24,7 @@ type MarqueDialogTypeProps = {
 } & Partial<BaseDialogPropsType>
 
 type MarqueDialogTypeState = {
+    tb: string,
     headData: DataSet,
     dataSet: DataSet,
     filters: Map<string, string>,
@@ -59,6 +60,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
         }
         this.state = {
             ...this.state,
+            tb,
             headData: new DataSet(),
             dataSet: new DataSet(),
             filters: new Map(),
@@ -339,6 +341,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             params.push('supCode=' + this.state.params.getString('SupCode_'));
         else
             params.push('cusCode=' + this.state.params.getString('CusCode_'));
+        params.push('tb=' + this.state.tb);
         let desc: ReactNode[] = [];
         if (dataRow.getInt("sales_") > 0 || "" != dataRow.getString("SPNo_")) {
             desc.push(

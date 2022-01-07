@@ -127,12 +127,12 @@ export default class FrmStatementChanges extends CustomForm<CustomFormPropsType,
         let text: string = '';
         while (this.state.client.fetch()) {
             if (!this.state.client.getString('Code_')) text = '项目代码不能为空';
-            if (!this.state.client.getString('Name_')) text = '项目描述不能为空';
-            if (!this.state.client.getValue('FnlFinal_')) text = '末级否不能为空';
-            if (!this.state.client.getString('Level_')) text = '层级不能为空';
-            if (!this.state.client.getString('ParentCode_')) text = '父接点不能为空';
-            if (this.state.client.getValue('Final_')) text = '确认否不能为空';
-            if (text != '') break;
+            else if (!this.state.client.getString('Name_')) text = '项目描述不能为空';
+            else if (!this.state.client.getValue('FnlFinal_')) text = '末级否不能为空';
+            else if (!this.state.client.getString('Level_')) text = '层级不能为空';
+            else if (!this.state.client.getString('ParentCode_')) text = '父接点不能为空';
+            else if (!this.state.client.getValue('Final_')) text = '确认否不能为空';
+            else if (text != '') break;
         }
         if (text != '') {
             Toast.error(text);

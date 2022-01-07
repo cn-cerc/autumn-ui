@@ -37,11 +37,10 @@ export default class FrmMoneyRate extends CustomForm<CustomFormPropsType, MoneyR
         super(props);
         let client = new SClient(this.props);
         let dataIn = new DataRow();
-        dataIn.setValue('Code_', '*');
-        dataIn.setValue('StartDate_min', Utils.getMonthStartDay())
-        dataIn.setValue('StartDate_max', Utils.getMonthEndDay())
-        dataIn.setValue('MaxRecord', 100);
-        client.setService('MoneyRate_');
+        dataIn.setValue('StartDate__from', Utils.getMonthStartDay())
+        dataIn.setValue('StartDate__to', Utils.getMonthEndDay())
+        dataIn.setValue('MaxRecord_', 100);
+        client.setService('MoneyRate');
         this.state = {
             client,
             dataIn,
@@ -76,8 +75,8 @@ export default class FrmMoneyRate extends CustomForm<CustomFormPropsType, MoneyR
                 </ToolPanel>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSearch.bind(this)}>
                     <DBEdit dataField='Code_' dataName='币别代码'></DBEdit>
-                    <DBDatePicker dataField='StartDate_min' dataName='开始时间'></DBDatePicker>
-                    <DBDatePicker dataField='StartDate_max' dataName='结束时间'></DBDatePicker>
+                    <DBDatePicker dataField='StartDate__from' dataName='开始时间'></DBDatePicker>
+                    <DBDatePicker dataField='StartDate__to' dataName='结束时间'></DBDatePicker>
                     <DBEdit dataField='Rate_' dataName='币别换算率'></DBEdit>
                     <DBDrop dataField='RateType_' dataName='汇率类别' options={this._typeList}></DBDrop>
                     <DBEdit dataField='MaxRecord_' dataName='载入笔数'></DBEdit>
