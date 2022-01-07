@@ -46,8 +46,12 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     }
 
     componentDidUpdate(prevProps: Readonly<DBGridProps>, prevState: Readonly<DBGridState>, snapshot?: any): void {
-        if (!this.props.openPage && this.props.dataSet.size !== prevProps.dataSet.size) {
-            this.setState({ ...this.state, endPoint: this.props.dataSet.size })
+        if (this.props.dataSet.size !== prevProps.dataSet.size) {
+            this.setState({
+                ...this.state,
+                beginPoint: 1,
+                endPoint: this.props.openPage ? DefaultPageSize : this.props.dataSet.size,
+            })
         }
     }
 
@@ -138,7 +142,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             React.Children.map(this.props.children, child => {
                 if (isValidElement(child) && child.type == ChildRow) {
                     let isHide = true;
-                    if(child.props.autoJudge) {
+                    if (child.props.autoJudge) {
                         React.Children.map(child.props.children, item => {
                             if (item && dataRow.has(item.props.code) && isHide) {
                                 isHide = false;
@@ -148,7 +152,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     total++;
                     let key: string = `${recNo}.${total}`;
                     let display = 'table-row';
-                    if(child.props.visible || (child.props.autoJudge && isHide))
+                    if (child.props.visible || (child.props.autoJudge && isHide))
                         display = 'none'
                     items.push(
                         <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }}>
