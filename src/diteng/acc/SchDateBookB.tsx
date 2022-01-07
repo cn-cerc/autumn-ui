@@ -108,7 +108,6 @@ export default class SchDateBookB extends CustomForm<CustomFormPropsType, stateT
         typeClient.forEach((row: DataRow) => {
             this._typeList.set((row.getInt('Type_') + '.' + row.getString('Name_')), row.getInt('Type_') + '');
         })
-        console.log(this._typeList)
         this.btnSearch(this.state.dataIn)
     }
 
@@ -128,7 +127,7 @@ export default class SchDateBookB extends CustomForm<CustomFormPropsType, stateT
             console.log(this.state.client.message);
             return;
         } else {
-            Toast.success('保存成功');
+            Toast.success('查询成功');
         }
         this.setState(this.state);
     }
