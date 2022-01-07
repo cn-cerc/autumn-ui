@@ -47,7 +47,7 @@ export default class StaffDialog extends BaseDialog<BaseDialogPropsType, StaffTy
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="SearchText_" dataName="查询条件" autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column code="Code_" name="员工代码" width="50"></Column>
                     <Column code="Name_" name="员工名称" width="30"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{

@@ -113,7 +113,7 @@ export default class DepartmentDialog extends BaseDialog<BaseDialogPropsType, De
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt/>
                     <Column name='部门代码' code='Code_' width='20'></Column>
                     <Column name='部门名称' code='Name_' width='20' customText={(row: DataRow) => {

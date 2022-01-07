@@ -39,7 +39,7 @@ export default class AHRemarkDialog extends BaseDialog<BaseDialogPropsType, AHRe
     content(): JSX.Element {
         return (
             <div className={styles.main} role='content'>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column name='异动代码' code='Code_' width='10'></Column>
                     <Column name='异动原因' code='Reason_' width='25'></Column>
                     <Column name='操作' code='opera' width='15' textAlign='center' customText={(row: DataRow) => {

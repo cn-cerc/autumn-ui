@@ -54,7 +54,7 @@ export default class FastCorpDialog extends BaseDialog<FastCorpTypeProps, FastCo
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column name='代收企业' code='Code_' width='25'></Column>
                     <Column name='代收简称' code='ShortName_' width='25'></Column>
                     <Column name='操作' code='opera' width='10' textAlign='center' customText={

@@ -81,7 +81,7 @@ export default class CusAreaDialog extends BaseDialog<BaseDialogPropsType, CusAr
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <ColumnIt width='10' />
                     <Column name='区域' code='SalesArea_' width='30'></Column>
                     <Column name='选择' code='opera' width='12' textAlign='center' customText={

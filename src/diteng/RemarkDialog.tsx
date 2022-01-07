@@ -77,7 +77,7 @@ export default class RemarkDialog extends BaseDialog<BaseDialogPropsType, Remark
             )
         } else {
             return (
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <ColumnIt width='10'/>
                     <Column name='原因备注项' code='Remark_' width='70'></Column>
                     <Column name='选择' textAlign='center' code='opera' width='10' customText={(row: DataRow) => {

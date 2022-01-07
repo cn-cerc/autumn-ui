@@ -6,9 +6,15 @@ export class ColumnNumber extends Column {
         tag: ColumnType.td,
         colSpan: 1,
         textAlign: 'right',
+        color: '',
     }
 
     getValue(): React.ReactNode {
-        return this.props.dataRow.getNumber(this.props.code);
+        //@ts-ignore
+        let color = this.props.color;
+        if (color) {
+            return <span style={{ color }}>{this.props.dataRow.getNumber(this.props.code)}</span>;
+        } else
+            return this.props.dataRow.getNumber(this.props.code);
     }
 }

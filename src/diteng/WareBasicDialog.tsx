@@ -47,7 +47,7 @@ export default class WareBasicDialog extends BaseDialog<BaseDialogPropsType, War
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt width='10'/>
                     <Column name='规格' code='WareSpec_' width='50'></Column>
                     <Column name='选择' code='opera' width='10' textAlign='center' customText={

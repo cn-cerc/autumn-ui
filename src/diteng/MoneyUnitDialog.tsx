@@ -58,7 +58,7 @@ export default class MoneyUnitDialog extends BaseDialog<MoneyUnitTypeProps, Mone
                     <DBEdit dataName='币别代码' dataField='Code_' autoFocus onChanged={this.filter.bind(this)}></DBEdit>
                     <DBEdit dataName='币别名称' dataField='Name' onChanged={this.filter.bind(this)}></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <Column name='币别代码' code='Code_' width='50'></Column>
                     <Column name='币别名称' code='Name_' width='50'></Column>
                     <Column name='操作' code='opera' width='20' textAlign='center' customText={

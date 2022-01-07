@@ -66,7 +66,7 @@ export default class WorkerDialog extends BaseDialog<BaseDialogPropsType, Worker
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBDrop dataName='部门查询' dataField='DeptCode_' options={this.state.options}></DBDrop>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <Column name='姓名' code='Name_' width='20'></Column>
                     <Column name='部门' code='DeptName_' width='30'></Column>
                     <Column name='手机号' code='Mobile_' width='25'></Column>

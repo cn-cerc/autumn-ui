@@ -80,7 +80,7 @@ export default class OutInfoDialog extends BaseDialog<OutInfoTypeProps, OutInfoT
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBEdit dataName='载入笔数' dataField='MaxRecord_'></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column name='帐套代码' code='CorpNo_' width='15'></Column>
                     <Column name='帐套简称' code='ShortName_' width='40'></Column>
                     {columns}

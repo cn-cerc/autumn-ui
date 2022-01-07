@@ -60,7 +60,7 @@ export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcSt
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBDrop dataName='制程选择' dataField='ProcCode_' options={this.state.options}></DBDrop>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <ColumnIt width='10' />
                     <Column name='制程' textAlign='center' code='ProName_' width='15'></Column>
                     <Column name='工序' textAlign='right' code='StepName_' width='25'></Column>
