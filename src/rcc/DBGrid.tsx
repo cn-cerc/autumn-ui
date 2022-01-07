@@ -8,7 +8,7 @@ import MutiPage, { DefaultPageSize, OnPageChanged } from "./MutiPage";
 import WebControl from "./WebControl";
 
 export type OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => void;
-export type OnRowClickEvent = (row: DataRow) => void;
+export type OnRowClickEvent = (row: DataRow, sender?: any) => void;
 
 type DBGridProps = {
     dataSet: DataSet;
@@ -16,6 +16,7 @@ type DBGridProps = {
     onChanged?: OnRowChangedEvent;
     onRowClick?: OnRowClickEvent;
     dataJson?: string;
+    openPage?: boolean;
 }
 
 type DBGridState = {
@@ -29,7 +30,8 @@ export type OnDataRowChangedEvent = (recNo: number, field: string, value: string
 
 export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     static defaultProps = {
-        readOnly: true
+        readOnly: true,
+        openPage: true,
     }
     private colunmMap: Map<string, JSX.Element>;
     constructor(props: DBGridProps) {
@@ -37,10 +39,16 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         this.state = {
             allWidth: this.getAllWidth(),
             beginPoint: 1,
-            endPoint: DefaultPageSize,
-            mutiPage: null
+            endPoint: this.props.openPage ? DefaultPageSize : this.props.dataSet.size,
+            mutiPage: null,
         }
         this.initColumnMap();
+    }
+
+    componentDidUpdate(prevProps: Readonly<DBGridProps>, prevState: Readonly<DBGridState>, snapshot?: any): void {
+        if (!this.props.openPage && this.props.dataSet.size !== prevProps.dataSet.size) {
+            this.setState({ ...this.state, endPoint: this.props.dataSet.size })
+        }
     }
 
     initColumnMap() {
@@ -138,7 +146,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     total++;
                     let key: string = `${recNo}.${total}`;
                     let display = 'table-row';
-                    if(child.props.visible || isHide)
+                    if (child.props.visible || isHide)
                         display = 'none'
                     items.push(
                         <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }}>
@@ -158,7 +166,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         let reactKey: string = tr.dataset.key;
         let recNo: number = Number(reactKey.split('_')[1].split('\.')[0]);
         this.props.dataSet.setRecNo(recNo);
-        this.props.onRowClick(this.props.dataSet.current);
+        this.props.onRowClick(this.props.dataSet.current, sender);
     }
 
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
@@ -197,7 +205,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     }
 
     getNavigator(): React.ReactNode {
-        if (this.props.dataSet.size <= DefaultPageSize)
+        if (!this.props.openPage || this.props.dataSet.size <= DefaultPageSize)
             return null;
         return (
             <MutiPage total={this.props.dataSet.size} bindMutiPage={this.bindMutiPage.bind(this)} onPageChanged={this.onPageChanged} />
@@ -205,9 +213,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     }
 
     bindMutiPage(mutiPage: MutiPage) {
-        this.setState({
-            mutiPage
-        });
+        this.setState({ ...this.state, mutiPage });
     }
 
     onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
@@ -355,18 +361,21 @@ type ChildRowPropsType = {
 export class ChildRow extends React.Component<ChildRowPropsType> {
     render() {
         let items: React.ReactNode[] = [];
+        let oldItems = (this.props.children as Array<React.ReactNode>).length || 1;
         let childNum = 0;
+
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column)
-                childNum++;
-        })
-        React.Children.map(this.props.children, child => {
-            if (isValidElement(child) && child.type == Column)
+            childNum++;
+            if (isValidElement(child) && child.type == Column) {
+                let colSpan = child.props.colSpan;
+                if (childNum == oldItems)
+                    colSpan = this.props.colSpan - oldItems + 1;
                 items.push(React.cloneElement(child, {
                     tag: ColumnType.td, key: child.props.code, dataRow: this.props.dataRow,
-                    colSpan: childNum > 1 ? child.props.colSpan : this.props.colSpan,
+                    colSpan: colSpan,
                     visible: this.props.visible
                 }));
+            }
         })
         return items;
     }
