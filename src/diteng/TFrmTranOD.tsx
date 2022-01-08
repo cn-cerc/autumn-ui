@@ -8,6 +8,7 @@ import { ClientStorage, Excel } from "../db/Utils";
 import { ColumnIt } from "../rcc/ColumnIt";
 import { ColumnNumber } from "../rcc/ColumnNumber";
 import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
+import CustomDBGridDialog from "./CustomDBGridDialog";
 import DitengCommon from "./DitengCommon";
 import { AuiMath, Loading, showMsg } from "./Summer";
 
@@ -38,6 +39,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
     private _async: boolean;
     private _client: ClientStorage = new ClientStorage(`diteng_${this.props.userNo}`);
     private _total: number;
+    private customDBGrid: CustomDBGridDialog;
     constructor(props: TFrmTranODTypeProps) {
         super(props);
         // 初始化查询数据
@@ -66,6 +68,8 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
         if (item.length > 0) {
             item[0].addEventListener('click', this.submitClick.bind(this));
         }
+        let custonBtn = document.querySelector('#customBtn');
+        if (custonBtn) custonBtn.addEventListener('click', this.showCustom.bind(this));
         let download1 = document.querySelector('#download1');
         if (download1) download1.addEventListener('click', this.getDetails.bind(this));
         let download2 = document.querySelector('#download2');
@@ -80,9 +84,12 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
         let originalAmount = document.querySelector('#originalAmount');
         if (originalAmount) originalAmount.innerHTML = this.state.originalAmount.toString();
         return (
-            <DBGrid dataSet={this.state.dataSet} dataJson={this._client.get('OD')} key={new Date().getTime()}>
-                {this.getCloumns()}
-            </DBGrid>
+            <React.Fragment>
+                <DBGrid dataSet={this.state.dataSet} dataJson={this._client.get('OD')} key={new Date().getTime()}>
+                    {this.getCloumns()}
+                </DBGrid>
+                <CustomDBGridDialog ref={self => this.customDBGrid = self} userNo={this.props.userNo} tb='OD' reloadState={this.reloadState.bind(this)} initColumns={this.getCloumns.bind(this)} isChild={true}></CustomDBGridDialog>
+            </React.Fragment>
         )
     }
 
@@ -208,7 +215,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
                 <Column code='CheckRecord' width='100' colSpan={17} customText={(row: DataRow) => {
                     return <React.Fragment>
                         <span style={{ 'paddingRight': '1em' }}>签核进度：</span>
-                        {row.getString('CheckRecord')}
+                        <span dangerouslySetInnerHTML={{ __html: row.getValue('CheckRecord') }}></span>
                     </React.Fragment>
                 }}></Column>
             </ChildRow>
@@ -283,6 +290,15 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
         else if (num == 2) title = '备货完成';
         else title = '状态错误';
         return <div className={`progress${num + 1}`} title={title}><span></span></div>
+    }
+
+    showCustom(e: any) {
+        e.preventDefault();
+        this.customDBGrid.showAsChild();
+    }
+
+    reloadState() {
+        this.setState(this.state)
     }
 
     download1() {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
 import { TGridConfig } from '../vcl/TGrid';
-import MutiPage, { DefaultPageSize, OnPageChanged } from './MutiPage';
+import MutiPage, { DefaultPageSize, OnPageChanged, USER_PAGE_SIZE_KEY } from './MutiPage';
 import styles from './Grid.css';
 import DataSet from '../db/DataSet';
 
@@ -20,15 +20,22 @@ type PropsType = {
 interface stateType {
     beginPoint: number;
     endPoint: number;
-    mutiPage: MutiPage | null;
 }
 
 export default class Grid extends React.Component<PropsType, stateType> {
     static defaultProps = defaultProps;
+    private mutiPage: MutiPage;
+    private size: number;
 
     constructor(props: PropsType) {
         super(props)
-        this.state = { beginPoint: 1, endPoint: DefaultPageSize, mutiPage: null };
+        let value = localStorage.getItem(USER_PAGE_SIZE_KEY);
+        this.size = Number(value);
+        if (!this.size) {
+            this.size = DefaultPageSize;
+            localStorage.setItem(USER_PAGE_SIZE_KEY, String(this.size));
+        }
+        this.state = { beginPoint: 1, endPoint: this.size };
         $("#page").css({
             "height": "0",
             "flex": "1",
@@ -40,7 +47,7 @@ export default class Grid extends React.Component<PropsType, stateType> {
 
     render() {
         return (
-            <div className={styles.main}>
+            <div className={styles.main} role='grid'>
                 <table>
                     <tbody>
                         <tr>{this.getTitles().map(item => item)}</tr>
@@ -138,17 +145,11 @@ export default class Grid extends React.Component<PropsType, stateType> {
     }
 
     getNavigator(): React.ReactNode {
-        if (this.props.config.dataSet.size <= DefaultPageSize)
+        if (this.props.config.dataSet.size <= this.size)
             return null;
         return (
-            <MutiPage total={this.props.config.dataSet.size} bindMutiPage={this.bindMutiPage.bind(this)} onPageChanged={this.onPageChanged} />
+            <MutiPage ref={self => this.mutiPage = self} total={this.props.config.dataSet.size} onPageChanged={this.onPageChanged} />
         )
-    }
-
-    bindMutiPage(mutiPage: MutiPage) {
-        this.setState({
-            mutiPage
-        });
     }
 
     onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
@@ -193,19 +194,19 @@ export default class Grid extends React.Component<PropsType, stateType> {
         this.props.dataSet.clear();
         this.props.dataSet.appendDataSet(this.props.config.dataSet);
         this.props.dataSet.setSort(...codes);
-        if (this.state.mutiPage)
-            this.state.mutiPage.reload();
+        if (this.mutiPage)
+            this.mutiPage.reload();
         this.setState({
             ...this.state,
             beginPoint: 1,
-            endPoint: DefaultPageSize
+            endPoint: this.size
         })
     }
 
     initGrid() {
         this.setState({
             beginPoint: 1,
-            endPoint: DefaultPageSize
+            endPoint: this.size
         })
     }
 

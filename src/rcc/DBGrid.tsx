@@ -4,7 +4,7 @@ import DataSet from "../db/DataSet";
 import FieldMeta from "../db/FieldMeta";
 import { OnFieldChangedEvent } from "./DBEdit";
 import styles from './DBGrid.css';
-import MutiPage, { DefaultPageSize, OnPageChanged } from "./MutiPage";
+import MutiPage, { DefaultPageSize, OnPageChanged, USER_PAGE_SIZE_KEY } from "./MutiPage";
 import WebControl from "./WebControl";
 
 export type OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => void;
@@ -21,7 +21,6 @@ type DBGridProps = {
 
 type DBGridState = {
     allWidth: number,
-    mutiPage: MutiPage | null,
     beginPoint: number,
     endPoint: number,
 }
@@ -34,23 +33,33 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         openPage: true,
     }
     private colunmMap: Map<string, JSX.Element>;
+    private size: number;
     constructor(props: DBGridProps) {
         super(props);
+        let value = localStorage.getItem(USER_PAGE_SIZE_KEY);
+        this.size = Number(value);
+        if (!this.size) {
+            this.size = DefaultPageSize;
+            localStorage.setItem(USER_PAGE_SIZE_KEY, String(this.size));
+        }
         this.state = {
             allWidth: this.getAllWidth(),
             beginPoint: 1,
-            endPoint: this.props.openPage ? DefaultPageSize : this.props.dataSet.size,
-            mutiPage: null,
+            endPoint: this.props.openPage ? this.size : this.props.dataSet.size,
         }
         this.initColumnMap();
     }
 
     componentDidUpdate(prevProps: Readonly<DBGridProps>, prevState: Readonly<DBGridState>, snapshot?: any): void {
         if (this.props.dataSet.size !== prevProps.dataSet.size) {
+            if (!this.size) {
+                this.size = DefaultPageSize;
+                localStorage.setItem(USER_PAGE_SIZE_KEY, String(this.size));
+            }
             this.setState({
                 ...this.state,
                 beginPoint: 1,
-                endPoint: this.props.openPage ? DefaultPageSize : this.props.dataSet.size,
+                endPoint: this.props.openPage ? this.size : this.props.dataSet.size,
             })
         }
     }
@@ -62,7 +71,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                 // @ts-ignore
                 let className = child.type.className || ''
                 if (className == Column.className) {
-                    this.colunmMap.set(child.props.code, React.cloneElement(child, { tag: ColumnType.td, key: child.props.code }))
+                    this.colunmMap.set(child.props.code, React.cloneElement(child, { tag: ColumnType.td, key: new Date().getTime() }))
                 }
             }
         })
@@ -211,15 +220,11 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     }
 
     getNavigator(): React.ReactNode {
-        if (!this.props.openPage || this.props.dataSet.size <= DefaultPageSize)
+        if (!this.props.openPage || this.props.dataSet.size <= this.size)
             return null;
         return (
-            <MutiPage total={this.props.dataSet.size} bindMutiPage={this.bindMutiPage.bind(this)} onPageChanged={this.onPageChanged} />
+            <MutiPage total={this.props.dataSet.size} onPageChanged={this.onPageChanged} />
         )
-    }
-
-    bindMutiPage(mutiPage: MutiPage) {
-        this.setState({ ...this.state, mutiPage });
     }
 
     onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {

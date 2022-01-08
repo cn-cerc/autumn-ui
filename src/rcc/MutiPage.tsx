@@ -4,12 +4,11 @@ import styles from "./MutiPage.css";
 export type OnPageChanged = (beginPoint: number, endPoint: number) => void;
 export const DefaultPageSize = 100;
 
-const USER_PAGE_SIZE_KEY = 'user:pageSize';
+export const USER_PAGE_SIZE_KEY = 'user:pageSize';
 
 type propsType = {
     onPageChanged: OnPageChanged
     total: number;
-    bindMutiPage: Function
 }
 
 type stateType = {
@@ -31,6 +30,7 @@ export default class MutiPage extends React.Component<propsType, stateType> {
     }
 
     render() {
+        console.log(this.state.pageSize)
         let pages = Math.ceil(this.props.total / this.state.pageSize);
         return (
             <div className={styles.main}>
@@ -127,14 +127,12 @@ export default class MutiPage extends React.Component<propsType, stateType> {
         }
         let dbgrid = document.querySelector('div[role="dbgrid"]');
         if (dbgrid) dbgrid.scroll({ top: 0 });
+        let grid = document.querySelector('div[role="grid"]');
+        if (grid) grid.scroll({ top: 0 });
         if (pageNo != this.state.pageNo) {
             this.setState({ ...this.state, pageNo, inputValue: '' + pageNo })
             this.pageChanged(this.state.pageSize, pageNo);
         }
-    }
-
-    componentDidMount() {
-        this.props.bindMutiPage(this);
     }
 
     pageChanged(pageSize: number, pageNo: number) {
