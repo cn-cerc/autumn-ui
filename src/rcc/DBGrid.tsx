@@ -71,7 +71,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                 // @ts-ignore
                 let className = child.type.className || ''
                 if (className == Column.className) {
-                    this.colunmMap.set(child.props.code, React.cloneElement(child, { tag: ColumnType.td, key: new Date().getTime() }))
+                    this.colunmMap.set(child.props.code, React.cloneElement(child, { tag: ColumnType.td, key: child.props.code }))
                 }
             }
         })

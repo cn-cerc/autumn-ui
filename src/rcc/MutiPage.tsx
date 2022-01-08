@@ -30,7 +30,6 @@ export default class MutiPage extends React.Component<propsType, stateType> {
     }
 
     render() {
-        console.log(this.state.pageSize)
         let pages = Math.ceil(this.props.total / this.state.pageSize);
         return (
             <div className={styles.main}>
