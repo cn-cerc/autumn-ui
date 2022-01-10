@@ -122,9 +122,10 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
     initSite() {
         $(document).on('mousemove', (e) => this.handleMouseMove(e));
         $(document).on('mouseup', (e) => this.handleMouseUp(e));
+        let offsetTop = ($(window).outerHeight() - $('.' + styles.main).outerHeight()) / 2;
         let dialogData = {
             x: ($(window).outerWidth() - $('.' + styles.main).outerWidth()) / 2,
-            y: ($(window).outerHeight() - $('.' + styles.main).outerHeight()) / 2,
+            y: offsetTop < 0 ? 0 : offsetTop,
         }
         this.setState({
             ...this.state,
