@@ -158,7 +158,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
     getCloumns() {
         let items = [];
         items.push(<ColumnIt key='It_' width='2'></ColumnIt>);
-        items.push(<Column code='TBNo_' name='订货单号' width='6' key='TBNo_' customText={(row: DataRow) => {
+        items.push(<Column code='TBNo_' name='订货单号' width='6' key='TBNo_' textAlign='center' customText={(row: DataRow) => {
             return (
                 <a href={`TFrmTranOD.modify?tbNo=${row.getString('TBNo_')}`}>
                     <img src={this.getIcon(row.getNumber('Status_'))}></img>
@@ -167,10 +167,10 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
             )
         }}></Column>);
         items.push(<Column code='TBDate_' name='订单日期' width='5' textAlign='center' key='TBDate_'></Column>);
-        items.push(<Column code='CusName' name='客户简称' width='5' key='CusName' customText={(row: DataRow) => {
+        items.push(<Column code='CusName' name='客户简称' width='6' key='CusName' customText={(row: DataRow) => {
             return <a href={`CusInfo?code=${row.getString('CusCode_')}`} target='_blank'>{row.getString('CusName')}</a>
         }}></Column>);
-        items.push(<Column code='RecName' name='收货客户' visible={true} width='5' key='RecName' customText={(row: DataRow) => {
+        items.push(<Column code='RecName' name='收货客户' visible={true} width='6' key='RecName' customText={(row: DataRow) => {
             return <a href={`CusInfo?code=${row.getString('RecCode_')}`} target='_blank'>{row.getString('RecName')}</a>
         }}></Column>);
         items.push(<Column code='CusOrdNo_' name='客户订单' width='6' key='CusOrdNo_' textAlign='center'></Column>);
@@ -179,9 +179,9 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
             return <a href={`UserInfo?code=${row.getString('SalesCode_')}`} target='_blank'>{row.getString('SalesName')}</a>
         }}></Column>);
         if (this.props.showWholesaleUP)
-            items.push(<ColumnNumber code='TOriAmount_' name='总金额' width='3' key='TOriAmount_' ></ColumnNumber>);
+            items.push(<ColumnNumber code='TOriAmount_' name='总金额' width='3' textAlign='right' key='TOriAmount_' ></ColumnNumber>);
         if (this.props.showWholesaleUP && this.props.isFrmCurrencyRate)
-            items.push(<ColumnNumber code='Amount_' name='原币金额' visible={true} width='3' key='Amount_'></ColumnNumber>);
+            items.push(<ColumnNumber code='Amount_' name='原币金额' visible={true} width='3' textAlign='right' key='Amount_'></ColumnNumber>);
         items.push(<Column code='PrepareStatus_' name='备货' width='2' key='PrepareStatus_' textAlign='center' customText={(row: DataRow) => {
             return this.getStock(row.getNumber('PrepareStatus_'))
         }}></Column>);
@@ -189,13 +189,13 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
             return this.getStock(row.getNumber('Process_'))
         }}></Column>);
         items.push(<ColumnNumber code='PrintTimes_' name='印数' width='2' key='PrintTimes_' textAlign='center'></ColumnNumber>);
-        items.push(<Column code='UpdateDate_' name='更新时间' visible={true} width='7' key='UpdateDate_'></Column>);
-        items.push(<Column code='OutDate_' name='订单交期' visible={true} width='5' key='OutDate_'></Column>);
+        items.push(<Column code='UpdateDate_' name='更新时间' visible={true} width='7' textAlign='center' key='UpdateDate_'></Column>);
+        items.push(<Column code='OutDate_' name='订单交期' visible={true} width='5' textAlign='center' key='OutDate_'></Column>);
         items.push(<Column code='ManageNo_' name='管理编号' visible={true} width='6' key='ManageNo_'></Column>);
         if (this.props.cropNo == DitengCommon.CUSTOMER_214007)
             items.push(<Column code='Products' name='品名规格' width='12' key='Products'></Column>);
-        items.push(<ColumnNumber code='SumNum_' name='合计数量' visible={true} width='4' key='SumNum_'></ColumnNumber>);
-        items.push(<Column code='AppName' name='建档人员' visible={true} width='5' key='AppName' customText={(row: DataRow) => {
+        items.push(<ColumnNumber code='SumNum_' name='合计数量' visible={true} width='4' textAlign='right' key='SumNum_'></ColumnNumber>);
+        items.push(<Column code='AppName' name='建档人员' visible={true} width='4' key='AppName' customText={(row: DataRow) => {
             return <a href={`UserInfo?code=${row.getString('AppUser_')}`} target='_blank'>{row.getString('AppName')}</a>
         }}></Column>);
         items.push(
@@ -440,7 +440,6 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
                     fm.setType('n');
                 dataSet.fields.items.push(fm)
             }
-
             this.state.dataSet.records.forEach((row: DataRow) => {
                 dataSet.append();
                 dataSet.fields.forEach((meta: FieldMeta) => {
