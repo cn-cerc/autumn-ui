@@ -202,6 +202,10 @@ export default class DataSet implements IDataSource {
         return this.current.getText(field);
     }
 
+    getBoolean(field: string): boolean {
+        return this.current.getBoolean(field);
+    }
+
     mergeChangeLog(): DataSet {
         for (let row of this.records) {
             row.setState(DataRowState.None);

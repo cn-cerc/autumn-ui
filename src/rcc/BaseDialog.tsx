@@ -203,7 +203,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
         }
     }
 
-    getAdornment(): JSX.Element {
+    getAdornment(): React.ReactNode {
         if (this.props.isChild)
             return <img src='https://www.diteng.site/911001/images/searchIocn.png' onClick={this.showAsChild.bind(this)} className={styles.showDialog} />
     }
