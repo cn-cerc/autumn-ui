@@ -218,15 +218,5 @@ export default class Grid extends React.Component<PropsType, stateType> {
                 tr.style.backgroundColor = '#fafafa';
         })
     }
-
-    componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<stateType>, snapshot?: any): void {
-        let trList = document.querySelectorAll('tr[id*="tr"]');
-        trList.forEach((tr: HTMLTableRowElement) => {
-            let id = tr.getAttribute('id').replace('tr', "").split('.');
-            if(Number(id) % 2 == 0)
-                tr.style.backgroundColor = '#fafafa';
-        })
-    }
-
 }
 
