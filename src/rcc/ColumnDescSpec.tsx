@@ -78,9 +78,11 @@ export class ColumnDescSpec extends Column {
             }
         }
 
+        let partCode = encodeURIComponent(dataRow.getString(this.props.code));
+
         // 定义商品资料卡连接
         html.push(<React.Fragment>
-            <a href={`PartInfo?code=${dataRow.getString(this.props.code)}`} target='_blank'>
+            <a href={`PartInfo?code=${partCode}`} target='_blank'>
                 {descNode}
             </a>
         </React.Fragment>
