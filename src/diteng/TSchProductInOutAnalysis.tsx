@@ -400,7 +400,7 @@ export default class TSchProductInOutAnalysis extends WebControl<propsType, stat
             return (
                 <Block key={this._key} dataSet={this.state.dataSet}>
                     <Line>
-                        <ColumnIt width="2" name="" />
+                        <ColumnIt width="3" name="" />
                         <ColumnDescSpec code='PartCode_' width='15' />
                         <Column code="_opera_" width="2" textAlign="right" customText={(row: DataRow) =>
                             <span onClick={this.displaySwitch.bind(this, `${row.dataSet.recNo}.1`)} style={{ color: '#0283f7' }}>展开</span>}
