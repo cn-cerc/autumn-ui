@@ -60,7 +60,7 @@ export default class SupBankDialog extends BaseDialog<SupBankTypeProps, SupBankT
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getString('Name_');
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input2.value = row.getString('AccountNo_');
+        if(input2) input2.value = row.getString('AccountNo_');
         this.handleSelect();
     }
 }

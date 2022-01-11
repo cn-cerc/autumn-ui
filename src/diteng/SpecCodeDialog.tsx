@@ -76,9 +76,9 @@ export default class SpecCodeDialog extends BaseDialog<BaseDialogPropsType, Spec
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getString('Code_');
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input2.value = row.getString('Name_');
+        if(input2) input2.value = row.getString('Name_');
         let input3 = document.getElementById(inputIds[2]) as HTMLInputElement;
-        input3.value = row.getString('CodeLen_');
+        if(input3) input3.value = row.getString('CodeLen_');
         this.handleSelect();
     }
 }

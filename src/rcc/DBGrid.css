@@ -70,6 +70,7 @@
     border-radius: .12rem;
     outline: none;
 }
+
 .main input[type='checkbox'] {
     width: 100%;
     margin: 0 auto;
@@ -77,4 +78,10 @@
     border: 1px solid #C2CAD8;
     border-radius: .12rem;
     outline: none;
+}
+
+.inline {
+    display: inline-block;
+    vertical-align: top;
+    word-break: break-all
 }

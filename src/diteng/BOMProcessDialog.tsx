@@ -47,7 +47,7 @@ export default class BOMProcessDialog extends BaseDialog<BaseDialogPropsType, BO
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getValue('Code_');
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input2.value = row.getValue('Name_');
+        if(input2) input2.value = row.getValue('Name_');
         this.handleSelect();
     }
 }

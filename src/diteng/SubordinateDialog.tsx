@@ -72,7 +72,7 @@ export default class SubordinateDialog extends BaseDialog<BaseDialogPropsType, S
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getString('Code_');
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input2.value = row.getString('Name_');
+        if(input2) input2.value = row.getString('Name_');
         this.handleSelect();
     }
 }

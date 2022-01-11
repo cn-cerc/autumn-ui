@@ -7,7 +7,8 @@ function Loading(hintMessage) {
         "position": "absolute",
         "top": "50%",
         "z-index": "100",
-        "transform": 'translate(-50%, -50%)'
+        "transform": 'translate(-50%, -50%)',
+        'background-color': '#efefef'
     });
     this.maskDiv = $("<div/>").css({
         "opacity": "0.5",

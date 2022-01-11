@@ -98,7 +98,7 @@ export default class SaleCurrentNumDialog extends BaseDialog<SaleCurrentNumTypeP
         if (row.getString('SalesCode_') != this.props.userCode) {
             input1.value = row.getString('SalesCode_');
             let input2 = document.getElementById(inputIds[1]) as HTMLInputElement
-            input2.value = row.getString('SalesName_');
+            if(input2) input2.value = row.getString('SalesName_');
             this.handleSelect();
         }
     }

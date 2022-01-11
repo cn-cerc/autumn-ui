@@ -1,15 +1,15 @@
 import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import SearchPanel from "../rcc/SearchPanel";
+import BaseDialog, { BaseDialogStateType } from "../rcc/BaseDialog";
+import { ColumnIt } from "../rcc/ColumnIt";
+import DBDrop from "../rcc/DBDrop";
 import DBEdit from "../rcc/DBEdit";
 import DBGrid, { Column } from "../rcc/DBGrid";
+import SearchPanel from "../rcc/SearchPanel";
 import DialogApi from './DialogApi';
-import { showMsg } from "./Summer";
 import styles from "./StaffDialog.css";
-import DBDrop from "../rcc/DBDrop";
-import { ColumnIt } from "../rcc/ColumnIt";
+import { showMsg } from "./Summer";
 
 type VipCardTypeProps = {
     cusCode: string,
@@ -149,7 +149,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getValue('Code_');
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input1.value = row.getValue('Name_');
+        if(input2) input2.value = row.getValue('Name_');
         this.handleSelect();
     }
 }

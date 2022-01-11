@@ -150,7 +150,7 @@ export default class TSchProductAnalysis extends WebControl<propsType, stateType
             let href = `TSchProductAnalysis.detail?partCode=${partCode}&dateFrom=${dateFrom}&dateTo=${dateTo}`;
             return (
                 <React.Fragment>
-                    <a href={href} target="_blank">内容</a>
+                    <a href={href} target="_blank" style={{ 'display': 'block', 'textAlign': 'center' }}>内容</a>
                 </React.Fragment>
             )
         })
