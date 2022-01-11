@@ -12,3 +12,34 @@ div[id='page'] {
     font-size: 0.9em;
     color: #6a6a6a;
 }
+
+.dialogBottom {
+    display: flex;
+    padding: 0 1rem;
+    height: 3rem;
+    align-items: center;
+    justify-content: center;
+}
+.dialogBottom>* {
+    margin-right: 1rem;
+}
+.dialogBottom label {
+    min-width: 3rem;
+}
+
+.dialogBottom div[role='shopNum'] span {
+    min-width: initial;
+    max-width: initial;
+    margin-right: initial;
+    padding-dialogBottom: inherit;
+}
+
+.dialogBottom div[role='shopNum'] input {
+    max-width: initial;
+    min-width: inherit;
+    width: 3rem;
+}
+.dialogBottom span[role='button'] {
+    color: #0283f7;
+    cursor: pointer;
+}

@@ -4,14 +4,14 @@ import styles from "./DateYMDialog.css";
 
 type DateYMTypeProps = {
     inputId: string,
-} & Partial<BaseDialogStateType>
+} & Partial<BaseDialogPropsType>
 
 type DateYMTypeState = {
     years: number[],
     months: string[],
     year: number,
     month: string
-}  & Partial<BaseDialogPropsType>
+}  & Partial<BaseDialogStateType>
 export default class DateYMDialog extends BaseDialog<DateYMTypeProps, DateYMTypeState> {
     constructor(props: DateYMTypeProps) {
         super(props);

@@ -1,12 +1,17 @@
 //@ts-ignore
 import React from "react";
+import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
+import Block, { Line } from "../rcc/Block";
+import { Column } from "../rcc/DBGrid";
 import Grid from "../rcc/Grid";
+import WebControl from "../rcc/WebControl";
 import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
+import DitengCommon from "./DitengCommon";
 import { exportUrl } from './ExportConfig';
 import { AuiMath, Loading, showMsg } from "./Summer";
-import DitengCommon from "./DitengCommon";
+import styles from "./TSchProductAnalysis.css";
 
 type propsType = {
     token: string;
@@ -25,7 +30,7 @@ const SEARCH_SESSION_KEY = 'TSchProductAnalysis:search';
 const loading = new Loading('系统正在查询中 . . .');
 const MAX_RECORD = 100000;
 
-export default class TSchProductAnalysis extends React.Component<propsType, stateType>{
+export default class TSchProductAnalysis extends WebControl<propsType, stateType>{
     private async: boolean;
     private dataSet: DataSet;
     private grid: Grid;
@@ -56,7 +61,7 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         })
         fields.add("ProfitRateExcel").setOnGetText((row, meta) => {
             meta.setType('s6');
-            let profitRate = row.getString("ProfitRate_");
+            let profitRate = row.getString("ProfitRateExcel");
             return profitRate ? profitRate + "%" : "";
         })
 
@@ -359,12 +364,12 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
             let profit = outAmount - backAmount - costAmount;
             document.getElementById('profit').innerText = math.toFixed(profit, 2).toString();
         }
-        //@ts-ignore
-        document.getElementById('dataSize').innerText = this.dataSet.size;
-        let dataSet = new DataSet();
-        dataSet.appendDataSet(this.state.config.dataSet);
+        if (!this.isPhone) {
+            let dataDom = document.getElementById('dataSize') as HTMLDivElement;
+            dataDom.innerText = this.dataSet.size.toString();
+        }
         return (
-            <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} sortFilter={this.setSortCode}/>
+            this.getGrid()
         )
     }
 
@@ -450,4 +455,113 @@ export default class TSchProductAnalysis extends React.Component<propsType, stat
         this.grid = _grid;
     }
 
+    getGrid() {
+        let dataSet = new DataSet();
+        dataSet.appendDataSet(this.state.config.dataSet);
+        if (this.isPhone) {
+            let dateFrom = document.getElementById('TBDate_From') as HTMLInputElement;
+            let dateTo = document.getElementById('TBDate_To') as HTMLInputElement;
+            return (
+                <div className={styles.main}>
+                    <Block dataSet={dataSet}>
+                        <Line>
+                            <Column code='DescSpec_' width='88' customText={(row: DataRow) => {
+                                return (
+                                    <React.Fragment>
+                                        <span style={{ 'paddingRight': '.2rem' }}>{row.dataSet.recNo}</span>
+                                        <a href={`PartInfo?code=${row.getValue("PartCode_")}`} target="_blank">{row.getValue("Desc_")}</a> {row.getValue("Spec_")}
+                                    </React.Fragment>
+                                );
+                            }}></Column>
+                            <Column code='opera' textAlign='right' width='12' customText={(row: DataRow) => {
+                                return (
+                                    <React.Fragment>
+                                        <a href={`TSchProductAnalysis.detail?partCode=${row.getString("PartCode_")}&dateFrom=${dateFrom.value}&dateTo=${dateTo.value}`} target="_blank">内容</a>
+                                    </React.Fragment>
+                                )
+                            }}></Column>
+                        </Line>
+                        <Line>{this.getAvaiStockOption()}</Line>
+                        <Line>
+                            <Column name='销售数量' code='Num_' width='45'></Column>
+                            <Column name='销售金额' code='Amount_' width='55'></Column>
+                        </Line>
+                        <Line>
+                            <Column name='退货数量' code='BackNum_' width='45'></Column>
+                            <Column name='退货金额' code='BackAmount_' width='55'></Column>
+                        </Line>
+                        <Line>
+                            <Column name='赠品数量' code='SpareNum_' width='45'></Column>
+                            <Column name='成本' code='CostAmount_' width='55'></Column>
+                        </Line>
+                        <Line>
+                            <Column name='毛利' code='Profit_' width='45' customText={(row: DataRow) => {
+                                let text = '';
+                                if (this.props.allowViewProfit)
+                                    text = row.getString('Profit_')
+                                return <span>毛利：{text}</span>
+                            }}></Column>
+                            <Column name='毛利率' code='ProfitRateExcel' width='55' customText={(row: DataRow) => {
+                                let text = '';
+                                if (this.props.allowViewProfit) {
+                                    let pro = row.getString('ProfitRateExcel');
+                                    text = pro ? `${pro}%` : '0%';
+                                }
+                                return <span>毛利率：{text}</span>
+                            }}></Column>
+                        </Line>
+                        <Line>{this.getFirstInDate()}</Line>
+                        <Line>{this.getPrice()}</Line>
+                        <Line>{this.getOutSum()}</Line>
+                    </Block>
+                </div>
+            )
+        } else {
+            return (
+                <Grid config={this.state.config} setChild={this.setChild.bind(this)} dataSet={dataSet} sortFilter={this.setSortCode} />
+            )
+        }
+    }
+
+    getAvaiStockOption() {
+        let items = [];
+        items.push(
+            <Column name='当前库存' code='Stock_' width='45' key='Stock_'></Column>
+        );
+        if (this.props.avaiStockOption)
+            items.push(
+                <Column name='可用库存' code='AvaiStock_' width='55' key='AvaiStock_'></Column>
+            )
+        return items
+    }
+
+    getFirstInDate() {
+        let items = [];
+        if (this.props.isCustomer)
+            items.push(
+                <Column name='首次入库' code='FirstInDate' width='100' key='FirstInDate'></Column>
+            )
+        return items;
+    }
+
+    getPrice() {
+        let items = [];
+        items.push(
+            <Column name={this.props.isCustomer ? '单价' : '最新单价'} code={this.props.isCustomer ? 'OriUP_' : 'NewUP_'} width='100' key={this.props.isCustomer ? 'OriUP_' : 'NewUP_'}></Column>
+        )
+        return items;
+    }
+
+    getOutSum() {
+        let items = [];
+        if (DitengCommon.CUSTOMER_181013 == this.props.corpNo) {
+            items.push(
+                <Column name='业务成本' code='OutSumAmount_' width='45' key='OutSumAmount_'></Column>
+            )
+            items.push(
+                <Column name='业务毛利' code='OutSumProfit_' width='55' key='OutSumProfit_'></Column>
+            )
+        }
+        return items;
+    }
 }
