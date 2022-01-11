@@ -40,12 +40,21 @@
     z-index: 10;
 }
 
+.main table tr:hover {
+    background-color: #d7ffef!important;
+}
+
 .main table td {
     line-height: 1.6em;
     border: 1px solid #eeeeee;
     padding: 0 .2em;
     cursor: pointer;
     position: relative;
+}
+
+.main table tr[data-key*=\.] {
+    font-size: .9rem;
+    color: #6a6a6a;
 }
 
 .main table tr[data-key*=\.] {

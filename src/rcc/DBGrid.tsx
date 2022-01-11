@@ -131,7 +131,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             let dataRow: DataRow = ds.current
             //输出主行
             items.push(
-                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`}>
+                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`} style={{ 'backgroundColor': recNo % 2 == 0 ? '#fafafa' : '#fff' }}>
                     {this.getRow(dataRow, recNo)}
                 </tr>
             )
@@ -164,7 +164,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     if (child.props.visible || (child.props.autoJudge && isHide))
                         display = 'none'
                     items.push(
-                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }}>
+                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display, 'backgroundColor': recNo % 2 == 0 ? '#fafafa' : '#fff' }}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -294,7 +294,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
             if (this.props.tag == ColumnType.td)
                 return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
             else
-                return <span style={{ 'width': this.props.width, 'display': 'inline-block', 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{child}</span>
+                return <span className={styles.inline} style={{ 'width': this.props.width, 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{child}</span>
 
         }
         switch (this.props.tag) {
@@ -307,7 +307,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
             }
             case ColumnType.span: {
                 return (
-                    <span className={styles.column} style={{ "width": this.props.width, 'display': 'inline-block' }}>
+                    <span className={`${styles.column} ${styles.inline}`} style={{ "width": this.props.width }}>
                         {this.props.name ? this.props.name + '：' : ''}
                         {this.props.dataRow ? this.getValue() : ''}
                     </span>
