@@ -35,7 +35,7 @@ export default class DBCheckbox extends React.Component<PropsType> {
         }
         return (
             <div>
-                <input type="checkbox" id={this.props.dataField} name={this.props.dataField} checked={value} onChange={this.onChange} />
+                <input type="checkbox" role={`${this.props.dataRow.getString('columnName')}`} id={this.props.dataField} name={this.props.dataField} checked={value} onChange={this.onChange} />
                 {dataName}
             </div>
         )

@@ -41,6 +41,11 @@ export default class Utils {
         })
         client.set(tb, dataSet.json);
     }
+
+    static removeSort(userNo: string, tb: string) {
+        let client = new ClientStorage(`diteng_${userNo}`);
+        client.remove(tb);
+    }
 }
 
 export class ClientStorage {
@@ -129,10 +134,11 @@ export class Excel {
         data.records.forEach((row: DataRow, no: number) => {
             let serial = no + 2;
             data.fields.items.forEach((item: FieldMeta, index: number) => {
+                let bool = row.items.has(item.code);
                 let value = item.type == 'n' ? row.getNumber(item.code) : row.getString(item.code);
                 output[this.excelKey(index) + serial] = {
-                    v: value,
-                    t: item.type,
+                    v: bool ? value : '',
+                    t: bool ? item.type : 's',
                 }
             })
         })
@@ -142,6 +148,42 @@ export class Excel {
         // 计算出范围 ,["A1",..., "H2"]
         const ref = `${outputPos[0]}:${outputPos[outputPos.length - 1]}`;
 
+        // 构建 workbook 对象
+        const wb = {
+            SheetNames: ['Sheet1'],
+            Sheets: {
+                Sheet1: Object.assign(
+                    {},
+                    output,
+                    {
+                        '!ref': ref,
+                        // '!cols': [{ wpx: 45 }, { wpx: 100 }, { wpx: 200 }, { wpx: 80 }, { wpx: 150 }, { wpx: 100 }, { wpx: 300 }, { wpx: 300 }],
+                    },
+                ),
+            },
+        };
+        // 导出 Excel
+        XLSX.writeFile(wb, fileName);
+    }
+
+    // 根据DataSet中的records来生成excel表格
+    exportExcelByRecords = (data: DataSet, fileName: string = 'demo.xlsx') => {
+        let output: any = {};
+        data.records.forEach((row: DataRow, no: number) => {
+            let serial = no + 1;
+            data.fields.items.forEach((item: FieldMeta, index: number) => {
+                let value = row.getValue(item.code);
+                let bool = typeof value == 'object' && value != null;
+                output[this.excelKey(index) + serial] = {
+                    v: bool ? value.text : row.getString(item.code),
+                    t: bool ? 'n' : 's',
+                }
+            })
+        })
+        // 获取所有单元格的位置
+        const outputPos = Object.keys(output);
+        // 计算出范围 ,["A1",..., "H2"]
+        const ref = `${outputPos[0]}:${outputPos[outputPos.length - 1]}`;
         // 构建 workbook 对象
         const wb = {
             SheetNames: ['Sheet1'],

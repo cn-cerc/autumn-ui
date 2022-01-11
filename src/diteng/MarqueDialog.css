@@ -4,6 +4,11 @@
     height: 100%;
 }
 
+.main div[role='dbgrid'] {
+    height: auto;
+    flex: none;
+}
+
 .headContent {
     padding: 1rem;
 }

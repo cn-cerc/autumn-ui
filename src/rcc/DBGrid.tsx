@@ -5,7 +5,7 @@ import FieldMeta from "../db/FieldMeta";
 import { Line } from "./Block";
 import { OnFieldChangedEvent } from "./DBEdit";
 import styles from './DBGrid.css';
-import MutiPage, { DefaultPageSize, OnPageChanged } from "./MutiPage";
+import MutiPage, { DefaultPageSize, OnPageChanged, USER_PAGE_SIZE_KEY } from "./MutiPage";
 import WebControl from "./WebControl";
 
 export type OnRowChangedEvent = (row: DataRow, field: string, oldValue: string) => void;
@@ -22,7 +22,6 @@ type DBGridProps = {
 
 type DBGridState = {
     allWidth: number,
-    mutiPage: MutiPage | null,
     beginPoint: number,
     endPoint: number,
 }
@@ -35,23 +34,33 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         openPage: true,
     }
     private colunmMap: Map<string, JSX.Element>;
+    private size: number;
     constructor(props: DBGridProps) {
         super(props);
+        let value = localStorage.getItem(USER_PAGE_SIZE_KEY);
+        this.size = Number(value);
+        if (!this.size) {
+            this.size = DefaultPageSize;
+            localStorage.setItem(USER_PAGE_SIZE_KEY, String(this.size));
+        }
         this.state = {
             allWidth: this.getAllWidth(),
             beginPoint: 1,
-            endPoint: this.props.openPage ? DefaultPageSize : this.props.dataSet.size,
-            mutiPage: null,
+            endPoint: this.props.openPage ? this.size : this.props.dataSet.size,
         }
         this.initColumnMap();
     }
 
     componentDidUpdate(prevProps: Readonly<DBGridProps>, prevState: Readonly<DBGridState>, snapshot?: any): void {
         if (this.props.dataSet.size !== prevProps.dataSet.size) {
+            if (!this.size) {
+                this.size = DefaultPageSize;
+                localStorage.setItem(USER_PAGE_SIZE_KEY, String(this.size));
+            }
             this.setState({
                 ...this.state,
                 beginPoint: 1,
-                endPoint: this.props.openPage ? DefaultPageSize : this.props.dataSet.size,
+                endPoint: this.props.openPage ? this.size : this.props.dataSet.size,
             })
         }
     }
@@ -123,7 +132,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             let dataRow: DataRow = ds.current
             //输出主行
             items.push(
-                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`}>
+                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`} style={{ 'backgroundColor': recNo % 2 == 0 ? '#fafafa' : '#fff' }}>
                     {this.getRow(dataRow, recNo)}
                 </tr>
             )
@@ -156,7 +165,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     if (child.props.visible || (child.props.autoJudge && isHide))
                         display = 'none'
                     items.push(
-                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }}>
+                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display, 'backgroundColor': recNo % 2 == 0 ? '#fafafa' : '#fff' }}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -212,15 +221,11 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     }
 
     getNavigator(): React.ReactNode {
-        if (!this.props.openPage || this.props.dataSet.size <= DefaultPageSize)
+        if (!this.props.openPage || this.props.dataSet.size <= this.size)
             return null;
         return (
-            <MutiPage total={this.props.dataSet.size} bindMutiPage={this.bindMutiPage.bind(this)} onPageChanged={this.onPageChanged} />
+            <MutiPage total={this.props.dataSet.size} onPageChanged={this.onPageChanged} />
         )
-    }
-
-    bindMutiPage(mutiPage: MutiPage) {
-        this.setState({ ...this.state, mutiPage });
     }
 
     onPageChanged: OnPageChanged = (beginPoint: number, endPoint: number) => {
@@ -290,7 +295,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
             if (this.props.tag == ColumnType.td)
                 return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
             else
-                return <span style={{ 'width': this.props.width, 'display': 'inline-block', 'text-align': this.props.textAlign ? this.props.textAlign : 'left', 'verticalAlign': 'top', 'wordBreak': 'break-all' }}>{this.props.name ? this.props.name + '：' : ''}{child}</span>
+                return <span className={styles.inline} style={{ 'width': this.props.width, 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{this.props.name ? this.props.name + '：' : ''}{child}</span>
 
         }
         switch (this.props.tag) {
@@ -303,7 +308,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
             }
             case ColumnType.span: {
                 return (
-                    <span className={styles.column} style={{ "width": this.props.width, 'display': 'inline-block', 'verticalAlign': 'top', 'wordBreak': 'break-all' }}>
+                    <span className={`${styles.column} ${styles.inline}`} style={{ "width": this.props.width }}>
                         {this.props.name ? this.props.name + '：' : ''}
                         {this.props.dataRow ? this.getValue() : ''}
                     </span>
