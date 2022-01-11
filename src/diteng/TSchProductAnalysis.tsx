@@ -142,7 +142,7 @@ export default class TSchProductAnalysis extends WebControl<propsType, stateType
         }
 
         new TGridColumn(config, "Opera", "操作").setWidth(4).setAlign("center").setExport(false).setOnRender((column, row) => {
-            let partCode = row.getString("PartCode_");
+            let partCode = encodeURIComponent(row.getString("PartCode_"));
             //@ts-ignore
             let dateFrom = document.getElementById('TBDate_From').value;
             //@ts-ignore
@@ -476,7 +476,7 @@ export default class TSchProductAnalysis extends WebControl<propsType, stateType
                             <Column code='opera' textAlign='right' width='12' customText={(row: DataRow) => {
                                 return (
                                     <React.Fragment>
-                                        <a href={`TSchProductAnalysis.detail?partCode=${row.getString("PartCode_")}&dateFrom=${dateFrom.value}&dateTo=${dateTo.value}`} target="_blank">内容</a>
+                                        <a href={`TSchProductAnalysis.detail?partCode=${encodeURIComponent(row.getString("PartCode_"))}&dateFrom=${dateFrom.value}&dateTo=${dateTo.value}`} target="_blank">内容</a>
                                     </React.Fragment>
                                 )
                             }}></Column>

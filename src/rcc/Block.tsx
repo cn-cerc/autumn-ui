@@ -25,6 +25,7 @@ export default class Block extends Control<propsType, stateType> {
     }
 
     scroll() {
+        if (!document.getElementById('more')) return;
         let clientHeight = document.documentElement.clientHeight;
         let bottom = document.getElementById('more').getBoundingClientRect().bottom;
         if (Math.abs(clientHeight - bottom) < 100 && !this.arriveBottom && this.state.rowMax < this.props.dataSet.size) {
