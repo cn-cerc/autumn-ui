@@ -14,3 +14,13 @@
 .block .row:first-child {
     border-top: 0;
 }
+
+.childRow {
+    display: none;
+    border-top: initial;
+    padding-top: 0;
+}
+
+.more {
+    text-align: center;
+}

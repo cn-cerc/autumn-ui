@@ -5,8 +5,12 @@ import Datetime from "../db/Datetime";
 import FieldMeta from "../db/FieldMeta";
 import QueryService from "../db/QueryService";
 import { Excel } from "../db/Utils";
+import Block, { Line } from "../rcc/Block";
+import { ColumnDescSpec } from "../rcc/ColumnDescSpec";
 import { ColumnIt } from "../rcc/ColumnIt";
+import { ColumnNumber } from "../rcc/ColumnNumber";
 import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
+import WebControl from "../rcc/WebControl";
 import DitengCommon from "./DitengCommon";
 import { AuiMath, Loading, showMsg } from "./Summer";
 import styles from "./TSchProductInOutAnalysis.css";
@@ -40,7 +44,7 @@ const ALNum = "ALNum"; // 拆装数量
 const BRNum = "BRNum"; // 报损数量
 const AENum = "AENum"; // 盈亏数量
 
-export default class TSchProductInOutAnalysis extends React.Component<propsType, stateType>{
+export default class TSchProductInOutAnalysis extends WebControl<propsType, stateType>{
     private async: boolean;
     private _key: number = new Date().getTime();
     private ds: DataSet = new DataSet();
@@ -264,57 +268,63 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
 
     download() {
         let ds: DataSet = new DataSet();
-        if (this.state.dataSet.size > 0) {
-            let meta: any = {
-                'PartCode_': '商品编号',
-                'DescSpec': '品名规格',
-                'Unit_': '单位',
-                'CostUP_': '成本价',
-                'InitStock_': '期初库存', 'InitAmount_': '期初金额',
-                'EndAmount_': '期末金额', 'Stock_': '现库存数',
-                'Num_': '入库数量', 'OriAmount_': '入库金额',
-                'BGNum_': '退回数量', 'BGAmount_': '退回金额',
-                'OutNum_': '出库数量', 'OutAmount_': '出库金额',
-                'BackNum_': '退货数量', 'BackAmount_': '退货金额',
-                'BRNum_': '报损数量', 'BRAmount_': '报损金额',
-                'AENum_': '盈亏数量', 'AEAmount_': '盈亏金额',
-                'AHNum_': '调拨数量', 'ALNum_': '拆装数量',
-                'ALOriAmount_': '拆装金额', 'Brand_': '品牌',
-                'Class1_': '商品大类', 'Class2_': '商品中类', 'Class3_': '商品系列', 'Remark_': '备注'
-            }
-            if (this.props.corpNo == DitengCommon.CUSTOMER_194005 || this.props.corpNo == '911001') {
-                meta = {
-                    'PartCode_': '商品编号', 'DescSpec': '品名规格', 'Unit_': '单位', 'InitStock_': '期初库存',
-                    'Num_': '入库数量', 'BGNum_': '退回数量', 'OutNum_': '出库数量', 'BackNum_': '退货数量',
-                    'BRNum_': '报损数量', 'AENum_': '盈亏数量', 'AHNum_': '调拨数量', 'ALNum_': '拆装数量',
-                    'Stock_': '现库存数', 'Remark_': '备注'
-                }
-            }
-            let ruleOut = ['PartCode_', 'DescSpec','Unit_', 'Brand_', 'Class1_', 'Class2_', 'Class3_', 'Remark_']
-            for (let key of Object.keys(meta)) {
-                let fm = new FieldMeta(key).setName(meta[key]);
-                if (ruleOut.indexOf(fm.code) == -1)
-                    fm.setType('n');
-                else
-                    fm.setType('s');
-                ds.fields.items.push(fm)
-            }
-            this.state.dataSet.records.forEach((row: DataRow) => {
-                ds.append();
-                ds.fields.forEach((meta: FieldMeta) => {
-                    ds.setValue(meta.code, row.getValue(meta.code));
-                });
-                let desc: string[] = [row.getString('Desc_')]
-                if (row.getString('Spec_'))
-                    desc.push(row.getString('Spec_'));
-                ds.setValue('DescSpec', desc.join(','));
-            })
-            new Excel().exportExcel(ds, `商品出入明细-${new Datetime().format('yyyyMMdd')}.xls`)
+        if (this.state.dataSet.size == 0) {
+            showMsg('没有需要导出的数据');
+            return;
         }
+        let meta: any = {
+            'PartCode_': '商品编号',
+            'DescSpec': '品名规格',
+            'Unit_': '单位',
+            'CostUP_': '成本价',
+            'InitStock_': '期初库存', 'InitAmount_': '期初金额',
+            'EndAmount_': '期末金额', 'Stock_': '现库存数',
+            'Num_': '入库数量', 'OriAmount_': '入库金额',
+            'BGNum_': '退回数量', 'BGAmount_': '退回金额',
+            'OutNum_': '出库数量', 'OutAmount_': '出库金额',
+            'BackNum_': '退货数量', 'BackAmount_': '退货金额',
+            'BRNum_': '报损数量', 'BRAmount_': '报损金额',
+            'AENum_': '盈亏数量', 'AEAmount_': '盈亏金额',
+            'AHNum_': '调拨数量', 'ALNum_': '拆装数量',
+            'ALOriAmount_': '拆装金额', 'Brand_': '品牌',
+            'Class1_': '商品大类', 'Class2_': '商品中类', 'Class3_': '商品系列', 'Remark_': '备注'
+        }
+        if (this.props.corpNo == DitengCommon.CUSTOMER_194005 || this.props.corpNo == '911001') {
+            meta = {
+                'PartCode_': '商品编号', 'DescSpec': '品名规格', 'Unit_': '单位', 'InitStock_': '期初库存',
+                'Num_': '入库数量', 'BGNum_': '退回数量', 'OutNum_': '出库数量', 'BackNum_': '退货数量',
+                'BRNum_': '报损数量', 'AENum_': '盈亏数量', 'AHNum_': '调拨数量', 'ALNum_': '拆装数量',
+                'Stock_': '现库存数', 'Remark_': '备注'
+            }
+        }
+        let ruleOut = ['PartCode_', 'DescSpec', 'Unit_', 'Brand_', 'Class1_', 'Class2_', 'Class3_', 'Remark_']
+        for (let key of Object.keys(meta)) {
+            let fm = new FieldMeta(key).setName(meta[key]);
+            if (ruleOut.indexOf(fm.code) == -1)
+                fm.setType('n');
+            else
+                fm.setType('s');
+            ds.fields.items.push(fm)
+        }
+        this.state.dataSet.records.forEach((row: DataRow) => {
+            ds.append();
+            ds.fields.forEach((meta: FieldMeta) => {
+                ds.setValue(meta.code, row.getValue(meta.code));
+            });
+            let desc: string[] = [row.getString('Desc_')]
+            if (row.getString('Spec_'))
+                desc.push(row.getString('Spec_'));
+            ds.setValue('DescSpec', desc.join(','));
+        })
+        new Excel().exportExcel(ds, `商品出入明细-${new Datetime().format('yyyyMMdd')}.xls`)
     }
 
     tranDetail(row: DataRow, filed: string, tb: string) {
-        if (row.getString(filed)) {
+        let value = row.getString(filed);
+        if (this.isPhone) {
+            value = value ? value : '0';
+        }
+        if (value) {
             //@ts-ignore
             let elements = document.getElementById('form1').elements;
             let param: string[] = [];
@@ -323,10 +333,12 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
             param.push(`dateTo=${elements['dateTo'].value}`);
             param.push(`CWCode=${elements['CWCode'].value}`);
             param.push(`tb=${tb}`);
-            return <a target='TSchProductInOutAnalysis.detail'
-                href={`TSchProductInOutAnalysis.detail?${param.join('&')}`}>
-                {row.getString(filed)}
-            </a>
+            return <React.Fragment>
+                <a target='TSchProductInOutAnalysis.detail'
+                    href={`TSchProductInOutAnalysis.detail?${param.join('&')}`}>
+                    {value}
+                </a>
+            </React.Fragment>
         }
         else
             return ''
@@ -372,17 +384,90 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
 
         return (
             <div className={styles.main}>
+                {this.getTable()}
+            </div>
+        )
+    }
+
+    displaySwitch(rowNo: string) {
+        let tr = document.getElementById(`child_${rowNo}`);
+        let style = tr.getAttribute('style');
+        tr.setAttribute('style', style == 'display: block;' ? 'display: none;' : 'display: block;');
+    }
+
+    getTable() {
+        if (this.isPhone) {
+            return (
+                <Block key={this._key} dataSet={this.state.dataSet}>
+                    <Line>
+                        <ColumnIt width="2" name="" />
+                        <ColumnDescSpec code='PartCode_' width='15' />
+                        <Column code="_opera_" width="2" textAlign="right" customText={(row: DataRow) =>
+                            <span onClick={this.displaySwitch.bind(this, `${row.dataSet.recNo}.1`)} style={{ color: '#0283f7' }}>展开</span>}
+                        />
+                    </Line>
+                    <Line>
+                        <ColumnNumber code='InitStock_' name='期初库存' width='3' textAlign="left" />
+                        <ColumnNumber code='InitAmount_' name='金额' width='3' textAlign="left" />
+                    </Line>
+                    <Line>
+                        <ColumnNumber code='Stock_' name='期末库存' width='3' textAlign="left" />
+                        <ColumnNumber code='EndAmount_' name='金额' width='3' textAlign="left" />
+                    </Line>
+                    <Line>
+                        <ColumnNumber code='Num_' name='入库数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'Num_', 'AB')} />
+                        <ColumnNumber code='OriAmount_' name='金额' width='3' textAlign="left" />
+                    </Line>
+                    <Line>
+                        <ColumnNumber code='OutNum_' name='出库数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'OutNum_', 'BC')} />
+                        <ColumnNumber code='OutAmount_' name='金额' width='3' textAlign="left" />
+                    </Line>
+                    <Line>
+                        <Column code="amount" width="" name="成本单价" customText={(dataRow: DataRow) => {
+                            return `${dataRow.getDouble('CostUP_')}/${dataRow.getString('Unit_')}`
+                        }} />
+                    </Line>
+                    <ChildRow>
+                        <Line>
+                            <ColumnNumber code='BGNum_' name='退回数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'BGNum_', 'BG')} />
+                            <ColumnNumber code='BGAmount_' name='金额' width='3' textAlign="left" />
+                        </Line>
+                        <Line>
+                            <ColumnNumber code='BackNum_' name='退货数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'BackNum_', 'AG')} />
+                            <ColumnNumber code='BackAmount_' name='金额' width='3' textAlign="left" />
+                        </Line>
+                        <Line>
+                            <ColumnNumber code='ALNum_' name='拆装数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'ALNum_', 'AL')} />
+                            <ColumnNumber code='ALOriAmount_' name='金额' width='3' textAlign="left" />
+                        </Line>
+                        <Line>
+                            <ColumnNumber code='BRNum_' name='报损数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'BRNum_', 'BR')} />
+                            <ColumnNumber code='BRAmount_' name='金额' width='3' textAlign="left" />
+                        </Line>
+                        <Line>
+                            <ColumnNumber code='AENum_' name='盈亏数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'AENum_', 'AE')} />
+                            <ColumnNumber code='AEAmount_' name='金额' width='3' textAlign="left" />
+                        </Line>
+                        <Line>
+                            <ColumnNumber code='AHNum_' name='调拨数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'AHNum_', 'AH')} />
+                            <ColumnNumber code='AHAmount_' name='金额' width='3' textAlign="left" />
+                        </Line>
+                        {
+                            this.props.isAlliance ?
+                                <Line>
+                                    <ColumnNumber code='BorrowNum_' name='借调数量' width='3' textAlign="left" customText={(row: DataRow) => this.tranDetail(row, 'Num_', 'AK')} />
+                                    <ColumnNumber code='BorrowAmount_' name='金额' width='3' textAlign="left" />
+                                </Line> : ''
+                        }
+
+                    </ChildRow>
+                </Block>
+            )
+        } else {
+            return (
                 <DBGrid key={this._key} dataSet={this.state.dataSet} readOnly={false}>
                     <ColumnIt width="2" />
-                    <Column code='PartCode_' name='品名规格' width='15' customText={(dataRow: DataRow) => {
-                        return (
-                            <React.Fragment>
-                                <a href={`PartInfo?code=${dataRow.getString('PartCode_')}`} target={"_blank"}>
-                                    {dataRow.getString('Desc_')}
-                                </a>{dataRow.getString('Spec_') ? '，' + dataRow.getString('Spec_') : ''}
-                            </React.Fragment>
-                        )
-                    }} />
+                    <ColumnDescSpec code='PartCode_' width='15' name='品名规格' />
                     <Column code='type' name='类型' width='3' customText={() => '数量'} />
                     <Column code='InitStock_' name='期初' width='3' textAlign="right" />
                     <Column code='Stock_' name='期末' width='3' textAlign="right" />
@@ -414,7 +499,7 @@ export default class TSchProductInOutAnalysis extends React.Component<propsType,
                         {this.props.isAlliance ? <Column code='BorrowAmount_' width='3' textAlign="right" /> : ''}
                     </ChildRow>
                 </DBGrid>
-            </div>
-        )
+            )
+        }
     }
 }
