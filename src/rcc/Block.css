@@ -1,3 +1,7 @@
+.block {
+    background-color: #fff;
+}
+
 .row {
     border-top: 1px solid #8c8c8c;
     padding: .5rem .25rem;
@@ -5,4 +9,8 @@
     font-size: 1rem;
     line-height: 1.35rem;
     text-align: left;
+}
+
+.block .row:first-child {
+    border-top: 0;
 }

@@ -6,7 +6,8 @@ function Loading(hintMessage) {
         "left": "50%",
         "position": "absolute",
         "top": "50%",
-        "z-index": "100"
+        "z-index": "100",
+        "transform": 'translate(-50%, -50%)'
     });
     this.maskDiv = $("<div/>").css({
         "opacity": "0.5",

@@ -289,7 +289,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
             if (this.props.tag == ColumnType.td)
                 return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
             else
-                return <span style={{ 'width': this.props.width, 'display': 'inline-block', 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{child}</span>
+                return <span style={{ 'width': this.props.width, 'display': 'inline-block', 'text-align': this.props.textAlign ? this.props.textAlign : 'left', 'verticalAlign': 'top', 'wordBreak': 'break-all' }}>{child}</span>
 
         }
         switch (this.props.tag) {
@@ -302,7 +302,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
             }
             case ColumnType.span: {
                 return (
-                    <span className={styles.column} style={{ "width": this.props.width, 'display': 'inline-block' }}>
+                    <span className={styles.column} style={{ "width": this.props.width, 'display': 'inline-block', 'verticalAlign': 'top', 'wordBreak': 'break-all' }}>
                         {this.props.name ? this.props.name + '：' : ''}
                         {this.props.dataRow ? this.getValue() : ''}
                     </span>
