@@ -124,7 +124,7 @@ export default class TSchProductInOutAnalysis extends WebControl<propsType, stat
         if (brand) headIn.setValue("Brand_", brand);
 
         let CWCode = elements['CWCode'].value
-        if (CWCode) headIn.setValue("CWCode", CWCode);
+        if (CWCode) headIn.setValue("CWCode_", CWCode);
 
         if (elements['onlyTran'].checked) headIn.setValue("OnlyTran", true);
 
