@@ -27,6 +27,10 @@
     border: 1px solid #C2CAD8;
 }
 
+.changed {
+    color: red;
+}
+
 @media only screen and (max-width: 1600px) and (min-width: 1400px) {
     html {
         font-size: 14px;

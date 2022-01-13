@@ -28,6 +28,21 @@
     visibility: hidden;
 }
 
+.pcLoad {
+    width: 100%;
+    background: linear-gradient(270deg, #3272F4, #509DFF);
+    color: #fff;
+    border: none;
+    outline: none;
+    height: 3.5rem;
+    line-height: 3.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (min-width: 768px) {
     .main {
         min-width: 1024px;

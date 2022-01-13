@@ -9,6 +9,7 @@ import { showMsg } from "./Summer";
 // @ts-ignore
 import Fingerprint2 from "fingerprintjs2";
 import { ClientStorage } from "../db/Utils";
+import { Loading } from "../db/Loading";
 
 type LoginTypeProps = {
     dataRow: DataRow,
@@ -98,7 +99,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         </div>
                         <div className="user_status">
                             <span>
-                                <button onClick={this.onSubmit.bind(this)}>进入系统</button>
+                                {this.getLoginBtn()}
+                                
                             </span>
                         </div>
                         <div className="bottom">
@@ -332,6 +334,16 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
     }
 
+    getLoginBtn() {
+        if(this.state.showLoad) {
+            return <div className={styles.pcLoad}>
+                <Loading></Loading>
+            </div>
+        } else {
+            return <button onClick={this.onSubmit.bind(this)}>进入系统</button>
+        }
+    }
+
     async sendCode() {
         if (this.state.hasSendCode)
             return;
@@ -340,7 +352,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             hasSendCode: true
         })
         let sendBtn = document.getElementById('sendCode') as HTMLDivElement;
-        this.setState({ showLoad: true })
+        if(this.isPhone) this.setState({ showLoad: true });
         let dataSet = await this.getService();
         this.setState({ showLoad: false })
         let timeOut = 360;
@@ -364,24 +376,15 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     getLoad() {
         if (this.state.showLoad) {
-            return (
-                <div id='load'>
-                    <div className="loadContent">
-                        <span className="loadSvg">
-                            <svg viewBox="25 25 50 50">
-                                <circle cx="50" cy="50" r="20" fill="none"></circle>
-                            </svg>
-                        </span>
-                        <span className="loadMessage">加载中...</span>
-                    </div>
-                </div>
-            )
+            return <Loading></Loading>
         }
     }
 
     onSubmit(sender?: any) {
         if (sender)
             sender.preventDefault();
+        if(this.state.showLoad)
+            return;
         if (this.props.verify && !this.props.verify())
             return;
         if (!this.props.dataRow.getString('userCode') || !this.props.dataRow.getString('password')) {
@@ -417,7 +420,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     async postData() {
         this.props.dataRow.setValue('verifyCode', this.props.dataRow.getValue('verifyCode_'));
-        this.setState({ showLoad: true })
+        this.setState({ showLoad: true, message: '' })
         let dataOut = await this.getService();
         if (dataOut.state > 0) {
             let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId');

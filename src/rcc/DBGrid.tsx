@@ -3,7 +3,7 @@ import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import FieldMeta from "../db/FieldMeta";
 import { Line } from "./Block";
-import { OnFieldChangedEvent } from "./DBEdit";
+import DBEdit, { OnFieldChangedEvent } from "./DBEdit";
 import styles from './DBGrid.css';
 import MutiPage, { DefaultPageSize, OnPageChanged, USER_PAGE_SIZE_KEY } from "./MutiPage";
 import WebControl from "./WebControl";
@@ -218,6 +218,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         row.setValue(field, value);
         if (this.props.onChanged)
             this.props.onChanged(row, field, oldValue);
+        this.setState(this.state);
     }
 
     getNavigator(): React.ReactNode {
@@ -252,6 +253,11 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     componentDidMount(): void {
         this.bindInputEvent();
+    }
+
+    componentWillUnmount(): void {
+        let main = document.querySelector(`.${styles.main}`);
+        main.removeEventListener('keydown', this.handleInputKeydown.bind(this))
     }
 
     // 绑定输入框事件
@@ -409,11 +415,17 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
     getContent() {
         let items: React.ReactElement<any, string | React.JSXElementConstructor<any>>[] = []
         React.Children.map(this.props.children, child => {
-            if (isValidElement(child))
+            if (isValidElement(child)) {
+                let bool = false;
+                if (child.type == DBEdit && this.state.dataRow.history)
+                    bool = this.state.dataRow.getString(child.props.dataField) != this.state.dataRow.history.getString(child.props.dataField)
                 items.push(React.cloneElement(child, {
                     key: items.length, dataRow: this.state.dataRow,
-                    onChanged: this.onChanged
+                    onChanged: this.onChanged,
+                    changed: bool
                 }))
+            }
+
         })
         return items;
     }

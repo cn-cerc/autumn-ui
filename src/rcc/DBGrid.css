@@ -89,3 +89,7 @@
 .evenLine {
     background-color: #fafafa;
 }
+
+.changed {
+    color: red;
+}
