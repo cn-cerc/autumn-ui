@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import diteng from '../src/diteng'
 import FrmAccObjT from "../src/diteng/acc/FrmAccObjT"
 import FrmACSubjectType from "../src/diteng/acc/FrmACSubjectType"
-import FrmMoneyDecimalPoint from "../src/diteng/acc/FrmMoenyDecimalPoint"
+import FrmMoneyDecimalPoint from "../src/diteng/acc/FrmMoneyDecimalPoint"
 import FrmMoneyRate from "../src/diteng/acc/FrmMoneyRate"
 import FrmSysList13 from "../src/diteng/acc/FrmSysList13"
 import index from '../src/index'

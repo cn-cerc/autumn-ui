@@ -46,6 +46,40 @@ export default class Utils {
         let client = new ClientStorage(`diteng_${userNo}`);
         client.remove(tb);
     }
+
+    static equals(param1: any, param2: any): boolean {
+        if (typeof param1 != typeof param2)
+            return false;
+        if (typeof param1 == 'object' && typeof param2 == 'object') {
+            if (Object.keys(param1).length != Object.keys(param2).length)
+                return false;
+            console.log(param1)
+            for (let key in param1) {
+                let type1 = typeof param1[key];
+                let type2 = typeof param2[key];
+                if (type1 == 'object' && type2 == 'object')
+                    return Utils.equals(param1[key], param2[key]);
+                else if (type1 != type2)
+                    return false
+                else if (param1[key].toString() != param2[key].toString())
+                    return false;
+            }
+        }
+        return true
+    }
+
+    static equalsMap(param1: Map<string, any>, param2: Map<string, any>) {
+        if (!(param1 instanceof Map) || !(param2 instanceof Map))
+            throw new Error('parameter type must be Map');
+        if (param1.size != param2.size)
+            return false;
+        let bool = true;
+        param1.forEach((value, key) => {
+            if (value != param2.get(key))
+                bool = false;
+        })
+        return bool;
+    }
 }
 
 export class ClientStorage {
