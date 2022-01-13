@@ -132,7 +132,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             let dataRow: DataRow = ds.current
             //输出主行
             items.push(
-                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`} style={{ 'backgroundColor': recNo % 2 == 0 ? '#fafafa' : '#fff' }}>
+                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`} className={recNo % 2 == 0 ? styles.evenLine : ''}>
                     {this.getRow(dataRow, recNo)}
                 </tr>
             )
@@ -165,7 +165,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     if (child.props.visible || (child.props.autoJudge && isHide))
                         display = 'none'
                     items.push(
-                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display, 'backgroundColor': recNo % 2 == 0 ? '#fafafa' : '#fff' }}>
+                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }} className={recNo % 2 == 0 ? styles.evenLine : ''}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -248,6 +248,71 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     getWidth(width: string) {
         return (Number(width) / this.state.allWidth) * 100 + "%";
+    }
+
+    componentDidMount(): void {
+        this.bindInputEvent();
+    }
+
+    // 绑定输入框事件
+    bindInputEvent() {
+        let main = document.querySelector(`.${styles.main}`);
+        main.addEventListener('keydown', this.handleInputKeydown.bind(this))
+    }
+
+    handleInputKeydown(e: any) {
+        if (e.target.tagName.toLowerCase() == 'input') {
+            let element = e.target as HTMLInputElement;
+            let keyCode = 0;
+            keyCode = e.keyCode - 37;
+            if (keyCode < 0 || keyCode > 3) return;
+            let tr = element.closest('tr') as HTMLTableRowElement;
+            let isMaster: boolean = tr.getAttribute('data-key').indexOf('master') > -1;
+            if (keyCode % 2 == 0) {
+                if (isMaster) {
+                    let items = element.closest('tr').querySelectorAll('input');
+                    let index = 0;
+                    for (let i = 0; i < items.length; i++) {
+                        if (items[i] == element) index = i; continue;
+                    }
+                    index = keyCode == 0 ? index - 1 : index + 1;
+                    let cursor = element as HTMLInputElement;
+                    if ((cursor.selectionStart == 0 && keyCode == 0) || (cursor.selectionStart == cursor.value.length && keyCode == 2)) {
+                        let input = items[index] as HTMLInputElement;
+                        e.preventDefault();
+                        if (input) {
+                            if (e.ctrlKey)
+                                this.initDataSet(input, element, index);
+                            input.focus();
+                        }
+                    }
+                }
+            } else {
+                let items = document.querySelectorAll(`.${styles.main} input[name='${element.getAttribute('name')}']`);
+                let index = 0;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i] == element) index = i; continue;
+                }
+                index = keyCode == 1 ? index - 1 : index + 1;
+                let input = items[index] as HTMLInputElement;
+                e.preventDefault();
+                if (input) {
+                    if (e.ctrlKey)
+                        this.initDataSet(input, element, index);
+                    input.focus();
+                }
+            }
+        }
+    }
+
+    initDataSet(input: HTMLInputElement, element: HTMLInputElement, index: number) {
+        input.value = element.value;
+        if (this.props.dataSet.records[index].dataSet) {
+            let row: DataRow = this.props.dataSet.records[index];
+            row.dataSet.setRecNo(index);
+            row.dataSet.edit.bind(row)();
+        }
+        this.props.dataSet.records[index].setValue(element.name, element.value);
     }
 }
 
