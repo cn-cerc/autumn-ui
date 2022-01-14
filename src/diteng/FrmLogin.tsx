@@ -235,7 +235,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         if (this.props.lowVersion) {
             return <a href='FrmBrowserRecommend' target='_blank' style={{ 'color': '#ff4545' }}>你的浏览器版本太低，请使用推荐的浏览器</a>
         } else
-            return this.state.message;
+            return <span dangerouslySetInnerHTML={{ __html: this.state.message}}></span>;;
     }
 
     changeUserCode = (sender: any) => {
