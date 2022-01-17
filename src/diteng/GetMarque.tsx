@@ -120,7 +120,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
             let row: DataRow = dataSet.records[index];
             if (num > 3 && !this.state.showAll) {
                 heads.push(
-                    <div style={{ 'text-align': 'right' }} key='setAll'>
+                    <div style={{ 'textAlign': 'right' }} key='setAll'>
                         <span role='opera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
                     </div>
                 )
@@ -134,7 +134,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         }
         if (dataSet.size > 4 && this.state.showAll) {
             heads.push(
-                <div style={{ 'text-align': 'right' }} key='setAll'>
+                <div style={{ 'textAlign': 'right' }} key='setAll'>
                     <span role='opera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
                 </div>
             )

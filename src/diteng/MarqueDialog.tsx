@@ -291,7 +291,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
                 let row: DataRow = dataSet.records[index];
                 if (num > 3 && !this.state.showAll) {
                     heads.push(
-                        <div style={{ 'text-align': 'right' }} key='setAll'>
+                        <div style={{ 'textAlign': 'right' }} key='setAll'>
                             <span role='opera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
                         </div>
                     )
@@ -305,7 +305,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             }
             if (dataSet.size > 4 && this.state.showAll) {
                 heads.push(
-                    <div style={{ 'text-align': 'right' }} key='setAll'>
+                    <div style={{ 'textAlign': 'right' }} key='setAll'>
                         <span role='opera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
                     </div>
                 )
@@ -350,7 +350,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
                         'border': '1px solid red',
                         'color': 'red',
                         'padding': ' 0px 0.125em',
-                        ' margin-right': '0.25em'
+                        'marginRight': '0.25em'
                     }}>促</span>
             );
         }

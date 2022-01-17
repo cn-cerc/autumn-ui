@@ -7,7 +7,7 @@ type PropsType = {
 
 const FooterStyle = {
     fontSize: '0.85rem',
-    textAlign: 'center',
+    textAlign: 'center' as const,
     padding: '1rem'
 }
 

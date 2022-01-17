@@ -21,6 +21,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/preset-react": "^7.16.0",
+    "@types/fingerprintjs2": "^2.0.0",
     "@types/jquery": "^3.5.8",
     "@types/react": "^17.0.34",
     "@types/react-dom": "^17.0.11",

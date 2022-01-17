@@ -336,7 +336,7 @@ export type ColumnPropsType = {
     colSpan?: number;
     onChanged?: OnDataRowChangedEvent;
     onChangedOwner?: OnDataRowChangedEvent;
-    textAlign?: "left" | "right" | "center" | "char";
+    textAlign?: "left" | "right" | "center";
     customText?: Function;  // 用于自定义table中的行
     visible?: boolean; //用于控制子行的
 }
@@ -366,7 +366,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
             if (this.props.tag == ColumnType.td)
                 return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
             else
-                return <span className={styles.inline} style={{ 'width': this.props.width, 'text-align': this.props.textAlign ? this.props.textAlign : 'left' }}>{this.props.name ? this.props.name + '：' : ''}{child}</span>
+                return <span className={styles.inline} style={{ 'width': this.props.width, 'textAlign': this.props.textAlign }}>{this.props.name ? this.props.name + '：' : ''}{child}</span>
 
         }
         switch (this.props.tag) {

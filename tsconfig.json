@@ -7,8 +7,9 @@
         "target": "es5",
         "jsx": "react",
         "allowJs": true,
-        // ¿ªÆô×°ÊÎÆ÷
+        // ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½
         "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
+        "moduleResolution": "Node",
     }
 }

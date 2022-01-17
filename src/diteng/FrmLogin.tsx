@@ -6,7 +6,6 @@ import DBEdit from "../rcc/DBEdit";
 import WebControl from "../rcc/WebControl";
 import styles from "./FrmLogin.css";
 import { showMsg } from "./Summer";
-// @ts-ignore
 import Fingerprint2 from "fingerprintjs2";
 import { ClientStorage } from "../db/Utils";
 import { Loading } from "../db/Loading";
@@ -69,7 +68,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <input type="checkbox" id="savePwd" checked={this.state.savePwd} onChange={this.changeAutoLogin.bind(this)} /><label htmlFor="savePwd">自动登录</label>
                             <a href="FrmForgetPassword" style={{ "float": "right", "color": "red" }}>找回密码</a>
                         </div>
-                        <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "text-align": "center", "padding-bottom": ".5em" }}>{this.getMessage()}</div>
+                        <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "paddingBottom": ".5em" }}>{this.getMessage()}</div>
                         <button className="btnSubmit" onClick={this.onSubmit.bind(this)}>登录</button>
                     </form>
                     {this.getLoad()}
