@@ -347,7 +347,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         this.setState({
             hasSendCode: true
         })
-        let sendBtn = document.getElementById('sendCode') as HTMLDivElement;
+        let sendBtn = document.querySelector(`.${styles.sendCode}`) as HTMLDivElement;
         if (this.isPhone) this.setState({ showLoad: true });
         let dataSet = await this.getService();
         this.setState({ showLoad: false })
