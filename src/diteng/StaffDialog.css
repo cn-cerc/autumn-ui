@@ -9,3 +9,7 @@
     padding-top: .5rem;
     margin-top: .25rem;
 }
+
+.main form[role='searchPanel'] {
+    flex-shrink: 0;
+}
