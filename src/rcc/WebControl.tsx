@@ -13,7 +13,7 @@ export default class WebControl<T = {}, S = {}> extends React.Component<T, S> im
     initIsPhone() {
         let bool = window.outerWidth <= 767;
         //@ts-ignore
-        if(window.Application) {
+        if(window.Application && !bool) {
             //@ts-ignore
             let device = Application.device;
             bool = device == "phone" || device == "weixin" || device == "android"

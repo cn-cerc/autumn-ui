@@ -66,9 +66,10 @@ function showMsg(msg, remain) {
     var messageBoxWidth;
     isPhone() ? messageBoxWidth = $('article>.content').outerWidth(false) / 1.5 : messageBoxWidth = $('article>.content').outerWidth(false) / 2;
     if ($('article>.content').length == 0) {
-        isPhone() ? messageBoxWidth = $('section[role="content"').outerWidth(false) / 1.5 : messageBoxWidth = $('section[role="content"').outerWidth(false) / 2;
+        isPhone() ? messageBoxWidth = $('body').outerWidth(false) / 1.5 : messageBoxWidth = $('body').outerWidth(false) / 2;
+    } else {
+        isPhone() ? messageBoxWidth = $('body').outerWidth(false) / 1.5 : messageBoxWidth = $('body').outerWidth(false) / 2;
     }
-
     messageBox = messageBox.html('').css({
         'opacity': 1,
         'width': messageBoxWidth + 'px',
@@ -108,6 +109,8 @@ function showMsg(msg, remain) {
         "background-color": "#fff",
         "width": "100%",
         "right": "0",
+        "box-sizing": "border-box",
+        "color": "red"
     });
 
     // 获取底部操作区高度，设置消息提示出现的位置

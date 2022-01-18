@@ -15,7 +15,7 @@ type PropsType = {
     autoFocus?: boolean;
     readOnly?: boolean;
     type?: 'text' | 'password' | 'checkbox' | 'number' | 'radio';
-    autoComplete?: 'off' | 'on';
+    autoComplete?: string;
     onFocus?: Function,
     changed?: boolean
 }
