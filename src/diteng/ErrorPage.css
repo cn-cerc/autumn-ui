@@ -59,17 +59,11 @@ div[id='app'] {
     padding-left: 5px;
 }
 
-@media screen and (max-width: 767px) {
-    .main {
-        width: 100vw;
-        height: calc(100vh - 2.59rem);
-        position: relative;
-        line-height: 1.75rem;
-    }
-    .errpage {
-        flex-direction: column;
-        font-size: 1rem;
-    }
+.statuBg {
+    background-image: url('https://www.diteng.site/public/images/statusCode/bg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .errorMsg {
@@ -82,4 +76,17 @@ div[id='app'] {
 
 .errorMsg p {
     margin: 0;
+}
+
+@media screen and (max-width: 767px) {
+    .main {
+        width: 100vw;
+        height: calc(100vh - 2.59rem);
+        position: relative;
+        line-height: 1.75rem;
+    }
+    .errpage {
+        flex-direction: column;
+        font-size: 1rem;
+    }
 }
