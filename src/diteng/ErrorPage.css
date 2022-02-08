@@ -1,6 +1,7 @@
 .main {
-    background: #fff;
+    background: #F7F7F7;
     height: 100%;
+    line-height: 2rem;
 }
 
 div[id='app'] {
@@ -29,8 +30,15 @@ div[id='app'] {
 }
 
 .errpage {
-    background-color: #fff;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    font-size: .95rem;
+    color: #4e4e4e;
+}
+
+.errpage a {
+    color: #4e99ac;
 }
 
 .errpage>ul {
@@ -47,22 +55,6 @@ div[id='app'] {
     margin-bottom: 20px;
 }
 
-.errpage>ul>li:last-child p {
-    margin-top: 30px;
-    margin-bottom: 60px;
-}
-
-.errpage>ul>li:last-child a {
-    display: inline-block;
-    width: 7em;
-    padding: 0.4em 1.2em;
-    border-radius: 1em;
-    color: #ffffff;
-    background: #007BD9;
-    font-size: 1.1em;
-    margin: 0 0.5em;
-}
-
 .errpage>ul>li:last-child a span {
     padding-left: 5px;
 }
@@ -72,5 +64,22 @@ div[id='app'] {
         width: 100vw;
         height: calc(100vh - 2.59rem);
         position: relative;
+        line-height: 1.75rem;
     }
+    .errpage {
+        flex-direction: column;
+        font-size: 1rem;
+    }
+}
+
+.errorMsg {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-top: 1.25rem;
+    color: gray;
+}
+
+.errorMsg p {
+    margin: 0;
 }
