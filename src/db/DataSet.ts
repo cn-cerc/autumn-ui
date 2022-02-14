@@ -579,6 +579,18 @@ export default class DataSet implements IDataSource {
         })
     }
 
+    reverse() {
+        let records: DataRow[] = this._records.reverse();
+        this.clear();
+        records.forEach((row: DataRow) => {
+            this.append();
+            let items: any[][] = Array.from(row.items);
+            items.forEach((item: any[]) => {
+                this.setValue(item[0], item[1])
+            })
+        })
+    }
+
     forEach(fn: (row: DataRow) => void) {
         for (let row of this._records)
             fn.call(this, row);

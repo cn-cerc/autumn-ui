@@ -18,12 +18,19 @@ type DBGridProps = {
     onRowClick?: OnRowClickEvent;
     dataJson?: string;
     openPage?: boolean;
+    allowSort?: boolean
 }
+
+type sortType = 'desc' | 'asc'
 
 type DBGridState = {
     allWidth: number,
     beginPoint: number,
     endPoint: number,
+    sortData: {
+        code: string,
+        sortType: sortType
+    }
 }
 
 export type OnDataRowChangedEvent = (recNo: number, field: string, value: string) => void;
@@ -47,6 +54,10 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             allWidth: this.getAllWidth(),
             beginPoint: 1,
             endPoint: this.props.openPage ? this.size : this.props.dataSet.size,
+            sortData: {
+                code: '',
+                sortType: null
+            }
         }
         this.initColumnMap();
     }
@@ -105,7 +116,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                 arr.forEach((child) => {
                     if (isValidElement(child)) {
                         if (child.props.code == dataSet.getString('field')) {
-                            items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width), visible: dataSet.getString('visible') == 'true' ? true : false }))
+                            items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width), visible: dataSet.getString('visible') == 'true' ? true : false, setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                         }
                     }
                 })
@@ -113,7 +124,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         } else {
             arr.forEach((child) => {
                 if (isValidElement(child)) {
-                    items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width) }))
+                    items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width), setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                 }
             })
         }
@@ -196,7 +207,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                 arr.forEach((child) => {
                     if (isValidElement(child)) {
                         if (child.props.code == dataSet.getString('field')) {
-                            items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo, visible: dataSet.getString('visible') == 'true' ? true : false }))
+                            items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo, visible: dataSet.getString('visible') == 'true' ? true : false, setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                         }
                     }
                 })
@@ -204,7 +215,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         } else {
             arr.forEach((child) => {
                 if (isValidElement(child)) {
-                    items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo }))
+                    items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo, setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                 }
             })
         }
@@ -320,6 +331,32 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         }
         this.props.dataSet.records[index].setValue(element.name, element.value);
     }
+
+    setSort(code: string, sortString: string) {
+        if (!this.props.allowSort)
+            return;
+        let sortType: sortType = 'asc';
+        if (this.state.sortData.code == code)
+            sortType = this.state.sortData.sortType == 'asc' ? 'desc' : 'asc';
+        let sort: string[] = [];
+        if (sortString) {
+            let sortArr = sortString.split(',');
+            sortArr.forEach((sortCode: string) => {
+                sort.push(`${sortCode} ${sortType}`);
+            })
+        } else
+            sort = [`${code} ${sortType}`];
+        if (code == '_it_' && this.state.sortData.sortType)
+            this.props.dataSet.reverse();
+        else
+            this.props.dataSet.setSort(...sort);
+        this.setState({
+            sortData: {
+                code,
+                sortType
+            }
+        });
+    }
 }
 
 export enum ColumnType {
@@ -338,7 +375,10 @@ export type ColumnPropsType = {
     onChangedOwner?: OnDataRowChangedEvent;
     textAlign?: "left" | "right" | "center";
     customText?: Function;  // 用于自定义table中的行
+    customSort?: string
     visible?: boolean; //用于控制子行的
+    setSort?: Function; // 用于表格排序
+    sortType?: sortType
 }
 
 type ColumnStateType = {
@@ -355,7 +395,9 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 
     constructor(props: ColumnPropsType) {
         super(props)
-        this.state = { dataRow: this.props.dataRow }
+        this.state = {
+            dataRow: this.props.dataRow
+        }
     }
 
     render() {
@@ -372,7 +414,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
         switch (this.props.tag) {
             case ColumnType.th:
                 return (
-                    <th className={styles.column} style={{ "width": this.props.width, 'display': this.props.visible ? 'none' : 'table-cell' }}>{this.props.name}</th>
+                    <th className={styles.column} style={{ "width": this.props.width, 'display': this.props.visible ? 'none' : 'table-cell' }} onClick={this.setSort.bind(this)}>{this.props.name}{this.getArrow()}</th>
                 )
             case ColumnType.td: {
                 return this.getTd();
@@ -425,7 +467,6 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
                     changed: bool
                 }))
             }
-
         })
         return items;
     }
@@ -437,6 +478,18 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
                 this.props.onChangedOwner(this.props.recNo, meta.code, this.state.dataRow.getValue(meta.code));
             if (this.props.onChanged)
                 this.props.onChanged(this.props.recNo, meta.code, this.state.dataRow.getValue(meta.code));
+        }
+    }
+
+    setSort() {
+        if (this.props.setSort)
+            this.props.setSort(this.props.code, this.props.customSort);
+    }
+
+    getArrow() {
+        if (this.props.sortType) {
+            let arrow = this.props.sortType == 'desc' ? '↓' : '↑';
+            return <span style={{ 'color': 'red' }}>{arrow}</span>
         }
     }
 }
