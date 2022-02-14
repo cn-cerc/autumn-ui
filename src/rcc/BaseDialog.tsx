@@ -203,7 +203,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
         if (this._load) {
             return (
                 <div className={styles.load}>
-                    <img src='https://www.diteng.site/911001/images/loading.gif' />
+                    <img src='https://www.diteng.site/public/images/loading.gif' />
                     <span>系统正在查询中,请稍后...</span>
                 </div>
             )
@@ -212,7 +212,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
 
     getAdornment(): React.ReactNode {
         if (this.props.isChild)
-            return <img src='https://www.diteng.site/911001/images/searchIocn.png' onClick={this.showAsChild.bind(this)} className={styles.showDialog} />
+            return <img src='https://www.diteng.site/public/images/searchIocn.png' onClick={this.showAsChild.bind(this)} className={styles.showDialog} />
     }
 
     showAsChild() {

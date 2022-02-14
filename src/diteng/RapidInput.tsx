@@ -196,9 +196,10 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
     }
 
     getOperate(): JSX.Element {
+        let url = location.origin;
         return <div className={styles.operates}>
-            <img src={`http://192.168.1.138:8101/public/images/icon/${this.state.isFullScreen ? 'cancelFullScreen' : 'fullScreen'}.png`} onClick={this.changeFullScreen.bind(this)} style={{ 'width': this.state.isFullScreen ? '1.25em' : '.85em' }}></img>
-            <img src='http://192.168.1.138:8101/public/images/icon/close.png' onClick={this.handleClose.bind(this)} style={{ 'width': '1rem', 'marginLeft': '.5rem' }} />
+            <img src={`${url}/public/images/icon/${this.state.isFullScreen ? 'cancelFullScreen' : 'fullScreen'}.png`} onClick={this.changeFullScreen.bind(this)} style={{ 'width': this.state.isFullScreen ? '1.25em' : '.85em' }}></img>
+            <img src={`${url}/public/images/icon/close.png`} onClick={this.handleClose.bind(this)} style={{ 'width': '1rem', 'marginLeft': '.5rem' }} />
         </div>
     }
 
