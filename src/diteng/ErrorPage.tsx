@@ -36,7 +36,7 @@ export default class ErrorPage extends WebControl<errorTypeProps> {
                 <div className={styles.contanier}>
                     <div className={styles.errpage}>
                         <ul>
-                            <li className={styles.statuBg}><img src={`https://www.diteng.site/public/images/statusCode/${this.props.statuCode}.png`} /></li>
+                            <li className={styles.statuBg}><img src={`http://192.168.1.138:8101/public/images/statusCode/${this.props.statuCode}.png`} /></li>
                             <li>
                                 <h3>非常抱歉，您此项请求服务器无法处理！</h3>
                                 <p style={{ "margin": "0px", "textAlign": "left", "textIndent": "2em" }}>请您确认您的操作是否有误，或将下述异常讯息记下来：</p>
@@ -54,7 +54,7 @@ export default class ErrorPage extends WebControl<errorTypeProps> {
                 <div className={styles.contanier}>
                     <div className={styles.errpage}>
                         <div style={{ 'display': 'flex', 'flexDirection': 'column' }}>
-                            <div className={styles.statuBg}><img src={`https://www.diteng.site/public/images/statusCode/${this.props.statuCode}.png`} /></div>
+                            <div className={styles.statuBg}><img src={`http://192.168.1.138:8101/public/images/statusCode/${this.props.statuCode}.png`} /></div>
                             <div style={{ 'marginTop': '1rem' }}>
                                 <h2 style={{ "color": "#40485b", 'fontSize': '1.2rem', 'fontWeight': 'bold' }}>{this.props.error_hint}</h2>
                                 <div>{this.props.msg}，<a href='/public/WebDefault'>点击这里</a>返回首页</div>
