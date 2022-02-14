@@ -320,4 +320,19 @@ export default class DialogApi {
     static postCopyReport(params: DataRow) {
         return DialogApi.getDataOut('SvrSendPrint.copyReport', params);
     }
+
+    /** 商品快速录入接口 */
+    static getGatherProducts(params: DataRow) {
+        return DialogApi.getDataOut('TAppGatherProducts.download', params);
+    }
+
+    /** 商品快乐获取品牌列表 */
+    static getGatherProductClass(params: string[]) {
+        return DialogApi.getService('TWebSelectDialog.quickProductClass', params);
+    }
+
+    /** 查看库存商品基本资料 */
+    static getPartStock(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartStock.view', params);
+    }
 }

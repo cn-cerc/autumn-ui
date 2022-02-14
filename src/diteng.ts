@@ -43,6 +43,7 @@ import ProcStepDialog from "./diteng/ProcStepDialog";
 import ProductClassDialog from "./diteng/ProductClassDialog";
 import ProductDialog from "./diteng/ProductDialog";
 import RABChangeDialog from "./diteng/RABChangeDialog";
+import RapidInput from "./diteng/RapidInput";
 import RemarkDialog from "./diteng/RemarkDialog";
 import SaleCurrentNumDialog from "./diteng/SaleCurrentNumDialog";
 import SalesmanDialog from "./diteng/SalesmanDialog";
@@ -135,5 +136,7 @@ export default {
     CopyReportDialog,
     //工具类
     Utils,
-    ClientStorage
+    ClientStorage,
+    //快录专用
+    RapidInput
 }

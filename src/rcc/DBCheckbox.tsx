@@ -10,6 +10,7 @@ type PropsType = {
     dataName?: string;
     isUseChangedEvent?: boolean;
     onChanged?: OnChangedEvent;
+    className?: string
 }
 
 export default class DBCheckbox extends React.Component<PropsType> {
@@ -34,7 +35,7 @@ export default class DBCheckbox extends React.Component<PropsType> {
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}</label>)
         }
         return (
-            <div>
+            <div className={this.props.className || ''}>
                 <input type="checkbox" role={`${this.props.dataRow.getString('columnName')}`} id={this.props.dataField} name={this.props.dataField} checked={value} onChange={this.onChange} />
                 {dataName}
             </div>

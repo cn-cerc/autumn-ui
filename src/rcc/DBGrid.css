@@ -5,6 +5,7 @@
     margin-top: .5rem;
     background-color: #fff;
     border-radius: .25rem;
+    outline: 0;
 }
 
 .main table {
@@ -41,7 +42,7 @@
 }
 
 .main table tr:hover {
-    background-color: #d7ffef!important;
+    background-color: #d7ffef;
 }
 
 .main table td {
@@ -92,4 +93,8 @@
 
 .changed {
     color: red;
+}
+
+.columnCheck {
+    background-color: aqua;
 }

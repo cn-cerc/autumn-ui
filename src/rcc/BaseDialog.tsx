@@ -155,8 +155,10 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
             this._showAsChild = false;
             this.setState({ ...this.state });
         } else {
-            let box = $(`[role='${this._dialogRole}']`).closest("[role='dialogBox']");
-            if (box.length > 0) box.remove();
+            let box = document.getElementById('dialogBox');
+            //@ts-ignore
+            ReactDOM.unmountComponentAtNode(box);
+            if (box) box.remove();
         }
     }
 
@@ -181,7 +183,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
                     <div className={styles.main} style={this.getStyle.bind(this)()} role={this._dialogRole}>
                         <div className={styles.title} onMouseDown={(e) => this.handleMouseDown(e)}>
                             <span>{this._title}</span>
-                            <span className={styles.close} onClick={this.handleClose.bind(this)}>×</span>
+                            {this.getOperate()}
                         </div>
                         <div className={styles.content}>
                             {this.content()}
@@ -191,6 +193,10 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
                 </div>
             )
         }
+    }
+
+    getOperate() {
+        return <span className={styles.close} onClick={this.handleClose.bind(this)}>×</span>
     }
 
     getLoad() {

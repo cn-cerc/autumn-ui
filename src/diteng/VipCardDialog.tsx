@@ -12,7 +12,7 @@ import styles from "./StaffDialog.css";
 import { showMsg } from "./Summer";
 
 type VipCardTypeProps = {
-    cusCode: string,
+    cusCode?: string,
     status: number,
     inputId: string,
 } & Partial<BaseDialogStateType>
@@ -27,7 +27,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
     constructor(props: VipCardTypeProps) {
         super(props);
         let options = new Map();
-        options.set('全部', -1);
+        options.set('全部', '');
         options.set('未使用', 0);
         options.set('已使用', 1);
         options.set('已停用', 2);
