@@ -84,6 +84,11 @@ export default class DialogApi {
         return DialogApi.getService('TAppPartClass.GetNameList');
     }
 
+    /** 获取客户类别 */
+    static getCusType() {
+        return DialogApi.getService('TAppCusInfo.getCusTypeList');
+    }
+
     /** 获取商品中类 */
     static async getClass2(params: { Brand_: string, Class1_: string }) {
         let ds = await DialogApi.getService('TAppPartClass.GetClass2List', params);
