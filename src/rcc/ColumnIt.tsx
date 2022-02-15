@@ -12,6 +12,7 @@ export class ColumnIt extends Column {
     }
 
     getValue(): React.ReactNode {
-        return this.props.recNo;
+        let bool = this.props.sortType == 'desc'
+        return bool ? this.props.dataRow.dataSet.size - this.props.recNo + 1 : this.props.recNo;
     }
 }

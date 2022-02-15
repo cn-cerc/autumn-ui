@@ -1,8 +1,9 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 2591940 */
-  src: url('./iconfont.woff2?t=1622786647320') format('woff2'),
-       url('./iconfont.woff?t=1622786647320') format('woff'),
-       url('./iconfont.ttf?t=1622786647320') format('truetype');
+  font-family: "iconfont";
+  /* Project id 2827127 */
+  src: url('./iconfont.woff2?t=1644486068825') format('woff2'),
+    url('./iconfont.woff?t=1644486068825') format('woff'),
+    url('./iconfont.ttf?t=1644486068825') format('truetype');
 }
 
 .iconfont {
@@ -29,3 +30,22 @@
   content: "\e65a";
 }
 
+.iconXiaoxizhongxin:before {
+  content: "\e626";
+}
+
+.iconExpend:before {
+  content: "\e600";
+}
+
+.iconShrink:before {
+  content: "\e643";
+}
+
+.iconYanzhengma:before {
+  content: "\e614";
+}
+
+.iconQuxiao:before {
+  content: "\e625";
+}

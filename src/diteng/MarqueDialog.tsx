@@ -171,13 +171,13 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             )
         } else {
             return (
-                <DBGrid key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)} allowSort={true}>
                     <Column code='_select_' name='选择' width='3' >
                         <DBCheckbox dataField="_select_" isUseChangedEvent={false} />
                     </Column>
                     <ColumnIt width="5" />
                     <Column code='Brand_' name='品牌' width='15' />
-                    <Column code='DescSepc' name='品名规格' width='30' customText={this.initDescSepc.bind(this)} />
+                    <Column code='DescSepc' name='品名规格' width='30' customText={this.initDescSepc.bind(this)} customSort='Desc_,Spec_' />
                     <Column code='Unit1_' name='包装' width='3' />
                     <Column code='Rate1_' name='包装量' width='4' />
                     <Column code='Unit_' name='单位' width='3' />
@@ -221,7 +221,6 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
                                         {dataRow.getString('BalanceNum_')}
                                     </a>
                                 </React.Fragment>
-
                             )
                         }} />
                         <Column code='GoodUP_' name='进货价' width='5' />
@@ -243,13 +242,13 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             )
         } else {
             return (
-                <DBGrid key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)}>
+                <DBGrid key={key} dataSet={this.state.dbData} onRowClick={this.handleClick.bind(this)} allowSort={true}>
                     <Column code='_select_' name='选择' width='3' >
                         <DBCheckbox dataField="_select_" isUseChangedEvent={false} />
                     </Column>
                     <ColumnIt width="5" />
                     <Column code='Brand_' name='品牌' width='12' />
-                    <Column code='DescSepc' name='品名规格' width='30' customText={this.initDescSepc.bind(this)} />
+                    <Column code='DescSepc' name='品名规格' width='30' customText={this.initDescSepc.bind(this)} customSort='Desc_,Spec_' />
                     <Column code='WarnNum_' name='安全库存' width='5' />
                     <Column code='OrdNum_' name='待出货量' width='5' />
                     <Column code='Stock_' name='当前库存' width='5' />

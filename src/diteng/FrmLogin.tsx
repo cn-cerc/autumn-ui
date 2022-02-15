@@ -231,7 +231,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         if (this.props.lowVersion) {
             return <a href='FrmBrowserRecommend' target='_blank' style={{ 'color': '#ff4545' }}>你的浏览器版本太低，请使用推荐的浏览器</a>
         } else
-            return <span dangerouslySetInnerHTML={{ __html: this.state.message}}></span>;;
+            return <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>;;
     }
 
     changeUserCode = (sender: any) => {
@@ -336,7 +336,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 <Loading></Loading>
             </div>
         } else {
-            return <button onClick={this.onSubmit.bind(this)} style={{'cursor': 'pointer'}}>进入系统</button>
+            return <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>进入系统</button>
         }
     }
 
@@ -457,12 +457,18 @@ type FrmLoginTypeState = {
     dataIn: DataRow,
     client: any,
     message: string,
-    protocol: boolean
+    protocol: boolean,
+    isPhoneWeb: boolean
 }
 
 export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginTypeState> {
     constructor(props: FrmLoginTypeProps) {
         super(props);
+        let isPhoneWeb = false;
+        //@ts-ignore
+        if (this.isPhone && !window.ApiCloud.isApiCloud()) {
+            isPhoneWeb = true;
+        }
         let client = new ClientStorage('ErpKey');
         let dataIn = new DataRow();
         dataIn.setValue('languageId', this.props.language);
@@ -473,12 +479,17 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             client,
             dataIn,
             protocol,
-            message: ''
+            message: '',
+            isPhoneWeb
         }
     }
 
     render() {
-        return <div className={styles.page}><div className={styles.main}>{this.getPage()}</div></div>
+        if (!this.state.isPhoneWeb) {
+            return <div className={styles.page}><div className={styles.main}>{this.getPage()}</div></div>
+        } else {
+            return <React.Fragment></React.Fragment>
+        }
     }
 
     getPage() {
@@ -571,6 +582,8 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     componentDidMount(): void {
+        if (this.state.isPhoneWeb)
+            window.location.href = 'install?device=phone';
         if (!this.isPhone) {
             try {
                 if (location.href.indexOf('www.diteng.site') > -1) {

@@ -9,6 +9,7 @@ type PropsType = {
     dataName?: string;
     dataField: string;
     onChanged?: OnFieldChangedEvent;
+    className?: string
 }
 
 export default class DBDrop extends React.Component<PropsType> {
@@ -22,7 +23,7 @@ export default class DBDrop extends React.Component<PropsType> {
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}：</label>)
 
         return (
-            <span className={styles.main}>
+            <span className={`${styles.main} ${this.props.className}`}>
                 {dataName}
                 <select id={this.props.dataField} onChange={this.handleChange.bind(this)} value={this.props.dataRow.getString(this.props.dataField)}>
                     {this.getOptions()}
@@ -42,13 +43,14 @@ export default class DBDrop extends React.Component<PropsType> {
     handleChange = (sender: any) => {
         let el: HTMLSelectElement = sender.target;
         let option: HTMLOptionElement = el.selectedOptions[0];
-        let dataSet = this.props.dataRow.dataSet;
-        if (dataSet) {
-            dataSet.setRecNo(dataSet.locationRow(this.props.dataRow));
-            dataSet.edit();
-        }
         this.props.dataRow.setValue(this.props.dataField, option.value);
-        this.setState({ ...this.state });
+        this.setState({ ...this.state }, () => {
+            let dataSet = this.props.dataRow.dataSet;
+            if (dataSet) {
+                dataSet.setRecNo(dataSet.locationRow(this.props.dataRow));
+                dataSet.edit();
+            }
+        });
         if (this.props.onChanged)
             this.props.onChanged(this.props.dataRow.fields.get(this.props.dataField));
     }

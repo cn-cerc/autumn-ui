@@ -1,4 +1,4 @@
-import React, { isValidElement, MouseEventHandler } from "react";
+import React, { isValidElement } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import FieldMeta from "../db/FieldMeta";
@@ -18,12 +18,25 @@ type DBGridProps = {
     onRowClick?: OnRowClickEvent;
     dataJson?: string;
     openPage?: boolean;
+    allowSort?: boolean;
+    className?: string;
+    onKeyDown?: Function; // 用于监听表格按钮事件
+    allowCheck?: boolean
 }
+
+type sortType = 'desc' | 'asc'
 
 type DBGridState = {
     allWidth: number,
     beginPoint: number,
     endPoint: number,
+    sortData: {
+        code: string,
+        sortType: sortType
+    },
+    direction: [number, number],
+    allowInput: boolean,
+    isInput: boolean,
 }
 
 export type OnDataRowChangedEvent = (recNo: number, field: string, value: string) => void;
@@ -33,7 +46,11 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         readOnly: true,
         openPage: true,
     }
+    private self: any;
+    private children: React.ReactNode[][];
+    private allowChildren: React.ReactNode[][];
     private colunmMap: Map<string, JSX.Element>;
+    private allowMap: Map<string, JSX.Element>;
     private size: number;
     constructor(props: DBGridProps) {
         super(props);
@@ -47,11 +64,18 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             allWidth: this.getAllWidth(),
             beginPoint: 1,
             endPoint: this.props.openPage ? this.size : this.props.dataSet.size,
+            sortData: {
+                code: '',
+                sortType: null
+            },
+            direction: [0, 0],
+            allowInput: false,
+            isInput: false
         }
         this.initColumnMap();
     }
 
-    componentDidUpdate(prevProps: Readonly<DBGridProps>, prevState: Readonly<DBGridState>, snapshot?: any): void {
+    componentDidUpdate(prevProps: DBGridProps): void {
         if (this.props.dataSet.size !== prevProps.dataSet.size) {
             if (!this.size) {
                 this.size = DefaultPageSize;
@@ -67,22 +91,27 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
 
     initColumnMap() {
         this.colunmMap = new Map();
+        this.allowMap = new Map();
         React.Children.map(this.props.children, child => {
             if (isValidElement(child)) {
                 // @ts-ignore
                 let className = child.type.className || ''
                 if (className == Column.className) {
                     this.colunmMap.set(child.props.code, React.cloneElement(child, { tag: ColumnType.td, key: child.props.code }))
+                    if (child.props.allowCheck)
+                        this.allowMap.set(child.props.code, React.cloneElement(child, { tag: ColumnType.td, key: child.props.code }));
                 }
             }
         })
     }
 
     render() {
+        this.children = [];
+        this.allowChildren = [];
         if (this.props.dataSet == undefined)
             return (<div>props.dataSet is undefined</div>);
         return (
-            <div className={styles.main} role="dbgrid">
+            <div className={`${styles.main} ${this.props.className || ''}`} ref={self => this.self = self} role="dbgrid" onKeyDown={this.handleKeyDown.bind(this)} tabIndex={1}>
                 <table className={styles.grid}>
                     <tbody>
                         <tr key='head'>{this.getHead()}</tr>
@@ -90,13 +119,22 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     </tbody>
                 </table>
                 {this.getNavigator()}
-            </div>
+            </div >
         )
     }
 
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         let arr: React.ReactNode[] = Array.from(this.colunmMap.values());
+        React.Children.map(this.props.children, child => {
+            if (isValidElement(child)) {
+                // @ts-ignore
+                let className = child.type.className || ''
+                if (className == MainRow.className) {
+                    items.push(React.cloneElement(child, { key: `head_${child.props.code}`, tag: ColumnType.th }))
+                }
+            }
+        })
         if (this.props.dataJson) {
             let dataSet = new DataSet();
             dataSet.setJson(this.props.dataJson);
@@ -105,7 +143,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                 arr.forEach((child) => {
                     if (isValidElement(child)) {
                         if (child.props.code == dataSet.getString('field')) {
-                            items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width), visible: dataSet.getString('visible') == 'true' ? true : false }))
+                            items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width), visible: dataSet.getString('visible') == 'true' ? true : false, setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                         }
                     }
                 })
@@ -113,7 +151,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         } else {
             arr.forEach((child) => {
                 if (isValidElement(child)) {
-                    items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width) }))
+                    items.push(React.cloneElement(child, { tag: ColumnType.th, width: this.getWidth(child.props.width), setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                 }
             })
         }
@@ -128,15 +166,35 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             if (i > ds.size)
                 break;
             ds.setRecNo(i);
-            let recNo: number = ds.recNo
-            let dataRow: DataRow = ds.current
-            //输出主行
-            items.push(
-                <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this)} data-key={`master_${recNo}`} className={recNo % 2 == 0 ? styles.evenLine : ''}>
-                    {this.getRow(dataRow, recNo)}
-                </tr>
-            )
-
+            let recNo: number = ds.recNo;
+            let dataRow: DataRow = ds.current;
+            React.Children.map(this.props.children, child => {
+                if (isValidElement(child)) {
+                    // @ts-ignore
+                    let className = child.type.className || ''
+                    if (className == MainRow.className) {
+                        items.push(
+                            <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this, recNo)} data-key={`master_${recNo}`} className={`${recNo % 2 == 0 ? styles.evenLine : ''} ${child.props.dynamicClass(dataRow) || ''}`}>
+                                {React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo })}
+                            </tr>
+                        )
+                    }
+                }
+            })
+            if (this.colunmMap.size > 0) {
+                let childArr: React.ReactNode[] = this.getRow(dataRow, recNo);
+                let allChildArr: React.ReactNode[] = childArr.filter((child) => {
+                    return isValidElement(child) && child.props.allowCheck;
+                })
+                //输出主行
+                items.push(
+                    <tr key={`master_${recNo}`} onClick={this.onTrClick.bind(this, recNo)} data-key={`master_${recNo}`} className={recNo % 2 == 0 ? styles.evenLine : ''}>
+                        {childArr}
+                    </tr>
+                )
+                this.children.push(childArr);
+                this.allowChildren.push(allChildArr);
+            }
             //输出子行 
             let colSpan = 0;
             React.Children.map(this.props.children, child => {
@@ -165,7 +223,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     if (child.props.visible || (child.props.autoJudge && isHide))
                         display = 'none'
                     items.push(
-                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this)} style={{ 'display': display }} className={recNo % 2 == 0 ? styles.evenLine : ''}>
+                        <tr key={`child_${key}`} data-key={`child_${key}`} onClick={this.onTrClick.bind(this, recNo)} style={{ 'display': display }} className={recNo % 2 == 0 ? styles.evenLine : ''}>
                             {React.cloneElement(child, { key: child.props.code, colSpan, dataRow: dataRow })}
                         </tr>
                     );
@@ -175,14 +233,67 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         return items;
     }
 
-    onTrClick: MouseEventHandler<HTMLTableRowElement> = (sender: any) => {
+    onTrClick = (recNo: number, sender: any) => {
+        if (this.props.allowCheck) {
+            this.state.direction[0] = recNo;
+            let arr = Array.from(this.allowMap.values());
+            for (let i = 1; i <= arr.length; i++) {
+                if (arr[i - 1].key == sender.target.getAttribute('data-field'))
+                    this.state.direction[1] = i;
+            }
+            this.setState({
+                allowInput: false
+            })
+        }
         if (!this.props.onRowClick)
             return;
-        let tr: HTMLElement = sender.target.closest('tr');
-        let reactKey: string = tr.dataset.key;
-        let recNo: number = Number(reactKey.split('_')[1].split('\.')[0]);
         this.props.dataSet.setRecNo(recNo);
         this.props.onRowClick(this.props.dataSet.current, sender);
+    }
+
+    handleKeyDown(sender: any) {
+        if (this.props.onKeyDown)
+            this.props.onKeyDown(sender);
+        else {
+            if (!this.state.direction[0] || !this.state.direction[1])
+                return;
+            let element = this.allowChildren[this.state.direction[0] - 1][this.state.direction[1] - 1];
+            if (!isValidElement(element))
+                return;
+            if (!this.state.allowInput) {
+                let keyCode: number = sender.keyCode;
+                let allowInput = false;
+                if (keyCode == 37)
+                    this.state.direction[1] = this.state.direction[1] - 1 || 1;
+                if (keyCode == 38)
+                    this.state.direction[0] = this.state.direction[0] - 1 || 1;
+                if (keyCode == 39)
+                    this.state.direction[1] = this.state.direction[1] + 1 > this.allowMap.size ? this.allowMap.size : this.state.direction[1] + 1;
+                if (keyCode == 40)
+                    this.state.direction[0] = this.state.direction[0] + 1 > this.props.dataSet.size ? this.props.dataSet.size : this.state.direction[0] + 1;
+                if (keyCode == 13 && !element.props.enterEvent)
+                    allowInput = true;
+                if (element.props.enterEvent && !allowInput && keyCode == 13)
+                    element.props.enterEvent(this.state.direction[0]);
+                this.setState({
+                    allowInput
+                })
+            } else {
+                let keyCode: number = sender.keyCode;
+                if (keyCode == 13) {
+                    sender.preventDefault();
+                    let tr: HTMLTableRowElement = this.self.querySelectorAll(`tr[data-key^="master_"]`)[this.state.direction[0] - 1];
+                    let td: HTMLTableCellElement = tr.querySelector(`td[data-field='${element.props.code}']`);
+                    this.props.dataSet.records[this.state.direction[0] - 1].setValue(element.props.code, td.innerText);
+                    this.setState({
+                        allowInput: false,
+                        isInput: false
+                    }, () => {
+                        this.self.focus();
+                    })
+                }
+            }
+        }
     }
 
     getRow(dataRow: DataRow, recNo: number): React.ReactNode[] {
@@ -196,7 +307,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                 arr.forEach((child) => {
                     if (isValidElement(child)) {
                         if (child.props.code == dataSet.getString('field')) {
-                            items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo, visible: dataSet.getString('visible') == 'true' ? true : false }))
+                            items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo, visible: dataSet.getString('visible') == 'true' ? true : false, setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                         }
                     }
                 })
@@ -204,11 +315,37 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         } else {
             arr.forEach((child) => {
                 if (isValidElement(child)) {
-                    items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo }))
+                    let checked: boolean = this.getChecked(child.key, recNo);
+                    let allowInput: boolean = this.getAllowInput(child.key, recNo);
+                    items.push(React.cloneElement(child, { onChangedOwner: this.onChanged, dataRow, recNo, checked, allowInput, onChangeInput: this.changeIsInput.bind(this), setSort: this.setSort.bind(this), sortType: child.props.code == this.state.sortData.code ? this.state.sortData.sortType : null }))
                 }
             })
         }
         return items;
+    }
+
+    getChecked(key: React.Key, recNo: number) {
+        let bool = false;
+        let arr: React.ReactNode[] = Array.from(this.allowMap.values());
+        arr.forEach((child, index) => {
+            if (isValidElement(child)) {
+                if (child.key == key && recNo == this.state.direction[0] && (index + 1) == this.state.direction[1])
+                    bool = true
+            }
+        })
+        return bool;
+    }
+
+    getAllowInput(key: React.Key, recNo: number) {
+        let bool = false;
+        let arr: React.ReactNode[] = Array.from(this.allowMap.values());
+        arr.forEach((child, index) => {
+            if (isValidElement(child)) {
+                if (child.key == key && recNo == this.state.direction[0] && (index + 1) == this.state.direction[1] && this.state.allowInput)
+                    bool = true
+            }
+        })
+        return bool;
     }
 
     onChanged: OnDataRowChangedEvent = (recNo: number, field: string, value: string) => {
@@ -251,19 +388,17 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
         return (Number(width) / this.state.allWidth) * 100 + "%";
     }
 
-    componentDidMount(): void {
-        this.bindInputEvent();
-    }
-
     componentWillUnmount(): void {
-        let main = document.querySelector(`.${styles.main}`);
-        main.removeEventListener('keydown', this.handleInputKeydown.bind(this))
+        let mainArr = document.querySelectorAll(`.${styles.main}`);
+        mainArr.forEach((main) => {
+            main.removeEventListener('keydown', this.handleInputKeydown.bind(this))
+        });
     }
 
     // 绑定输入框事件
     bindInputEvent() {
-        let main = document.querySelector(`.${styles.main}`);
-        main.addEventListener('keydown', this.handleInputKeydown.bind(this))
+        let mainArr = document.querySelectorAll(`.${styles.main}`);
+        mainArr[mainArr.length - 1].addEventListener('keydown', this.handleInputKeydown.bind(this))
     }
 
     handleInputKeydown(e: any) {
@@ -308,6 +443,14 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
                     input.focus();
                 }
             }
+        } else if (e.keyCode == 13) {
+            e.preventDefault();
+            this.setState({
+                allowInput: !this.state.allowInput
+            }, () => {
+                if (!this.state.allowInput)
+                    this.self.focus();
+            })
         }
     }
 
@@ -319,6 +462,44 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
             row.dataSet.edit.bind(row)();
         }
         this.props.dataSet.records[index].setValue(element.name, element.value);
+    }
+
+    setSort(code: string, sortString: string) {
+        if (!this.props.allowSort)
+            return;
+        let sortType: sortType = 'asc';
+        if (this.state.sortData.code == code)
+            sortType = this.state.sortData.sortType == 'asc' ? 'desc' : 'asc';
+        let sort: string[] = [];
+        if (sortString) {
+            let sortArr = sortString.split(',');
+            sortArr.forEach((sortCode: string) => {
+                sort.push(`${sortCode} ${sortType}`);
+            })
+        } else
+            sort = [`${code} ${sortType}`];
+        if (code == '_it_' && this.state.sortData.sortType)
+            this.props.dataSet.reverse();
+        else
+            this.props.dataSet.setSort(...sort);
+        this.setState({
+            sortData: {
+                code,
+                sortType
+            }
+        });
+    }
+
+    resetDirection() {
+        this.setState({
+            direction: [0, 0]
+        })
+    }
+
+    changeIsInput(bool: boolean) {
+        this.setState({
+            isInput: bool
+        })
     }
 }
 
@@ -338,7 +519,15 @@ export type ColumnPropsType = {
     onChangedOwner?: OnDataRowChangedEvent;
     textAlign?: "left" | "right" | "center";
     customText?: Function;  // 用于自定义table中的行
+    customSort?: string
     visible?: boolean; //用于控制子行的
+    setSort?: Function; // 用于表格排序
+    sortType?: sortType,
+    allowCheck?: boolean;
+    checked?: boolean;
+    allowInput?: boolean;
+    enterEvent?: Function;
+    onChangeInput?: Function
 }
 
 type ColumnStateType = {
@@ -347,6 +536,7 @@ type ColumnStateType = {
 
 export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
     static className: string = "Column";
+    private self: any;
 
     static defaultProps = {
         tag: ColumnType.td,
@@ -355,7 +545,28 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 
     constructor(props: ColumnPropsType) {
         super(props)
-        this.state = { dataRow: this.props.dataRow }
+        this.state = {
+            dataRow: this.props.dataRow
+        }
+    }
+
+    componentWillReceiveProps() {
+        setTimeout(() => {
+            if (this.props.allowInput) {
+                this.setState({
+                    ...this.state
+                }, () => {
+                    if (this.self) {
+                        let range = document.createRange();
+                        range.selectNodeContents(this.self);
+                        let sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                })
+            }
+        }, 100)
+
     }
 
     render() {
@@ -364,7 +575,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
         if (this.props.customText && this.props.tag != ColumnType.th) {
             let child: JSX.Element = this.props.customText(this.props.dataRow);
             if (this.props.tag == ColumnType.td)
-                return <td colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
+                return <td data-field={this.props.code} className={`${styles.column} ${this.props.checked ? styles.columnCheck : ''}`} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : 'left'} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>{child}</td>
             else
                 return <span className={styles.inline} style={{ 'width': this.props.width, 'textAlign': this.props.textAlign }}>{this.props.name ? this.props.name + '：' : ''}{child}</span>
 
@@ -372,7 +583,7 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
         switch (this.props.tag) {
             case ColumnType.th:
                 return (
-                    <th className={styles.column} style={{ "width": this.props.width, 'display': this.props.visible ? 'none' : 'table-cell' }}>{this.props.name}</th>
+                    <th className={styles.column} style={{ "width": this.props.width, 'display': this.props.visible ? 'none' : 'table-cell' }} onClick={this.setSort.bind(this)}>{this.props.name}{this.getArrow()}</th>
                 )
             case ColumnType.td: {
                 return this.getTd();
@@ -392,7 +603,8 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
 
     getTd() {
         return (
-            <td data-field={this.props.code} className={styles.column} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : "left"} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }}>
+            <td data-field={this.props.code} className={`${styles.column} ${this.props.checked ? styles.columnCheck : ''}`} colSpan={this.props.colSpan} align={this.props.textAlign ? this.props.textAlign : "left"} style={{ 'display': this.props.visible ? 'none' : 'table-cell' }} contentEditable={this.props.allowInput} onFocus={this.handleFocus.bind(this)} ref={self => this.self = self}
+                onBlur={this.handleBlur.bind(this)} onClick={this.handleClick.bind(this)}>
                 {this.getValue()}
             </td>
         )
@@ -425,7 +637,6 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
                     changed: bool
                 }))
             }
-
         })
         return items;
     }
@@ -437,6 +648,42 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
                 this.props.onChangedOwner(this.props.recNo, meta.code, this.state.dataRow.getValue(meta.code));
             if (this.props.onChanged)
                 this.props.onChanged(this.props.recNo, meta.code, this.state.dataRow.getValue(meta.code));
+        }
+    }
+
+    setSort() {
+        if (this.props.setSort)
+            this.props.setSort(this.props.code, this.props.customSort);
+    }
+
+    getArrow() {
+        if (this.props.sortType) {
+            let arrow = this.props.sortType == 'desc' ? '↓' : '↑';
+            return <span style={{ 'color': 'red' }}>{arrow}</span>
+        }
+    }
+
+    handleFocus() {
+        let range = document.createRange();
+        range.selectNodeContents(this.self);
+        let sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        if (this.props.onChangeInput)
+            this.props.onChangeInput(true);
+    }
+
+    handleBlur(e: any) {
+        let text = e.target.innerText;
+        this.props.dataRow.setValue(this.props.code, text);
+        if (this.props.onChangeInput)
+            this.props.onChangeInput(false);
+    }
+
+    handleClick(e: any) {
+        if (this.props.allowInput) {
+            e.preventDefault();
+            e.stopPropagation();
         }
     }
 }
@@ -474,5 +721,63 @@ export class ChildRow extends React.Component<ChildRowPropsType> {
             }
         })
         return items;
+    }
+}
+
+type MainRowTypeProps = {
+    dataRow?: DataRow,
+    dynamicClass?: (row: DataRow) => string,
+    tag?: ColumnType;
+}
+
+type MainRowTypeState = {
+    allWidth: number
+}
+
+export class MainRow extends React.Component<MainRowTypeProps, MainRowTypeState> {
+    static className = 'MainRow';
+    constructor(props: MainRowTypeProps) {
+        super(props);
+        this.state = {
+            allWidth: this.getAllWidth(),
+        }
+    }
+    render() {
+        let items: React.ReactNode[] = [];
+        React.Children.map(this.props.children, child => {
+            if (isValidElement(child)) {
+                // @ts-ignore
+                let className = child.type.className || ''
+                if (className == Column.className) {
+                    if (this.props.tag == ColumnType.th) {
+                        items.push(React.cloneElement(child, {
+                            key: `head_${child.props.code}`, tag: ColumnType.th, width: this.getWidth(child.props.width)
+                        }))
+                    } else {
+                        items.push(React.cloneElement(child, {
+                            key: child.props.code, dataRow: this.props.dataRow,
+                            recNo: this.props.dataRow.dataSet.recNo
+                        }))
+                    }
+                }
+            }
+        })
+        return items;
+    }
+    getAllWidth() {
+        let width: number = 0;
+        React.Children.map(this.props.children, child => {
+            if (isValidElement(child)) {
+                // @ts-ignore
+                let className = child.type.className || ''
+                if (className == Column.className) {
+                    width += Number(child.props.width)
+                }
+            }
+        })
+        return width;
+    }
+    getWidth(width: string) {
+        return (Number(width) / this.state.allWidth) * 100 + "%";
     }
 }

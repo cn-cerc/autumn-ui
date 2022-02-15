@@ -17,7 +17,9 @@ type PropsType = {
     type?: 'text' | 'password' | 'checkbox' | 'number' | 'radio';
     autoComplete?: string;
     onFocus?: Function,
-    changed?: boolean
+    onBlur?: Function,
+    changed?: boolean,
+    className?: string
 }
 
 type DBEditState = {
@@ -51,12 +53,12 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}：</label>)
 
         return (
-            <span className={styles.main}>
+            <span className={`${styles.main} ${this.props.className || ''}`}>
                 {dataName}
                 <input type={this.props.type} autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
                     placeholder={this.props.placeholder} readOnly={this.props.readOnly} onFocus={this.selectAllText
-                        .bind(this)} autoComplete={this.props.autoComplete ? this.props.autoComplete : 'off'} className={this.props.changed ? styles.changed : ''} />
+                        .bind(this)} onBlur={this.handleBlur.bind(this)} autoComplete={this.props.autoComplete ? this.props.autoComplete : 'off'} className={this.props.changed ? styles.changed : ''} />
                 {React.Children.map(this.props.children, child => {
                     if (isValidElement(child)) {
                         return React.cloneElement(child, { onSelect: this.onDialogSelect, dataRow: this.props.dataRow, onChanged: this.onDialogSelect })
@@ -100,5 +102,10 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
         this.setState(this.state);
         if (this.props.onChanged)
             this.props.onChanged(this.props.dataRow.fields.get(this.props.dataField));
+    }
+
+    handleBlur() {
+        if (this.props.onBlur)
+            this.props.onBlur();
     }
 }

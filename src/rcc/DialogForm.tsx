@@ -47,7 +47,7 @@ export class DialogForm extends React.Component<DialogFormProps, stateType> {
     render() {
         return (<div className={styles.main}>
             <button className={styles.btnShow} onClick={this.btnShow}>
-                <img src="https://www.diteng.site/911001/images/searchIocn.png" />
+                <img src="https://www.diteng.site/public/images/searchIocn.png" />
             </button>
             <div className={this.props.active() ? styles.client : styles.clientHidden}
                 style={this.getStyle.bind(this)()}

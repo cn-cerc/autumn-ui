@@ -80,7 +80,7 @@ export default class MainMenu extends React.Component<propsType, stateType> {
                 continue;
             let menuCode = item.getString('code');
             let menuName = item.getString('name');
-            let menuIcon = `https://www.diteng.site/911001/images/module/${menuCode}.png`;
+            let menuIcon = `https://www.diteng.site/public/images/module/${menuCode}.png`;
             items.push(
                 <li key={i++} className={styles.menuItem} role={menuCode}>
                     <img src={menuIcon} />

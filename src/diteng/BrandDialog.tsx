@@ -56,7 +56,7 @@ export default class BrandDialog extends BaseDialog<BaseDialogPropsType, BrandTy
                     <DBEdit dataName='查询条件' dataField='SearchText_' placeholder='请输入查询条件' autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt width="1"/>
+                    <ColumnIt width="1" />
                     <Column code='Brand_' name='品牌' width='4'></Column>
                     <Column code='ShareMode_' name='开放模式' width='3' customText={(row: DataRow) => {
                         let span: string;
