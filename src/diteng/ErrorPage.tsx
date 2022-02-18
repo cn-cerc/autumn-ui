@@ -6,6 +6,7 @@ type errorTypeProps = {
     msg: string,
     error_hint: string,
     statuCode: number,
+    showTips: boolean,
 }
 
 export default class ErrorPage extends WebControl<errorTypeProps> {
@@ -58,12 +59,12 @@ export default class ErrorPage extends WebControl<errorTypeProps> {
                             <div style={{ 'marginTop': '1rem' }}>
                                 <h2 style={{ "color": "#40485b", 'fontSize': '1.2rem', 'fontWeight': 'bold' }}>{this.props.error_hint}</h2>
                                 <div>{this.props.msg}，<a href='/public/WebDefault'>点击这里</a>返回首页</div>
-                                <div className={styles.errorMsg}>
+                                <div className={styles.errorMsg} style={{ 'display': this.props.showTips ? 'block' : 'none' }}>
                                     <p>也有可能是以下原因导致您访问失败</p>
                                     <ul>
                                         <li>1、没有登录或登录状态失效，<a href='TFrmLogout'>点击这里</a>重新登陆</li>
                                         <li>2、服务器找不到请求的网页或拒绝请求，<a href="" onClick={this.handleBack.bind(this)}>点击这里</a>返回上页或关闭当前页面</li>
-                                        <li>3、其他非具体原因，<a href='TFrmContact'>点击这里</a>联系客服</li>
+                                        <li>3、其他非具体原因，<a href='TFrmContact'>点击这里</a>联系客服咨询具体原因</li>
                                     </ul>
                                 </div>
                             </div>
