@@ -664,13 +664,15 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
     }
 
     handleFocus() {
-        let range = document.createRange();
-        range.selectNodeContents(this.self);
-        let sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        if (this.props.onChangeInput)
-            this.props.onChangeInput(true);
+        if (this.props.allowInput) {
+            let range = document.createRange();
+            range.selectNodeContents(this.self);
+            let sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            if (this.props.onChangeInput)
+                this.props.onChangeInput(true);
+        }
     }
 
     handleBlur(e: any) {

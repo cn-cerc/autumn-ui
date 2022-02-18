@@ -803,7 +803,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 break;
             // A
             case 65:
-                if (!this.state.currentShop) {
+                if (!this.state.currentShop && !this._girdTwo.state.isInput) {
                     document.querySelector(`.${styles.grid1}`).scrollTop = 0;
                     this._girdTwo.resetDirection();
                     this.setState({
