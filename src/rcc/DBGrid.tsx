@@ -674,10 +674,12 @@ export class Column extends WebControl<ColumnPropsType, ColumnStateType> {
     }
 
     handleBlur(e: any) {
-        let text = e.target.innerText;
-        this.props.dataRow.setValue(this.props.code, text);
-        if (this.props.onChangeInput)
-            this.props.onChangeInput(false);
+        if (this.props.allowInput) {
+            let text = e.target.innerText;
+            this.props.dataRow.setValue(this.props.code, text);
+            if (this.props.onChangeInput)
+                this.props.onChangeInput(false);
+        }
     }
 
     handleClick(e: any) {
