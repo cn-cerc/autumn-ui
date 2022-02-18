@@ -336,6 +336,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         let lineKey = `${isFullScreen ? 'fullSearchLines_' : 'searchLines_'}${this._keyClient.get('Account1')}`;
         this.setState({
             isFullScreen,
+
             width: isFullScreen ? '100vw' : '970px',
             height: isFullScreen ? '100vh' : '636px',
             defaultLines: this._client.get(lineKey) || (isFullScreen ? 10 : 8), //全屏默认为10
@@ -344,6 +345,10 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             this.initSite();
             this.initGridHeight();
         })
+    }
+
+    allowDrag(): boolean {
+        return !this.state.isFullScreen
     }
 
     changeEnterInput() {

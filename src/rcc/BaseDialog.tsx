@@ -85,8 +85,12 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
         this.initSite();
     }
 
+    allowDrag() {
+        return true;
+    }
+
     handleMouseDown: MouseEventHandler<HTMLDivElement> = (sender: any) => {
-        if (!$(sender.target).hasClass(styles.btnClose)) {
+        if (!$(sender.target).hasClass(styles.btnClose) && this.allowDrag()) {
             this.state.dialogData.moving = true;
             this.state.dialogData.startX = sender.pageX;
             this.state.dialogData.startY = sender.pageY;
