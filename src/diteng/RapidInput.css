@@ -132,6 +132,7 @@
     width: 9.375em;
     padding: 0 0 0 .9375em;
     min-width: 9.375em;
+    background-color: #fff;
 }
 
 .maxRecord select,
@@ -139,6 +140,7 @@
     width: 5.47em;
     padding: 0 0 0 .9375em;
     min-width: 5.47em;
+    background-color: #fff;
 }
 
 .setLine {
@@ -169,6 +171,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-bottom: .5em;
 }
 
 .enterInput>input {
@@ -427,23 +430,23 @@
 }
 
 .fullBox .grid1, .fullBox .grid2, .fullBox .setLine, .fullBox .footerRight button {
-    font-size: .8em;
+    font-size: 1em;
 }
 
 .fullBox .search select,
 .fullBox .search input {
-    font-size: .8em;
+    font-size: 1em;
+    height: 1.69em;
 }
 
 .fullBox .search {
-    width: 820px;
+    width: 900px;
 }
 
 .fullBox .search>form>button {
-    width: 5em;
-    height: 2.1875em;
-    border-radius: .15625em;
-    font-size: .8em;
+    width: 4.25em;
+    height: 2em;
+    font-size: 1em;
 }
 
 .fullBox .searchText input {
@@ -459,4 +462,9 @@
     font-size: 1.5em;
     cursor: pointer;
     margin: 0 .5em;
+}
+
+.fullBox .setLine {
+    height: 1.75em;
+    line-height: 1.7em;
 }

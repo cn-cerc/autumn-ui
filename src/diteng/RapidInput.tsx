@@ -130,8 +130,8 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 <div className={styles.main}>
                     <div className={styles.mainLeft}>
                         <div className={styles.leftTop}>
-                            <div onClick={() => this.setState({ showMenus: true })}>常用菜单</div>
-                            <div style={{ 'marginLeft': '1.5rem' }} onClick={() => this.setState({ showMenus: false })}>快捷操作</div>
+                            <div className={this.state.showMenus ? styles.bold : ''} onClick={() => this.setState({ showMenus: true })}>常用菜单</div>
+                            <div className={this.state.showMenus ? '' : styles.bold} style={{ 'marginLeft': '1.5rem' }} onClick={() => this.setState({ showMenus: false })}>快捷操作</div>
                         </div>
                         <div className={styles.leftBottom}>
                             <div className={styles.menus}></div>
