@@ -36,7 +36,7 @@ export default class CheckReport extends React.Component<propsType, stateType> {
     render() {
         return (
             <React.Fragment>
-                <span>智能单据</span>
+                <span>智能报表</span>
                 <span onClick={this.onClick} className="unread">
                     {this.state.value}
                 </span>
