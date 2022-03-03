@@ -93,6 +93,11 @@ a {
     align-items: center;
 }
 
+.password {
+    -webkit-text-security: disc!important;
+    ime-mode: disabled;
+}
+
 @media screen and (min-width: 768px) {
     * {
         margin: 0;
@@ -232,11 +237,14 @@ a {
         vertical-align: middle;
         width: 1.125rem;
     }
+
     .userMessage p>img+span {
         padding-bottom: 0;
         margin-right: 0;
     }
-    .userMessage p input[type="text"], .userMessage p input[type="password"] {
+
+    .userMessage p input[type="text"],
+    .userMessage p input[type="password"] {
         border: none;
         outline: 0;
         vertical-align: middle;
@@ -244,16 +252,24 @@ a {
         color: #333;
         padding-left: .6em;
     }
-    .userMessage p input[type="text"]::-webkit-input-placeholder, .userMessage p input[type="password"]::-webkit-input-placeholder {
+
+    .userMessage p input[type="text"]::-webkit-input-placeholder,
+    .userMessage p input[type="password"]::-webkit-input-placeholder {
         color: #999;
     }
-    .userMessage p input[type="text"]::-moz-placeholder, .userMessage p input[type="password"]::-moz-placeholder {
+
+    .userMessage p input[type="text"]::-moz-placeholder,
+    .userMessage p input[type="password"]::-moz-placeholder {
         color: #999;
     }
-    .userMessage p input[type="text"]:-moz-placeholder, .userMessage p input[type="password"]:-moz-placeholder {
+
+    .userMessage p input[type="text"]:-moz-placeholder,
+    .userMessage p input[type="password"]:-moz-placeholder {
         color: #999;
     }
-    .userMessage p input[type="text"]:-ms-input-placeholder, .userMessage p input[type="password"]:-ms-input-placeholder {
+
+    .userMessage p input[type="text"]:-ms-input-placeholder,
+    .userMessage p input[type="password"]:-ms-input-placeholder {
         color: #999;
     }
 

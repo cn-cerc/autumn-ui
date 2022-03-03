@@ -9,6 +9,11 @@ import { showMsg } from "./Summer";
 import Fingerprint2 from "fingerprintjs2";
 import { ClientStorage } from "../db/Utils";
 import { Loading } from "../db/Loading";
+import FieldMeta from "../db/FieldMeta";
+
+const timestemp = new Date().getTime();
+const userCode = `userCode_${timestemp}`;
+const password = `password_${timestemp}`;
 
 type LoginTypeProps = {
     dataRow: DataRow,
@@ -26,7 +31,10 @@ type LoginTypeState = {
     savePwd: boolean,
     hasSendCode: boolean,
     showLoad: boolean,
-    timer: any
+    timer: any,
+    password_: string,
+    isFirFox: boolean,
+    timestemp: number
 }
 
 var showVerify: boolean = false;
@@ -47,7 +55,10 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             hasSendCode: false,
             showLoad: false,
             timer: null,
-            message: this.props.loginMsg || ''
+            message: this.props.loginMsg || '',
+            password_: '',
+            isFirFox: navigator.userAgent.indexOf('Firefox') > -1,
+            timestemp: new Date().getTime()
         }
     }
     render() {
@@ -76,19 +87,21 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             )
         } else {
             return (
-                <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
+                <div id="login_form" className={styles.uiForm} onSubmit={this.onSubmit.bind(this)}>
                     <div className={styles.formTitle}>地藤登录页</div>
                     <div className={styles.contentRight}>
                         <div className={styles.userMessage}>
+                            <input type="text" name='noUserCode' style={{ 'display': 'none' }} />
                             <p className={styles.keyInput}>
                                 <img src="images/login/account.png" />
-                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)}></DBEdit>
+                                <DBEdit dataField={userCode} dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)}></DBEdit>
                                 <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
                                 {this.getChooseList()}
                             </p>
+                            <input type="password" name='noPassword' style={{ 'display': 'none' }} />
                             <p className={styles.keyInput}>
                                 <img src="images/login/password.png" />
-                                <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码'></DBEdit>
+                                {this.getPasswordInput()}
                             </p>
                             {this.getVerify()}
                             <p className={styles.remember}>
@@ -110,9 +123,22 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         </div>
                         <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
                     </div>
-                </form>
+                </div>
             )
         }
+    }
+
+    getPasswordInput() {
+        if (this.state.isFirFox) {
+            return <DBEdit dataField='password_' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' className={styles.password} onChanged={this.changePassword.bind(this)}></DBEdit>
+        } else {
+            return <DBEdit dataField={password} dataRow={this.props.dataRow} autoComplete="off" placeholder='登录密码' className={styles.password} onFocus={this.sss.bind(this)}></DBEdit>
+        }
+    }
+
+    sss() {
+        let input = document.querySelector('input[name="noPassword"]') as HTMLInputElement;
+        input.focus();
     }
 
     componentWillMount() {
@@ -241,7 +267,35 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             hasSendCode: false,
             timer: null
         })
+    }
 
+    changePassword(filedmeta: FieldMeta) {
+        let passwordInput = document.querySelector(`input[name="${filedmeta.code}"]`) as HTMLInputElement;
+        let selectionStart = passwordInput.selectionStart;
+        let _password = this.props.dataRow.getValue(password);
+        let password_ = this.props.dataRow.getValue('password_');
+        let char = password_.replaceAll('•', '');
+        if (this.props.dataRow.getValue('password_').length > _password.length) {
+            _password = _password.slice(0, selectionStart - 1) + char + _password.slice(selectionStart - 1);
+        } else if (this.props.dataRow.getValue('password_').length == _password.length) {
+
+        } else {
+            let length = _password.length - this.props.dataRow.getValue('password_').length;
+            let endChars = _password.slice(selectionStart + length);
+            _password = _password.slice(0, selectionStart - char.length) + char + endChars;
+
+        }
+        let password2 = '';
+        for (let i = 0; i < _password.length; i++) {
+            password2 += '•'
+        }
+        showVerify = false;
+        this.props.dataRow.setValue(password, _password);
+        this.props.dataRow.setValue('password_', password2);
+        this.setState(this.state, () => {
+            passwordInput.selectionStart = selectionStart;
+            passwordInput.selectionEnd = selectionStart;
+        });
     }
 
     chooseUser() {
@@ -272,8 +326,10 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     setAccount(row: DataRow) {
-        this.props.dataRow.setValue('userCode', row.getString('account'));
-        this.props.dataRow.setValue('password', row.getString('password'));
+        this.props.dataRow.setValue(userCode, row.getString('account'));
+        let password2: any = row.getString('password');
+        this.props.dataRow.setValue(password, password2);
+        this.props.dataRow.setValue('password_', password2.replaceAll(/./g, '•'));
         showVerify = false;
         this.setState({
             showAccountList: false,
@@ -284,9 +340,17 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     chooseListRemove(row: DataRow) {
-        if (this.state.accountData.locate('account', row.getString('account')))
+        let account = row.getString('account');
+        if (this.state.accountData.locate('account', account))
             this.state.accountData.delete();
         showVerify = false;
+        let ds1 = new DataSet();
+        ds1.setJson(this.state.client.get('Accounts'));
+        while (ds1.fetch()) {
+            if (ds1.getString('account') == account)
+                ds1.delete();
+        }
+        this.state.client.set("Accounts", ds1.json);
         this.setState({
             showAccountList: false
         });
@@ -383,7 +447,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return;
         if (this.props.verify && !this.props.verify())
             return;
-        if (!this.props.dataRow.getString('userCode') || !this.props.dataRow.getString('password')) {
+        if (!this.props.dataRow.getString(userCode) || !this.props.dataRow.getString(password)) {
             this.setState({
                 message: '请输入正确的帐号和密码',
                 showLoad: false
@@ -400,14 +464,14 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         let ds1 = new DataSet();
         if (this.state.client.get('Accounts'))
             ds1.setJson(this.state.client.get('Accounts'))
-        let account = this.props.dataRow.getString('userCode');
+        let account = this.props.dataRow.getString(userCode);
         if (account) {
             if (!ds1.locate("account", account)) {
                 ds1.append();
                 ds1.setValue("account", account);
             }
-            if (this.props.dataRow.getString('password') || this.isPhone) {
-                ds1.setValue("password", this.props.dataRow.getString('password'));
+            if (this.props.dataRow.getString(password) || this.isPhone) {
+                ds1.setValue("password", this.props.dataRow.getString(password));
             }
             this.state.client.set("Accounts", ds1.json);
         }
@@ -416,33 +480,40 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     async postData() {
         this.props.dataRow.setValue('verifyCode', this.props.dataRow.getValue('verifyCode_'));
-        this.setState({ showLoad: true, message: '' })
-        let dataOut = await this.getService();
-        if (dataOut.state > 0) {
-            let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
-            this.state.client.set('Account1', this.props.dataRow.getString('userCode'));
-            this.state.client.set('password', this.props.dataRow.getString('password'));
-            location.href = href;
-        } else {
-            this.setState({ showLoad: false })
-            if (dataOut.head.getValue('status') == -8) {
-                this.props.dataRow.setValue('verifyCode', '??????');
-                showVerify = true
-                this.setState({
-                    message: ''
-                })
-            } else {
-                this.setState({
-                    message: dataOut.message
-                })
-            }
-        }
+        let password2 = this.props.dataRow.getValue(password);
+        this.props.dataRow.setValue('password_', password2.replaceAll(/./g, '•'));
+        this.setState({ showLoad: true, message: '' }, () => {
+            setTimeout(async () => {
+                let dataOut = await this.getService();
+                if (dataOut.state > 0) {
+                    let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
+                    this.state.client.set('Account1', this.props.dataRow.getString(userCode));
+                    this.state.client.set('password', this.props.dataRow.getString(password));
+                    location.href = href;
+                } else {
+                    this.setState({ showLoad: false })
+                    if (dataOut.head.getValue('status') == -8) {
+                        this.props.dataRow.setValue('verifyCode', '??????');
+                        showVerify = true
+                        this.setState({
+                            message: ''
+                        })
+                    } else {
+                        this.setState({
+                            message: dataOut.message
+                        })
+                    }
+                }
+            }, 1000)
+        });
     }
 
     async getService(): Promise<DataSet> {
         let service = new QueryService(this.props);
         service.setService('SvrUserLogin.getToken');
         service.dataIn.head.copyValues(this.props.dataRow.current)
+        service.dataIn.head.setValue('userCode', this.props.dataRow.current.getString(userCode))
+        service.dataIn.head.setValue('password', this.props.dataRow.current.getString(password))
         let dataOut: DataSet = await service.open().catch(e => e);
         return dataOut;
     }
@@ -472,8 +543,11 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         let client = new ClientStorage('ErpKey');
         let dataIn = new DataRow();
         dataIn.setValue('languageId', this.props.language);
-        dataIn.setValue('userCode', client.get('Account1') || '');
-        dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') || '' : '');
+        let password2 = client.get("savePwd") == 'true' ? client.get('password') || '' : '';
+        let password_ = password2.replaceAll(/./g, '•');
+        dataIn.setValue(userCode, client.get('Account1') || '');
+        dataIn.setValue(password, password2);
+        dataIn.setValue('password_', password_);
         let protocol = client.get("protocol") == 'true' ? true : false;
         this.state = {
             client,
