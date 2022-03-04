@@ -42,6 +42,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
     private _title: string = '弹窗选择';
     private _dialogRole: string = '';
     private _load: boolean = false;
+    private _loadMessage: string = '系统正在查询中,请稍后...';
     private _showAsChild: boolean = false;
     private _searchTimeOut: number = 259200000 //查询缓存超时时间(3天);
     get title(): string { return this._title }
@@ -52,6 +53,12 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
     get load(): boolean { return this._load }
     setLoad(value: boolean): BaseDialog<T, S> {
         this._load = value;
+        this.setState({ ...this.state });
+        return this;
+    }
+    customLoad(message: string) {
+        this._loadMessage = message;
+        this._load = true;
         this.setState({ ...this.state });
         return this;
     }
@@ -208,7 +215,7 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
             return (
                 <div className={styles.load}>
                     <img src='https://www.diteng.site/public/images/loading.gif' />
-                    <span>系统正在查询中,请稍后...</span>
+                    <span>{this._loadMessage}</span>
                 </div>
             )
         }
