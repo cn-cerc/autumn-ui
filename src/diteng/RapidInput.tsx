@@ -928,8 +928,10 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         this.state.data.first();
         let isFree = false;
         let type = 0;
+        let recNo = 0;
         while (this.state.data.fetch()) {
             if (this.state.data.getValue('Code_') == row.getValue('Code_')) {
+                recNo = this.state.data.recNo;
                 type++;
                 if (row.getBoolean('Free_'))
                     isFree = true;
@@ -943,7 +945,6 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                     this.state.dataSet.setValue('_select_', false);
             }
         }
-        let recNo = this.state.data.records.indexOf(row) + 1;
         this.state.data.setRecNo(recNo);
         this.state.data.delete();
         this.setState({
@@ -995,27 +996,51 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
 
     async handleClick() {
         this._girdTwo.state.allowInput = false;
-        this.setState(this.state)
-        this.state.data.first();
+        if (this.state.data.size > 20)
+            this.customLoad('系统正在分批处理中,请稍后...');
+        else
+            this.customLoad('系统正在处理中,请稍后...');
+        this.setState(this.state);
+        this.handleSubmit(1);
+    }
+
+    handleSubmit(num: number) {
         let items = [];
-        while (this.state.data.fetch()) {
+        let startIndex = (num - 1) * 20;
+        let endIndex = num * 20;
+        if (this.state.data.records.length < endIndex)
+            endIndex = this.state.data.records.length;
+        for (let i = startIndex; i < endIndex; i++) {
             items.push({
-                partCode: this.state.data.getString('Code_'),
-                remark: this.state.data.getString('Remark_'),
-                num: this.state.data.getDouble('Num_'),
-                oriup: this.state.data.getDouble('OriUP_'),
-                spare: this.state.data.getBoolean('Free_')
+                partCode: this.state.data.records[i].getString('Code_'),
+                remark: this.state.data.records[i].getString('Remark_'),
+                num: this.state.data.records[i].getDouble('Num_'),
+                oriup: this.state.data.records[i].getDouble('OriUP_'),
+                spare: this.state.data.records[i].getBoolean('Free_')
             })
         }
         fetch(`TWebShopping.addDetail?tb=${this.props.tb}&rapidInput=${encodeURIComponent(JSON.stringify(items))}`).then(response => response.json()).then((data: any) => {
-            showMsg(data.msg);
             if (data.ok) {
-                this.handleClose();
-                if (/#$/.test(window.location.href)) {
-                    window.location.href = window.location.href.replace('#', '');
-                } else {
-                    window.location.href = window.location.href;
+                if (endIndex < this.state.data.size)
+                    this.handleSubmit(++num);
+                else {
+                    showMsg(data.msg);
+                    this.setLoad(false);
+                    this.handleClose();
+                    if (/#$/.test(window.location.href)) {
+                        window.location.href = window.location.href.replace('#', '');
+                    } else {
+                        window.location.href = window.location.href;
+                    }
                 }
+            } else {
+                showMsg(data.msg);
+                let ds = new DataSet();
+                ds.appendDataSet(this.state.data);
+                for (let i = 0; i < (num - 1) * 20; i++) {
+                    this.removeShop(ds.records[i]);
+                }
+                this.setLoad(false);
             }
         })
     }
