@@ -64,6 +64,22 @@ export default class DialogApi {
         return ds;
     }
 
+    static async serviceDataSet(url: string, params: DataSet): Promise<DataSet> {
+        let sid = DialogApi.getToken();
+        if (!sid) {
+            let error = new DataSet();
+            error.setMessage('当前用户信息错误');
+            error.setState(-1);
+            return error.getPromise();
+        }
+        let service = new QueryService({ sid });
+        service.setService(url);
+        service.dataIn.appendDataSet(params);
+        // e为请求失败时抛出的异常，类型为DataSet
+        let ds: DataSet = await service.open().catch(e => e);
+        return ds;
+    }
+
     /** 获取当前用户信息 */
     static async getUserInfo() {
         return DialogApi.getService('TAppUserInfo.getUserDetail');
@@ -339,5 +355,15 @@ export default class DialogApi {
     /** 查看库存商品基本资料 */
     static getPartStock(params: DataRow) {
         return DialogApi.getDataOut('TAppPartStock.view', params);
+    }
+
+    /** 选择批号 */
+    static getAvailabelLotNo(params: DataRow) {
+        return DialogApi.getDataOut('SvrLotNo.getSelectLotNo', params);
+    }
+
+    /** 保存批号 */
+    static saveLotNo(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrLotNo.saveLotNo', params);
     }
 }

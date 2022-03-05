@@ -47,6 +47,7 @@ import RapidInput from "./diteng/RapidInput";
 import RemarkDialog from "./diteng/RemarkDialog";
 import SaleCurrentNumDialog from "./diteng/SaleCurrentNumDialog";
 import SalesmanDialog from "./diteng/SalesmanDialog";
+import SelectLotNoDialog from "./diteng/SelectLotNoDialog";
 import SpecCodeDialog from "./diteng/SpecCodeDialog";
 import StaffDialog from "./diteng/StaffDialog";
 import SubordinateDialog from "./diteng/SubordinateDialog";
@@ -125,6 +126,7 @@ export default {
     SpecCodeDialog,
     PartClassDialog,
     MarqueDialog,
+    SelectLotNoDialog,
     //地藤jsp转java中js继承类
     TCustomComponent,
     //用户政策与隐私协议

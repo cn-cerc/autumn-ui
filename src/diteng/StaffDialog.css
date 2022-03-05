@@ -13,3 +13,16 @@
 .main form[role='searchPanel'] {
     flex-shrink: 0;
 }
+
+.footerBtn {
+    width: 4.5rem;
+    line-height: 1.55rem;
+    color: #409eff;
+    background-color: #ecf5ff;
+    border: 1px solid #b3d8ff;
+    border-radius: 0.29rem;
+    box-sizing: content-box;
+    text-align: center;
+    cursor: pointer;
+    margin: 1.5rem auto;
+}
