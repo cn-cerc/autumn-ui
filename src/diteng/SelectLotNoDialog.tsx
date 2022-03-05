@@ -106,8 +106,6 @@ export default class SelectLotNoDialog extends BaseDialog<SelectLotNoTypeProps, 
                 num += dataSet.getDouble("SelectNum");
             }
         }
-        console.log(num);
-        console.log(this.props.num);
         if (num > this.props.num) {
             showMsg("选择数量不允许大于单据数量！");
             return;
