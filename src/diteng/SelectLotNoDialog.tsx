@@ -119,7 +119,10 @@ export default class SelectLotNoDialog extends BaseDialog<SelectLotNoTypeProps, 
             showMsg(dataOut.message)
         else {
             showMsg("保存成功！");
-            this.handleClose();
+            if (this.props.tbNo.substring(0, 2) == 'BC')
+                location.reload();
+            else
+                this.handleClose();
         }
     }
 }
