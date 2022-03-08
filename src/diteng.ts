@@ -2,6 +2,7 @@ import DateYMDialog from "../src/diteng/DateYMDialog";
 import FrmPrivacyRight from "../src/diteng/FrmPrivacyRight";
 import FrmUserAgreement from "../src/diteng/FrmUserAgreement";
 import index from '../src/index';
+import { Loading } from "./db/Loading";
 import Utils, { ClientStorage } from "./db/Utils";
 import AccountEditDialog from "./diteng/AccountEditDialog";
 import AERemarkDialog from "./diteng/AERemarkDialog";
@@ -139,6 +140,7 @@ export default {
     //工具类
     Utils,
     ClientStorage,
+    Loading,
     //快录专用
     RapidInput
 }

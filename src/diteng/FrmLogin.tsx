@@ -99,7 +99,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         <div className={styles.userStatus}>
                             <span>
                                 {this.getLoginBtn()}
-
                             </span>
                         </div>
                         <div className={styles.bottom}>
@@ -236,6 +235,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     changeUserCode = (sender: any) => {
         showVerify = false;
+        if(this.props.dataRow.getValue('verifyCode_'))
+            this.props.dataRow.setValue('verifyCode_', '');
         this.setState({
             showAccountList: false,
             hasSendCode: false,
@@ -274,6 +275,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     setAccount(row: DataRow) {
         this.props.dataRow.setValue('userCode', row.getString('account'));
         this.props.dataRow.setValue('password', row.getString('password'));
+        this.props.dataRow.setValue('verifyCode_', '');
         showVerify = false;
         this.setState({
             showAccountList: false,
