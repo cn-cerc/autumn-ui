@@ -3,16 +3,16 @@ import WebControl from "../rcc/WebControl";
 import styles from './Loading.css';
 
 type LoadingTypeProps = {
-    size: number
+    device?: 'phone' | 'pc'
 }
 
-export class Loading extends WebControl {
+export class Loading extends WebControl<LoadingTypeProps> {
     constructor(props: LoadingTypeProps) {
         super(props)
     }
 
     render(): React.ReactNode {
-        if (this.isPhone) {
+        if ((this.isPhone && !this.props.device) || this.props.device == 'phone') {
             return (
                 <div className={styles.load}>
                     <div className={styles.loadContent}>
