@@ -339,6 +339,9 @@ export default class TSchScmStockInOut extends React.Component<propsType, stateT
         if (this.props.showInUP) {
             new TGridColumn(grid, "InUP_", "进货价");
         }
+        if (this.props.corpNo == DitengCommon.CUSTOMER_212025) {
+            new TGridColumn(grid, "CusType_", "客户类别");
+        }
 
         grid.exportExcel(exportUrl, "进出库查询导出.xls");
     }
