@@ -931,8 +931,9 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         let recNo = 0;
         while (this.state.data.fetch()) {
             if (this.state.data.getValue('Code_') == row.getValue('Code_')) {
-                recNo = this.state.data.recNo;
                 type++;
+                if (this.state.data.getBoolean('Free_') == row.getBoolean('Free_'))
+                    recNo = this.state.data.recNo;
                 if (row.getBoolean('Free_'))
                     isFree = true;
             }
