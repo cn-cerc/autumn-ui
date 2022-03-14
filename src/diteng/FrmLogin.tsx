@@ -26,7 +26,9 @@ type LoginTypeState = {
     savePwd: boolean,
     hasSendCode: boolean,
     showLoad: boolean,
-    timer: any
+    timer: any,
+    currentIndex: number,
+    isFirefox: boolean
 }
 
 var showVerify: boolean = false;
@@ -39,6 +41,11 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         let savePwd = client.get("savePwd") == 'true' ? true : false;
         if (client.get('Accounts'))
             accountData.setJson(client.get('Accounts'));
+        let isFirefox = navigator.userAgent.indexOf('Firefox') > -1;
+        let _password = this.getCompletePassword(this.props.dataRow.getString('password'));
+        this.props.dataRow.setValue('_password', _password);
+        if (isFirefox)
+            this.props.dataRow.setValue
         this.state = {
             showAccountList: false,
             accountData,
@@ -47,7 +54,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             hasSendCode: false,
             showLoad: false,
             timer: null,
-            message: this.props.loginMsg || ''
+            message: this.props.loginMsg || '',
+            currentIndex: 0,
+            isFirefox
         }
     }
     render() {
@@ -88,7 +97,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             </p>
                             <p className={styles.keyInput}>
                                 <img src="images/login/password.png" />
-                                <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码'></DBEdit>
+                                {this.getPasswordInput()}
                             </p>
                             {this.getVerify()}
                             <p className={styles.remember}>
@@ -112,6 +121,162 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 </form>
             )
         }
+    }
+
+    getCompletePassword(password: string) {
+        let _password = '';
+        for (let i = 0; i < password.length; i++) {
+            _password += '●'
+        }
+        return _password;
+    }
+
+    getPasswordInput() {
+        if (this.state.isFirefox) {
+            return <DBEdit dataField='_password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' className={styles.passwordInput} onChanged={this.fireFoxChange.bind(this)} onKeyDown={this.fireFoxKeyDown.bind(this)}></DBEdit>
+        } else {
+            return <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' onKeyDown={this.passWordKeyDown.bind(this)}></DBEdit>
+        }
+    }
+
+    // 阻止chrome中自动记忆密码弹窗弹出逻辑
+    passWordKeyDown(sender: any) {
+        let passwordInput = document.querySelector('#password') as HTMLInputElement;
+        let selectStart = passwordInput.selectionStart;
+        let selectionEnd = passwordInput.selectionEnd;
+        let oldPassword = this.props.dataRow.getString('password');
+        let newPassword = oldPassword;
+        let keyCode: number = sender.keyCode;
+        let preventDefault: boolean = true;
+        let _selectStart = selectStart;
+        let _selectionEnd = selectionEnd;
+        let currentIndex = this.state.currentIndex;
+        if (keyCode == 8) { // 删除键
+            let endIndex = selectStart;
+            if (selectStart == selectionEnd && selectStart > 0)
+                endIndex = selectStart - 1;
+            newPassword = oldPassword.slice(0, endIndex) + oldPassword.slice(selectionEnd);
+            _selectStart = endIndex;
+            currentIndex = endIndex;
+        } else if (keyCode == 37) { // ←
+            if (selectStart > 0) {
+                if (sender.shiftKey) {
+                    if (currentIndex > selectStart) {
+                        _selectionEnd = selectionEnd - 1;
+                        currentIndex = selectionEnd - 1;
+                    } else {
+                        _selectionEnd = selectionEnd;
+                        _selectStart = selectStart - 1;
+                        currentIndex = selectStart - 1;
+                    }
+                } else {
+                    if (selectStart == selectionEnd) {
+                        _selectStart = selectStart - 1;
+                        _selectionEnd = selectStart - 1;
+                        currentIndex = selectStart - 1;
+                    } else {
+                        _selectStart = selectStart;
+                        _selectionEnd = selectStart;
+                        currentIndex = selectStart;
+                    }
+                }
+            }
+        } else if (keyCode == 39) { // →
+            if (selectStart < oldPassword.length) {
+                if (sender.shiftKey) {
+                    if (currentIndex < selectionEnd) {
+                        _selectStart = selectStart + 1;
+                        currentIndex = selectStart + 1;
+                    } else {
+                        _selectStart = selectStart;
+                        _selectionEnd = _selectionEnd + 1;
+                        currentIndex = _selectionEnd + 1;
+                    }
+                } else {
+                    if (selectStart == selectionEnd) {
+                        _selectStart = selectStart + 1;
+                        _selectionEnd = selectStart + 1;
+                        currentIndex = selectStart + 1;
+                    } else {
+                        _selectStart = selectionEnd;
+                        _selectionEnd = selectionEnd;
+                        currentIndex = selectionEnd;
+                    }
+                }
+            }
+        } else if (keyCode == 65 && sender.ctrlKey) { // A
+            _selectStart = 0;
+            _selectionEnd = oldPassword.length;
+        } else if (sender.key.length > 1) { // 阻止非英文、数字、字符输入
+            return;
+        } else if (sender.shiftKey) {
+            preventDefault = false;
+        } else if (keyCode == 88 && sender.ctrlKey) { // X
+            newPassword = oldPassword;
+        } else {
+            newPassword = oldPassword.slice(0, selectStart) + sender.key + oldPassword.slice(selectionEnd);
+            _selectStart = selectStart + 1;
+            _selectionEnd = selectStart + 1;
+            currentIndex = selectStart + 1;
+        }
+        if (preventDefault)
+            sender.preventDefault();
+        this.props.dataRow.setValue('password', newPassword);
+        this.setState({
+            currentIndex
+        }, () => {
+            passwordInput.selectionStart = _selectStart;
+            passwordInput.selectionEnd = _selectionEnd;
+        });
+    }
+
+    fireFoxKeyDown(sender: any) {
+        let preventDefault = false;
+        let _password = this.props.dataRow.getString('_password');
+        let passwordInput = document.querySelector('#_password') as HTMLInputElement;
+        let selectStart = passwordInput.selectionStart;
+        let selectionEnd = passwordInput.selectionEnd;
+        let _selectStart = selectStart;
+        let _selectionEnd = selectionEnd;
+        if (sender.keyCode == 65 && sender.ctrlKey) {
+            _selectStart = 0;
+            _selectionEnd = _password.length
+        }
+        if (preventDefault)
+            sender.preventDefault();
+        this.setState(this.state, () => {
+            passwordInput.selectionStart = _selectStart;
+            passwordInput.selectionEnd = _selectionEnd;
+        })
+    }
+
+    fireFoxChange(sender: any) {
+        let _password = this.props.dataRow.getString('_password');
+        this.props.dataRow.setValue('_password', this.getCompletePassword(_password));
+        let password = this.props.dataRow.getString('password');
+        let passwordInput = document.querySelector('#_password') as HTMLInputElement;
+        let selectStart = passwordInput.selectionStart;
+        let char = _password.replace(/●/g, '');
+        if (_password.length > password.length) {
+            let index = _password.indexOf(char);
+            if (index >= password.length) {
+                password += char;
+            } else {
+                password = password.slice(0, index) + char + password.slice(index);
+            }
+        } else {
+            if (char) {
+                let index = _password.indexOf(char);
+                password = password.slice(0, selectStart - 1) + char + password.slice(index + 1, _password.length);
+            } else {
+                password = password.slice(0, selectStart) + password.slice(selectStart + 1);
+            }
+        }
+        this.props.dataRow.setValue('password', password);
+        this.setState(this.state, () => {
+            passwordInput.selectionStart = selectStart;
+            passwordInput.selectionEnd = selectStart;
+        })
     }
 
     componentWillMount() {
@@ -235,7 +400,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     changeUserCode = (sender: any) => {
         showVerify = false;
-        if(this.props.dataRow.getValue('verifyCode_'))
+        if (this.props.dataRow.getValue('verifyCode_'))
             this.props.dataRow.setValue('verifyCode_', '');
         this.setState({
             showAccountList: false,
@@ -275,6 +440,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     setAccount(row: DataRow) {
         this.props.dataRow.setValue('userCode', row.getString('account'));
         this.props.dataRow.setValue('password', row.getString('password'));
+        if (this.state.isFirefox)
+            this.props.dataRow.setValue('_password', this.getCompletePassword(row.getString('password')));
         this.props.dataRow.setValue('verifyCode_', '');
         showVerify = false;
         this.setState({

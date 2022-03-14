@@ -18,6 +18,7 @@ type PropsType = {
     autoComplete?: string;
     onFocus?: Function,
     onBlur?: Function,
+    onKeyDown?: Function,
     changed?: boolean,
     className?: string
 }
@@ -58,7 +59,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
                 <input type={this.props.type} autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
                     placeholder={this.props.placeholder} readOnly={this.props.readOnly} onFocus={this.selectAllText
-                        .bind(this)} onBlur={this.handleBlur.bind(this)} autoComplete={this.props.autoComplete ? this.props.autoComplete : 'off'} className={this.props.changed ? styles.changed : ''} />
+                        .bind(this)} onBlur={this.handleBlur.bind(this)} autoComplete={this.props.autoComplete ? this.props.autoComplete : 'off'} className={this.props.changed ? styles.changed : ''} onKeyDown={this.handleKeyDown.bind(this)}/>
                 {React.Children.map(this.props.children, child => {
                     if (isValidElement(child)) {
                         return React.cloneElement(child, { onSelect: this.onDialogSelect, dataRow: this.props.dataRow, onChanged: this.onDialogSelect })
@@ -107,5 +108,10 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
     handleBlur() {
         if (this.props.onBlur)
             this.props.onBlur();
+    }
+
+    handleKeyDown(sender: any) {
+        if(this.props.onKeyDown)
+            this.props.onKeyDown(sender)
     }
 }

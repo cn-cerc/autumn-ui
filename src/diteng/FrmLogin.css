@@ -93,6 +93,10 @@ a {
     align-items: center;
 }
 
+.passwordInput input {
+    ime-mode: disabled;
+}
+
 @media screen and (min-width: 768px) {
     * {
         margin: 0;
