@@ -433,7 +433,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
     async initEnterData(row: DataRow, isFree: boolean, recNo?: number) {
         let dataIn = new DataRow();
         dataIn.setValue('Code_', row.getString('Code_'));
-        dataIn.setValue('objCode', this.props.objCode);
+        dataIn.setValue('ObjCode', this.props.objCode);
         this.props.objCode.startsWith("C") ? dataIn.setValue("ObjField", 'CusCode') : dataIn.setValue("ObjField", 'SupCode');
         let dataOut = await DialogApi.getPartStock(dataIn);
         dataOut.first();
