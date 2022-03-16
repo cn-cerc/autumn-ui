@@ -564,7 +564,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                     <div className={styles.maskLine}>
                         <div className={styles.maskBlock}>
                             <label htmlFor='LastUP_'>上次交易：</label>
-                            <input type='text' id='LastUP_' name='LastUP_' value={this.state.enterData.getValue('LastDate') ? `${this.state.enterData.getValue('LastDate')} ${this.state.enterData.getValue('LastUP_')}元` : '没有找到上次交易价或者上次交易价为0！'} readOnly />
+                            <input type='text' id='LastUP_' name='LastUP_' value={this.state.enterData.dataSet.head.getValue('LastUP_') ? `${this.state.enterData.dataSet.head.getValue('LastDate')} ：${this.state.enterData.dataSet.head.getValue('LastUP_')}元` : '没有找到上次交易价或者上次交易价为0！'} readOnly />
                         </div>
                     </div>
                     <div className={styles.maskLine}>
