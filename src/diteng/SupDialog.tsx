@@ -22,12 +22,14 @@ export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeSt
         super(props);
         let dataSet = new DataSet();
         let typeList = new Map();
+        let dataIn = new DataRow();
+        dataIn.setValue('Disable_', false);
         typeList.set("所有厂商", "");
         typeList.set("普通厂商", "0");
         typeList.set("协力厂商", "1");
         this.state = {
             ...this.state,
-            dataIn: new DataRow(),
+            dataIn,
             dataSet,
             typeList,
             width: '45rem',
@@ -54,7 +56,7 @@ export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeSt
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="SearchText_" dataName="查询条件" autoFocus></DBEdit>
                     <DBDrop dataField="SupType_" dataName="厂商类别" options={this.state.typeList}></DBDrop>
-                    <DBCheckbox dataField="Disable_" dataName="取消对停用的厂商进行筛选" className={styles.searchCheck}></DBCheckbox>
+                    <DBCheckbox dataField="Disable_" dataName="查询已停用厂商" className={styles.searchCheck}></DBCheckbox>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <Column code="ShortName_" name="厂商简称" width="40"></Column>
