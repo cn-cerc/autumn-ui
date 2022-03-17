@@ -2,6 +2,7 @@ import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
+import DBCheckbox from "../rcc/DBCheckbox";
 import DBDrop from "../rcc/DBDrop";
 import DBEdit from "../rcc/DBEdit";
 import DBGrid, { Column } from "../rcc/DBGrid";
@@ -53,6 +54,7 @@ export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeSt
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="SearchText_" dataName="查询条件" autoFocus></DBEdit>
                     <DBDrop dataField="SupType_" dataName="厂商类别" options={this.state.typeList}></DBDrop>
+                    <DBCheckbox dataField="Disable_" dataName="取消对停用的厂商进行筛选" className={styles.searchCheck}></DBCheckbox>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <Column code="ShortName_" name="厂商简称" width="40"></Column>

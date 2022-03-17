@@ -26,3 +26,16 @@
     cursor: pointer;
     margin: 1.5rem auto;
 }
+
+.searchCheck {
+    display: flex;
+    align-items: center;
+    
+}
+
+@media screen and (max-width: 767px) {
+    .searchCheck {
+        justify-content: center;
+        width: 100%;
+    }
+}

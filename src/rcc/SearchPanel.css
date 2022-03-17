@@ -38,6 +38,15 @@
     padding-left: .6rem;
 }
 
+.search input[type='checkbox'] {
+    min-width: auto;
+    width: auto;
+}
+
+.search input[type='checkbox']+label {
+    padding-left: .5rem;
+}
+
 .search>span>input:hover {
     border: 1px solid #058FCA;
 }
