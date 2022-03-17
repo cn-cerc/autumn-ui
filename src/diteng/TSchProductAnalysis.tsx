@@ -281,6 +281,16 @@ export default class TSchProductAnalysis extends WebControl<propsType, stateType
             } else {
                 this.async = false;
                 loading.hide();
+                let sortSelect = document.getElementById('Sort') as HTMLSelectElement;
+                let sort = sortSelect.value;
+                if (sort == 'Amount')
+                    this.dataSet.setSort('Amount_ DESC');
+                else if (sort == 'Profit')
+                    this.dataSet.setSort('Profit_ DESC');
+                else if (sort == 'ProfitRate')
+                    this.dataSet.setSort('ProfitRate_ DESC');
+                else if (sort == 'Num')
+                    this.dataSet.setSort('Num_ DESC');
                 showMsg('数据加载完成');
                 this.setState(this.state);
             }

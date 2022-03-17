@@ -235,7 +235,7 @@ export default class TSchProductInOutAnalysis extends WebControl<propsType, stat
                     } else if (InitStock == headIn.getString("Sort")) {
                         ds.setSort("InitStock_ DESC");
                     } else if (EndStock == headIn.getString("Sort")) {
-                        ds.setSort("EndStock_ DESC");
+                        ds.setSort("Stock_ DESC");
                     } else if (InNum == headIn.getString("Sort")) {
                         ds.setSort("Num_ DESC");
                     } else if (OutNum == headIn.getString("Sort")) {
