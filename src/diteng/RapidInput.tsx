@@ -74,6 +74,8 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             dataIn.setValue('MaxRecord', Number(this._client.get('maxRecord')));
         if (this._client.get('enterInput') == 'true')
             dataIn.setValue('enterInput', this._client.get('enterInput'));
+        if (this._client.get('Stock_') == 'true')
+            dataIn.setValue('Stock_', true);
         dataIn.setValue('ObjCode_', this.props.objCode);
         dataIn.setValue('TB_', this.props.tb);
         if (document.querySelector('#WHCode_')) {
@@ -152,6 +154,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                                     <input type='checkbox' name='enterInput' id='enterInput' checked={this.state.dataIn.getBoolean('enterInput')} onChange={this.changeEnterInput.bind(this)} />
                                     <span onClick={this.changeEnterInput.bind(this)}></span>
                                     <label htmlFor='enterInput'>选择商品时，同时输入数量</label>
+                                </div>
+                                <div className={styles.stockInput}>
+                                    <input type='checkbox' name='Stock_' id='Stock_' checked={this.state.dataIn.getBoolean('Stock_')} onChange={this.changeStockInput.bind(this)} />
+                                    <span onClick={this.changeStockInput.bind(this)}></span>
+                                    <label htmlFor='Stock_'>库存不等于0</label>
                                 </div>
                             </SearchPanel>
                         </div>
@@ -354,6 +361,12 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
     changeEnterInput() {
         this.state.dataIn.setValue('enterInput', !this.state.dataIn.getBoolean('enterInput'));
         this.handleChange('enterInput');
+        this.setState(this.state);
+    }
+
+    changeStockInput() {
+        this.state.dataIn.setValue('Stock_', !this.state.dataIn.getBoolean('Stock_'));
+        this.handleChange('Stock_');
         this.setState(this.state);
     }
 

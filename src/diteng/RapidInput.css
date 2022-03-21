@@ -167,18 +167,19 @@
     border: 1px solid #D9D9D9 !important;
 }
 
-.enterInput {
+.enterInput,.stockInput {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: .5em;
+    margin-right: 1.25em;
 }
 
-.enterInput>input {
+.enterInput>input,.stockInput>input {
     display: none;
 }
 
-.enterInput>span {
+.enterInput>span,.stockInput>span {
     width: 1.25em;
     height: 1.25em;
     min-width: auto;
@@ -186,7 +187,7 @@
     margin: 0 .3125em;
 }
 
-.enterInput>input:checked+span {
+.enterInput>input:checked+span,.stockInput>input:checked+span {
     background: url('https://www.diteng.site/public/js/rapidInput/image/selected.png') center no-repeat;
 }
 
