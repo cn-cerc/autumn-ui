@@ -438,23 +438,30 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     }
 
     setAccount(row: DataRow) {
+        let password = row.getString('password');
         this.props.dataRow.setValue('userCode', row.getString('account'));
-        this.props.dataRow.setValue('password', row.getString('password'));
+        this.props.dataRow.setValue('password', password);
         if (this.state.isFirefox)
             this.props.dataRow.setValue('_password', this.getCompletePassword(row.getString('password')));
         this.props.dataRow.setValue('verifyCode_', '');
         showVerify = false;
+        let savePwd = this.state.savePwd;
+        if (!this.isPhone)
+            savePwd = password ? true : false;
         this.setState({
             showAccountList: false,
             hasSendCode: false,
-            timer: null
+            timer: null,
+            savePwd
         })
 
     }
 
     chooseListRemove(row: DataRow) {
-        if (this.state.accountData.locate('account', row.getString('account')))
+        if (this.state.accountData.locate('account', row.getString('account'))) {
             this.state.accountData.delete();
+            this.state.client.set('Accounts', this.state.accountData.json);
+        }
         showVerify = false;
         this.setState({
             showAccountList: false
@@ -566,20 +573,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             })
             return;
         }
-        let ds1 = new DataSet();
-        if (this.state.client.get('Accounts'))
-            ds1.setJson(this.state.client.get('Accounts'))
-        let account = this.props.dataRow.getString('userCode');
-        if (account) {
-            if (!ds1.locate("account", account)) {
-                ds1.append();
-                ds1.setValue("account", account);
-            }
-            if (this.props.dataRow.getString('password') || this.isPhone) {
-                ds1.setValue("password", this.props.dataRow.getString('password'));
-            }
-            this.state.client.set("Accounts", ds1.json);
-        }
         this.postData();
     }
 
@@ -588,6 +581,21 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         this.setState({ showLoad: true, message: '' })
         let dataOut = await this.getService();
         if (dataOut.state > 0) {
+            let ds1 = new DataSet();
+            if (this.state.client.get('Accounts'))
+                ds1.setJson(this.state.client.get('Accounts'))
+            let account = this.props.dataRow.getString('userCode');
+            if (account) {
+                if (!ds1.locate("account", account)) {
+                    ds1.append();
+                    ds1.setValue("account", account);
+                }
+                if (this.isPhone || this.state.savePwd)
+                    ds1.setValue("password", this.props.dataRow.getString('password'));
+                else
+                    ds1.setValue("password", '');
+                this.state.client.set("Accounts", ds1.json);
+            }
             let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
             this.state.client.set('Account1', this.props.dataRow.getString('userCode'));
             this.state.client.set('password', this.props.dataRow.getString('password'));
