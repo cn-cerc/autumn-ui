@@ -1,0 +1,39 @@
+div[id='partPrinciplePage'] {
+    display: flex;
+    height: 0;
+    flex: 1;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.stock1 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.stock2 {
+    flex: 1;
+}
+
+.stock1 ul {
+    display: flex;
+    background-color: #f9f9f9;
+}
+
+.stock1 ul li {
+    padding: 0 1.5rem;
+    line-height: 2.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.stock1 .titleIn {
+    background-color: #fff;
+    color: #000;
+}
+
+.link {
+    color: #0283f7;
+    display: inline!important;
+}

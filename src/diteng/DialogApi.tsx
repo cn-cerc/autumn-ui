@@ -366,4 +366,19 @@ export default class DialogApi {
     static saveLotNo(params: DataSet) {
         return DialogApi.serviceDataSet('SvrLotNo.saveLotNo', params);
     }
+
+    /** 获取编码原则大类 */
+    static getCodeClass() {
+        return DialogApi.getService('SvrCodeClass.search');
+    }
+
+    /** 获取 */
+    static getPartPrincipleSearch(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartPrinciple.search', params);
+    }
+
+    /** 获取 */
+    static getPartPrincipleDownload(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartPrinciple.download', params);
+    }
 }

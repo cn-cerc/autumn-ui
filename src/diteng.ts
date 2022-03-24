@@ -30,6 +30,7 @@ import ErrorPage from "./diteng/ErrorPage";
 import FastCorpDialog from "./diteng/FastCorpDialog";
 import FreightWayDialog from "./diteng/FreightWayDialog";
 import FrmLogin from "./diteng/FrmLogin";
+import FrmPartPrinciple from "./diteng/FrmPartPrinciple";
 import LogisticsDialog from "./diteng/LogisticsDialog";
 import MarqueDialog from "./diteng/MarqueDialog";
 import MLRemarkDialog from "./diteng/MLRemarkDialog";
@@ -142,5 +143,7 @@ export default {
     ClientStorage,
     Loading,
     //快录专用
-    RapidInput
+    RapidInput,
+    //新增编码原则
+    FrmPartPrinciple
 }
