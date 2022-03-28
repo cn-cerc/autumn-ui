@@ -732,6 +732,7 @@ type MainRowTypeProps = {
     dataRow?: DataRow,
     dynamicClass?: (row: DataRow) => string,
     tag?: ColumnType;
+    recNo?: number
 }
 
 type MainRowTypeState = {
@@ -760,7 +761,7 @@ export class MainRow extends React.Component<MainRowTypeProps, MainRowTypeState>
                     } else {
                         items.push(React.cloneElement(child, {
                             key: child.props.code, dataRow: this.props.dataRow,
-                            recNo: this.props.dataRow.dataSet.recNo
+                            recNo: this.props.recNo
                         }))
                     }
                 }

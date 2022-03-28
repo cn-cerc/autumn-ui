@@ -85,10 +85,19 @@ export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeSt
 
     handleClick(dataRow: DataRow) {
         let inputIds = this.props.inputId.split(",");
-        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-        input1.value = dataRow.getValue("Code_");
-        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        if(input2) input2.value = dataRow.getValue("Name_");
-        this.handleSelect();
+        if(this.props.onSelect) {
+            let row = new DataRow();
+            row.setValue(inputIds[0], dataRow.getValue("Code_"));
+            row.setValue(inputIds[1], dataRow.getValue("Name_"));
+            this.props.onSelect(row);
+            this.handleClose();
+        } else {
+            let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+            input1.value = dataRow.getValue("Code_");
+            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+            if(input2) input2.value = dataRow.getValue("Name_");
+            this.handleSelect();
+        }
+        
     }
 }

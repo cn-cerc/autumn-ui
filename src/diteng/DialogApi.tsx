@@ -48,7 +48,7 @@ export default class DialogApi {
         return ds;
     }
 
-    static async getDataOut(url: string, params: DataRow): Promise<DataSet> {
+    static async getDataOut(url: string, params: DataRow, timeout: number = 15): Promise<DataSet> {
         let sid = DialogApi.getToken();
         if (!sid) {
             let error = new DataSet();
@@ -60,7 +60,7 @@ export default class DialogApi {
         service.setService(url);
         service.dataIn.head.copyValues(params.current);
         // e为请求失败时抛出的异常，类型为DataSet
-        let ds: DataSet = await service.open().catch(e => e);
+        let ds: DataSet = await service.open(timeout).catch(e => e);
         return ds;
     }
 
@@ -380,5 +380,25 @@ export default class DialogApi {
     /** 获取 */
     static getPartPrincipleDownload(params: DataRow) {
         return DialogApi.getDataOut('SvrPartPrinciple.download', params);
+    }
+
+    /** 获取 */
+    static getPartSpecDownload(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartSpec.download', params);
+    }
+
+    /** 提交 */
+    static postPartStock(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartStock.Append', params, 30);
+    }
+
+    /** 修改 */
+    static updatePartPrinciple(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartPrinciple.updateLastNo', params, 20);
+    }
+
+    /** 根据商品的品牌、品名、规格判断商品是否存在 */
+    static existsPartInfo(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartInfo.existsPartInfo', params);
     }
 }

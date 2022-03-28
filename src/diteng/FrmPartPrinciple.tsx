@@ -2,13 +2,24 @@ import React from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import { ColumnIt } from "../rcc/ColumnIt";
-import DBGrid, { Column } from "../rcc/DBGrid";
+import DBEdit from "../rcc/DBEdit";
+import DBGrid, { Column, MainRow } from "../rcc/DBGrid";
+import SearchPanel from "../rcc/SearchPanel";
+import BrandDialog from "./BrandDialog";
 import DialogApi from "./DialogApi";
 import styles from "./FrmPartPrinciple.css";
+import ProductClassDialog from "./ProductClassDialog";
+import { showMsg } from "./Summer";
 
 type titleType = {
     text: string,
-    data?: any
+    data?: DataRow,
+    isSelect?: boolean
+}
+
+type descType = {
+    index: number,
+    desc: string
 }
 
 type FrmPartPrincipleTypeProps = {
@@ -17,23 +28,52 @@ type FrmPartPrincipleTypeProps = {
 
 type FrmPartPrincipleTypeState = {
     titleList: titleType[],
+    descList: descType[],
     titleIn: number,
     dataSet1: DataSet,
     dataSet2: DataSet,
-    dataSet3: DataSet
+    dataSet3: DataSet,
+    _dataSet3: DataSet,
+    codeSchemeData: DataSet,
+    specCodeData: DataSet,
+    dataRow: DataRow,
+    searchRow: DataRow,
+    code: string,
+    specCode: string,
+    isNew: boolean,
+    isSelect: boolean,
+    showLoad: boolean,
+    loadText: string
 }
 
 export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTypeProps, FrmPartPrincipleTypeState> {
+    private class2: DBEdit;
+    private class3: DBEdit;
+    private partCode: string = '';
     constructor(props: FrmPartPrincipleTypeProps) {
         super(props);
+        let dataRow = new DataRow();
+        dataRow.setValue('PartSource_', '0');
         this.state = {
             titleList: [{
                 text: '大类'
             }],
+            descList: [],
             titleIn: 0,
             dataSet1: new DataSet(),
             dataSet2: new DataSet(),
-            dataSet3: new DataSet()
+            dataSet3: new DataSet(),
+            _dataSet3: new DataSet(),
+            codeSchemeData: new DataSet(), // codeScheme
+            specCodeData: new DataSet(), // specCodeStr
+            dataRow,
+            searchRow: new DataRow(),
+            code: '',
+            specCode: '',
+            isNew: false,
+            isSelect: false,
+            showLoad: false,
+            loadText: '系统正在检测中，请稍后...'
         }
     }
 
@@ -46,9 +86,9 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             <div className={styles.stock1}>
                 {this.getPageTitle()}
                 {this.getTable()}
-                <div></div>
             </div>
-            <div className={styles.stock2}>这是第二块内容</div>
+            <div className={styles.stock2}>{this.getPageForm()}</div>
+            {this.getLoad()}
         </React.Fragment>
     }
 
@@ -61,7 +101,7 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
 
     getPageTitle() {
         let titleList = this.state.titleList.map((title: titleType, key: number) => {
-            return <li key={key} className={key == this.state.titleIn ? styles.titleIn : ''} onClick={() => this.setState({ titleIn: key })}>{title.text}</li>
+            return <li key={key} className={key == this.state.titleIn ? styles.titleIn : ''} onClick={this.handleClick.bind(this, key)}>{title.text}</li>
         })
         return <ul>{titleList}</ul>
     }
@@ -90,22 +130,92 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                     }}></Column>
                 </DBGrid>
             default:
-                return <DBGrid dataSet={this.state.dataSet3}>
-                    <ColumnIt width='10'></ColumnIt>
-                    <Column code='Name_' name='代码' width='20'></Column>
-                    <Column code='Rule_' name='描述' width='30'></Column>
-                    <Column code='CodeDesc_' name='备注' width='40'></Column>
-                    <Column code='opera' name='操作' textAlign='center' width='15' customText={(row: DataRow) => {
+                return this.getDescTable()
+        }
+    }
+
+    getPageForm() {
+        return <React.Fragment>
+            <ul className={styles.pageForm} key={this.state.dataRow.json}>
+                <li>
+                    <DBEdit dataField='PartCode_' dataName='料号' dataRow={this.state.dataRow} readOnly={true}></DBEdit>
+                </li>
+                <li>
+                    <DBEdit dataField='Desc_' dataName='品名' dataRow={this.state.dataRow} readOnly></DBEdit>
+                </li>
+                <li>
+                    <DBEdit dataField='Spec_' dataName='规格' dataRow={this.state.dataRow} readOnly></DBEdit>
+                </li>
+                <li>
+                    <DBEdit dataField='Brand_' dataName='品牌' dataRow={this.state.dataRow} readOnly>
+                        <BrandDialog isChild={true} inputId='Brand_'></BrandDialog>
+                    </DBEdit>
+                    <DBEdit dataField='Remark_' dataName='备注' dataRow={this.state.dataRow}></DBEdit>
+                    <DBEdit dataField='Unit_' dataName='单位' dataRow={this.state.dataRow}></DBEdit>
+                    <DBEdit dataField='Class1_' dataName='大类' dataRow={this.state.dataRow} onChanged={this.handleChangeClass.bind(this)} readOnly>
+                        <ProductClassDialog isChild={true} productClass={""} brand={""} inputId='Class1_,Class2_,Class3_'></ProductClassDialog>
+                    </DBEdit>
+                </li>
+                <li>
+                    <DBEdit dataField='Class2_' dataName='中类' dataRow={this.state.dataRow} ref={self => this.class2 = self}></DBEdit>
+                    <DBEdit dataField='Class3_' dataName='系列' dataRow={this.state.dataRow} ref={self => this.class3 = self}></DBEdit>
+                </li>
+            </ul>
+            {this.getPageSubmit()}
+        </React.Fragment>
+    }
+
+    getDescTable() {
+        return <React.Fragment>
+            <SearchPanel dataRow={this.state.searchRow} onExecute={this.filterDataSet3.bind(this)} key={this.state.searchRow.json}>
+                <DBEdit dataField='Name_' dataName='当前选择' readOnly></DBEdit>
+                <DBEdit dataField='SpecCode_' dataName='规格代码'></DBEdit>
+                <DBEdit dataField='Description_' dataName='规格描述'></DBEdit>
+            </SearchPanel>
+            <DBGrid dataSet={this.state._dataSet3}>
+                <MainRow dynamicClass={this.dynamicClass.bind(this)}>
+                    <ColumnIt width='2'></ColumnIt>
+                    <Column code='SpecCode_' name='代码' width='6'></Column>
+                    <Column code='Description_' name='描述' width='10'></Column>
+                    <Column code='Remark_' name='备注' width='15'></Column>
+                    <Column code='opera' name='操作' textAlign='center' width='3' customText={(row: DataRow) => {
                         return <span className={styles.link} onClick={this.selectClass3.bind(this, row)}>选择</span>
                     }}></Column>
-                </DBGrid>
+                </MainRow>
+            </DBGrid>
+        </React.Fragment>
+    }
+
+    getPageSubmit() {
+        return <div>
+            <button onClick={this.handleSubmit.bind(this)} className={this.state.isNew ? '' : styles.disabled}>新增</button>
+            <button onClick={this.addDetail.bind(this)} className={this.state.isSelect ? '' : styles.disabled}>选择</button>
+        </div>
+
+    }
+
+    dynamicClass(row: DataRow) {
+        let recNo = row.dataSet.recNo;
+        let className = '';
+        if (recNo == this.state.descList[this.state.titleIn - 2].index) {
+            className = styles.lineSelect
         }
+        return className;
+    }
+
+    async handleClick(key: number) {
+        if (key > 1)
+            this.choseClass3(key);
+        else
+            this.setState({ titleIn: key });
     }
 
     async selectClass(row: DataRow) {
         let dataRow = new DataRow();
-        dataRow.setValue('ClassCode_', row.getValue('Code_'))
-        let dataSet2 = await DialogApi.getPartPrincipleSearch(dataRow);
+        dataRow.setValue('PartSource_', '0');
+        let dataRow2 = new DataRow();
+        dataRow2.setValue('ClassCode_', row.getValue('Code_'))
+        let dataSet2 = await DialogApi.getPartPrincipleSearch(dataRow2);
         this.setState({
             titleList: [{
                 text: '大类'
@@ -113,50 +223,382 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 text: '中类'
             }],
             titleIn: 1,
-            dataSet2
+            dataSet2,
+            dataRow,
+            isNew: false,
+            isSelect: false
         });
     }
 
     async selectClass2(row: DataRow) {
         let dataRow = new DataRow();
-        dataRow.setValue('Code_', row.getValue('Code_'));
-        let dataOut = await DialogApi.getPartPrincipleDownload(dataRow);
-        let titleList: titleType[] = [{
-            text: '大类'
-        }, {
-            text: '中类'
-        }];
-        let dataSet3: DataSet;
-        let isFirst = false;
-        console.log(dataOut)
-        dataOut.first();
-        while (dataOut.fetch()) {
-            if (dataOut.getDouble('Type_') == 0) {
-                titleList.push({
-                    text: dataOut.getString('SpecName_'),
-                    data: dataOut.current
-                })
-                if(!isFirst) {
-                    isFirst = true;
-                    let dataIn = new DataRow();
-                    dataIn.setValue('Code_', encodeURIComponent(dataOut.getString('SpecCode_')));
-                    dataIn.setValue('Select', encodeURIComponent(dataOut.getString('SpecName_')));
-                    dataIn.setValue('specCode', encodeURIComponent(dataOut.getString('SpecCode_')));
-                    console.log(dataIn)
-                    dataSet3 = await DialogApi.getPartPrincipleDownload(dataIn);
+        let code = row.getString('Code_')
+        dataRow.setValue('Code_', code);
+        let codeSchemeData = await DialogApi.getPartPrincipleDownload(dataRow);
+        if (codeSchemeData.size) {
+            this.state.dataRow.setValue('Brand_', codeSchemeData.head.getValue('Brand_'));
+            this.state.dataRow.setValue('Class1_', codeSchemeData.head.getValue('Class1_'));
+            this.state.dataRow.setValue('Class2_', codeSchemeData.head.getValue('Class2_'));
+            this.state.dataRow.setValue('Class3_', codeSchemeData.head.getValue('Class3_'));
+            this.state.dataRow.setValue('Unit_', codeSchemeData.head.getValue('Unit_'));
+            this.state.dataRow.setValue('PartCode_', '');
+            this.state.dataRow.setValue('Desc_', '');
+            this.state.dataRow.setValue('Spec_', '');
+            let titleList: titleType[] = [{
+                text: '大类'
+            }, {
+                text: '中类'
+            }];
+            let descList = [];
+            let dataSet3: DataSet;
+            let _dataSet3 = new DataSet();
+            let specCode = '';
+            let isFirst = false;
+            codeSchemeData.first();
+            while (codeSchemeData.fetch()) {
+                if (codeSchemeData.getDouble('Type_') == 0) {
+                    titleList.push({
+                        text: codeSchemeData.getString('SpecName_'),
+                        data: codeSchemeData.current,
+                        isSelect: false
+                    })
+                    descList.push({
+                        index: 0,
+                        desc: codeSchemeData.getString('SpecName_')
+                    });
+                    if (!isFirst) {
+                        isFirst = true;
+                        let dataIn = new DataRow();
+                        dataIn.setValue('Code_', codeSchemeData.getString('SpecCode_'));
+                        dataIn.setValue('Select', codeSchemeData.getString('SpecName_'));
+                        dataIn.setValue('specCode', codeSchemeData.getString('SpecCode_'));
+                        specCode = codeSchemeData.getString('SpecCode_')
+                        dataSet3 = await DialogApi.getPartSpecDownload(dataIn);
+                        _dataSet3.appendDataSet(dataSet3);
+                    }
                 }
             }
+            let searchRow = new DataRow();
+            searchRow.setValue('Name_', titleList[2].text);
+            this.setState({
+                titleList,
+                descList,
+                titleIn: 2,
+                dataSet3,
+                _dataSet3,
+                searchRow,
+                codeSchemeData,
+                specCode,
+                code,
+                isNew: false,
+                isSelect: false
+            })
+        } else {
+
         }
-        console.log(dataSet3)
+    }
+
+    async choseClass3(key: number, specCodeData?: DataSet) {
+        if (this.state.titleIn == key)
+            return;
+        let dataRow = this.state.titleList[key].data;
+        let dataIn = new DataRow();
+        let specCode = dataRow.getValue('SpecCode_');
+        dataIn.setValue('Code_', specCode);
+        dataIn.setValue('Select', dataRow.getString('SpecName_'));
+        dataIn.setValue('specCode', specCode);
+        let dataSet3 = await DialogApi.getPartSpecDownload(dataIn);
+        let _dataSet3 = new DataSet();
+        _dataSet3.appendDataSet(dataSet3);
+        let searchRow = new DataRow();
+        searchRow.setValue('Name_', this.state.titleList[key].text);
         this.setState({
-            titleList,
-            titleIn: 2,
-            dataSet3
+            titleIn: key,
+            dataSet3,
+            _dataSet3,
+            searchRow,
+            specCode,
+            specCodeData: specCodeData || this.state.specCodeData
         })
     }
 
     async selectClass3(row: DataRow) {
-        let dataRow = new DataRow();
-        dataRow.setValue('Code_', row.getValue('Code_'));
+        let partCode = '';
+        let spec = '';
+        let desc = '';
+        let recNo = 0;
+
+        for (let i = 0; i < this.state.dataSet3.records.length; i++) {
+            if (this.state.dataSet3.records[i].getDouble('UID_') == row.getDouble('UID_')) {
+                recNo = i + 1;
+                break;
+            }
+        }
+        this.state.descList[this.state.titleIn - 2].index = recNo;
+        let description = row.getString('Description_');
+        this.state.titleList[this.state.titleIn].text = `${this.state.descList[this.state.titleIn - 2].desc}(${description})`;
+        this.state.titleList[this.state.titleIn].isSelect = true;
+        let ds1 = new DataSet();
+        ds1.appendDataSet(this.state.codeSchemeData);
+        let ds2 = new DataSet();
+        if (this.state.specCodeData.size) {
+            ds2.setJson(this.state.specCodeData.json)
+        }
+        if (!ds2.locate("specCode", this.state.specCode)) {
+            ds2.append();
+        } else {
+            ds2.edit();
+        }
+        ds2.setValue('specCode', this.state.specCode)
+        ds2.setValue("specName", row.getString('SpecCode_') + "`" + row.getString('Description_'));
+        while (ds1.fetch()) {
+            if (ds1.getDouble('Type_') == 1 && ds1.getBoolean('IsPartCode_')) {
+                partCode = ds1.getString("SpecCode_");
+                break;
+            }
+        }
+        ds1.first();
+        ds2.first();
+        while (ds1.fetch()) {
+            if (ds1.getBoolean("IsPartCode_")) {
+                if (ds2.locate("specCode", ds1.getString("SpecCode_"))) {
+                    partCode += ds2.getString("specName").split("`")[0];
+                }
+                if (ds1.getDouble("Type_") == 2) {
+                    partCode += "-";
+                }
+                if (ds1.getDouble("Type_") == 3) {
+                    let lastNo = ds1.head.getInt("LastNo_") + 1;
+                    let flowLen = ds1.head.getInt("FlowLen_");
+                    if (flowLen > 0) {
+                        let str = "000000000" + lastNo;
+                        partCode += str.substring(str.length - flowLen);
+                    }
+                }
+            }
+        }
+        // 生成品名
+        ds1.setSort("SpecNameIt_");
+        ds1.first();
+        while (ds1.fetch()) {
+            if (ds1.getDouble("Type_") == 1 && ds1.getBoolean("IsDescName_")) {
+                desc += ds1.getString("SpecName_") + ",";
+            }
+        }
+        desc = desc.substring(0, desc.length - 1);
+        ds1.first();
+        ds2.first();
+        while (ds1.fetch()) {
+            if (ds1.getBoolean("IsDescName_")) {
+                if (ds2.locate("specCode", ds1.getString("SpecCode_"))) {
+                    if (ds2.getString("specName").split("`").length > 1) {
+                        desc += ds2.getString("specName").split("`")[1] + ",";
+                    }
+                }
+            }
+        }
+        // 生成规格
+        ds2.first();
+        ds1.first();
+        while (ds1.fetch()) {
+            if (ds1.getBoolean("IsSpecName_")) {
+                if (ds2.locate("specCode", ds1.getString("SpecCode_"))) {
+                    if (ds2.getString("specName").split("`").length > 1) {
+                        spec += ds2.getString("specName").split("`")[1] + ",";
+                    }
+                }
+            }
+        }
+        spec = spec.substring(0, spec.length - 1);
+        let specCodeData = new DataSet();
+        specCodeData.appendDataSet(ds2);
+        this.state.dataRow.setValue('PartCode_', partCode);
+        this.state.dataRow.setValue('Desc_', desc);
+        this.state.dataRow.setValue('Spec_', spec);
+        this.initButton();
+        if (this.state.titleIn < this.state.titleList.length - 1) {
+            let key = this.state.titleIn + 1;
+            this.choseClass3(key, specCodeData);
+        } else {
+            this.setState({
+                specCodeData
+            })
+        }
+    }
+
+    filterDataSet3() {
+        this.setState({
+            showLoad: true
+        })
+        let _dataSet3 = new DataSet();
+        _dataSet3.appendDataSet(this.state.dataSet3);
+        _dataSet3.first();
+        let sepcCode = this.state.searchRow.getString('SpecCode_');
+        let description = this.state.searchRow.getString('Description_');
+        while(_dataSet3.fetch()) {
+            if(sepcCode) {
+                if(_dataSet3.getString('SpecCode_').indexOf(sepcCode) < 0) {
+                    _dataSet3.delete();
+                    continue;
+                }
+            }
+            if(description) {
+                if(_dataSet3.getString('Description_').indexOf(description) < 0) {
+                    _dataSet3.delete();
+                    continue;
+                }
+            }
+        }
+        this.setState({
+            _dataSet3,
+            showLoad: false
+        })
+    }
+
+    handleChangeClass() {
+        this.class2.setState(this.class2.state);
+        this.class3.setState(this.class3.state);
+    }
+
+    async initButton() {
+        let isAllSelect = true;
+        this.state.titleList.forEach((title: titleType) => {
+            if ('isSelect' in title && title.isSelect == false)
+                isAllSelect = false;
+        })
+        if (isAllSelect) {
+            this.setState({showLoad: true});
+            let headIn = new DataRow();
+            headIn.setValue('Brand_', this.state.dataRow.getString('Brand_'));
+            headIn.setValue('Desc_', this.state.dataRow.getString('Desc_'));
+            headIn.setValue('Spec_', this.state.dataRow.getString('Spec_'));
+            let dataOut = await DialogApi.existsPartInfo(headIn);
+            if(dataOut.state > 0) {
+                this.partCode = dataOut.head.getString('Code_');
+                this.setState({
+                    isSelect: true,
+                    showLoad: false,
+                    isNew: false
+                })
+            } else {
+                this.setState({
+                    isNew: true,
+                    isSelect: false,
+                    showLoad: false
+                })
+            }
+        }
+    }
+
+    async handleSubmit() {
+        if (!this.state.isNew)
+            return;
+        let ds = new DataSet();
+        ds.setJson(this.state.codeSchemeData.json);
+        if (this.state.dataRow.getValue('PartCode_').length != ds.head.getDouble('CodeLen_')) {
+            showMsg('生成的编码长度不符合要求，请检查！');
+            return;
+        } else if (!this.state.dataRow.getBoolean('Brand_')) {
+            showMsg('品牌不允许为空！');
+            return;
+        } else if (!this.state.dataRow.getBoolean('Class1_')) {
+            showMsg('大类不允许为空！');
+            return;
+        } else {
+            this.setState({
+                showLoad: true
+            })
+            let dataIn = new DataRow();
+            let partCode = this.state.dataRow.getString('PartCode_');
+            let desc = this.state.dataRow.getString('Desc_');
+            let spec = this.state.dataRow.getString('Spec_');
+            let brand = this.state.dataRow.getString('Brand_');
+            let class1 = this.state.dataRow.getString('Class1_');
+            let class2 = this.state.dataRow.getString('Class2_');
+            let class3 = this.state.dataRow.getString('Class3_');
+            let unit = this.state.dataRow.getString('Unit_');
+            let supCode = this.state.dataRow.getString('SupCode_');
+            let remark = this.state.dataRow.getString('Remark_');
+            dataIn.setValue("FrmPartPrinciple", true);
+            dataIn.setValue("Code_", partCode);
+            dataIn.setValue("Desc_", desc);
+            dataIn.setValue("Spec_", spec);
+            dataIn.setValue("Classify_", 0);
+            dataIn.setValue("InUP_", 0);
+            dataIn.setValue("OutUP_", 0);
+            dataIn.setValue("OutUP2_", 0);
+            dataIn.setValue("ListUP_", 0);
+            dataIn.setValue("VipUP_", 0);
+            dataIn.setValue("Brand_", brand);
+            dataIn.setValue("Class1_", class1);
+            dataIn.setValue("Class2_", class2);
+            dataIn.setValue("Class3_", class3);
+            dataIn.setValue("Unit_", unit);
+            dataIn.setValue("SupCode_", supCode);
+            dataIn.setValue("Remark_", remark);
+            dataIn.setValue("BoxUnit_", ds.head.getString('Unit1_'));
+            dataIn.setValue("BoxNum_", ds.head.getString('Rate1_'));
+            let dataOut = await DialogApi.postPartStock(dataIn);
+            if (dataOut.state < 1) {
+                showMsg(`生成失败！原因：${dataOut.message}`)
+            } else {
+                // 回写大类流水号
+                let dataRow = new DataRow();
+                dataRow.setValue("PartCode_", partCode);
+                dataRow.setValue("Brand_", brand);
+                dataRow.setValue("Class1_", class1);
+                dataRow.setValue("Class2_", class2);
+                dataRow.setValue("Class3_", class3);
+                dataRow.setValue("Unit_", unit);
+                dataRow.setValue("Code_", this.state.code);
+                dataRow.setValue("ClassCode_", ds.head.getString('ClassCode_'));
+                let ds2 = await DialogApi.updatePartPrinciple(dataRow);
+                if (ds2.state < 1) {
+                    showMsg(`生成失败！原因：${ds2.message}`)
+                } else {
+                    showMsg(`已存入商品资料！料号：<a href="TFrmPartInfo.modify?partCode=%${partCode}" target="_blank">${partCode}</a>`);
+                    this.partCode = partCode;
+                    this.addDetail();
+                }
+            }
+            this.setState({
+                showLoad: false
+            })
+        }
+    }
+
+    addDetail() {
+        if (!this.state.isSelect && !this.state.isNew)
+            return;
+        this.setState({
+            showLoad: true
+        })
+        fetch(`TWebShopping.addDetail?num=1&tb=OD&products=${this.partCode}&spareStatus=false`).then(response => response.json()).then((json) => {
+            if (json.ok) {
+                document.querySelector('.header-center-right').innerHTML = json.menu;
+                let shopNum = document.querySelector('[role=shopNums]') as HTMLSpanElement;
+                shopNum.innerText = json.num;
+                shopNum.classList.add('shopNums');
+                showMsg(`料号：${this.partCode}已成功添加至销售订单`)
+                let href = json.menu.match('TFrmTranOD.modify[?]tbNo=[A-z]+[0-9]+');
+                location.href = href;
+            } else {
+                showMsg(json.msg)
+            }
+            this.setState({
+                showLoad: false
+            })
+        })
+    }
+
+    getLoad() {
+        if (this.state.showLoad) {
+            return (
+                <div className={styles.load}>
+                    <img src='https://www.diteng.site/public/images/loading.gif' />
+                    <span>{this.state.loadText}</span>
+                </div>
+            )
+        }
     }
 }
