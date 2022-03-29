@@ -57,7 +57,36 @@ div[id='partPrinciplePage'] {
     color: #08A74D;
 }
 
-.stock1>ul li:hover::before {
+.stock1 .descBox {
+    width: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.descBox img {
+    width: 1.5rem;
+}
+
+.descBox .descList {
+    width: 0;
+    flex: 1;
+    margin: 0 .5rem;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+.descBox .descList ul {
+    display: flex;
+    align-items: center;
+    left: 0;
+    top: 0;
+    position: absolute;
+    overflow: auto;
+}
+
+.stock1>ul li:not(.descBox):hover::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -165,5 +194,10 @@ div[id='partPrinciplePage'] {
 }
 
 .load span {
+    color: red;
+}
+
+.noDesc {
+    padding: 1rem;
     color: red;
 }

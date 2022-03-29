@@ -43,7 +43,11 @@ type FrmPartPrincipleTypeState = {
     isNew: boolean,
     isSelect: boolean,
     showLoad: boolean,
-    loadText: string
+    showAdd: boolean,
+    loadText: string,
+    descListWidth: number,
+    descNumber: number,
+    descLeft: number
 }
 
 export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTypeProps, FrmPartPrincipleTypeState> {
@@ -73,7 +77,11 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             isNew: false,
             isSelect: false,
             showLoad: false,
-            loadText: '系统正在检测中，请稍后...'
+            showAdd: false,
+            loadText: '系统正在检测中，请稍后...',
+            descListWidth: 0,
+            descNumber: 0,
+            descLeft: 0
         }
     }
 
@@ -100,10 +108,36 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
     }
 
     getPageTitle() {
-        let titleList = this.state.titleList.map((title: titleType, key: number) => {
-            return <li key={key} className={key == this.state.titleIn ? styles.titleIn : ''} onClick={this.handleClick.bind(this, key)}>{title.text}</li>
+        let titleList: React.ReactNode[] = [];
+        let titleList2: React.ReactNode[] = [];
+        this.state.titleList.forEach((title: titleType, key: number) => {
+            if (key < 2 || this.state.showAdd) {
+                titleList.push(
+                    <li key={key} className={key == this.state.titleIn ? styles.titleIn : ''} onClick={this.handleClick.bind(this, key)}>{title.text}</li>
+                )
+            } else {
+                titleList2.push(
+                    <li key={key} className={key == this.state.titleIn ? styles.titleIn : ''} onClick={this.handleClick.bind(this, key)}>{title.text}</li>
+                )
+            }
         })
-        return <ul>{titleList}</ul>
+        if (this.state.titleList.length > 2 && !this.state.showAdd) {
+            return <ul>
+                {titleList}
+                <li className={styles.descBox}>
+                    <img src="http://192.168.1.138:8101/public/images/icon/partPrinciple-left.png" onClick={this.descListMoveLeft.bind(this)} />
+                    <div className={styles.descList}>
+                        <ul style={{ 'left': `-${this.state.descLeft}px` }}>
+                            {titleList2}
+                        </ul>
+                    </div>
+                    <img src="http://192.168.1.138:8101/public/images/icon/partPrinciple-right.png" onClick={this.descListMoveRight.bind(this)} />
+                </li>
+            </ul>
+        } else {
+            return <ul>{titleList}</ul>
+        }
+
     }
 
     getTable() {
@@ -166,24 +200,28 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
     }
 
     getDescTable() {
-        return <React.Fragment>
-            <SearchPanel dataRow={this.state.searchRow} onExecute={this.filterDataSet3.bind(this)} key={this.state.searchRow.json}>
-                <DBEdit dataField='Name_' dataName='当前选择' readOnly></DBEdit>
-                <DBEdit dataField='SpecCode_' dataName='规格代码'></DBEdit>
-                <DBEdit dataField='Description_' dataName='规格描述'></DBEdit>
-            </SearchPanel>
-            <DBGrid dataSet={this.state._dataSet3}>
-                <MainRow dynamicClass={this.dynamicClass.bind(this)}>
-                    <ColumnIt width='2'></ColumnIt>
-                    <Column code='SpecCode_' name='代码' width='6'></Column>
-                    <Column code='Description_' name='描述' width='10'></Column>
-                    <Column code='Remark_' name='备注' width='15'></Column>
-                    <Column code='opera' name='操作' textAlign='center' width='3' customText={(row: DataRow) => {
-                        return <span className={styles.link} onClick={this.selectClass3.bind(this, row)}>选择</span>
-                    }}></Column>
-                </MainRow>
-            </DBGrid>
-        </React.Fragment>
+        if (!this.state.showAdd) {
+            return <React.Fragment>
+                <SearchPanel dataRow={this.state.searchRow} onExecute={this.filterDataSet3.bind(this)} key={this.state.searchRow.json}>
+                    <DBEdit dataField='Name_' dataName='当前选择' readOnly></DBEdit>
+                    <DBEdit dataField='SpecCode_' dataName='规格代码'></DBEdit>
+                    <DBEdit dataField='Description_' dataName='规格描述'></DBEdit>
+                </SearchPanel>
+                <DBGrid dataSet={this.state._dataSet3}>
+                    <MainRow dynamicClass={this.dynamicClass.bind(this)}>
+                        <ColumnIt width='2'></ColumnIt>
+                        <Column code='SpecCode_' name='代码' width='6'></Column>
+                        <Column code='Description_' name='描述' width='10'></Column>
+                        <Column code='Remark_' name='备注' width='15'></Column>
+                        <Column code='opera' name='操作' textAlign='center' width='3' customText={(row: DataRow) => {
+                            return <span className={styles.link} onClick={this.selectClass3.bind(this, row)}>选择</span>
+                        }}></Column>
+                    </MainRow>
+                </DBGrid>
+            </React.Fragment>
+        } else {
+            return <div className={styles.noDesc}>暂无可供选择的规格，请维护好对应的编码原则。</div>
+        }
     }
 
     getPageSubmit() {
@@ -258,7 +296,7 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             while (codeSchemeData.fetch()) {
                 if (codeSchemeData.getDouble('Type_') == 0) {
                     titleList.push({
-                        text: codeSchemeData.getString('SpecName_'),
+                        text: codeSchemeData.getString('SpecName_') || '未知',
                         data: codeSchemeData.current,
                         isSelect: false
                     })
@@ -291,10 +329,27 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 specCode,
                 code,
                 isNew: false,
-                isSelect: false
+                isSelect: false,
+                descNumber: 0,
+                descLeft: 0,
+                showAdd: false
+            }, () => {
+                let descListDom: HTMLDivElement = document.querySelector(`.${styles.descList}`);
+                let descListWidth = descListDom ? descListDom.offsetWidth : 0;
+                this.setState({ descListWidth });
             })
         } else {
-
+            this.setState({
+                titleList: [{
+                    text: '大类'
+                }, {
+                    text: '中类'
+                }, {
+                    text: '无规格'
+                }],
+                titleIn: 2,
+                showAdd: true
+            })
         }
     }
 
@@ -312,14 +367,61 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
         _dataSet3.appendDataSet(dataSet3);
         let searchRow = new DataRow();
         searchRow.setValue('Name_', this.state.titleList[key].text);
-        this.setState({
-            titleIn: key,
-            dataSet3,
-            _dataSet3,
-            searchRow,
-            specCode,
-            specCodeData: specCodeData || this.state.specCodeData
-        })
+
+        let descLeft = 0;
+        let descNumber = this.state.descNumber;
+        let hasLeft = 0;
+        let shouldLeft = 0;
+        let descList: NodeListOf<HTMLLIElement> = document.querySelectorAll(`.${styles.descList} li`);
+        for (let i = 0; i < this.state.titleList.length - 2; i++) {
+            let descDom: HTMLLIElement = descList[i];
+            if (i < this.state.descNumber) {
+                hasLeft += descDom.offsetWidth;
+            }
+            if (i <= key - 2) {
+                shouldLeft += descDom.offsetWidth;
+            }
+        }
+        if (shouldLeft - hasLeft > this.state.descListWidth) {
+            let resertWidth = 0;
+            descNumber++;
+            for (let j = this.state.descNumber; j < this.state.titleList.length - 2; j++) {
+                let descDom2: HTMLLIElement = descList[j];
+                resertWidth += descDom2.offsetWidth;
+                if (resertWidth < shouldLeft - hasLeft - this.state.descListWidth)
+                    descNumber++;
+            }
+        }
+        descList.forEach((descDom: HTMLLIElement, index: number) => {
+            if (index < descNumber) {
+                descLeft += descDom.offsetWidth;
+            }
+        });
+        if (descLeft != this.state.descLeft) {
+            $(`.${styles.descList} ul`).stop().animate({
+                'left': `-${descLeft}px`
+            }, 200, () => {
+                this.setState({
+                    titleIn: key,
+                    descNumber,
+                    dataSet3,
+                    _dataSet3,
+                    searchRow,
+                    specCode,
+                    specCodeData: specCodeData || this.state.specCodeData
+                })
+            })
+        } else {
+            this.setState({
+                titleIn: key,
+                descNumber,
+                dataSet3,
+                _dataSet3,
+                searchRow,
+                specCode,
+                specCodeData: specCodeData || this.state.specCodeData
+            })
+        }
     }
 
     async selectClass3(row: DataRow) {
@@ -327,7 +429,6 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
         let spec = '';
         let desc = '';
         let recNo = 0;
-
         for (let i = 0; i < this.state.dataSet3.records.length; i++) {
             if (this.state.dataSet3.records[i].getDouble('UID_') == row.getDouble('UID_')) {
                 recNo = i + 1;
@@ -337,6 +438,8 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
         this.state.descList[this.state.titleIn - 2].index = recNo;
         let description = row.getString('Description_');
         this.state.titleList[this.state.titleIn].text = `${this.state.descList[this.state.titleIn - 2].desc}(${description})`;
+        let liList: NodeListOf<HTMLLIElement> = document.querySelectorAll(`.${styles.descList} li`);
+        liList[this.state.titleIn - 2].innerText = `${this.state.descList[this.state.titleIn - 2].desc}(${description})`;
         this.state.titleList[this.state.titleIn].isSelect = true;
         let ds1 = new DataSet();
         ds1.appendDataSet(this.state.codeSchemeData);
@@ -435,15 +538,15 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
         _dataSet3.first();
         let sepcCode = this.state.searchRow.getString('SpecCode_');
         let description = this.state.searchRow.getString('Description_');
-        while(_dataSet3.fetch()) {
-            if(sepcCode) {
-                if(_dataSet3.getString('SpecCode_').indexOf(sepcCode) < 0) {
+        while (_dataSet3.fetch()) {
+            if (sepcCode) {
+                if (_dataSet3.getString('SpecCode_').indexOf(sepcCode) < 0) {
                     _dataSet3.delete();
                     continue;
                 }
             }
-            if(description) {
-                if(_dataSet3.getString('Description_').indexOf(description) < 0) {
+            if (description) {
+                if (_dataSet3.getString('Description_').indexOf(description) < 0) {
                     _dataSet3.delete();
                     continue;
                 }
@@ -467,13 +570,13 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 isAllSelect = false;
         })
         if (isAllSelect) {
-            this.setState({showLoad: true});
+            this.setState({ showLoad: true });
             let headIn = new DataRow();
             headIn.setValue('Brand_', this.state.dataRow.getString('Brand_'));
             headIn.setValue('Desc_', this.state.dataRow.getString('Desc_'));
             headIn.setValue('Spec_', this.state.dataRow.getString('Spec_'));
             let dataOut = await DialogApi.existsPartInfo(headIn);
-            if(dataOut.state > 0) {
+            if (dataOut.state > 0) {
                 this.partCode = dataOut.head.getString('Code_');
                 this.setState({
                     isSelect: true,
@@ -599,6 +702,64 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                     <span>{this.state.loadText}</span>
                 </div>
             )
+        }
+    }
+
+    descListMoveLeft() {
+        let allWidth = 0;
+        let descLeft = 0;
+        let descNumber = this.state.descNumber;
+        let descList: NodeListOf<HTMLLIElement> = document.querySelectorAll(`.${styles.descList} li`);
+        descList.forEach((descDom: HTMLLIElement, index: number) => {
+            allWidth += descDom.offsetWidth;
+            if (index < descNumber - 1) {
+                descLeft += descDom.offsetWidth;
+            }
+        });
+        if (allWidth > this.state.descListWidth && descNumber > 0) {
+            descNumber--;
+            $(`.${styles.descList} ul`).stop().animate({
+                'left': `-${descLeft}px`
+            }, 200, () => {
+                this.setState({
+                    descLeft,
+                    descNumber
+                })
+            })
+        }
+    }
+
+    descListMoveRight() {
+        let allWidth = 0;
+        let descLeft = 0;
+        let descNumber = this.state.descNumber;
+        let endIndex = 0;
+        let bool = false;
+        let descList: NodeListOf<HTMLLIElement> = document.querySelectorAll(`.${styles.descList} li`);
+        for (let i = descList.length - 1; i > -1; i--) {
+            let descDom: HTMLLIElement = descList[i];
+            allWidth += descDom.offsetWidth;
+            if (allWidth >= this.state.descListWidth && !bool) {
+                bool = true;
+                endIndex = i + 1;
+            }
+        }
+        descList.forEach((descDom: HTMLLIElement, index: number) => {
+            allWidth += descDom.offsetWidth;
+            if (index < descNumber + 1) {
+                descLeft += descDom.offsetWidth;
+            }
+        });
+        if (allWidth > this.state.descListWidth && descNumber < endIndex) {
+            descNumber++;
+            $(`.${styles.descList} ul`).stop().animate({
+                'left': `-${descLeft}px`
+            }, 200, () => {
+                this.setState({
+                    descLeft,
+                    descNumber
+                })
+            })
         }
     }
 }
