@@ -9,12 +9,14 @@ import BrandDialog from "./BrandDialog";
 import DialogApi from "./DialogApi";
 import styles from "./FrmPartPrinciple.css";
 import ProductClassDialog from "./ProductClassDialog";
+import iconfontCss from "../iconfont/iconfont.css"
 import { showMsg } from "./Summer";
 
 type titleType = {
     text: string,
     data?: DataRow,
-    isSelect?: boolean
+    isSelect?: boolean,
+    showAdd?: boolean
 }
 
 type descType = {
@@ -38,12 +40,13 @@ type FrmPartPrincipleTypeState = {
     specCodeData: DataSet,
     dataRow: DataRow,
     searchRow: DataRow,
+    addRowList: DataRow[],
     code: string,
     specCode: string,
     isNew: boolean,
     isSelect: boolean,
     showLoad: boolean,
-    showAdd: boolean,
+    noDesc: boolean,
     loadText: string,
     descListWidth: number,
     descNumber: number,
@@ -72,12 +75,13 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             specCodeData: new DataSet(), // specCodeStr
             dataRow,
             searchRow: new DataRow(),
+            addRowList: [],
             code: '',
             specCode: '',
             isNew: false,
             isSelect: false,
             showLoad: false,
-            showAdd: false,
+            noDesc: false,
             loadText: '系统正在检测中，请稍后...',
             descListWidth: 0,
             descNumber: 0,
@@ -111,7 +115,7 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
         let titleList: React.ReactNode[] = [];
         let titleList2: React.ReactNode[] = [];
         this.state.titleList.forEach((title: titleType, key: number) => {
-            if (key < 2 || this.state.showAdd) {
+            if (key < 2 || this.state.noDesc) {
                 titleList.push(
                     <li key={key} className={key == this.state.titleIn ? styles.titleIn : ''} onClick={this.handleClick.bind(this, key)}>{title.text}</li>
                 )
@@ -121,17 +125,17 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 )
             }
         })
-        if (this.state.titleList.length > 2 && !this.state.showAdd) {
+        if (this.state.titleList.length > 2 && !this.state.noDesc) {
             return <ul>
                 {titleList}
                 <li className={styles.descBox}>
-                    <img src="http://192.168.1.138:8101/public/images/icon/partPrinciple-left.png" onClick={this.descListMoveLeft.bind(this)} />
+                    <div className={`${styles.iconfont} ${iconfontCss.iconfont} ${iconfontCss.iconPrincipleLeft}`} onClick={this.descListMoveLeft.bind(this)} />
                     <div className={styles.descList}>
                         <ul style={{ 'left': `-${this.state.descLeft}px` }}>
                             {titleList2}
                         </ul>
                     </div>
-                    <img src="http://192.168.1.138:8101/public/images/icon/partPrinciple-right.png" onClick={this.descListMoveRight.bind(this)} />
+                    <div className={`${styles.iconfont} ${iconfontCss.iconfont} ${iconfontCss.iconPrincipleRight}`} onClick={this.descListMoveRight.bind(this)} />
                 </li>
             </ul>
         } else {
@@ -171,28 +175,42 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
     getPageForm() {
         return <React.Fragment>
             <ul className={styles.pageForm} key={this.state.dataRow.json}>
-                <li>
+                <li className={styles.line100}>
                     <DBEdit dataField='PartCode_' dataName='料号' dataRow={this.state.dataRow} readOnly={true}></DBEdit>
                 </li>
-                <li>
+                <li className={styles.line50}>
                     <DBEdit dataField='Desc_' dataName='品名' dataRow={this.state.dataRow} readOnly></DBEdit>
                 </li>
-                <li>
+                <li className={styles.line50}>
+                    <DBEdit dataField='EnDesc_' dataName='英文品名' dataRow={this.state.dataRow}></DBEdit>
+                </li>
+                <li className={styles.line50}>
                     <DBEdit dataField='Spec_' dataName='规格' dataRow={this.state.dataRow} readOnly></DBEdit>
                 </li>
-                <li>
+                <li className={styles.line50}>
+                    <DBEdit dataField='EnSpec_' dataName='英文规格' dataRow={this.state.dataRow}></DBEdit>
+                </li>
+                <li className={styles.line25}>
                     <DBEdit dataField='Brand_' dataName='品牌' dataRow={this.state.dataRow} readOnly>
                         <BrandDialog isChild={true} inputId='Brand_'></BrandDialog>
                     </DBEdit>
-                    <DBEdit dataField='Remark_' dataName='备注' dataRow={this.state.dataRow}></DBEdit>
-                    <DBEdit dataField='Unit_' dataName='单位' dataRow={this.state.dataRow}></DBEdit>
+                </li>
+                <li className={styles.line25}>
                     <DBEdit dataField='Class1_' dataName='大类' dataRow={this.state.dataRow} onChanged={this.handleChangeClass.bind(this)} readOnly>
                         <ProductClassDialog isChild={true} productClass={""} brand={""} inputId='Class1_,Class2_,Class3_'></ProductClassDialog>
                     </DBEdit>
                 </li>
-                <li>
+                <li className={styles.line25}>
                     <DBEdit dataField='Class2_' dataName='中类' dataRow={this.state.dataRow} ref={self => this.class2 = self}></DBEdit>
+                </li>
+                <li className={styles.line25}>
                     <DBEdit dataField='Class3_' dataName='系列' dataRow={this.state.dataRow} ref={self => this.class3 = self}></DBEdit>
+                </li>
+                <li className={styles.line25}>
+                    <DBEdit dataField='Unit_' dataName='单位' dataRow={this.state.dataRow}></DBEdit>
+                </li>
+                <li className={styles.line25}>
+                    <DBEdit dataField='Remark_' dataName='备注' dataRow={this.state.dataRow}></DBEdit>
                 </li>
             </ul>
             {this.getPageSubmit()}
@@ -200,13 +218,39 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
     }
 
     getDescTable() {
-        if (!this.state.showAdd) {
+        if (this.state.noDesc) {
+            return <div className={styles.noDesc}>暂无可供选择的规格，请维护好对应的编码原则。</div>
+        } else if (this.state.titleList[this.state.titleIn - 2].showAdd) {
             return <React.Fragment>
-                <SearchPanel dataRow={this.state.searchRow} onExecute={this.filterDataSet3.bind(this)} key={this.state.searchRow.json}>
-                    <DBEdit dataField='Name_' dataName='当前选择' readOnly></DBEdit>
-                    <DBEdit dataField='SpecCode_' dataName='规格代码'></DBEdit>
-                    <DBEdit dataField='Description_' dataName='规格描述'></DBEdit>
-                </SearchPanel>
+                <div className={styles.addTable}>
+                    <form className={styles.inputs} onSubmit={this.addDescSubmit.bind(this)}>
+                        <DBEdit dataRow={this.state.addRowList[this.state.titleIn - 2]} dataField='SpecCode_' dataName='代码' autoFocus></DBEdit>
+                        <DBEdit dataRow={this.state.addRowList[this.state.titleIn - 2]} dataField='Description_' dataName='描述'></DBEdit>
+                        <DBEdit dataRow={this.state.addRowList[this.state.titleIn - 2]} dataField='Remark_' dataName='备注'></DBEdit>
+                        <button style={{ 'display': 'none' }}></button>
+                    </form>
+                    <button onClick={this.addDesc.bind(this)}>添加</button>
+                    <button onClick={this.backSelect.bind(this)}>返回选择</button>
+                </div>
+                <DBGrid dataSet={this.state._dataSet3}>
+                    <MainRow dynamicClass={this.dynamicClass.bind(this)}>
+                        <ColumnIt width='2'></ColumnIt>
+                        <Column code='SpecCode_' name='代码' width='6'></Column>
+                        <Column code='Description_' name='描述' width='10'></Column>
+                        <Column code='Remark_' name='备注' width='15'></Column>
+                    </MainRow>
+                </DBGrid>
+            </React.Fragment>
+        } else {
+            return <React.Fragment>
+                <div className={styles.searchLine}>
+                    <SearchPanel dataRow={this.state.searchRow} onExecute={this.filterDataSet3.bind(this)} key={this.state.searchRow.json}>
+                        <DBEdit dataField='Name_' dataName='当前选择' readOnly></DBEdit>
+                        <DBEdit dataField='SpecCode_' dataName='规格代码' autoFocus></DBEdit>
+                        <DBEdit dataField='Description_' dataName='规格描述'></DBEdit>
+                    </SearchPanel>
+                    <button onClick={this.showAdd.bind(this)}>新增</button>
+                </div>
                 <DBGrid dataSet={this.state._dataSet3}>
                     <MainRow dynamicClass={this.dynamicClass.bind(this)}>
                         <ColumnIt width='2'></ColumnIt>
@@ -219,8 +263,6 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                     </MainRow>
                 </DBGrid>
             </React.Fragment>
-        } else {
-            return <div className={styles.noDesc}>暂无可供选择的规格，请维护好对应的编码原则。</div>
         }
     }
 
@@ -288,6 +330,7 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 text: '中类'
             }];
             let descList = [];
+            let addRowList = [];
             let dataSet3: DataSet;
             let _dataSet3 = new DataSet();
             let specCode = '';
@@ -298,8 +341,10 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                     titleList.push({
                         text: codeSchemeData.getString('SpecName_') || '未知',
                         data: codeSchemeData.current,
-                        isSelect: false
+                        isSelect: false,
+                        showAdd: false
                     })
+                    addRowList.push(new DataRow());
                     descList.push({
                         index: 0,
                         desc: codeSchemeData.getString('SpecName_')
@@ -321,6 +366,7 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             this.setState({
                 titleList,
                 descList,
+                addRowList,
                 titleIn: 2,
                 dataSet3,
                 _dataSet3,
@@ -332,7 +378,7 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 isSelect: false,
                 descNumber: 0,
                 descLeft: 0,
-                showAdd: false
+                noDesc: false
             }, () => {
                 let descListDom: HTMLDivElement = document.querySelector(`.${styles.descList}`);
                 let descListWidth = descListDom ? descListDom.offsetWidth : 0;
@@ -347,15 +393,14 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 }, {
                     text: '无规格'
                 }],
+                addRowList: [],
                 titleIn: 2,
-                showAdd: true
+                noDesc: true
             })
         }
     }
 
     async choseClass3(key: number, specCodeData?: DataSet) {
-        if (this.state.titleIn == key)
-            return;
         let dataRow = this.state.titleList[key].data;
         let dataIn = new DataRow();
         let specCode = dataRow.getValue('SpecCode_');
@@ -615,6 +660,8 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             let partCode = this.state.dataRow.getString('PartCode_');
             let desc = this.state.dataRow.getString('Desc_');
             let spec = this.state.dataRow.getString('Spec_');
+            let enDesc = this.state.dataRow.getString('EnDesc_');
+            let enSpec = this.state.dataRow.getString('EnSpec_');
             let brand = this.state.dataRow.getString('Brand_');
             let class1 = this.state.dataRow.getString('Class1_');
             let class2 = this.state.dataRow.getString('Class2_');
@@ -626,6 +673,8 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             dataIn.setValue("Code_", partCode);
             dataIn.setValue("Desc_", desc);
             dataIn.setValue("Spec_", spec);
+            dataIn.setValue("EnDesc_", enDesc);
+            dataIn.setValue("EnSpec_", enSpec);
             dataIn.setValue("Classify_", 0);
             dataIn.setValue("InUP_", 0);
             dataIn.setValue("OutUP_", 0);
@@ -761,5 +810,62 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 })
             })
         }
+    }
+
+    showAdd() {
+        this.state.titleList[this.state.titleIn - 2].showAdd = true;
+        this.setState(this.state);
+    }
+
+    addDescSubmit(sender: any) {
+        sender.preventDefault();
+        this.addDesc();
+    }
+
+    async addDesc() {
+        // this.setState({
+        //     showLoad: true,
+        //     loadText: '系统正在添加中，请稍后...'
+        // });
+        let dataIn = new DataRow();
+        dataIn.setValue('Code_', this.state.specCode);
+        let ds = await DialogApi.getPartSpecDownload(dataIn);
+        if (ds.state < 1) {
+            showMsg(ds.message);
+            return;
+        }
+        ds.setSort('It_ DESC');
+        ds.first();
+        let it = 1;
+        it += ds.getDouble('It_');
+        ds.append();
+        ds.setValue("It_", it);
+        ds.setValue("SpecCode_", this.state.addRowList[this.state.titleIn - 2].getString('SpecCode_'));
+        ds.setValue("Description_", this.state.addRowList[this.state.titleIn - 2].getString('Description_'));
+        ds.setValue("Remark_", this.state.addRowList[this.state.titleIn - 2].getString('Remark_'));
+        ds.first();
+        let dataSet = new DataSet();
+        while (ds.fetch()) {
+            dataSet.append();
+            dataSet.copyRecord(ds.current);
+        }
+        let ds2 = new DataSet();
+        ds2.head.copyValues(ds.head);
+        ds2.appendDataSet(dataSet);
+        let dataOut = await DialogApi.getPartSpecModify(ds2);
+        if (dataOut.state > 0) {
+            showMsg('添加成功!');
+            this.state.titleList[this.state.titleIn - 2].showAdd = false;
+            this.state.addRowList[this.state.titleIn - 2] = new DataRow();
+            this.setState(this.state, () => {
+                this.choseClass3(this.state.titleIn);
+            })
+        } else
+            showMsg(dataOut.message);
+    }
+
+    backSelect() {
+        this.state.titleList[this.state.titleIn - 2].showAdd = false;
+        this.setState(this.state);
     }
 }

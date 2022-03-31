@@ -64,8 +64,9 @@ div[id='partPrinciplePage'] {
     align-items: center;
 }
 
-.descBox img {
-    width: 1.5rem;
+.descBox .iconfont {
+    color: #08A74D;
+    font-size: 1.5rem;
 }
 
 .descBox .descList {
@@ -109,6 +110,7 @@ div[id='partPrinciplePage'] {
 .stock2>div {
     display: flex;
     padding: .5rem 1.25rem;
+    border-top: 1rem solid #f5f5f5;
 }
 
 .stock2>div button {
@@ -137,25 +139,31 @@ div[id='partPrinciplePage'] {
 }
 
 .pageForm {
-    padding: .5rem 1.25rem 0 1.25rem;
-    width: 94%;
+    padding: 1rem 1.25rem 0 1.25rem;
+    width: 90%;
 }
 
 .pageForm>li {
-    padding-bottom: .5rem;
-    display: flex;
-    align-items: center;
+    margin-bottom: 1rem;
+    height: 1.68rem;
+    display: inline-block;
 }
 
-.pageForm>li:nth-child(1) span,.pageForm>li:nth-child(2) span,.pageForm>li:nth-child(3) span {
+.pageForm .line100 {
     width: 100%;
 }
 
-.pageForm>li:nth-child(n+4)>span {
+.pageForm .line100>span>input, .pageForm .line50>span>input {
+    width: 0;
+    flex: 1;
+}
+
+.pageForm .line50 {
+    width: 50%;
+}
+
+.pageForm .line25 {
     width: 25%;
-    flex-shrink: 0;
-    margin-left: 0;
-    padding-right: 1.5rem;
 }
 
 .pageForm>li span input {
@@ -200,4 +208,70 @@ div[id='partPrinciplePage'] {
 .noDesc {
     padding: 1rem;
     color: red;
+}
+
+.searchLine {
+    display: flex;
+}
+
+.searchLine form {
+    width: 0;
+    flex: 1;
+}
+
+.searchLine>button {
+    margin-top: 1rem;
+    margin-right: 1.25rem;
+    min-width: 4.13rem;
+    height: 1.88rem;
+    padding: 0 1rem;
+    background-color: #009307;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.24rem;
+    line-height: 1.88rem;
+}
+
+.addTable {
+    display: flex;
+    padding: .5rem 1.25rem 0 1.25rem;
+    align-items: center;
+}
+
+.inputs {
+    width: 0;
+    flex: 1;
+    display: flex;
+}
+
+.inputs>span {
+    margin-right: 4rem;
+}
+
+.inputs>span>label {
+    min-width: 3em;
+}
+
+.addTable>button {
+    min-width: 4.13rem;
+    height: 1.88rem;
+    padding: 0 1rem;
+    background-color: #009307;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.24rem;
+    line-height: 1.88rem;
+    margin-left: 2.25rem;
+}
+
+@media only screen and (max-width: 1399px) {
+    .pageForm .line25 {
+        width: 33.3%;
+    }
 }

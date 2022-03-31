@@ -401,4 +401,10 @@ export default class DialogApi {
     static existsPartInfo(params: DataRow) {
         return DialogApi.getDataOut('TAppPartInfo.existsPartInfo', params);
     }
+
+    /**  */
+    static getPartSpecModify(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrPartSpec.modify', params);
+    }
+
 }
