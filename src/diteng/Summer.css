@@ -7,6 +7,7 @@ div[role="content"] {
 
 [role="opera"] {
     color: #0283f7;
+    display: inline!important;
 }
 
 div[role="dbgrid"] {

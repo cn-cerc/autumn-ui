@@ -372,27 +372,22 @@ export default class DialogApi {
         return DialogApi.getService('SvrCodeClass.search');
     }
 
-    /** 获取 */
     static getPartPrincipleSearch(params: DataRow) {
         return DialogApi.getDataOut('SvrPartPrinciple.search', params);
     }
 
-    /** 获取 */
     static getPartPrincipleDownload(params: DataRow) {
         return DialogApi.getDataOut('SvrPartPrinciple.download', params);
     }
 
-    /** 获取 */
     static getPartSpecDownload(params: DataRow) {
         return DialogApi.getDataOut('SvrPartSpec.download', params);
     }
 
-    /** 提交 */
     static postPartStock(params: DataRow) {
         return DialogApi.getDataOut('TAppPartStock.Append', params, 30);
     }
 
-    /** 修改 */
     static updatePartPrinciple(params: DataRow) {
         return DialogApi.getDataOut('SvrPartPrinciple.updateLastNo', params, 20);
     }
@@ -402,9 +397,32 @@ export default class DialogApi {
         return DialogApi.getDataOut('TAppPartInfo.existsPartInfo', params);
     }
 
-    /**  */
     static getPartSpecModify(params: DataSet) {
         return DialogApi.serviceDataSet('SvrPartSpec.modify', params);
     }
 
+    /** 获取商品资料信息 */
+    static getPartStockDownload(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartStock.download', params);
+    }
+
+    /** 获取配置信息  */
+    static getModelConfigSearch(params: DataRow) {
+        return DialogApi.getDataOut('SvrModelConfig.search', params);
+    }
+
+    /** 获取配置详细信息 */
+    static getModelConfigDownload(params: DataRow) {
+        return DialogApi.getDataOut('SvrModelConfig.download', params);
+    }
+
+    /** 获取商品基本资料 */
+    static getPartDownload(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartInfo.download_PartInfo', params);
+    }
+
+    /** 根据选择的配置，生成对应的商品资料 */
+    static postConfigCode(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrConfigCode.configCodeCreatePartInfo', params);
+    }
 }

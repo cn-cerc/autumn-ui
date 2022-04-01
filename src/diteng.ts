@@ -30,6 +30,8 @@ import ErrorPage from "./diteng/ErrorPage";
 import FastCorpDialog from "./diteng/FastCorpDialog";
 import FreightWayDialog from "./diteng/FreightWayDialog";
 import FrmLogin from "./diteng/FrmLogin";
+import FrmOEMAppend from "./diteng/FrmOEMAppend";
+import FrmOEMChange from "./diteng/FrmOEMChange";
 import FrmPartPrinciple from "./diteng/FrmPartPrinciple";
 import LogisticsDialog from "./diteng/LogisticsDialog";
 import MarqueDialog from "./diteng/MarqueDialog";
@@ -145,5 +147,9 @@ export default {
     //快录专用
     RapidInput,
     //新增编码原则
-    FrmPartPrinciple
+    FrmPartPrinciple,
+    //OEM新增
+    FrmOEMAppend,
+    //OEM修改
+    FrmOEMChange,
 }
