@@ -425,4 +425,14 @@ export default class DialogApi {
     static postConfigCode(params: DataSet) {
         return DialogApi.serviceDataSet('SvrConfigCode.configCodeCreatePartInfo', params);
     }
+
+    /** 获取配置表的信息 */
+    static getConfigCodeList(params: DataRow) {
+        return DialogApi.getDataOut('SvrConfigCode.getConfigCodeList', params);
+    }
+
+    /** 修改配置信息 */
+    static updateConfigCode(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrConfigCode.modifyConfigCode', params);
+    }
 }
