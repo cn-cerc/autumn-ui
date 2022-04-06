@@ -146,7 +146,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                         desc_.unshift(<span style={{ 'border': '1px solid red', 'color': 'red', 'padding': '0px 0.125em', 'marginRight': '0.25em' }} key='span2'>促</span>)
                     }
                     if (row.getInt('Classify_') > 0) {
-                        href += `&action=`;
+                        href += `&action=TFrmTranOD.selectProduct`;
                         let name = '';
                         if (row.getInt('Classify_') == 1)
                             name = '型号'
@@ -158,7 +158,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                         desc_.unshift(<span style={{ 'border': '1px solid red', 'color': 'red', 'padding': '0px 0.125em', 'marginRight': '0.25em' }} key='span4'>制</span>)
                     }
                     desc_.push(<span key='desc'>{desc}</span>)
-                    return <React.Fragment><a href={href} target='_blank'>{desc_}</a> {spec_}</React.Fragment>
+                    return <React.Fragment><span>{desc_} {spec_}</span> </React.Fragment>
                 }}></Column>);
                 ColumnList.push(<Column code='Unit_' name='单位' width='3' key='Unit_'></Column>)
                 let stockName = this.props.avaiStockOption ? '可用库存' : '库存量';
