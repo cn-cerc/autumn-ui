@@ -11,7 +11,8 @@ export default class WebControl<T = {}, S = {}> extends React.Component<T, S> im
     }
 
     initIsPhone() {
-        let bool = window.outerWidth <= 767;
+        // 部分手机浏览器访问时device可能为pc，所以改成用设备尺寸判断
+        let bool = document.body.offsetWidth <= 767;
         //@ts-ignore
         if(window.Application && !bool) {
             //@ts-ignore
