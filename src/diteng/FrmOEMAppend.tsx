@@ -32,7 +32,9 @@ type FrmOEMAppendTypeState = {
     modelRow: DataRow,
     modelData: DataSet,
     modelDetail: DataRow,
+    specMap: Map<string, boolean>,
     configData: configType[],
+    configDataSet: DataSet,
     configRow: DataRow,
     modelCode: string,
     showLoad: boolean,
@@ -44,7 +46,6 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
         super(props);
         let modelRow = new DataRow();
         modelRow.setValue('MaxRecord_', 20);
-        console.log(this.props)
         // 只查询型号商品
         modelRow.setValue('Assortment', '1');
         this.state = {
@@ -53,7 +54,9 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
             modelRow,
             modelData: new DataSet(),
             modelDetail: new DataRow(),
+            specMap: new Map(),
             configData: [],
+            configDataSet: new DataSet(),
             configRow: new DataRow(),
             modelCode: '',
             showLoad: false,
@@ -180,7 +183,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                         <ColumnIt></ColumnIt>
                         {ColumnList}
                         <Column code='opera' name='操作' width='3' textAlign='center' customText={(row: DataRow) => {
-                            return <span role='opera' onClick={this.selectModle.bind(this, row)}>选择</span> 
+                            return <span role='opera' onClick={this.selectModle.bind(this, row)}>选择</span>
                         }}></Column>
                     </DBGrid>
                 </React.Fragment>;
@@ -200,7 +203,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                         <DBEdit dataRow={this.state.modelDetail} dataName='单位包装量' dataField='BoxNum' readOnly></DBEdit>
                     </div>
                     <div className={styles.module2}>
-                        {this.getPageInput()}
+                        {this.getPageTable()}
                     </div>
                     <div className={styles.module3}>
                         <button onClick={this.handleAdd.bind(this)}>新增</button>
@@ -213,13 +216,32 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
 
     getPageInput() {
         let inputList = this.state.configData.map((config: configType, index: number) => {
-            if(config.type == 1) {
+            if (config.type == 1) {
                 return <DBEdit dataName={config.name} dataField={config.name} key={index} dataRow={this.state.configRow}></DBEdit>
             } else {
                 return <DBDrop dataName={config.name} dataField={config.name} options={config.options} key={index} dataRow={this.state.configRow}></DBDrop>
             }
         })
         return inputList;
+
+    }
+
+    getPageTable() {
+        let columnList = this.state.configData.map((config: configType, index: number) => {
+            if (config.type == 1) {
+                return <Column code={config.name} name={config.name} width='10' textAlign='center' key={index}>
+                    <DBEdit dataField={config.name}></DBEdit>
+                </Column>
+            } else {
+                return <Column code={config.name} name={config.name} width='10' textAlign='center' key={index}>
+                    <DBDrop dataField={config.name} options={config.options}></DBDrop>
+                </Column>
+            }
+        })
+        return <DBGrid dataSet={this.state.configDataSet}>
+            <ColumnIt></ColumnIt>
+            {columnList}
+        </DBGrid>
     }
 
     getLoad() {
@@ -254,40 +276,49 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
         modelDetail.copyValues(ds.current);
         let dataIn = new DataRow();
         dataIn.setValue('ModelCode_', modelCode);
-        let ds2 = await DialogApi.getModelConfigSearch(dataIn);
+        let specData = await DialogApi.getModelConfigSearch(dataIn);
+        let specMap = new Map();
         let configData: configType[] = [];
-        ds2.first();
-        while(ds2.fetch()) {
-            if(ds2.getDouble('Type_') === 0) {
+        let configDataSet = new DataSet();
+        specData.first();
+        console.log(specData)
+        while (specData.fetch()) {
+            if (specData.getDouble('Type_') === 0) {
                 let head = new DataRow();
-                head.setValue('ModelCode_', ds2.getString('ModelCode_'));
-                head.setValue('Code_', ds2.getString('Code_'));
+                head.setValue('ModelCode_', specData.getString('ModelCode_'));
+                head.setValue('Code_', specData.getString('Code_'));
                 let ds3 = await DialogApi.getModelConfigDownload(head);
                 let map = new Map();
                 map.set('请选择', '');
                 ds3.first();
-                while(ds3.fetch()) {
+                while (ds3.fetch()) {
                     let value = ds3.getString('Value_');
                     map.set(value, value);
                 }
                 configData.push({
                     type: 0,
-                    name: ds2.getString('Name_'),
+                    name: specData.getString('Name_'),
                     options: map,
-                    remark: ds2.getString('Remark_')
+                    remark: specData.getString('Remark_')
                 })
             } else {
                 configData.push({
                     type: 1,
-                    name: ds2.getString('Name_'),
-                    remark: ds2.getString('Remark_')
+                    name: specData.getString('Name_'),
+                    remark: specData.getString('Remark_')
                 })
             }
+            specMap.set(specData.getString('Name_'), specData.getBoolean('IsSpec_'));
+        }
+        for (let i = 0; i < 100; i++) {
+            configDataSet.append();
         }
         this.setState({
             modelCode,
             modelDetail,
+            specMap,
             configData,
+            configDataSet,
             titleIn: 1,
             showLoad: false,
             titleList: ['型号', '配置'],
@@ -296,10 +327,53 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
     }
 
     async handleAdd() {
-        this.setState({
-            showLoad: true,
-            loadText: '系统正在添加商品中，请稍后...'
-        })
+        try {
+            let specList = [];
+            let configDataSet = new DataSet();
+            configDataSet.appendDataSet(this.state.configDataSet);
+            configDataSet.first();
+            let specMap = new Map();
+            while (configDataSet.fetch()) {
+                let recNo = configDataSet.recNo;
+                let hasValue = false;
+                this.state.specMap.forEach((v: boolean, k: string) => {
+                    if (configDataSet.getBoolean(k)) {
+                        hasValue = true;
+                    }
+                })
+                if (hasValue) {
+                    let spec = '';
+                    let isFirst = true;
+                    this.state.specMap.forEach((v: boolean, k: string) => {
+                        if (v && configDataSet.getBoolean(k)) {
+                            if (isFirst) {
+                                spec = configDataSet.getString(k);
+                                isFirst = false;
+                            } else {
+                                spec += `,${configDataSet.getString(k)}`
+                            }
+                        }
+                    })
+                    if(isFirst) {
+                        throw new Error(`序号${recNo}必须有一个纳入规格的选项`);
+                    }
+                    if(specMap.get(spec)) {
+                        throw new Error(`序号${recNo}纳入规格的选项不可与序号${specMap.get(spec)}的选项相同`);
+                    }
+                    specMap.set(spec, recNo);
+                    specList.push(spec);
+                }
+            }
+            this.setState({
+                showLoad: true,
+                loadText: '系统正在添加商品中，请稍后...'
+            })
+        } catch (e) {
+            showMsg(e.message);
+        }
+
+        return;
+        
         let dataSet = new DataSet();
         dataSet.head.copyValues(this.state.modelDetail);
         dataSet.head.setValue('ModelCode_', this.state.modelCode);
@@ -309,8 +383,8 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
         this.state.configData.forEach((config: configType, index: number) => {
             dataSet.append();
             let spec_ = this.state.configRow.getString(config.name);
-            if(spec_) {
-                if(bool) {
+            if (spec_) {
+                if (bool) {
                     spec = spec_;
                     bool = false;
                 } else {
@@ -333,7 +407,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
             this.addShop(encodeURIComponent(ds.head.getString('Code_')))
         } else {
             let dataOut = await DialogApi.postConfigCode(dataSet);
-            if(dataOut.state > 0) {
+            if (dataOut.state > 0) {
                 dataOut.first();
                 this.addShop(encodeURIComponent(dataOut.head.getString('Code_')))
             } else {
