@@ -133,14 +133,20 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
                 configData.push({
                     type: 0,
                     name: ds3.getString('Name_'),
+                    isSpec: ds2.getBoolean('IsSpec_'),
                     options: map,
-                    remark: ds3.getString('Remark_')
+                    remark: ds3.getString('Remark_'),
+                    code: ds2.getString('Code_'),
+                    it: ds2.getString('It_')
                 })
             } else {
                 configData.push({
                     type: 1,
                     name: ds3.getString('Name_'),
-                    remark: ds3.getString('Remark_')
+                    isSpec: ds2.getBoolean('IsSpec_'),
+                    remark: ds3.getString('Remark_'),
+                    code: ds2.getString('Code_'),
+                    it: ds2.getString('It_')
                 })
             }
         }

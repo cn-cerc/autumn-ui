@@ -23,6 +23,9 @@ export type configType = {
     type: number,
     name: string,
     remark: string,
+    isSpec: boolean,
+    code: string,
+    it?: string,
     options?: Map<string, string>
 }
 
@@ -44,7 +47,6 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
         super(props);
         let modelRow = new DataRow();
         modelRow.setValue('MaxRecord_', 20);
-        console.log(this.props)
         // 只查询型号商品
         modelRow.setValue('Assortment', '1');
         this.state = {
@@ -180,7 +182,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                         <ColumnIt></ColumnIt>
                         {ColumnList}
                         <Column code='opera' name='操作' width='3' textAlign='center' customText={(row: DataRow) => {
-                            return <span role='opera' onClick={this.selectModle.bind(this, row)}>选择</span> 
+                            return <span role='opera' onClick={this.selectModle.bind(this, row)}>选择</span>
                         }}></Column>
                     </DBGrid>
                 </React.Fragment>;
@@ -213,7 +215,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
 
     getPageInput() {
         let inputList = this.state.configData.map((config: configType, index: number) => {
-            if(config.type == 1) {
+            if (config.type == 1) {
                 return <DBEdit dataName={config.name} dataField={config.name} key={index} dataRow={this.state.configRow}></DBEdit>
             } else {
                 return <DBDrop dataName={config.name} dataField={config.name} options={config.options} key={index} dataRow={this.state.configRow}></DBDrop>
@@ -257,8 +259,8 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
         let ds2 = await DialogApi.getModelConfigSearch(dataIn);
         let configData: configType[] = [];
         ds2.first();
-        while(ds2.fetch()) {
-            if(ds2.getDouble('Type_') === 0) {
+        while (ds2.fetch()) {
+            if (ds2.getDouble('Type_') === 0) {
                 let head = new DataRow();
                 head.setValue('ModelCode_', ds2.getString('ModelCode_'));
                 head.setValue('Code_', ds2.getString('Code_'));
@@ -266,7 +268,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                 let map = new Map();
                 map.set('请选择', '');
                 ds3.first();
-                while(ds3.fetch()) {
+                while (ds3.fetch()) {
                     let value = ds3.getString('Value_');
                     map.set(value, value);
                 }
@@ -274,16 +276,23 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                     type: 0,
                     name: ds2.getString('Name_'),
                     options: map,
-                    remark: ds2.getString('Remark_')
+                    isSpec: ds2.getBoolean('IsSpec_'),
+                    remark: ds2.getString('Remark_'),
+                    code: ds2.getString('Code_'),
+                    it: ds2.getString('It_')
                 })
             } else {
                 configData.push({
                     type: 1,
                     name: ds2.getString('Name_'),
-                    remark: ds2.getString('Remark_')
+                    isSpec: ds2.getBoolean('IsSpec_'),
+                    remark: ds2.getString('Remark_'),
+                    code: ds2.getString('Code_'),
+                    it: ds2.getString('It_')
                 })
             }
         }
+        console.log(configData)
         this.setState({
             modelCode,
             modelDetail,
@@ -296,53 +305,65 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
     }
 
     async handleAdd() {
-        this.setState({
-            showLoad: true,
-            loadText: '系统正在添加商品中，请稍后...'
-        })
-        let dataSet = new DataSet();
-        dataSet.head.copyValues(this.state.modelDetail);
-        dataSet.head.setValue('ModelCode_', this.state.modelCode);
-        dataSet.head.setValue('TBNo_', this.props.tbNo);
-        let spec = '';
-        let bool = true;
-        this.state.configData.forEach((config: configType, index: number) => {
-            dataSet.append();
-            let spec_ = this.state.configRow.getString(config.name);
-            if(spec_) {
-                if(bool) {
-                    spec = spec_;
-                    bool = false;
+        try {
+            this.setState({
+                showLoad: true,
+                loadText: '系统正在添加商品中，请稍后...'
+            })
+            let dataSet = new DataSet();
+            dataSet.head.copyValues(this.state.modelDetail);
+            dataSet.head.setValue('ModelCode_', this.state.modelCode);
+            dataSet.head.setValue('TBNo_', this.props.tbNo);
+            let spec = '';
+            let bool = true;
+            let isFirst = true;
+            this.state.configData.forEach((config: configType, index: number) => {
+                dataSet.append();
+                let spec_ = this.state.configRow.getString(config.name);
+                if (config.isSpec && spec_) {
+                    isFirst = false;
+                    if (bool) {
+                        spec = spec_;
+                        bool = false;
+                    } else {
+                        spec += `,${spec_}`
+                    }
+                }
+                dataSet.setValue('Name_', config.name);
+                dataSet.setValue('Value_', spec_);
+                dataSet.setValue('Type_', config.type);
+                dataSet.setValue('Remark_', config.remark);
+                dataSet.setValue('ImgUrl_', '');
+            })
+            if(isFirst) {
+                throw new Error('纳入规格的选项不可全部为空');
+            }
+            dataSet.head.setValue('Spec_', spec);
+            let headIn = new DataRow();
+            headIn.setValue('Brand_', this.state.modelDetail.getString('Brand_'));
+            headIn.setValue('Desc_', this.state.modelDetail.getString('Desc_'));
+            headIn.setValue('Spec_', spec);
+            let ds = await DialogApi.existsPartInfo(headIn);
+            if (ds.state > 0) {
+                this.addShop(encodeURIComponent(ds.head.getString('Code_')))
+            } else {
+                let dataOut = await DialogApi.postConfigCode(dataSet);
+                if (dataOut.state > 0) {
+                    dataOut.first();
+                    this.addShop(encodeURIComponent(dataOut.head.getString('Code_')))
                 } else {
-                    spec += `,${spec_}`
+                    showMsg(dataOut.message)
                 }
             }
-            dataSet.setValue('Name_', config.name);
-            dataSet.setValue('Value_', spec_);
-            dataSet.setValue('Type_', config.type);
-            dataSet.setValue('Remark_', config.remark);
-            dataSet.setValue('ImgUrl_', '');
-        })
-        dataSet.head.setValue('Spec_', spec);
-        let headIn = new DataRow();
-        headIn.setValue('Brand_', this.state.modelDetail.getString('Brand_'));
-        headIn.setValue('Desc_', this.state.modelDetail.getString('Desc_'));
-        headIn.setValue('Spec_', spec);
-        let ds = await DialogApi.existsPartInfo(headIn);
-        if (ds.state > 0) {
-            this.addShop(encodeURIComponent(ds.head.getString('Code_')))
-        } else {
-            let dataOut = await DialogApi.postConfigCode(dataSet);
-            if(dataOut.state > 0) {
-                dataOut.first();
-                this.addShop(encodeURIComponent(dataOut.head.getString('Code_')))
-            } else {
-                showMsg(dataOut.message)
-            }
+            this.setState({
+                showLoad: false
+            })
+        } catch (e) {
+            this.setState({
+                showLoad: false
+            })
+            showMsg(e.message)
         }
-        this.setState({
-            showLoad: false
-        })
     }
 
     async addShop(code: string) {
