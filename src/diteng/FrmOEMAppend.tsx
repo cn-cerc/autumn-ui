@@ -25,7 +25,6 @@ export type configType = {
     remark: string,
     isSpec: boolean,
     code: string,
-    it?: string,
     options?: Map<string, string>
 }
 
@@ -270,7 +269,8 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                 ds3.first();
                 while (ds3.fetch()) {
                     let value = ds3.getString('Value_');
-                    map.set(value, value);
+                    let it = ds3.getString('It_');
+                    map.set(value, `${it}\`${value}`);
                 }
                 configData.push({
                     type: 0,
@@ -278,8 +278,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                     options: map,
                     isSpec: ds2.getBoolean('IsSpec_'),
                     remark: ds2.getString('Remark_'),
-                    code: ds2.getString('Code_'),
-                    it: ds2.getString('It_')
+                    code: ds2.getString('Code_')
                 })
             } else {
                 configData.push({
@@ -287,12 +286,10 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                     name: ds2.getString('Name_'),
                     isSpec: ds2.getBoolean('IsSpec_'),
                     remark: ds2.getString('Remark_'),
-                    code: ds2.getString('Code_'),
-                    it: ds2.getString('It_')
+                    code: ds2.getString('Code_')
                 })
             }
         }
-        console.log(configData)
         this.setState({
             modelCode,
             modelDetail,
@@ -319,7 +316,13 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
             let isFirst = true;
             this.state.configData.forEach((config: configType, index: number) => {
                 dataSet.append();
-                let spec_ = this.state.configRow.getString(config.name);
+                let spec_ = '';
+                if (config.options) {
+                    let arr = this.state.configRow.getString(config.name).split('`');
+                    spec_ = arr[1];
+                    dataSet.setValue('It_', arr[0]);
+                } else
+                    spec_ = spec_ = this.state.configRow.getString(config.name);
                 if (config.isSpec && spec_) {
                     isFirst = false;
                     if (bool) {
@@ -333,9 +336,10 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                 dataSet.setValue('Value_', spec_);
                 dataSet.setValue('Type_', config.type);
                 dataSet.setValue('Remark_', config.remark);
+                dataSet.setValue('Code_', config.code);
                 dataSet.setValue('ImgUrl_', '');
             })
-            if(isFirst) {
+            if (isFirst) {
                 throw new Error('纳入规格的选项不可全部为空');
             }
             dataSet.head.setValue('Spec_', spec);

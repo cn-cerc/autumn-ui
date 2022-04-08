@@ -128,25 +128,27 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
                 ds4.first();
                 while (ds4.fetch()) {
                     let value = ds4.getString('Value_');
-                    map.set(value, value);
+                    let it = ds4.getString('It_');
+                    if (configRow.getString(ds3.getString('Name_')) == value) {
+                        configRow.setValue(ds3.getString('Name_'), `${it}\`${value}`);
+                    }
+                    map.set(value, `${it}\`${value}`);
                 }
                 configData.push({
                     type: 0,
                     name: ds3.getString('Name_'),
-                    isSpec: ds2.getBoolean('IsSpec_'),
+                    isSpec: ds3.getBoolean('IsSpec_'),
                     options: map,
                     remark: ds3.getString('Remark_'),
-                    code: ds2.getString('Code_'),
-                    it: ds2.getString('It_')
+                    code: ds3.getString('Code_')
                 })
             } else {
                 configData.push({
                     type: 1,
                     name: ds3.getString('Name_'),
-                    isSpec: ds2.getBoolean('IsSpec_'),
+                    isSpec: ds3.getBoolean('IsSpec_'),
                     remark: ds3.getString('Remark_'),
-                    code: ds2.getString('Code_'),
-                    it: ds2.getString('It_')
+                    code: ds3.getString('Code_')
                 })
             }
         }
@@ -159,49 +161,68 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
     }
 
     async handleChange() {
-        if(this.state.isJunp)
+        if (this.state.isJunp)
             return;
-        this.setState({
-            showLoad: true,
-            loadText: '系统正在添加商品中，请稍后...'
-        })
-        let dataSet = new DataSet();
-        dataSet.head.copyValues(this.state.modelDetail);
-        dataSet.head.setValue('ModelCode_', this.state.modelCode);
-        dataSet.head.setValue('ConfigCode_', this.state.configCode);
-        dataSet.head.setValue('TBNo_', this.props.tbNo);
-        let spec = '';
-        let bool = true;
-        this.state.configData.forEach((config: configType, index: number) => {
-            dataSet.append();
-            let spec_ = this.state.configRow.getString(config.name);
-            if (spec_) {
-                if (bool) {
-                    spec = spec_;
-                    bool = false;
-                } else {
-                    spec += `,${spec_}`
-                }
-            }
-            dataSet.setValue('Name_', config.name);
-            dataSet.setValue('Value_', spec_);
-            dataSet.setValue('Type_', config.type);
-            dataSet.setValue('Remark_', config.remark);
-            dataSet.setValue('ImgUrl_', '');
-        })
-        dataSet.head.setValue('Spec_', spec);
-        let dataOut = await DialogApi.updateConfigCode(dataSet);
-        if (dataOut.state > 0) {
-            showMsg('修改成功');
+        try {
             this.setState({
-                isJunp: true
+                showLoad: true,
+                loadText: '系统正在添加商品中，请稍后...'
             })
-            location.href = `TFrmTranOD.modify?tbNo=${this.props.tbNo}`
-        } else {
-            showMsg(dataOut.message)
+            let dataSet = new DataSet();
+            dataSet.head.copyValues(this.state.modelDetail);
+            dataSet.head.setValue('ModelCode_', this.state.modelCode);
+            dataSet.head.setValue('ConfigCode_', this.state.configCode);
+            dataSet.head.setValue('TBNo_', this.props.tbNo);
+            let spec = '';
+            let bool = true;
+            let isFirst = true;
+            this.state.configData.forEach((config: configType, index: number) => {
+                dataSet.append();
+                let spec_ = '';
+                if (config.options) {
+                    let arr = this.state.configRow.getString(config.name).split('`');
+                    spec_ = arr[1];
+                    dataSet.setValue('It_', arr[0]);
+                } else
+                    spec_ = spec_ = this.state.configRow.getString(config.name);
+                if (config.isSpec && spec_) {
+                    isFirst = false;
+                    if (bool) {
+                        spec = spec_;
+                        bool = false;
+                    } else {
+                        spec += `,${spec_}`
+                    }
+                }
+                dataSet.setValue('Name_', config.name);
+                dataSet.setValue('Value_', spec_);
+                dataSet.setValue('Type_', config.type);
+                dataSet.setValue('Remark_', config.remark);
+                dataSet.setValue('Code_', config.code);
+                dataSet.setValue('ImgUrl_', '');
+            })
+            if (isFirst) {
+                throw new Error('纳入规格的选项不可全部为空');
+            }
+            dataSet.head.setValue('Spec_', spec);
+            let dataOut = await DialogApi.updateConfigCode(dataSet);
+            if (dataOut.state > 0) {
+                showMsg('修改成功');
+                this.setState({
+                    isJunp: true
+                })
+                location.href = `TFrmTranOD.modify?tbNo=${this.props.tbNo}`
+            } else {
+                showMsg(dataOut.message)
+            }
+            this.setState({
+                showLoad: false
+            })
+        } catch (e) {
+            showMsg(e.message);
+            this.setState({
+                showLoad: false
+            })
         }
-        this.setState({
-            showLoad: false
-        })
     }
 }

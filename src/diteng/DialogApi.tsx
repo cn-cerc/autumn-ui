@@ -435,4 +435,8 @@ export default class DialogApi {
     static updateConfigCode(params: DataSet) {
         return DialogApi.serviceDataSet('SvrConfigCode.modifyConfigCode', params);
     }
+
+    static createSubitemBOM(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrSubitemBOM.createSubitemBOM', params);
+    }
 }

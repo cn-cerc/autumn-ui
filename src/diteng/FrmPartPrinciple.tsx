@@ -50,7 +50,8 @@ type FrmPartPrincipleTypeState = {
     loadText: string,
     descListWidth: number,
     descNumber: number,
-    descLeft: number
+    descLeft: number,
+    BOMDataSet: DataSet
 }
 
 export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTypeProps, FrmPartPrincipleTypeState> {
@@ -85,7 +86,8 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             loadText: '系统正在检测中，请稍后...',
             descListWidth: 0,
             descNumber: 0,
-            descLeft: 0
+            descLeft: 0,
+            BOMDataSet: new DataSet()
         }
     }
 
@@ -291,9 +293,12 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
     }
 
     async selectClass(row: DataRow) {
+        console.log(row)
         let dataRow = new DataRow();
         dataRow.setValue('PartSource_', '0');
         let dataRow2 = new DataRow();
+        let BOMDataSet = new DataSet();
+        BOMDataSet.head.setValue('ClassCode_', row.getString('Code_'));
         dataRow2.setValue('ClassCode_', row.getValue('Code_'))
         let dataSet2 = await DialogApi.getPartPrincipleSearch(dataRow2);
         this.setState({
@@ -306,7 +311,8 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             dataSet2,
             dataRow,
             isNew: false,
-            isSelect: false
+            isSelect: false,
+            BOMDataSet
         });
     }
 
@@ -338,6 +344,8 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             codeSchemeData.first();
             while (codeSchemeData.fetch()) {
                 if (codeSchemeData.getDouble('Type_') == 0) {
+                    this.state.BOMDataSet.append();
+                    this.state.BOMDataSet.setValue('Code_', codeSchemeData.getString('SpecCode_'));
                     titleList.push({
                         text: codeSchemeData.getString('SpecName_') || '未知',
                         data: codeSchemeData.current,
@@ -470,6 +478,8 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
     }
 
     async selectClass3(row: DataRow) {
+        this.state.BOMDataSet.setRecNo(this.state.titleIn - 1);
+        this.state.BOMDataSet.setValue('SpecCode_', row.getString('SpecCode_'));
         let partCode = '';
         let spec = '';
         let desc = '';
@@ -690,6 +700,7 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
             dataIn.setValue("Remark_", remark);
             dataIn.setValue("BoxUnit_", ds.head.getString('Unit1_'));
             dataIn.setValue("BoxNum_", ds.head.getString('Rate1_'));
+            this.state.BOMDataSet.head.setValue('PartCode_', partCode);
             let dataOut = await DialogApi.postPartStock(dataIn);
             if (dataOut.state < 1) {
                 showMsg(`生成失败！原因：${dataOut.message}`)
@@ -710,6 +721,9 @@ export default class FrmPartPrinciple extends React.Component<FrmPartPrincipleTy
                 } else {
                     showMsg(`已存入商品资料！料号：<a href="TFrmPartInfo.modify?partCode=%${partCode}" target="_blank">${partCode}</a>`);
                     this.partCode = partCode;
+                    let dataSet = new DataSet();
+                    dataSet.appendDataSet(this.state.BOMDataSet);
+                    DialogApi.createSubitemBOM(dataSet);
                     this.addDetail();
                 }
             }
