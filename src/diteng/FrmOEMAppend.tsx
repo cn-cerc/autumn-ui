@@ -388,15 +388,35 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                 let shopNum = document.querySelector('[role=shopNums]') as HTMLSpanElement;
                 shopNum.innerText = json.num;
                 shopNum.classList.add('shopNums');
-                showMsg(`料号：${code}已成功添加至销售订单`)
-                let href = json.menu.match('TFrmTranOD.modify[?]tbNo=[A-z]+[0-9]+');
-                location.href = href;
+                showMsg(`料号：${code}已成功添加至销售订单`);
+                this.pageReload();
             } else {
                 showMsg(json.msg)
             }
             this.setState({
                 showLoad: false
             })
+        })
+    }
+
+    pageReload() {
+        let modelRow = new DataRow();
+        modelRow.setValue('MaxRecord_', 20);
+        // 只查询型号商品
+        modelRow.setValue('Assortment', '1');
+        this.setState({
+            titleIn: 0,
+            titleList: ['型号'],
+            modelRow,
+            modelData: new DataSet(),
+            modelDetail: new DataRow(),
+            configData: [],
+            configRow: new DataRow(),
+            modelCode: '',
+            showLoad: false,
+            loadText: '系统正在查询中，请稍后...'
+        }, () => {
+            this.modelSearch();
         })
     }
 }
