@@ -105,6 +105,17 @@ div[id='OEMAppendPage'] {
     width: 20rem;
 }
 
+.specLine {
+    display: flex;
+    align-items: center;
+}
+
+.specLine>span:first-child {
+    width: 1em;
+    text-align: center;
+    color: red;
+}
+
 .module3 {
     display: flex;
     padding: .5rem 1.25rem;

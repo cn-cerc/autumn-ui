@@ -237,14 +237,20 @@ div[id='partPrinciplePage'] {
 
 .addTable {
     display: flex;
+    align-items: flex-start;
     padding: .5rem 1.25rem 0 1.25rem;
-    align-items: center;
 }
 
 .inputs {
     width: 0;
     flex: 1;
     display: flex;
+    flex-direction: column;
+}
+
+.inputs>div {
+    display: flex;
+    align-items: center;
 }
 
 .inputs>span {
@@ -255,7 +261,11 @@ div[id='partPrinciplePage'] {
     min-width: 3em;
 }
 
-.addTable>button {
+.tableBtns {
+    margin-top: .5em;
+}
+
+.tableBtns>button {
     min-width: 4.13rem;
     height: 1.88rem;
     padding: 0 1rem;
