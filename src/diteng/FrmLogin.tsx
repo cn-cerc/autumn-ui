@@ -35,7 +35,7 @@ var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     constructor(props: LoginTypeProps) {
-        super(props)
+        super(props);
         let client = new ClientStorage('ErpKey');
         let accountData = new DataSet();
         let savePwd = client.get("savePwd") == 'true' ? true : false;
@@ -627,7 +627,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
 type FrmLoginTypeProps = {
     language?: string,
-    lowVersion?: boolean
+    lowVersion?: boolean,
+    loginCenter: string
 }
 
 type FrmLoginTypeState = {
@@ -759,6 +760,13 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     componentDidMount(): void {
+        let head = this.props.loginCenter;
+        if (!head || head.indexOf(location.origin) > -1)
+            head = location.origin;
+        else {
+            location.href = head + location.pathname + location.search;
+            return;
+        }
         if (this.state.isPhoneWeb)
             window.location.href = 'install?device=phone';
         if (!this.isPhone) {
