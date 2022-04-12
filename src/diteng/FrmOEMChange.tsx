@@ -69,10 +69,17 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
 
     getPageInput() {
         let inputList = this.state.configData.map((config: configType, index: number) => {
+            let text = '';
+            if (config.isSpec)
+                text = '*';
             if (config.type == 1) {
-                return <DBEdit dataName={config.name} dataField={config.name} key={index} dataRow={this.state.configRow} readOnly={this.props.readonly}></DBEdit>
+                return <div className={styles.specLine} key={index}>
+                    <span>{text}</span><DBEdit dataName={config.name} dataField={config.name} dataRow={this.state.configRow} readOnly={this.props.readonly}></DBEdit>
+                </div>
             } else {
-                return <DBDrop dataName={config.name} dataField={config.name} options={config.options} key={index} dataRow={this.state.configRow} disabled={this.props.readonly}></DBDrop>
+                return <div className={styles.specLine} key={index}>
+                    <span>{text}</span><DBDrop dataName={config.name} dataField={config.name} options={config.options} dataRow={this.state.configRow} disabled={this.props.readonly}></DBDrop>
+                </div>
             }
         })
         return inputList;
@@ -162,6 +169,8 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
     }
 
     async handleChange() {
+        if (this.props.readonly)
+            return;
         if (this.state.isJunp)
             return;
         try {
@@ -203,7 +212,7 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
                 dataSet.setValue('ImgUrl_', '');
             })
             if (isFirst) {
-                throw new Error('纳入规格的选项不可全部为空');
+                throw new Error('带有*的配置必须有一个不为空');
             }
             dataSet.head.setValue('Spec_', spec);
             let dataOut = await DialogApi.updateConfigCode(dataSet);
