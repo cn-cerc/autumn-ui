@@ -44,8 +44,15 @@ export default class BrandDialog extends BaseDialog<BaseDialogPropsType, BrandTy
     }
 
     handleClick(brand: string) {
-        let input = document.getElementById(this.props.inputId) as HTMLInputElement;
-        input.value = brand;
+        if(this.props.onSelect) {
+            let row = new DataRow();
+            row.setValue(this.props.dataField, brand);
+            this.props.onSelect(row);
+            this.handleClose();
+        } else {
+            let input = document.getElementById(this.props.inputId) as HTMLInputElement;
+            input.value = brand;
+        }
         this.handleSelect();
     }
 

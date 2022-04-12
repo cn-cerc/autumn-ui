@@ -48,7 +48,7 @@ export default class DialogApi {
         return ds;
     }
 
-    static async getDataOut(url: string, params: DataRow): Promise<DataSet> {
+    static async getDataOut(url: string, params: DataRow, timeout: number = 15): Promise<DataSet> {
         let sid = DialogApi.getToken();
         if (!sid) {
             let error = new DataSet();
@@ -60,7 +60,7 @@ export default class DialogApi {
         service.setService(url);
         service.dataIn.head.copyValues(params.current);
         // e为请求失败时抛出的异常，类型为DataSet
-        let ds: DataSet = await service.open().catch(e => e);
+        let ds: DataSet = await service.open(timeout).catch(e => e);
         return ds;
     }
 
@@ -365,5 +365,78 @@ export default class DialogApi {
     /** 保存批号 */
     static saveLotNo(params: DataSet) {
         return DialogApi.serviceDataSet('SvrLotNo.saveLotNo', params);
+    }
+
+    /** 获取编码原则大类 */
+    static getCodeClass() {
+        return DialogApi.getService('SvrCodeClass.search');
+    }
+
+    static getPartPrincipleSearch(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartPrinciple.search', params);
+    }
+
+    static getPartPrincipleDownload(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartPrinciple.download', params);
+    }
+
+    static getPartSpecDownload(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartSpec.download', params);
+    }
+
+    static postPartStock(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartStock.Append', params, 30);
+    }
+
+    static updatePartPrinciple(params: DataRow) {
+        return DialogApi.getDataOut('SvrPartPrinciple.updateLastNo', params, 20);
+    }
+
+    /** 根据商品的品牌、品名、规格判断商品是否存在 */
+    static existsPartInfo(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartInfo.existsPartInfo', params);
+    }
+
+    static getPartSpecModify(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrPartSpec.modify', params);
+    }
+
+    /** 获取商品资料信息 */
+    static getPartStockDownload(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartStock.download', params);
+    }
+
+    /** 获取配置信息  */
+    static getModelConfigSearch(params: DataRow) {
+        return DialogApi.getDataOut('SvrModelConfig.search', params);
+    }
+
+    /** 获取配置详细信息 */
+    static getModelConfigDownload(params: DataRow) {
+        return DialogApi.getDataOut('SvrModelConfig.download', params);
+    }
+
+    /** 获取商品基本资料 */
+    static getPartDownload(params: DataRow) {
+        return DialogApi.getDataOut('TAppPartInfo.download_PartInfo', params);
+    }
+
+    /** 根据选择的配置，生成对应的商品资料 */
+    static postConfigCode(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrConfigCode.configCodeCreatePartInfo', params);
+    }
+
+    /** 获取配置表的信息 */
+    static getConfigCodeList(params: DataRow) {
+        return DialogApi.getDataOut('SvrConfigCode.getConfigCodeList', params);
+    }
+
+    /** 修改配置信息 */
+    static updateConfigCode(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrConfigCode.modifyConfigCode', params);
+    }
+
+    static createSubitemBOM(params: DataSet) {
+        return DialogApi.serviceDataSet('SvrSubitemBOM.createSubitemBOM', params);
     }
 }

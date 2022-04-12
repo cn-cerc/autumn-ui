@@ -27,6 +27,10 @@
     border: 1px solid #C2CAD8;
 }
 
+.hidden {
+    display: none;
+}
+
 .changed {
     color: red;
 }

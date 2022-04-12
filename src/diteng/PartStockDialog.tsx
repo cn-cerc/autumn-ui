@@ -1,4 +1,5 @@
 import React from "react";
+import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import DialogApi from "./DialogApi";
@@ -51,8 +52,15 @@ export default class PartStockDialog extends BaseDialog<PartStockTypeProps, Part
     }
 
     handleClick(cwCode: string) {
-        let input = document.getElementById(this.props.inputId) as HTMLInputElement;
-        input.value = cwCode;
+        if(this.props.onSelect) {
+            let row = new DataRow();
+            row.setValue(this.props.dataField, cwCode);
+            this.props.onSelect(row);
+            this.handleClose();
+        } else {
+            let input = document.getElementById(this.props.inputId) as HTMLInputElement;
+            input.value = cwCode;
+        }
         this.handleSelect();
     }
 }

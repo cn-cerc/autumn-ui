@@ -1,5 +1,6 @@
 import React, { MouseEventHandler } from "react";
 import styles from "./BaseDialog.css";
+import { OnSelectDataRowEvent } from "./DialogComponent";
 import WebControl from "./WebControl";
 
 export type BaseDialogPropsType = {
@@ -7,6 +8,8 @@ export type BaseDialogPropsType = {
     width?: string,
     height?: string,
     isChild?: boolean,
+    onSelect?: OnSelectDataRowEvent,
+    dataField?: string
 }
 
 type MoveData = {
@@ -176,13 +179,15 @@ export default abstract class BaseDialog<T extends BaseDialogPropsType = BaseDia
     // 用于弹窗选择完成之后关闭窗口
     handleSelect() {
         var evt = new Event('input', { 'bubbles': true, 'cancelable': true });
-        let inputIds = this.props.inputId.split(',');
-        if (inputIds.length == 1) {
-            document.getElementById(this.props.inputId).dispatchEvent(evt);
-        } else {
-            inputIds.forEach((inputId) => {
-                document.getElementById(inputId).dispatchEvent(evt);
-            })
+        if(this.props.inputId) {
+            let inputIds = this.props.inputId.split(',');
+            if (inputIds.length == 1) {
+                document.getElementById(this.props.inputId).dispatchEvent(evt);
+            } else {
+                inputIds.forEach((inputId) => {
+                    document.getElementById(inputId).dispatchEvent(evt);
+                })
+            }
         }
         this.handleClose();
     }

@@ -162,14 +162,21 @@ export default class ProductClassDialog extends BaseDialog<ProductClassTypeProps
     }
 
     handleSubmit() {
-        if(this.props.onSelect) {
+        if (this.props.onSelect) {
+            let inputIds = this.props.inputId.split(',');
             let row = new DataRow();
-            let val: string = this.state.value1;
-            if (this.state.value2)
-                val += `->${this.state.value2}`
-            if (this.state.value3)
-                val += `->${this.state.value3}`
-            row.setValue("ProductClass_", val);
+            if (inputIds.length == 1) {
+                let val: string = this.state.value1;
+                if (this.state.value2)
+                    val += `->${this.state.value2}`
+                if (this.state.value3)
+                    val += `->${this.state.value3}`
+                row.setValue(inputIds[0], val);
+            } else if (inputIds.length == 3) {
+                row.setValue(inputIds[0], this.state.value1);
+                row.setValue(inputIds[1], this.state.value2);
+                row.setValue(inputIds[2], this.state.value3);
+            }
             this.props.onSelect(row);
             this.handleClose();
         } else {

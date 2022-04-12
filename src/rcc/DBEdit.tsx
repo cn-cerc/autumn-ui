@@ -14,7 +14,7 @@ type PropsType = {
     onChanged?: OnFieldChangedEvent;
     autoFocus?: boolean;
     readOnly?: boolean;
-    type?: 'text' | 'password' | 'checkbox' | 'number' | 'radio';
+    type?: 'text' | 'password' | 'checkbox' | 'number' | 'radio' | 'hidden';
     autoComplete?: string;
     onFocus?: Function,
     onBlur?: Function,
@@ -54,7 +54,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
             dataName = (<label htmlFor={this.props.dataField} >{this.props.dataName}：</label>)
 
         return (
-            <span className={`${styles.main} ${this.props.className || ''}`}>
+            <span className={`${styles.main} ${this.props.className || ''} ${this.props.type == 'hidden' ? styles.hidden : '' }`}>
                 {dataName}
                 <input type={this.props.type} autoFocus={this.props.autoFocus} id={this.props.dataField}
                     name={this.props.dataField} value={value} onChange={this.inputOnChange}
@@ -62,7 +62,7 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
                         .bind(this)} onBlur={this.handleBlur.bind(this)} autoComplete={this.props.autoComplete ? this.props.autoComplete : 'off'} className={this.props.changed ? styles.changed : ''} onKeyDown={this.handleKeyDown.bind(this)}/>
                 {React.Children.map(this.props.children, child => {
                     if (isValidElement(child)) {
-                        return React.cloneElement(child, { onSelect: this.onDialogSelect, dataRow: this.props.dataRow, onChanged: this.onDialogSelect })
+                        return React.cloneElement(child, { onSelect: this.onDialogSelect, dataRow: this.props.dataRow, onChanged: this.onDialogSelect, dataField: this.props.dataField })
                     }
                 })}
             </span>
@@ -92,14 +92,15 @@ export default class DBEdit extends React.Component<PropsType, DBEditState> {
     onDialogSelect: OnSelectDataRowEvent = (values: DataRow) => {
         if (values.fields.items.length == 0)
             throw new Error('返回值错误：没有任何字段')
-        let value = values.getString(values.fields.items[0].code);
-
         let dataSet = this.props.dataRow.dataSet;
         if (dataSet) {
             dataSet.setRecNo(dataSet.locationRow(this.props.dataRow));
             dataSet.edit();
         }
-        this.state.row.setValue(this.props.dataField, value);
+        for(let item of values.fields.items) {
+            this.state.row.setValue(item.code, values.getString(item.code));
+            console.log(this.state.row)
+        }
         this.setState(this.state);
         if (this.props.onChanged)
             this.props.onChanged(this.props.dataRow.fields.get(this.props.dataField));
