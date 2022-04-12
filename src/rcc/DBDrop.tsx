@@ -9,7 +9,8 @@ type PropsType = {
     dataName?: string;
     dataField: string;
     onChanged?: OnFieldChangedEvent;
-    className?: string
+    className?: string;
+    disabled?: boolean
 }
 
 export default class DBDrop extends React.Component<PropsType> {
@@ -25,7 +26,7 @@ export default class DBDrop extends React.Component<PropsType> {
         return (
             <span className={`${styles.main} ${this.props.className}`}>
                 {dataName}
-                <select id={this.props.dataField} onChange={this.handleChange.bind(this)} value={this.props.dataRow.getString(this.props.dataField)}>
+                <select id={this.props.dataField} onChange={this.handleChange.bind(this)} value={this.props.dataRow.getString(this.props.dataField)} disabled={this.props.disabled}>
                     {this.getOptions()}
                 </select>
             </span>

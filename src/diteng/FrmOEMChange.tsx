@@ -11,7 +11,8 @@ import { showMsg } from "./Summer";
 type FrmOEMChangeTypeProps = {
     code: string,
     tbNo: string,
-    it: string
+    it: string,
+    readonly: boolean
 }
 
 type FrmOEMChangeTypeState = {
@@ -60,7 +61,7 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
                 {this.getPageInput()}
             </div>
             <div className={styles.module3}>
-                <button onClick={this.handleChange.bind(this)}>修改</button>
+                <button onClick={this.handleChange.bind(this)} className={this.props.readonly ? styles.disabled : ''}>修改</button>
             </div>
             {this.getLoad()}
         </div>
@@ -69,9 +70,9 @@ export default class FrmOEMChange extends React.Component<FrmOEMChangeTypeProps,
     getPageInput() {
         let inputList = this.state.configData.map((config: configType, index: number) => {
             if (config.type == 1) {
-                return <DBEdit dataName={config.name} dataField={config.name} key={index} dataRow={this.state.configRow}></DBEdit>
+                return <DBEdit dataName={config.name} dataField={config.name} key={index} dataRow={this.state.configRow} readOnly={this.props.readonly}></DBEdit>
             } else {
-                return <DBDrop dataName={config.name} dataField={config.name} options={config.options} key={index} dataRow={this.state.configRow}></DBDrop>
+                return <DBDrop dataName={config.name} dataField={config.name} options={config.options} key={index} dataRow={this.state.configRow} disabled={this.props.readonly}></DBDrop>
             }
         })
         return inputList;
