@@ -38,7 +38,7 @@ export default class CardTypeDialog extends BaseDialog<CardTypeTypeProps, CardTy
                     <Column code='Type_' name='类型' width='10'></Column>
                     <Column code='Text_' name='说明' width='45'></Column>
                     <Column code='opera' name='操作' width='10' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

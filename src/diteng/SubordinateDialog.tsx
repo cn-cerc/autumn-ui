@@ -52,7 +52,7 @@ export default class SubordinateDialog extends BaseDialog<BaseDialogPropsType, S
                     <Column name='员工名称' code='Name_' width='50'></Column>
                     <Column name='操作' code='opera' width='20' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                            return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }
                     }></Column>
                 </DBGrid>

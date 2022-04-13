@@ -77,7 +77,7 @@ export default class DepartmentDialog extends BaseDialog<BaseDialogPropsType, De
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                     <DBDrop dataName='部门层级' dataField='DeptLevel_' options={this.state.options}></DBDrop>
                 </SearchPanel>
-                {this.state.showBack ? <div style={{ 'padding': '0 1rem' }}><span role='opera' style={{ 'cursor': 'pointer' }} onClick={this.handleBack.bind(this)}>返回上一级</span></div> : ''}
+                {this.state.showBack ? <div style={{ 'padding': '0 1rem' }}><span role='auiOpera' style={{ 'cursor': 'pointer' }} onClick={this.handleBack.bind(this)}>返回上一级</span></div> : ''}
                 {this.getTable()}
             </div>
         )
@@ -95,7 +95,7 @@ export default class DepartmentDialog extends BaseDialog<BaseDialogPropsType, De
                             return (
                                 <React.Fragment>
                                     <span>部门名称：</span>
-                                    <span role='opera' onClick={this.nameClick.bind(this, row)}>{row.getString('Name_')}</span>
+                                    <span role='auiOpera' onClick={this.nameClick.bind(this, row)}>{row.getString('Name_')}</span>
                                 </React.Fragment>
                             )
                         }}></Column>
@@ -106,7 +106,7 @@ export default class DepartmentDialog extends BaseDialog<BaseDialogPropsType, De
                             return <span>停用否：{text}</span>
                         }}></Column>
                         <Column code='opera' textAlign='right' width='20' customText={(row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                            return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }}></Column>
                     </Line>
                 </Block>
@@ -117,14 +117,14 @@ export default class DepartmentDialog extends BaseDialog<BaseDialogPropsType, De
                     <ColumnIt />
                     <Column name='部门代码' code='Code_' width='20'></Column>
                     <Column name='部门名称' code='Name_' width='20' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.nameClick.bind(this, row)}>{row.getString('Name_')}</span>
+                        return <span role='auiOpera' onClick={this.nameClick.bind(this, row)}>{row.getString('Name_')}</span>
                     }}></Column>
                     <Column name='停用否' code='Disable_' width='20' customText={(row: DataRow) => {
                         let text = row.getValue('Disable_') ? '是' : '否';
                         return <span>{text}</span>
                     }}></Column>
                     <Column name='操作' code='opera' width='10' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.handleClick.bind(this, row)}  >选择</span>
+                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}  >选择</span>
                     }}></Column>
                 </DBGrid>
             )

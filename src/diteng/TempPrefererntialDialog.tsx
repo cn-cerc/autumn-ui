@@ -44,7 +44,7 @@ export default class TempPrefererntialDialog extends BaseDialog<BaseDialogPropsT
         return (
             <div className={styles.main}>
                 <div className={styles.button}>
-                    <span role='opera' onClick={this.handleAppend}>+增加优惠原因</span>
+                    <span role='auiOpera' onClick={this.handleAppend}>+增加优惠原因</span>
                 </div>
                 <form onSubmit={this.btnExecute.bind(this)} className={this.state.showForm ? styles.form : `${styles.formHide} ${styles.form}`}>
                     <div>
@@ -59,9 +59,9 @@ export default class TempPrefererntialDialog extends BaseDialog<BaseDialogPropsT
                     <Column name='操作' code='opera' width='15' textAlign='center' customText={(row: DataRow) => {
                         return (
                             <React.Fragment>
-                                <span role='opera' onClick={this.handleChose.bind(this, row)}>选择</span>
+                                <span role='auiOpera' onClick={this.handleChose.bind(this, row)}>选择</span>
                                 <i style={{ 'padding': '0 .5rem', 'color': '#888888' }}>|</i>
-                                <span role='opera' onClick={this.handleRemove.bind(this, row)}>删除</span>
+                                <span role='auiOpera' onClick={this.handleRemove.bind(this, row)}>删除</span>
                             </React.Fragment>
                         )
                     }}></Column>

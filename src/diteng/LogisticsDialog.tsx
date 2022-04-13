@@ -51,7 +51,7 @@ export default class LogisticsDialog extends BaseDialog<BaseDialogPropsType, Log
                     <Column name='电话号码' code='Tel_' width='50'></Column>
                     <Column name='操作' code='opera' width='20' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera'>选择</span>
+                            return <span role='auiOpera'>选择</span>
                         }
                     }></Column>
                 </DBGrid>

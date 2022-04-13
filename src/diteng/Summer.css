@@ -5,7 +5,7 @@ div[role="content"] {
     flex-direction: column;
 }
 
-[role="opera"] {
+[role="auiOpera"] {
     color: #0283f7;
     display: inline!important;
 }

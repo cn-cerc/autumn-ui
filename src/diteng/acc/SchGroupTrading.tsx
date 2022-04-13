@@ -126,7 +126,7 @@ export default class SchGroupTrading extends CustomForm<CustomFormPropsType, sta
                     <Column code='AppDate_' name='建档日期' width='10'></Column>
                     <Column code='opera' name='操作' textAlign='center' width='5' customText={
                         ((dataRow: DataRow) => {
-                            return <span role='opera' onClick={this.deleteRow.bind(this, dataRow)}>删除</span>
+                            return <span role='auiOpera' onClick={this.deleteRow.bind(this, dataRow)}>删除</span>
                         })
                     } />
                 </DBGrid>

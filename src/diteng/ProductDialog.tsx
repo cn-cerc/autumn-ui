@@ -160,7 +160,7 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
                 )
             }
             else
-                return <span role='opera' onClick={() => this.handleClick(dataRow)}>选择</span>
+                return <span role='auiOpera' onClick={() => this.handleClick(dataRow)}>选择</span>
         }
         else {
             if (dataRow.getString('Classify_') == '1')
@@ -168,7 +168,7 @@ export default class ProductDialog extends BaseDialog<propsType, stateType> {
                     <GetMarque partCode={dataRow.getString('Code_')} isChild={true} name='展开' handleClose={this.handleClick.bind(this)} />
                 )
             else
-                return <span role='opera' onClick={() => this.handleClick(dataRow)} >选择</span>
+                return <span role='auiOpera' onClick={() => this.handleClick(dataRow)} >选择</span>
         }
     }
 

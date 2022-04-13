@@ -65,7 +65,7 @@ export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeSt
                         return <span>{row.getValue("Contact_")},{row.getValue("Tel1_")}</span>
                     }}></Column>
                     <Column code="Code_" name="操作" width="15" textAlign='center' customText={(row: DataRow) => {
-                        return <span role="opera">选择</span>
+                        return <span role="auiOpera">选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

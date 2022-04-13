@@ -291,7 +291,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
                 if (num > 3 && !this.state.showAll) {
                     heads.push(
                         <div style={{ 'textAlign': 'right' }} key='setAll'>
-                            <span role='opera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
+                            <span role='auiOpera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
                         </div>
                     )
                     break;
@@ -305,7 +305,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
             if (dataSet.size > 4 && this.state.showAll) {
                 heads.push(
                     <div style={{ 'textAlign': 'right' }} key='setAll'>
-                        <span role='opera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
+                        <span role='auiOpera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
                     </div>
                 )
             }

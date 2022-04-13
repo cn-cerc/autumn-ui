@@ -66,7 +66,7 @@ export default class ProcStepDialog extends BaseDialog<ProcStepTypeProps, ProcSt
                     <Column name='工序' textAlign='right' code='StepName_' width='25'></Column>
                     <Column name='报价' textAlign='right' code='StepWage_' width='15'></Column>
                     <Column name='选择' textAlign='center' code='opera' width='15' customText={(row: DataRow) => {
-                        return <span role='opera'>选择</span>
+                        return <span role='auiOpera'>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

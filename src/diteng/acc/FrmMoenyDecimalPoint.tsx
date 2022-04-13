@@ -74,7 +74,7 @@ export default class FrmMoneyDecimalPoint extends CustomForm<CustomFormPropsType
                     <Column code='AppDate_' name='建档日期' width='145'></Column>
                     <Column code='opera' name='操作' width='65' textAlign='center' customText={
                         ((dataRow: DataRow) => {
-                            return <span role='opera' onClick={this.handleDelete.bind(this, dataRow)}>删除</span>
+                            return <span role='auiOpera' onClick={this.handleDelete.bind(this, dataRow)}>删除</span>
                         })
                     }></Column>
                 </DBGrid>

@@ -48,7 +48,7 @@ export default class SupBankDialog extends BaseDialog<SupBankTypeProps, SupBankT
                     <Column name='银行名称' code='Name_' width='16'></Column>
                     <Column name='银行帐号' code='AccountNo_' width='40'></Column>
                     <Column name='操作' code='opera' textAlign='center' width='10' customText={(row: DataRow) => {
-                        return <span role='opera'>选择</span>
+                        return <span role='auiOpera'>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

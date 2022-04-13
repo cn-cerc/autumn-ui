@@ -51,7 +51,7 @@ export default class StaffDialog extends BaseDialog<BaseDialogPropsType, StaffTy
                     <Column code="Code_" name="员工代码" width="50"></Column>
                     <Column code="Name_" name="员工名称" width="30"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
-                        return <span role="opera" onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role="auiOpera" onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

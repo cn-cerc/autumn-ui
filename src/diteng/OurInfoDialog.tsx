@@ -85,7 +85,7 @@ export default class OutInfoDialog extends BaseDialog<OutInfoTypeProps, OutInfoT
                     <Column name='帐套简称' code='ShortName_' width='40'></Column>
                     {columns}
                     <Column name='操作' code='opera' width='10' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

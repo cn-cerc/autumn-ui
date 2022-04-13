@@ -78,7 +78,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
     }
 
     getAdornment(): JSX.Element {
-        return <span role='opera' onClick={this.init.bind(this)}>{this.props.name}</span>;
+        return <span role='auiOpera' onClick={this.init.bind(this)}>{this.props.name}</span>;
     }
 
     getTable() {
@@ -121,7 +121,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
             if (num > 3 && !this.state.showAll) {
                 heads.push(
                     <div style={{ 'textAlign': 'right' }} key='setAll'>
-                        <span role='opera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
+                        <span role='auiOpera' onClick={this.changeShowAll.bind(this)}>展开↓</span>
                     </div>
                 )
                 break;
@@ -135,7 +135,7 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
         if (dataSet.size > 4 && this.state.showAll) {
             heads.push(
                 <div style={{ 'textAlign': 'right' }} key='setAll'>
-                    <span role='opera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
+                    <span role='auiOpera' onClick={this.changeShowAll.bind(this)}>收起↑</span>
                 </div>
             )
         }
@@ -154,9 +154,9 @@ export default class GetMarque extends BaseDialog<GetMarqueTypeProps, GetMarqueT
 
     initOpera(dataRow: DataRow) {
         if (this.isPhone)
-            return <span role='opera' onClick={() => this.handleClick(dataRow)}>选择</span>
+            return <span role='auiOpera' onClick={() => this.handleClick(dataRow)}>选择</span>
         else
-            return <span role='opera' onClick={() => this.handleClick(dataRow)}>选择</span>
+            return <span role='auiOpera' onClick={() => this.handleClick(dataRow)}>选择</span>
     }
 
     handleClick(dataRow: DataRow) {

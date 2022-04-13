@@ -76,7 +76,7 @@ export default class PartCodePartStockDialog extends BaseDialog<PartCodePartStoc
                     <Column name='仓存量' code='Stock_' width='20'></Column>
                     <Column name='操作' code='opera' width='10' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                            return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }
                     }></Column>
                 </DBGrid>

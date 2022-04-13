@@ -72,7 +72,7 @@ export default class WorkerDialog extends BaseDialog<BaseDialogPropsType, Worker
                     <Column name='手机号' code='Mobile_' width='25'></Column>
                     <Column name='操作' code='opera' width='20' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera'>选择</span>
+                            return <span role='auiOpera'>选择</span>
                         }
                     }></Column>
                 </DBGrid>

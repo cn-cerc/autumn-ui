@@ -69,7 +69,7 @@ export default class FrmSysList13 extends CustomForm<CustomFormPropsType, SysLis
                     <Column name='建档日期' code='AppDate_' width='145'></Column>
                     <Column code='opera' name='操作' width='40' textAlign='center' customText={
                         ((dataRow: DataRow) => {
-                            return <span role='opera' onClick={this.handleDelete.bind(this, dataRow)}>删除</span>
+                            return <span role='auiOpera' onClick={this.handleDelete.bind(this, dataRow)}>删除</span>
                         })
                     } />
                 </DBGrid>
