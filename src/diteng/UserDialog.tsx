@@ -56,7 +56,7 @@ export default class UserDialog extends BaseDialog<UserTypeProps, UserTypeState>
                     <Column name='账号' code='Code_' width='5'></Column>
                     <Column name='姓名' code='Name_' width='10'></Column>
                     <Column name='操作' code='opera' width='3' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera'>选择</span>
+                        return <span role='auiOpera'>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

@@ -56,7 +56,7 @@ export default class SpecCodeDialog extends BaseDialog<BaseDialogPropsType, Spec
                     <Column name='长度' code='CodeLen_' width='10'></Column>
                     <Column name='选择' code='opera' width='10' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                            return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }
                     }></Column>
                 </DBGrid>

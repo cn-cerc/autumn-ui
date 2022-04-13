@@ -59,7 +59,7 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSearch.bind(this)}>
                     <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
                 </SearchPanel>
-                {this.state.showBack ? <div style={{ 'padding': '0 1rem' }}><span role='opera' style={{ 'cursor': 'pointer' }} onClick={this.handleBack.bind(this)}>返回上一级</span></div> : ''}
+                {this.state.showBack ? <div style={{ 'padding': '0 1rem' }}><span role='auiOpera' style={{ 'cursor': 'pointer' }} onClick={this.handleBack.bind(this)}>返回上一级</span></div> : ''}
                 {this.getTable()}
             </div>
         )
@@ -80,14 +80,14 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
                     <Line>
                         <Column name='科目名称' code='Disable_' width='100' customText={(row: DataRow) => {
                             let name = row.getString('Name_');
-                            return row.getValue('Children_') == '0' ? <span>科目名称：{name}</span> : <div><span>科目名称：</span><span role='opera' onClick={this.nameClick.bind(this, row)}>{name}</span></div>;
+                            return row.getValue('Children_') == '0' ? <span>科目名称：{name}</span> : <div><span>科目名称：</span><span role='auiOpera' onClick={this.nameClick.bind(this, row)}>{name}</span></div>;
                         }}></Column>
                     </Line>
                     <Line>
                         <Column name='对象代码' code='ObjCode_' width='80'></Column>
                         {this.showOpera ? <Column name='操作' code='opera' width='20' textAlign='right' customText={(row: DataRow) => {
                             if (row.getNumber('Level_') > 0)
-                                return <span role='opera' onClick={this.handleClick.bind(this, row)}  >选择</span>
+                                return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}  >选择</span>
                         }}></Column> : ''}
                     </Line>
 
@@ -102,12 +102,12 @@ export default class AccountEditDialog extends BaseDialog<BaseDialogPropsType, A
                     <Column name='科目代码' code='Code_' width='20'></Column>
                     <Column name='科目名称' code='Disable_' width='30' customText={(row: DataRow) => {
                         let name = row.getString('Name_');
-                        return row.getValue('Children_') == '0' ? <span>{name}</span> : <span role='opera' onClick={this.nameClick.bind(this, row)}>{name}</span>;
+                        return row.getValue('Children_') == '0' ? <span>{name}</span> : <span role='auiOpera' onClick={this.nameClick.bind(this, row)}>{name}</span>;
                     }}></Column>
                     <Column name='对象代码' code='ObjCode_' width='20' textAlign='center'></Column>
                     {this.showOpera ? <Column name='操作' code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
                         if (row.getNumber('Level_') > 0)
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}  >选择</span>
+                            return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}  >选择</span>
                     }}></Column> : ''}
                 </DBGrid>
             )

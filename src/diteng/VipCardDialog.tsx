@@ -129,7 +129,7 @@ export default class VipCardDialog extends BaseDialog<VipCardTypeProps, VipCardT
                     }}></Column>
                     <Column name='操作' code='opera' width='8' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                            return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }
                     }></Column>
                 </DBGrid>

@@ -46,7 +46,7 @@ export default class BankAccountDialog extends BaseDialog<BankAccountTypeProps, 
                     <Column code='Name_' name='账户简称' width='20'></Column>
                     <Column code='AccountBank_' name='开户行' width='25'></Column>
                     <Column code='opera' name='操作' width={this.isPhone ? '10' : '8'} textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

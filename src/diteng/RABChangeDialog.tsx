@@ -41,7 +41,7 @@ export default class RABChangeDialog extends BaseDialog<BaseDialogPropsType, RAB
                     <Column name='异动代码' code='Code_' width='10'></Column>
                     <Column name='异动原因' code='Reason_' width='25'></Column>
                     <Column name='操作' code='opera' width='15' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

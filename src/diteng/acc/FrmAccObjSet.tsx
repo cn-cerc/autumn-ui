@@ -104,7 +104,7 @@ export default class FrmAccObjSet extends CustomForm<CustomFormPropsType, stateT
                     <Column code='UpdateDate_' name='更新时间' width='15' />
                     <Column code='opera' name='操作' textAlign='center' width='10' customText={
                         ((dataRow: DataRow) => {
-                            return <span role='opera' onClick={this.deleteRow.bind(this, dataRow)}>删除</span>
+                            return <span role='auiOpera' onClick={this.deleteRow.bind(this, dataRow)}>删除</span>
                         })
                     } />
                 </DBGrid>

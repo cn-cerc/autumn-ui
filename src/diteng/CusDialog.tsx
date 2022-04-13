@@ -117,7 +117,7 @@ export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
                     {this.isPhone ? '' : <Column name='电话号码' code='Tel1_' width='5'></Column>}
                     {this.getAddress()}
                     <Column name='操作' code='opera' width={this.isPhone ? '5' : '3'} textAlign='center' customText={(row: DataRow) => {
-                        return <span role='opera' onClick={this.isPhone ? this.trClick.bind(this, row) : ''}>选择</span>
+                        return <span role='auiOpera' onClick={this.isPhone ? this.trClick.bind(this, row) : ''}>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>

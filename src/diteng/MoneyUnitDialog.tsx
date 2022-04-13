@@ -63,7 +63,7 @@ export default class MoneyUnitDialog extends BaseDialog<MoneyUnitTypeProps, Mone
                     <Column name='币别名称' code='Name_' width='50'></Column>
                     <Column name='操作' code='opera' width='20' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera'>选择</span>
+                            return <span role='auiOpera'>选择</span>
                         }
                     }></Column>
                 </DBGrid>
@@ -78,7 +78,7 @@ export default class MoneyUnitDialog extends BaseDialog<MoneyUnitTypeProps, Mone
     }
 
     getAdornment(): JSX.Element {
-        return <span role='opera' onClick={this.init.bind(this)}></span>;
+        return <span role='auiOpera' onClick={this.init.bind(this)}></span>;
     }
 
     filter() {

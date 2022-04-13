@@ -181,7 +181,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                         <ColumnIt></ColumnIt>
                         {ColumnList}
                         <Column code='opera' name='操作' width='3' textAlign='center' customText={(row: DataRow) => {
-                            return <span role='opera' onClick={this.selectModle.bind(this, row)}>选择</span>
+                            return <span role='auiOpera' onClick={this.selectModle.bind(this, row)}>选择</span>
                         }}></Column>
                     </DBGrid>
                 </React.Fragment>;

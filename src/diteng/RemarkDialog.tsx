@@ -67,7 +67,7 @@ export default class RemarkDialog extends BaseDialog<BaseDialogPropsType, Remark
                     <Line>
                         <ColumnIt width='80' name='序号' />
                         <Column code='opera' textAlign='right' width='20' customText={(row: DataRow) => {
-                            return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                            return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                         }}></Column>
                     </Line>
                     <Line>
@@ -81,7 +81,7 @@ export default class RemarkDialog extends BaseDialog<BaseDialogPropsType, Remark
                     <ColumnIt width='10'/>
                     <Column name='原因备注项' code='Remark_' width='70'></Column>
                     <Column name='选择' textAlign='center' code='opera' width='10' customText={(row: DataRow) => {
-                        return <span role='opera'>选择</span>
+                        return <span role='auiOpera'>选择</span>
                     }}></Column>
                 </DBGrid>
             )

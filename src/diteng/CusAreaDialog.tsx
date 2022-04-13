@@ -73,7 +73,7 @@ export default class CusAreaDialog extends BaseDialog<BaseDialogPropsType, CusAr
                         <Column name='区域' code='SalesArea_' width='40'></Column>
                         <Column name='选择' code='opera' width='10' textAlign='right' customText={
                             (row: DataRow) => {
-                                return <span role='opera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                                return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
                             }
                         }></Column>
                     </Line>
@@ -86,7 +86,7 @@ export default class CusAreaDialog extends BaseDialog<BaseDialogPropsType, CusAr
                     <Column name='区域' code='SalesArea_' width='30'></Column>
                     <Column name='选择' code='opera' width='12' textAlign='center' customText={
                         (row: DataRow) => {
-                            return <span role='opera'>选择</span>
+                            return <span role='auiOpera'>选择</span>
                         }
                     }></Column>
                 </DBGrid>
