@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ScrollRankingBoard } from '@jiaminghi/data-view-react'
 
-import './RankingBoard.less'
+import styles from './RankingBoard.css'
 
 const config = {
   data: [
@@ -48,8 +48,8 @@ const config = {
 
 export default () => {
   return (
-    <div id="ranking-board">
-      <div className="ranking-board-title">巡查上报记录数量</div>
+    <div id={styles.rankingBoard}>
+      <div className={styles.rankingBoardTitle}>巡查上报记录数量</div>
       <ScrollRankingBoard config={config} />
     </div>
   )

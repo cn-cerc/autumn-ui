@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ScrollBoard } from '@jiaminghi/data-view-react'
 
-import './ScrollBoard.less'
+import styles from './ScrollBoard.css'
 
 const config = {
   header: ['时间', '病害信息', '数量', '标段'],
@@ -30,7 +30,7 @@ const config = {
 
 export default () => {
   return (
-    <div id="scroll-board">
+    <div id={styles.scrollBoard}>
       <ScrollBoard config={config} />
     </div>
   )

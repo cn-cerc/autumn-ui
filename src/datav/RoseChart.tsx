@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Charts } from '@jiaminghi/data-view-react'
 
-import './RoseChart.less'
+import styles from './RoseChart.css'
 
 function getData() {
   return {
@@ -52,11 +52,11 @@ function getData() {
   }
 }
 
-function randomExtend(minNum, maxNum) {
+function randomExtend(minNum: number, maxNum: number) {
   if (arguments.length === 1) {
-    return parseInt(Math.random() * minNum + 1, 10)
+    return parseInt((Math.random() * minNum + 1) + '', 10)
   } else {
-    return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
+    return parseInt((Math.random() * (maxNum - minNum + 1) + minNum) + '', 10)
   }
 }
 
@@ -74,9 +74,9 @@ export default () => {
   }
 
   return (
-    <div id="rose-chart">
-      <div className="rose-chart-title">累计计量资金分布</div>
-      <Charts option={option} />
+    <div id={styles.roseChart}>
+      <div className={styles.roseChartTitle}>累计计量资金分布</div>
+      <Charts className={styles.dvChartsContainer} option={option} />
     </div>
   )
 }

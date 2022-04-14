@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { DigitalFlop, Decoration10 } from '@jiaminghi/data-view-react'
 
-import './DigitalFlop.less'
+import styles from './DigitalFlop.css'
 
 function getData() {
   return [
@@ -126,42 +126,40 @@ function getData() {
   ]
 }
 
-function randomExtend(minNum, maxNum) {
+function randomExtend(minNum: number, maxNum: number) {
   if (arguments.length === 1) {
-    return parseInt(Math.random() * minNum + 1, 10)
+    return parseInt((Math.random() * minNum + 1) + '', 10)
   } else {
-    return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
+    return parseInt((Math.random() * (maxNum - minNum + 1) + minNum) + '', 10)
   }
 }
 
-export default () => {
-  const [digitalFlopData, setData] = useState([])
+type stateType = {
+  digitalFlopData: Array<any>
+}
+type PropsType = {
+}
 
-  useEffect(() => {
-    createData()
-
-    const timer = setInterval(createData, 30000)
-
-    return () => clearInterval(timer)
-  }, [])
-
-  function createData() {
-    setData(getData())
+export default class Cards extends React.Component<PropsType, stateType> {
+  constructor(props: PropsType) {
+    super(props);
+    this.state = { digitalFlopData: getData() }
   }
-
-  return (
-    <div id="digital-flop">
-      {digitalFlopData.map(item => (
-        <div className="digital-flop-item" key={item.title}>
-          <div className="digital-flop-title">{item.title}</div>
-          <div className="digital-flop">
-            <DigitalFlop config={item.number} style={{ width: '100px', height: '50px' }} />
-            <div className="unit">{item.unit}</div>
+  render() {
+    return (
+      <div className={styles.digitalFlop}>
+        {this.state.digitalFlopData.map(item => (
+          <div className={styles.digitalFlopItem} key={item.title}>
+            <div className={styles.digitalFlopTitle}>{item.title}</div>
+            <div className={styles.digitalFlop}>
+              <DigitalFlop config={item.number} style={{ width: '100px', height: '50px' }} />
+              <div className={styles.unit}>{item.unit}</div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      <Decoration10 />
-    </div>
-  )
+        <Decoration10 className={styles.dvDecoration10}/>
+      </div>
+    )
+  }
 }

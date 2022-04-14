@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Charts, DigitalFlop } from '@jiaminghi/data-view-react'
 
-import './Cards.less'
+import styles from './Cards.css'
 
 function getData() {
   return new Array(5).fill(0).map((foo, i) => ({
@@ -80,30 +80,29 @@ type PropsType = {
 export default class Cards extends React.Component<PropsType, stateType> {
   constructor(props: PropsType) {
     super(props);
-    console.log(getData())
     this.state = { cards: getData() }
   }
   render() {
     return (
-      <div id="cards" >
+      <div id={styles.cards} >
         {
           this.state.cards.map((card, i) => (
-            <div className="card-item" key={card.title}>
-              <div className="card-header">
-                <div className="card-header-left">{card.title}</div>
-                <div className="card-header-right">{'0' + (i + 1)}</div>
+            <div className={styles.cardItem} key={card.title}>
+              <div className={styles.cardHeader}>
+                <div className={styles.cardHeaderLeft}>{card.title}</div>
+                <div className={styles.cardHeaderRight}>{'0' + (i + 1)}</div>
               </div>
-              <Charts className="ring-charts" option={card.ring} />
-              <div className="card-footer">
-                <div className="card-footer-item">
-                  <div className="footer-title">累计金额</div>
-                  <div className="footer-detail">
+              <Charts className={styles.ringCharts} option={card.ring} />
+              <div className={styles.cardFooter}>
+                <div className={styles.cardFooterItem}>
+                  <div className={styles.footerTitle}>累计金额</div>
+                  <div className={styles.footerDetail}>
                     <DigitalFlop config={card.total} style={{ width: '70%', height: '35px' }} />元
                   </div>
                 </div>
-                <div className="card-footer-item">
-                  <div className="footer-title">巡查病害</div>
-                  <div className="footer-detail">
+                <div className={styles.cardFooterItem}>
+                  <div className={styles.footerTitle}>巡查病害</div>
+                  <div className={styles.footerDetail}>
                     <DigitalFlop config={card.num} style={{ width: '70%', height: '35px' }} />处
                   </div>
                 </div>

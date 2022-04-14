@@ -10,7 +10,7 @@ import index from '../src/index'
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import AcPaySet from "./AcPaySet"
 import FrmAccTran from "./FrmAccTran"
-import FrmScreen from "./FrmScreen"
+import FrmScreen from "../src/datav/FrmScreen"
 
 export default {
     ...index,
