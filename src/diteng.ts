@@ -68,9 +68,11 @@ import VipCardDialog from "./diteng/VipCardDialog";
 import WareBasicDialog from "./diteng/WareBasicDialog";
 import WorkerDialog from "./diteng/WorkerDialog";
 import TCustomComponent from "./vcl/TCustomComponent";
+import view from "./view";
 
 export default {
     ...index,
+    ...view,
     //地藤专用
     TSchProductAnalysis,
     TSchScmStockInOut,

@@ -56,4 +56,5 @@ npm i -D @types/jquery
 npm i -D classnames
 npm i -D xlsx
 npm i -D @types/fingerprintjs2
+npm i -D @types/echarts echarts
 ```
