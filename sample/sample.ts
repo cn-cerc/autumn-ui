@@ -9,6 +9,8 @@ import FrmSysList13 from "../src/diteng/acc/FrmSysList13"
 import index from '../src/index'
 import IndexKsdl from "../src/ksdl/IndexKsdl"
 import AcPaySet from "./AcPaySet"
+import FrmAccTran from "./FrmAccTran"
+import FrmScreen from "./FrmScreen"
 
 export default {
     ...index,
@@ -19,6 +21,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmMoneyDecimalPoint);
+    let el = React.createElement(FrmScreen);
     ReactDOM.render(el, app)
 }
