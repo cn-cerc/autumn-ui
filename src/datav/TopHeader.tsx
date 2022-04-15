@@ -11,7 +11,7 @@ export default class Cards extends React.Component {
         <Decoration8 className={styles.headerLeftDecoration} />
         <Decoration5 className={styles.headerCenterDecoration} />
         <Decoration8 className={styles.headerRightDecoration} reverse={true} />
-        <div className={styles.centerTitle}>施工养护综合数据</div>
+        <div className={styles.centerTitle}>采购数据管理中心</div>
       </div>
     )
   }

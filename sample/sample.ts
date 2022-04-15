@@ -11,6 +11,7 @@ import IndexKsdl from "../src/ksdl/IndexKsdl"
 import AcPaySet from "./AcPaySet"
 import FrmAccTran from "./FrmAccTran"
 import FrmScreen from "../src/datav/FrmScreen"
+import FrmScreen2 from "../src/datav/FrmScreen2"
 
 export default {
     ...index,
@@ -21,6 +22,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmScreen);
+    let el = React.createElement(FrmScreen2);
     ReactDOM.render(el, app)
 }
