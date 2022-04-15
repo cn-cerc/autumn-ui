@@ -27,7 +27,8 @@ export default abstract class ViewConfig<T extends ViewTypeProps = ViewTypeProps
     } as S
 
     componentDidMount() {
-        let view = document.getElementById("auiHistogram") as HTMLDivElement;
+        let viewId = this.props.id || 'auiView';
+        let view = document.getElementById(viewId) as HTMLDivElement;
         this.setState({
             myEchart: echarts.init(view)
         }, () => {
@@ -38,7 +39,7 @@ export default abstract class ViewConfig<T extends ViewTypeProps = ViewTypeProps
     abstract initEchart(): void;
 
     render(): React.ReactNode {
-        return <div id='auiHistogram' style={this.getStyle()}></div>
+        return <div id={this.props.id || 'auiView'} style={this.getStyle()}></div>
     }
 
     getStyle() {

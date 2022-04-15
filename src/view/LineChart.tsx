@@ -22,14 +22,20 @@ export default class LineChart extends ViewConfig<LineChartTypeProps> {
                 series.push({
                     name: names[index],
                     type: 'line',
-                    data: []
+                    data: [],
+                    label: {
+                        show: true,
+                        position: 'insideTop',
+                        distance: -15,
+                        color: '#fff'
+                    },
                 })
             })
             dataSet.first();
             while (dataSet.fetch()) {
                 axis.push(dataSet.getString(xPointName));
                 for (let i = 0; i < columns.length; i++) {
-                    series[i].data.push(dataSet.getString(columns[i]) || 0)
+                    series[i].data.push(dataSet.getString(columns[i]))
                 }
             }
             let option = {
@@ -75,9 +81,17 @@ export default class LineChart extends ViewConfig<LineChartTypeProps> {
                 };
             else {
                 option.xAxis = {
-                    data: axis
+                    data: axis,
+                    axisLine: {
+                        lineStyle: {
+                            color: '#fff'
+                        }
+                    }
                 }
             }
+            if (this.props.option)
+                Object.assign(option, this.props.option);
+            console.log(option)
             this.state.myEchart.setOption(option);
         }
     }
