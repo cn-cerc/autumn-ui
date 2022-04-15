@@ -15,6 +15,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmPurchaseChart);
+    let el = React.createElement(FrmManufactureChart);
     ReactDOM.render(el, app)
 }
