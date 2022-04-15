@@ -7,10 +7,10 @@ import TopHeader from './TopHeader';
 type stateType = {
     polylineOption: any,
     option: any,
-    ironOreRow: DataRow,
-    scrapRow: DataRow,
-    cCoalRow: DataRow,
-    pCoalRow: DataRow
+    wireRow: DataRow,
+    coilRow: DataRow,
+    hSteelRow: DataRow,
+    steelRow: DataRow
     listTypeArr: listType[],
 }
 type PropsType = {
@@ -22,10 +22,10 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
         this.state = {
             polylineOption: {},
             option: {},
-            ironOreRow: new DataRow(),
-            scrapRow: new DataRow(),
-            cCoalRow: new DataRow(),
-            pCoalRow: new DataRow(),
+            wireRow: new DataRow(),
+            coilRow: new DataRow(),
+            hSteelRow: new DataRow(),
+            steelRow: new DataRow(),
             listTypeArr: [],
         }
     }
@@ -42,31 +42,27 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
     }
 
     async initState() {
-        let ironOreRow = new DataRow();
-        ironOreRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
-        let scrapRow = new DataRow();
-        scrapRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
-        let cCoalRow = new DataRow();
-        cCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
-        let pCoalRow = new DataRow();
+        let wireRow = new DataRow();
+        wireRow.setValue('weekStock', 0).setValue('monthStock', 0).setValue('yearStock', 0);
+        let coilRow = new DataRow();
+        coilRow.setValue('weekStock', 0).setValue('monthStock', 0).setValue('yearStock', 0);
+        let hSteelRow = new DataRow();
+        hSteelRow.setValue('weekStock', 0).setValue('monthStock', 0).setValue('yearStock', 0);
+        let steelRow = new DataRow();
         let listTypeArr: listType[] = [];
+        steelRow.setValue('weekStock', 0).setValue('monthStock', 0).setValue('yearStock', 0);
         listTypeArr.push({
-            name: '年度采购数量',
-            key: 'purchase'
+            name: '本周入库数量',
+            key: 'weekStock'
         });
         listTypeArr.push({
-            name: '年度入库数量',
-            key: 'storage'
+            name: '本月入库数量',
+            key: 'monthStock'
         });
         listTypeArr.push({
-            name: '年度在途数量',
-            key: 'onOrder'
+            name: '本年入库数量',
+            key: 'yearStock'
         });
-        listTypeArr.push({
-            name: '年度在库数量',
-            key: 'inStock'
-        });
-        pCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
         this.setState({
             polylineOption: {
                 title: {
@@ -253,28 +249,28 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 ],
                 color: ['#66ff66', '#49bbd1', '#ffff00']
             },
-            ironOreRow,
-            scrapRow,
-            cCoalRow,
-            pCoalRow,
+            wireRow,
+            coilRow,
+            hSteelRow,
+            steelRow,
             listTypeArr
         })
     }
 
     async initData() {
-        let ironOreRow = new DataRow();
-        ironOreRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
-        let scrapRow = new DataRow();
-        scrapRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
-        let cCoalRow = new DataRow();
-        cCoalRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
-        let pCoalRow = new DataRow();
-        pCoalRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
+        let wireRow = new DataRow();
+        wireRow.setValue('weekStock', this.getRandom(100)).setValue('monthStock', this.getRandom(500)).setValue('yearStock', this.getRandom(5000));
+        let coilRow = new DataRow();
+        coilRow.setValue('weekStock', this.getRandom(100)).setValue('monthStock', this.getRandom(500)).setValue('yearStock', this.getRandom(5000));
+        let hSteelRow = new DataRow();
+        hSteelRow.setValue('weekStock', this.getRandom(100)).setValue('monthStock', this.getRandom(500)).setValue('yearStock', this.getRandom(5000));
+        let steelRow = new DataRow();
+        steelRow.setValue('weekStock', this.getRandom(100)).setValue('monthStock', this.getRandom(500)).setValue('yearStock', this.getRandom(5000));
         this.setState({
-            ironOreRow,
-            scrapRow,
-            cCoalRow,
-            pCoalRow
+            wireRow,
+            coilRow,
+            hSteelRow,
+            steelRow
         })
     }
 
@@ -286,15 +282,16 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList}>
-                                <TextList title="铁矿石采购动态（T）" date={this.state.ironOreRow} listArray={this.state.listTypeArr} />
-                                <TextList title="废钢采购动态（T）" date={this.state.scrapRow} listArray={this.state.listTypeArr} />
+                                <TextList title="线材入库动态（T）" date={this.state.wireRow} listArray={this.state.listTypeArr} />
+                                <TextList title="卷材入库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr} />
+                                <TextList title="H型钢材入库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr} />
+                                <TextList title="钢材入库动态（T）" date={this.state.steelRow} listArray={this.state.listTypeArr} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
                                 <Charts option={this.state.option} />
                             </div>
                             <div className={styles.textList}>
-                                <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr} />
-                                <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr} />
+                                
                             </div>
                         </div>
                         <div className={styles.polylineOption} >
