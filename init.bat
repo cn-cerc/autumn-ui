@@ -10,4 +10,5 @@ call cnpm i -D classnames
 call cnpm i -D @types/fingerprintjs2
 call cnpm i -D @types/xlsx
 call cnpm run dev
+call cnpm i -D @types/echarts echarts
 pause
