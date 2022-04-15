@@ -4,6 +4,7 @@ import DataRow from "../db/DataRow";
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
+import ViewMenu, { ViewMenuMap } from './ViewMenu';
 type stateType = {
     polylineOption: any,
     option: any,
@@ -13,7 +14,9 @@ type stateType = {
     steelRow: DataRow
     listTypeArr: listType[],
     stopRow: DataRow,
-    stopArr: listType[]
+    stopArr: listType[],
+    menuOptions: ViewMenuMap,
+    showIndex: number
 }
 type PropsType = {
 }
@@ -51,7 +54,18 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             }, {
                 name: '本年异常停机',
                 key: 'yearError'
-            }]
+            }],
+            menuOptions: new Map([['采购数据管理中心', {
+                imgSrc: 'http://192.168.1.138/forms/images/view/kanban1.png',
+                href: '#'
+            }], ['制造数据管理中心', {
+                imgSrc: 'http://192.168.1.138/forms/images/view/kanban2.png',
+                href: '321'
+            }], ['销售数据管理中心', {
+                imgSrc: 'http://192.168.1.138/forms/images/view/kanban3.png',
+                href: '321'
+            }]]),
+            showIndex: 0
         }
     }
 
@@ -80,7 +94,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
         this.setState({
             polylineOption: {
                 title: {
-                    text: '生产入库汇总年度对比动态',
+                    text: '废钢采购年度对比动态',
                     style: {
                         fill: '#fff',
                         fontSize: 22,
@@ -283,7 +297,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
         return (
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader title='制造数据管理中心' />
+                    <TopHeader title='制造数据管理中心' handleCick={this.titleClick.bind(this)} />
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList2}>
@@ -295,70 +309,72 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                             <div className={styles.blockTopBottomContent}>
                                 <Charts option={this.state.option} />
                             </div>
-                            <div className={styles.textList3}>
+                            <div className={styles.textList2}>
                                 <div className={styles.double}>
                                     <BorderBox11 title='生产在编在岗人员动态'>
                                         <table className={styles.table}>
-                                            <tr>
-                                                <th>分类：</th>
-                                                <th>男</th>
-                                                <th>女</th>
-                                                <th>合计</th>
-                                            </tr>
-                                            <tr>
-                                                <td>在编人数：</td>
-                                                <td>100</td>
-                                                <td>80</td>
-                                                <td>180</td>
-                                            </tr>
-                                            <tr>
-                                                <td>30岁以下：</td>
-                                                <td>50</td>
-                                                <td>45</td>
-                                                <td>95</td>
-                                            </tr>
-                                            <tr>
-                                                <td>30-40岁：</td>
-                                                <td>15</td>
-                                                <td>10</td>
-                                                <td>25</td>
-                                            </tr>
-                                            <tr>
-                                                <td>41-50岁：</td>
-                                                <td>18</td>
-                                                <td>13</td>
-                                                <td>31</td>
-                                            </tr>
-                                            <tr>
-                                                <td>51-60岁</td>
-                                                <td>12</td>
-                                                <td>7</td>
-                                                <td>19</td>
-                                            </tr>
-                                            <tr>
-                                                <td>60岁以上</td>
-                                                <td>5</td>
-                                                <td>5</td>
-                                                <td>10</td>
-                                            </tr>
-                                            <tr>
-                                                <td>今日出勤</td>
-                                                <td>95</td>
-                                                <td>78</td>
-                                                <td>173</td>
-                                            </tr>
-                                            <tr>
-                                                <td>今日请假</td>
-                                                <td>3</td>
-                                                <td>1</td>
-                                                <td>4</td>
-                                            </tr>
-                                            <tr>
-                                                <td>今日调休</td>
-                                                <td>2</td>
-                                                <td>1</td>
-                                                <td>3</td>
-                                            </tr>
+                                            <tbody>
+                                                <tr>
+                                                    <th>分类：</th>
+                                                    <th>男</th>
+                                                    <th>女</th>
+                                                    <th>合计</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>在编人数：</td>
+                                                    <td>100</td>
+                                                    <td>80</td>
+                                                    <td>180</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>30岁以下：</td>
+                                                    <td>50</td>
+                                                    <td>45</td>
+                                                    <td>95</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>30-40岁：</td>
+                                                    <td>15</td>
+                                                    <td>10</td>
+                                                    <td>25</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>41-50岁：</td>
+                                                    <td>18</td>
+                                                    <td>13</td>
+                                                    <td>31</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>51-60岁</td>
+                                                    <td>12</td>
+                                                    <td>7</td>
+                                                    <td>19</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>60岁以上</td>
+                                                    <td>5</td>
+                                                    <td>5</td>
+                                                    <td>10</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>今日出勤</td>
+                                                    <td>95</td>
+                                                    <td>78</td>
+                                                    <td>173</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>今日请假</td>
+                                                    <td>3</td>
+                                                    <td>1</td>
+                                                    <td>4</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>今日调休</td>
+                                                    <td>2</td>
+                                                    <td>1</td>
+                                                    <td>3</td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </BorderBox11>
                                 </div>
@@ -369,8 +385,29 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                             <Charts option={this.state.polylineOption} />
                         </div>
                     </div>
+                    {this.getMenus()}
                 </FullScreenContainer>
             </div>
         )
+    }
+
+    titleClick() {
+        let showIndex = this.state.showIndex + 1;
+        this.setState({
+            showIndex
+        })
+    }
+
+    getMenus() {
+        return <div className={`${styles.defaultMenu} ${this.getMenusStyle()}`}>
+            <ViewMenu options={this.state.menuOptions}></ViewMenu>
+        </div>
+    }
+
+    getMenusStyle() {
+        let style = ''
+        if(this.state.showIndex > 0)
+            style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu
+        return style
     }
 }

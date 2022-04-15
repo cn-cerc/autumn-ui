@@ -16,7 +16,9 @@
   width: 25%;
   height: 60px;
 }
-#top-header .center-title {
+
+.centerTitle {
+  cursor: pointer;
   position: absolute;
   font-size: 30px;
   font-weight: bold;

@@ -52,7 +52,9 @@
   height: 100%;
 }
 
-.textList2,.textList3 {
+.textList2,
+.textList3,
+.textList4 {
   display: flex;
   flex-direction: column;
   width: 470px;
@@ -87,6 +89,15 @@
   line-height: 2.25rem;
 }
 
+.textList4>div>div>div>ul {
+  padding-top: 3.75rem;
+}
+
+.textList4>div>div>div>ul>li {
+  height: 1.85rem;
+  line-height: 1.85rem;
+}
+
 .polylineOption {
   height: 400px;
   padding-top: 30px;
@@ -112,6 +123,7 @@
 .table tr>td:nth-of-type(1) {
   padding-left: 1rem;
 }
+
 .table tr>td:nth-of-type(n+2) {
   text-align: center;
 }
@@ -119,4 +131,48 @@
 .table td {
   width: 25%;
   box-sizing: border-box;
+}
+
+.defaultMenu {
+  position: fixed;
+  top: 90px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('./img/bg.png');
+  background-position: 0 -90px;
+  transform: translateY(100%);
+}
+
+.hideMenu {
+  transform: translateY(100%);
+  animation: hideMenu .3s linear;
+  opacity: 0;
+}
+
+@keyframes hideMenu {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.showMenu {
+  transform: translateY(0);
+  animation: showMenu .3s linear;
+}
+
+@keyframes showMenu {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

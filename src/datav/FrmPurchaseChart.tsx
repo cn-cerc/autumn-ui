@@ -4,6 +4,7 @@ import DataRow from "../db/DataRow";
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
+import ViewMenu, { ViewMenuMap } from './ViewMenu';
 type stateType = {
     polylineOption: any,
     option: any,
@@ -12,6 +13,8 @@ type stateType = {
     cCoalRow: DataRow,
     pCoalRow: DataRow
     listTypeArr: listType[],
+    menuOptions: ViewMenuMap,
+    showIndex: number
 }
 type PropsType = {
 }
@@ -26,7 +29,30 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             scrapRow: new DataRow(),
             cCoalRow: new DataRow(),
             pCoalRow: new DataRow(),
-            listTypeArr: [],
+            listTypeArr: [{
+                name: '年度采购数量',
+                key: 'purchase'
+            }, {
+                name: '年度入库数量',
+                key: 'storage'
+            }, {
+                name: '年度在途数量',
+                key: 'onOrder'
+            }, {
+                name: '年度在库数量',
+                key: 'inStock'
+            }],
+            menuOptions: new Map([['采购数据管理中心', {
+                imgSrc: 'http://192.168.1.138/forms/images/view/kanban1.png',
+                href: '#'
+            }], ['制造数据管理中心', {
+                imgSrc: 'http://192.168.1.138/forms/images/view/kanban2.png',
+                href: '321'
+            }], ['销售数据管理中心', {
+                imgSrc: 'http://192.168.1.138/forms/images/view/kanban3.png',
+                href: '321'
+            }]]),
+            showIndex: 0
         }
     }
 
@@ -49,23 +75,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         let cCoalRow = new DataRow();
         cCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
         let pCoalRow = new DataRow();
-        let listTypeArr: listType[] = [];
-        listTypeArr.push({
-            name: '年度采购数量',
-            key: 'purchase'
-        });
-        listTypeArr.push({
-            name: '年度入库数量',
-            key: 'storage'
-        });
-        listTypeArr.push({
-            name: '年度在途数量',
-            key: 'onOrder'
-        });
-        listTypeArr.push({
-            name: '年度在库数量',
-            key: 'inStock'
-        });
         pCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
         this.setState({
             polylineOption: {
@@ -256,8 +265,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             ironOreRow,
             scrapRow,
             cCoalRow,
-            pCoalRow,
-            listTypeArr
+            pCoalRow
         })
     }
 
@@ -282,7 +290,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         return (
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader title='制造数据管理中心' />
+                    <TopHeader title='采购数据管理中心' handleCick={this.titleClick.bind(this)} />
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList}>
@@ -301,8 +309,29 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                             <Charts option={this.state.polylineOption} />
                         </div>
                     </div>
+                    {this.getMenus()}
                 </FullScreenContainer>
             </div>
         )
+    }
+
+    titleClick() {
+        let showIndex = this.state.showIndex + 1;
+        this.setState({
+            showIndex
+        })
+    }
+
+    getMenus() {
+        return <div className={`${styles.defaultMenu} ${this.getMenusStyle()}`}>
+            <ViewMenu options={this.state.menuOptions}></ViewMenu>
+        </div>
+    }
+
+    getMenusStyle() {
+        let style = ''
+        if(this.state.showIndex > 0)
+            style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu
+        return style
     }
 }
