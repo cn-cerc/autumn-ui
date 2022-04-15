@@ -1,15 +1,9 @@
+import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
-import { FullScreenContainer, Charts, Decoration1 } from '@jiaminghi/data-view-react'
-import TopHeader from './TopHeader'
-import DigitalFlop from './DigitalFlop'
-import RankingBoard from './RankingBoard'
-import RoseChart from './RoseChart'
-import WaterLevelChart from './WaterLevelChart'
-import ScrollBoard from './ScrollBoard'
-import Cards from "./Cards"
-import TextList from "./TextList";
 import DataRow from "../db/DataRow";
-import styles from './FrmScreen2.css'
+import styles from './FrmPurchaseChart.css';
+import TextList from "./TextList";
+import TopHeader from './TopHeader';
 type stateType = {
     polylineOption: any,
     option: any,
@@ -21,7 +15,7 @@ type stateType = {
 type PropsType = {
 }
 
-export default class FrmScreen extends React.Component<PropsType, stateType> {
+export default class FrmPurchaseChart extends React.Component<PropsType, stateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {

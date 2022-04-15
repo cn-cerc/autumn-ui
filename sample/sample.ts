@@ -1,17 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import FrmPurchaseChart from "../src/datav/FrmPurchaseChart"
 import diteng from '../src/diteng'
-import FrmAccObjT from "../src/diteng/acc/FrmAccObjT"
-import FrmACSubjectType from "../src/diteng/acc/FrmACSubjectType"
-import FrmMoneyDecimalPoint from "../src/diteng/acc/FrmMoneyDecimalPoint"
-import FrmMoneyRate from "../src/diteng/acc/FrmMoneyRate"
-import FrmSysList13 from "../src/diteng/acc/FrmSysList13"
 import index from '../src/index'
 import IndexKsdl from "../src/ksdl/IndexKsdl"
-import AcPaySet from "./AcPaySet"
-import FrmAccTran from "./FrmAccTran"
-import FrmScreen from "../src/datav/FrmScreen"
-import FrmScreen2 from "../src/datav/FrmScreen2"
 
 export default {
     ...index,
@@ -22,6 +14,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmScreen2);
+    let el = React.createElement(FrmPurchaseChart);
     ReactDOM.render(el, app)
 }
