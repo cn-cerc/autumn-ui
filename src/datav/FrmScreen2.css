@@ -14,15 +14,18 @@
 }
 
 .data-view .main-content {
+  height: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .data-view .block-left-right-content {
+  height: 0;
   flex: 1;
   display: flex;
   margin-top: 20px;
+  padding: 0 20px;
 }
 
 .data-view .block-top-bottom-content {
@@ -45,9 +48,12 @@
 .textList {
   display: flex;
   flex-direction: column;
-  width: 23%;
+  width: 470px;
+  height: 100%;
 }
 
 .polylineOption {
-  height: 35%;
+  height: 400px;
+  padding-top: 30px;
+  box-sizing: border-box;
 }

@@ -22,7 +22,7 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
         return (
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader />
+                    <TopHeader title='采购数据管理中心' />
                     <div className={styles.mainContent}>
                         <DigitalFlop />
                         <div className={styles.blockLeftRightContent}>

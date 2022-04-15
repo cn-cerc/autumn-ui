@@ -12,7 +12,11 @@ import DataRow from "../db/DataRow";
 import styles from './FrmScreen2.css'
 type stateType = {
     polylineOption: any,
-    option: any
+    option: any,
+    ironOreRow: DataRow,
+    scrapRow: DataRow,
+    cCoalRow: DataRow,
+    pCoalRow: DataRow
 }
 type PropsType = {
 }
@@ -21,12 +25,43 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
     constructor(props: PropsType) {
         super(props);
         this.state = {
+            polylineOption: {},
+            option: {},
+            ironOreRow: new DataRow(),
+            scrapRow: new DataRow(),
+            cCoalRow: new DataRow(),
+            pCoalRow: new DataRow()
+        }
+    }
+
+    componentDidMount(): void {
+        this.initState();
+        setInterval(() => {
+            this.initData()
+        }, 5000)
+    }
+
+    getRandom(num: number) {
+        return Math.floor(Math.random() * num);
+    }
+
+    async initState() {
+        let ironOreRow = new DataRow();
+        ironOreRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        let scrapRow = new DataRow();
+        scrapRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        let cCoalRow = new DataRow();
+        cCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        let pCoalRow = new DataRow();
+        pCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        this.setState({
             polylineOption: {
                 title: {
                     text: '废钢采购年度对比动态',
                     style: {
                         fill: '#fff',
-                        fontSize: 25
+                        fontSize: 22,
+                        fontWeight: 500
                     }
                 },
                 legend: {
@@ -35,14 +70,14 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
                         fill: '#fff',
                         fontSize: 18
                     },
-                    top: '9',
-                    right: '35%'
+                    top: 30,
+                    right: 100
 
                 },
                 grid: {
-                    bottom: '20',
-                    left:'0',
-                    right:'0'
+                    bottom: 50,
+                    left: 30,
+                    right: 30
                 },
                 xAxis: {
                     data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
@@ -54,6 +89,11 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
                             fill: '#fff',
                             fontSize: 20,
                             rotate: 0
+                        },
+                    },
+                    axisLine: {
+                        style: {
+                            stroke: '#fff'
                         }
                     }
                 },
@@ -102,14 +142,15 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
                         }
                     }
                 ],
-                color: ['#66ff66', '#49bbd1']
+                color: ['#41aebd', '#97e9d5']
             },
             option: {
                 title: {
                     text: '库存动态预警',
                     style: {
                         fill: '#fff',
-                        fontSize: 25
+                        fontSize: 22,
+                        fontWeight: 500
                     }
                 },
                 legend: {
@@ -118,10 +159,12 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
                         fill: '#fff',
                         fontSize: 18
                     },
-                    bottom: '5',
+                    bottom: '5'
                 },
                 grid: {
                     bottom: '15',
+                    left: 10,
+                    right: 10
                 },
                 xAxis: {
                     data: ['铁矿石', '废钢', '焦煤', '粉煤'],
@@ -162,9 +205,11 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
                         label: {
                             show: true,
                             style: {
-                                fontSize: 18
-                            }
-                        }
+                                fontSize: 18,
+                                fill: '#fff'
+                            },
+                        },
+                        barGap: 0
                     },
                     {
                         name: '当前库存',
@@ -173,9 +218,11 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
                         label: {
                             show: true,
                             style: {
-                                fontSize: 18
-                            }
-                        }
+                                fontSize: 18,
+                                fill: '#fff'
+                            },
+                        },
+                        barGap: 0
                     },
                     {
                         name: '在途库存',
@@ -184,33 +231,56 @@ export default class FrmScreen extends React.Component<PropsType, stateType> {
                         label: {
                             show: true,
                             style: {
-                                fontSize: 18
-                            }
-                        }
+                                fontSize: 18,
+                                fill: '#fff'
+                            },
+                        },
+                        barGap: 0
                     }
                 ],
                 color: ['#66ff66', '#49bbd1', '#ffff00']
-            }
-        }
+            },
+            ironOreRow,
+            scrapRow,
+            cCoalRow,
+            pCoalRow
+        })
+    }
+
+    async initData() {
+        let ironOreRow = new DataRow();
+        ironOreRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
+        let scrapRow = new DataRow();
+        scrapRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
+        let cCoalRow = new DataRow();
+        cCoalRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
+        let pCoalRow = new DataRow();
+        pCoalRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
+        this.setState({
+            ironOreRow,
+            scrapRow,
+            cCoalRow,
+            pCoalRow
+        })
     }
 
     render() {
         return (
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader />
+                    <TopHeader title='采购数据管理中心' />
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList}>
-                                <TextList title="铁矿石采购动态（T）" date={new DataRow().setValue('purchase', 3000).setValue('storage', 2400).setValue('onOrder', 500).setValue('inStock', 2500)} />
-                                <TextList title="废钢采购动态（T）" date={new DataRow().setValue('purchase', 3000).setValue('storage', 2400).setValue('onOrder', 500).setValue('inStock', 2500)} />
+                                <TextList title="铁矿石采购动态（T）" date={this.state.ironOreRow} />
+                                <TextList title="废钢采购动态（T）" date={this.state.scrapRow} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
                                 <Charts option={this.state.option} />
                             </div>
                             <div className={styles.textList}>
-                                <TextList title="焦煤采购动态（T）" date={new DataRow().setValue('purchase', 3000).setValue('storage', 2400).setValue('onOrder', 500).setValue('inStock', 2500)} />
-                                <TextList title="粉煤采购动态（T）" date={new DataRow().setValue('purchase', 3000).setValue('storage', 2400).setValue('onOrder', 500).setValue('inStock', 2500)} />
+                                <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} />
+                                <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} />
                             </div>
                         </div>
                         <div className={styles.polylineOption} >
