@@ -9,7 +9,8 @@ export type ViewTypeProps = {
     id?: string,
     title?: string,
     width?: string,
-    height?: string
+    height?: string,
+    option?: any
 }
 
 export const xPointName = 'xPointName_';
@@ -17,7 +18,7 @@ export const xColumns = 'xColumns_';
 export const seriesName = 'seriesName_'
 
 export type ViewTypeState = {
-    myEchart: echarts.EChartsType 
+    myEchart: echarts.EChartsType
 }
 
 export default abstract class ViewConfig<T extends ViewTypeProps = ViewTypeProps, S extends ViewTypeState = ViewTypeState> extends React.Component<T, S> {
@@ -37,9 +38,7 @@ export default abstract class ViewConfig<T extends ViewTypeProps = ViewTypeProps
     abstract initEchart(): void;
 
     render(): React.ReactNode {
-        return <div className={styles.main}>
-            <div id='auiHistogram' style={this.getStyle()}></div>
-        </div>
+        return <div id='auiHistogram' style={this.getStyle()}></div>
     }
 
     getStyle() {

@@ -22,7 +22,14 @@ export default class ColumnChart extends ViewConfig<ColumnChartTypeProps, ViewTy
                 series.push({
                     name: names[index],
                     type: 'bar',
-                    data: []
+                    data: [],
+                    label: {
+                        show: true,
+                        position: 'insideTop',
+                        distance: -15,
+                        color: '#fff'
+                    },
+                    barGap: 0
                 })
             })
             dataSet.first();
@@ -35,14 +42,14 @@ export default class ColumnChart extends ViewConfig<ColumnChartTypeProps, ViewTy
             let option = {
                 // 标题
                 title: [
-                  {
-                    text: this.props.title,
-                    textStyle: {
-                        color: '#fff'
-                    },
-                    top: '10',
-                    left: '10'
-                  }
+                    {
+                        text: this.props.title,
+                        textStyle: {
+                            color: '#fff'
+                        },
+                        top: '10',
+                        left: '10'
+                    }
                 ],
                 backgroundColor: '#100C2A',
                 color: ['#6AACFC', '#A9DF96', '#F6868A', '#8FD5F3'],
@@ -78,6 +85,8 @@ export default class ColumnChart extends ViewConfig<ColumnChartTypeProps, ViewTy
                     data: axis
                 }
             }
+            if (this.props.option)
+                Object.assign(option, this.props.option);
             this.state.myEchart.setOption(option)
         }
     }
