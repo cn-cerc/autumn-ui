@@ -2,6 +2,7 @@ import DateYMDialog from "../src/diteng/DateYMDialog";
 import FrmPrivacyRight from "../src/diteng/FrmPrivacyRight";
 import FrmUserAgreement from "../src/diteng/FrmUserAgreement";
 import index from '../src/index';
+import datav from "./datav";
 import { Loading } from "./db/Loading";
 import Utils, { ClientStorage } from "./db/Utils";
 import AccountEditDialog from "./diteng/AccountEditDialog";
@@ -71,6 +72,7 @@ import TCustomComponent from "./vcl/TCustomComponent";
 
 export default {
     ...index,
+    ...datav,
     //地藤专用
     TSchProductAnalysis,
     TSchScmStockInOut,

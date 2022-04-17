@@ -71,9 +71,10 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
 
     componentDidMount(): void {
         this.initState();
+        this.initData();
         setInterval(() => {
             this.initData()
-        }, 5000)
+        }, 30000)
     }
 
     getRandom(num: number) {

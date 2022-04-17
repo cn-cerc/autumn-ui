@@ -73,9 +73,10 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
 
     componentDidMount(): void {
         this.initState();
+        this.initData();
         setInterval(() => {
             this.initData()
-        }, 5000)
+        }, 30000)
     }
 
     getRandom(num: number) {
