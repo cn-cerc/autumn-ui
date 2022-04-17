@@ -10,7 +10,8 @@ import styles from "./ReportDetail.css";
 type FrmReportTypeProps = {
     dataSet: DataSet,
     head: DataRow,
-    title: string
+    title: string,
+    hideIt?: boolean
 }
 
 export default class ReportDetail extends React.Component<FrmReportTypeProps> {
@@ -37,7 +38,9 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
 
     getColumns() {
         console.log(this.props.head)
-        let list: ReactNode[] = [<ColumnIt key='it'></ColumnIt>];
+        let list: ReactNode[] = [];
+        if (!this.props.hideIt)
+            list.push(<ColumnIt key='it'></ColumnIt>);
         this.props.head.forEach((key: string, value: any) => {
             list.push(<Column code={key} name={value.name} width={value.width} textAlign='center' key={key}></Column>)
         })

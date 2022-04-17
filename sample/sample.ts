@@ -12,6 +12,11 @@ import FrmEmployee2 from "../src/datav/FrmEmployee2"
 import FrmEmployee3 from "../src/datav/FrmEmployee3"
 import FrmEmployee4 from "../src/datav/FrmEmployee4"
 import FrmReport2 from "../src/datav/FrmReport2"
+import FrmReport3 from "../src/datav/FrmReport3"
+import FrmReport4 from "../src/datav/FrmReport4"
+import FrmReport5 from "../src/datav/FrmReport5"
+import FrmReport6 from "../src/datav/FrmReport6"
+import FrmReport7 from "../src/datav/FrmReport7"
 
 export default {
     ...index,
@@ -22,6 +27,6 @@ export default {
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmReport2);
+    let el = React.createElement(FrmReport7);
     ReactDOM.render(el, app)
 }
