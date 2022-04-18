@@ -22,6 +22,7 @@ type PropsType = {
 }
 
 export default class FrmPurchaseChart extends React.Component<PropsType, stateType> {
+    private timer: any = null;
     constructor(props: PropsType) {
         super(props);
         this.state = {
@@ -34,15 +35,15 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr1: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: './reportDetail2.html'
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）")'
             }, {
                 name: '年度入库数量',
                 key: 'storage',
-                href: './reportDetail1.html'
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）")'
             }, {
                 name: '年度在途数量',
                 key: 'onOrder',
-                href: './reportDetail3.html'
+                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）")'
             }, {
                 name: '年度在库数量',
                 key: 'inStock',
@@ -62,13 +63,13 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             }],
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
-                href: './frmPurchaseChart.html'
+                href: 'javascript:aui.showPage("FrmPurchaseChart", "采购数据管理中心")'
             }], ['制造数据管理中心', {
                 imgSrc: './kanban2.png',
-                href: './frmManufactureChart.html'
+                href: 'javascript:aui.showPage("FrmManufactureChart", "制造数据管理中心")'
             }], ['销售数据管理中心', {
                 imgSrc: './kanban3.png',
-                href: './frmSaleChart.html'
+                href: 'javascript:aui.showPage("FrmSaleChart", "销售数据管理中心")'
             }]]),
             showIndex: 0
         }
@@ -77,13 +78,25 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
     componentDidMount(): void {
         this.initState();
         this.initData();
-        setInterval(() => {
+        this.timer = setInterval(() => {
             this.initData()
         }, 30000)
+
+        setTimeout(()=>{
+            this.changeEcharts();
+        }, 5000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     getRandom(num: number) {
         return Math.floor(Math.random() * num);
+    }
+
+    changeEcharts() {
+        
     }
 
     async initState() {

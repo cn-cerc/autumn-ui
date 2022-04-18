@@ -3,10 +3,6 @@ import { BorderBox11, DigitalFlop } from '@jiaminghi/data-view-react';
 import DataRow from '../db/DataRow';
 import styles from './TextList.css';
 
-type stateType = {
-  num: number
-}
-
 type PropsType = {
   title: string,
   date: DataRow,
@@ -19,18 +15,9 @@ export type listType = {
   href?: string
 }
 
-export default class TextList extends React.Component<PropsType, stateType> {
+export default class TextList extends React.Component<PropsType> {
   constructor(props: PropsType) {
     super(props);
-    this.state = {
-      num: 1000
-    }
-    this.time();
-  }
-  time() {
-    setInterval(() => {
-      this.setState({ ...this.state, num: Math.random() * 1000 });
-    }, 2000)
   }
   render() {
     return <div className={styles.main}>

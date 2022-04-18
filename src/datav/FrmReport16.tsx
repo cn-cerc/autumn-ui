@@ -51,6 +51,6 @@ export default class FrmReport16 extends React.Component<FrmReportTypeProps, Frm
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title='线材本年出货动态（2022年）' key={this.state.reportData.json}></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title='线材本年出货动态（2022年）' key={this.state.reportData.json} backHref='FrmSaleChart' backTitle='销售数据管理中心'></ReportDetail>
     }
 }

@@ -21,6 +21,7 @@ type PropsType = {
 }
 
 export default class FrmSaleChart extends React.Component<PropsType, stateType> {
+    private timer: any = null;
     constructor(props: PropsType) {
         super(props);
         this.state = {
@@ -33,39 +34,39 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             listTypeArr1: [{
                 name: '今日接单数量',
                 key: 'todayOrder',
-                href: './reportDetail7.html'
+                href: 'javascript:aui.showPage("FrmReport9", "线材接单今日动态（T）")'
             }, {
                 name: '本周接单数量',
                 key: 'weekOrder',
-                href: './reportDetail8.html'
+                href: 'javascript:aui.showPage("FrmReport10", "线材本周接单动态（T）")'
             }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
-                href: './reportDetail9.html'
+                href: 'javascript:aui.showPage("FrmReport11", "线材本月接单动态（T）")'
             }, {
                 name: '本年接单数量',
                 key: 'yearOrder',
-                href: './reportDetail10.html'
+                href: 'javascript:aui.showPage("FrmReport12", "线材本年接单动态（T）")'
             },{
                 name: '今日出库数量',
                 key: 'weekOutStock',
-                href: './reportDetail11.html'
+                href: 'javascript:aui.showPage("FrmReport13", "线材今日出库动态（T）")'
             },{
                 name: '本周出库数量',
                 key: 'weekOutStock',
-                href: './reportDetail12.html'
+                href: 'javascript:aui.showPage("FrmReport14", "线材本周出库动态（T）")'
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
-                href: './reportDetail13.html'
+                href: 'javascript:aui.showPage("FrmReport15", "线材本月出库动态（4月）")'
             }, {
                 name: '本年出库数量',
                 key: 'yearOutStock',
-                href: './reportDetail14.html'
+                href: 'javascript:aui.showPage("FrmReport16", "线材本年出货动态（2022年）")'
             }, {
                 name: '当前未出库数',
                 key: 'onOutStock',
-                href: './reportDetail15.html'
+                href: 'javascript:aui.showPage("FrmReport17", "线材未出货订单与库存动态（T）")'
             }, {
                 name: '当前库存数量',
                 key: 'inStock',
@@ -103,13 +104,13 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             }],
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
-                href: './frmPurchaseChart.html'
+                href: 'javascript:aui.showPage("FrmPurchaseChart")'
             }], ['制造数据管理中心', {
                 imgSrc: './kanban2.png',
-                href: './frmManufactureChart.html'
+                href: 'javascript:aui.showPage("FrmManufactureChart")'
             }], ['销售数据管理中心', {
                 imgSrc: './kanban3.png',
-                href: './frmSaleChart.html'
+                href: 'javascript:aui.showPage("FrmSaleChart")'
             }]]),
             showIndex: 0
         }
@@ -118,9 +119,13 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
     componentDidMount(): void {
         this.initState();
         this.initData();
-        setInterval(() => {
+        this.timer = setInterval(() => {
             this.initData()
         }, 30000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     getRandom(num: number) {
@@ -139,7 +144,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
         this.setState({
             polylineOption: {
                 title: {
-                    text: '废钢采购年度对比动态',
+                    text: '年度销售动态分析',
                     style: {
                         fill: '#fff',
                         fontSize: 22,

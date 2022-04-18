@@ -11,6 +11,8 @@ type FrmReportTypeProps = {
     dataSet: DataSet,
     head: DataRow,
     title: string,
+    backHref?: string,
+    backTitle?: string,
     hideIt?: boolean
 }
 
@@ -24,7 +26,10 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
             <FullScreenContainer className={styles.dvFullScreenContainer}>
                 <TopHeader title={this.props.title} />
                 <div className={styles.box}>
-                    <div className={styles.back} onClick={() => history.go(-1)}>
+                    <div className={styles.back} onClick={()=>{
+                        //@ts-ignore
+                        return aui.showPage(this.props.backHref, this.props.backTitle)
+                    }}>
                         <Decoration7>返回</Decoration7>
                     </div>
                     <BorderBox9>

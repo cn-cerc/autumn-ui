@@ -6,7 +6,9 @@ import TopHeader from "./TopHeader";
 
 type EmployTypeProps = {
     dataRow: DataRow,
-    title: string
+    title: string,
+    backHref: string,
+    backTitle: string
 }
 
 export default class Employee extends React.Component<EmployTypeProps> {
@@ -18,7 +20,10 @@ export default class Employee extends React.Component<EmployTypeProps> {
         return <div className={styles.main}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
                 <TopHeader title={this.props.title} />
-                <div className={styles.back} onClick={() => history.go(-1)}>
+                <div className={styles.back} onClick={() => {
+                    //@ts-ignore
+                    return aui.showPage(this.props.backHref, this.props.backTitle)
+                }}>
                     <Decoration7>返回</Decoration7>
                 </div>
                 <div className={styles.content}>

@@ -32,12 +32,14 @@ export default {
     ...index,
     ...diteng,
     ...datav,
+    React,
+    ReactDOM,
     //ksdl
     IndexKsdl,
 }
 
-let app = document.getElementById('app');
-if (app) {
-    let el = React.createElement(FrmEmployee4);
-    ReactDOM.render(el, app)
-}
+// let app = document.getElementById('app');
+// if (app) {
+//     let el = React.createElement(FrmPurchaseChart);
+//     ReactDOM.render(el, app)
+// }

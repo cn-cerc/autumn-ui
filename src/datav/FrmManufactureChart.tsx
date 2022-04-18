@@ -23,6 +23,7 @@ type PropsType = {
 }
 
 export default class FrmManufactureChart extends React.Component<PropsType, stateType> {
+    private timer: any = null;
     constructor(props: PropsType) {
         super(props);
         this.state = {
@@ -35,15 +36,15 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             listTypeArr1: [{
                 name: '本周入库数量',
                 key: 'weekStock',
-                href: './reportDetail4.html'
+                href: 'javascript:aui.showPage("FrmReport4", "本周线材入库动态（T）")'
             }, {
                 name: '本月入库数量',
                 key: 'monthStock',
-                href: './reportDetail5.html'
+                href: 'javascript:aui.showPage("FrmReport5", "本月线材入库动态（T）")'
             }, {
                 name: '本年入库数量',
                 key: 'yearStock',
-                href: './reportDetail6.html'
+                href: 'javascript:aui.showPage("FrmReport6", "本年线材入库动态（T）")'
             }],
             listTypeArr2: [{
                 name: '本周入库数量',
@@ -71,13 +72,13 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             }],
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
-                href: './frmPurchaseChart.html'
+                href: 'javascript:aui.showPage("FrmPurchaseChart", "采购数据管理中心")'
             }], ['制造数据管理中心', {
                 imgSrc: './kanban2.png',
-                href: './frmManufactureChart.html'
+                href: 'javascript:aui.showPage("FrmManufactureChart", "制造数据管理中心")'
             }], ['销售数据管理中心', {
                 imgSrc: './kanban3.png',
-                href: './frmSaleChart.html'
+                href: 'javascript:aui.showPage("FrmSaleChart", "销售数据管理中心")'
             }]]),
             showIndex: 0
         }
@@ -86,9 +87,13 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
     componentDidMount(): void {
         this.initState();
         this.initData();
-        setInterval(() => {
+        this.timer = setInterval(() => {
             this.initData()
         }, 30000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     getRandom(num: number) {
@@ -109,7 +114,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
         this.setState({
             polylineOption: {
                 title: {
-                    text: '废钢采购年度对比动态',
+                    text: '生产入库汇总年度对比动态',
                     style: {
                         fill: '#fff',
                         fontSize: 22,
@@ -324,19 +329,31 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                             <div className={styles.blockTopBottomContent}>
                                 <ul className={styles.chartState}>
                                     <li>
-                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee1.html'}></img>
+                                        <img src='./employee.png' onClick={() => {
+                                            //@ts-ignore
+                                            aui.showPage("FrmEmployee1", "线材生产线")
+                                        }}></img>
                                         <span className={styles.warn}></span>
                                     </li>
                                     <li>
-                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee2.html'}></img>
+                                        <img src='./employee.png' onClick={() => {
+                                            //@ts-ignore
+                                            aui.showPage("FrmEmployee2", "卷材生产线")
+                                        }}></img>
                                         <span className={styles.success}></span>
                                     </li>
                                     <li>
-                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee3.html'}></img>
+                                        <img src='./employee.png' onClick={() => {
+                                            //@ts-ignore
+                                            aui.showPage("FrmEmployee3", "H型钢材生产线")
+                                        }}></img>
                                         <span className={styles.success}></span>
                                     </li>
                                     <li>
-                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee4.html'}></img>
+                                        <img src='./employee.png' onClick={() => {
+                                            //@ts-ignore
+                                            aui.showPage("FrmEmployee4", "螺纹钢材生产线")
+                                        }}></img>
                                         <span className={styles.error}></span>
                                     </li>
                                 </ul>
