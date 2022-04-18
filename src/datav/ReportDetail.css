@@ -54,3 +54,11 @@
 .grid>div tbody>tr:nth-child(2n+1) {
     background-color: #0A2732;
 }
+
+.back {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    cursor: pointer;
+}

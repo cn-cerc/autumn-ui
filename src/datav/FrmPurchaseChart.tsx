@@ -5,6 +5,7 @@ import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
+import "../diteng/Summer.css";
 type stateType = {
     polylineOption: any,
     option: any,
@@ -12,7 +13,8 @@ type stateType = {
     scrapRow: DataRow,
     cCoalRow: DataRow,
     pCoalRow: DataRow
-    listTypeArr: listType[],
+    listTypeArr1: listType[],
+    listTypeArr2: listType[],
     menuOptions: ViewMenuMap,
     showIndex: number
 }
@@ -29,7 +31,23 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             scrapRow: new DataRow(),
             cCoalRow: new DataRow(),
             pCoalRow: new DataRow(),
-            listTypeArr: [{
+            listTypeArr1: [{
+                name: '年度采购数量',
+                key: 'purchase',
+                href: './reportDetail2.html'
+            }, {
+                name: '年度入库数量',
+                key: 'storage',
+                href: './reportDetail1.html'
+            }, {
+                name: '年度在途数量',
+                key: 'onOrder',
+                href: './reportDetail3.html'
+            }, {
+                name: '年度在库数量',
+                key: 'inStock',
+            }],
+            listTypeArr2: [{
                 name: '年度采购数量',
                 key: 'purchase'
             }, {
@@ -43,14 +61,14 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 key: 'inStock'
             }],
             menuOptions: new Map([['采购数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban1.png',
-                href: '#'
+                imgSrc: './kanban1.png',
+                href: './frmPurchaseChart.html'
             }], ['制造数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban2.png',
-                href: '321'
+                imgSrc: './kanban2.png',
+                href: './frmManufactureChart.html'
             }], ['销售数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban3.png',
-                href: '321'
+                imgSrc: './kanban3.png',
+                href: './frmSaleChart.html'
             }]]),
             showIndex: 0
         }
@@ -261,7 +279,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         barGap: 0
                     }
                 ],
-                color: ['#66ff66', '#49bbd1', '#ffff00']
+                color: ['#1CB53C', '#1C71D4', '#EBBB06']
             },
             ironOreRow,
             scrapRow,
@@ -295,15 +313,15 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList}>
-                                <TextList title="铁矿石采购动态（T）" date={this.state.ironOreRow} listArray={this.state.listTypeArr} />
-                                <TextList title="废钢采购动态（T）" date={this.state.scrapRow} listArray={this.state.listTypeArr} />
+                                <TextList title="铁矿石采购动态（T）" date={this.state.ironOreRow} listArray={this.state.listTypeArr1} />
+                                <TextList title="废钢采购动态（T）" date={this.state.scrapRow} listArray={this.state.listTypeArr2} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
                                 <Charts option={this.state.option} />
                             </div>
                             <div className={styles.textList}>
-                                <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr} />
-                                <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr} />
+                                <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr2} />
+                                <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr2} />
                             </div>
                         </div>
                         <div className={styles.polylineOption} >

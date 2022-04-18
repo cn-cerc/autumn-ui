@@ -10,12 +10,13 @@ type stateType = {
 type PropsType = {
   title: string,
   date: DataRow,
-  listArray: listType[]
+  listArray: listType[],
 }
 
 export type listType = {
   name: string,
-  key: string
+  key: string,
+  href?: string
 }
 
 export default class TextList extends React.Component<PropsType, stateType> {
@@ -42,7 +43,7 @@ export default class TextList extends React.Component<PropsType, stateType> {
   getContent() {
     let list = this.props.listArray.map((listType: listType, index: number) => {
       return <li key={index}>
-        <span>{listType.name}：</span>
+        <span onClick={this.handleNameClick.bind(this, listType)}>{listType.name}：</span>
         <DigitalFlop config={{
           number: [this.props.date.getDouble(listType.key)],
           content: '{nt}',
@@ -58,5 +59,10 @@ export default class TextList extends React.Component<PropsType, stateType> {
       </li>
     })
     return <ul className={styles.content} >{list}</ul>
+  }
+
+  handleNameClick(listType: listType) {
+    if(listType.href)
+      location.href = listType.href;
   }
 }

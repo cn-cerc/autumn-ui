@@ -11,8 +11,9 @@ type stateType = {
     wireRow: DataRow,
     coilRow: DataRow,
     hSteelRow: DataRow,
-    steelRow: DataRow
-    listTypeArr: listType[],
+    steelRow: DataRow,
+    listTypeArr1: listType[],
+    listTypeArr2: listType[],
     menuOptions: ViewMenuMap,
     showIndex: number
 }
@@ -29,7 +30,47 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             coilRow: new DataRow(),
             hSteelRow: new DataRow(),
             steelRow: new DataRow(),
-            listTypeArr: [{
+            listTypeArr1: [{
+                name: '今日接单数量',
+                key: 'todayOrder',
+                href: './reportDetail7.html'
+            }, {
+                name: '本周接单数量',
+                key: 'weekOrder',
+                href: './reportDetail8.html'
+            }, {
+                name: '本月接单数量',
+                key: 'monthOrder',
+                href: './reportDetail9.html'
+            }, {
+                name: '本年接单数量',
+                key: 'yearOrder',
+                href: './reportDetail10.html'
+            },{
+                name: '今日出库数量',
+                key: 'weekOutStock',
+                href: './reportDetail11.html'
+            },{
+                name: '本周出库数量',
+                key: 'weekOutStock',
+                href: './reportDetail12.html'
+            }, {
+                name: '本月出库数量',
+                key: 'monthOutStock',
+                href: './reportDetail13.html'
+            }, {
+                name: '本年出库数量',
+                key: 'yearOutStock',
+                href: './reportDetail14.html'
+            }, {
+                name: '当前未出库数',
+                key: 'onOutStock',
+                href: './reportDetail15.html'
+            }, {
+                name: '当前库存数量',
+                key: 'inStock',
+            }],
+            listTypeArr2: [{
                 name: '今日接单数量',
                 key: 'todayOrder'
             }, {
@@ -41,6 +82,9 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             }, {
                 name: '本年接单数量',
                 key: 'yearOrder'
+            }, {
+                name: '今日出库数量',
+                key: 'weekOutStock',
             }, {
                 name: '本周出库数量',
                 key: 'weekOutStock'
@@ -58,14 +102,14 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 key: 'inStock'
             }],
             menuOptions: new Map([['采购数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban1.png',
-                href: '#'
+                imgSrc: './kanban1.png',
+                href: './frmPurchaseChart.html'
             }], ['制造数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban2.png',
-                href: '321'
+                imgSrc: './kanban2.png',
+                href: './frmManufactureChart.html'
             }], ['销售数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban3.png',
-                href: '321'
+                imgSrc: './kanban3.png',
+                href: './frmSaleChart.html'
             }]]),
             showIndex: 0
         }
@@ -224,7 +268,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                         }
                     }
                 ],
-                color: ['#4abbcb', '#a3f8e4', '#afdd52', '#6a9b46']
+                color: ['#42C1D2', '#4AF8E4', '#62B530', '#14A338']
             },
             wireRow,
             coilRow,
@@ -258,15 +302,15 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList4}>
-                                <TextList title="线材出库动态（T）" date={this.state.wireRow} listArray={this.state.listTypeArr} />
-                                <TextList title="卷材出库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr} />
+                                <TextList title="线材出库动态（T）" date={this.state.wireRow} listArray={this.state.listTypeArr1} />
+                                <TextList title="卷材出库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr2} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
                                 <Charts option={this.state.option} />
                             </div>
                             <div className={styles.textList4}>
-                                <TextList title="H钢材出库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr} />
-                                <TextList title="螺纹钢材出库动态（T）" date={this.state.steelRow} listArray={this.state.listTypeArr} />
+                                <TextList title="H钢材出库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr2} />
+                                <TextList title="螺纹钢材出库动态（T）" date={this.state.steelRow} listArray={this.state.listTypeArr2} />
                             </div>
                         </div>
                         <div className={styles.polylineOption2} >

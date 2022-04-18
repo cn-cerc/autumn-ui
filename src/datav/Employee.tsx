@@ -1,5 +1,5 @@
 import React from "react";
-import { BorderBox13, BorderBox9, FullScreenContainer } from "@jiaminghi/data-view-react";
+import { BorderBox13, BorderBox9, Decoration7, FullScreenContainer } from "@jiaminghi/data-view-react";
 import DataRow from "../db/DataRow";
 import styles from "./Employee.css";
 import TopHeader from "./TopHeader";
@@ -18,10 +18,13 @@ export default class Employee extends React.Component<EmployTypeProps> {
         return <div className={styles.main}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
                 <TopHeader title={this.props.title} />
+                <div className={styles.back} onClick={() => history.go(-1)}>
+                    <Decoration7>返回</Decoration7>
+                </div>
                 <div className={styles.content}>
                     <div className={styles.left}>
                         {/* <div className={styles.img1}></div> */}
-                        <img src='http://material.diteng.site/employee.png' className={styles.img1}/>
+                        <img src='./employee.png' className={styles.img1}/>
                         <div className={styles.info}>
                             <BorderBox13>
                                 <ul>
@@ -35,7 +38,7 @@ export default class Employee extends React.Component<EmployTypeProps> {
                         </div>
                     </div>
                     <div className={styles.right}>
-                        <img src='http://material.diteng.site/employee2.png' className={styles.img2} />
+                        <img src='./employee2.png' className={styles.img2} />
                         <table cellSpacing={0} cellPadding={0}>
                             <tbody>
                                 <tr>

@@ -23,7 +23,7 @@ function getMenus(options: ViewMenuMap) {
         href: string
     }, key: string) => {
         list.push(
-            <li key={key} onMouseLeave={(e)=>handleLeave(e)} onMouseEnter={(e)=>handleEnter(e)}>
+            <li key={key} onMouseLeave={(e)=>handleLeave(e)} onMouseEnter={(e)=>handleEnter(e)} onClick={handleClick.bind(this, val.href)}>
                 <img src={val.imgSrc}/>
                 <div>{key}</div>
             </li>
@@ -44,4 +44,8 @@ function handleEnter(e: any): React.MouseEventHandler<HTMLLIElement> {
     dom.classList.remove(styles.reduction);
     dom.classList.add(styles.transY);
     return e.target;
+}
+
+function handleClick(href: string) {
+    location.href = href;
 }

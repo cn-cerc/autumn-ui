@@ -21,6 +21,8 @@ declare module '@jiaminghi/data-view-react' {
     export const ScrollBoard: any
     export const WaterLevelPond: any
     export const Decoration5: any
+    export const Decoration7: any
     export const Decoration8: any
     export const Decoration10: any
+    export const Decoration11: any
 }

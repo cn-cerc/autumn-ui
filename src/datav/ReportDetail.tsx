@@ -1,4 +1,4 @@
-import { BorderBox9, FullScreenContainer } from "@jiaminghi/data-view-react";
+import { BorderBox9, FullScreenContainer, Decoration7 } from "@jiaminghi/data-view-react";
 import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
@@ -24,6 +24,9 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
             <FullScreenContainer className={styles.dvFullScreenContainer}>
                 <TopHeader title={this.props.title} />
                 <div className={styles.box}>
+                    <div className={styles.back} onClick={() => history.go(-1)}>
+                        <Decoration7>返回</Decoration7>
+                    </div>
                     <BorderBox9>
                         <div className={styles.grid}>
                             <DBGrid dataSet={this.props.dataSet}>

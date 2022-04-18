@@ -6,11 +6,11 @@ import FrmSaleChart from "../src/datav/FrmSaleChart"
 import diteng from '../src/diteng'
 import index from '../src/index'
 import IndexKsdl from "../src/ksdl/IndexKsdl"
-import FrmReport1 from "../src/datav/FrmReport1"
 import FrmEmployee1 from "../src/datav/FrmEmployee1"
 import FrmEmployee2 from "../src/datav/FrmEmployee2"
 import FrmEmployee3 from "../src/datav/FrmEmployee3"
 import FrmEmployee4 from "../src/datav/FrmEmployee4"
+import FrmReport1 from "../src/datav/FrmReport1"
 import FrmReport2 from "../src/datav/FrmReport2"
 import FrmReport3 from "../src/datav/FrmReport3"
 import FrmReport4 from "../src/datav/FrmReport4"
@@ -21,16 +21,23 @@ import FrmReport9 from "../src/datav/FrmReport9"
 import FrmReport10 from "../src/datav/FrmReport10"
 import FrmReport11 from "../src/datav/FrmReport11"
 import FrmReport12 from "../src/datav/FrmReport12"
+import datav from "../src/datav"
+import FrmReport13 from "../src/datav/FrmReport13"
+import FrmReport14 from "../src/datav/FrmReport14"
+import FrmReport15 from "../src/datav/FrmReport15"
+import FrmReport16 from "../src/datav/FrmReport16"
+import FrmReport17 from "../src/datav/FrmReport17"
 
 export default {
     ...index,
     ...diteng,
+    ...datav,
     //ksdl
     IndexKsdl,
 }
 
 let app = document.getElementById('app');
 if (app) {
-    let el = React.createElement(FrmReport12);
+    let el = React.createElement(FrmEmployee4);
     ReactDOM.render(el, app)
 }

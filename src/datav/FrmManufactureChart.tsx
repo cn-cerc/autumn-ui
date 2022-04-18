@@ -11,8 +11,9 @@ type stateType = {
     wireRow: DataRow,
     coilRow: DataRow,
     hSteelRow: DataRow,
-    steelRow: DataRow
-    listTypeArr: listType[],
+    steelRow: DataRow,
+    listTypeArr1: listType[],
+    listTypeArr2: listType[],
     stopRow: DataRow,
     stopArr: listType[],
     menuOptions: ViewMenuMap,
@@ -31,7 +32,20 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             coilRow: new DataRow(),
             hSteelRow: new DataRow(),
             steelRow: new DataRow(),
-            listTypeArr: [{
+            listTypeArr1: [{
+                name: '本周入库数量',
+                key: 'weekStock',
+                href: './reportDetail4.html'
+            }, {
+                name: '本月入库数量',
+                key: 'monthStock',
+                href: './reportDetail5.html'
+            }, {
+                name: '本年入库数量',
+                key: 'yearStock',
+                href: './reportDetail6.html'
+            }],
+            listTypeArr2: [{
                 name: '本周入库数量',
                 key: 'weekStock'
             }, {
@@ -56,14 +70,14 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 key: 'yearError'
             }],
             menuOptions: new Map([['采购数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban1.png',
-                href: '#'
+                imgSrc: './kanban1.png',
+                href: './frmPurchaseChart.html'
             }], ['制造数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban2.png',
-                href: '321'
+                imgSrc: './kanban2.png',
+                href: './frmManufactureChart.html'
             }], ['销售数据管理中心', {
-                imgSrc: 'http://192.168.1.138/forms/images/view/kanban3.png',
-                href: '321'
+                imgSrc: './kanban3.png',
+                href: './frmSaleChart.html'
             }]]),
             showIndex: 0
         }
@@ -210,7 +224,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                     }
                 },
                 yAxis: {
-                    data: ['线材线', '卷材线', 'H钢材线', '螺纹钢材线'],
+                    data: ['螺纹钢材线', 'H钢材线', '卷材线', '线材线'],
                     axisLine: {
                         show: true,
                         style: {
@@ -264,7 +278,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                         barGap: 0
                     },
                 ],
-                color: ['#66ff66', '#41aebd']
+                color: ['#42C1D2', '#14A338']
             },
             wireRow,
             coilRow,
@@ -302,12 +316,30 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList2}>
-                                <TextList title="线材入库动态（T）" date={this.state.wireRow} listArray={this.state.listTypeArr} />
-                                <TextList title="卷材入库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr} />
-                                <TextList title="H型钢材入库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr} />
-                                <TextList title="钢材入库动态（T）" date={this.state.steelRow} listArray={this.state.listTypeArr} />
+                                <TextList title="线材入库动态（T）" date={this.state.wireRow} listArray={this.state.listTypeArr1} />
+                                <TextList title="卷材入库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr2} />
+                                <TextList title="H型钢材入库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr2} />
+                                <TextList title="钢材入库动态（T）" date={this.state.steelRow} listArray={this.state.listTypeArr2} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
+                                <ul className={styles.chartState}>
+                                    <li>
+                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee1.html'}></img>
+                                        <span className={styles.warn}></span>
+                                    </li>
+                                    <li>
+                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee2.html'}></img>
+                                        <span className={styles.success}></span>
+                                    </li>
+                                    <li>
+                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee3.html'}></img>
+                                        <span className={styles.success}></span>
+                                    </li>
+                                    <li>
+                                        <img src='./employee.png' onClick={() => location.href = './frmEmployee4.html'}></img>
+                                        <span className={styles.error}></span>
+                                    </li>
+                                </ul>
                                 <Charts option={this.state.option} />
                             </div>
                             <div className={styles.textList2}>
@@ -407,7 +439,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
 
     getMenusStyle() {
         let style = ''
-        if(this.state.showIndex > 0)
+        if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu
         return style
     }
