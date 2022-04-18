@@ -80,11 +80,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         this.initData();
         this.timer = setInterval(() => {
             this.initData()
-        }, 30000)
-
-        setTimeout(()=>{
-            this.changeEcharts();
-        }, 5000)
+        }, 30000);
     }
 
     componentWillUnmount() {
@@ -93,10 +89,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
 
     getRandom(num: number) {
         return Math.floor(Math.random() * num);
-    }
-
-    changeEcharts() {
-        
     }
 
     async initState() {
