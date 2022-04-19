@@ -16,6 +16,10 @@ export default class FreightWayDialog extends BaseDialog<BaseDialogPropsType, Fr
         dataSet.append().setValue('FreightWay_', '德邦物流');
         dataSet.append().setValue('FreightWay_', '中通快运');
         dataSet.append().setValue('FreightWay_', '快递');
+        dataSet.append().setValue('FreightWay_', '金洲-韵达快运');
+        dataSet.append().setValue('FreightWay_', '金洲-壹米滴答');
+        dataSet.append().setValue('FreightWay_', '金洲-顺心快运');
+        dataSet.append().setValue('FreightWay_', '金洲-百世快递');
         this.state = {
             ...this.state,
             dataSet,
