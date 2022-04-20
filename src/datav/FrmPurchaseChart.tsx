@@ -8,6 +8,9 @@ import ViewMenu, { ViewMenuMap } from './ViewMenu';
 import "../diteng/Summer.css";
 import DataVApi from './DataVApi';
 import DataSet from '../db/DataSet';
+import { Excel, excelData, importsExcel } from '../db/Utils';
+//@ts-ignore
+import XLSX from "xlsx";
 type stateType = {
     polylineOption: any,
     option: any,
@@ -17,6 +20,8 @@ type stateType = {
     pCoalRow: DataRow,
     listTypeArr1: listType[],
     listTypeArr2: listType[],
+    listTypeArr3: listType[],
+    listTypeArr4: listType[],
     menuOptions: ViewMenuMap,
     showIndex: number
 }
@@ -37,31 +42,66 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr1: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）")'
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 0})'
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）")'
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 0})'
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
-                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）")'
+                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 0})'
             }, {
                 name: '年度在库数量',
                 key: 'stock',
             }],
             listTypeArr2: [{
                 name: '年度采购数量',
-                key: 'purchase'
+                key: 'purchase',
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 1})'
             }, {
                 name: '年度入库数量',
-                key: 'yearInStock'
+                key: 'yearInStock',
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 1})'
             }, {
                 name: '年度在途数量',
-                key: 'inTransit'
+                key: 'inTransit',
+                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 1})'
             }, {
                 name: '年度在库数量',
-                key: 'stock'
+                key: 'stock',
+            }],
+            listTypeArr3: [{
+                name: '年度采购数量',
+                key: 'purchase',
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 2})'
+            }, {
+                name: '年度入库数量',
+                key: 'yearInStock',
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 2})'
+            }, {
+                name: '年度在途数量',
+                key: 'inTransit',
+                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 2})'
+            }, {
+                name: '年度在库数量',
+                key: 'stock',
+            }],
+            listTypeArr4: [{
+                name: '年度采购数量',
+                key: 'purchase',
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 3})'
+            }, {
+                name: '年度入库数量',
+                key: 'yearInStock',
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 3})'
+            }, {
+                name: '年度在途数量',
+                key: 'inTransit',
+                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 3})'
+            }, {
+                name: '年度在库数量',
+                key: 'stock',
             }],
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
@@ -93,32 +133,65 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
     }
 
     async initData() {
-        let dataSet = await DataVApi.getSvrPurchase();
+        let dataList: excelData[] = [];
+        await fetch('./kanban1.xls', {
+            method: 'get',
+        }).then(function (response) {
+            return response.arrayBuffer()
+        }).then((data) => {
+            let execl = new Excel();
+            dataList = execl.getDataByArrayBuffer(data);
+        })
+        let dataArr = [{ purchase: 0, yearInStock: 0, inTransit: 0, stock: 0 },
+        { purchase: 0, yearInStock: 0, inTransit: 0, stock: 0 },
+        { purchase: 0, yearInStock: 0, inTransit: 0, stock: 0 },
+        { purchase: 0, yearInStock: 0, inTransit: 0, stock: 0 }];
+        let year_ = new Date().getFullYear();
+        dataArr.forEach((obj, index) => {
+            let data = dataList[index].data;
+            data.first();
+            while (data.fetch()) {
+                let year = new Date(data.getString('入库日期')).getFullYear();
+                if(year == year_) {
+                    dataArr[index].purchase += data.getDouble('采购数量');
+                    dataArr[index].yearInStock += data.getDouble('入库数量');
+                    dataArr[index].inTransit += data.getDouble('在途数量');
+                    dataArr[index].stock += data.getDouble('入库数量');
+                }
+            }
+        })
         let ironOreRow = new DataRow();
-        if (dataSet.head.getString('ironOreRow'))
-            ironOreRow.setJson(dataSet.head.getString('ironOreRow'));
+        // if (dataSet.head.getString('ironOreRow'))
+        //     ironOreRow.setJson(dataSet.head.getString('ironOreRow'));
         let scrapRow = new DataRow();
-        if (dataSet.head.getString('scrapRow'))
-            scrapRow.setJson(dataSet.head.getString('scrapRow'));
+        // if (dataSet.head.getString('scrapRow'))
+        //     scrapRow.setJson(dataSet.head.getString('scrapRow'));
         let cCoalRow = new DataRow();
-        if (dataSet.head.getString('cCoalRow'))
-            cCoalRow.setJson(dataSet.head.getString('cCoalRow'));
+        // if (dataSet.head.getString('cCoalRow'))
+        //     cCoalRow.setJson(dataSet.head.getString('cCoalRow'));
         let pCoalRow = new DataRow();
-        if (dataSet.head.getString('pCoalRow'))
-            pCoalRow.setJson(dataSet.head.getString('pCoalRow'));
+        // if (dataSet.head.getString('pCoalRow'))
+        //     pCoalRow.setJson(dataSet.head.getString('pCoalRow'));
+        let rowArr = [ironOreRow, scrapRow, cCoalRow, pCoalRow];
         let dynamicData = new DataSet();
-        if (dataSet.head.getString('DynamicWarning'))
-            dynamicData.setJson(dataSet.head.getString('DynamicWarning'));
+        // if (dataSet.head.getString('DynamicWarning'))
+        //     dynamicData.setJson(dataSet.head.getString('DynamicWarning'));
         let dynamicXArr = [];
         let dynamicLegend = ['安全库存', '当前库存', '在途库存']
         let dynamicDataArr = new Array(dynamicLegend.length);
         for (let i = 0; i < dynamicLegend.length; i++) {
             dynamicDataArr[i] = new Array();
         }
+        rowArr.forEach((row: DataRow, index) => {
+            row.setValue('purchase', dataArr[index].purchase).setValue('yearInStock', dataArr[index].yearInStock).setValue('inTransit', dataArr[index].inTransit).setValue('stock', dataArr[index].stock);
+            dynamicDataArr[0].push((Math.floor(Math.random() * 10)) * 100);
+            dynamicDataArr[1].push(dataArr[index].stock);
+            dynamicDataArr[2].push(dataArr[index].inTransit);
+        })
         dynamicData.first();
         while (dynamicData.fetch()) {
             dynamicXArr.push(dynamicData.getString('name'));
-            dynamicDataArr[0].push(dynamicData.getDouble('safetyStock'));
+            dynamicDataArr[0].push((Math.floor(Math.random() * 10)) * 100);
             dynamicDataArr[1].push(dynamicData.getDouble('currentStock'));
             dynamicDataArr[2].push(dynamicData.getDouble('inTransit'));
         }
@@ -139,42 +212,32 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             })
         }
         let purchaseData = new DataSet();
-        if (dataSet.head.getString('YearPurchase'))
-            purchaseData.setJson(dataSet.head.getString('YearPurchase'));
-        let purchaseLenged = [];
+        // if (dataSet.head.getString('YearPurchase'))
+        //     purchaseData.setJson(dataSet.head.getString('YearPurchase'));
+        purchaseData.appendDataSet(dataList[1].data);
+        let purchaseLenged:string[] = [];
         purchaseData.first();
         while (purchaseData.fetch()) {
-            purchaseLenged.push(purchaseData.getString('year'))
+            let year = new Date(purchaseData.getString('入库日期')).getFullYear().toString();
+            if(purchaseLenged.indexOf(year) == -1) {
+                purchaseLenged.push(year)
+            }
         }
         let purchaseDataArr = new Array(purchaseLenged.length);
         for (let i = 0; i < purchaseLenged.length; i++) {
-            purchaseDataArr[i] = new Array();
+            purchaseDataArr[i] = new Array(12).fill('');
         }
         purchaseData.first();
-        let _year = new Date().getFullYear();
-        let _month = new Date().getMonth() + 1;
         while (purchaseData.fetch()) {
-            let recNo = purchaseData.recNo - 1
-            let year = purchaseData.getDouble('year');
-            if (year >= _year) {
-                for (let i = 1; i < _month + 1; i++) {
-                    purchaseDataArr[recNo].push(purchaseData.getDouble(`month${i}`));
-                }
-            } else {
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month1'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month2'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month3'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month4'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month5'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month6'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month7'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month8'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month9'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month10'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month11'));
-                purchaseDataArr[recNo].push(purchaseData.getDouble('month12'));
+            let date = new Date(purchaseData.getString('入库日期'));
+            let year = date.getFullYear().toString();
+            let month = date.getMonth();
+            let index = purchaseLenged.indexOf(year);
+            if(purchaseDataArr[index][month] == '') {
+                purchaseDataArr[index][month] = 0;
             }
-
+            let num = purchaseData.getDouble('采购数量');
+            purchaseDataArr[index][month] += num;
         }
         let pruchaseSeries = [];
         for (let i = 0; i < purchaseLenged.length; i++) {
@@ -332,8 +395,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                                 <Charts option={this.state.option} />
                             </div>
                             <div className={styles.textList}>
-                                <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr2} />
-                                <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr2} />
+                                <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr3} />
+                                <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr4} />
                             </div>
                         </div>
                         <div className={styles.polylineOption} >

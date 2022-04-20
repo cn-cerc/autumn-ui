@@ -1,7 +1,6 @@
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import QueryService from "../db/QueryService";
-import { showMsg } from "../diteng/Summer";
 
 // 页面初始化时获取的sid
 const initSid = window.localStorage.getItem('ErpKey_sid');
@@ -16,13 +15,13 @@ export default class DataVApi {
         // 发起请求时获取的最新sid
         let newSid = window.localStorage.getItem('ErpKey_sid');
         if (!newSid) {
-            showMsg('当前用户登录状态丢失，请刷新页面重新登录。')
+            throw new Error('当前用户登录状态丢失，请刷新页面重新登录。')
             return '';
         }
         if (newSid == initSid)
             return initSid;
         else {
-            showMsg('当前用户信息错误，请刷新页面。');
+            throw new Error('当前用户信息错误，请刷新页面。');
             return '';
         }
     }

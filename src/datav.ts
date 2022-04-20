@@ -49,11 +49,11 @@ export default {
     showPage
 }
 
-function showPage(str: string, title: string) {
+function showPage(str: string, title: string, props?: object) {
     let app = document.getElementById('app');
     //@ts-ignore
     aui.ReactDOM.unmountComponentAtNode(app);
     document.title = title;
     //@ts-ignore
-    aui.ReactDOM.render(aui.React.createElement(eval(`aui.${str}`)), app)
+    aui.ReactDOM.render(aui.React.createElement(eval(`aui.${str}`), props), app)
 }
