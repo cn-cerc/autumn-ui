@@ -6,13 +6,15 @@ import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
 import "../diteng/Summer.css";
+import DataVApi from './DataVApi';
+import DataSet from '../db/DataSet';
 type stateType = {
     polylineOption: any,
     option: any,
     ironOreRow: DataRow,
     scrapRow: DataRow,
     cCoalRow: DataRow,
-    pCoalRow: DataRow
+    pCoalRow: DataRow,
     listTypeArr1: listType[],
     listTypeArr2: listType[],
     menuOptions: ViewMenuMap,
@@ -38,28 +40,28 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）")'
             }, {
                 name: '年度入库数量',
-                key: 'storage',
+                key: 'yearInStock',
                 href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）")'
             }, {
                 name: '年度在途数量',
-                key: 'onOrder',
+                key: 'inTransit',
                 href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）")'
             }, {
                 name: '年度在库数量',
-                key: 'inStock',
+                key: 'stock',
             }],
             listTypeArr2: [{
                 name: '年度采购数量',
                 key: 'purchase'
             }, {
                 name: '年度入库数量',
-                key: 'storage'
+                key: 'yearInStock'
             }, {
                 name: '年度在途数量',
-                key: 'onOrder'
+                key: 'inTransit'
             }, {
                 name: '年度在库数量',
-                key: 'inStock'
+                key: 'stock'
             }],
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
@@ -76,7 +78,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
     }
 
     componentDidMount(): void {
-        this.initState();
         this.initData();
         this.timer = setInterval(() => {
             this.initData()
@@ -91,15 +92,107 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         return Math.floor(Math.random() * num);
     }
 
-    async initState() {
+    async initData() {
+        let dataSet = await DataVApi.getSvrPurchase();
         let ironOreRow = new DataRow();
-        ironOreRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        if (dataSet.head.getString('ironOreRow'))
+            ironOreRow.setJson(dataSet.head.getString('ironOreRow'));
         let scrapRow = new DataRow();
-        scrapRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        if (dataSet.head.getString('scrapRow'))
+            scrapRow.setJson(dataSet.head.getString('scrapRow'));
         let cCoalRow = new DataRow();
-        cCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        if (dataSet.head.getString('cCoalRow'))
+            cCoalRow.setJson(dataSet.head.getString('cCoalRow'));
         let pCoalRow = new DataRow();
-        pCoalRow.setValue('purchase', 0).setValue('storage', 0).setValue('onOrder', 0).setValue('inStock', 0);
+        if (dataSet.head.getString('pCoalRow'))
+            pCoalRow.setJson(dataSet.head.getString('pCoalRow'));
+        let dynamicData = new DataSet();
+        if (dataSet.head.getString('DynamicWarning'))
+            dynamicData.setJson(dataSet.head.getString('DynamicWarning'));
+        let dynamicXArr = [];
+        let dynamicLegend = ['安全库存', '当前库存', '在途库存']
+        let dynamicDataArr = new Array(dynamicLegend.length);
+        for (let i = 0; i < dynamicLegend.length; i++) {
+            dynamicDataArr[i] = new Array();
+        }
+        dynamicData.first();
+        while (dynamicData.fetch()) {
+            dynamicXArr.push(dynamicData.getString('name'));
+            dynamicDataArr[0].push(dynamicData.getDouble('safetyStock'));
+            dynamicDataArr[1].push(dynamicData.getDouble('currentStock'));
+            dynamicDataArr[2].push(dynamicData.getDouble('inTransit'));
+        }
+        let dynamicSeries = [];
+        for (let i = 0; i < dynamicLegend.length; i++) {
+            dynamicSeries.push({
+                name: dynamicLegend[i],
+                data: dynamicDataArr[i],
+                type: 'bar',
+                label: {
+                    show: true,
+                    style: {
+                        fontSize: 18,
+                        fill: '#fff'
+                    },
+                },
+                barGap: 0
+            })
+        }
+        let purchaseData = new DataSet();
+        if (dataSet.head.getString('YearPurchase'))
+            purchaseData.setJson(dataSet.head.getString('YearPurchase'));
+        let purchaseLenged = [];
+        purchaseData.first();
+        while (purchaseData.fetch()) {
+            purchaseLenged.push(purchaseData.getString('year'))
+        }
+        let purchaseDataArr = new Array(purchaseLenged.length);
+        for (let i = 0; i < purchaseLenged.length; i++) {
+            purchaseDataArr[i] = new Array();
+        }
+        purchaseData.first();
+        let _year = new Date().getFullYear();
+        let _month = new Date().getMonth() + 1;
+        while (purchaseData.fetch()) {
+            let recNo = purchaseData.recNo - 1
+            let year = purchaseData.getDouble('year');
+            if (year >= _year) {
+                for (let i = 1; i < _month + 1; i++) {
+                    purchaseDataArr[recNo].push(purchaseData.getDouble(`month${i}`));
+                }
+            } else {
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month1'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month2'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month3'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month4'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month5'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month6'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month7'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month8'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month9'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month10'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month11'));
+                purchaseDataArr[recNo].push(purchaseData.getDouble('month12'));
+            }
+
+        }
+        let pruchaseSeries = [];
+        for (let i = 0; i < purchaseLenged.length; i++) {
+            pruchaseSeries.push({
+                name: purchaseLenged[i],
+                data: purchaseDataArr[i],
+                type: 'line',
+                label: {
+                    show: true,
+                    style: {
+                        fontSize: 18
+                    }
+                },
+                lineStyle: {
+                    lineWidth: 3
+                }
+            })
+        }
         this.setState({
             polylineOption: {
                 title: {
@@ -111,7 +204,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                     }
                 },
                 legend: {
-                    data: ['2021', '2022'],
+                    data: purchaseLenged,
                     textStyle: {
                         fill: '#fff',
                         fontSize: 18
@@ -158,36 +251,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         show: false
                     }
                 },
-                series: [
-                    {
-                        name: '2021',
-                        data: [4.5, 5, 4.3, 4.8, 4, 3, 5, 8, 6, 5, 3, 4],
-                        type: 'line',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18
-                            }
-                        },
-                        lineStyle: {
-                            lineWidth: 3
-                        }
-                    },
-                    {
-                        name: '2022',
-                        data: [3, 5, 3.5],
-                        type: 'line',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18
-                            }
-                        },
-                        lineStyle: {
-                            lineWidth: 3
-                        }
-                    }
-                ],
+                series: pruchaseSeries,
                 color: ['#41aebd', '#97e9d5']
             },
             option: {
@@ -200,7 +264,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                     }
                 },
                 legend: {
-                    data: ['安全库存', '当前库存', '在途库存'],
+                    data: dynamicLegend,
                     textStyle: {
                         fill: '#fff',
                         fontSize: 18
@@ -243,66 +307,9 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         show: false
                     }
                 },
-                series: [
-                    {
-                        name: '安全库存',
-                        data: [1200, 2230, 1900, 1800],
-                        type: 'bar',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18,
-                                fill: '#fff'
-                            },
-                        },
-                        barGap: 0
-                    },
-                    {
-                        name: '当前库存',
-                        data: [2230, 1900, 2100, 3000],
-                        type: 'bar',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18,
-                                fill: '#fff'
-                            },
-                        },
-                        barGap: 0
-                    },
-                    {
-                        name: '在途库存',
-                        data: [1200, 2230, 4200, 2567],
-                        type: 'bar',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18,
-                                fill: '#fff'
-                            },
-                        },
-                        barGap: 0
-                    }
-                ],
+                series: dynamicSeries,
                 color: ['#1CB53C', '#1C71D4', '#EBBB06']
             },
-            ironOreRow,
-            scrapRow,
-            cCoalRow,
-            pCoalRow
-        })
-    }
-
-    async initData() {
-        let ironOreRow = new DataRow();
-        ironOreRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
-        let scrapRow = new DataRow();
-        scrapRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
-        let cCoalRow = new DataRow();
-        cCoalRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
-        let pCoalRow = new DataRow();
-        pCoalRow.setValue('purchase', this.getRandom(10000)).setValue('storage', this.getRandom(10000)).setValue('onOrder', this.getRandom(1000)).setValue('inStock', this.getRandom(1000));
-        this.setState({
             ironOreRow,
             scrapRow,
             cCoalRow,
@@ -354,7 +361,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
 
     getMenusStyle() {
         let style = ''
-        if(this.state.showIndex > 0)
+        if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu
         return style
     }
