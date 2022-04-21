@@ -1,6 +1,7 @@
 import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
 import DataRow from "../db/DataRow";
+import { Excel, excelData } from '../db/Utils';
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
@@ -14,6 +15,8 @@ type stateType = {
     steelRow: DataRow,
     listTypeArr1: listType[],
     listTypeArr2: listType[],
+    listTypeArr3: listType[],
+    listTypeArr4: listType[],
     menuOptions: ViewMenuMap,
     showIndex: number
 }
@@ -34,73 +37,162 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             listTypeArr1: [{
                 name: '今日接单数量',
                 key: 'todayOrder',
-                href: 'javascript:aui.showPage("FrmReport9", "线材接单今日动态（T）")'
+                href: 'javascript:aui.showPage("FrmReport9", "线材接单今日动态（T）", { index: 0 })'
             }, {
                 name: '本周接单数量',
                 key: 'weekOrder',
-                href: 'javascript:aui.showPage("FrmReport10", "线材本周接单动态（T）")'
+                href: 'javascript:aui.showPage("FrmReport10", "线材本周接单动态（T）", { index: 0 })'
             }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
-                href: 'javascript:aui.showPage("FrmReport11", "线材本月接单动态（T）")'
+                href: 'javascript:aui.showPage("FrmReport11", "线材本月接单动态（T）", { index: 0 })'
             }, {
                 name: '本年接单数量',
                 key: 'yearOrder',
-                href: 'javascript:aui.showPage("FrmReport12", "线材本年接单动态（T）")'
-            },{
+                href: 'javascript:aui.showPage("FrmReport12", "线材本年接单动态（T）", { index: 0 })'
+            }, {
                 name: '今日出库数量',
                 key: 'weekOutStock',
-                href: 'javascript:aui.showPage("FrmReport13", "线材今日出库动态（T）")'
-            },{
+                href: 'javascript:aui.showPage("FrmReport13", "线材今日出库动态（T）", { index: 0 })'
+            }, {
                 name: '本周出库数量',
                 key: 'weekOutStock',
-                href: 'javascript:aui.showPage("FrmReport14", "线材本周出库动态（T）")'
+                href: 'javascript:aui.showPage("FrmReport14", "线材本周出库动态（T）", { index: 0 })'
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
-                href: 'javascript:aui.showPage("FrmReport15", "线材本月出库动态（4月）")'
+                href: 'javascript:aui.showPage("FrmReport15", "线材本月出库动态（4月）", { index: 0 })'
             }, {
                 name: '本年出库数量',
                 key: 'yearOutStock',
-                href: 'javascript:aui.showPage("FrmReport16", "线材本年出货动态（2022年）")'
+                href: 'javascript:aui.showPage("FrmReport16", "线材本年出货动态（2022年）", { index: 0 })'
             }, {
                 name: '当前未出库数',
                 key: 'onOutStock',
-                href: 'javascript:aui.showPage("FrmReport17", "线材未出货订单与库存动态（T）")'
+                href: 'javascript:aui.showPage("FrmReport17", "线材未出货订单与库存动态（T）", { index: 0 })'
             }, {
                 name: '当前库存数量',
                 key: 'inStock',
             }],
             listTypeArr2: [{
                 name: '今日接单数量',
-                key: 'todayOrder'
+                key: 'todayOrder',
+                href: 'javascript:aui.showPage("FrmReport9", "卷材接单今日动态（T）", { index: 1 })'
             }, {
                 name: '本周接单数量',
-                key: 'weekOrder'
+                key: 'weekOrder',
+                href: 'javascript:aui.showPage("FrmReport10", "卷材本周接单动态（T）", { index: 1 })'
             }, {
                 name: '本月接单数量',
-                key: 'monthOrder'
+                key: 'monthOrder',
+                href: 'javascript:aui.showPage("FrmReport11", "卷材本月接单动态（T）", { index: 1 })'
             }, {
                 name: '本年接单数量',
-                key: 'yearOrder'
+                key: 'yearOrder',
+                href: 'javascript:aui.showPage("FrmReport12", "卷材本年接单动态（T）", { index: 1 })'
             }, {
                 name: '今日出库数量',
                 key: 'weekOutStock',
+                href: 'javascript:aui.showPage("FrmReport13", "卷材今日出库动态（T）", { index: 1 })'
             }, {
                 name: '本周出库数量',
-                key: 'weekOutStock'
+                key: 'weekOutStock',
+                href: 'javascript:aui.showPage("FrmReport14", "卷材本周出库动态（T）", { index: 1 })'
             }, {
                 name: '本月出库数量',
-                key: 'monthOutStock'
+                key: 'monthOutStock',
+                href: 'javascript:aui.showPage("FrmReport15", "卷材本月出库动态（4月）", { index: 1 })'
             }, {
                 name: '本年出库数量',
-                key: 'yearOutStock'
+                key: 'yearOutStock',
+                href: 'javascript:aui.showPage("FrmReport16", "卷材本年出货动态（2022年）", { index: 1 })'
             }, {
                 name: '当前未出库数',
-                key: 'onOutStock'
+                key: 'onOutStock',
+                href: 'javascript:aui.showPage("FrmReport17", "卷材未出货订单与库存动态（T）", { index: 1 })'
             }, {
                 name: '当前库存数量',
-                key: 'inStock'
+                key: 'inStock',
+            }],
+            listTypeArr3: [{
+                name: '今日接单数量',
+                key: 'todayOrder',
+                href: 'javascript:aui.showPage("FrmReport9", "H钢材接单今日动态（T）", { index: 2 })'
+            }, {
+                name: '本周接单数量',
+                key: 'weekOrder',
+                href: 'javascript:aui.showPage("FrmReport10", "H钢材本周接单动态（T）", { index: 2 })'
+            }, {
+                name: '本月接单数量',
+                key: 'monthOrder',
+                href: 'javascript:aui.showPage("FrmReport11", "H钢材本月接单动态（T）", { index: 2 })'
+            }, {
+                name: '本年接单数量',
+                key: 'yearOrder',
+                href: 'javascript:aui.showPage("FrmReport12", "H钢材本年接单动态（T）", { index: 2 })'
+            }, {
+                name: '今日出库数量',
+                key: 'weekOutStock',
+                href: 'javascript:aui.showPage("FrmReport13", "H钢材今日出库动态（T）", { index: 2 })'
+            }, {
+                name: '本周出库数量',
+                key: 'weekOutStock',
+                href: 'javascript:aui.showPage("FrmReport14", "H钢材本周出库动态（T）", { index: 2 })'
+            }, {
+                name: '本月出库数量',
+                key: 'monthOutStock',
+                href: 'javascript:aui.showPage("FrmReport15", "H钢材本月出库动态（4月）", { index: 2 })'
+            }, {
+                name: '本年出库数量',
+                key: 'yearOutStock',
+                href: 'javascript:aui.showPage("FrmReport16", "H钢材本年出货动态（2022年）", { index: 2 })'
+            }, {
+                name: '当前未出库数',
+                key: 'onOutStock',
+                href: 'javascript:aui.showPage("FrmReport17", "H钢材未出货订单与库存动态（T）", { index: 2 })'
+            }, {
+                name: '当前库存数量',
+                key: 'inStock',
+            }],
+            listTypeArr4: [{
+                name: '今日接单数量',
+                key: 'todayOrder',
+                href: 'javascript:aui.showPage("FrmReport9", "螺纹钢材接单今日动态（T）", { index: 3 })'
+            }, {
+                name: '本周接单数量',
+                key: 'weekOrder',
+                href: 'javascript:aui.showPage("FrmReport10", "螺纹钢材本周接单动态（T）", { index: 3 })'
+            }, {
+                name: '本月接单数量',
+                key: 'monthOrder',
+                href: 'javascript:aui.showPage("FrmReport11", "螺纹钢材本月接单动态（T）", { index: 3 })'
+            }, {
+                name: '本年接单数量',
+                key: 'yearOrder',
+                href: 'javascript:aui.showPage("FrmReport12", "螺纹钢材本年接单动态（T）", { index: 3 })'
+            }, {
+                name: '今日出库数量',
+                key: 'weekOutStock',
+                href: 'javascript:aui.showPage("FrmReport13", "螺纹钢材今日出库动态（T）", { index: 3 })'
+            }, {
+                name: '本周出库数量',
+                key: 'weekOutStock',
+                href: 'javascript:aui.showPage("FrmReport14", "螺纹钢材本周出库动态（T）", { index: 3 })'
+            }, {
+                name: '本月出库数量',
+                key: 'monthOutStock',
+                href: 'javascript:aui.showPage("FrmReport15", "螺纹钢材本月出库动态（4月）", { index: 3 })'
+            }, {
+                name: '本年出库数量',
+                key: 'yearOutStock',
+                href: 'javascript:aui.showPage("FrmReport16", "螺纹钢材本年出货动态（2022年）", { index: 3 })'
+            }, {
+                name: '当前未出库数',
+                key: 'onOutStock',
+                href: 'javascript:aui.showPage("FrmReport17", "螺纹钢材未出货订单与库存动态（T）", { index: 3 })'
+            }, {
+                name: '当前库存数量',
+                key: 'inStock',
             }],
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
@@ -117,7 +209,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
     }
 
     componentDidMount(): void {
-        this.initState();
         this.initData();
         this.timer = setInterval(() => {
             this.initData()
@@ -132,19 +223,154 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
         return Math.floor(Math.random() * num);
     }
 
-    async initState() {
+    async initData() {
+        let dataList: excelData[] = [];
+        await fetch('./kanban3.xls', {
+            method: 'get',
+        }).then(function (response) {
+            return response.arrayBuffer()
+        }).then((data) => {
+            let execl = new Excel();
+            dataList = execl.getDataByArrayBuffer(data);
+        })
+        let dataArr = [{ todayOrder: 0, weekOrder: 0, monthOrder: 0, yearOrder: 0, todayOutStock: 0, weekOutStock: 0, monthOutStock: 0, yearOutStock: 0, onOutStock: 0, inStock: 0 },
+        { todayOrder: 0, weekOrder: 0, monthOrder: 0, yearOrder: 0, todayOutStock: 0, weekOutStock: 0, monthOutStock: 0, yearOutStock: 0, onOutStock: 0, inStock: 0 },
+        { todayOrder: 0, weekOrder: 0, monthOrder: 0, yearOrder: 0, todayOutStock: 0, weekOutStock: 0, monthOutStock: 0, yearOutStock: 0, onOutStock: 0, inStock: 0 },
+        { todayOrder: 0, weekOrder: 0, monthOrder: 0, yearOrder: 0, todayOutStock: 0, weekOutStock: 0, monthOutStock: 0, yearOutStock: 0, onOutStock: 0, inStock: 0 }];
+        let date = new Date();
+        let year_ = date.getFullYear();
+        let month_ = date.getMonth();
+        let day_ = date.getDay();
+        if (day_ == 0)
+            day_ = 7;
+        let date_ = date.getDate();
+        let startDay = new Date(year_, month_, 1).getDay();
+        let dates = new Date(year_, month_ + 1, 0).getDate();
+        if (startDay == 0)
+            startDay = 7;
+        let startTime = 0;
+        if (day_ > date_) {
+            let month = month_;
+            let year = year_;
+            if (month > 0) {
+                month--;
+            } else {
+                year--;
+            }
+            let lastMonthDay = new Date(year, month + 1, 0).getDate();
+            let day = lastMonthDay - startDay + 2;
+            startTime = new Date(year, month, day).getTime();
+        } else {
+            startTime = new Date(year_, month_, (date_ - day_ + 1)).getTime()
+        }
+        let endTime = 0;
+        if (date_ + 7 - day_ > dates) {
+            let month = month_;
+            let year = year_;
+            if (month < 11) {
+                month++;
+            } else {
+                year++;
+            }
+            let day = 8 - day_ + date_ - dates;
+            endTime = new Date(year, month, day).getTime();
+        } else {
+            endTime = new Date(year_, month_, (date_ + 7 - day_ + 1)).getTime();
+        }
+        let ployLengend = ['目标', '销售', '库存'];
+        let ployLengendData = new Array(ployLengend.length);
+        for (let i = 0; i < ployLengendData.length; i++) {
+            ployLengendData[i] = new Array(12).fill(0);
+        }
+        dataArr.forEach((obj, index) => {
+            let data = dataList[index].data;
+            data.first();
+            while (data.fetch()) {
+                let orderDate = new Date(data.getString('接单日期'));
+                let orderYear = orderDate.getFullYear();
+                let orderMonth = orderDate.getMonth();
+                let orderDate_ = orderDate.getDate();
+                let orderTime_ = orderDate.getTime();
+                let orderNum = data.getDouble('数量（吨）');
+                let outStockDate = new Date(data.getString('出货日期'));
+                let outStockYear = outStockDate.getFullYear();
+                let outStockMonth = outStockDate.getMonth();
+                let outStockDate_ = outStockDate.getDate();
+                let outStockTime_ = outStockDate.getTime();
+                let outStockNum = data.getDouble('出货数量（吨）');
+                let onOutStockNum = data.getDouble('未出货数量（吨）');
+                let targetNum = data.getDouble('销售目标（吨）');
+                let stockNum = data.getDouble('当前库存');
+                if (orderYear == year_)
+                    dataArr[index].yearOrder += orderNum;
+                if (orderYear == year_ && orderMonth == month_)
+                    dataArr[index].monthOrder += orderNum;
+                if (orderYear == year_ && orderMonth == month_ && orderDate_ == date_)
+                    dataArr[index].todayOrder += orderNum
+                if (orderTime_ >= startTime && orderTime_ <= endTime)
+                    dataArr[index].weekOrder += orderNum
+                if (outStockYear == year_)
+                    dataArr[index].yearOutStock += outStockNum;
+                if (outStockYear == year_ && outStockMonth == month_)
+                    dataArr[index].monthOutStock += outStockNum;
+                if (outStockYear == year_ && outStockMonth == month_ && outStockDate_ == date_)
+                    dataArr[index].todayOutStock += outStockNum
+                if (outStockTime_ >= startTime && outStockTime_ <= endTime)
+                    dataArr[index].weekOutStock += outStockNum
+                if (outStockTime_ <= orderTime_)
+                    dataArr[index].onOutStock += onOutStockNum;
+                dataArr[index].inStock = stockNum;
+                if (orderYear == year_ - 1) {
+                    ployLengendData[0][orderMonth] += targetNum;
+                    ployLengendData[1][orderMonth] += orderNum;
+                    ployLengendData[2][orderMonth] += stockNum;
+                }
+            }
+        })
         let wireRow = new DataRow();
-        wireRow.setValue('todayOrder', 0).setValue('weekOrder', 0).setValue('monthOrder', 0).setValue('yearOrder', 0).setValue('weekOutStock', 0).setValue('monthOutStock', 0).setValue('yearOutStock', 0).setValue('onOutStock', 0).setValue('inStock', 0);
+        // wireRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
         let coilRow = new DataRow();
-        coilRow.setValue('todayOrder', 0).setValue('weekOrder', 0).setValue('monthOrder', 0).setValue('yearOrder', 0).setValue('weekOutStock', 0).setValue('monthOutStock', 0).setValue('yearOutStock', 0).setValue('onOutStock', 0).setValue('inStock', 0);
+        // coilRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
         let hSteelRow = new DataRow();
-        hSteelRow.setValue('todayOrder', 0).setValue('weekOrder', 0).setValue('monthOrder', 0).setValue('yearOrder', 0).setValue('weekOutStock', 0).setValue('monthOutStock', 0).setValue('yearOutStock', 0).setValue('onOutStock', 0).setValue('inStock', 0);
+        // hSteelRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
         let steelRow = new DataRow();
-        steelRow.setValue('todayOrder', 0).setValue('weekOrder', 0).setValue('monthOrder', 0).setValue('yearOrder', 0).setValue('weekOutStock', 0).setValue('monthOutStock', 0).setValue('yearOutStock', 0).setValue('onOutStock', 0).setValue('inStock', 0);
+        // steelRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
+        let rowArr = [wireRow, coilRow, hSteelRow, steelRow];
+        let optionSeriesData: any[] = [];
+        rowArr.forEach((row: DataRow, index) => {
+            row.setValue('todayOrder', dataArr[index].todayOrder).setValue('weekOrder', dataArr[index].weekOrder).setValue('monthOrder', dataArr[index].monthOrder).setValue('yearOrder', dataArr[index].yearOrder).setValue('todayOutStock', dataArr[index].todayOutStock).setValue('weekOutStock', dataArr[index].weekOutStock).setValue('monthOutStock', dataArr[index].monthOutStock).setValue('yearOutStock', dataArr[index].yearOutStock).setValue('onOutStock', dataArr[index].onOutStock).setValue('inStock', dataArr[index].inStock);
+            optionSeriesData.push({
+                name: dataList[index].name,
+                value: dataArr[index].yearOutStock
+            })
+            // dynamicDataArr[0].push((Math.floor(Math.random() * 10)) * 100);
+            // dynamicDataArr[1].push(dataArr[index].stock);
+            // dynamicDataArr[2].push(dataArr[index].inTransit);
+        })
+        let ploySeries: any[] = []
+        ployLengendData.forEach((arr, index) => {
+            ploySeries.push({
+                name: ployLengend[index],
+                data: arr,
+                type: 'bar',
+                label: {
+                    show: true,
+                    style: {
+                        fontSize: 18,
+                        fill: '#fff'
+                    }
+                },
+            })
+        })
+
         this.setState({
+            wireRow,
+            coilRow,
+            hSteelRow,
+            steelRow,
             polylineOption: {
                 title: {
-                    text: '年度销售动态分析',
+                    text: `${year_ - 1}年度销售动态分析`,
                     style: {
                         fill: '#fff',
                         fontSize: 22,
@@ -188,50 +414,13 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                     }
                 },
                 legend: {
-                    data: ['目标', '销售', '库存'],
+                    data: ployLengend,
                     textStyle: {
                         fill: '#fff'
                     },
                     bottom: 20
                 },
-                series: [
-                    {
-                        name: '目标',
-                        data: [4.3, 2.5, 3.5, 4.5, 4.3, 2.5, 3.5, 4.5, 4.3, 2.5, 3.5, 4.5],
-                        type: 'bar',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18,
-                                fill: '#fff'
-                            }
-                        },
-                    },
-                    {
-                        name: '销售',
-                        data: [2.4, 4.4, 1.8, 2.8, 2.4, 4.4, 1.8, 2.8, 2.4, 4.4, 1.8, 2.8],
-                        type: 'bar',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18,
-                                fill: '#fff'
-                            }
-                        },
-                    },
-                    {
-                        name: '库存',
-                        data: [2, 2, 3, 5, 2, 2, 3, 5, 2, 2, 3, 5],
-                        type: 'bar',
-                        label: {
-                            show: true,
-                            style: {
-                                fontSize: 18,
-                                fill: '#fff'
-                            }
-                        },
-                    }
-                ],
+                series: ploySeries,
                 color: ['#41aebd', '#97e9d5', '#a2cf49']
             },
             option: {
@@ -250,52 +439,21 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 },
                 series: [
                     {
-                        data: [{
-                            name: '线材',
-                            value: 290
-                        }, {
-                            name: '卷材',
-                            value: 120
-                        }, {
-                            name: 'H型钢材',
-                            value: 200
-                        }, {
-                            name: '螺纹钢材',
-                            value: 390
-                        }],
+                        data: optionSeriesData,
                         type: 'pie',
                         radius: '60%',
                         outsideLabel: {
                             style: {
                                 fontSize: 20,
                             },
-                            formatter: '{name}{percent}%'
+                            formatter: (dataItem: any) => {
+                                return `${dataItem.name}${dataItem.percent.toFixed(2)}%`
+                            }
                         }
                     }
                 ],
                 color: ['#42C1D2', '#4AF8E4', '#62B530', '#14A338']
             },
-            wireRow,
-            coilRow,
-            hSteelRow,
-            steelRow
-        })
-    }
-
-    async initData() {
-        let wireRow = new DataRow();
-        wireRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
-        let coilRow = new DataRow();
-        coilRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
-        let hSteelRow = new DataRow();
-        hSteelRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
-        let steelRow = new DataRow();
-        steelRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
-        this.setState({
-            wireRow,
-            coilRow,
-            hSteelRow,
-            steelRow
         })
     }
 
@@ -314,8 +472,8 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                                 <Charts option={this.state.option} />
                             </div>
                             <div className={styles.textList4}>
-                                <TextList title="H钢材出库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr2} />
-                                <TextList title="螺纹钢材出库动态（T）" date={this.state.steelRow} listArray={this.state.listTypeArr2} />
+                                <TextList title="H钢材出库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr3} />
+                                <TextList title="螺纹钢材出库动态（T）" date={this.state.steelRow} listArray={this.state.listTypeArr4} />
                             </div>
                         </div>
                         <div className={styles.polylineOption2} >
@@ -343,7 +501,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
 
     getMenusStyle() {
         let style = ''
-        if(this.state.showIndex > 0)
+        if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu
         return style
     }

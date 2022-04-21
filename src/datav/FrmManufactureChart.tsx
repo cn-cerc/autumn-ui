@@ -1,6 +1,7 @@
 import { BorderBox11, Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
 import DataRow from "../db/DataRow";
+import { Excel, excelData } from '../db/Utils';
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
