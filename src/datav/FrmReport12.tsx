@@ -49,7 +49,7 @@ export default class FrmReport11 extends React.Component<FrmReportTypeProps, Frm
             let date_ = new Date(dataSet.getString('接单日期'));
             if (date_.getFullYear() == date.getFullYear()) {
                 reportData.append().copyRecord(dataSet.current);
-                reportData.setValue('A6', `${(dataSet.getDouble('销售目标（吨）') / dataSet.getDouble('数量（吨）') * 100).toFixed(2)}%`)
+                reportData.setValue('A6', `${(dataSet.getDouble('数量（吨）') / dataSet.getDouble('销售目标（吨）') * 100).toFixed(2)}%`)
             }
         }
         // reportData.append().setValue('A1', '张三').setValue('A2', 500).setValue('A3', 5040).setValue('A4', 2520000).setValue('A5', 5040).setValue('A6', '100%');

@@ -34,7 +34,7 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
                     </div>
                     <BorderBox9>
                         <div className={styles.grid}>
-                            <DBGrid dataSet={this.props.dataSet}>
+                            <DBGrid dataSet={this.props.dataSet} key={this.getColumns().toString()}>
                                 {this.getColumns()}
                             </DBGrid>
                         </div>
@@ -45,7 +45,6 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
     }
 
     getColumns() {
-        console.log(this.props.head)
         let list: ReactNode[] = [];
         if (!this.props.hideIt)
             list.push(<ColumnIt key='it'></ColumnIt>);

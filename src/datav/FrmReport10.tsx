@@ -88,7 +88,7 @@ export default class FrmReport10 extends React.Component<FrmReportTypeProps, Frm
             let time_ = new Date(dataSet.getString('接单日期')).getTime();
             if (time_ >= startTime && time_ <= endTime) {
                 reportData.append().copyRecord(dataSet.current);
-                reportData.setValue('A6', `${(dataSet.getDouble('销售目标（吨）') / dataSet.getDouble('数量（吨）') * 100).toFixed(2)}%`)
+                reportData.setValue('A6', `${(dataSet.getDouble('数量（吨）') / dataSet.getDouble('销售目标（吨）') * 100).toFixed(2)}%`)
             }
         }
         // reportData.append().setValue('A1', '张三').setValue('A2', 500).setValue('A3', 105).setValue('A4', 52500).setValue('A5', 105).setValue('A6', '100%');

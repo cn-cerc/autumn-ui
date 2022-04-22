@@ -1,7 +1,8 @@
-import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
+import { Charts, FullScreenContainer, ScrollBoard } from '@jiaminghi/data-view-react';
 import React from "react";
 import DataRow from "../db/DataRow";
 import { Excel, excelData } from '../db/Utils';
+import { AuiMath } from '../diteng/Summer';
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
@@ -18,7 +19,8 @@ type stateType = {
     listTypeArr3: listType[],
     listTypeArr4: listType[],
     menuOptions: ViewMenuMap,
-    showIndex: number
+    showIndex: number,
+    boardConfig: {}
 }
 type PropsType = {
 }
@@ -52,7 +54,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 href: 'javascript:aui.showPage("FrmReport12", "线材本年接单动态（T）", { index: 0 })'
             }, {
                 name: '今日出库数量',
-                key: 'weekOutStock',
+                key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "线材今日出库动态（T）", { index: 0 })'
             }, {
                 name: '本周出库数量',
@@ -92,7 +94,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 href: 'javascript:aui.showPage("FrmReport12", "卷材本年接单动态（T）", { index: 1 })'
             }, {
                 name: '今日出库数量',
-                key: 'weekOutStock',
+                key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "卷材今日出库动态（T）", { index: 1 })'
             }, {
                 name: '本周出库数量',
@@ -132,7 +134,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 href: 'javascript:aui.showPage("FrmReport12", "H钢材本年接单动态（T）", { index: 2 })'
             }, {
                 name: '今日出库数量',
-                key: 'weekOutStock',
+                key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "H钢材今日出库动态（T）", { index: 2 })'
             }, {
                 name: '本周出库数量',
@@ -172,7 +174,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 href: 'javascript:aui.showPage("FrmReport12", "螺纹钢材本年接单动态（T）", { index: 3 })'
             }, {
                 name: '今日出库数量',
-                key: 'weekOutStock',
+                key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "螺纹钢材今日出库动态（T）", { index: 3 })'
             }, {
                 name: '本周出库数量',
@@ -196,15 +198,16 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             }],
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart")'
+                href: 'javascript:aui.showPage("FrmPurchaseChart", "采购数据管理中心")'
             }], ['制造数据管理中心', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart")'
+                href: 'javascript:aui.showPage("FrmManufactureChart", "制造数据管理中心")'
             }], ['销售数据管理中心', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmSaleChart")'
+                href: 'javascript:aui.showPage("FrmSaleChart", "销售数据管理中心")'
             }]]),
-            showIndex: 0
+            showIndex: 0,
+            boardConfig: {}
         }
     }
 
@@ -317,7 +320,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                     dataArr[index].todayOutStock += outStockNum
                 if (outStockTime_ >= startTime && outStockTime_ <= endTime)
                     dataArr[index].weekOutStock += outStockNum
-                if (outStockTime_ <= orderTime_)
+                if (orderTime_ <= orderTime_)
                     dataArr[index].onOutStock += onOutStockNum;
                 dataArr[index].inStock = stockNum;
                 if (orderYear == year_ - 1) {
@@ -343,9 +346,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 name: dataList[index].name,
                 value: dataArr[index].yearOutStock
             })
-            // dynamicDataArr[0].push((Math.floor(Math.random() * 10)) * 100);
-            // dynamicDataArr[1].push(dataArr[index].stock);
-            // dynamicDataArr[2].push(dataArr[index].inTransit);
         })
         let ploySeries: any[] = []
         ployLengendData.forEach((arr, index) => {
@@ -363,11 +363,48 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             })
         })
 
+        let dataList2: excelData[] = [];
+        await fetch('./区域月度.xls', {
+            method: 'get',
+        }).then(function (response) {
+            return response.arrayBuffer()
+        }).then((data) => {
+            let execl = new Excel();
+            dataList2 = execl.getDataByArrayBuffer(data);
+        })
+        let ds2 = dataList2[0].data;
+        ds2.first();
+        let boardConfig: {
+            header: string[],
+            data: any[][],
+            align: string[],
+            waitTime: number
+        } = {
+            header: ['序', '销售区域', '产品类别', '销售目标', '实际销售', '目标达成率'],
+            data: [],
+            align: ['center', 'center', 'center', 'center', 'center', 'center'],
+            waitTime: 1500
+        }
+        let index = 1;
+        let math = new AuiMath();
+        while(ds2.fetch()) {
+            let arr = new Array();
+            arr.push(index);
+            let sellNum1 = ds2.getDouble('销售目标');
+            let sellNum2 = ds2.getDouble('实际销售');
+            arr.push(ds2.getString('销售区域'));
+            arr.push(ds2.getString('产品类别'));
+            arr.push(sellNum1);
+            arr.push(sellNum2);
+            arr.push(math.toFixed(sellNum2 / sellNum1 * 100, 2));
+            boardConfig.data.push(arr);
+        }
         this.setState({
             wireRow,
             coilRow,
             hSteelRow,
             steelRow,
+            boardConfig,
             polylineOption: {
                 title: {
                     text: `${year_ - 1}年度销售动态分析`,
@@ -469,7 +506,12 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                                 <TextList title="卷材出库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr2} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
-                                <Charts option={this.state.option} />
+                                <div className={styles.pieBox1}>
+                                    <Charts option={this.state.option} />
+                                </div>
+                                <div className={styles.pieBox2}>
+                                    <ScrollBoard config={this.state.boardConfig}></ScrollBoard>
+                                </div>
                             </div>
                             <div className={styles.textList4}>
                                 <TextList title="H钢材出库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr3} />

@@ -31,14 +31,26 @@
   padding: 0 20px;
 }
 
-.data-view .block-top-bottom-content {
+.data-view .blockTopBottomContent {
   flex: 1;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-left: 20px;
   padding-bottom: 2rem;
   position: relative;
+  height: 105%;
+  position: relative;
+}
+
+.pieBox1 {
+  height: 0;
+  flex: 3;
+}
+
+.pieBox2 {
+  height: 0;
+  flex: 2;
+  margin: 0 20px;
 }
 
 .data-view .block-top-content {
