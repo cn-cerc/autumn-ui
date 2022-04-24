@@ -36,6 +36,7 @@ import FrmPartPrinciple from "./diteng/FrmPartPrinciple";
 import LogisticsDialog from "./diteng/LogisticsDialog";
 import MarqueDialog from "./diteng/MarqueDialog";
 import MLRemarkDialog from "./diteng/MLRemarkDialog";
+import newPage from "./diteng/newPage";
 import NewProductDialog from "./diteng/NewProductDialog";
 import OutInfoDialog from "./diteng/OurInfoDialog";
 import PABChangeDialog from "./diteng/PABChangeDialog";
@@ -152,4 +153,5 @@ export default {
     FrmOEMAppend,
     //OEM修改
     FrmOEMChange,
+    newPage,
 }

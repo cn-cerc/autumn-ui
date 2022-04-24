@@ -1,17 +1,13 @@
 import React, { MouseEventHandler } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
-import QueryService from "../db/QueryService";
 import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from '../rcc/BaseDialog';
 import { ColumnIt } from "../rcc/ColumnIt";
 import DBCheckbox from "../rcc/DBCheckbox";
 import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
 import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
-import { OnTrClickEvent } from "../rcc/DialogGrid";
-import { TGridColumn, TGridConfig } from "../vcl/TGrid";
 import styles from './CusDialog.css';
 import DialogApi from "./DialogApi";
-import { showMsg } from "./Summer";
 
 type CusTypeProps = {
     title: string;
@@ -177,7 +173,7 @@ export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
         }
     }
 
-    trClick: OnTrClickEvent = (row: DataRow) => {
+    trClick(row: DataRow) {
         let inputIds = this.props.inputId.split(",");
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         input1.value = row.getValue('Code_');
