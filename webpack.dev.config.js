@@ -30,6 +30,22 @@ module.exports = {
 		rules: [
 			{ test: /\.tsx?$/, use: 'ts-loader', exclude: /node_modules/ },
 			{
+				include: [path.resolve(__dirname, "node_modules")],
+				test: /\.css$/, use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						// options: {
+						// 	modules: {
+						// 		localIdentName: '[path][name]__[local]--[hash:base64:5]',
+						// 		exportLocalsConvention: "camelCase"
+						// 	},
+						// }
+					},
+				]
+			},
+			{
+				include: [path.resolve(__dirname, "src")],
 				test: /\.css$/, use: [
 					'style-loader',
 					{
@@ -37,10 +53,10 @@ module.exports = {
 						options: {
 							modules: {
 								localIdentName: '[path][name]__[local]--[hash:base64:5]',
-								exportLocalsConvention: "camelCase",
-							}
+								exportLocalsConvention: "camelCase"
+							},
 						}
-					}
+					},
 				]
 			}
 		]

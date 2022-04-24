@@ -1620,6 +1620,11 @@
   "resolved" "https://registry.npmjs.org/he/-/he-1.2.0.tgz"
   "version" "1.2.0"
 
+"hhctest@^1.0.12":
+  "integrity" "sha512-PHmRg+lw32lmjSK7sxD2SVBi8VNNO/rV49t0bXWeerjLytMHGdx81fasnLxS7LD/McwOcdLrrmfJvYheoogI7Q=="
+  "resolved" "https://registry.npmjs.org/hhctest/-/hhctest-1.0.12.tgz"
+  "version" "1.0.12"
+
 "hpack.js@^2.1.6":
   "integrity" "sha1-h3dMCUnlE/QuhFdbPEVoH63ioLI="
   "resolved" "https://registry.npmjs.org/hpack.js/-/hpack.js-2.1.6.tgz"

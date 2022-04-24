@@ -27,15 +27,18 @@ import FrmReport14 from "../src/datav/FrmReport14"
 import FrmReport15 from "../src/datav/FrmReport15"
 import FrmReport16 from "../src/datav/FrmReport16"
 import FrmReport17 from "../src/datav/FrmReport17"
+import Ceshi from "../src/diteng/Ceshi"
+// import "../src/ceshi.css"
 
 export default {
-    ...index,
-    ...diteng,
+    // ...index,
+    // ...diteng,
     ...datav,
     React,
     ReactDOM,
+    Ceshi,
     //ksdl
-    IndexKsdl,
+    // IndexKsdl,
 }
 
 // let app = document.getElementById('app');
