@@ -383,7 +383,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             header: ['序', '销售区域', '产品类别', '销售目标', '实际销售', '目标达成率'],
             data: [],
             align: ['center', 'center', 'center', 'center', 'center', 'center'],
-            waitTime: 1500
+            waitTime: 3000
         }
         let index = 1;
         let math = new AuiMath();
@@ -396,8 +396,9 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             arr.push(ds2.getString('产品类别'));
             arr.push(sellNum1);
             arr.push(sellNum2);
-            arr.push(math.toFixed(sellNum2 / sellNum1 * 100, 2));
+            arr.push(`${math.toFixed(sellNum2 / sellNum1 * 100, 2)}%`);
             boardConfig.data.push(arr);
+            index++;
         }
         this.setState({
             wireRow,
@@ -509,7 +510,10 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                                 <div className={styles.pieBox1}>
                                     <Charts option={this.state.option} />
                                 </div>
-                                <div className={styles.pieBox2}>
+                                <div className={styles.pieBox2} onClick={()=>{
+                                    //@ts-ignore
+                                    aui.showPage("FrmReport18", "采购数据管理中心");
+                                }}>
                                     <ScrollBoard config={this.state.boardConfig}></ScrollBoard>
                                 </div>
                             </div>

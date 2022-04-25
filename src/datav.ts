@@ -17,10 +17,12 @@ import FrmReport14 from "./datav/FrmReport14";
 import FrmReport15 from "./datav/FrmReport15";
 import FrmReport16 from "./datav/FrmReport16";
 import FrmReport17 from "./datav/FrmReport17";
+import FrmReport18 from "./datav/FrmReport18";
 import FrmEmployee1 from "./datav/FrmEmployee1";
 import FrmEmployee2 from "./datav/FrmEmployee2";
 import FrmEmployee3 from "./datav/FrmEmployee3";
 import FrmEmployee4 from "./datav/FrmEmployee4";
+import FrmReport8 from "./datav/FrmReport8";
 
 export default {
     FrmPurchaseChart,
@@ -33,6 +35,7 @@ export default {
     FrmReport5,
     FrmReport6,
     FrmReport7,
+    FrmReport8,
     FrmReport9,
     FrmReport10,
     FrmReport11,
@@ -42,6 +45,7 @@ export default {
     FrmReport15,
     FrmReport16,
     FrmReport17,
+    FrmReport18,
     FrmEmployee1,
     FrmEmployee2,
     FrmEmployee3,

@@ -44,8 +44,8 @@ export default class FrmReport1 extends React.Component<FrmReportTypeProps, FrmR
         let dataSet = dataList[this.props.index].data;
         dataSet.first();
         let year = new Date().getFullYear();
-        while(dataSet.fetch()) {
-            if(new Date(dataSet.getString('入库日期')).getFullYear() == year) {
+        while (dataSet.fetch()) {
+            if (new Date(dataSet.getString('入库日期')).getFullYear() == year) {
                 reportData.append().copyRecord(dataSet.current);
             }
         }

@@ -27,7 +27,6 @@
   height: 0;
   flex: 1;
   display: flex;
-  margin-top: 20px;
   padding: 0 20px;
 }
 
@@ -50,7 +49,7 @@
 .pieBox2 {
   height: 0;
   flex: 2;
-  margin: 0 20px;
+  margin: 0 40px;
 }
 
 .data-view .block-top-content {
@@ -68,9 +67,14 @@
   height: 100%;
 }
 
+.textList>div:nth-child(n+2) {
+  margin-top: 40px;
+}
+
 .textList2,
 .textList3,
-.textList4 {
+.textList4,
+.textList5 {
   display: flex;
   flex-direction: column;
   width: 470px;
@@ -83,17 +87,34 @@
   flex: 2;
 }
 
-.textList2>div {
+.textList2>div:nth-of-type(n+2) {
   margin-top: .5rem;
+}
+
+.textList5>div:nth-of-type(n+2) {
+  margin-top: .5rem;
+}
+
+.textList4>div:nth-of-type(n+2) {
+  margin-top: 20px;
+}
+
+.textList5>div>div>div>ul {
+  padding-top: 3.75rem;
 }
 
 .textList2>div>div>div>ul {
   padding-top: 3.75rem;
 }
 
-.textList2>div>div>div>ul>li {
+.textList5>div>div>div>ul>li {
   height: 2rem;
   line-height: 2rem;
+}
+
+.textList2>div>div>div>ul>li {
+  height: 2.5rem;
+  line-height: 2.5rem;
 }
 
 .textList3>div>div>div>ul {
@@ -110,8 +131,8 @@
 }
 
 .textList4>div>div>div>ul>li {
-  height: 1.65rem;
-  line-height: 1.65rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
   font-size: 1.25rem;
 }
 
@@ -209,7 +230,7 @@
 }
 
 .chartState img {
-  width: 1.5rem;
+  width: 1.85rem;
   cursor: pointer;
 }
 
@@ -219,14 +240,14 @@
   align-items: center;
   height: 0;
   flex: 1;
-  padding-top: 1rem;
+  padding-top: .5rem;
 }
 
 .chartState li>span {
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   border-radius: 50%;
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
 }
 
 .chartState li>span.success {

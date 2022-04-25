@@ -1,16 +1,13 @@
 import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
 import DataRow from "../db/DataRow";
+import DataSet from '../db/DataSet';
+import { Excel, excelData } from '../db/Utils';
+import "../diteng/Summer.css";
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
-import "../diteng/Summer.css";
-import DataVApi from './DataVApi';
-import DataSet from '../db/DataSet';
-import { Excel, excelData, importsExcel } from '../db/Utils';
-//@ts-ignore
-import XLSX from "xlsx";
 type stateType = {
     polylineOption: any,
     option: any,
@@ -184,14 +181,14 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         }
         rowArr.forEach((row: DataRow, index) => {
             row.setValue('purchase', dataArr[index].purchase).setValue('yearInStock', dataArr[index].yearInStock).setValue('inTransit', dataArr[index].inTransit).setValue('stock', dataArr[index].stock);
-            dynamicDataArr[0].push((Math.floor(Math.random() * 10)) * 100);
+            dynamicDataArr[0].push((Math.ceil(Math.random() * 10)) * 100);
             dynamicDataArr[1].push(dataArr[index].stock);
             dynamicDataArr[2].push(dataArr[index].inTransit);
         })
         dynamicData.first();
         while (dynamicData.fetch()) {
             dynamicXArr.push(dynamicData.getString('name'));
-            dynamicDataArr[0].push((Math.floor(Math.random() * 10)) * 100);
+            dynamicDataArr[0].push((Math.ceil(Math.random() * 10)) * 100);
             dynamicDataArr[1].push(dynamicData.getDouble('currentStock'));
             dynamicDataArr[2].push(dynamicData.getDouble('inTransit'));
         }
@@ -278,8 +275,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 },
                 grid: {
                     bottom: 50,
-                    left: 30,
-                    right: 30
+                    left: 20,
+                    right: 20
                 },
                 xAxis: {
                     data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
@@ -336,8 +333,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 },
                 grid: {
                     bottom: '15',
-                    left: 10,
-                    right: 10
+                    left: 30,
+                    right: 30
                 },
                 xAxis: {
                     data: ['铁矿石', '废钢', '焦煤', '粉煤'],

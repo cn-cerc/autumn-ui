@@ -24,14 +24,11 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
     render(): React.ReactNode {
         return <div className={styles.main}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
-                <TopHeader title={this.props.title} />
+                <TopHeader title={this.props.title} handleCick={() => {
+                    //@ts-ignore
+                    return aui.showPage(this.props.backHref, this.props.backTitle)
+                }} />
                 <div className={styles.box}>
-                    <div className={styles.back} onClick={()=>{
-                        //@ts-ignore
-                        return aui.showPage(this.props.backHref, this.props.backTitle)
-                    }}>
-                        <Decoration7>返回</Decoration7>
-                    </div>
                     <BorderBox9>
                         <div className={styles.grid}>
                             <DBGrid dataSet={this.props.dataSet} key={this.getColumns().toString()}>

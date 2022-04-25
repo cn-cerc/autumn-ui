@@ -1,7 +1,6 @@
 import { BorderBox11, Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
 import DataRow from "../db/DataRow";
-import DataSet from '../db/DataSet';
 import { Excel, excelData } from '../db/Utils';
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
@@ -355,8 +354,8 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 },
                 grid: {
                     bottom: 50,
-                    left: 30,
-                    right: 30
+                    left: 20,
+                    right: 20
                 },
                 xAxis: {
                     data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
@@ -415,7 +414,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 grid: {
                     bottom: '15',
                     left: 100,
-                    right: 10
+                    right: 20
                 },
                 xAxis: {
                     data: 'value',
@@ -499,7 +498,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                     <TopHeader title='制造数据管理中心' handleCick={this.titleClick.bind(this)} />
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
-                            <div className={styles.textList2}>
+                            <div className={styles.textList5}>
                                 <TextList title="线材入库动态（T）" date={this.state.wireRow} listArray={this.state.listTypeArr1} />
                                 <TextList title="卷材入库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr2} />
                                 <TextList title="H型钢材入库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr3} />
@@ -541,7 +540,10 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                             <div className={styles.textList2}>
                                 <div className={styles.double}>
                                     <BorderBox11 title='生产在编在岗人员动态'>
-                                        <table className={styles.table}>
+                                        <table className={styles.table} onClick={()=>{
+                                            //@ts-ignore
+                                            aui.showPage("FrmReport8", "采购数据管理中心");
+                                        }}>
                                             <tbody>
                                                 {this.getTableContent()}
                                             </tbody>
