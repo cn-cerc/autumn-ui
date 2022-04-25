@@ -9,7 +9,7 @@ import AERemarkDialog from "./diteng/AERemarkDialog";
 import AHRemarkDialog from "./diteng/AHRemarkDialog";
 import AORemarkDialog from "./diteng/AORemarkDialog";
 import AreaDialog from "./diteng/AreaDialog";
-import BankAccountDialog from "./diteng/BankAccount";
+import BankAccountDialog from "./diteng/BankAccountDialog";
 import BaseAreaDialog from "./diteng/BaseAreaDialog";
 import BIRemarkDialog from "./diteng/BIRemarkDialog";
 import BOMProcessDialog from "./diteng/BOMProcessDialog";

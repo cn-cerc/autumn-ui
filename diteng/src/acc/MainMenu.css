@@ -1,0 +1,70 @@
+.main {
+    width: 15.37rem;
+}
+
+.main>img {
+    height: 2rem;
+}
+
+.main>ul {
+    list-style: none;
+}
+
+.main .title {
+    position: relative;
+    padding-left: 4.3rem;
+    line-height: 3.5rem;
+    box-sizing: border-box;
+    color: #333333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.main .title::after {
+    width: 1rem;
+    height: 1rem;
+    background-size: 1rem 1rem;
+    top: 1.29rem;
+    position: absolute;
+    left: 11.3rem;
+    content: "";
+    background-image: url(https://www.diteng.site/public/images/webdefault/menuList_icon.png);
+}
+
+.menuItem {
+    padding-left: 4.4rem;
+    position: relative;
+    cursor: pointer;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.menuItem:hover {
+    background-color: #fff;
+    border-right: .28rem solid #3273F4;
+}
+
+.menuItem img {
+    width: 1.4rem;
+    margin-right: .56rem;
+}
+
+.menuItem a {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 60%;
+    color: black;
+    text-decoration: none;
+}
+
+.menuItem a::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}

@@ -1,0 +1,28 @@
+.main {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main li {
+    height: 3rem;
+    line-height: 3rem;
+    min-width: 7em;
+    text-align: center;
+    padding: 0 .5rem;
+    margin: .125rem;
+    border: 1px solid #cacaca;
+    background-color: #f8f8f8;
+    color: black;
+    cursor: pointer;
+    border-radius: .29rem;
+}
+
+.main li:hover {
+    border-color: #fecd38;
+}
+
+@media screen and (max-width: 767px) {
+    .main li {
+        min-width: 6em;
+    }    
+}

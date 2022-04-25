@@ -1,0 +1,55 @@
+.main {
+    height: 100%;
+    overflow: auto;
+}
+
+.main ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main .groupList li {
+    background-color: #f8f8f8;
+    border: 1px solid #cacaca;
+    border-radius: .2rem;
+    line-height: 1.5rem;
+    padding: 0 .25rem;
+    cursor: pointer;
+    margin-left: .5rem;
+    margin-top: .5rem;
+    width: 5rem;
+    text-align: center;
+}
+
+.main .groupList li:hover {
+    border-color: #fecd38;
+}
+
+.main .businessList {
+    border-top: 1px solid #ccc;
+    margin-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.main .businessList li {
+    height: 3rem;
+    background-color: #f8f8f8;
+    border: 1px solid #cacaca;
+    border-radius: .2rem;
+    width: 7rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: .5rem;
+    margin-top: .5rem;
+    cursor: pointer;
+}
+.main .businessList li>span {
+    line-height: 1.2rem;
+    padding: 0 .5rem;
+}
+
+.main .businessList li:hover {
+    border-color: #fecd38;
+}
