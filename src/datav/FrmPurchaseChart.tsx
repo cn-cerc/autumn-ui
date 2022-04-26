@@ -8,6 +8,7 @@ import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
+import * as echarts from "echarts";
 type stateType = {
     polylineOption: any,
     option: any,
@@ -20,13 +21,17 @@ type stateType = {
     listTypeArr3: listType[],
     listTypeArr4: listType[],
     menuOptions: ViewMenuMap,
-    showIndex: number
+    dynamicDataArr: any[],
+    lengedState: boolean[],
+    showIndex: number,
 }
 type PropsType = {
 }
 
 export default class FrmPurchaseChart extends React.Component<PropsType, stateType> {
     private timer: any = null;
+    private lineLenged: string[] = ['安全库存', '当前库存', '在途库存'];
+    private isLengedEvent: boolean = false;
     constructor(props: PropsType) {
         super(props);
         this.state = {
@@ -110,7 +115,9 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 imgSrc: './kanban3.png',
                 href: 'javascript:aui.showPage("FrmSaleChart", "销售数据管理中心")'
             }]]),
-            showIndex: 0
+            showIndex: 0,
+            lengedState: [true, true, true],
+            dynamicDataArr: [],
         }
     }
 
@@ -149,7 +156,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             data.first();
             while (data.fetch()) {
                 let year = new Date(data.getString('入库日期')).getFullYear();
-                if(year == year_) {
+                if (year == year_) {
                     dataArr[index].purchase += data.getDouble('采购数量');
                     dataArr[index].yearInStock += data.getDouble('入库数量');
                     dataArr[index].inTransit += data.getDouble('在途数量');
@@ -174,9 +181,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         // if (dataSet.head.getString('DynamicWarning'))
         //     dynamicData.setJson(dataSet.head.getString('DynamicWarning'));
         let dynamicXArr = [];
-        let dynamicLegend = ['安全库存', '当前库存', '在途库存']
-        let dynamicDataArr = new Array(dynamicLegend.length);
-        for (let i = 0; i < dynamicLegend.length; i++) {
+        let dynamicDataArr = new Array(this.lineLenged.length);
+        for (let i = 0; i < this.lineLenged.length; i++) {
             dynamicDataArr[i] = new Array();
         }
         rowArr.forEach((row: DataRow, index) => {
@@ -193,9 +199,9 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             dynamicDataArr[2].push(dynamicData.getDouble('inTransit'));
         }
         let dynamicSeries = [];
-        for (let i = 0; i < dynamicLegend.length; i++) {
+        for (let i = 0; i < this.lineLenged.length; i++) {
             dynamicSeries.push({
-                name: dynamicLegend[i],
+                name: this.lineLenged[i],
                 data: dynamicDataArr[i],
                 type: 'bar',
                 label: {
@@ -208,15 +214,16 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 barGap: 0
             })
         }
+        this.initLineChart(dynamicDataArr)
         let purchaseData = new DataSet();
         // if (dataSet.head.getString('YearPurchase'))
         //     purchaseData.setJson(dataSet.head.getString('YearPurchase'));
         purchaseData.appendDataSet(dataList[1].data);
-        let purchaseLenged:string[] = [];
+        let purchaseLenged: string[] = [];
         purchaseData.first();
         while (purchaseData.fetch()) {
             let year = new Date(purchaseData.getString('入库日期')).getFullYear().toString();
-            if(purchaseLenged.indexOf(year) == -1) {
+            if (purchaseLenged.indexOf(year) == -1) {
                 purchaseLenged.push(year)
             }
         }
@@ -230,7 +237,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             let year = date.getFullYear().toString();
             let month = date.getMonth();
             let index = purchaseLenged.indexOf(year);
-            if(purchaseDataArr[index][month] == '') {
+            if (purchaseDataArr[index][month] == '') {
                 purchaseDataArr[index][month] = 0;
             }
             let num = purchaseData.getDouble('采购数量');
@@ -324,7 +331,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                     }
                 },
                 legend: {
-                    data: dynamicLegend,
+                    data: this.lineLenged,
                     textStyle: {
                         fill: '#fff',
                         fontSize: 18
@@ -373,11 +380,12 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             ironOreRow,
             scrapRow,
             cCoalRow,
-            pCoalRow
+            pCoalRow,
+            dynamicDataArr
         })
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
@@ -388,8 +396,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                                 <TextList title="铁矿石采购动态（T）" date={this.state.ironOreRow} listArray={this.state.listTypeArr1} />
                                 <TextList title="废钢采购动态（T）" date={this.state.scrapRow} listArray={this.state.listTypeArr2} />
                             </div>
-                            <div className={styles.blockTopBottomContent}>
-                                <Charts option={this.state.option} />
+                            <div className={styles.blockTopBottomContent} id='echarts'>
+                                {/* <Charts option={this.state.option} /> */}
                             </div>
                             <div className={styles.textList}>
                                 <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr3} />
@@ -424,5 +432,210 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu
         return style
+    }
+
+    initLineChart(dynamicDataArr?: any[]) {
+        let dataArr = this.state.dynamicDataArr;
+        if (dynamicDataArr)
+            dataArr = dynamicDataArr;
+        let siteSize = -1;
+        let dynamicSeries = [];
+        this.state.lengedState.forEach((bool: boolean) => {
+            if (bool)
+                siteSize++;
+        })
+        let site = (siteSize * -55) / 2;
+        let colorArr = [{
+            topColor: '#1CB53C',
+            bottomColor: '#1b963b61',
+            lineColor: ['#1CB53C', '#1b963b61']
+        }, {
+            topColor: '#1C71D4',
+            bottomColor: '#1C71D440',
+            lineColor: ['#1C71D4', '#1C71D440']
+        }, {
+            topColor: '#EBBB06',
+            bottomColor: '#ebbb0642',
+            lineColor: ['#EBBB06', '#ebbb0642']
+        }]
+        for (let i = 0; i < this.lineLenged.length; i++) {
+            dynamicSeries.push({
+                name: this.lineLenged[i],
+                type: 'pictorialBar',
+                symbolSize: [50, 16],
+                symbolOffset: [site, -8], // 上部椭圆
+                symbolPosition: 'end',
+                z: 12,
+                color: colorArr[i].topColor,
+                data: dataArr[i],
+            })
+            dynamicSeries.push({
+                name: this.lineLenged[i],
+                type: 'pictorialBar',
+                symbolSize: [50, 16],
+                symbolOffset: [site, 8], // 下部椭圆
+                z: 12,
+                color: colorArr[i].bottomColor,
+                data: dataArr[i],
+            })
+            dynamicSeries.push({
+                name: this.lineLenged[i],
+                type: 'bar',
+                barWidth: '50',
+                barGap: '10%', // Make series be overlap
+                barCateGoryGap: '10%',
+                itemStyle: {
+                    normal: {
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 0.7, [
+                            {
+                                offset: 0,
+                                color: colorArr[i].lineColor[0],
+                            },
+                            {
+                                offset: 1,
+                                color: colorArr[i].lineColor[1],
+                            },
+                        ]),
+                        opacity: 0.8,
+                    },
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        fontSize: 20,
+                        color: '#fff',
+                        offset: [0, -6]
+                    },
+                },
+                data: dataArr[i],
+            })
+            if (this.state.lengedState[i])
+                site += 55;
+        }
+        let myChart = echarts.init(document.getElementById('echarts'));
+        //@ts-ignore
+        myChart.setOption({
+            legend: {
+                bottom: 20,
+                textStyle: {
+                    fontSize: 18,
+                    color: '#fff'
+                },
+                itemWidth: 18,
+                itemHeight: 18,
+                itemGap: 20,
+                symbolRotate: 10,
+                icon: 'rect'
+
+            },
+            grid: {
+                top: 40,
+                left: 40,
+                bottom: 60,
+                right: 40,
+                containLabel: true,
+            },
+            tooltip: {
+                show: true,
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: [{
+                        value: '铁矿石',
+                        textStyle: {
+                            fontSize: 18,
+                            color: '#fff'
+                        }
+                    }, {
+                        value: '废钢',
+                        textStyle: {
+                            fontSize: 18,
+                            color: '#fff'
+                        }
+                    }, {
+                        value: '焦煤',
+                        textStyle: {
+                            fontSize: 18,
+                            color: '#fff'
+                        }
+                    }, {
+                        value: '粉煤',
+                        textStyle: {
+                            fontSize: 18,
+                            color: '#fff'
+                        }
+                    }],
+                    textStyle: {
+                        fontSize: 20
+                    },
+                    axisTick: {
+                        alignWithLabel: true,
+                    },
+                    nameTextStyle: {
+                        color: '#82b0ec',
+                    },
+                    axisLine: {
+                        show: false,
+                        lineStyle: {
+                            color: '#82b0ec',
+                        },
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',
+                        },
+                        margin: 30,
+                    },
+                },
+            ],
+            yAxis: [
+                {
+                    show: false,
+                    type: 'value',
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',
+                        },
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#0c2c5a',
+                        },
+                    },
+                    axisLine: {
+                        show: false,
+                    },
+                },
+            ],
+            series: dynamicSeries,
+        });
+        if (!this.isLengedEvent) {
+            this.isLengedEvent = true;
+            myChart.on('legendselectchanged', (obj: {
+                name: string,
+                selected: object,
+                type: string
+            }) => {
+                this.lengedChanage(obj)
+            })
+        }
+    }
+
+    lengedChanage(obj: {
+        name: string,
+        selected: object,
+        type: string
+    }) {
+        let lengedState: boolean[] = []
+        Object.values(obj.selected).forEach((bool: boolean, index: number) => {
+            lengedState.push(bool);
+        })
+        this.setState({
+            lengedState
+        }, () => {
+            this.initLineChart();
+        })
     }
 }
