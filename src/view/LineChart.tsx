@@ -91,7 +91,6 @@ export default class LineChart extends ViewConfig<LineChartTypeProps> {
             }
             if (this.props.option)
                 Object.assign(option, this.props.option);
-            console.log(option)
             this.state.myEchart.setOption(option);
         }
     }
