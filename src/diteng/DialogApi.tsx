@@ -219,7 +219,7 @@ export default class DialogApi {
 
     /** 获取收费记录卡 */
     static getOurInfo(params: DataRow) {
-        return DialogApi.getDataOut('TAppOurInfo.Download', params);
+        return DialogApi.getDataOut('TAppOurInfo.search', params);
     }
 
     /** 获取商品型号信息 */
