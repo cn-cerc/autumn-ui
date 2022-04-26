@@ -19,13 +19,10 @@ export default class Employee extends React.Component<EmployTypeProps> {
     render(): React.ReactNode {
         return <div className={styles.main}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
-                <TopHeader title={this.props.title} />
-                <div className={styles.back} onClick={() => {
+                <TopHeader title={this.props.title}  handleCick={() => {
                     //@ts-ignore
                     return aui.showPage(this.props.backHref, this.props.backTitle)
-                }}>
-                    <Decoration7>返回</Decoration7>
-                </div>
+                }} />
                 <div className={styles.content}>
                     <div className={styles.left}>
                         {/* <div className={styles.img1}></div> */}

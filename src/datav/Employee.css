@@ -92,3 +92,12 @@
 .right tbody>tr:nth-child(2n+1) {
     background-color: #0A2732;
 }
+
+.content {
+    height: 0;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 100px;
+}

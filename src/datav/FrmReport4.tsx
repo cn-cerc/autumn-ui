@@ -43,9 +43,10 @@ export default class FrmReport4 extends React.Component<FrmReportTypeProps, FrmR
         })
         let dataSet = dataList[this.props.index].data;
         let reportName = dataList[this.props.index].name;
-        reportHead.setValue('订单编号', { name: '生产订单', width: '20' }).setValue('销售目标（吨）', { name: '生产数量（T）', width: '25' }).setValue('A3', { name: '产能/日', width: '16' }).setValue('接单日期', { name: '入库日期', width: '14' }).setValue('销售目标（吨）', { name: '入库数量（T）', width: '18' }).setValue('A6', { name: '产能目标达成率', width: '18' }).setValue('备注', { name: '备注', width: '18' });
+        reportHead.setValue('订单编号', { name: '生产订单', width: '20' }).setValue('A2', { name: '生产数量（T）', width: '25' }).setValue('A3', { name: '产能/日', width: '16' }).setValue('接单日期', { name: '入库日期', width: '14' }).setValue('入库数量（T）', { name: '入库数量（T）', width: '18' }).setValue('A6', { name: '产能目标达成率', width: '18' }).setValue('备注', { name: '备注', width: '18' });
         dataSet.first();
         let date = new Date();
+        let hour = date.getHours();
         let year_ = date.getFullYear();
         let month_ = date.getMonth();
         let day_ = date.getDay();
@@ -91,13 +92,30 @@ export default class FrmReport4 extends React.Component<FrmReportTypeProps, FrmR
             let endDate = new Date(dataSet.getString('出货日期'));
             let num = dataSet.getDouble('数量（吨）');
             let time = date.getTime();
+            let year = date.getFullYear();
+            let month = date.getMonth();
+            let day = date.getDate();
             let endTime_ = endDate.getTime();
-            if (time >= startTime && time <= endTime) {
+            if(year == year_ && month == month_ && day == date_) {
                 reportData.append().copyRecord(dataSet.current);
-                let generaDay = (endTime_ - time) / (24*60*60*1000) + 1;
-                reportData.setValue('A3', math.toFixed(num/generaDay, 2));
-                reportData.setValue('A6', '100%');
+                let generaDay = (endTime_ - time) / (24 * 60 * 60 * 1000) + 1;
+                let a3 = math.toFixed(num / generaDay, 2);
+                let a2 = math.toFixed(a3 * (hour / 20), 2);
+                reportData.setValue('A3', a3);
+                reportData.setValue('A6', `${math.toFixed(a2 / a3 * 100, 2)}%`);
+                reportData.setValue('入库数量（T）', a2);
+                reportData.setValue('A2', a2);
             }
+            // if (time >= startTime && time <= endTime) {
+            //     reportData.append().copyRecord(dataSet.current);
+            //     let generaDay = (endTime_ - time) / (24 * 60 * 60 * 1000) + 1;
+            //     let a3 = math.toFixed(num / generaDay, 2);
+            //     let a2 = a3 * (hour / 20);
+            //     reportData.setValue('A3', a3);
+            //     reportData.setValue('A6', `${math.toFixed(a2 / a3 * 100, 2)}%`);
+            //     reportData.setValue('入库数量（T）', a2);
+            //     reportData.setValue('A2', a2);
+            // }
         }
         // reportData.append().setValue('A1', '001').setValue('A2', 10).setValue('A3', 8).setValue('A4', '2022-04-17').setValue('A5', 8).setValue('A6', '80%').setValue('A7', '备注1');
         // reportData.append().setValue('A1', '002').setValue('A2', 15).setValue('A3', 15).setValue('A4', '2022-04-17').setValue('A5', 15).setValue('A6', '100%').setValue('A7', '备注2');
@@ -117,6 +135,6 @@ export default class FrmReport4 extends React.Component<FrmReportTypeProps, FrmR
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`本周${this.state.reportName}入库动态（T）`} key={this.state.reportData.json} backHref='FrmManufactureChart' backTitle='制造数据管理中心'></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`今日${this.state.reportName}入库动态（T）`} key={this.state.reportData.json} backHref='FrmManufactureChart' backTitle='制造数据管理中心'></ReportDetail>
     }
 }

@@ -10,7 +10,6 @@ import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
 import * as echarts from "echarts";
 type stateType = {
-    polylineOption: any,
     ironOreRow: DataRow,
     scrapRow: DataRow,
     cCoalRow: DataRow,
@@ -34,7 +33,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            polylineOption: {},
             ironOreRow: new DataRow(),
             scrapRow: new DataRow(),
             cCoalRow: new DataRow(),
@@ -42,11 +40,11 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr1: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 0})'
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 0})'
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 0})'
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 0})'
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
@@ -58,11 +56,11 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr2: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 1})'
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 1})'
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 1})'
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 1})'
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
@@ -74,11 +72,11 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr3: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 2})'
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 2})'
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 2})'
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 2})'
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
@@ -90,11 +88,11 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr4: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度入库数量（T）", {index : 3})'
+                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 3})'
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度采购数量（T）", {index : 3})'
+                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 3})'
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
@@ -240,24 +238,9 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             let num = purchaseData.getDouble('采购数量');
             purchaseDataArr[index][month] += num;
         }
-        let pruchaseSeries = [];
         let lineSeries = [];
         let lineColir = ['#41aebd', '#EBBB06'];
         for (let i = 0; i < purchaseLenged.length; i++) {
-            pruchaseSeries.push({
-                name: purchaseLenged[i],
-                data: purchaseDataArr[i],
-                type: 'line',
-                label: {
-                    show: true,
-                    style: {
-                        fontSize: 18
-                    }
-                },
-                lineStyle: {
-                    lineWidth: 3
-                }
-            })
             lineSeries.push({
                 name: purchaseLenged[i],
                 type: 'line',
@@ -306,9 +289,9 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             tooltip: {},
             // 内容区域位置
             grid: {
-                left: 20,
-                right: 20,
-                bottom: 20,
+                left: 40,
+                right: 40,
+                bottom: 40,
                 top: 90,
                 containLabel: true
             },
@@ -331,66 +314,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         this.initLineChart(lineOption)
         this.initBarChart(dynamicDataArr)
         this.setState({
-            polylineOption: {
-                title: {
-                    text: '废钢采购年度对比动态',
-                    style: {
-                        fill: '#fff',
-                        fontSize: 22,
-                        fontWeight: 500
-                    }
-                },
-                legend: {
-                    data: purchaseLenged,
-                    textStyle: {
-                        fill: '#fff',
-                        fontSize: 18
-                    },
-                    top: 30,
-                    right: 100
-
-                },
-                grid: {
-                    bottom: 50,
-                    left: 20,
-                    right: 20
-                },
-                xAxis: {
-                    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                    axisTick: {
-                        show: false
-                    },
-                    axisLabel: {
-                        style: {
-                            fill: '#fff',
-                            fontSize: 20,
-                            rotate: 0
-                        },
-                    },
-                    axisLine: {
-                        style: {
-                            stroke: '#fff'
-                        }
-                    }
-                },
-                yAxis: {
-                    data: 'value',
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    splitLine: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false
-                    }
-                },
-                series: pruchaseSeries,
-                color: ['#41aebd', '#97e9d5']
-            },
             ironOreRow,
             scrapRow,
             cCoalRow,
@@ -415,12 +338,10 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                             </div>
                             <div className={styles.textList}>
                                 <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr3} />
-                                <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr4} />
+                                <TextList title="合金采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr4} />
                             </div>
                         </div>
-                        <div className={styles.polylineOption} id='lineChart'>
-                            {/* <Charts option={this.state.polylineOption} /> */}
-                        </div>
+                        <div className={styles.polylineOption} id='lineChart'></div>
                     </div>
                     {this.getMenus()}
                 </FullScreenContainer>
@@ -460,17 +381,20 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         })
         let site = (siteSize * -55) / 2;
         let colorArr = [{
-            topColor: '#1CB53C',
+            topColor: '#1CD53C',
             bottomColor: '#1b963b',
-            lineColor: ['#1CB53C', '#1b963b']
+            lineColor: ['#1CB53C', '#1b963b'],
+            textColor: '#B9E2A5'
         }, {
-            topColor: '#1C71D4',
+            topColor: '#1CA1D4',
             bottomColor: '#1C71D4',
-            lineColor: ['#1C71D4', '#1C71D4']
+            lineColor: ['#1C71D4', '#1C71D4'],
+            textColor: '#fff'
         }, {
-            topColor: '#EBBB06',
+            topColor: '#EBDB06',
             bottomColor: '#ebbb06',
-            lineColor: ['#EBBB06', '#ebbb06']
+            lineColor: ['#EBBB06', '#ebbb06'],
+            textColor: '#F5DF90'
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
             dynamicSeries.push({
@@ -489,7 +413,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 symbolSize: [50, 16],
                 symbolOffset: [site, 8], // 下部椭圆
                 z: 10,
-                color: colorArr[i].bottomColor,
+                color: colorArr[i].lineColor[0],
                 data: dataArr[i],
             })
             dynamicSeries.push({
@@ -500,17 +424,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 barCateGoryGap: '10%',
                 itemStyle: {
                     normal: {
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 0.7, [
-                            {
-                                offset: 0,
-                                color: colorArr[i].lineColor[0],
-                            },
-                            {
-                                offset: 1,
-                                color: colorArr[i].lineColor[1],
-                            },
-                        ]),
-                        opacity: 0.8,
+                        color: colorArr[i].lineColor[0]
                     },
                 },
                 z: 10,
@@ -519,7 +433,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         show: true,
                         position: 'top',
                         fontSize: 20,
-                        color: '#fff',
+                        color: colorArr[i].textColor,
                         offset: [0, -6]
                     },
                 },
@@ -556,7 +470,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             },
             grid: {
                 top: 90,
-                left: 40,
+                left: 0,
                 bottom: 60,
                 right: 40,
                 containLabel: true,
@@ -586,7 +500,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                             color: '#fff'
                         }
                     }, {
-                        value: '粉煤',
+                        value: '合金',
                         textStyle: {
                             fontSize: 18,
                             color: '#fff'
@@ -596,7 +510,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         fontSize: 20
                     },
                     axisTick: {
-                        alignWithLabel: true,
+                        show: false
                     },
                     nameTextStyle: {
                         color: '#82b0ec',

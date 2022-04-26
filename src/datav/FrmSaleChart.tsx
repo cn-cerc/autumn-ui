@@ -339,9 +339,11 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
         let steelRow = new DataRow();
         // steelRow.setValue('todayOrder', this.getRandom(10)).setValue('weekOrder', this.getRandom(50)).setValue('monthOrder', this.getRandom(200)).setValue('yearOrder', this.getRandom(2000)).setValue('weekOutStock', this.getRandom(20)).setValue('monthOutStock', this.getRandom(100)).setValue('yearOutStock', this.getRandom(500)).setValue('onOutStock', this.getRandom(100)).setValue('inStock', this.getRandom(3000));
         let rowArr = [wireRow, coilRow, hSteelRow, steelRow];
+        let allValue = 0;
         let optionSeriesData: any[] = [];
         rowArr.forEach((row: DataRow, index) => {
             row.setValue('todayOrder', dataArr[index].todayOrder).setValue('weekOrder', dataArr[index].weekOrder).setValue('monthOrder', dataArr[index].monthOrder).setValue('yearOrder', dataArr[index].yearOrder).setValue('todayOutStock', dataArr[index].todayOutStock).setValue('weekOutStock', dataArr[index].weekOutStock).setValue('monthOutStock', dataArr[index].monthOutStock).setValue('yearOutStock', dataArr[index].yearOutStock).setValue('onOutStock', dataArr[index].onOutStock).setValue('inStock', dataArr[index].inStock);
+            allValue += dataArr[index].yearOutStock;
             optionSeriesData.push({
                 name: dataList[index].name,
                 value: dataArr[index].yearOutStock
@@ -387,7 +389,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
         }
         let index = 1;
         let math = new AuiMath();
-        while(ds2.fetch()) {
+        while (ds2.fetch()) {
             let arr = new Array();
             arr.push(index);
             let sellNum1 = ds2.getDouble('销售目标');
@@ -493,6 +495,53 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 color: ['#42C1D2', '#4AF8E4', '#62B530', '#14A338']
             },
         })
+        let pieData: any[] = [];
+        optionSeriesData.forEach((data) => {
+            pieData.push([`${data.name}${math.toFixed(data.value / allValue * 100, 2)}%`, data.value])
+        })
+        this.initPeiChart({
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                },
+                backgroundColor: 'transparent',
+            },
+            title: {
+                text: '销售商品结构比例分析',
+                style: {
+                    "color": '#fff',
+                    "fontSize": 22,
+                }
+            },
+            plotOptions: {
+                pie: {
+                    depth: 50,
+                    dataLabels: {
+                        color: '#fff',
+                        style: {
+                            "fontSize": '20',
+                            "fontWeight": '300'
+                        }
+                        
+                    }
+                }
+            },
+            tooltip: {
+                enabled: false
+            },
+            lenged: {},
+            series: [{
+                type: 'pie',
+                data: pieData
+            }],
+            colors: ['#42C1D2', '#4AF8E4', '#62B530', '#14A338'],
+            label: {
+                "color": "#fff"
+            }
+        })
     }
 
     render() {
@@ -507,10 +556,10 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                                 <TextList title="卷材出库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr2} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
-                                <div className={styles.pieBox1}>
-                                    <Charts option={this.state.option} />
+                                <div className={styles.pieBox1} id='piechart'>
+                                    {/* <Charts option={this.state.option} /> */}
                                 </div>
-                                <div className={styles.pieBox2} onClick={()=>{
+                                <div className={styles.pieBox2} onClick={() => {
                                     //@ts-ignore
                                     aui.showPage("FrmReport18", "采购数据管理中心");
                                 }}>
@@ -550,5 +599,10 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
         if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu
         return style
+    }
+
+    initPeiChart(option: any) {
+        //@ts-ignore
+        Highcharts.chart('piechart', option);
     }
 }

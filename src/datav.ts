@@ -18,6 +18,7 @@ import FrmReport15 from "./datav/FrmReport15";
 import FrmReport16 from "./datav/FrmReport16";
 import FrmReport17 from "./datav/FrmReport17";
 import FrmReport18 from "./datav/FrmReport18";
+import FrmReport19 from "./datav/FrmReport19";
 import FrmEmployee1 from "./datav/FrmEmployee1";
 import FrmEmployee2 from "./datav/FrmEmployee2";
 import FrmEmployee3 from "./datav/FrmEmployee3";
@@ -46,6 +47,7 @@ export default {
     FrmReport16,
     FrmReport17,
     FrmReport18,
+    FrmReport19,
     FrmEmployee1,
     FrmEmployee2,
     FrmEmployee3,
