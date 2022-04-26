@@ -11,7 +11,6 @@ import ViewMenu, { ViewMenuMap } from './ViewMenu';
 import * as echarts from "echarts";
 type stateType = {
     polylineOption: any,
-    option: any,
     ironOreRow: DataRow,
     scrapRow: DataRow,
     cCoalRow: DataRow,
@@ -36,7 +35,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         super(props);
         this.state = {
             polylineOption: {},
-            option: {},
             ironOreRow: new DataRow(),
             scrapRow: new DataRow(),
             cCoalRow: new DataRow(),
@@ -214,7 +212,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 barGap: 0
             })
         }
-        this.initLineChart(dynamicDataArr)
         let purchaseData = new DataSet();
         // if (dataSet.head.getString('YearPurchase'))
         //     purchaseData.setJson(dataSet.head.getString('YearPurchase'));
@@ -244,6 +241,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             purchaseDataArr[index][month] += num;
         }
         let pruchaseSeries = [];
+        let lineSeries = [];
+        let lineColir = ['#41aebd', '#EBBB06'];
         for (let i = 0; i < purchaseLenged.length; i++) {
             pruchaseSeries.push({
                 name: purchaseLenged[i],
@@ -259,7 +258,78 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                     lineWidth: 3
                 }
             })
+            lineSeries.push({
+                name: purchaseLenged[i],
+                type: 'line',
+                data: purchaseDataArr[i],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            textStyle: {
+                                color: lineColir[i],
+                                fontSize: 16,
+                            }
+                        }
+                    }
+                },
+                symbol: 'circle',
+                symbolSize: 8
+            })
         }
+        let lineOption = {
+            // 标题
+            title: [
+                {
+                    text: '废钢采购年度对比动态',
+                    textStyle: {
+                        color: '#fff',
+                        fontSize: 22,
+                        fontWeight: 500
+                    },
+                    top: 20,
+                    left: 'center'
+                }
+            ],
+            color: lineColir,
+            textStyle: {
+                color: '#fff'
+            },
+            // 图例
+            legend: {
+                textStyle: {
+                    color: '#fff'
+                },
+                top: 20,
+                right: 20
+            },
+            tooltip: {},
+            // 内容区域位置
+            grid: {
+                left: 20,
+                right: 20,
+                bottom: 20,
+                top: 90,
+                containLabel: true
+            },
+            xAxis: {
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                axisLine: {
+                    lineStyle: {
+                        color: '#fff'
+                    }
+                },
+                axisLabel: {
+                    fontSize: 18
+                }
+            },
+            yAxis: {
+                show: false
+            },
+            series: lineSeries
+        }
+        this.initLineChart(lineOption)
+        this.initBarChart(dynamicDataArr)
         this.setState({
             polylineOption: {
                 title: {
@@ -321,62 +391,6 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 series: pruchaseSeries,
                 color: ['#41aebd', '#97e9d5']
             },
-            option: {
-                title: {
-                    text: '库存动态预警',
-                    style: {
-                        fill: '#fff',
-                        fontSize: 22,
-                        fontWeight: 500
-                    }
-                },
-                legend: {
-                    data: this.lineLenged,
-                    textStyle: {
-                        fill: '#fff',
-                        fontSize: 18
-                    },
-                    bottom: '5'
-                },
-                grid: {
-                    bottom: '15',
-                    left: 30,
-                    right: 30
-                },
-                xAxis: {
-                    data: ['铁矿石', '废钢', '焦煤', '粉煤'],
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    axisLabel: {
-                        style: {
-                            fill: '#fff',
-                            fontSize: 20,
-                            rotate: 0
-                        }
-                    }
-                },
-                yAxis: {
-                    data: 'value',
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    splitLine: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false
-                    }
-                },
-                series: dynamicSeries,
-                color: ['#1CB53C', '#1C71D4', '#EBBB06']
-            },
             ironOreRow,
             scrapRow,
             cCoalRow,
@@ -404,8 +418,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                                 <TextList title="粉煤采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr4} />
                             </div>
                         </div>
-                        <div className={styles.polylineOption} >
-                            <Charts option={this.state.polylineOption} />
+                        <div className={styles.polylineOption} id='lineChart'>
+                            {/* <Charts option={this.state.polylineOption} /> */}
                         </div>
                     </div>
                     {this.getMenus()}
@@ -434,7 +448,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         return style
     }
 
-    initLineChart(dynamicDataArr?: any[]) {
+    initBarChart(dynamicDataArr?: any[]) {
         let dataArr = this.state.dynamicDataArr;
         if (dynamicDataArr)
             dataArr = dynamicDataArr;
@@ -447,16 +461,16 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         let site = (siteSize * -55) / 2;
         let colorArr = [{
             topColor: '#1CB53C',
-            bottomColor: '#1b963b61',
-            lineColor: ['#1CB53C', '#1b963b61']
+            bottomColor: '#1b963b',
+            lineColor: ['#1CB53C', '#1b963b']
         }, {
             topColor: '#1C71D4',
-            bottomColor: '#1C71D440',
-            lineColor: ['#1C71D4', '#1C71D440']
+            bottomColor: '#1C71D4',
+            lineColor: ['#1C71D4', '#1C71D4']
         }, {
             topColor: '#EBBB06',
-            bottomColor: '#ebbb0642',
-            lineColor: ['#EBBB06', '#ebbb0642']
+            bottomColor: '#ebbb06',
+            lineColor: ['#EBBB06', '#ebbb06']
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
             dynamicSeries.push({
@@ -474,7 +488,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 type: 'pictorialBar',
                 symbolSize: [50, 16],
                 symbolOffset: [site, 8], // 下部椭圆
-                z: 12,
+                z: 10,
                 color: colorArr[i].bottomColor,
                 data: dataArr[i],
             })
@@ -499,6 +513,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         opacity: 0.8,
                     },
                 },
+                z: 10,
                 label: {
                     normal: {
                         show: true,
@@ -516,6 +531,16 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         let myChart = echarts.init(document.getElementById('echarts'));
         //@ts-ignore
         myChart.setOption({
+            title: [{
+                text: '库存动态预警',
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 22,
+                    fontWeight: 500
+                },
+                top: 20,
+                left: 'center'
+            }],
             legend: {
                 bottom: 20,
                 textStyle: {
@@ -530,7 +555,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
 
             },
             grid: {
-                top: 40,
+                top: 90,
                 left: 40,
                 bottom: 60,
                 right: 40,
@@ -623,6 +648,11 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         }
     }
 
+    initLineChart(option: any) {
+        let myChart = echarts.init(document.getElementById('lineChart'));
+        myChart.setOption(option);
+    }
+
     lengedChanage(obj: {
         name: string,
         selected: object,
@@ -635,7 +665,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         this.setState({
             lengedState
         }, () => {
-            this.initLineChart();
+            this.initBarChart();
         })
     }
 }
