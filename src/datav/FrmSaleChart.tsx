@@ -537,9 +537,12 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 type: 'pie',
                 data: pieData
             }],
-            colors: ['#42C1D2', '#4AF8E4', '#62B530', '#14A338'],
+            colors: ['#1CB53C', '#1C71D4', '#EBBB06', '#ff5555'],
             label: {
                 "color": "#fff"
+            },
+            credits: {  
+                enabled: false
             }
         })
     }

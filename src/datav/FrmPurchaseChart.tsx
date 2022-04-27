@@ -256,8 +256,11 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         }
                     }
                 },
+                lineStyle: {
+                    width: 4
+                },
                 symbol: 'circle',
-                symbolSize: 8
+                symbolSize: 12
             })
         }
         let lineOption = {
@@ -283,8 +286,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 textStyle: {
                     color: '#fff'
                 },
-                top: 20,
-                right: 20
+                top: 50
             },
             tooltip: {},
             // 内容区域位置
@@ -337,7 +339,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                                 {/* <Charts option={this.state.option} /> */}
                             </div>
                             <div className={styles.textList}>
-                                <TextList title="焦煤采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr3} />
+                                <TextList title="煤炭采购动态（T）" date={this.state.cCoalRow} listArray={this.state.listTypeArr3} />
                                 <TextList title="合金采购动态（T）" date={this.state.pCoalRow} listArray={this.state.listTypeArr4} />
                             </div>
                         </div>
@@ -379,7 +381,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             if (bool)
                 siteSize++;
         })
-        let site = (siteSize * -55) / 2;
+        let site = (siteSize * -60) / 2;
         let colorArr = [{
             topColor: '#1CD53C',
             bottomColor: '#1b963b',
@@ -420,8 +422,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 name: this.lineLenged[i],
                 type: 'bar',
                 barWidth: '50',
-                barGap: '10%', // Make series be overlap
-                barCateGoryGap: '10%',
+                barGap: '20%',
                 itemStyle: {
                     normal: {
                         color: colorArr[i].lineColor[0]
@@ -440,7 +441,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 data: dataArr[i],
             })
             if (this.state.lengedState[i])
-                site += 55;
+                site += 60;
         }
         let myChart = echarts.init(document.getElementById('echarts'));
         //@ts-ignore
@@ -494,7 +495,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                             color: '#fff'
                         }
                     }, {
-                        value: '焦煤',
+                        value: '煤炭',
                         textStyle: {
                             fontSize: 18,
                             color: '#fff'

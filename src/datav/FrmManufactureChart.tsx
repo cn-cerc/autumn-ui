@@ -9,7 +9,6 @@ import ViewMenu, { ViewMenuMap } from './ViewMenu';
 import * as echarts from "echarts";
 import DataSet from '../db/DataSet';
 type stateType = {
-    polylineOption: any,
     wireRow: DataRow,
     coilRow: DataRow,
     hSteelRow: DataRow,
@@ -22,7 +21,8 @@ type stateType = {
     stopArr: listType[],
     menuOptions: ViewMenuMap,
     showIndex: number,
-    jobData: number[][]
+    jobData: number[][],
+    lengedState: boolean[]
 }
 type PropsType = {
 }
@@ -30,10 +30,10 @@ type PropsType = {
 export default class FrmManufactureChart extends React.Component<PropsType, stateType> {
     private timer: any = null;
     private onJobNames: string[] = ["在编人数", "30岁以下", "30-40岁", "41-50岁", "51-60岁", "60岁以上", "今日出勤", "今日调休", "今日请假"];
+    private isLengedEvent: boolean = false;
     constructor(props: PropsType) {
         super(props);
         this.state = {
-            polylineOption: {},
             wireRow: new DataRow(),
             coilRow: new DataRow(),
             hSteelRow: new DataRow(),
@@ -119,7 +119,8 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 href: 'javascript:aui.showPage("FrmSaleChart", "销售数据管理中心")'
             }]]),
             showIndex: 0,
-            jobData: []
+            jobData: [],
+            lengedState: [true, true],
         }
     }
 
@@ -236,25 +237,10 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                     dataArr[index].todayStock += inStock
             }
         })
-        let polylineSeries: object[] = [];
         let lineSeries: any[] = [];
         let lineColir = ['#41aebd', '#97e9d5', '#EBBB06'];
         //年度销售预计
         ployDatas.forEach((arr: [], index: number) => {
-            polylineSeries.push({
-                name: polyLengend[index],
-                data: arr,
-                type: 'line',
-                label: {
-                    show: true,
-                    style: {
-                        fontSize: 18
-                    }
-                },
-                lineStyle: {
-                    lineWidth: 3
-                }
-            })
             lineSeries.push({
                 name: `${polyLengend[index]}年度入库汇总`,
                 type: 'line',
@@ -270,8 +256,11 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                         }
                     }
                 },
+                lineStyle: {
+                    width: 4
+                },
                 symbol: 'circle',
-                symbolSize: 8
+                symbolSize: 12
             })
         })
         lineSeries.push({
@@ -289,8 +278,11 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                     }
                 }
             },
+            lineStyle: {
+                width: 4
+            },
             symbol: 'circle',
-            symbolSize: 8
+            symbolSize: 12
         })
         let wireRow = new DataRow();
         // wireRow.setValue('todayStock', this.getRandom(100)).setValue('monthStock', this.getRandom(500)).setValue('yearStock', this.getRandom(5000));
@@ -394,83 +386,6 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 todayError_ += 1;
         }
         stopRow.setValue('todayError', todayError_).setValue('weekError', weekError_).setValue('monthError', monthError_).setValue('yearError', yearError_);
-        let barSeries = [{
-            name: '实际产能',
-            type: 'pictorialBar',
-            symbolSize: [16, 50],
-            symbolOffset: [8, -27.5], // 上部椭圆
-            symbolPosition: 'end',
-            z: 12,
-            color: '#42E1D2',
-            data: [1200, 2230, 1900, 1800],
-        }, {
-            name: '实际产能',
-            type: 'pictorialBar',
-            symbolSize: [16, 50],
-            symbolOffset: [-8, -27.5], // 下部椭圆
-            z: 10,
-            color: '#42C1D2',
-            data: [1200, 2230, 1900, 1800],
-        }, {
-            name: '实际产能',
-            type: 'bar',
-            barWidth: '50',
-            barGap: '10%', // Make series be overlap
-            barCateGoryGap: '10%',
-            itemStyle: {
-                normal: {
-                    color: '#42c1d2'
-                },
-            },
-            z: 10,
-            label: {
-                normal: {
-                    show: true,
-                    position: 'right',
-                    fontSize: 18,
-                    color: '#fff',
-                    offset: [10, 0]
-                },
-            },
-            data: [1200, 2230, 1900, 1800],
-        }, {
-            name: '标准产能',
-            type: 'pictorialBar',
-            symbolSize: [16, 50],
-            symbolOffset: [8, 27.5], // 上部椭圆
-            symbolPosition: 'end',
-            z: 12,
-            color: '#14C338',
-            data: [2230, 1900, 2100, 3000],
-        }, {
-            name: '标准产能',
-            type: 'pictorialBar',
-            symbolSize: [16, 50],
-            symbolOffset: [-8, 27.5], // 下部椭圆
-            z: 10,
-            color: '#14A338',
-            data: [2230, 1900, 2100, 3000],
-        }, {
-            name: '标准产能',
-            type: 'bar',
-            barWidth: '50',
-            barGap: '10%', // Make series be overlap
-            barCateGoryGap: '10%',
-            itemStyle: {
-                color: '#14A338'
-            },
-            z: 10,
-            label: {
-                normal: {
-                    show: true,
-                    position: 'right',
-                    fontSize: 18,
-                    color: '#fff',
-                    offset: [10, 0]
-                },
-            },
-            data: [2230, 1900, 2100, 3000],
-        }];
         let lineOption = {
             // 标题
             title: [
@@ -494,8 +409,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 textStyle: {
                     color: '#fff'
                 },
-                top: 50,
-                right: 20
+                top: 50
             },
             tooltip: {},
             // 内容区域位置
@@ -503,7 +417,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 left: 20,
                 right: 20,
                 bottom: 20,
-                top: 90,
+                top: 100,
                 containLabel: true
             },
             xAxis: {
@@ -523,64 +437,14 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             series: lineSeries
         }
         this.initLineChart(lineOption);
-        this.initBarChart(barSeries);
+        this.initBarChart();
         this.setState({
             wireRow,
             coilRow,
             hSteelRow,
             steelRow,
             stopRow,
-            jobData,
-            polylineOption: {
-                title: {
-                    text: '生产入库汇总年度对比动态',
-                    style: {
-                        fill: '#fff',
-                        fontSize: 22,
-                        fontWeight: 500
-                    }
-                },
-                grid: {
-                    bottom: 50,
-                    left: 20,
-                    right: 20
-                },
-                xAxis: {
-                    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                    axisTick: {
-                        show: false
-                    },
-                    axisLabel: {
-                        style: {
-                            fill: '#fff',
-                            fontSize: 20,
-                            rotate: 0
-                        },
-                    },
-                    axisLine: {
-                        style: {
-                            stroke: '#fff'
-                        }
-                    }
-                },
-                yAxis: {
-                    data: 'value',
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    splitLine: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false
-                    }
-                },
-                series: polylineSeries,
-                color: ['#41aebd', '#97e9d5']
-            },
+            jobData
         })
     }
 
@@ -647,9 +511,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.polylineOption2} id='lineChart'>
-                            {/* <Charts option={this.state.polylineOption} /> */}
-                        </div>
+                        <div className={styles.polylineOption2} id='lineChart'></div>
                     </div>
                     {this.getMenus()}
                 </FullScreenContainer>
@@ -697,7 +559,101 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
         </React.Fragment>
     }
 
-    initBarChart(option: any) {
+    initBarChart() {
+        let siteSize = -1;
+        this.state.lengedState.forEach((bool: boolean) => {
+            if (bool)
+                siteSize++;
+        })
+        let site = (siteSize * -70) / 2;
+        let barSeries = [];
+        if (this.state.lengedState[0]) {
+            barSeries.push({
+                name: '实际产能',
+                type: 'pictorialBar',
+                symbolSize: [50, 16],
+                symbolOffset: [site, -8], // 上部椭圆
+                symbolPosition: 'end',
+                z: 12,
+                color: '#42E1D2',
+                data: [1200, 2230, 1900, 1800],
+            });
+            barSeries.push({
+                name: '实际产能',
+                type: 'pictorialBar',
+                symbolSize: [50, 16],
+                symbolOffset: [site, 8], // 下部椭圆
+                z: 10,
+                color: '#42C1D2',
+                data: [1200, 2230, 1900, 1800],
+            })
+            barSeries.push({
+                name: '实际产能',
+                type: 'bar',
+                barWidth: '50',
+                barGap: '40%', // Make series be overlap
+                barCateGoryGap: '10%',
+                itemStyle: {
+                    normal: {
+                        color: '#42c1d2'
+                    },
+                },
+                z: 10,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        fontSize: 20,
+                        color: '#fff',
+                        offset: [0, -6]
+                    },
+                },
+                data: [1200, 2230, 1900, 1800],
+            })
+            site += 70;
+        }
+        if (this.state.lengedState[1]) {
+            barSeries.push({
+                name: '标准产能',
+                type: 'pictorialBar',
+                symbolSize: [50, 16],
+                symbolOffset: [site, -8], // 上部椭圆
+                symbolPosition: 'end',
+                z: 12,
+                color: '#14C338',
+                data: [2230, 1900, 2100, 3000],
+            });
+            barSeries.push({
+                name: '标准产能',
+                type: 'pictorialBar',
+                symbolSize: [50, 16],
+                symbolOffset: [site, 8], // 下部椭圆
+                z: 10,
+                color: '#14A338',
+                data: [2230, 1900, 2100, 3000],
+            })
+            barSeries.push({
+                name: '标准产能',
+                type: 'bar',
+                barWidth: '50',
+                barGap: '40%', // Make series be overlap
+                barCateGoryGap: '10%',
+                itemStyle: {
+                    color: '#14A338'
+                },
+                z: 10,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        fontSize: 20,
+                        color: '#fff',
+                        offset: [0, -6]
+                    },
+                },
+                data: [2230, 1900, 2100, 3000],
+            })
+        }
         let myChart = echarts.init(document.getElementById('barChart'));
         //@ts-ignore
         myChart.setOption({
@@ -726,34 +682,15 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             },
             grid: {
                 top: 90,
-                left: 40,
-                bottom: 60,
-                right: 100,
+                left: 0,
+                bottom: 100,
+                right: 40,
                 containLabel: true,
             },
             tooltip: {
                 show: true,
             },
             xAxis: [
-                {
-                    show: false,
-                    type: 'value',
-                    axisLabel: {
-                        textStyle: {
-                            color: '#fff',
-                        },
-                    },
-                    splitLine: {
-                        lineStyle: {
-                            color: '#0c2c5a',
-                        },
-                    },
-                    axisLine: {
-                        show: false,
-                    },
-                },
-            ],
-            yAxis: [
                 {
                     type: 'category',
                     data: [{
@@ -762,19 +699,19 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                             fontSize: 18,
                             color: '#fff'
                         }
-                    },{
+                    }, {
                         value: 'H钢材线',
                         textStyle: {
                             fontSize: 18,
                             color: '#fff'
                         }
-                    },{
+                    }, {
                         value: '卷材线',
                         textStyle: {
                             fontSize: 18,
                             color: '#fff'
                         }
-                    },{
+                    }, {
                         value: '线材线',
                         textStyle: {
                             fontSize: 18,
@@ -804,12 +741,58 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                     },
                 },
             ],
-            series: option,
+            yAxis: [
+                {
+                    show: false,
+                    type: 'value',
+                    axisLabel: {
+                        textStyle: {
+                            color: '#fff',
+                        },
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#0c2c5a',
+                        },
+                    },
+                    axisLine: {
+                        show: false,
+                    },
+                },
+            ],
+            series: barSeries,
         });
+        if (!this.isLengedEvent) {
+            this.isLengedEvent = true;
+            myChart.on('legendselectchanged', (obj: {
+                name: string,
+                selected: object,
+                type: string
+            }) => {
+                this.lengedChanage(obj)
+            })
+        }
     }
 
     initLineChart(option: any) {
         let myChart = echarts.init(document.getElementById('lineChart'));
         myChart.setOption(option);
+    }
+
+    lengedChanage(obj: {
+        name: string,
+        selected: object,
+        type: string
+    }) {
+        let lengedState: boolean[] = []
+        Object.values(obj.selected).forEach((bool: boolean, index: number) => {
+            lengedState.push(bool);
+        })
+        console.log(lengedState)
+        this.setState({
+            lengedState
+        }, () => {
+            this.initBarChart();
+        })
     }
 }
