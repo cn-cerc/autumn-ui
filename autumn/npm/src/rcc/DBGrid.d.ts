@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import { OnFieldChangedEvent } from "./DBEdit";
@@ -17,6 +17,7 @@ declare type DBGridProps = {
     className?: string;
     onKeyDown?: Function;
     allowCheck?: boolean;
+    children?: ReactNode | undefined;
 };
 declare type sortType = 'desc' | 'asc';
 declare type DBGridState = {
@@ -93,6 +94,7 @@ export declare type ColumnPropsType = {
     allowInput?: boolean;
     enterEvent?: Function;
     onChangeInput?: Function;
+    children?: ReactNode | undefined;
 };
 declare type ColumnStateType = {
     dataRow: DataRow;
@@ -122,6 +124,7 @@ declare type ChildRowPropsType = {
     colSpan?: number;
     visible?: boolean;
     autoJudge?: boolean;
+    children?: ReactNode | undefined;
 };
 export declare class ChildRow extends React.Component<ChildRowPropsType> {
     render(): React.ReactNode[];
@@ -131,6 +134,7 @@ declare type MainRowTypeProps = {
     dynamicClass?: (row: DataRow) => string;
     tag?: ColumnType;
     recNo?: number;
+    children?: ReactNode | undefined;
 };
 declare type MainRowTypeState = {
     allWidth: number;

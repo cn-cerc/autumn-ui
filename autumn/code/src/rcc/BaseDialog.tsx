@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, ReactNode } from "react";
 import { OnSelectDataRowEvent } from "./DialogComponent";
 import WebControl from "./WebControl";
 
@@ -8,7 +8,8 @@ export type BaseDialogPropsType = {
     height?: string,
     isChild?: boolean,
     onSelect?: OnSelectDataRowEvent,
-    dataField?: string
+    dataField?: string,
+    children?: ReactNode | undefined
 }
 
 type MoveData = {

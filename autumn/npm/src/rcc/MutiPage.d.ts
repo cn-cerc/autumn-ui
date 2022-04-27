@@ -1,10 +1,11 @@
-import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler } from "react";
+import React, { ChangeEventHandler, FocusEventHandler, KeyboardEventHandler, ReactNode } from "react";
 export declare type OnPageChanged = (beginPoint: number, endPoint: number) => void;
 export declare const DefaultPageSize = 100;
 export declare const USER_PAGE_SIZE_KEY = "user:pageSize";
 declare type propsType = {
     onPageChanged: OnPageChanged;
     total: number;
+    children?: ReactNode | undefined;
 };
 declare type stateType = {
     pageSize: number;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import DataRow from '../db/DataRow';
 import { TGridConfig } from '../vcl/TGrid';
 import { OnPageChanged } from './MutiPage';
@@ -11,6 +11,7 @@ declare type PropsType = {
     setChild: Function;
     dataSet: DataSet;
     sortFilter?: Function;
+    children?: ReactNode | undefined;
 } & Partial<typeof defaultProps>;
 interface stateType {
     beginPoint: number;

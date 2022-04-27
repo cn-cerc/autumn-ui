@@ -1,5 +1,5 @@
 import DataRow from "./src/db/DataRow";
-import BaseDialog from "./src/rcc/BaseDialog";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "./src/rcc/BaseDialog";
 import BaseForm from "./src/rcc/BaseForm";
 import Block from "./src/rcc/Block";
 import { ColumnImage } from "./src/rcc/ColumnImage";
@@ -31,6 +31,8 @@ export {
     DataSet,
     DataRow,
     BaseDialog,
+    BaseDialogPropsType,
+    BaseDialogStateType,
     BaseForm,
     DBGrid,
     ColumnIt,

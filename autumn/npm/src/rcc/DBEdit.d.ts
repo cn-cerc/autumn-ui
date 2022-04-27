@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import FieldMeta from "../db/FieldMeta";
 import { OnSelectDataRowEvent } from "./DialogComponent";
@@ -18,6 +18,7 @@ declare type PropsType = {
     onKeyDown?: Function;
     changed?: boolean;
     className?: string;
+    children?: ReactNode | undefined;
 };
 declare type DBEditState = {
     row: DataRow;

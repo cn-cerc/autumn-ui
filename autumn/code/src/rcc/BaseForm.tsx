@@ -1,8 +1,9 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import WebControl from "./WebControl";
 
 export type BaseFormPropsType = {
     title: string;
+    children?: ReactNode | undefined
 }
 
 export default class BaseForm<T extends BaseFormPropsType = { title: null }, S = {}>

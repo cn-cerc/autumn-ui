@@ -1,4 +1,4 @@
-import React, { isValidElement } from "react";
+import React, { isValidElement, ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import FieldMeta from "../db/FieldMeta";
@@ -20,7 +20,8 @@ type DBGridProps = {
     allowSort?: boolean;
     className?: string;
     onKeyDown?: Function; // 用于监听表格按钮事件
-    allowCheck?: boolean
+    allowCheck?: boolean;
+    children?: ReactNode | undefined
 }
 
 type sortType = 'desc' | 'asc'
@@ -526,7 +527,8 @@ export type ColumnPropsType = {
     checked?: boolean;
     allowInput?: boolean;
     enterEvent?: Function;
-    onChangeInput?: Function
+    onChangeInput?: Function;
+    children?: ReactNode | undefined
 }
 
 type ColumnStateType = {
@@ -695,7 +697,8 @@ type ChildRowPropsType = {
     dataRow?: DataRow;
     colSpan?: number;
     visible?: boolean;
-    autoJudge?: boolean
+    autoJudge?: boolean;
+    children?: ReactNode | undefined
 }
 
 export class ChildRow extends React.Component<ChildRowPropsType> {
@@ -731,7 +734,8 @@ type MainRowTypeProps = {
     dataRow?: DataRow,
     dynamicClass?: (row: DataRow) => string,
     tag?: ColumnType;
-    recNo?: number
+    recNo?: number;
+    children?: ReactNode | undefined
 }
 
 type MainRowTypeState = {

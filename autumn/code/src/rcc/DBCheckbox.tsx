@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import FieldMeta from "../db/FieldMeta";
 
@@ -10,7 +10,8 @@ type PropsType = {
     dataName?: string;
     isUseChangedEvent?: boolean;
     onChanged?: OnChangedEvent;
-    className?: string
+    className?: string;
+    children?: ReactNode | undefined
 }
 
 export default class DBCheckbox extends React.Component<PropsType> {

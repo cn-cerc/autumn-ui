@@ -1,0 +1,471 @@
+/* 设置火狐浏览器中默认的滚动条宽度 */
+.rapidInput * {
+    scrollbar-width: thin;
+    box-sizing: border-box;
+}
+
+/**滚动条样式**/
+::-webkit-scrollbar {
+    width: .1875rem;
+    /*对垂直流动条有效*/
+    height: .4375rem;
+}
+
+/*定义滚动条的轨道颜色、内阴影及圆角*/
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: .1875rem;
+}
+
+/*定义滑块颜色、内阴影及圆角*/
+::-webkit-scrollbar-thumb {
+    border-radius: .4375rem;
+    background-color: #c5c5c5;
+}
+
+/*定义两端按钮的样式*/
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/*定义右下角汇合处的样式*/
+::-webkit-scrollbar-corner {
+    display: none;
+}
+
+.rapidInput {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background-color: #F4F4F4;
+    font-size: .8rem;
+    line-height: 1.5em;
+    position: relative;
+}
+
+.main {
+    height: 0;
+    flex: 1;
+    display: flex;
+}
+
+.main input[type='checkbox'] {
+    width: 1.25em;
+    height: 1.25em;
+}
+
+.mainLeft {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.leftTop {
+    display: flex;
+    align-items: center;
+    height: 1.875em;
+    padding: 0 .625em;
+}
+
+.leftTop div {
+    cursor: pointer;
+}
+
+.leftBottom {
+    height: 0;
+    flex: 1;
+    overflow: auto;
+}
+
+.menus {
+    min-width: 15em;
+    max-width: 17.5em;
+}
+
+.tips {
+    padding: 0 .78em;
+    color: #666666;
+    width: 15em;
+    box-sizing: border-box;
+}
+
+.mainRight {
+    width: 0;
+    flex: 1;
+    margin-left: .78em;
+    height: 100%;
+    padding: .625em .9375em;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.search>form {
+    align-items: center;
+    padding: 0;
+}
+
+.search select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-image: url('https://www.diteng.site/public/js/rapidInput/image/arrow.png');
+    background-repeat: no-repeat;
+    background-position: calc(100% - .625em) center;
+}
+
+.search select,
+.search input {
+    font-size: 1em;
+    border: 1px solid #D9D9D9;
+    height: 2.11em;
+    padding-left: .9375em;
+    border-radius: 0;
+}
+
+.search span {
+    margin-right: 1.25em;
+}
+
+.brand select {
+    width: 9.375em;
+    padding: 0 0 0 .9375em;
+    min-width: 9.375em;
+    background-color: #fff;
+}
+
+.maxRecord select,
+.searchTime select {
+    width: 5.47em;
+    padding: 0 0 0 .9375em;
+    min-width: 5.47em;
+    background-color: #fff;
+}
+
+.setLine {
+    background-color: #F6F6F6;
+    border: 1px solid #DEDEDE;
+    cursor: pointer;
+    height: 2.11em;
+    line-height: 2.11em;
+    padding: 0 .625em;
+    border-radius: .125em;
+    color: black;
+}
+
+.searchText input {
+    width: 16.17em;
+    min-width: 16.17em;
+    padding-left: .9375em;
+    background: url('https://www.diteng.site/public/js/rapidInput/image/search.png');
+    background-repeat: no-repeat;
+    background-position: 96%;
+}
+
+.searchText input:hover {
+    border: 1px solid #D9D9D9 !important;
+}
+
+.enterInput,.stockInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: .5em;
+    margin-right: 1.25em;
+}
+
+.enterInput>input,.stockInput>input {
+    display: none;
+}
+
+.enterInput>span,.stockInput>span {
+    width: 1.25em;
+    height: 1.25em;
+    min-width: auto;
+    background: url('https://www.diteng.site/public/js/rapidInput/image/unselected.png') center no-repeat;
+    margin: 0 .3125em;
+}
+
+.enterInput>input:checked+span,.stockInput>input:checked+span {
+    background: url('https://www.diteng.site/public/js/rapidInput/image/selected.png') center no-repeat;
+}
+
+.search>form>button {
+    width: 4em;
+    height: 2.1875em;
+    background-color: #009307;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #FFFFFF;
+    border: none;
+    border-radius: .125em;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.grid1 {
+    height: 0;
+    flex: 1;
+    overflow: auto;
+    border: 1px solid #D9D9D9;
+    position: relative;
+    border-radius: 0;
+}
+
+.grid2 {
+    border-radius: 0;
+}
+
+.grid1 table tr,
+.grid1 table th,
+.grid1 table td,
+.grid2 table tr,
+.grid2 table th,
+.grid2 table td {
+    height: 1.875em;
+    word-break: break-all;
+}
+
+.grid1 table th,
+.grid2 table th {
+    padding: 0 .3125em;
+}
+
+.grid2 table tr img {
+    width: 1.5625em;
+    cursor: pointer;
+}
+
+.gridSelect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stockTitle {
+    margin-top: .625em;
+}
+
+.stockTitle span {
+    height: 1.64em;
+    line-height: 1.64em;
+    margin-right: 2.03em;
+    cursor: pointer;
+}
+
+.stock {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #D9D9D9;
+    position: relative;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.stock div[role='dbgrid'] {
+    margin-top: 0;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .75em;
+    height: 3.25em;
+    background-color: #fff;
+    line-height: 3.25em;
+    padding: 0 1.25em 0 .625em;
+}
+
+.footerLeft {
+    font-family: PingFang-SC-Bold, PingFang-SC;
+    color: #666666;
+}
+
+.footerRight button {
+    height: 2.1875em;
+    outline: none;
+    margin: 0 1.25em 0 0;
+    width: 5.625em;
+    position: static;
+    background-color: #F6F6F6;
+    border: 1px solid #DEDEDE;
+    border-radius: .15625em;
+    color: black;
+}
+
+.opacity {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 15;
+}
+
+.lineProps {
+    background-color: #fff;
+    padding: 2em;
+    box-shadow: 0 0 0.5rem 0.25rem rgb(0 0 0 / 15%);
+    font-size: 1.25em;
+    width: 15em;
+    box-sizing: content-box;
+}
+
+.enterProps {
+    width: 25em;
+}
+
+.enterProps>div:nth-child(n+2) {
+    margin-top: .625em;
+}
+
+.enterProps input:read-only {
+    background-color: #f7f7f7;
+}
+
+.enterProps input:focus {
+    border-color: #bfbfbf;
+}
+
+.maskLine {
+    display: flex;
+    align-items: center;
+}
+
+.maskLine input::-webkit-outer-spin-button,
+.maskLine input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.maskLine input {
+    width: 0;
+    flex: 1;
+    font-size: 1em;
+    height: 1.5em;
+    line-height: 1.5em;
+    border-radius: 0;
+    border: 1px solid #bfbfbf;
+    padding-left: .35em;
+    background-color: #fff;
+    -moz-appearance: textfield;
+}
+
+.maskTips {
+    font-size: .8em;
+    color: red;
+    padding-top: 1.25em;
+}
+
+.enterBtns {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 1em;
+}
+
+.maskBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 1.75em;
+    margin: 0 1em 0 0;
+    width: 4.5em;
+    background-color: #F6F6F6;
+    border: 1px solid #DEDEDE;
+    border-radius: .125em;
+}
+
+.select {
+    background-color: #edf8ee;
+}
+
+.currentShop {
+    background-color: #6699ff;
+    color: #fff;
+}
+
+.rapidInput table .currentShop:hover {
+    background-color: #6699ff;
+}
+
+.treeSelect {
+    color: #fff;
+    background-color: #0078D7;
+}
+
+.maskBlock {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.maskBlock input {
+    flex: 1;
+}
+
+.operates {
+    display: flex;
+    align-items: center;
+}
+
+.operates img {
+    cursor: pointer;
+}
+
+.close {
+    font-size: 1.875em;
+    cursor: pointer;
+    margin: 0 .625em;
+}
+
+.fullBox {
+    font-size: 16px;
+}
+
+.fullBox .grid1, .fullBox .grid2, .fullBox .setLine, .fullBox .footerRight button {
+    font-size: 1em;
+}
+
+.fullBox .search select,
+.fullBox .search input {
+    font-size: 1em;
+    height: 1.69em;
+}
+
+.fullBox .search {
+    width: 900px;
+}
+
+.fullBox .search>form>button {
+    width: 4.25em;
+    height: 2em;
+    font-size: 1em;
+}
+
+.fullBox .searchText input {
+    width: 14.9375em;
+    min-width: 14.9375em;
+}
+
+.fullBox .lineProps {
+    font-size: 1em;
+}
+
+.fullBox .close {
+    font-size: 1.5em;
+    cursor: pointer;
+    margin: 0 .5em;
+}
+
+.fullBox .setLine {
+    height: 1.75em;
+    line-height: 1.7em;
+}

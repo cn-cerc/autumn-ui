@@ -1,10 +1,11 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 export declare type OnSelectDataRowEvent = (value: DataRow) => void;
 export declare type DialogComponentProps = {
     title?: string;
     style?: object;
     onSelect?: OnSelectDataRowEvent;
+    children?: ReactNode | undefined;
 };
 export declare type DialogComponentState = {
     active: () => boolean;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import DataRow from '../db/DataRow';
 import KeyValue from '../db/KeyValue';
 import { TGridConfig } from '../vcl/TGrid';
@@ -14,6 +14,7 @@ type PropsType = {
     setChild: Function;
     dataSet: DataSet,
     sortFilter?: Function,
+    children?: ReactNode | undefined
 } & Partial<typeof defaultProps>;
 
 interface stateType {

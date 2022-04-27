@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import DataSource from "../db/DataSource";
@@ -10,6 +10,7 @@ declare type DialogFormProps = {
     onSelect?: OnSelectDataSetEvent;
     active: () => boolean;
     setActive: (active: boolean) => void;
+    children?: ReactNode | undefined;
 };
 declare type stateType = {
     active: () => boolean;

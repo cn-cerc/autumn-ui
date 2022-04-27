@@ -1,4 +1,4 @@
-import React, { isValidElement, MouseEventHandler } from "react";
+import React, { isValidElement, MouseEventHandler, ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import FieldMeta from "../db/FieldMeta";
 import { OnFieldChangedEvent } from "./DBEdit";
@@ -9,6 +9,7 @@ export type ModifyOnExecute = (row: DataRow, opera: string) => void;
 type propsType = {
     dataRow: DataRow;
     onExecute: ModifyOnExecute;
+    children?: ReactNode | undefined
 }
 
 type stateType = {

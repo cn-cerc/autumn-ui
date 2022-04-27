@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import { OnFieldChangedEvent } from "./DBEdit";
 import WebControl from "./WebControl";
@@ -6,6 +6,7 @@ export declare type ModifyOnExecute = (row: DataRow, opera: string) => void;
 declare type propsType = {
     dataRow: DataRow;
     onExecute: ModifyOnExecute;
+    children?: ReactNode | undefined;
 };
 declare type stateType = {
     dataRow: DataRow;

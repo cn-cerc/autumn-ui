@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 
 export type OnSelectDataRowEvent = (value: DataRow) => void;
@@ -7,6 +7,7 @@ export type DialogComponentProps = {
     title?: string;
     style?: object;
     onSelect?: OnSelectDataRowEvent;
+    children?: ReactNode | undefined
 }
 
 export type DialogComponentState = {

@@ -1,4 +1,4 @@
-import React, { isValidElement } from "react";
+import React, { isValidElement, ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import FieldMeta from "../db/FieldMeta";
 import { OnFieldChangedEvent } from "./DBEdit";
@@ -10,6 +10,7 @@ export type SearchPanelonFileChange = (file: string) => void;
 type propsType = {
     dataRow: DataRow;
     onExecute: SearchPanelOnExecute;
+    children?: ReactNode | undefined
 }
 
 type stateType = {

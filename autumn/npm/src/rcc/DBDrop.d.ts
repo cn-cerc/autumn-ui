@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import { OnFieldChangedEvent } from "./DBEdit";
 declare type PropsType = {
@@ -9,6 +9,7 @@ declare type PropsType = {
     onChanged?: OnFieldChangedEvent;
     className?: string;
     disabled?: boolean;
+    children?: ReactNode | undefined;
 };
 export default class DBDrop extends React.Component<PropsType> {
     constructor(props: PropsType);

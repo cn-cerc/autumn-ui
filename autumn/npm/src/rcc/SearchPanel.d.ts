@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import { OnFieldChangedEvent } from "./DBEdit";
 import WebControl from "./WebControl";
@@ -7,6 +7,7 @@ export declare type SearchPanelonFileChange = (file: string) => void;
 declare type propsType = {
     dataRow: DataRow;
     onExecute: SearchPanelOnExecute;
+    children?: ReactNode | undefined;
 };
 declare type stateType = {
     dataRow: DataRow;

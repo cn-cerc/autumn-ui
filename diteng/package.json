@@ -18,7 +18,7 @@
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.0",
     "@types/xlsx": "^0.0.36",
-    "autumn-ui": "^1.2.1",
+    "autumn-ui": "^1.3.1",
     "classnames": "^2.3.1",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",

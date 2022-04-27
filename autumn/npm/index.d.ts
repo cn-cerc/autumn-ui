@@ -1,5 +1,5 @@
 import DataRow from "./src/db/DataRow";
-import BaseDialog from "./src/rcc/BaseDialog";
+import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "./src/rcc/BaseDialog";
 import BaseForm from "./src/rcc/BaseForm";
 import Block from "./src/rcc/Block";
 import { ColumnImage } from "./src/rcc/ColumnImage";
@@ -24,4 +24,4 @@ import TText from "./src/vcl/TText";
 import DataSet from "./src/db/DataSet";
 import QueryService from "./src/db/QueryService";
 import RemoteService from "./src/db/RemoteService";
-export { QueryService, RemoteService, DataSet, DataRow, BaseDialog, BaseForm, DBGrid, ColumnIt, Column, MainRow, ColumnNumber, ColumnImage, Block, DBDrop, DBEdit, DBCheckbox, DialogComponent, DialogForm, Grid, ModifyPanel, MutiPage, SearchPanel, WebControl, TComponent, TCustomComponent, TGrid, TTable, TText };
+export { QueryService, RemoteService, DataSet, DataRow, BaseDialog, BaseDialogPropsType, BaseDialogStateType, BaseForm, DBGrid, ColumnIt, Column, MainRow, ColumnNumber, ColumnImage, Block, DBDrop, DBEdit, DBCheckbox, DialogComponent, DialogForm, Grid, ModifyPanel, MutiPage, SearchPanel, WebControl, TComponent, TCustomComponent, TGrid, TTable, TText };
