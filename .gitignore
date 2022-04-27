@@ -6,3 +6,4 @@
 *.tgz
 
 .idea
+package-lock.json
