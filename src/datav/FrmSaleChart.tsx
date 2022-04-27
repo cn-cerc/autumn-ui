@@ -41,10 +41,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 key: 'todayOrder',
                 href: 'javascript:aui.showPage("FrmReport9", "线材接单今日动态（T）", { index: 0 })'
             }, {
-                name: '本周接单数量',
-                key: 'weekOrder',
-                href: 'javascript:aui.showPage("FrmReport10", "线材本周接单动态（T）", { index: 0 })'
-            }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
                 href: 'javascript:aui.showPage("FrmReport11", "线材本月接单动态（T）", { index: 0 })'
@@ -56,10 +52,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 name: '今日出库数量',
                 key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "线材今日出库动态（T）", { index: 0 })'
-            }, {
-                name: '本周出库数量',
-                key: 'weekOutStock',
-                href: 'javascript:aui.showPage("FrmReport14", "线材本周出库动态（T）", { index: 0 })'
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
@@ -81,10 +73,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 key: 'todayOrder',
                 href: 'javascript:aui.showPage("FrmReport9", "卷材接单今日动态（T）", { index: 1 })'
             }, {
-                name: '本周接单数量',
-                key: 'weekOrder',
-                href: 'javascript:aui.showPage("FrmReport10", "卷材本周接单动态（T）", { index: 1 })'
-            }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
                 href: 'javascript:aui.showPage("FrmReport11", "卷材本月接单动态（T）", { index: 1 })'
@@ -96,10 +84,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 name: '今日出库数量',
                 key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "卷材今日出库动态（T）", { index: 1 })'
-            }, {
-                name: '本周出库数量',
-                key: 'weekOutStock',
-                href: 'javascript:aui.showPage("FrmReport14", "卷材本周出库动态（T）", { index: 1 })'
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
@@ -121,10 +105,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 key: 'todayOrder',
                 href: 'javascript:aui.showPage("FrmReport9", "H钢材接单今日动态（T）", { index: 2 })'
             }, {
-                name: '本周接单数量',
-                key: 'weekOrder',
-                href: 'javascript:aui.showPage("FrmReport10", "H钢材本周接单动态（T）", { index: 2 })'
-            }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
                 href: 'javascript:aui.showPage("FrmReport11", "H钢材本月接单动态（T）", { index: 2 })'
@@ -136,10 +116,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 name: '今日出库数量',
                 key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "H钢材今日出库动态（T）", { index: 2 })'
-            }, {
-                name: '本周出库数量',
-                key: 'weekOutStock',
-                href: 'javascript:aui.showPage("FrmReport14", "H钢材本周出库动态（T）", { index: 2 })'
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
@@ -161,10 +137,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 key: 'todayOrder',
                 href: 'javascript:aui.showPage("FrmReport9", "螺纹钢材接单今日动态（T）", { index: 3 })'
             }, {
-                name: '本周接单数量',
-                key: 'weekOrder',
-                href: 'javascript:aui.showPage("FrmReport10", "螺纹钢材本周接单动态（T）", { index: 3 })'
-            }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
                 href: 'javascript:aui.showPage("FrmReport11", "螺纹钢材本月接单动态（T）", { index: 3 })'
@@ -176,10 +148,6 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 name: '今日出库数量',
                 key: 'todayOutStock',
                 href: 'javascript:aui.showPage("FrmReport13", "螺纹钢材今日出库动态（T）", { index: 3 })'
-            }, {
-                name: '本周出库数量',
-                key: 'weekOutStock',
-                href: 'javascript:aui.showPage("FrmReport14", "螺纹钢材本周出库动态（T）", { index: 3 })'
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
@@ -398,7 +366,14 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             arr.push(ds2.getString('产品类别'));
             arr.push(sellNum1);
             arr.push(sellNum2);
-            arr.push(`${math.toFixed(sellNum2 / sellNum1 * 100, 2)}%`);
+            let proption = sellNum2 / sellNum1 * 100;
+            let text = `${math.toFixed(proption, 2)}%`
+            let span = `<span>${text}</span>`;
+            if(proption < 60) 
+                span = `<span style='color: #ff4e4e'>${text}</span>`;
+            if(proption > 100)
+                span = `<span style='color: #53f553'>${text}</span>`;
+            arr.push(span);
             boardConfig.data.push(arr);
             index++;
         }
@@ -415,12 +390,13 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                         fill: '#fff',
                         fontSize: 22,
                         fontWeight: 500
-                    }
+                    },
                 },
                 grid: {
-                    bottom: 80,
-                    left: 30,
-                    right: 30
+                    bottom: 60,
+                    top: 50,
+                    left: 40,
+                    right: 40
                 },
                 xAxis: {
                     data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
@@ -458,7 +434,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                     textStyle: {
                         fill: '#fff'
                     },
-                    bottom: 20
+                    top: 60
                 },
                 series: ploySeries,
                 color: ['#41aebd', '#97e9d5', '#a2cf49']
@@ -535,7 +511,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             lenged: {},
             series: [{
                 type: 'pie',
-                data: pieData
+                data: pieData,
             }],
             colors: ['#1CB53C', '#1C71D4', '#EBBB06', '#ff5555'],
             label: {

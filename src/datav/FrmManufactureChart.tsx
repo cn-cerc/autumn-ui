@@ -409,15 +409,15 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 textStyle: {
                     color: '#fff'
                 },
-                top: 50
+                top: 60
             },
             tooltip: {},
             // 内容区域位置
             grid: {
-                left: 20,
-                right: 20,
-                bottom: 20,
-                top: 100,
+                left: 40,
+                right: 40,
+                bottom: 40,
+                top: 110,
                 containLabel: true
             },
             xAxis: {
@@ -464,32 +464,36 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                             <div className={styles.blockTopBottomContent}>
                                 <ul className={styles.chartState}>
                                     <li>
-                                        <img src='./employee.png' onClick={() => {
-                                            //@ts-ignore
-                                            aui.showPage("FrmEmployee1", "线材生产线")
-                                        }}></img>
-                                        <span className={styles.warn}></span>
+                                        <div className={styles.warn}>
+                                            <img src='./employee.png' onClick={() => {
+                                                //@ts-ignore
+                                                aui.showPage("FrmEmployee1", "线材生产线")
+                                            }}></img>
+                                        </div>
                                     </li>
                                     <li>
-                                        <img src='./employee.png' onClick={() => {
-                                            //@ts-ignore
-                                            aui.showPage("FrmEmployee2", "卷材生产线")
-                                        }}></img>
-                                        <span className={styles.success}></span>
+                                        <div className={styles.success}>
+                                            <img src='./employee.png' onClick={() => {
+                                                //@ts-ignore
+                                                aui.showPage("FrmEmployee2", "卷材生产线")
+                                            }}></img>
+                                        </div>
                                     </li>
                                     <li>
-                                        <img src='./employee.png' onClick={() => {
-                                            //@ts-ignore
-                                            aui.showPage("FrmEmployee3", "H型钢材生产线")
-                                        }}></img>
-                                        <span className={styles.success}></span>
+                                        <div className={styles.success}>
+                                            <img src='./employee.png' onClick={() => {
+                                                //@ts-ignore
+                                                aui.showPage("FrmEmployee3", "H型钢材生产线")
+                                            }}></img>
+                                        </div>
                                     </li>
                                     <li>
-                                        <img src='./employee.png' onClick={() => {
-                                            //@ts-ignore
-                                            aui.showPage("FrmEmployee4", "螺纹钢材生产线")
-                                        }}></img>
-                                        <span className={styles.error}></span>
+                                        <div className={styles.error}>
+                                            <img src='./employee.png' onClick={() => {
+                                                //@ts-ignore
+                                                aui.showPage("FrmEmployee4", "螺纹钢材生产线")
+                                            }}></img>
+                                        </div>
                                     </li>
                                 </ul>
                                 {/* <Charts option={this.state.option} /> */}
@@ -565,6 +569,8 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             if (bool)
                 siteSize++;
         })
+        if(siteSize == -1)
+            siteSize = 0;
         let site = (siteSize * -70) / 2;
         let barSeries = [];
         if (this.state.lengedState[0]) {
@@ -668,7 +674,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 left: 'center'
             }],
             legend: {
-                bottom: 20,
+                top: 60,
                 textStyle: {
                     fontSize: 18,
                     color: '#fff'
@@ -681,9 +687,9 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
 
             },
             grid: {
-                top: 90,
+                top: 140,
                 left: 0,
-                bottom: 100,
+                bottom: 110,
                 right: 40,
                 containLabel: true,
             },
@@ -737,7 +743,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                         textStyle: {
                             color: '#fff',
                         },
-                        margin: 30,
+                        margin: 20,
                     },
                 },
             ],
@@ -788,7 +794,6 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
         Object.values(obj.selected).forEach((bool: boolean, index: number) => {
             lengedState.push(bool);
         })
-        console.log(lengedState)
         this.setState({
             lengedState
         }, () => {

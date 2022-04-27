@@ -286,7 +286,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 textStyle: {
                     color: '#fff'
                 },
-                top: 50
+                top: 60
             },
             tooltip: {},
             // 内容区域位置
@@ -294,7 +294,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 left: 40,
                 right: 40,
                 bottom: 40,
-                top: 90,
+                top: 100,
                 containLabel: true
             },
             xAxis: {
@@ -381,6 +381,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             if (bool)
                 siteSize++;
         })
+        if(siteSize == -1)
+            siteSize = 0;
         let site = (siteSize * -60) / 2;
         let colorArr = [{
             topColor: '#1CD53C',
@@ -457,7 +459,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 left: 'center'
             }],
             legend: {
-                bottom: 20,
+                top: 60,
                 textStyle: {
                     fontSize: 18,
                     color: '#fff'
@@ -470,9 +472,9 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
 
             },
             grid: {
-                top: 90,
+                top: 140,
                 left: 0,
-                bottom: 60,
+                bottom: 10,
                 right: 40,
                 containLabel: true,
             },
@@ -526,7 +528,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                         textStyle: {
                             color: '#fff',
                         },
-                        margin: 30,
+                        margin: 20,
                     },
                 },
             ],

@@ -26,7 +26,7 @@ export default class Employee extends React.Component<EmployTypeProps> {
                 <div className={styles.content}>
                     <div className={styles.left}>
                         {/* <div className={styles.img1}></div> */}
-                        <img src='./employee.png' className={styles.img1}/>
+                        <img src='./employee-2.png' className={styles.img1}/>
                         <div className={styles.info}>
                             <BorderBox13>
                                 <ul>
