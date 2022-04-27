@@ -19,6 +19,12 @@ export default class TextList extends React.Component<PropsType> {
   constructor(props: PropsType) {
     super(props);
   }
+
+  componentDidMount(): void {
+    // @ts-ignore
+    document.querySelectorAll('.dv-border-box-11 animate').forEach(function (item) { console.log(item.parentNode.remove()) });
+  }
+
   render() {
     return <div className={styles.main}>
       <BorderBox11 title={this.props.title}>
@@ -49,7 +55,7 @@ export default class TextList extends React.Component<PropsType> {
   }
 
   handleNameClick(listType: listType) {
-    if(listType.href)
+    if (listType.href)
       location.href = listType.href;
   }
 }

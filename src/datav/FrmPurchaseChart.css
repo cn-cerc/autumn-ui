@@ -27,7 +27,7 @@
   height: 0;
   flex: 1;
   display: flex;
-  padding: 0 40px;
+  padding: 0 80px;
 }
 
 .data-view .blockTopBottomContent {
@@ -63,7 +63,7 @@
 .textList {
   display: flex;
   flex-direction: column;
-  width: 460px;
+  width: 400px;
   height: 100%;
 }
 
@@ -77,7 +77,7 @@
 .textList5 {
   display: flex;
   flex-direction: column;
-  width: 470px;
+  width: 400px;
   height: 110%;
   position: relative;
 }
@@ -142,12 +142,13 @@
 
 .polylineOption {
   height: 430px;
+  padding: 0 40px;
   box-sizing: border-box;
 }
 
 .polylineOption2 {
   height: 350px;
-  padding-top: 30px;
+  padding: 30px 40px 0 40px;
   box-sizing: border-box;
 }
 
@@ -170,7 +171,7 @@
 }
 
 .table td {
-  width: 25%;
+  width: 28%;
   box-sizing: border-box;
 }
 
