@@ -1,12 +1,8 @@
 import React from "react";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import DataSet from "../db/DataSet";
-import DataRow from "../db/DataRow";
-import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from "./DialogApi";
 import styles from "./TempPrefererntialDialog.css";
-import { showMsg } from "./Summer";
-import { ColumnIt } from "../rcc/ColumnIt";
+import { showMsg } from "../tool/Summer";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, DBGrid, ColumnIt, Column } from "autumn-ui";
 
 type TempPrefererntialTypeState = {
     dataIn: DataRow,

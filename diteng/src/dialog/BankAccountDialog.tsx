@@ -1,11 +1,7 @@
+import { BaseDialogPropsType, DataRow, DataSet, BaseDialogStateType, BaseDialog, DBGrid, ColumnIt, Column } from "autumn-ui";
 import React from "react";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import DataSet from "../db/DataSet";
-import DataRow from "../db/DataRow";
-import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from "./DialogApi";
 import styles from "./StaffDialog.css";
-import { ColumnIt } from "../rcc/ColumnIt";
 
 type BankAccountTypeProps = {
     inputId: string,

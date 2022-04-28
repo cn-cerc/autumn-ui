@@ -1,15 +1,8 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogStateType } from "../rcc/BaseDialog";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBDrop from "../rcc/DBDrop";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import SearchPanel from "../rcc/SearchPanel";
 import DialogApi from './DialogApi';
 import styles from "./StaffDialog.css";
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogStateType, DataSet, DataRow, BaseDialog, SearchPanel, DBEdit, DBDrop, DBGrid, Column, ColumnIt } from "autumn-ui";
 
 type VipCardTypeProps = {
     cusCode?: string,

@@ -1,10 +1,5 @@
+import { DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, Block, Line, ColumnIt, Column, DataRow, DBGrid } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import Block, { Line } from "../rcc/Block";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBGrid, { Column } from "../rcc/DBGrid";
 import styles from "./StaffDialog.css";
 
 type RemarkTypeState = {

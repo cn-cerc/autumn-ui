@@ -1,13 +1,8 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import SearchPanel from "../rcc/SearchPanel";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from './DialogApi';
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
 import styles from "./StaffDialog.css";
+import { DataSet, DataRow, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
 
 type PartModeldTypeState = {
     dataSet: DataSet,

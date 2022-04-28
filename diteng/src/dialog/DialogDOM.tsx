@@ -1,5 +1,3 @@
-import React from "react";
-
 export default class DialogDOM {
     static render(react: JSX.Element) {
         let dialog = document.createElement('div');

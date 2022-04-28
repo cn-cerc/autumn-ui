@@ -1,9 +1,7 @@
 import React from "react";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import DataSet from "../db/DataSet";
-import DataRow from "../db/DataRow";
 import styles from "./PartStockDialog.css";
 import DialogApi from "./DialogApi";
+import { DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, DataRow } from "autumn-ui";
 
 type CusTypeTypeState = {
     dataSet: DataSet

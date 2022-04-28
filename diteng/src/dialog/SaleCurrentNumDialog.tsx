@@ -1,15 +1,8 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import DBDrop from "../rcc/DBDrop";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import SearchPanel from "../rcc/SearchPanel";
 import styles from "./StaffDialog.css";
 import DialogApi from './DialogApi';
-import { showMsg } from "./Summer";
-import { ColumnIt } from "../rcc/ColumnIt";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogPropsType, DataRow, DataSet, BaseDialogStateType, BaseDialog, SearchPanel, DBEdit, DBGrid, ColumnIt, Column } from "autumn-ui";
 
 type SaleCurrentNumTypeProps = {
     partCode: string,

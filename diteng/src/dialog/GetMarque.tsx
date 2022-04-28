@@ -1,14 +1,9 @@
 /** 用户商品搜索开窗时子项商品列表开窗 */
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import Block, { Line } from "../rcc/Block";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from "./DialogApi";
 import styles from "./GetMarque.css";
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogPropsType, DataSet, BaseDialogStateType, BaseDialog, DataRow, Block, ColumnIt, Column, DBGrid, Line } from "autumn-ui";
 
 type GetMarqueTypeProps = {
     partCode: string,

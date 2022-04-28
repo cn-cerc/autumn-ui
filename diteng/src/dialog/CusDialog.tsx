@@ -1,11 +1,5 @@
+import { BaseDialogPropsType, DataRow, DataSet, BaseDialogStateType, BaseDialog, DBEdit, DBCheckbox, DBGrid, ColumnIt, Column, ChildRow, OnFieldChangedEvent } from "autumn-ui";
 import React, { MouseEventHandler } from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from '../rcc/BaseDialog';
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBCheckbox from "../rcc/DBCheckbox";
-import DBEdit, { OnFieldChangedEvent } from "../rcc/DBEdit";
-import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
 import styles from './CusDialog.css';
 import DialogApi from "./DialogApi";
 

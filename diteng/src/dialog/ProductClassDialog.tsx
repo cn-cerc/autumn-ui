@@ -1,10 +1,7 @@
 import React from "react";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import styles from "./ProductClassDialog.css";
 import DialogApi from "./DialogApi";
-import DataSet from "../db/DataSet";
-import DataRow from "../db/DataRow";
-import { OnSelectDataRowEvent } from "../rcc/DialogComponent";
+import { DataSet, DataRow, BaseDialogPropsType, BaseDialogStateType, BaseDialog, OnSelectDataRowEvent } from "autumn-ui";
 
 type ProductListTypeProps = {
     dataSet: DataSet,

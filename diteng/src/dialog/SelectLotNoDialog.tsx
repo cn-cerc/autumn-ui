@@ -1,14 +1,8 @@
 import React from "react";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import DataSet from "../db/DataSet";
-import DataRow from "../db/DataRow";
 import styles from "./StaffDialog.css";
 import DialogApi from "./DialogApi";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import DBEdit from "../rcc/DBEdit";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBCheckbox from "../rcc/DBCheckbox";
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogStateType, DataSet, DataRow, BaseDialog, DBGrid, ColumnIt, Column, DBCheckbox, DBEdit } from "autumn-ui";
 
 type SelectLotNoTypeProps = {
     type: boolean,

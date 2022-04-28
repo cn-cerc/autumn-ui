@@ -1,18 +1,10 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import Block, { Line } from "../rcc/Block";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBDrop from "../rcc/DBDrop";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import SearchPanel from "../rcc/SearchPanel";
 import DialogApi from "./DialogApi";
 import GetMarque from "./GetMarque";
 import ProductClassDialog from "./ProductClassDialog";
 import styles from "./StaffDialog.css";
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogPropsType, DataRow, DataSet, BaseDialogStateType, BaseDialog, SearchPanel, DBDrop, DBEdit, Block, Line, Column, DBGrid, ColumnIt } from "autumn-ui";
 
 type propsType = {
     inputId: string,

@@ -1,19 +1,10 @@
 /** 用户商品搜索开窗时子项商品列表开窗 */
 import React, { ReactNode } from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import FieldMeta from "../db/FieldMeta";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import Block, { Line } from "../rcc/Block";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBCheckbox from "../rcc/DBCheckbox";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import SearchPanel from "../rcc/SearchPanel";
 import DialogApi from "./DialogApi";
-import DitengCommon from "./DitengCommon";
+import DitengCommon from "../DitengCommon";
 import styles from "./MarqueDialog.css";
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogPropsType, DataSet, DataRow, BaseDialogStateType, BaseDialog, DBCheckbox, Block, Line, Column, ColumnIt, DBGrid, SearchPanel, DBEdit, FieldMeta } from "autumn-ui";
 
 type MarqueDialogTypeProps = {
     partCode: string,

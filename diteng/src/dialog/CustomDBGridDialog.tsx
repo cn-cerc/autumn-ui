@@ -1,13 +1,8 @@
 import React, { isValidElement } from "react";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import DataSet from "../db/DataSet";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DataRow from "../db/DataRow";
 import styles from "./CustomDBGridDialog.css";
-import DBCheckbox from "../rcc/DBCheckbox";
-import { ClientStorage } from "../db/Utils";
-import { showMsg } from "./Summer";
+import { ClientStorage } from "../tool/Utils";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogPropsType, DataSet, BaseDialogStateType, BaseDialog, DBGrid, ColumnIt, Column, DBCheckbox, DataRow } from "autumn-ui";
 
 type CustomDBGridTypeProps = {
     tb: string,

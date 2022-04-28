@@ -1,5 +1,5 @@
+import { BaseDialogPropsType, BaseDialogStateType, BaseDialog } from "autumn-ui";
 import React from "react";
-import BaseDialog, { BaseDialogStateType, BaseDialogPropsType } from "../rcc/BaseDialog";
 import styles from "./DateYMDialog.css";
 
 type DateYMTypeProps = {

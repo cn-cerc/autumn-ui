@@ -1,12 +1,8 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogStateType } from "../rcc/BaseDialog";
-import DBEdit from "../rcc/DBEdit";
-import SearchPanel from "../rcc/SearchPanel";
 import styles from "./BaseAreaDialog.css";
 import DialogApi from './DialogApi';
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { BaseDialogStateType, DataRow, DataSet, BaseDialog, SearchPanel, DBEdit } from "autumn-ui";
 
 type BaseAreaProps = {
     status: number,

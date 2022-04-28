@@ -1,4 +1,4 @@
-import React, { isValidElement, MouseEventHandler } from "react";
+import React, { isValidElement, MouseEventHandler, ReactNode } from "react";
 import DataRow from "../db/DataRow";
 import DataSet from "../db/DataSet";
 import { ChildRow, Column, ColumnType, OnRowClickEvent } from "./DBGrid";
@@ -8,6 +8,7 @@ type propsType = {
     dataSet?: DataSet;
     readOnly?: boolean;
     onRowClick?: OnRowClickEvent;
+    children?: ReactNode | undefined
 }
 
 type stateType = {
@@ -120,6 +121,7 @@ type LinePropsType = {
     readOnly?: boolean;
     className?: string;
     recNo?: number
+    children?: ReactNode | undefined
 }
 
 type LineTypeState = {

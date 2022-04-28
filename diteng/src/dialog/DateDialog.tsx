@@ -1,6 +1,5 @@
+import { DataRow, BaseDialogPropsType, BaseDialogStateType, BaseDialog } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
 import styles from './DateDialog.css';
 
 type YearType = {

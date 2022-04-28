@@ -1,12 +1,6 @@
+import { DataRow, BaseDialogPropsType, DataSet, BaseDialogStateType, BaseDialog, SearchPanel, DBEdit, DBGrid, Column, SClient } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import SClient from "../db/SClient";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import SearchPanel from "../rcc/SearchPanel";
-import { CustomFormPropsType } from "./CustomForm";
+import { CustomFormPropsType } from "../acc/CustomForm";
 import styles from "./StaffDialog.css";
 
 type MoneyUnitTypeProps = {

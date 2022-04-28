@@ -1,16 +1,8 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import BaseDialog, { BaseDialogPropsType, BaseDialogStateType } from "../rcc/BaseDialog";
-import SearchPanel from "../rcc/SearchPanel";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
 import DialogApi from './DialogApi';
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
 import styles from "./StaffDialog.css";
-import DBDrop from "../rcc/DBDrop";
-import Block, { Line } from "../rcc/Block";
-import { ColumnIt } from "../rcc/ColumnIt";
+import { DataSet, DataRow, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBDrop, Block, Column, DBGrid, ColumnIt, Line } from "autumn-ui";
 
 const CUSTOMER_204008 = '204008';
 

@@ -1,6 +1,5 @@
+import { DataSet, BaseDialogStateType, BaseDialog } from 'autumn-ui';
 import React from 'react';
-import DataSet from '../db/DataSet';
-import BaseDialog, { BaseDialogStateType } from '../rcc/BaseDialog';
 import DialogApi from './DialogApi';
 import styles from './SalesmanDialog.css';
 
