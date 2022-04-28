@@ -421,7 +421,7 @@ export default class DialogApi {
     }
     /** 复制报表 */
     static postCopyReport(params: DataRow) {
-        return DialogApi.getDataOut('SvrSendPrint.copyReport', params);
+        return DialogApi.getDataOutByCenter('SvrSendPrint.copyReport', params);
     }
 
     /** 商品快速录入接口 */
