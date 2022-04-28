@@ -164,17 +164,17 @@ export default class DialogApi {
 
     /** 获取当前用户信息 */
     static async getUserInfo() {
-        return DialogApi.getService('TAppUserInfo.getUserDetail');
+        return DialogApi.getServiceByCenter('TAppUserInfo.getUserDetail');
     }
 
     /** 获取客户基本资料 */
     static async getCusList(params: DataRow) {
-        return DialogApi.getDataOut('TAppUserInfo.userList', params);
+        return DialogApi.getDataOutByCenter('TAppUserInfo.userList', params);
     }
 
     /** 获取用户列表信息 */
     static async getUserList() {
-        return DialogApi.getService('TAppUserInfo.GetUserList');
+        return DialogApi.getServiceByCenter('TAppUserInfo.GetUserList');
     }
 
     /** 获取商品大类 */
@@ -412,7 +412,7 @@ export default class DialogApi {
 
     /** 显示客户专卖区域 */
     static async getCusInfos(params: DataRow) {
-        return DialogApi.getDataOutByCenter('TAppCusInfo.Download', params);
+        return DialogApi.getDataOut('TAppCusInfo.Download', params);
     }
 
     /** 用户登录 */
