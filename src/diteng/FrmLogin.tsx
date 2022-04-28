@@ -596,10 +596,22 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     ds1.setValue("password", '');
                 this.state.client.set("Accounts", ds1.json);
             }
-            let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
+            let href = location.href;
+            // if(href.indexOf('?') > -1)
+            //     href = `${href}&sid=${dataOut.head.getString('token')}&CLIENTID=${this.props.dataRow.getString('clientId')}`
+            // else
+            //     href = `${href}?sid=${dataOut.head.getString('token')}&CLIENTID=${this.props.dataRow.getString('clientId')}`
+            let link = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
+            $.post(link, {
+                sid: dataOut.head.getString('token')
+            }, function(res){
+                // console.log(res);
+                
+                location.href = href;
+            })
             this.state.client.set('Account1', this.props.dataRow.getString('userCode'));
             this.state.client.set('password', this.props.dataRow.getString('password'));
-            location.href = href;
+            // location.href = href;
         } else {
             this.setState({ showLoad: false })
             if (dataOut.head.getValue('status') == -8) {
