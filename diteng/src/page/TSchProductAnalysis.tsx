@@ -1,16 +1,10 @@
 //@ts-ignore
+import { WebControl, DataSet, Grid, QueryService, TGrid, Block, Line, Column, DataRow } from "autumn-ui";
+import { TGridConfig, TGridColumn } from "autumn-ui/src/vcl/TGrid";
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import QueryService from "../db/QueryService";
-import Block, { Line } from "../rcc/Block";
-import { Column } from "../rcc/DBGrid";
-import Grid from "../rcc/Grid";
-import WebControl from "../rcc/WebControl";
-import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
-import DitengCommon from "./DitengCommon";
-import { exportUrl } from './ExportConfig';
-import { AuiMath, Loading, showMsg } from "./Summer";
+import DitengCommon from "../DitengCommon";
+import { exportUrl } from "../ExportConfig";
+import { AuiMath, Loading, showMsg } from "../tool/Summer";
 import styles from "./TSchProductAnalysis.css";
 
 type propsType = {

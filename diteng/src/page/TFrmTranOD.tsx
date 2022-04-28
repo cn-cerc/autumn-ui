@@ -1,16 +1,10 @@
+import { DataSet, DBGrid, QueryService, ColumnIt, Column, DataRow, ColumnNumber, ChildRow, FieldMeta } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import Datetime from "../db/Datetime";
-import FieldMeta from "../db/FieldMeta";
-import QueryService from "../db/QueryService";
-import { ClientStorage, Excel } from "../db/Utils";
-import { ColumnIt } from "../rcc/ColumnIt";
-import { ColumnNumber } from "../rcc/ColumnNumber";
-import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
-import CustomDBGridDialog from "./CustomDBGridDialog";
-import DitengCommon from "./DitengCommon";
-import { AuiMath, Loading, showMsg } from "./Summer";
+import CustomDBGridDialog from "../dialog/CustomDBGridDialog";
+import DitengCommon from "../DitengCommon";
+import Datetime from "../tool/Datetime";
+import { AuiMath, Loading, showMsg } from "../tool/Summer";
+import { ClientStorage, Excel } from "../tool/Utils";
 
 type TFrmTranODTypeProps = {
     token: string,

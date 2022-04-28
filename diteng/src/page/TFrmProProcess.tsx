@@ -1,21 +1,12 @@
 import React from "react";
-import DataRow, { DataRowState } from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import Datetime from "../db/Datetime";
-import FieldMeta from "../db/FieldMeta";
-import QueryService from "../db/QueryService";
-import { Excel } from "../db/Utils";
-import { ColumnDescSpec } from "../rcc/ColumnDescSpec";
-import { ColumnImage } from "../rcc/ColumnImage";
-import { ColumnIt } from "../rcc/ColumnIt";
-import { ColumnNumber } from "../rcc/ColumnNumber";
-import DBCheckbox from "../rcc/DBCheckbox";
-import DBDatePicker from "../rcc/DBDatePicker";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
-import CustomDialog from "./CustomDialog";
-import { AuiMath, Loading, showMsg } from "./Summer";
+import { Excel } from "../tool/Utils";
+import { AuiMath, Loading, showMsg } from "../tool/Summer";
 import styles from "./TFrmProProcess.css";
+import { DataSet, DataRow, QueryService, Column, DBCheckbox, ColumnIt, ColumnImage, ColumnNumber, DBEdit, DBGrid, ChildRow, DataRowState, FieldMeta } from "autumn-ui";
+import { ColumnDescSpec } from "../block/ColumnDescSpec";
+import CustomDialog from "../dialog/CustomDialog";
+import Datetime from "../tool/Datetime";
+import DBDatePicker from "../block/DBDatePicker";
 
 type propsType = {
     token: string;

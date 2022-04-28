@@ -1,14 +1,9 @@
+import { BaseForm, MainMessage, MenuItem, ToolPanel, StatusBar, DBGrid, Block } from "autumn-ui";
+import { BaseFormPropsType } from "autumn-ui/src/rcc/BaseForm";
 import React, { isValidElement } from "react";
 import classNames from "../../node_modules/classnames/index";
-import BaseForm, { BaseFormPropsType } from "../rcc/BaseForm";
-import Block from "../rcc/Block";
-import DBGrid from "../rcc/DBGrid";
-import MainMessage from "../rcc/MainMessage";
-import MenuItem from "../rcc/MenuItem";
-import StatusBar from "../rcc/StatusBar";
-import ToolPanel from "../rcc/ToolPanel";
+import MainNavigator from "../block/MainNavigator";
 import styles from './CustomForm.css';
-import MainNavigator from "./MainNavigator";
 
 export type CustomFormPropsType = {
     token?: string;

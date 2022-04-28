@@ -1,17 +1,9 @@
+import { SClient, DataRow, SearchPanel, DBEdit, DBGrid, Column, DataSet, MenuItem, OperatePanel, ToolPanel } from "autumn-ui";
+import { ToolItem } from "autumn-ui/src/rcc/ToolPanel";
 import React from "react";
-import DataRow from "../../db/DataRow";
-import DataSet from "../../db/DataSet";
-import Datetime from "../../db/Datetime";
-import SClient from "../../db/SClient";
-import Toast from "../../db/Toast";
-import Utils from "../../db/Utils";
-import DBEdit from "../../rcc/DBEdit";
-import DBGrid, { Column } from "../../rcc/DBGrid";
-import MenuItem from "../../rcc/MenuItem";
-import OperatePanel from "../../rcc/OperatePanel";
-import SearchPanel from "../../rcc/SearchPanel";
-import ToolPanel, { ToolItem } from "../../rcc/ToolPanel";
-import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../CustomForm";
+import Datetime from "../tool/Datetime";
+import Utils from "../tool/Utils";
+import CustomForm, { CustomFormStateType, CustomFormPropsType } from "./CustomForm";
 
 type MoneyRateTypeState = {
     client: SClient,

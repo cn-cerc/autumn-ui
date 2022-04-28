@@ -1,12 +1,9 @@
+import { DataRow, DBEdit, DBDrop, DataSet } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import DBDrop from "../rcc/DBDrop";
-import DBEdit from "../rcc/DBEdit";
-import DialogApi from "./DialogApi";
+import DialogApi from "../dialog/DialogApi";
+import { showMsg } from "../tool/Summer";
 import { configType } from "./FrmOEMAppend";
 import styles from "./FrmOEMChange.css";
-import { showMsg } from "./Summer";
 
 type FrmOEMChangeTypeProps = {
     code: string,

@@ -1,12 +1,10 @@
 //@ts-ignore
+import { DataSet, Grid, QueryService, TGrid } from "autumn-ui";
+import { TGridConfig, TGridColumn } from "autumn-ui/src/vcl/TGrid";
 import React from "react";
-import DataSet from "../db/DataSet";
-import QueryService from "../db/QueryService";
-import Grid from "../rcc/Grid";
-import TGrid, { TGridColumn, TGridConfig } from "../vcl/TGrid";
-import DitengCommon from "./DitengCommon";
-import { exportUrl } from './ExportConfig';
-import { AuiMath, Loading, showMsg } from "./Summer";
+import DitengCommon from "../DitengCommon";
+import { exportUrl } from "../ExportConfig";
+import { AuiMath, Loading, showMsg } from "../tool/Summer";
 
 /**
  * 页面查询 sessionStorage

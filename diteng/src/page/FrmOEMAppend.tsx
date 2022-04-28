@@ -1,15 +1,9 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column } from "../rcc/DBGrid";
-import SearchPanel from "../rcc/SearchPanel";
-import DialogApi from "./DialogApi";
-import ProductClassDialog from "./ProductClassDialog";
 import styles from "./FrmOEMAppend.css";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBDrop from "../rcc/DBDrop";
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { DataRow, DataSet, Column, SearchPanel, DBEdit, DBGrid, ColumnIt, DBDrop } from "autumn-ui";
+import DialogApi from "../dialog/DialogApi";
+import ProductClassDialog from "../dialog/ProductClassDialog";
 
 type FrmOEMAppendTypeProps = {
     showPartImage: boolean,

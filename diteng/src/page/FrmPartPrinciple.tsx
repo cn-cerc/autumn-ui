@@ -1,16 +1,11 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBEdit from "../rcc/DBEdit";
-import DBGrid, { Column, MainRow } from "../rcc/DBGrid";
-import SearchPanel from "../rcc/SearchPanel";
-import BrandDialog from "./BrandDialog";
-import DialogApi from "./DialogApi";
+import DialogApi from "../dialog/DialogApi";
 import styles from "./FrmPartPrinciple.css";
-import ProductClassDialog from "./ProductClassDialog";
+import ProductClassDialog from "../dialog/ProductClassDialog";
 import iconfontCss from "../iconfont/iconfont.css"
-import { showMsg } from "./Summer";
+import { showMsg } from "../tool/Summer";
+import { DataRow, DataSet, DBEdit, DBGrid, ColumnIt, Column, MainRow, SearchPanel } from "autumn-ui";
+import BrandDialog from "../dialog/BrandDialog";
 
 type titleType = {
     text: string,

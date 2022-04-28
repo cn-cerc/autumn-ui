@@ -1,18 +1,10 @@
+import { DataSet, DataRow, WebControl, QueryService, FieldMeta, Block, Line, ColumnIt, Column, ColumnNumber, ChildRow, DBGrid } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import Datetime from "../db/Datetime";
-import FieldMeta from "../db/FieldMeta";
-import QueryService from "../db/QueryService";
-import { Excel } from "../db/Utils";
-import Block, { Line } from "../rcc/Block";
-import { ColumnDescSpec } from "../rcc/ColumnDescSpec";
-import { ColumnIt } from "../rcc/ColumnIt";
-import { ColumnNumber } from "../rcc/ColumnNumber";
-import DBGrid, { ChildRow, Column } from "../rcc/DBGrid";
-import WebControl from "../rcc/WebControl";
-import DitengCommon from "./DitengCommon";
-import { AuiMath, Loading, showMsg } from "./Summer";
+import { ColumnDescSpec } from "../block/ColumnDescSpec";
+import DitengCommon from "../DitengCommon";
+import Datetime from "../tool/Datetime";
+import { AuiMath, Loading, showMsg } from "../tool/Summer";
+import { Excel } from "../tool/Utils";
 import styles from "./TSchProductInOutAnalysis.css";
 
 type propsType = {
