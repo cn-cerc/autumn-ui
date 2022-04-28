@@ -411,7 +411,7 @@ export default class DialogApi {
     }
 
     /** 显示客户专卖区域 */
-    static async getCusInfos(params: DataRow, url?: string) {
+    static async getCusInfos(params: DataRow) {
         return DialogApi.getDataOutByCenter('TAppCusInfo.Download', params);
     }
 
