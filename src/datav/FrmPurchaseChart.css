@@ -32,9 +32,6 @@
 
 .data-view .blockTopBottomContent {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
   padding-bottom: 2rem;
   position: relative;
   height: 105%;
@@ -42,8 +39,9 @@
 }
 
 .pieBox1 {
-  height: 0;
-  flex: 2;
+  display: inline-block;
+  width: 50%;
+  height: 50%;
 }
 
 .pieBox2 {

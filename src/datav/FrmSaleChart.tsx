@@ -535,15 +535,10 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                                 <TextList title="卷材出库动态（T）" date={this.state.coilRow} listArray={this.state.listTypeArr2} />
                             </div>
                             <div className={styles.blockTopBottomContent}>
-                                <div className={styles.pieBox1} id='piechart'>
-                                    {/* <Charts option={this.state.option} /> */}
-                                </div>
-                                <div className={styles.pieBox2} onClick={() => {
-                                    //@ts-ignore
-                                    aui.showPage("FrmReport18", "采购数据管理中心");
-                                }}>
-                                    <ScrollBoard config={this.state.boardConfig}></ScrollBoard>
-                                </div>
+                                <div className={styles.pieBox1} id='piechart'></div>
+                                <div className={styles.pieBox1} id='piechart2'></div>
+                                <div className={styles.pieBox1} id='piechart3'></div>
+                                <div className={styles.pieBox1} id='piechart4'></div>
                             </div>
                             <div className={styles.textList4}>
                                 <TextList title="H钢材出库动态（T）" date={this.state.hSteelRow} listArray={this.state.listTypeArr3} />

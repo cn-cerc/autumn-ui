@@ -28,7 +28,7 @@ type PropsType = {
 
 export default class FrmPurchaseChart extends React.Component<PropsType, stateType> {
     private timer: any = null;
-    private lineLenged: string[] = ['安全库存', '当前库存', '在途库存'];
+    private lineLenged: string[] = ['仓库量', '安全库存', '当前库存', '在途库存'];
     private isLengedEvent: boolean = false;
     constructor(props: PropsType) {
         super(props);
@@ -181,18 +181,28 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         for (let i = 0; i < this.lineLenged.length; i++) {
             dynamicDataArr[i] = new Array();
         }
+
+        let stock: DataSet = dataList[this.lineLenged.length].data;
+        stock.first();
+        while (stock.fetch()) {
+            dynamicDataArr[0].push(stock.getDouble('数量'));
+        }
+
         rowArr.forEach((row: DataRow, index) => {
-            row.setValue('purchase', dataArr[index].purchase).setValue('yearInStock', dataArr[index].yearInStock).setValue('inTransit', dataArr[index].inTransit).setValue('stock', dataArr[index].stock);
-            dynamicDataArr[0].push((Math.ceil(Math.random() * 10)) * 100);
-            dynamicDataArr[1].push(dataArr[index].stock);
-            dynamicDataArr[2].push(dataArr[index].inTransit);
+            row.setValue('purchase', dataArr[index].purchase)
+                .setValue('yearInStock', dataArr[index].yearInStock)
+                .setValue('inTransit', dataArr[index].inTransit)
+                .setValue('stock', dataArr[index].stock);
+            dynamicDataArr[1].push((Math.ceil(Math.random() * 10)) * 100);
+            dynamicDataArr[2].push(dataArr[index].stock);
+            dynamicDataArr[3].push(dataArr[index].inTransit);
         })
         dynamicData.first();
         while (dynamicData.fetch()) {
             dynamicXArr.push(dynamicData.getString('name'));
-            dynamicDataArr[0].push((Math.ceil(Math.random() * 10)) * 100);
-            dynamicDataArr[1].push(dynamicData.getDouble('currentStock'));
-            dynamicDataArr[2].push(dynamicData.getDouble('inTransit'));
+            dynamicDataArr[1].push((Math.ceil(Math.random() * 10)) * 100);
+            dynamicDataArr[2].push(dynamicData.getDouble('currentStock'));
+            dynamicDataArr[3].push(dynamicData.getDouble('inTransit'));
         }
         let dynamicSeries = [];
         for (let i = 0; i < this.lineLenged.length; i++) {
@@ -375,16 +385,21 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         let dataArr = this.state.dynamicDataArr;
         if (dynamicDataArr)
             dataArr = dynamicDataArr;
-        let siteSize = -1;
+        let siteSize = 0;
         let dynamicSeries = [];
         this.state.lengedState.forEach((bool: boolean) => {
             if (bool)
                 siteSize++;
         })
-        if(siteSize == -1)
-            siteSize = 0;
-        let site = (siteSize * -60) / 2;
+        let barWidth = 40;
+        let site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 + 2) * -1;
+        console.log(site)
         let colorArr = [{
+            topColor: '#00ffdb',
+            bottomColor: '#00ffdb',
+            lineColor: ['#00DDdb', '#00DDdb'],
+            textColor: '#00DDdb'
+        }, {
             topColor: '#1CD53C',
             bottomColor: '#1b963b',
             lineColor: ['#1CB53C', '#1b963b'],
@@ -404,7 +419,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             dynamicSeries.push({
                 name: this.lineLenged[i],
                 type: 'pictorialBar',
-                symbolSize: [50, 16],
+                symbolSize: [barWidth - 1, barWidth / 2],
                 symbolOffset: [site, -8], // 上部椭圆
                 symbolPosition: 'end',
                 z: 12,
@@ -414,7 +429,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             dynamicSeries.push({
                 name: this.lineLenged[i],
                 type: 'pictorialBar',
-                symbolSize: [50, 16],
+                symbolSize: [barWidth - 1, barWidth / 2],
                 symbolOffset: [site, 8], // 下部椭圆
                 z: 10,
                 color: colorArr[i].lineColor[0],
@@ -423,8 +438,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             dynamicSeries.push({
                 name: this.lineLenged[i],
                 type: 'bar',
-                barWidth: '50',
-                barGap: '20%',
+                barWidth: barWidth,
+                barGap: '10%',
                 itemStyle: {
                     normal: {
                         color: colorArr[i].lineColor[0]
@@ -442,8 +457,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 },
                 data: dataArr[i],
             })
-            if (this.state.lengedState[i])
-                site += 60;
+            site = site + barWidth + barWidth * 0.1
         }
         let myChart = echarts.init(document.getElementById('echarts'));
         //@ts-ignore
