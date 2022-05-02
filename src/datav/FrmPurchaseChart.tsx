@@ -28,7 +28,7 @@ type PropsType = {
 
 export default class FrmPurchaseChart extends React.Component<PropsType, stateType> {
     private timer: any = null;
-    private lineLenged: string[] = ['仓库量', '安全库存', '当前库存', '在途库存'];
+    private lineLenged: string[] = ['仓库容量', '安全库存', '当前库存', '在途库存'];
     private isLengedEvent: boolean = false;
     constructor(props: PropsType) {
         super(props);
@@ -112,7 +112,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 href: 'javascript:aui.showPage("FrmSaleChart", "销售数据管理中心")'
             }]]),
             showIndex: 0,
-            lengedState: [true, true, true],
+            lengedState: [true, true, true, true],
             dynamicDataArr: [],
         }
     }
@@ -392,8 +392,13 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 siteSize++;
         })
         let barWidth = 40;
-        let site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 + 2) * -1;
-        console.log(site)
+        let site = 0;
+
+        if (siteSize % 2 != 0)
+            site = ((barWidth * (siteSize - 1) + (barWidth * 0.1 * (siteSize - 1))) / 2) * -1;
+        else
+            site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 - barWidth / 2) * -1;
+
         let colorArr = [{
             topColor: '#00ffdb',
             bottomColor: '#00ffdb',
@@ -457,7 +462,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 },
                 data: dataArr[i],
             })
-            site = site + barWidth + barWidth * 0.1
+            if (this.state.lengedState[i])
+                site = site + barWidth + barWidth * 0.1
         }
         let myChart = echarts.init(document.getElementById('echarts'));
         //@ts-ignore
