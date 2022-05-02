@@ -13,7 +13,7 @@
   box-shadow: 0 0 3px blue;
   display: flex;
   flex-direction: column;
-  position: relative!important;
+  position: relative !important;
 }
 
 .data-view .main-content {
@@ -196,6 +196,7 @@
     transform: translateY(0);
     opacity: 1;
   }
+
   to {
     transform: translateY(100%);
     opacity: 0;
@@ -212,6 +213,7 @@
     transform: translateY(100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -286,6 +288,103 @@
   margin-left: 4rem;
 }
 
-.chartState>li:nth-child(1)>span, .chartState>li:nth-child(2)>span {
+.chartState>li:nth-child(1)>span,
+.chartState>li:nth-child(2)>span {
   margin-left: 5rem;
 }
+
+/**    第三图      */
+
+.saleMainContent {
+  height: 0;
+  flex: 1;
+  display: flex;
+  padding: 0 5rem;
+}
+
+.saleMainContent>div {
+  height: 100%;
+  display: flex;
+}
+
+.saleLeft,
+.saleRight {
+  display: flex;
+  flex-direction: column;
+}
+
+.saleLeft>div,
+.saleRight>div {
+  width: 22.75rem;
+  height: 20.375rem;
+}
+
+.saleCentre {
+  flex-grow: 6;
+  display: flex;
+  flex-direction: column;
+}
+
+.saleCentre>div:nth-child(1) {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.saleCentre>div:nth-child(2) {
+  flex: 3;
+}
+
+.saleCentre>div:nth-child(3) {
+  flex: 2;
+}
+
+.saleMainContent div {
+  /* border: 1px solid red; */
+}
+
+.salePriceBox {
+  flex: 1;
+  padding: 0 1rem;
+}
+
+.salePriceBox ul,
+.salePriceBox li {
+  list-style: none;
+}
+.salePriceBox li {
+  line-height: 2rem;
+}
+
+.saleCentre .saleTitle {
+  text-align: center;
+  font-weight: bold;
+}
+
+.saleCentre .salePrice {
+  display: flex;
+}
+
+.saleCentre .saleQuotation {
+  flex: 2;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.saleCentre .saleTrend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.saleCentre .saleTrend>span {
+  height: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.saleCentre .saleDate {
+  text-align: center;
+}
+
