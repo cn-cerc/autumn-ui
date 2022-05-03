@@ -4,7 +4,11 @@ import styles from './PieChart.css';
 import * as echarts from "echarts";
 
 type PropsType = {
-  eleId: string
+  eleId: string,
+  pieTitle: string,
+  price: number[],
+  saleroom: number[],
+  lineColir?:string[]
 }
 type stateType = {
   width: string,
@@ -23,9 +27,6 @@ export default class PieChart extends React.Component<PropsType, stateType> {
 
   componentDidMount(): void {
     this.initData();
-    // this.timer = setInterval(() => {
-    //   this.initData()
-    // }, 30000);
   }
 
   componentWillUnmount() {
@@ -43,28 +44,39 @@ export default class PieChart extends React.Component<PropsType, stateType> {
   }
 
   initPieChart() {
+    if (this.props.price.length == 0)
+      return
+    let legendArray = ['一区', '二区', '三区', '四区', '五区', '六区'];
+    let seriesData1: any[] = [];
+    let seriesData2: any[] = [];
+    legendArray.forEach((value, index) => {
+      seriesData1.push({ value: this.props.price[index], name: value });
+      seriesData2.push({ value: this.props.saleroom[index], name: value });
+    })
     let pieOption: Object = {
+      title: {
+        text: this.props.pieTitle,
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          color: '#fff'
+        },
+      },
       legend: {
-        data: [
-          '一区',
-          '二区',
-          '三区',
-          '四区',
-          '五区',
-          '六区',
-        ],
+        data: legendArray,
         textStyle: {
           fontSize: 12,
           color: '#fff'
         },
+        bottom: 30,
+        itemWidth: 14
       },
       series: [
         {
-          name: 'Access From',
           type: 'pie',
           selectedMode: 'single',
           radius: [0, '40%'],
-          center:['50%', '55%'],
+          center: ['50%', '45%'],
           label: {
             position: 'inner',
             formatter: '{c}',
@@ -73,40 +85,28 @@ export default class PieChart extends React.Component<PropsType, stateType> {
           labelLine: {
             show: false
           },
-          data: [
-            { value: 4825, name: '一区' },
-            { value: 4720, name: '二区' },
-            { value: 4800, name: '三区' },
-            { value: 4768, name: '四区' },
-            { value: 4620, name: '五区' },
-            { value: 4835, name: '六区' }
-          ]
+          data: seriesData1
         },
         {
           name: "per",
           type: 'pie',
-          radius: ['45%', '80%'],
-          center:['50%', '55%'],
+          radius: ['45%', '75%'],
+          center: ['50%', '45%'],
           labelLine: {
             length: 30
           },
           label: {
             position: 'inner',
-            // formatter: '{b}：{d}%',
             formatter: '{d}%',
           },
-          data: [
-            { value: 482500, name: '一区' },
-            { value: 377600, name: '二区' },
-            { value: 120000, name: '三区' },
-            { value: 534016, name: '四区' },
-            { value: 831600, name: '五区' },
-            { value: 241750, name: '六区' },
-          ],
+          data: seriesData2,
         }
       ]
     }
-
+    if (this.props.lineColir) {
+      //@ts-ignore
+      pieOption['color'] = this.props.lineColir;
+    }
     let myChart = echarts.init(document.getElementById(this.props.eleId));
     myChart.setOption(pieOption);
   }
