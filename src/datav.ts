@@ -1,14 +1,10 @@
+import FrmEmployee1 from "./datav/FrmEmployee1";
+import FrmEmployee2 from "./datav/FrmEmployee2";
+import FrmEmployee3 from "./datav/FrmEmployee3";
+import FrmEmployee4 from "./datav/FrmEmployee4";
 import FrmManufactureChart from "./datav/FrmManufactureChart";
 import FrmPurchaseChart from "./datav/FrmPurchaseChart";
-import FrmSaleChart from "./datav/FrmSaleChart";
 import FrmReport1 from "./datav/FrmReport1";
-import FrmReport2 from "./datav/FrmReport2";
-import FrmReport3 from "./datav/FrmReport3";
-import FrmReport4 from "./datav/FrmReport4";
-import FrmReport5 from "./datav/FrmReport5";
-import FrmReport6 from "./datav/FrmReport6";
-import FrmReport7 from "./datav/FrmReport7";
-import FrmReport9 from "./datav/FrmReport9";
 import FrmReport10 from "./datav/FrmReport10";
 import FrmReport11 from "./datav/FrmReport11";
 import FrmReport12 from "./datav/FrmReport12";
@@ -19,12 +15,15 @@ import FrmReport16 from "./datav/FrmReport16";
 import FrmReport17 from "./datav/FrmReport17";
 import FrmReport18 from "./datav/FrmReport18";
 import FrmReport19 from "./datav/FrmReport19";
-import FrmEmployee1 from "./datav/FrmEmployee1";
-import FrmEmployee2 from "./datav/FrmEmployee2";
-import FrmEmployee3 from "./datav/FrmEmployee3";
-import FrmEmployee4 from "./datav/FrmEmployee4";
+import FrmReport2 from "./datav/FrmReport2";
+import FrmReport3 from "./datav/FrmReport3";
+import FrmReport4 from "./datav/FrmReport4";
+import FrmReport5 from "./datav/FrmReport5";
+import FrmReport6 from "./datav/FrmReport6";
+import FrmReport7 from "./datav/FrmReport7";
 import FrmReport8 from "./datav/FrmReport8";
-import FrmSaleChart2 from "./datav/FrmSaleChart2";
+import FrmReport9 from "./datav/FrmReport9";
+import FrmSaleChart from "./datav/FrmSaleChart";
 
 export default {
     FrmPurchaseChart,
@@ -53,7 +52,6 @@ export default {
     FrmEmployee2,
     FrmEmployee3,
     FrmEmployee4,
-    FrmSaleChart2,
     showPage
 }
 

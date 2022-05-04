@@ -8,7 +8,7 @@ type PropsType = {
   pieTitle: string,
   price: number[],
   saleroom: number[],
-  lineColir?:string[]
+  lineColor?:string[]
 }
 type stateType = {
   width: string,
@@ -103,9 +103,9 @@ export default class PieChart extends React.Component<PropsType, stateType> {
         }
       ]
     }
-    if (this.props.lineColir) {
+    if (this.props.lineColor) {
       //@ts-ignore
-      pieOption['color'] = this.props.lineColir;
+      pieOption['color'] = this.props.lineColor;
     }
     let myChart = echarts.init(document.getElementById(this.props.eleId));
     myChart.setOption(pieOption);
