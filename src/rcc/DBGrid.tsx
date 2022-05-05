@@ -126,6 +126,7 @@ export default class DBGrid extends WebControl<DBGridProps, DBGridState> {
     getHead(): React.ReactNode[] {
         let items: React.ReactNode[] = [];
         let arr: React.ReactNode[] = Array.from(this.colunmMap.values());
+        console.log(this.props.children)
         React.Children.map(this.props.children, child => {
             if (isValidElement(child)) {
                 // @ts-ignore
