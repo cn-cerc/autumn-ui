@@ -90,14 +90,11 @@ export default class PieChart extends React.Component<PropsType, stateType> {
         {
           name: "per",
           type: 'pie',
-          radius: ['45%', '75%'],
+          radius: ['45%', '55%'],
           center: ['50%', '45%'],
-          labelLine: {
-            length: 30
-          },
           label: {
-            position: 'inner',
             formatter: '{d}%',
+            color:'#fff'
           },
           data: seriesData2,
         }
