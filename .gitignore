@@ -1,5 +1,4 @@
 # 去掉安装环境安装的文件
-/node_modules/*
 /dist/*
 */node_modules
 # /src/**/*.js
