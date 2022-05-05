@@ -1,8 +1,7 @@
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import { Excel, excelData } from "../db/Utils";
-import { AuiMath } from "../diteng/Summer";
+import { DataRow, DataSet } from "autumn-ui";
+import { Excel, excelData } from "../tool/Utils";
+import { AuiMath } from "../tool/Summer";
 import ReportDetail from "./ReportDetail";
 
 export type FrmReportTypeState = {

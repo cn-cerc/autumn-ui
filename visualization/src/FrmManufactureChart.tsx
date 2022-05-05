@@ -1,13 +1,12 @@
 import { BorderBox11, Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
-import DataRow from "../db/DataRow";
-import { Excel, excelData } from '../db/Utils';
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
 import * as echarts from "echarts";
-import DataSet from '../db/DataSet';
+import { excelData, Excel } from '../tool/Utils';
+import { DataRow, DataSet } from "autumn-ui";
 type stateType = {
     wireRow: DataRow,
     coilRow: DataRow,
@@ -569,7 +568,7 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             if (bool)
                 siteSize++;
         })
-        if(siteSize == -1)
+        if (siteSize == -1)
             siteSize = 0;
         let site = (siteSize * -70) / 2;
         let barSeries = [];
@@ -660,7 +659,8 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
                 data: [2230, 1900, 2100, 3000],
             })
         }
-        let myChart = echarts.init(document.getElementById('barChart'));
+        let barChart = document.getElementById('barChart') as HTMLDivElement;
+        let myChart = echarts.init(barChart);
         //@ts-ignore
         myChart.setOption({
             title: [{
@@ -781,7 +781,8 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
     }
 
     initLineChart(option: any) {
-        let myChart = echarts.init(document.getElementById('lineChart'));
+        let lineChart = document.getElementById('lineChart') as HTMLDivElement;
+        let myChart = echarts.init(lineChart);
         myChart.setOption(option);
     }
 

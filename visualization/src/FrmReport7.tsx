@@ -1,6 +1,5 @@
+import { DataRow, DataSet } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
 import ReportDetail from "./ReportDetail";
 
 export type FrmReportTypeState = {

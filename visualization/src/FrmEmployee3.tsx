@@ -1,5 +1,5 @@
 import React from "react";
-import DataRow from "../db/DataRow";
+import { DataRow } from "autumn-ui";
 import Employee from "./Employee";
 
 

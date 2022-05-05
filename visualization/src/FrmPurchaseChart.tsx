@@ -1,8 +1,7 @@
 import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
-import DataRow from "../db/DataRow";
-import DataSet from '../db/DataSet';
-import { Excel, excelData } from '../db/Utils';
+import {DataRow, DataSet} from "autumn-ui";
+import { Excel, excelData } from '../tool/Utils';
 import "../diteng/Summer.css";
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
@@ -465,7 +464,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             if (this.state.lengedState[i])
                 site = site + barWidth + barWidth * 0.1
         }
-        let myChart = echarts.init(document.getElementById('echarts'));
+        let chart1 = document.getElementById('echarts') as HTMLDivElement;
+        let myChart = echarts.init(chart1);
         //@ts-ignore
         myChart.setOption({
             title: [{
@@ -586,7 +586,8 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
     }
 
     initLineChart(option: any) {
-        let myChart = echarts.init(document.getElementById('lineChart'));
+        let lineChart = document.getElementById('lineChart') as HTMLDivElement;
+        let myChart = echarts.init(lineChart);
         myChart.setOption(option);
     }
 

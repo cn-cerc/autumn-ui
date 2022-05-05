@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react'
-
-import { DigitalFlop, Decoration10 } from '@jiaminghi/data-view-react'
-
+import React from 'react'
+import { Decoration10, DigitalFlop } from '@jiaminghi/data-view-react'
 import styles from './DigitalFlop.css'
 
 function getData() {

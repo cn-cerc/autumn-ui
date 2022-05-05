@@ -1,7 +1,6 @@
-import React from 'react';
-import DataRow from '../db/DataRow';
-import styles from './PieChart.css';
 import * as echarts from "echarts";
+import React from 'react';
+import styles from './PieChart.css';
 
 type PropsType = {
   eleId: string,
@@ -104,7 +103,8 @@ export default class PieChart extends React.Component<PropsType, stateType> {
       //@ts-ignore
       pieOption['color'] = this.props.lineColor;
     }
-    let myChart = echarts.init(document.getElementById(this.props.eleId));
+    let chart = document.getElementById(this.props.eleId) as HTMLDivElement;
+    let myChart = echarts.init(chart);
     myChart.setOption(pieOption);
   }
 }

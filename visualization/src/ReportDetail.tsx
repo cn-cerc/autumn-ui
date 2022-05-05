@@ -1,9 +1,6 @@
 import { BorderBox9, FullScreenContainer, Decoration7 } from "@jiaminghi/data-view-react";
 import React, { ReactNode } from "react";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import { ColumnIt } from "../rcc/ColumnIt";
-import DBGrid, { Column } from "../rcc/DBGrid";
+import { DataRow, DataSet, ColumnIt, DBGrid, Column } from "autumn-ui";
 import TopHeader from "./TopHeader";
 import styles from "./ReportDetail.css";
 

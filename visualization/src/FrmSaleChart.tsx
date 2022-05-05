@@ -1,8 +1,7 @@
 import { FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
-import DataRow from '../db/DataRow';
-import DataSet from '../db/DataSet';
-import { Excel, excelData } from '../db/Utils';
+import { DataRow, DataSet } from "autumn-ui";
+import { Excel, excelData } from "../tool/Utils";
 import styles from './FrmPurchaseChart.css';
 import PieChart from './PieChart';
 import TopHeader from './TopHeader';
@@ -326,7 +325,8 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                 }
             })
         })
-        let myChart = echarts.init(document.getElementById('barEcharts'));
+        let barChart = document.getElementById('barEcharts') as HTMLDivElement;
+        let myChart = echarts.init(barChart);
         //@ts-ignore
         myChart.setOption({
             title: [{
@@ -515,7 +515,8 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             },
             series: lineSeries
         }
-        let myChart = echarts.init(document.getElementById('lineChart'));
+        let lineChart = document.getElementById('lineChart') as HTMLDivElement;
+        let myChart = echarts.init(lineChart);
         myChart.setOption(lineOption);
     }
 }

@@ -1,8 +1,8 @@
-import { Charts, FullScreenContainer, ScrollBoard } from '@jiaminghi/data-view-react';
+import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
+import { DataRow } from "autumn-ui";
 import React from "react";
-import DataRow from "../db/DataRow";
-import { Excel, excelData } from '../db/Utils';
-import { AuiMath } from '../diteng/Summer';
+import { AuiMath } from '../tool/Summer';
+import { Excel, excelData } from "../tool/Utils";
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';

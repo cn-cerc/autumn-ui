@@ -1,6 +1,6 @@
 import { BorderBox13, Decoration7, FullScreenContainer } from "@jiaminghi/data-view-react";
 import React from "react";
-import DataRow from "../db/DataRow";
+import { DataRow } from "autumn-ui";
 import styles from "./Employee.css";
 import TopHeader from "./TopHeader";
 

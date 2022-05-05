@@ -1,6 +1,4 @@
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import QueryService from "../db/QueryService";
+import { DataSet, QueryService, DataRow } from "autumn-ui";
 
 // 页面初始化时获取的sid
 const initSid = window.localStorage.getItem('ErpKey_sid');

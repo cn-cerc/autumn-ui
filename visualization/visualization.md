@@ -25,7 +25,7 @@ cnpm i -D html-webpack-plugin
 ```
 cnpm i --D clean-webpack-plugin
 cnpm i --D typescript ts-loader
-cnpm i -D react react-dom
+cnpm i -D react@16.8.6 react-dom@16.8.6
 cnpm i -D @types/react @types/react-dom @babel/preset-react
 cnpm i -D style-loader css-loader
 ```
@@ -57,8 +57,9 @@ npm i -D html-webpack-plugin
 npm i --D clean-webpack-plugin
 npm i --D typescript ts-loader
 npm i --D css-loader
-npm i -D react react-dom
+npm i -D react@16.8.6 react-dom@16.8.6
 npm i -D @types/react @types/react-dom @babel/preset-react
+npm i -D xlsx
 npm i -D classnames
 npm i -D autumn-ui
 ```

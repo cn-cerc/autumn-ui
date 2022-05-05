@@ -1,7 +1,6 @@
 import React from 'react'
-
 import { BorderBox11 } from '@jiaminghi/data-view-react'
-import DataRow from '../db/DataRow'
+import { DataRow } from 'autumn-ui'
 import styles from './TextList.css'
 type stateType = {
 
