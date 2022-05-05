@@ -9,17 +9,17 @@ import { ColumnNumber } from "./src/rcc/ColumnNumber";
 import DBCheckbox from "./src/rcc/DBCheckbox";
 import DBDrop from "./src/rcc/DBDrop";
 import DBEdit, { OnFieldChangedEvent } from "./src/rcc/DBEdit";
-import DBGrid, { ChildRow, Column, ColumnType, MainRow } from "./src/rcc/DBGrid";
+import DBGrid, { ChildRow, Column, ColumnType, MainRow, OnRowChangedEvent, OnRowClickEvent } from "./src/rcc/DBGrid";
 import DialogComponent, { OnSelectDataRowEvent } from "./src/rcc/DialogComponent";
 import { DialogForm } from "./src/rcc/DialogForm";
 import Grid from "./src/rcc/Grid";
 import ModifyPanel from "./src/rcc/ModifyPanel";
 import MutiPage from "./src/rcc/MutiPage";
-import SearchPanel from "./src/rcc/SearchPanel";
+import SearchPanel, { SearchPanelOnExecute } from "./src/rcc/SearchPanel";
 import WebControl from "./src/rcc/WebControl";
 import TComponent from "./src/vcl/TComponent";
 import TCustomComponent from "./src/vcl/TCustomComponent";
-import TGrid from "./src/vcl/TGrid";
+import TGrid, { TGridColumn, TGridConfig } from "./src/vcl/TGrid";
 import TTable from "./src/vcl/TTable";
 import TText from "./src/vcl/TText";
 import DataSet from "./src/db/DataSet";
@@ -28,7 +28,7 @@ import RemoteService from "./src/db/RemoteService";
 import SClient from "./src/db/SClient";
 import { Loading } from "./src/db/Loading";
 import FieldMeta from "./src/db/FieldMeta";
-import ComboBox, { OnListFilterEvent, ListGrid } from "./src/rcc/ComboBox";
+import ComboBox, { OnListFilterEvent, ListGrid, ClientSite } from "./src/rcc/ComboBox";
 import DBNavigator from "./src/rcc/DBNavigator";
 import Footer from "./src/rcc/Footer";
 import Header from "./src/rcc/Header";
@@ -97,9 +97,15 @@ export {
     TComponent,
     TCustomComponent,
     TGrid,
+    TGridConfig,
+    TGridColumn,
     TTable,
     TText,
     OnSelectDataRowEvent,
     OnFieldChangedEvent,
-    DataRowState
+    OnRowChangedEvent,
+    OnRowClickEvent,
+    SearchPanelOnExecute,
+    DataRowState,
+    ClientSite,
 }

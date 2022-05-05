@@ -1,5 +1,5 @@
+import React from "react";
 import { QueryService } from "autumn-ui";
-import React from "react"
 
 type propsType = {
     token: string;

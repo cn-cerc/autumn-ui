@@ -1,18 +1,9 @@
+import { SClient, MenuItem, ToolPanel, ToolItem, SearchPanel, DBEdit, DBGrid, Column, DBDrop, DataRow, OperatePanel, StatusBar, SearchPanelOnExecute, OnRowChangedEvent } from "autumn-ui";
 import React, { MouseEventHandler } from "react";
-import DataRow from "../src/db/DataRow";
-import Datetime from "../src/db/Datetime";
-import SClient from "../src/db/SClient";
-import Utils from "../src/db/Utils";
-import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../src/diteng/CustomForm";
-import MainMenu from "../src/diteng/MainMenu";
-import DBDrop from "../src/rcc/DBDrop";
-import DBEdit from "../src/rcc/DBEdit";
-import DBGrid, { Column, OnRowChangedEvent } from "../src/rcc/DBGrid";
-import MenuItem from "../src/rcc/MenuItem";
-import OperatePanel from "../src/rcc/OperatePanel";
-import SearchPanel, { SearchPanelOnExecute } from "../src/rcc/SearchPanel";
-import StatusBar from "../src/rcc/StatusBar";
-import ToolPanel, { ToolItem } from "../src/rcc/ToolPanel";
+import CustomForm, { CustomFormStateType, CustomFormPropsType } from "../src/acc/CustomForm";
+import MainMenu from "../src/acc/MainMenu";
+import Datetime from "../src/tool/Datetime";
+import Utils from "../src/tool/Utils";
 import styles from "./SchAccTran.css";
 
 type stateType = {

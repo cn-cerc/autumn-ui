@@ -1,5 +1,5 @@
-import { Column, ColumnType } from "autumn-ui";
 import React from "react";
+import { Column, ColumnType } from "autumn-ui";
 import DitengCommon from "../DitengCommon";
 import ImageConfig from "../ImageConfig";
 

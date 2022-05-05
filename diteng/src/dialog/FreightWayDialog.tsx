@@ -1,5 +1,5 @@
-import { DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType } from "autumn-ui";
 import React from "react";
+import { DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType } from "autumn-ui";
 import styles from "./PartStockDialog.css";
 
 type FreightWayTypeState = {

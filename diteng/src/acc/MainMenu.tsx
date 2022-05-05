@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from "react";
-import DataSet from "../db/DataSet";
+import { DataSet } from "autumn-ui";
 import styles from './MainMenu.css';
 
 type propsType = {}

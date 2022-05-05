@@ -1,3 +1,6 @@
+//引入autumn-ui样式文件
+import "autumn-ui/assets/autumn-ui.css";
+
 import CheckDraftTB from "./block/CheckDraftTB";
 import CheckReport from "./block/CheckReport";
 import CheckWorkflow from "./block/CheckWorkflow";

@@ -1,6 +1,6 @@
+import React, { isValidElement } from "react";
 import { BaseForm, MainMessage, MenuItem, ToolPanel, StatusBar, DBGrid, Block } from "autumn-ui";
 import { BaseFormPropsType } from "autumn-ui/src/rcc/BaseForm";
-import React, { isValidElement } from "react";
 import classNames from "../../node_modules/classnames/index";
 import MainNavigator from "../block/MainNavigator";
 import styles from './CustomForm.css';

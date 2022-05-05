@@ -1,21 +1,12 @@
+import { DataRow, DataSet, MenuItem, ToolPanel, ModifyPanel, DBEdit, YearDialog, DBGrid, Column, ComboBox, Block, Line, StatusBar, QueryService, OnRowChangedEvent } from "autumn-ui";
+import { OnDataRowChangedEvent } from "autumn-ui/src/rcc/DBGrid";
+import { ModifyOnExecute } from "autumn-ui/src/rcc/ModifyPanel";
 import React, { MouseEventHandler } from "react";
-import AccCodeLists from "../AccCodeLists";
-import DataRow from "../src/db/DataRow";
-import DataSet from "../src/db/DataSet";
-import QueryService from "../src/db/QueryService";
-import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../src/diteng/CustomForm";
-import ListAccCode from "../src/diteng/ListAccCode";
-import MainMenu from "../src/diteng/MainMenu";
-import SelectAccCode from "../src/diteng/SelectAccCode";
-import Block, { Line } from "../src/rcc/Block";
-import ComboBox from "../src/rcc/ComboBox";
-import DBEdit from "../src/rcc/DBEdit";
-import DBGrid, { Column, OnDataRowChangedEvent, OnRowChangedEvent } from "../src/rcc/DBGrid";
-import MenuItem from "../src/rcc/MenuItem";
-import ModifyPanel, { ModifyOnExecute } from "../src/rcc/ModifyPanel";
-import StatusBar from "../src/rcc/StatusBar";
-import ToolPanel from "../src/rcc/ToolPanel";
-import YearDialog from "../src/rcc/YearDialog";
+import AccCodeLists from "../src/acc/AccCodeLists";
+import CustomForm, { CustomFormStateType, CustomFormPropsType } from "../src/acc/CustomForm";
+import ListAccCode from "../src/acc/ListAccCode";
+import MainMenu from "../src/acc/MainMenu";
+import SelectAccCode from "../src/acc/SelectAccCode";
 import styles from "./FrmAccTran.css";
 
 type stateType = {

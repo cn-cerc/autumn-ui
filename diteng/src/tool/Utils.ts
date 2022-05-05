@@ -1,6 +1,6 @@
 //@ts-ignore
 import { DataSet, FieldMeta, DataRow } from "autumn-ui";
-import XLSX from "xlsx";
+import * as XLSX from "xlsx";
 
 export default class Utils {
     static guid() {

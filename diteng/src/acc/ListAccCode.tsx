@@ -1,10 +1,6 @@
 import React from "react";
-import AccCodeLists from "../../AccCodeLists";
-import DataRow from "../db/DataRow";
-import DataSet from "../db/DataSet";
-import { ClientSite, ListGrid, OnListFilterEvent } from "../rcc/ComboBox";
-import { Column, OnRowClickEvent } from "../rcc/DBGrid";
-import { OnSelectDataRowEvent } from "../rcc/DialogComponent";
+import { OnSelectDataRowEvent, DataSet, ListGrid, Column, OnListFilterEvent, DataRow, ClientSite, OnRowClickEvent } from "autumn-ui";
+import AccCodeLists from "./AccCodeLists";
 import styles from './ListAccCode.css';
 
 type TypeProps = {

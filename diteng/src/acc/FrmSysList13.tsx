@@ -1,18 +1,9 @@
 import React from "react";
-import DataRow from "../../db/DataRow";
-import DataSet from "../../db/DataSet";
-import Datetime from "../../db/Datetime";
-import SClient from "../../db/SClient";
-import Toast from "../../db/Toast";
-import Utils from "../../db/Utils";
-import DBEdit from "../../rcc/DBEdit";
-import DBGrid, { Column } from "../../rcc/DBGrid";
-import MenuItem from "../../rcc/MenuItem";
-import OperatePanel from "../../rcc/OperatePanel";
-import SearchPanel, { SearchPanelOnExecute } from "../../rcc/SearchPanel";
-import ToolPanel, { ToolItem } from "../../rcc/ToolPanel";
-import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../CustomForm";
-import { showMsg } from "../Summer";
+import { SClient, DataRow, MenuItem, ToolPanel, ToolItem, SearchPanel, DBEdit, DBGrid, Column, OperatePanel, SearchPanelOnExecute, DataSet } from "autumn-ui";
+import Datetime from "../tool/Datetime";
+import Toast from "../tool/Toast";
+import Utils from "../tool/Utils";
+import CustomForm, { CustomFormStateType, CustomFormPropsType } from "./CustomForm";
 
 type SysListTypeState = {
     client: SClient,

@@ -1,7 +1,7 @@
 //@ts-ignore
+import React from "react";
 import { WebControl, DataSet, Grid, QueryService, TGrid, Block, Line, Column, DataRow } from "autumn-ui";
 import { TGridConfig, TGridColumn } from "autumn-ui/src/vcl/TGrid";
-import React from "react";
 import DitengCommon from "../DitengCommon";
 import { exportUrl } from "../ExportConfig";
 import { AuiMath, Loading, showMsg } from "../tool/Summer";

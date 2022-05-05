@@ -1,5 +1,5 @@
-import { WebControl } from "autumn-ui";
 import React from "react";
+import { WebControl } from "autumn-ui";
 import styles from './Loading.css';
 
 type LoadingTypeProps = {

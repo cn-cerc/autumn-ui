@@ -1,12 +1,11 @@
 import React from "react";
-import { DataSet, DataRow, BaseDialog, BaseDialogPropsType, BaseDialogStateType, ColumnIt, DBDrop, DBEdit, DBGrid, Column, MainRow, SearchPanel } from "autumn-ui";
-import Datetime from "../tool/Datetime";
-import { ClientStorage } from "../tool/Utils";
+import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Column, ColumnIt, DataRow, DataSet, DBDrop, DBEdit, DBGrid, MainRow, SearchPanel } from "autumn-ui";
 import Tree, { dataType, treeIcons, treeType } from "../block/Tree";
 import DialogApi from "../dialog/DialogApi";
-import styles from "./RapidInput.css";
+import Datetime from "../tool/Datetime";
 import { AuiMath, showMsg } from "../tool/Summer";
-import { timers } from "jquery";
+import { ClientStorage } from "../tool/Utils";
+import styles from "./RapidInput.css";
 
 type RapidInputTypeProps = {
     objCode: string,
@@ -138,9 +137,6 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                     </div>
                     <div className={styles.mainRight}>
                         <div className={styles.search}>
-                            <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSearch.bind(this)}>
-                                
-                            </SearchPanel>
                             <SearchPanel dataRow={this.state.dataIn} onExecute={this.handleSearch.bind(this)}>
                                 <DBDrop options={this.state.shopBrands} dataField='Brand_' dataName='商品品牌' className={styles.brand}></DBDrop>
                                 <DBDrop options={this.state.records} dataField='MaxRecord' dataName='载入笔数' className={styles.maxRecord} onChanged={this.handleChange.bind(this, 'MaxRecord', 'maxRecord')}></DBDrop>

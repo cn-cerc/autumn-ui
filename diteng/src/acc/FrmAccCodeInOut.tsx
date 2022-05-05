@@ -1,15 +1,8 @@
 import React from "react";
-import DataRow from "../../db/DataRow";
-import SClient from "../../db/SClient";
-import Toast from "../../db/Toast";
-import DBEdit from "../../rcc/DBEdit";
-import DBGrid, { Column, OnRowChangedEvent } from "../../rcc/DBGrid";
-import MenuItem from "../../rcc/MenuItem";
-import SearchPanel, { SearchPanelOnExecute } from "../../rcc/SearchPanel";
-import StatusBar from "../../rcc/StatusBar";
-import ToolPanel, { ToolItem } from "../../rcc/ToolPanel";
-import CustomForm, { CustomFormPropsType, CustomFormStateType } from "../CustomForm";
-import MainMenu from "../MainMenu";
+import { SClient, DataRow, MenuItem, ToolPanel, ToolItem, SearchPanel, DBEdit, DBGrid, Column, StatusBar, OnRowChangedEvent, SearchPanelOnExecute } from "autumn-ui";
+import Toast from "../tool/Toast";
+import CustomForm, { CustomFormStateType, CustomFormPropsType } from "./CustomForm";
+import MainMenu from "./MainMenu";
 
 type stateType = {
     client: SClient;

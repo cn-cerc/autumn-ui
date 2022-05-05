@@ -1,5 +1,5 @@
-import { BaseDialogPropsType, DataSet, BaseDialogStateType, BaseDialog, DBGrid, Column, DataRow } from "autumn-ui";
 import React from "react";
+import { BaseDialogPropsType, DataSet, BaseDialogStateType, BaseDialog, DBGrid, Column, DataRow } from "autumn-ui";
 import styles from "./StaffDialog.css";
 
 type CardTypeTypeProps = {

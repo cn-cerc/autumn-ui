@@ -1,5 +1,5 @@
-import { MenuItem } from "autumn-ui";
 import React, { isValidElement } from "react";
+import { MenuItem } from "autumn-ui";
 import styles from './MainNavigator.css';
 import MainSearch from "./MainSearch";
 
