@@ -49,6 +49,7 @@ export default class WorkerDialog extends BaseDialog<BaseDialogPropsType, Worker
     async init() {
         let dataSet2 = await DialogApi.getDeptAndHRList();
         let options = new Map();
+        options.set("所有部门", "");
         while (dataSet2.fetch()) {
             options.set(dataSet2.getString('Name_'), dataSet2.getString('DeptCode_'));
         }

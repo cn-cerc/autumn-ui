@@ -165,8 +165,8 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                 let stockName = this.props.avaiStockOption ? '可用库存' : '库存量';
                 ColumnList.push(<Column code='Stock_' name={stockName} width='3' key='Stock_'></Column>)
                 ColumnList.push(<Column code='GoodUP_' name='标准价' width='3' key='GoodUP_'></Column>)
-                ColumnList.push(<Column code='Unit1_' name='包装' width='3' key='Unit1_'></Column>)
-                ColumnList.push(<Column code='Rate1_' name='包装量' width='3' key='Rate1_'></Column>)
+                ColumnList.push(<Column code='BoxUnit_' name='包装' width='3' key='BoxUnit_'></Column>)
+                ColumnList.push(<Column code='BoxNum_' name='包装量' width='3' key='BoxNum_'></Column>)
                 if (this.props.showPartDefaultCW)
                     ColumnList.push(<Column code='DefaultCW_' name='储位' width='3'></Column>)
                 pageContent = <React.Fragment>
