@@ -27,7 +27,6 @@ cnpm i --D clean-webpack-plugin
 cnpm i --D typescript ts-loader
 cnpm i -D react react-dom
 cnpm i -D @types/react @types/react-dom @babel/preset-react
-cnpm i -D  @types/jquery
 cnpm i -D style-loader css-loader
 ```
 
@@ -35,9 +34,6 @@ cnpm i -D style-loader css-loader
 
 ```
 cnpm i -D classnames
-cnpm i -D xlsx
-cnpm i -D @types/fingerprintjs2
-cnpm i -D fingerprintjs2
 cnpm i -D autumn-ui
 ```
 
@@ -60,12 +56,9 @@ npm i -D webpack-dev-server
 npm i -D html-webpack-plugin
 npm i --D clean-webpack-plugin
 npm i --D typescript ts-loader
-npm i -D style-loader css-loader
+npm i --D css-loader
 npm i -D react react-dom
 npm i -D @types/react @types/react-dom @babel/preset-react
-npm i -D @types/jquery
 npm i -D classnames
-npm i -D xlsx
-npm i -D @types/fingerprintjs2
 npm i -D autumn-ui
 ```
