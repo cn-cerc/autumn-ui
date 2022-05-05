@@ -12,7 +12,7 @@ type BOMProcessTypeState = {
 export default class BOMProcessDialog extends BaseDialog<BaseDialogPropsType, BOMProcessTypeState> {
     constructor(props: BaseDialogPropsType) {
         super(props);
-        this.setTitle('请选择制成');
+        this.setTitle('请选择制程');
         this.state = {
             ...this.state,
             dataSet: new DataSet(),
