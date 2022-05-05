@@ -25,6 +25,25 @@ export default class DialogApi {
         }
     }
 
+    static async getUserCenter() {
+        let hasOrigalSess = false;
+        if (sessionStorage.getItem('ORIGINALHOST'))
+            hasOrigalSess = true;
+        let origalData = new DataSet();
+        if (!hasOrigalSess) {
+            origalData = await DialogApi.getOriginalHost();
+            sessionStorage.setItem('ORIGINALHOST', origalData.json);
+        } else
+            origalData.setJson(sessionStorage.getItem('ORIGINALHOST'));
+        let userCenter = '';
+        origalData.first();
+        while (origalData.fetch()) {
+            if (origalData.getString('Original_') == 'UserCenter')
+                userCenter = origalData.getString('Host_');
+        }
+        return userCenter;
+    }
+
     static async getService(url: string, params?: any): Promise<DataSet> {
         let sid = DialogApi.getToken();
         if (!sid) {
@@ -35,6 +54,29 @@ export default class DialogApi {
         }
         let service = new QueryService({ sid });
         service.setService(url);
+        let keyArr = params ? Object.keys(params) : [];
+        if (keyArr.length > 0) {
+            keyArr.forEach((param) => {
+                service.dataIn.head.setValue(param, params[param])
+            })
+        }
+        // e为请求失败时抛出的异常，类型为DataSet
+        let ds: DataSet = await service.open().catch(e => e);
+        return ds;
+    }
+
+    static async getServiceByCenter(url: string, params?: any): Promise<DataSet> {
+        let sid = DialogApi.getToken();
+        if (!sid) {
+            let error = new DataSet();
+            error.setMessage('当前用户信息错误');
+            error.setState(-1);
+            return error.getPromise();
+        }
+        let service = new QueryService({ sid });
+        let userCenter = await DialogApi.getUserCenter();
+        service.setService(url);
+        service.setHost(`${userCenter}/services/`);
         let keyArr = params ? Object.keys(params) : [];
         if (keyArr.length > 0) {
             keyArr.forEach((param) => {
@@ -62,6 +104,24 @@ export default class DialogApi {
         return ds;
     }
 
+    static async getDataOutByCenter(url: string, params: DataRow, timeout: number = 15): Promise<DataSet> {
+        let sid = DialogApi.getToken();
+        if (!sid) {
+            let error = new DataSet();
+            error.setMessage('当前用户信息错误');
+            error.setState(-1);
+            return error.getPromise();
+        }
+        let service = new QueryService({ sid });
+        let userCenter = await DialogApi.getUserCenter();
+        service.setHost(`${userCenter}/services/`);
+        service.setService(url);
+        service.dataIn.head.copyValues(params.current);
+        // e为请求失败时抛出的异常，类型为DataSet
+        let ds: DataSet = await service.open(timeout).catch(e => e);
+        return ds;
+    }
+
     static async serviceDataSet(url: string, params: DataSet): Promise<DataSet> {
         let sid = DialogApi.getToken();
         if (!sid) {
@@ -78,19 +138,41 @@ export default class DialogApi {
         return ds;
     }
 
+    static async serviceDataSetByCenter(url: string, params: DataSet): Promise<DataSet> {
+        let sid = DialogApi.getToken();
+        if (!sid) {
+            let error = new DataSet();
+            error.setMessage('当前用户信息错误');
+            error.setState(-1);
+            return error.getPromise();
+        }
+        let service = new QueryService({ sid });
+        let userCenter = await DialogApi.getUserCenter();
+        service.setHost(`${userCenter}/services/`);
+        service.setService(url);
+        service.dataIn.appendDataSet(params);
+        // e为请求失败时抛出的异常，类型为DataSet
+        let ds: DataSet = await service.open().catch(e => e);
+        return ds;
+    }
+
+    static async getOriginalHost() {
+        return DialogApi.getService('SvrOriginalHost.loadAll');
+    }
+
     /** 获取当前用户信息 */
     static async getUserInfo() {
-        return DialogApi.getService('TAppUserInfo.getUserDetail');
+        return DialogApi.getServiceByCenter('TAppUserInfo.getUserDetail');
     }
 
     /** 获取客户基本资料 */
     static async getCusList(params: DataRow) {
-        return DialogApi.getDataOut('TAppUserInfo.userList', params);
+        return DialogApi.getDataOutByCenter('TAppUserInfo.userList', params);
     }
 
     /** 获取用户列表信息 */
     static async getUserList() {
-        return DialogApi.getService('TAppUserInfo.GetUserList');
+        return DialogApi.getServiceByCenter('TAppUserInfo.GetUserList');
     }
 
     /** 获取商品大类 */
@@ -217,7 +299,7 @@ export default class DialogApi {
 
     /** 获取收费记录卡 */
     static getOurInfo(params: DataRow) {
-        return DialogApi.getDataOut('TAppOurInfo.Download', params);
+        return DialogApi.getDataOut('TAppOurInfo.search', params);
     }
 
     /** 获取商品型号信息 */
@@ -327,7 +409,7 @@ export default class DialogApi {
     }
 
     /** 显示客户专卖区域 */
-    static getCusInfos(params: DataRow) {
+    static async getCusInfos(params: DataRow) {
         return DialogApi.getDataOut('TAppCusInfo.Download', params);
     }
 
@@ -337,7 +419,7 @@ export default class DialogApi {
     }
     /** 复制报表 */
     static postCopyReport(params: DataRow) {
-        return DialogApi.getDataOut('SvrSendPrint.copyReport', params);
+        return DialogApi.getDataOutByCenter('SvrSendPrint.copyReport', params);
     }
 
     /** 商品快速录入接口 */
