@@ -5,10 +5,10 @@ code目录为autumn-ui框架源码文件夹
     src--用于存放autumn-ui框架中声明的组件
 
 2、引入框架
-npm i -D react react-dom
-npm i -D @types/react @types/react-dom
-npm i -D jquery
-npm i -D @types/jquery
+npm i --save-peer react@16.8.0 react-dom@16.8.0
+npm i --save-peer @types/react@16.14.0 @types/react-dom@16.8.0
+npm i --save-peer jquery@3.6.0
+npm i --save-peer @types/jquery@3.5.14
 
 3、生成npm框架代码
     1、执行npm run dev命令将所有js文件打包成js以及对应的.d.ts声明文件

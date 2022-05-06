@@ -61,9 +61,11 @@ npm i -D html-webpack-plugin
 npm i --D clean-webpack-plugin
 npm i --D typescript ts-loader
 npm i -D style-loader css-loader
-npm i -D react react-dom
-npm i -D @types/react @types/react-dom @babel/preset-react
-npm i -D @types/jquery
+npm i -D autumn-ui
+npm i -D react@16.8.0 react-dom@16.8.0
+npm i -D @types/react@16.14.0 @types/react-dom@16.8.0 @babel/preset-react
+npm i -D @types/jquery@3.5.14
+npm i -D jquery@3.6.0
 npm i -D classnames
 npm i -D xlsx
 npm i -D @types/fingerprintjs2
