@@ -74,7 +74,7 @@ var RemoteService = /** @class */ (function () {
             return new DataSet().setMessage('service is null').getPromise();
         var url = this._host + this._service;
         if (this._token)
-            url = url + "?sid=" + this._token;
+            url = "".concat(url, "?sid=").concat(this._token);
         return fetch(url, {
             method: 'POST', body: "dataIn=" + this.dataIn.json,
             headers: {

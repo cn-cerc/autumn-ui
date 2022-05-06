@@ -13,18 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React from "react";
 var DBCheckbox = /** @class */ (function (_super) {
     __extends(DBCheckbox, _super);
@@ -50,9 +38,11 @@ var DBCheckbox = /** @class */ (function (_super) {
             value = row.getBoolean(this.props.dataField);
         var dataName;
         if (this.props.dataName) {
-            dataName = (_jsx("label", __assign({ htmlFor: this.props.dataField }, { children: this.props.dataName }), void 0));
+            dataName = (React.createElement("label", { htmlFor: this.props.dataField }, this.props.dataName));
         }
-        return (_jsxs("div", __assign({ className: this.props.className || '' }, { children: [_jsx("input", { type: "checkbox", role: "" + this.props.dataRow.getString('columnName'), id: this.props.dataField, name: this.props.dataField, checked: value, onChange: this.onChange }, void 0), dataName] }), void 0));
+        return (React.createElement("div", { className: this.props.className || '' },
+            React.createElement("input", { type: "checkbox", role: "".concat(this.props.dataRow.getString('columnName')), id: this.props.dataField, name: this.props.dataField, checked: value, onChange: this.onChange }),
+            dataName));
     };
     DBCheckbox.defaultProps = {
         isUseChangedEvent: true

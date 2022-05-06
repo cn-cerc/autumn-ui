@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 export var DefaultPageSize = 100;
 export var USER_PAGE_SIZE_KEY = 'user:pageSize';
@@ -100,10 +99,35 @@ var MutiPage = /** @class */ (function (_super) {
     }
     MutiPage.prototype.render = function () {
         var pages = Math.ceil(this.props.total / this.state.pageSize);
-        return (_jsxs("div", __assign({ className: 'aui-muiPage-main' }, { children: [_jsxs("span", { children: ["\u5171 ", this.props.total, " \u6761"] }, void 0), _jsx("span", { style: { margin: '0.5rem' } }, void 0), _jsx("span", { children: "\u6BCF\u9875 " }, void 0), _jsxs("select", __assign({ value: this.state.pageSize, onChange: this.onPageSizeChange, style: {
-                        width: "4rem",
-                        padding: 0
-                    } }, { children: [_jsx("option", __assign({ value: '20' }, { children: "20" }), void 0), _jsx("option", __assign({ value: '50' }, { children: "50" }), void 0), _jsx("option", __assign({ value: DefaultPageSize }, { children: DefaultPageSize }), void 0), _jsx("option", __assign({ value: '200' }, { children: "200" }), void 0), _jsx("option", __assign({ value: '500' }, { children: "500" }), void 0)] }), void 0), _jsx("span", { children: " \u6761" }, void 0), _jsx("span", { style: { margin: '0.5rem' } }, void 0), _jsx("span", { children: " \u7B2C " }, void 0), _jsx("input", { type: "text", style: { width: '3rem' }, value: this.state.inputValue, onChange: this.onPageNoChange, onKeyPress: this.onPageNoKeyPress, onBlur: this.onPageNoBlur }, void 0), _jsxs("span", { children: [" / ", pages, " \u9875"] }, void 0), _jsx("span", { style: { margin: '0.5rem' } }, void 0), _jsx("button", __assign({ id: 'first', onClick: this.onNavigatorClick }, { children: "\u9996\u9875" }), void 0), _jsx("button", __assign({ id: 'prior', onClick: this.onNavigatorClick }, { children: "\u4E0A\u9875" }), void 0), _jsx("button", __assign({ id: 'next', onClick: this.onNavigatorClick }, { children: "\u4E0B\u9875" }), void 0), _jsx("button", __assign({ id: 'last', onClick: this.onNavigatorClick }, { children: "\u5C3E\u9875" }), void 0)] }), void 0));
+        return (React.createElement("div", { className: 'aui-muiPage-main' },
+            React.createElement("span", null,
+                "\u5171 ",
+                this.props.total,
+                " \u6761"),
+            React.createElement("span", { style: { margin: '0.5rem' } }),
+            React.createElement("span", null, "\u6BCF\u9875 "),
+            React.createElement("select", { value: this.state.pageSize, onChange: this.onPageSizeChange, style: {
+                    width: "4rem",
+                    padding: 0
+                } },
+                React.createElement("option", { value: '20' }, "20"),
+                React.createElement("option", { value: '50' }, "50"),
+                React.createElement("option", { value: DefaultPageSize }, DefaultPageSize),
+                React.createElement("option", { value: '200' }, "200"),
+                React.createElement("option", { value: '500' }, "500")),
+            React.createElement("span", null, " \u6761"),
+            React.createElement("span", { style: { margin: '0.5rem' } }),
+            React.createElement("span", null, " \u7B2C "),
+            React.createElement("input", { type: "text", style: { width: '3rem' }, value: this.state.inputValue, onChange: this.onPageNoChange, onKeyPress: this.onPageNoKeyPress, onBlur: this.onPageNoBlur }),
+            React.createElement("span", null,
+                " / ",
+                pages,
+                " \u9875"),
+            React.createElement("span", { style: { margin: '0.5rem' } }),
+            React.createElement("button", { id: 'first', onClick: this.onNavigatorClick }, "\u9996\u9875"),
+            React.createElement("button", { id: 'prior', onClick: this.onNavigatorClick }, "\u4E0A\u9875"),
+            React.createElement("button", { id: 'next', onClick: this.onNavigatorClick }, "\u4E0B\u9875"),
+            React.createElement("button", { id: 'last', onClick: this.onNavigatorClick }, "\u5C3E\u9875")));
     };
     MutiPage.prototype.updatePageNo = function (pageNo) {
         var maxPage = Math.ceil(this.props.total / this.state.pageSize);

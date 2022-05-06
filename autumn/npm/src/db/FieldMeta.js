@@ -26,7 +26,7 @@ var FieldMeta = /** @class */ (function () {
     FieldMeta.prototype.setJson = function (value) {
         var code = value.code, name = value.name, remark = value.remark, type = value.type, kind = value.kind;
         if (code && (code != this.code))
-            throw new Error("code(" + this.code + ") not update");
+            throw new Error("code(".concat(this.code, ") not update"));
         if (name)
             this._name = name;
         if (remark)

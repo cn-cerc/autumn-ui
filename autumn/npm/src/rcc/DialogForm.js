@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { isValidElement } from "react";
 import DataSet from "../db/DataSet";
 var DialogForm = /** @class */ (function (_super) {
@@ -96,12 +95,20 @@ var DialogForm = /** @class */ (function (_super) {
     }
     DialogForm.prototype.render = function () {
         var _this = this;
-        return (_jsxs("div", __assign({ className: 'aui-dialogForm-main' }, { children: [_jsx("button", __assign({ className: 'aui-dialogFrom-btnShow', onClick: this.btnShow }, { children: _jsx("img", { src: "https://www.diteng.site/public/images/searchIocn.png" }, void 0) }), void 0), _jsx("div", __assign({ className: this.props.active() ? 'aui-dialogForm-client' : 'aui-hidden', style: this.getStyle.bind(this)(), id: "dialogMain" }, { children: _jsxs("div", __assign({ className: 'aui-dialogForm-main' }, { children: [_jsxs("div", __assign({ className: 'aui-dialogForm-title', onMouseDown: function (e) { return _this.handleMouseDown(e); } }, { children: [_jsx("span", { children: this.props.title }, void 0), _jsx("span", __assign({ className: 'aui-dialogForm-btnClose', onClick: function (e) { return _this.btnClose(e); } }, { children: "X" }), void 0)] }), void 0), _jsx("div", __assign({ className: 'aui-dialogForm-content' }, { children: React.Children.map(this.props.children, function (child) {
-                                    if (isValidElement(child))
-                                        return React.cloneElement(child, { onSelect: _this.onSelect });
-                                    else
-                                        return child;
-                                }) }), void 0)] }), void 0) }), void 0)] }), void 0));
+        return (React.createElement("div", { className: 'aui-dialogForm-main' },
+            React.createElement("button", { className: 'aui-dialogFrom-btnShow', onClick: this.btnShow },
+                React.createElement("img", { src: "https://www.diteng.site/public/images/searchIocn.png" })),
+            React.createElement("div", { className: this.props.active() ? 'aui-dialogForm-client' : 'aui-hidden', style: this.getStyle.bind(this)(), id: "dialogMain" },
+                React.createElement("div", { className: 'aui-dialogForm-main' },
+                    React.createElement("div", { className: 'aui-dialogForm-title', onMouseDown: function (e) { return _this.handleMouseDown(e); } },
+                        React.createElement("span", null, this.props.title),
+                        React.createElement("span", { className: 'aui-dialogForm-btnClose', onClick: function (e) { return _this.btnClose(e); } }, "X")),
+                    React.createElement("div", { className: 'aui-dialogForm-content' }, React.Children.map(this.props.children, function (child) {
+                        if (isValidElement(child))
+                            return React.cloneElement(child, { onSelect: _this.onSelect });
+                        else
+                            return child;
+                    }))))));
     };
     DialogForm.prototype.componentDidMount = function () {
         var _this = this;

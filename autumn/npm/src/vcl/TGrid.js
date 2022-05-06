@@ -390,7 +390,7 @@ var TGridGroup = /** @class */ (function (_super) {
             throw new Error("总列宽不允许小于1");
         }
         if (result > MaxWidth) {
-            throw new Error("\u603B\u5217\u5BBD\u4E0D\u5141\u8BB8\u5927\u4E8E " + MaxWidth);
+            throw new Error("\u603B\u5217\u5BBD\u4E0D\u5141\u8BB8\u5927\u4E8E ".concat(MaxWidth));
         }
         return result;
     };
@@ -587,7 +587,7 @@ var TGridConfig = /** @class */ (function (_super) {
             throw new Error("总列宽不允许小于1");
         }
         if (result > MaxWidth) {
-            throw new Error("\u603B\u5217\u5BBD\u4E0D\u5141\u8BB8\u5927\u4E8E " + MaxWidth);
+            throw new Error("\u603B\u5217\u5BBD\u4E0D\u5141\u8BB8\u5927\u4E8E ".concat(MaxWidth));
         }
         return result;
     };

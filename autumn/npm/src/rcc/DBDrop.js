@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 var DBDrop = /** @class */ (function (_super) {
     __extends(DBDrop, _super);
@@ -49,13 +48,17 @@ var DBDrop = /** @class */ (function (_super) {
     DBDrop.prototype.render = function () {
         var dataName;
         if (this.props.dataName)
-            dataName = (_jsxs("label", __assign({ htmlFor: this.props.dataField }, { children: [this.props.dataName, "\uFF1A"] }), void 0));
-        return (_jsxs("span", __assign({ className: "aui-form-main " + this.props.className }, { children: [dataName, _jsx("select", __assign({ id: this.props.dataField, onChange: this.handleChange.bind(this), value: this.props.dataRow.getString(this.props.dataField), disabled: this.props.disabled }, { children: this.getOptions() }), void 0)] }), void 0));
+            dataName = (React.createElement("label", { htmlFor: this.props.dataField },
+                this.props.dataName,
+                "\uFF1A"));
+        return (React.createElement("span", { className: "aui-form-main ".concat(this.props.className) },
+            dataName,
+            React.createElement("select", { id: this.props.dataField, onChange: this.handleChange.bind(this), value: this.props.dataRow.getString(this.props.dataField), disabled: this.props.disabled }, this.getOptions())));
     };
     DBDrop.prototype.getOptions = function () {
         var options = [];
         this.props.options.forEach(function (value, key) {
-            options.push(_jsx("option", __assign({ value: value }, { children: key }), key));
+            options.push(React.createElement("option", { key: key, value: value }, key));
         });
         return options;
     };

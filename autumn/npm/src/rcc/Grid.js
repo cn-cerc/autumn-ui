@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React from 'react';
 import KeyValue from '../db/KeyValue';
 import MutiPage, { DefaultPageSize, USER_PAGE_SIZE_KEY } from './MutiPage';
@@ -55,7 +54,12 @@ var Grid = /** @class */ (function (_super) {
         return _this;
     }
     Grid.prototype.render = function () {
-        return (_jsxs("div", __assign({ className: 'aui-grid-main', role: 'grid' }, { children: [_jsx("table", { children: _jsxs("tbody", { children: [_jsx("tr", { children: this.getTitles().map(function (item) { return item; }) }, void 0), this.getRows().map(function (item) { return item; })] }, void 0) }, void 0), this.getNavigator()] }), void 0));
+        return (React.createElement("div", { className: 'aui-grid-main', role: 'grid' },
+            React.createElement("table", null,
+                React.createElement("tbody", null,
+                    React.createElement("tr", null, this.getTitles().map(function (item) { return item; })),
+                    this.getRows().map(function (item) { return item; }))),
+            this.getNavigator()));
     };
     Grid.prototype.getTitles = function () {
         var _this = this;
@@ -68,11 +72,11 @@ var Grid = /** @class */ (function (_super) {
                     var style = {};
                     if (total > 0 && column.width > 0) {
                         var rate = column.width / total * 100;
-                        var width = rate.toFixed(1) + "%";
+                        var width = "".concat(rate.toFixed(1), "%");
                         style = __assign(__assign({}, style), { width: width });
                     }
                     //
-                    items.push(_jsx("th", __assign({ style: style, onClick: function (e) { return _this.gridSort(e, column.code); } }, { children: title }), column.code));
+                    items.push(React.createElement("th", { key: column.code, style: style, onClick: function (e) { return _this.gridSort(e, column.code); } }, title));
                 }
             };
             for (var _i = 0, _a = this.props.config.columns; _i < _a.length; _i++) {
@@ -107,18 +111,18 @@ var Grid = /** @class */ (function (_super) {
             var column = _a[_i];
             if (column.visible) {
                 if (column.onRender) {
-                    items.push(_jsx("td", __assign({ role: column.code }, { children: column.onRender(column, dataRow) }), column.code));
+                    items.push(React.createElement("td", { key: column.code, role: column.code }, column.onRender(column, dataRow)));
                 }
                 else {
                     var value = dataRow.getText(column.code);
                     var style = {};
                     if (column.align)
                         style = __assign(__assign({}, style), { textAlign: column.align });
-                    items.push(_jsx("td", __assign({ style: style, role: column.code }, { children: value }), column.code));
+                    items.push(React.createElement("td", { key: column.code, style: style, role: column.code }, value));
                 }
             }
         }
-        return _jsx("tr", __assign({ id: "tr" + dataRow.dataSet.recNo }, { children: items }), key);
+        return React.createElement("tr", { key: key, id: "tr".concat(dataRow.dataSet.recNo) }, items);
     };
     Grid.prototype.getChildRow = function (child, dataRow) {
         child.setCurrent(dataRow);
@@ -139,14 +143,15 @@ var Grid = /** @class */ (function (_super) {
         if (!display.asBoolean())
             style = { display: 'none' };
         var colSpan = this.props.config.columns.length;
-        var id = "tr" + dataRow.dataSet.recNo + "_1";
-        return (_jsx("tr", __assign({ id: id, style: style }, { children: _jsx("td", __assign({ colSpan: colSpan }, { children: value }), void 0) }), key));
+        var id = "tr".concat(dataRow.dataSet.recNo, "_1");
+        return (React.createElement("tr", { key: key, id: id, style: style },
+            React.createElement("td", { colSpan: colSpan }, value)));
     };
     Grid.prototype.getNavigator = function () {
         var _this = this;
         if (this.props.config.dataSet.size <= this.size)
             return null;
-        return (_jsx(MutiPage, { ref: function (self) { return _this.mutiPage = self; }, total: this.props.config.dataSet.size, onPageChanged: this.onPageChanged }, void 0));
+        return (React.createElement(MutiPage, { ref: function (self) { return _this.mutiPage = self; }, total: this.props.config.dataSet.size, onPageChanged: this.onPageChanged }));
     };
     Grid.prototype.gridSort = function (render, code) {
         var _a;
@@ -164,12 +169,12 @@ var Grid = /** @class */ (function (_super) {
         }
         codes.forEach(function (code, index) {
             if (!span)
-                codes[index] = code + " ASC";
+                codes[index] = "".concat(code, " ASC");
             else {
                 if (span.innerHTML == '↑')
-                    codes[index] = code + " DESC";
+                    codes[index] = "".concat(code, " DESC");
                 else
-                    codes[index] = code + " ASC";
+                    codes[index] = "".concat(code, " ASC");
             }
         });
         if (!span) {

@@ -13,18 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import React, { isValidElement } from "react";
 import DataRow from "../db/DataRow";
 var DBEdit = /** @class */ (function (_super) {
@@ -73,13 +61,18 @@ var DBEdit = /** @class */ (function (_super) {
         var value = this.state.row.getString(this.props.dataField);
         var dataName;
         if (this.props.dataName)
-            dataName = (_jsxs("label", __assign({ htmlFor: this.props.dataField }, { children: [this.props.dataName, "\uFF1A"] }), void 0));
-        return (_jsxs("span", __assign({ className: "aui-form-main " + (this.props.className || '') + " " + (this.props.type == 'hidden' ? 'aui-hidden' : '') }, { children: [dataName, _jsx("input", { type: this.props.type, autoFocus: this.props.autoFocus, id: this.props.dataField, name: this.props.dataField, value: value, onChange: this.inputOnChange, placeholder: this.props.placeholder, readOnly: this.props.readOnly, onFocus: this.selectAllText
-                        .bind(this), onBlur: this.handleBlur.bind(this), autoComplete: this.props.autoComplete ? this.props.autoComplete : 'off', className: this.props.changed ? 'aui-form-changed' : '', onKeyDown: this.handleKeyDown.bind(this) }, void 0), React.Children.map(this.props.children, function (child) {
-                    if (isValidElement(child)) {
-                        return React.cloneElement(child, { onSelect: _this.onDialogSelect, dataRow: _this.props.dataRow, onChanged: _this.onDialogSelect, dataField: _this.props.dataField });
-                    }
-                })] }), void 0));
+            dataName = (React.createElement("label", { htmlFor: this.props.dataField },
+                this.props.dataName,
+                "\uFF1A"));
+        return (React.createElement("span", { className: "aui-form-main ".concat(this.props.className || '', " ").concat(this.props.type == 'hidden' ? 'aui-hidden' : '') },
+            dataName,
+            React.createElement("input", { type: this.props.type, autoFocus: this.props.autoFocus, id: this.props.dataField, name: this.props.dataField, value: value, onChange: this.inputOnChange, placeholder: this.props.placeholder, readOnly: this.props.readOnly, onFocus: this.selectAllText
+                    .bind(this), onBlur: this.handleBlur.bind(this), autoComplete: this.props.autoComplete ? this.props.autoComplete : 'off', className: this.props.changed ? 'aui-form-changed' : '', onKeyDown: this.handleKeyDown.bind(this) }),
+            React.Children.map(this.props.children, function (child) {
+                if (isValidElement(child)) {
+                    return React.cloneElement(child, { onSelect: _this.onDialogSelect, dataRow: _this.props.dataRow, onChanged: _this.onDialogSelect, dataField: _this.props.dataField });
+                }
+            })));
     };
     DBEdit.prototype.selectAllText = function (sender) {
         var input = sender.target;

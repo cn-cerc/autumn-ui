@@ -87,9 +87,9 @@ var TComponent = /** @class */ (function () {
             var css_1 = "";
             this._style.forEach(function (value, key) {
                 if (value)
-                    css_1 = css_1 + (key + ":" + value + ";");
+                    css_1 = css_1 + "".concat(key, ":").concat(value, ";");
                 else
-                    css_1 = css_1 + (key + ";");
+                    css_1 = css_1 + "".concat(key, ";");
             });
             this.writeProperty('style', css_1);
         }
@@ -116,7 +116,7 @@ var TComponent = /** @class */ (function () {
     };
     TComponent.prototype.endOutput = function (html) {
         if (this._rootLabel)
-            html.print("</" + this._rootLabel + ">");
+            html.print("</".concat(this._rootLabel, ">"));
         this.cssOutput();
     };
     //输出到 head.style
@@ -225,12 +225,12 @@ var TComponent = /** @class */ (function () {
             if (this._owner)
                 this._owner.repaint();
             else
-                console.log(this.id + ".repaint error: container is null");
+                console.log("".concat(this.id, ".repaint error: container is null"));
             return;
         }
         var el = document.getElementById(contentId);
         if (!el) {
-            console.log("not find element: " + contentId);
+            console.log("not find element: ".concat(contentId));
             return;
         }
         el.outerHTML = this.toString();
@@ -252,7 +252,7 @@ var TComponent = /** @class */ (function () {
                 if (el)
                     el.addEventListener(eventCode, fn);
                 else
-                    throw new Error("not find element: " + eventId);
+                    throw new Error("not find element: ".concat(eventId));
             });
         }
         for (var _i = 0, _a = root.getComponents(); _i < _a.length; _i++) {

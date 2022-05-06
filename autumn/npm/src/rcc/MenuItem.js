@@ -13,18 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import React from "react";
 import WebControl from "./WebControl";
 var MenuItem = /** @class */ (function (_super) {
     __extends(MenuItem, _super);
@@ -32,7 +21,9 @@ var MenuItem = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MenuItem.prototype.render = function () {
-        return (_jsxs("span", __assign({ className: 'aui-menuItem-main' }, { children: [_jsx("a", __assign({ href: this.props.code }, { children: this.props.name }), void 0), !this.props.last ? _jsx("i", __assign({ style: { "padding": "0 .25rem" } }, { children: "->" }), void 0) : ''] }), void 0));
+        return (React.createElement("span", { className: 'aui-menuItem-main' },
+            React.createElement("a", { href: this.props.code }, this.props.name),
+            !this.props.last ? React.createElement("i", { style: { "padding": "0 .25rem" } }, "->") : ''));
     };
     return MenuItem;
 }(WebControl));

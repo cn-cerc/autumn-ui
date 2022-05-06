@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 import WebControl from "./WebControl";
 var BaseForm = /** @class */ (function (_super) {
@@ -23,7 +22,7 @@ var BaseForm = /** @class */ (function (_super) {
     }
     BaseForm.prototype.render = function () {
         document.title = this.props.title;
-        return (_jsx(React.Fragment, { children: React.Children.map(this.props.children, function (item) { return item; }) }, void 0));
+        return (React.createElement(React.Fragment, null, React.Children.map(this.props.children, function (item) { return item; })));
     };
     return BaseForm;
 }(WebControl));

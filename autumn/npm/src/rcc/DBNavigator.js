@@ -13,18 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React from "react";
 var divStyle = {
     padding: '0.25rem'
@@ -58,7 +46,11 @@ var DBNavigator = /** @class */ (function (_super) {
         return _this;
     }
     DBNavigator.prototype.render = function () {
-        return (_jsxs("div", __assign({ style: divStyle }, { children: [_jsx("button", __assign({ id: 'first', onClick: this.onClick }, { children: "\u7B2C\u4E00\u7B14" }), void 0), _jsx("button", __assign({ id: 'prior', onClick: this.onClick }, { children: "\u4E0A\u7B14" }), void 0), _jsx("button", __assign({ id: 'next', onClick: this.onClick }, { children: "\u4E0B\u7B14" }), void 0), _jsx("button", __assign({ id: 'last', onClick: this.onClick }, { children: "\u6700\u540E\u4E00\u7B14" }), void 0)] }), void 0));
+        return (React.createElement("div", { style: divStyle },
+            React.createElement("button", { id: 'first', onClick: this.onClick }, "\u7B2C\u4E00\u7B14"),
+            React.createElement("button", { id: 'prior', onClick: this.onClick }, "\u4E0A\u7B14"),
+            React.createElement("button", { id: 'next', onClick: this.onClick }, "\u4E0B\u7B14"),
+            React.createElement("button", { id: 'last', onClick: this.onClick }, "\u6700\u540E\u4E00\u7B14")));
     };
     return DBNavigator;
 }(React.Component));

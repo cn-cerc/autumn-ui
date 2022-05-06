@@ -25,7 +25,7 @@ var SearchDataSet = /** @class */ (function () {
             for (var _i = 0, _a = this._fields.split(';'); _i < _a.length; _i++) {
                 var key = _a[_i];
                 if (!this._dataSet.exists(key))
-                    throw new Error("field " + key + " not find !");
+                    throw new Error("field ".concat(key, " not find !"));
                 this._keys.add(key);
             }
             // 重置索引

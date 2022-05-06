@@ -22,7 +22,7 @@ export default class TextList extends React.Component<PropsType> {
 
   componentDidMount(): void {
     // @ts-ignore
-    document.querySelectorAll('.dv-border-box-11 animate').forEach(function (item) { console.log(item.parentNode.remove()) });
+    document.querySelectorAll('.dv-border-box-11 animate').forEach(function (item) { item.parentNode.remove() });
   }
 
   render() {

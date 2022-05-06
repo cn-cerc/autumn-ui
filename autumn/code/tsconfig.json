@@ -13,6 +13,6 @@
         "lib": ["ESNext", "DOM.Iterable", "ScriptHost", "DOM"],
         "skipLibCheck": true,
         "declaration": true,
-        "jsx": "react-jsx"
+        "jsx": "react"
     }
 }

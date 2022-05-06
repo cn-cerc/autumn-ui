@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { jsx as _jsx } from "react/jsx-runtime";
+import React from "react";
 import { Column, ColumnType } from "./DBGrid";
 var ColumnImage = /** @class */ (function (_super) {
     __extends(ColumnImage, _super);
@@ -25,7 +25,7 @@ var ColumnImage = /** @class */ (function (_super) {
         if (url) {
             return (
             // @ts-ignore
-            _jsx("img", { src: url, width: this.props.imgWidth, height: this.props.imgHeight }, void 0));
+            React.createElement("img", { src: url, width: this.props.imgWidth, height: this.props.imgHeight }));
         }
         else
             return '';

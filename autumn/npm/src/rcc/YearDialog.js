@@ -13,18 +13,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import React from "react";
 import DataRow from "../db/DataRow";
 import DialogComponent from "./DialogComponent";
 import { DialogForm } from "./DialogForm";
@@ -44,7 +33,11 @@ var YearDialog = /** @class */ (function (_super) {
         return _this;
     }
     YearDialog.prototype.render = function () {
-        return (_jsx(DialogForm, __assign({ title: this.props.title, style: this.props.style, active: this.active, setActive: this.setActive }, { children: _jsxs("ul", __assign({ className: 'aui-yearDialog-dialog' }, { children: [_jsx("li", __assign({ onClick: this.onSelect }, { children: "2019" }), void 0), _jsx("li", __assign({ onClick: this.onSelect }, { children: "2020" }), void 0), _jsx("li", __assign({ onClick: this.onSelect }, { children: "2021" }), void 0)] }), void 0) }), void 0));
+        return (React.createElement(DialogForm, { title: this.props.title, style: this.props.style, active: this.active, setActive: this.setActive },
+            React.createElement("ul", { className: 'aui-yearDialog-dialog' },
+                React.createElement("li", { onClick: this.onSelect }, "2019"),
+                React.createElement("li", { onClick: this.onSelect }, "2020"),
+                React.createElement("li", { onClick: this.onSelect }, "2021"))));
     };
     YearDialog.defaultProps = {
         title: '选择年份'

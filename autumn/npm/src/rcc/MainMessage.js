@@ -13,7 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-import { jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 var MainMessage = /** @class */ (function (_super) {
     __extends(MainMessage, _super);
@@ -21,7 +20,7 @@ var MainMessage = /** @class */ (function (_super) {
         return _super.call(this, props) || this;
     }
     MainMessage.prototype.render = function () {
-        return (_jsx("div", {}, void 0));
+        return (React.createElement("div", null));
     };
     return MainMessage;
 }(React.Component));

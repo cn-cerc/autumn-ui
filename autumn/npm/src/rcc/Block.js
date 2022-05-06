@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import React, { isValidElement } from "react";
 import { ChildRow, Column, ColumnType } from "./DBGrid";
 import Control from "./WebControl";
@@ -63,7 +62,11 @@ var Block = /** @class */ (function (_super) {
         document.querySelector('main').addEventListener('scroll', this.scroll.bind(this), false);
     };
     Block.prototype.render = function () {
-        return (_jsxs("div", __assign({ className: 'aui-block-block' }, { children: [this.getRows(), this.state.rowMax <= this.props.dataSet.size ? _jsxs("div", __assign({ id: 'more', className: 'aui-block-more' }, { children: ["\u603B\u8BB0\u5F55\u6570\uFF1A", this.props.dataSet.size] }), void 0) : ''] }), void 0));
+        return (React.createElement("div", { className: 'aui-block-block' },
+            this.getRows(),
+            this.state.rowMax <= this.props.dataSet.size ? React.createElement("div", { id: 'more', className: 'aui-block-more' },
+                "\u603B\u8BB0\u5F55\u6570\uFF1A",
+                this.props.dataSet.size) : ''));
     };
     Block.prototype.getRows = function () {
         var _this = this;
@@ -73,7 +76,7 @@ var Block = /** @class */ (function (_super) {
         var _loop_1 = function () {
             var recNo = ds.recNo;
             var dataRow = ds.current;
-            items.push(_jsx("div", __assign({ className: 'aui-block-row', "data-key": "master_" + recNo, role: 'tr', onClick: this_1.onTrClick }, { children: this_1.getLines(dataRow, recNo) }), "master_" + recNo));
+            items.push(React.createElement("div", { className: 'aui-block-row', key: "master_".concat(recNo), "data-key": "master_".concat(recNo), role: 'tr', onClick: this_1.onTrClick }, this_1.getLines(dataRow, recNo)));
             var total = 0;
             React.Children.map(this_1.props.children, function (child) {
                 if (isValidElement(child) && child.type == ChildRow) {
@@ -86,11 +89,11 @@ var Block = /** @class */ (function (_super) {
                         });
                     }
                     total++;
-                    var key = recNo + "." + total;
+                    var key = "".concat(recNo, ".").concat(total);
                     var display = 'block';
                     if (child.props.visible || (child.props.autoJudge && isHide_1))
                         display = 'none';
-                    items.push(_jsx("div", __assign({ className: 'aui-block-row aui-block-childRow', id: "child_" + key, "data-key": "child_" + key, role: 'tr', onClick: _this.onTrClick }, { children: React.cloneElement(child, { key: child.props.code, colSpan: 1, dataRow: dataRow }) }), "child_" + key));
+                    items.push(React.createElement("div", { className: 'aui-block-row aui-block-childRow', key: "child_".concat(key), id: "child_".concat(key), "data-key": "child_".concat(key), role: 'tr', onClick: _this.onTrClick }, React.cloneElement(child, { key: child.props.code, colSpan: 1, dataRow: dataRow })));
                 }
             });
             if (this_1.state.rowMax <= ds.recNo) {
@@ -129,7 +132,7 @@ var Line = /** @class */ (function (_super) {
         return _this;
     }
     Line.prototype.render = function () {
-        return (_jsx("div", __assign({ className: this.props.className ? 'aui-block-line' + (" " + this.props.className) : 'aui-block-line' }, { children: this.getRow() }), void 0));
+        return (React.createElement("div", { className: this.props.className ? 'aui-block-line' + " ".concat(this.props.className) : 'aui-block-line' }, this.getRow()));
     };
     Line.prototype.getRow = function () {
         var _this = this;

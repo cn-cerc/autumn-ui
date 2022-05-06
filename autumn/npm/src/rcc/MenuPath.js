@@ -13,18 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-import { jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 var divStyle = {
     padding: '0.25rem'
@@ -39,15 +27,16 @@ var MenuPath = /** @class */ (function (_super) {
         var items = [];
         for (var _i = 0, _a = this.props.menus; _i < _a.length; _i++) {
             var kv = _a[_i];
-            items.push(_jsx("span", { children: _jsx("a", __assign({ href: kv.key }, { children: kv.value }), void 0) }, void 0));
+            items.push(React.createElement("span", null,
+                React.createElement("a", { href: kv.key }, kv.value)));
             if (count < this.props.menus.length)
-                items.push(_jsx("span", { children: " \u300B" }, void 0));
+                items.push(React.createElement("span", null, " \u300B"));
             count++;
         }
         return items;
     };
     MenuPath.prototype.render = function () {
-        return (_jsx("div", __assign({ style: divStyle }, { children: this.getItems().map(function (item) { return item; }) }), void 0));
+        return (React.createElement("div", { style: divStyle }, this.getItems().map(function (item) { return item; })));
     };
     return MenuPath;
 }(React.Component));

@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import React, { isValidElement } from "react";
 import DataRow from "../db/DataRow";
 import { Column, ColumnType } from "./DBGrid";
@@ -67,18 +66,23 @@ var ComboBox = /** @class */ (function (_super) {
         var value = this.state.dataRow.getString(this.props.dataField);
         var dataName;
         if (this.props.dataName)
-            dataName = (_jsxs("label", __assign({ htmlFor: this.props.dataField }, { children: [this.props.dataName, "\uFF1A"] }), void 0));
-        return (_jsxs("span", __assign({ className: "comboBox" }, { children: [dataName, _jsx("input", { type: "text", autoFocus: this.props.autoFocus, id: this.props.dataField, name: this.props.dataField, value: value, onChange: this.inputOnChange, onFocus: this.handleFocus.bind(this), placeholder: this.props.placeholder }, void 0), React.Children.map(this.props.children, function (child) {
-                    if (_this.state.site.left > -1) {
-                        if (isValidElement(child)) {
-                            return React.cloneElement(child, {
-                                onSelect: _this.onListSelect, site: _this.state.site,
-                                filterText: _this.state.filterText,
-                                showTable: _this.state.showTable
-                            });
-                        }
+            dataName = (React.createElement("label", { htmlFor: this.props.dataField },
+                this.props.dataName,
+                "\uFF1A"));
+        return (React.createElement("span", { className: "comboBox" },
+            dataName,
+            React.createElement("input", { type: "text", autoFocus: this.props.autoFocus, id: this.props.dataField, name: this.props.dataField, value: value, onChange: this.inputOnChange, onFocus: this.handleFocus.bind(this), placeholder: this.props.placeholder }),
+            React.Children.map(this.props.children, function (child) {
+                if (_this.state.site.left > -1) {
+                    if (isValidElement(child)) {
+                        return React.cloneElement(child, {
+                            onSelect: _this.onListSelect, site: _this.state.site,
+                            filterText: _this.state.filterText,
+                            showTable: _this.state.showTable
+                        });
                     }
-                })] }), void 0));
+                }
+            })));
     };
     ComboBox.prototype.handleFocus = function () {
         this.setState({
@@ -120,7 +124,8 @@ var ListGrid = /** @class */ (function (_super) {
         return _this;
     }
     ListGrid.prototype.render = function () {
-        return (_jsx("table", __assign({ className: 'aui-comboBox-grid' }, { children: _jsx("tbody", { children: this.getRows().map(function (item) { return item; }) }, void 0) }), void 0));
+        return (React.createElement("table", { className: 'aui-comboBox-grid' },
+            React.createElement("tbody", null, this.getRows().map(function (item) { return item; }))));
     };
     ListGrid.prototype.getRows = function () {
         var items = [];
@@ -129,7 +134,7 @@ var ListGrid = /** @class */ (function (_super) {
             var row = _a[_i];
             recNo++;
             if (this.props.onFilter(row)) {
-                items.push(_jsx("tr", __assign({ onClick: this.onTrClick }, { children: this.getRow(row, recNo).map(function (item) { return item; }) }), items.length));
+                items.push(React.createElement("tr", { key: items.length, onClick: this.onTrClick }, this.getRow(row, recNo).map(function (item) { return item; })));
             }
         }
         return items;

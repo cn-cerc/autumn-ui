@@ -118,10 +118,10 @@ var DataSet = /** @class */ (function () {
     });
     DataSet.prototype.setRecNo = function (recNo) {
         if (recNo > (this._records.length + 1)) {
-            throw new Error("RecNo " + this._recNo + " \u5927\u4E8E\u603B\u957F\u5EA6 " + this._records.length);
+            throw new Error("RecNo ".concat(this._recNo, " \u5927\u4E8E\u603B\u957F\u5EA6 ").concat(this._records.length));
         }
         else if (recNo < 0) {
-            throw new Error("RecNo " + this._recNo + " \u4E0D\u5141\u8BB8\u5C0F\u4E8E\u96F6");
+            throw new Error("RecNo ".concat(this._recNo, " \u4E0D\u5141\u8BB8\u5C0F\u4E8E\u96F6"));
         }
         else if (this._recNo != recNo) {
             this._recNo = recNo;
@@ -622,7 +622,7 @@ var DataSet = /** @class */ (function () {
                         sort = sort > 0 ? -1 : 1;
                     }
                     else {
-                        throw new Error("not support [" + params[1] + "] sort mode");
+                        throw new Error("not support [".concat(params[1], "] sort mode"));
                     }
                     return sort;
                 }

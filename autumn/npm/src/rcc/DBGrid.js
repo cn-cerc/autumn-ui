@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { isValidElement } from "react";
 import DataSet from "../db/DataSet";
 import { Line } from "./Block";
@@ -115,19 +114,25 @@ var DBGrid = /** @class */ (function (_super) {
         this.children = [];
         this.allowChildren = [];
         if (this.props.dataSet == undefined)
-            return (_jsx("div", { children: "props.dataSet is undefined" }, void 0));
-        return (_jsxs("div", __assign({ className: "aui-dbgrid-main " + (this.props.className || ''), ref: function (self) { return _this.self = self; }, role: "dbgrid", onKeyDown: this.handleKeyDown.bind(this), tabIndex: 1 }, { children: [_jsx("table", { children: _jsxs("tbody", { children: [_jsx("tr", { children: this.getHead() }, 'head'), this.getRows()] }, void 0) }, void 0), this.getNavigator()] }), void 0));
+            return (React.createElement("div", null, "props.dataSet is undefined"));
+        return (React.createElement("div", { className: "aui-dbgrid-main ".concat(this.props.className || ''), ref: function (self) { return _this.self = self; }, role: "dbgrid", onKeyDown: this.handleKeyDown.bind(this), tabIndex: 1 },
+            React.createElement("table", null,
+                React.createElement("tbody", null,
+                    React.createElement("tr", { key: 'head' }, this.getHead()),
+                    this.getRows())),
+            this.getNavigator()));
     };
     DBGrid.prototype.getHead = function () {
         var _this = this;
         var items = [];
         var arr = Array.from(this.colunmMap.values());
+        console.log(this.props.children);
         React.Children.map(this.props.children, function (child) {
             if (isValidElement(child)) {
                 // @ts-ignore
                 var className = child.type.className || '';
                 if (className == MainRow.className) {
-                    items.push(React.cloneElement(child, { key: "head_" + child.props.code, tag: ColumnType.th }));
+                    items.push(React.cloneElement(child, { key: "head_".concat(child.props.code), tag: ColumnType.th }));
                 }
             }
         });
@@ -169,7 +174,7 @@ var DBGrid = /** @class */ (function (_super) {
                     // @ts-ignore
                     var className = child.type.className || '';
                     if (className == MainRow.className) {
-                        items.push(_jsx("tr", __assign({ onClick: _this.onTrClick.bind(_this, recNo), "data-key": "master_" + recNo, className: (recNo % 2 == 0 ? 'aui-dbgrid-evenLine' : '') + " " + (child.props.dynamicClass(dataRow) || '') }, { children: React.cloneElement(child, { onChangedOwner: _this.onChanged, dataRow: dataRow, recNo: recNo }) }), "master_" + recNo));
+                        items.push(React.createElement("tr", { key: "master_".concat(recNo), onClick: _this.onTrClick.bind(_this, recNo), "data-key": "master_".concat(recNo), className: "".concat(recNo % 2 == 0 ? 'aui-dbgrid-evenLine' : '', " ").concat(child.props.dynamicClass(dataRow) || '') }, React.cloneElement(child, { onChangedOwner: _this.onChanged, dataRow: dataRow, recNo: recNo })));
                     }
                 }
             });
@@ -179,7 +184,7 @@ var DBGrid = /** @class */ (function (_super) {
                     return isValidElement(child) && child.props.allowCheck;
                 });
                 //输出主行
-                items.push(_jsx("tr", __assign({ onClick: this_1.onTrClick.bind(this_1, recNo), "data-key": "master_" + recNo, className: recNo % 2 == 0 ? 'aui-dbgrid-evenLine' : '' }, { children: childArr }), "master_" + recNo));
+                items.push(React.createElement("tr", { key: "master_".concat(recNo), onClick: this_1.onTrClick.bind(this_1, recNo), "data-key": "master_".concat(recNo), className: recNo % 2 == 0 ? 'aui-dbgrid-evenLine' : '' }, childArr));
                 this_1.children.push(childArr);
                 this_1.allowChildren.push(allChildArr);
             }
@@ -206,11 +211,11 @@ var DBGrid = /** @class */ (function (_super) {
                         });
                     }
                     total++;
-                    var key = recNo + "." + total;
+                    var key = "".concat(recNo, ".").concat(total);
                     var display = 'table-row';
                     if (child.props.visible || (child.props.autoJudge && isHide_1))
                         display = 'none';
-                    items.push(_jsx("tr", __assign({ "data-key": "child_" + key, onClick: _this.onTrClick.bind(_this, recNo), style: { 'display': display }, className: recNo % 2 == 0 ? 'aui-dbgrid-evenLine' : '' }, { children: React.cloneElement(child, { key: child.props.code, colSpan: colSpan, dataRow: dataRow }) }), "child_" + key));
+                    items.push(React.createElement("tr", { key: "child_".concat(key), "data-key": "child_".concat(key), onClick: _this.onTrClick.bind(_this, recNo), style: { 'display': display }, className: recNo % 2 == 0 ? 'aui-dbgrid-evenLine' : '' }, React.cloneElement(child, { key: child.props.code, colSpan: colSpan, dataRow: dataRow })));
                 }
             });
         };
@@ -256,7 +261,7 @@ var DBGrid = /** @class */ (function (_super) {
                 if (keyCode == 13) {
                     sender.preventDefault();
                     var tr = this.self.querySelectorAll("tr[data-key^=\"master_\"]")[this.state.direction[0] - 1];
-                    var td = tr.querySelector("td[data-field='" + element.props.code + "']");
+                    var td = tr.querySelector("td[data-field='".concat(element.props.code, "']"));
                     this.props.dataSet.records[this.state.direction[0] - 1].setValue(element.props.code, td.innerText);
                     this.setState({
                         allowInput: false,
@@ -324,7 +329,7 @@ var DBGrid = /** @class */ (function (_super) {
     DBGrid.prototype.getNavigator = function () {
         if (!this.props.openPage || this.props.dataSet.size <= this.size)
             return null;
-        return (_jsx(MutiPage, { total: this.props.dataSet.size, onPageChanged: this.onPageChanged }, void 0));
+        return (React.createElement(MutiPage, { total: this.props.dataSet.size, onPageChanged: this.onPageChanged }));
     };
     DBGrid.prototype.getAllWidth = function () {
         var width = 0;
@@ -387,7 +392,7 @@ var DBGrid = /** @class */ (function (_super) {
                 }
             }
             else {
-                var items = document.querySelectorAll(".aui-dbgrid-main input[name='" + element.getAttribute('name') + "']");
+                var items = document.querySelectorAll(".aui-dbgrid-main input[name='".concat(element.getAttribute('name'), "']"));
                 var index = 0;
                 for (var i = 0; i < items.length; i++) {
                     if (items[i] == element)
@@ -434,11 +439,11 @@ var DBGrid = /** @class */ (function (_super) {
         if (sortString) {
             var sortArr = sortString.split(',');
             sortArr.forEach(function (sortCode) {
-                sort.push(sortCode + " " + sortType);
+                sort.push("".concat(sortCode, " ").concat(sortType));
             });
         }
         else
-            sort = [code + " " + sortType];
+            sort = ["".concat(code, " ").concat(sortType)];
         if (code == '_it_' && this.state.sortData.sortType)
             this.props.dataSet.reverse();
         else
@@ -513,18 +518,24 @@ var Column = /** @class */ (function (_super) {
         if (this.props.customText && this.props.tag != ColumnType.th) {
             var child = this.props.customText(this.props.dataRow);
             if (this.props.tag == ColumnType.td)
-                return _jsx("td", __assign({ "data-field": this.props.code, className: "" + (this.props.checked ? 'aui-dbgrid-columnCheck' : ''), colSpan: this.props.colSpan, align: this.props.textAlign ? this.props.textAlign : 'left', style: { 'display': this.props.visible ? 'none' : 'table-cell' } }, { children: child }), void 0);
+                return React.createElement("td", { "data-field": this.props.code, className: "".concat(this.props.checked ? 'aui-dbgrid-columnCheck' : ''), colSpan: this.props.colSpan, align: this.props.textAlign ? this.props.textAlign : 'left', style: { 'display': this.props.visible ? 'none' : 'table-cell' } }, child);
             else
-                return _jsxs("span", __assign({ className: 'aui-dbgrid-inline', style: { 'width': this.props.width, 'textAlign': this.props.textAlign } }, { children: [this.props.name ? this.props.name + '：' : '', child] }), void 0);
+                return React.createElement("span", { className: 'aui-dbgrid-inline', style: { 'width': this.props.width, 'textAlign': this.props.textAlign } },
+                    this.props.name ? this.props.name + '：' : '',
+                    child);
         }
         switch (this.props.tag) {
             case ColumnType.th:
-                return (_jsxs("th", __assign({ style: { "width": this.props.width, 'display': this.props.visible ? 'none' : 'table-cell' }, onClick: this.setSort.bind(this) }, { children: [this.props.name, this.getArrow()] }), void 0));
+                return (React.createElement("th", { style: { "width": this.props.width, 'display': this.props.visible ? 'none' : 'table-cell' }, onClick: this.setSort.bind(this) },
+                    this.props.name,
+                    this.getArrow()));
             case ColumnType.td: {
                 return this.getTd();
             }
             case ColumnType.span: {
-                return (_jsxs("span", __assign({ className: 'aui-dbgrid-inline', style: { "width": this.props.width } }, { children: [this.props.name ? this.props.name + '：' : '', this.props.dataRow ? this.getValue() : ''] }), void 0));
+                return (React.createElement("span", { className: 'aui-dbgrid-inline', style: { "width": this.props.width } },
+                    this.props.name ? this.props.name + '：' : '',
+                    this.props.dataRow ? this.getValue() : ''));
             }
             default:
                 throw Error('不支持的输出类型');
@@ -532,7 +543,7 @@ var Column = /** @class */ (function (_super) {
     };
     Column.prototype.getTd = function () {
         var _this = this;
-        return (_jsx("td", __assign({ "data-field": this.props.code, className: "" + (this.props.checked ? 'aui-dbgrid-columnCheck' : ''), colSpan: this.props.colSpan, align: this.props.textAlign ? this.props.textAlign : "left", style: { 'display': this.props.visible ? 'none' : 'table-cell' }, contentEditable: this.props.allowInput, onFocus: this.handleFocus.bind(this), ref: function (self) { return _this.self = self; }, onBlur: this.handleBlur.bind(this), onClick: this.handleClick.bind(this) }, { children: this.getValue() }), void 0));
+        return (React.createElement("td", { "data-field": this.props.code, className: "".concat(this.props.checked ? 'aui-dbgrid-columnCheck' : ''), colSpan: this.props.colSpan, align: this.props.textAlign ? this.props.textAlign : "left", style: { 'display': this.props.visible ? 'none' : 'table-cell' }, contentEditable: this.props.allowInput, onFocus: this.handleFocus.bind(this), ref: function (self) { return _this.self = self; }, onBlur: this.handleBlur.bind(this), onClick: this.handleClick.bind(this) }, this.getValue()));
     };
     Column.prototype.getValue = function () {
         if (!this.props.children) {
@@ -541,7 +552,7 @@ var Column = /** @class */ (function (_super) {
                 value = this.props.dataRow.getString(this.props.code);
             return value;
         }
-        return (_jsx(React.Fragment, { children: this.getContent().map(function (item) { return item; }) }, void 0));
+        return (React.createElement(React.Fragment, null, this.getContent().map(function (item) { return item; })));
     };
     Column.prototype.getContent = function () {
         var _this = this;
@@ -567,7 +578,7 @@ var Column = /** @class */ (function (_super) {
     Column.prototype.getArrow = function () {
         if (this.props.sortType) {
             var arrow = this.props.sortType == 'desc' ? '↓' : '↑';
-            return _jsx("span", __assign({ style: { 'color': 'red' } }, { children: arrow }), void 0);
+            return React.createElement("span", { style: { 'color': 'red' } }, arrow);
         }
     };
     Column.prototype.handleFocus = function () {
@@ -657,7 +668,7 @@ var MainRow = /** @class */ (function (_super) {
                 if (className == Column.className) {
                     if (_this.props.tag == ColumnType.th) {
                         items.push(React.cloneElement(child, {
-                            key: "head_" + child.props.code, tag: ColumnType.th, width: _this.getWidth(child.props.width)
+                            key: "head_".concat(child.props.code), tag: ColumnType.th, width: _this.getWidth(child.props.width)
                         }));
                     }
                     else {

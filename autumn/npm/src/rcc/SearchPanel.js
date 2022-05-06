@@ -13,18 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { isValidElement } from "react";
 import WebControl from "./WebControl";
 var SearchPanel = /** @class */ (function (_super) {
@@ -43,7 +31,9 @@ var SearchPanel = /** @class */ (function (_super) {
         return _this;
     }
     SearchPanel.prototype.render = function () {
-        return (_jsxs("form", __assign({ className: 'aui-searchPanel-main', role: "searchPanel", onSubmit: this.btnExecute, style: { 'flexDirection': this.isPhone ? 'column' : 'row' } }, { children: [_jsx("div", __assign({ className: this.isPhone ? 'aui-searchPanel-search aui-searchPanel-searchPhone' : 'aui-searchPanel-search' }, { children: this.getItems() }), void 0), _jsx("button", __assign({ onClick: this.btnExecute }, { children: "\u67E5\u8BE2" }), void 0)] }), void 0));
+        return (React.createElement("form", { className: 'aui-searchPanel-main', role: "searchPanel", onSubmit: this.btnExecute, style: { 'flexDirection': this.isPhone ? 'column' : 'row' } },
+            React.createElement("div", { className: this.isPhone ? 'aui-searchPanel-search aui-searchPanel-searchPhone' : 'aui-searchPanel-search' }, this.getItems()),
+            React.createElement("button", { onClick: this.btnExecute }, "\u67E5\u8BE2")));
     };
     SearchPanel.prototype.getItems = function () {
         var _this = this;

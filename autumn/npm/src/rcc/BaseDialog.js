@@ -24,7 +24,6 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 import WebControl from "./WebControl";
 var BaseDialog = /** @class */ (function (_super) {
@@ -119,7 +118,7 @@ var BaseDialog = /** @class */ (function (_super) {
     };
     BaseDialog.prototype.getStorageKey = function (key) {
         var account = localStorage.getItem('ErpKey_Account1');
-        return "ditengDialog_" + account + "_" + key;
+        return "ditengDialog_".concat(account, "_").concat(key);
     };
     Object.defineProperty(BaseDialog.prototype, "searchTimeOut", {
         get: function () { return this._searchTimeOut; },
@@ -128,7 +127,9 @@ var BaseDialog = /** @class */ (function (_super) {
     });
     BaseDialog.prototype.render = function () {
         this._dialogRole = 'dialog' + document.querySelectorAll("[role='dialog']").length;
-        return (_jsxs(React.Fragment, { children: [this.getAdornment(), this.getDialog()] }, void 0));
+        return (React.createElement(React.Fragment, null,
+            this.getAdornment(),
+            this.getDialog()));
     };
     BaseDialog.prototype.componentDidMount = function () {
         this.initSite();
@@ -195,20 +196,29 @@ var BaseDialog = /** @class */ (function (_super) {
     BaseDialog.prototype.getDialog = function () {
         var _this = this;
         if (!this.props.isChild || this._showAsChild) {
-            return (_jsx("div", __assign({ role: 'dialog', id: 'dialog' }, { children: _jsxs("div", __assign({ className: 'aui-base-main', style: this.getStyle.bind(this)(), role: this._dialogRole }, { children: [_jsxs("div", __assign({ className: 'aui-base-title', onMouseDown: function (e) { return _this.handleMouseDown(e); } }, { children: [_jsx("span", { children: this._title }, void 0), this.getOperate()] }), void 0), _jsxs("div", __assign({ className: 'aui-base-content' }, { children: [this.content(), this.getLoad()] }), void 0)] }), void 0) }), void 0));
+            return (React.createElement("div", { role: 'dialog', id: 'dialog' },
+                React.createElement("div", { className: 'aui-base-main', style: this.getStyle.bind(this)(), role: this._dialogRole },
+                    React.createElement("div", { className: 'aui-base-title', onMouseDown: function (e) { return _this.handleMouseDown(e); } },
+                        React.createElement("span", null, this._title),
+                        this.getOperate()),
+                    React.createElement("div", { className: 'aui-base-content' },
+                        this.content(),
+                        this.getLoad()))));
         }
     };
     BaseDialog.prototype.getOperate = function () {
-        return _jsx("span", __assign({ className: 'aui-base-close', onClick: this.handleClose.bind(this) }, { children: "\u00D7" }), void 0);
+        return React.createElement("span", { className: 'aui-base-close', onClick: this.handleClose.bind(this) }, "\u00D7");
     };
     BaseDialog.prototype.getLoad = function () {
         if (this._load) {
-            return (_jsxs("div", __assign({ className: 'aui-base-load' }, { children: [_jsx("img", { src: 'https://www.diteng.site/public/images/loading.gif' }, void 0), _jsx("span", { children: this._loadMessage }, void 0)] }), void 0));
+            return (React.createElement("div", { className: 'aui-base-load' },
+                React.createElement("img", { src: 'https://www.diteng.site/public/images/loading.gif' }),
+                React.createElement("span", null, this._loadMessage)));
         }
     };
     BaseDialog.prototype.getAdornment = function () {
         if (this.props.isChild)
-            return _jsx("img", { src: 'https://www.diteng.site/public/images/searchIocn.png', onClick: this.showAsChild.bind(this), className: 'aui-base-showDialog' }, void 0);
+            return React.createElement("img", { src: 'https://www.diteng.site/public/images/searchIocn.png', onClick: this.showAsChild.bind(this), className: 'aui-base-showDialog' });
     };
     BaseDialog.prototype.showAsChild = function () {
         var _this = this;

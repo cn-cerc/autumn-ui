@@ -1,8 +1,8 @@
 import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import React from "react";
 import {DataRow, DataSet} from "autumn-ui";
-import { Excel, excelData } from '../tool/Utils';
-import "../diteng/Summer.css";
+import { excelData, Excel } from '../tool/Utils';
+import "../tool/Summer.css";
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
@@ -180,8 +180,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         for (let i = 0; i < this.lineLenged.length; i++) {
             dynamicDataArr[i] = new Array();
         }
-
-        let stock: DataSet = dataList[this.lineLenged.length].data;
+        let stock: DataSet = dataList[this.lineLenged.length - 1].data;
         stock.first();
         while (stock.fetch()) {
             dynamicDataArr[0].push(stock.getDouble('数量'));

@@ -1,8 +1,8 @@
-import { BorderBox9, FullScreenContainer, Decoration7 } from "@jiaminghi/data-view-react";
+import { BorderBox9, FullScreenContainer } from "@jiaminghi/data-view-react";
+import { Column, ColumnIt, DataRow, DataSet, DBGrid } from "autumn-ui";
 import React, { ReactNode } from "react";
-import { DataRow, DataSet, ColumnIt, DBGrid, Column } from "autumn-ui";
-import TopHeader from "./TopHeader";
 import styles from "./ReportDetail.css";
+import TopHeader from "./TopHeader";
 
 type FrmReportTypeProps = {
     dataSet: DataSet,
