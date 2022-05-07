@@ -571,43 +571,51 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         this.postData();
     }
 
-    async postData() {
+    postData() {
         this.props.dataRow.setValue('verifyCode', this.props.dataRow.getValue('verifyCode_'));
         this.setState({ showLoad: true, message: '' })
-        let dataOut = await this.getService();
-        if (dataOut.state > 0) {
-            let ds1 = new DataSet();
-            if (this.state.client.get('Accounts'))
-                ds1.setJson(this.state.client.get('Accounts'))
-            let account = this.props.dataRow.getString('userCode');
-            if (account) {
-                if (!ds1.locate("account", account)) {
-                    ds1.append();
-                    ds1.setValue("account", account);
+        // let dataOut = new DataSet();
+        try {
+            let service = new QueryService(this.props);
+            service.setService('SvrUserLogin.getToken');
+            service.dataIn.head.copyValues(this.props.dataRow.current)
+            // dataOut = QueryService.await this.getService();
+            service.open().then((dataOut) => {
+                let ds1 = new DataSet();
+                if (this.state.client.get('Accounts'))
+                    ds1.setJson(this.state.client.get('Accounts'))
+                let account = this.props.dataRow.getString('userCode');
+                if (account) {
+                    if (!ds1.locate("account", account)) {
+                        ds1.append();
+                        ds1.setValue("account", account);
+                    }
+                    if (this.isPhone || this.state.savePwd)
+                        ds1.setValue("password", this.props.dataRow.getString('password'));
+                    else
+                        ds1.setValue("password", '');
+                    this.state.client.set("Accounts", ds1.json);
                 }
-                if (this.isPhone || this.state.savePwd)
-                    ds1.setValue("password", this.props.dataRow.getString('password'));
-                else
-                    ds1.setValue("password", '');
-                this.state.client.set("Accounts", ds1.json);
-            }
-            let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
-            this.state.client.set('Account1', this.props.dataRow.getString('userCode'));
-            this.state.client.set('password', this.props.dataRow.getString('password'));
-            location.href = href;
-        } else {
-            this.setState({ showLoad: false })
-            if (dataOut.head.getValue('status') == -8) {
-                this.props.dataRow.setValue('verifyCode', '??????');
-                showVerify = true
-                this.setState({
-                    message: ''
-                })
-            } else {
-                this.setState({
-                    message: dataOut.message
-                })
-            }
+                let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
+                this.state.client.set('Account1', this.props.dataRow.getString('userCode'));
+                this.state.client.set('password', this.props.dataRow.getString('password'));
+                location.href = href;
+            }).catch((dataOut) => {
+                this.setState({ showLoad: false })
+                if (dataOut.head.getValue('status') == -8) {
+                    this.props.dataRow.setValue('verifyCode', '??????');
+                    showVerify = true
+                    this.setState({
+                        message: ''
+                    })
+                } else {
+                    this.setState({
+                        message: dataOut.message
+                    })
+                }
+            });
+        } catch (e) {
+            showMsg(e.message);
         }
     }
 

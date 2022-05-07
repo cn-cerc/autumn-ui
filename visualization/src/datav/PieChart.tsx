@@ -79,7 +79,8 @@ export default class PieChart extends React.Component<PropsType, stateType> {
           label: {
             position: 'inner',
             formatter: '{c}',
-            fontSize: 14
+            fontSize: 14,
+            color: '#fff'
           },
           labelLine: {
             show: false
@@ -89,7 +90,7 @@ export default class PieChart extends React.Component<PropsType, stateType> {
         {
           name: "per",
           type: 'pie',
-          radius: ['45%', '55%'],
+          radius: ['41%', '55%'],
           center: ['50%', '45%'],
           label: {
             formatter: '{d}%',

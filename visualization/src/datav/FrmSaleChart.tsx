@@ -1,12 +1,12 @@
 import { FullScreenContainer } from '@jiaminghi/data-view-react';
-import React from "react";
 import { DataRow, DataSet } from "autumn-ui";
+import * as echarts from "echarts";
+import React from "react";
 import { Excel, excelData } from "../tool/Utils";
 import styles from './FrmPurchaseChart.css';
 import PieChart from './PieChart';
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
-import * as echarts from "echarts";
 
 type stateType = {
     polylineOption: any,
@@ -28,7 +28,7 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
     private lineLenged: string[] = ['一区', '二区', '三区', '四区', '五区'];
     private xName: string[] = [];
     private isLengedEvent: boolean = false;
-    private lineColor = ['#ebbb06', '#ff50d1', '#2fa9ff', '#bbff88', '#ffa707', '#04ff00'];
+    private lineColor = ['#14C338', '#42E1D2', '#aecc63', '#00bfad', '#40e2c1', '#42aae1'];
     constructor(props: PropsType) {
         super(props);
         let saleroom: Map<string, any> = new Map();
@@ -150,14 +150,14 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
                         <div className={styles.saleCentre}>
                             <div>
                                 {
-                                    this.state.quotation.map((item: any) => {
+                                    this.state.quotation.map((item: any, index: number) => {
                                         let symbol = '';
                                         if (item.trendNum > 0)
                                             symbol = '+'
                                         if (item.trendNum < 0)
                                             symbol = '-'
 
-                                        return <div className={styles.salePriceBox}>
+                                        return <div className={styles.salePriceBox} key={index}>
                                             <ul>
                                                 <li className={styles.saleTitle}>{item.title}</li>
                                                 <li className={styles.salePrice}
@@ -265,10 +265,10 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             lineColor: ['#EBBB06', '#ebbb06'],
             textColor: '#F5DF90'
         }, {
-            topColor: '#fc8F18',
-            bottomColor: '#fc6c18',
-            lineColor: ['#fc6c18', '#fc6c18'],
-            textColor: '#fc8F18'
+            topColor: '#aecc63',
+            bottomColor: '#aecc63',
+            lineColor: ['#aecc63', '#aecc63'],
+            textColor: '#aecc63'
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
             dynamicSeries.push({

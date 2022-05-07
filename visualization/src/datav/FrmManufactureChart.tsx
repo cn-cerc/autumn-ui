@@ -1,12 +1,12 @@
-import { BorderBox11, Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
+import { BorderBox11, FullScreenContainer } from '@jiaminghi/data-view-react';
+import { DataRow, DataSet } from "autumn-ui";
+import * as echarts from "echarts";
 import React from "react";
+import { Excel, excelData } from '../tool/Utils';
 import styles from './FrmPurchaseChart.css';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
-import * as echarts from "echarts";
-import { excelData, Excel } from '../tool/Utils';
-import { DataRow, DataSet } from "autumn-ui";
 type stateType = {
     wireRow: DataRow,
     coilRow: DataRow,

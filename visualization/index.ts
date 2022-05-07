@@ -1,3 +1,6 @@
+import "./src/tool/Summer.css";
+import "autumn-ui/assets/autumn-ui.css";
+
 import React from "react";
 import ReactDOM from "react-dom";
 import FrmEmployee1 from "./src/datav/FrmEmployee1";

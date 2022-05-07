@@ -7,7 +7,7 @@
         "type": "pwa-msedge",
         "request": "launch",
         "name": "http://127.0.0.1:82",
-        "file": "http://127.0.0.1:82/aui.html",
+        "url": "http://127.0.0.1:82/aui.html",
         "webRoot": "${workspaceFolder}"
     }]
 }
