@@ -126,7 +126,6 @@ var DBGrid = /** @class */ (function (_super) {
         var _this = this;
         var items = [];
         var arr = Array.from(this.colunmMap.values());
-        console.log(this.props.children);
         React.Children.map(this.props.children, function (child) {
             if (isValidElement(child)) {
                 // @ts-ignore
