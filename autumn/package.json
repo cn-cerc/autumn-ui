@@ -1,11 +1,11 @@
 {
-  "name": "code",
-  "version": "1.0.0",
+  "name": "autumn-ui",
+  "version": "1.5.9",
   "description": "",
   "main": "index.js",
   "scripts": {
     "serve": "npm run dev",
-    "dev": "tsc && copy .\\package\\package.json .\\npm\\package.json && cp -r assets/ npm/"
+    "dev": "tsc && copy .\\package.json .\\npm\\package.json && cp -r assets/ npm/"
   },
   "keywords": [],
   "author": "",
