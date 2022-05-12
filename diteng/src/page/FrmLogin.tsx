@@ -365,6 +365,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         fingerprient = arr[1]
                 })
             }
+            if (!fingerprient)
+                fingerprient = this.state.client.get('fingerprint');
         } else {
             fingerprient = this.state.client.get('fingerprint');
         }
@@ -382,6 +384,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             });
         } else {
             this.props.dataRow.setValue('clientId', fingerprient);
+            this.state.client.set('fingerprint', fingerprient);
         }
     }
 
