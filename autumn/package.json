@@ -1,0 +1,21 @@
+{
+  "name": "autumn-ui",
+  "version": "1.5.9",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "npm run dev",
+    "dev": "tsc && copy .\\package.json .\\npm\\package.json && cp -r assets/ npm/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@types/jquery": "^3.5.14",
+    "@types/react": "^16.14.0",
+    "@types/react-dom": "^16.8.0",
+    "jquery": "^3.6.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  }
+}

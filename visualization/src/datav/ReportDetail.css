@@ -1,0 +1,64 @@
+.grid {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    background-color: #030409;
+    color: #fff;
+}
+
+.dvFullScreenContainer {
+    background-image: url('../../img/bg.png');
+    background-size: 100% 100%;
+    box-shadow: 0 0 3px blue;
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    width: 1600px;
+    margin: 100px auto;
+}
+
+.grid {
+    padding: .75rem 1rem;
+    box-sizing: border-box;
+}
+
+.grid>div {
+    background-color: transparent;
+}
+
+.grid>div th {
+    background-color: #00BAFF;
+    border: 0;
+    font-weight: 400;
+}
+
+.grid>div td {
+    border: 0;
+}
+
+.grid>div th::before, .grid>div td::before {
+    width: 0!important;
+}
+
+.grid>div tbody>tr:nth-child(2n) {
+    background-color: #003B51;
+}
+
+.grid>div tbody>tr:nth-child(2n+1) {
+    background-color: #0A2732;
+}
+
+.back {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: 100px;
+    cursor: pointer;
+}

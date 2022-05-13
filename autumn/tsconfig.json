@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "outDir": "./npm",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
+        "lib": ["ESNext", "DOM.Iterable", "ScriptHost", "DOM"],
+        "skipLibCheck": true,
+        "declaration": true,
+        "jsx": "react",
+    }
+}
