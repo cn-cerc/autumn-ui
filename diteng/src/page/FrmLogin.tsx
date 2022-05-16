@@ -23,7 +23,8 @@ type LoginTypeState = {
     showLoad: boolean,
     timer: any,
     currentIndex: number,
-    isFirefox: boolean
+    isFirefox: boolean,
+    iconHover: 0 | 1 | 2 | 3
 }
 
 var showVerify: boolean = false;
@@ -51,7 +52,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             timer: null,
             message: this.props.loginMsg || '',
             currentIndex: 0,
-            isFirefox
+            isFirefox,
+            iconHover: 1
         }
     }
     render() {
@@ -81,21 +83,22 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         } else {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
-                    <div className={styles.formTitle}>地藤登录页</div>
+                    <div className={styles.formTitle}>地藤管家登录</div>
                     <div className={styles.contentRight}>
                         <div className={styles.userMessage}>
-                            <p className={styles.keyInput}>
-                                <img src="images/login/account.png" />
-                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)}></DBEdit>
+                            <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
+                                <img src={this.state.iconHover == 1 ? 'images/login/account_hover.png' : 'images/login/account.png'} />
+                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                                 <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
                                 {this.getChooseList()}
                             </p>
-                            <p className={styles.keyInput}>
-                                <img src="images/login/password.png" />
+                            <p className={`${styles.keyInput} ${this.state.iconHover == 2 ? styles.inputHover : ''}`}>
+                                <img src={this.state.iconHover == 2 ? 'images/login/password_hover.png' : 'images/login/password.png'} />
                                 {this.getPasswordInput()}
                             </p>
                             {this.getVerify()}
                             <p className={styles.remember}>
+                                <span className={this.state.savePwd ? '' : styles.checkbox} onClick={() => { this.setState({ savePwd: true }) }}></span>
                                 <input id="savePwd" type="checkbox" checked={this.state.savePwd} onChange={this.changeSvaePwd.bind(this)} />
                                 <label htmlFor="savePwd">记住密码（私人电脑可选择此项）</label>
                             </p>
@@ -111,11 +114,23 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <a href="TFrmHardware" className={styles.afterRight}>硬件配置</a>
                             <a href="https://www.mimrc.com">公司介绍</a>
                         </div>
-                        <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
+                        {this.getMessageDOM()}
                     </div>
                 </form>
             )
         }
+    }
+
+    setIconHover(num: 1 | 2 | 3) {
+        this.setState({
+            iconHover: num
+        })
+    }
+
+    inputBlur() {
+        this.setState({
+            iconHover: 0
+        })
     }
 
     getCompletePassword(password: string) {
@@ -128,9 +143,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     getPasswordInput() {
         if (this.state.isFirefox) {
-            return <DBEdit dataField='_password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' className={styles.passwordInput} onChanged={this.fireFoxChange.bind(this)} onKeyDown={this.fireFoxKeyDown.bind(this)}></DBEdit>
+            return <DBEdit dataField='_password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' className={`${styles.passwordInput} ${styles.passInput}`} onChanged={this.fireFoxChange.bind(this)} onKeyDown={this.fireFoxKeyDown.bind(this)} onFocus={this.setIconHover.bind(this, 2)} onBlur={this.inputBlur.bind(this)}></DBEdit>
         } else {
-            return <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' onKeyDown={this.passWordKeyDown.bind(this)}></DBEdit>
+            return <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' onKeyDown={this.passWordKeyDown.bind(this)} className={styles.passInput} onFocus={this.setIconHover.bind(this, 2)} onBlur={this.inputBlur.bind(this)}></DBEdit>
         }
     }
 
@@ -388,6 +403,12 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
     }
 
+    getMessageDOM() {
+        if (this.props.lowVersion || this.state.message) {
+            return <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
+        }
+    }
+
     getMessage() {
         if (this.props.lowVersion) {
             return <a href='FrmBrowserRecommend' target='_blank' style={{ 'color': '#ff4545' }}>你的浏览器版本太低，请使用推荐的浏览器</a>
@@ -493,9 +514,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 )
             } else {
                 return (
-                    <p className={`${styles.keyInput} ${styles.verify}`}>
-                        <img src="images/verify.png" />
-                        <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码'></DBEdit>
+                    <p className={`${styles.keyInput} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
+                        <img src={this.state.iconHover == 3 ? 'images/login/verify_hover.png' : 'images/login/verify.png'} />
+                        <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                         <div onClick={this.sendCode.bind(this)} className={styles.sendCode}>发送验证码</div>
                     </p>
                 )
@@ -509,7 +530,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 <Loading></Loading>
             </div>
         } else {
-            return <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>进入系统</button>
+            return <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
         }
     }
 
@@ -708,27 +729,42 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                 </React.Fragment>
             )
         } else {
-            const iFrame = '<div><script id="ebsgovicon" src="https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&amp;width=112&amp;height=40&amp;type=2" type="text/javascript"></script></div>'
+            const iFrame = '<div><script id="ebsgovicon" src="https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&amp;width=118&amp;height=48&amp;type=2" type="text/javascript"></script></div>'
             return (
                 <React.Fragment>
-                    <div className="header">
-                        <div className={styles.headLogin}>
-                            <img src="images/welcome/logo.png" />
-                            <a href="install">下载应用</a>
-                        </div>
-                    </div>
                     <div className={styles.loginMain}>
-                        <img src="images/login/background.png" />
+                        <img src="images/login/login_bg.png" />
                         <div className={styles.loginFormBox}>
-                            <div className={styles.loginTitle}>地藤管家 您随身携带的大管家</div>
-                            <div className="login_right">
-                                <div className={styles.loginTitle}>欢迎使用地藤管家</div>
+                            <div className={styles.loginLeft}>
+                                <div className={styles.loginLogo}>
+                                    <img src="images/login/logo.png" alt="地藤管家" />
+                                    <span>地藤管家</span>
+                                </div>
+                                <div className={styles.loginLeftText}>地藤管家 您随身携带的大管家</div>
+                                <a href="install" className={styles.loginInstall}>立即下载App</a>
+                            </div>
+                            <div className={styles.loginRight}>
+                                <div className={styles.loginTitle}>您好！欢迎登录地藤管家！</div>
                                 <Login dataRow={this.state.dataIn} loginMsg={this.state.message} lowVersion={this.props.lowVersion} language={this.props.language || ''} />
                             </div>
                         </div>
                     </div>
                     <footer className={styles.status} style={{ 'clear': 'both', 'textAlign': 'center' }}>
-                        <div className={styles.footRight}>
+                        <div className={styles.otherLinks}>
+                            <a href="https://mimrc.com/" target="_black">华软首页</a>
+                            <a href="https://www.diaoyou.site/" target="_black">钓友汇商城</a>
+                            <a href="https://mimrc.com/page/erp.html" target="_black">绩效ERP</a>
+                            <a href="https://mimrc.com/page/customer.html" target="_black">客户服务</a>
+                            <a href="https://mimrc.com/page/contact.html" target="_black">联系我们</a>
+                        </div>
+                        <div className="electronicFlag">
+                            <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
+                        </div>
+                        <div className={styles.copyRight}>
+                            <a href="http://www.mimrc.com">©深圳市华软资讯科技有限公司</a>
+                            <a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a>
+                        </div>
+                        {/* <div className={styles.footRight}>
                             &copy;
                             <a href="http://www.mimrc.com">
                                 <small>深圳市华软资讯科技有限公司</small>
@@ -736,10 +772,8 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                             <div style={{ 'padding': '0.5em' }}>
                                 <small><a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a></small>
                             </div>
-                        </div>
-                        <div className="electronicFlag">
-                            <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
-                        </div>
+                        </div> */}
+
                     </footer>
                 </React.Fragment>
             )
@@ -774,6 +808,13 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         }
         if (this.state.isPhoneWeb)
             window.location.href = 'install?device=phone';
+        let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
+        let iWindow = iframe.contentWindow;
+        iWindow.onload = function () {
+            iWindow.document.body.setAttribute('style', 'margin: 0; padding: 0;height: 40px; overflow: hidden;');
+            iframe.style.visibility = 'inherit';
+        }
+        return;
         if (!this.isPhone) {
             try {
                 if (location.href.indexOf('www.diteng.site') > -1) {

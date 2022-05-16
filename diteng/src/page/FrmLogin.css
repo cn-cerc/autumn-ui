@@ -71,16 +71,17 @@ a {
 }
 
 .iframe {
-    height: 40px;
+    width: 118px;
+    height: 48px;
     border: none;
     overflow: hidden;
-    margin-left: 1rem;
+    margin: 0 1.5rem;
     visibility: hidden;
 }
 
 .pcLoad {
     width: 100%;
-    background: linear-gradient(270deg, #3272F4, #509DFF);
+    background-color: #008738;
     color: #fff;
     border: none;
     outline: none;
@@ -91,6 +92,11 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.passInput {
+    width: 0;
+    flex: 1;
 }
 
 .passwordInput input {
@@ -106,6 +112,8 @@ a {
 
     .main {
         min-width: 1024px;
+        display: flex;
+        flex-direction: column;
     }
 
     div[id='loginPage'] {
@@ -120,7 +128,8 @@ a {
     .loginMain {
         text-align: center;
         overflow: auto;
-        height: calc(100% - 13.125rem);
+        height: 0;
+        flex: 1;
         overflow: hidden;
         position: relative;
         display: flex;
@@ -136,8 +145,9 @@ a {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 120rem;
-        height: 50rem;
+        width: 100%;
+        max-width: 1920px;
+        height: 100%;
     }
 
     .footRight {
@@ -185,37 +195,96 @@ a {
     .loginFormBox {
         display: flex;
         justify-content: space-between;
-        width: 75rem;
+        width: 1360px;
         position: relative;
         z-index: 10;
+        height: 100%;
+        padding: 5rem 0 5.625rem 0;
+        box-sizing: border-box;
+    }
+
+    .loginLeft {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .loginLogo {
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #22AC38;
+    }
+
+    .loginLogo>img {
+        width: 2.625rem;
+    }
+
+    .loginLogo>span {
+        margin-left: 1rem;
+    }
+
+    .loginLeftText {
+        font-size: 1.875rem;
+        font-weight: 400;
+        color: #333;
+        line-height: 1.875rem;
+        margin-top: 2.5rem;
+    }
+
+    .loginLeft>a {
+        width: 16rem;
+        height: 3.5rem;
+        font-size: 1.375rem;
+        color: #000000;
+        font-weight: 400;
+        line-height: 3.375rem;
+        box-sizing: border-box;
+        border: 1px solid #cccccc;
+        border-radius: .25rem;
+        margin-top: 1rem;
     }
 
     .loginTitle {
-        font-weight: bold;
-        font-size: 1.75rem;
+        font-weight: 300;
+        font-size: 1.5rem;
+        color: #333333;
+        line-height: 1.5rem;
+    }
+
+    .loginRight {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
     }
 
     .uiForm {
-        display: inline-block;
         background-color: #fff;
         box-shadow: 0 .25rem 1.25rem 0 rgba(35, 35, 35, 0.17);
-        width: 28.625rem;
+        width: 32.75rem;
         border-radius: 1.25rem;
-        margin-top: 2.25rem;
-        padding: 2.25rem 0;
+        margin-top: 1.75rem;
+        padding: 3rem 0 3rem 0;
+        box-sizing: border-box;
+        position: relative;
     }
 
     .formTitle {
         text-align: center;
         color: #333333;
-        font-weight: bold;
-        font-size: 1.5rem;
-        line-height: 1.5rem;
-        height: 3rem;
+        font-weight: 500;
+        font-size: 2rem;
+        line-height: 2rem;
     }
 
     .contentRight {
-        padding: 0 3.125rem;
+        padding: 0 3.625rem;
+        padding-bottom: 3rem;
+    }
+
+    .userMessage {
+        padding-top: 2.25rem;
     }
 
     .userMessage .keyInput {
@@ -225,16 +294,22 @@ a {
         display: flex;
         align-items: center;
         font-size: 1rem;
-        height: 3.2rem;
-        line-height: 3.2rem;
-        margin-top: 2rem;
-        padding-left: 2.23em;
+        height: 3.75rem;
+        line-height: 3.75rem;
+        margin-top: .75rem;
+        padding-left: 1.5rem;
         border-radius: .5rem;
+        box-sizing: border-box;
+    }
+
+    .formInput {
+        width: 0;
+        flex: 1;
     }
 
     .userMessage p img {
         vertical-align: middle;
-        width: 1.125rem;
+        width: 1.5rem;
     }
     .userMessage p>img+span {
         padding-bottom: 0;
@@ -244,42 +319,79 @@ a {
         border: none;
         outline: 0;
         vertical-align: middle;
-        font-size: 1rem;
+        font-size: 1.125rem;
         color: #333;
-        padding-left: .6em;
+        padding-left: 1rem;
+        width: 100%;
     }
     .userMessage p input[type="text"]::-webkit-input-placeholder, .userMessage p input[type="password"]::-webkit-input-placeholder {
-        color: #999;
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: #ccc;
     }
     .userMessage p input[type="text"]::-moz-placeholder, .userMessage p input[type="password"]::-moz-placeholder {
-        color: #999;
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: #ccc;
     }
     .userMessage p input[type="text"]:-moz-placeholder, .userMessage p input[type="password"]:-moz-placeholder {
-        color: #999;
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: #ccc;
     }
     .userMessage p input[type="text"]:-ms-input-placeholder, .userMessage p input[type="password"]:-ms-input-placeholder {
-        color: #999;
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: #ccc;
     }
 
     .remember {
         padding-left: .25rem !important;
         margin-top: 0 !important;
-        color: #666666 !important;
+        color: #ADACAC !important;
         border-bottom: 0 !important;
-        height: 3.875rem;
-        line-height: 3.875rem;
         text-align: left;
+        padding-top: 1rem;
+        display: flex;
+        align-items: center;
+        font-size: .875rem;
+    }
+
+    .remember>input {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .remember>span {
+        display: none;
+    }
+
+    .remember>.checkbox {
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        box-sizing: border-box;
+        border: 1px solid #ADACAC;
+        border-radius: .18rem;
+    }
+
+    .remember>.checkbox+input {
+        width: 0;
+        height: 0;
+    }
+
+    .remember>label {
+        margin-left: .5rem;
     }
 
     .userStatus {
-        margin-top: 1rem;
+        padding-top: 2rem;
     }
 
     .userStatus button {
         width: 100%;
-        background: linear-gradient(270deg, #3272F4, #509DFF);
+        background-color: #008738;
         color: #fff;
-        ;
         border: none;
         outline: none;
         height: 3.5rem;
@@ -309,36 +421,43 @@ a {
     .bottom {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        margin-top: 1.41rem;
+        justify-content: space-around;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #F8F8F8;
+        height: 3rem;
+        border-bottom-left-radius: .5rem;
+        border-bottom-right-radius: .5rem;
     }
 
     .bottom a {
-        color: #666;
+        color: #0169AB;
         position: relative;
     }
 
     .bottom .afterRight:after {
         position: absolute;
         content: "";
-        height: .625rem;
+        height: 1rem;
         width: .065rem;
         background-color: #ccc;
         top: 50%;
         transform: translateY(-50%);
-        right: -1.25rem;
+        right: -2.25rem;
     }
 
     .chooseUser {
         font-size: 1rem;
         display: inline-block;
         position: absolute;
-        width: 3em;
-        height: 3em;
+        width: 3rem;
+        height: 100%;
         top: 0;
         right: 0;
         background: url('https://www.diteng.site/public/images/crow-down1.png');
-        background-size: 1.2em 1.2em;
+        background-size: 1.3125rem 1.3125rem;
         background-repeat: no-repeat;
         background-position: center;
         display: inline-block;
@@ -347,22 +466,21 @@ a {
     .showList {
         font-size: 1rem;
         background-image: url('https://www.diteng.site/public/images/crow-up1.png') !important;
-        background-size: 1.2em 1.2em;
+        background-size: 1.3125rem 1.3125rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .userList {
-        right: -.065rem;
         height: 10em;
         position: absolute;
-        top: 2.85rem;
-        left: -.065rem;
+        top: 3.25rem;
+        left: -.035rem;
+        width: 25.5rem;
         background: white;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         z-index: 22;
-        padding: 0 1em;
         filter: grayscale(50%);
         border: .065rem solid #cccccc;
         border-top: 0;
@@ -400,39 +518,46 @@ a {
     .userList li {
         position: relative;
         width: 100%;
-        height: 3em;
-        line-height: 3em;
+        height: 3.25rem;
+        line-height: 3.25rem;
         list-style: none;
-        border-bottom: .02rem solid #e6e6e6;
+        padding-left: 1.5rem;
+        padding-right: .84375rem;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .userList li:after {
+        content: "";
+        position: absolute;
+        left: 1.5rem;
+        right: .84375rem;
+        bottom: 0;
+        height: 1px;
+        background-color: #e6e6e6;
     }
 
     .userList li span {
         display: inline-block;
-        width: 80%;
-        height: 3em;
-        line-height: 3em;
+        width: 20.87rem;
+        height: 3.25rem;
+        line-height: 3.25rem;
         color: black;
-    }
-
-    .userList li:last-child {
-        border: 0;
-    }
-
-    .userList li:first-child {
-        border-bottom: .065rem solid #e6e6e6;
+        padding-left: 2.5rem;
+        font-size: 1.125rem;
+        box-sizing: border-box;
     }
 
     .userList li .remove {
         position: absolute;
         display: inline-block;
-        width: 3em;
-        height: 3em;
+        width: 3rem;
+        height: 3.25rem;
         top: 0;
-        right: 0;
         background: url('https://www.diteng.site/public/images/remove.png');
-        background-size: 0.8em 0.8em;
+        background-size: .8rem .8rem;
         background-repeat: no-repeat;
-        background-position: 80% center;
+        background-position: center;
     }
 
     .showList img {
@@ -470,16 +595,55 @@ a {
         position: relative;
         z-index: 100;
         overflow: hidden;
+        font-size: .875rem;
     }
 
     .status div {
         padding: 0 !important;
     }
 
+    .status a {
+        color: #464444;
+    }
+
+    .otherLinks {
+        display: flex;
+        align-items: center;
+    }
+
+    .otherLinks a {
+        margin: 0 .875rem;
+        position: relative;
+    }
+
+    .otherLinks a:hover {
+        color: #0169ab;
+    }
+
+    .otherLinks>a:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        height: .75rem;
+        right: -.875rem;
+        width: 1px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ccc;
+    }
+
+    .otherLinks>a:last-child {
+        margin-right: 0;
+    }
+
     .loginMsg {
         margin-top: .91rem;
         line-height: 1.45em;
         color: #ff4545;
+    }
+
+    .inputHover {
+        border-color: rgb(55, 206, 190)!important;
+        box-shadow: 0 0 .24rem .24rem rgba(156, 238, 230, 0.3);
     }
 }
 
@@ -619,7 +783,7 @@ a {
         line-height: 3rem;
         margin-top: 1.7rem;
         padding-left: 1.92rem;
-        border-radius: .43rem;
+        border-radius: .5rem;
     }
 
     .userList {
@@ -1026,7 +1190,7 @@ a {
         height: 2.7em;
         line-height: 2.7em;
         margin: 0 auto 2em;
-        background-image: linear-gradient(0deg, #258FFC, #4697FF);
+        background-color: #008738;
         text-align: center;
         font-size: 17px;
         color: #fff !important;
