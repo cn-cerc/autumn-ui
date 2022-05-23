@@ -16,6 +16,7 @@ type FrmReportTypeProps = {
 export default class ReportDetail extends React.Component<FrmReportTypeProps> {
     constructor(props: FrmReportTypeProps) {
         super(props);
+        console.log(this.props.dataSet)
     }
 
     render(): React.ReactNode {
