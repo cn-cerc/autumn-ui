@@ -427,9 +427,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             let recNo = row.dataSet.recNo;
             this.setState({
                 currentShop: recNo,
+                currentShoped: 0,
                 data
             }, () => {
                 this._currentShop = recNo;
+                this._currentShoped = 0;
             });
         } else {
             this.initEnterData(row, isFree, row.dataSet.recNo);
@@ -454,9 +456,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             enterData,
             showEnterInput: true,
             isInput: false,
+            currentShoped: 0,
             currentShop: recNo ? recNo : this.state.currentShop,
         }, () => {
-            this._currentShop = recNo ? recNo : this.state.currentShop
+            this._currentShop = recNo ? recNo : this.state.currentShop;
+            this._currentShoped = 0;
         })
     }
 
@@ -505,9 +509,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             dataSet.setValue('Free_', isFree);
             dataSet.setValue('Remark_', row.getString('Remark_'));
         }
+        this._currentShoped = 0;
         this.setState({
             showEnterInput: false,
             isInput: false,
+            currentShoped: 0,
             data
         })
     }
@@ -604,7 +610,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                             <span onClick={this.enterPropAddShop.bind(this)}>确定(<span style={{ 'textDecoration': 'underline' }}>Y</span>)</span>
                         </div>
                         <div className={styles.maskBtn}>
-                            <span onClick={() => this.setState({ showEnterInput: false })}>取消(<span style={{ 'textDecoration': 'underline' }}>N</span>)</span>
+                            <span onClick={() => this.setState({ showEnterInput: false, currentShoped: 0 })}>取消(<span style={{ 'textDecoration': 'underline' }}>N</span>)</span>
                         </div>
                     </div>
                 </div>
@@ -649,6 +655,8 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             defaultLines: this.state.copyLines,
             showLineProps: false,
             isInput: false
+        }, () => {
+            this.initGridHeight();
         })
     }
 
@@ -1066,7 +1074,10 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         else
             this.setState({
                 showEnterInput: false,
+                currentShoped: 0,
                 isInput: false
+            }, () => {
+                this._currentShoped = 0;
             });
     }
 

@@ -103,6 +103,11 @@ a {
     ime-mode: disabled;
 }
 
+.inputHover {
+    border-color: rgb(55, 206, 190) !important;
+    box-shadow: 0 0 .24rem .24rem rgba(156, 238, 230, 0.3);
+}
+
 @media screen and (min-width: 768px) {
     * {
         margin: 0;
@@ -311,11 +316,14 @@ a {
         vertical-align: middle;
         width: 1.5rem;
     }
+
     .userMessage p>img+span {
         padding-bottom: 0;
         margin-right: 0;
     }
-    .userMessage p input[type="text"], .userMessage p input[type="password"] {
+
+    .userMessage p input[type="text"],
+    .userMessage p input[type="password"] {
         border: none;
         outline: 0;
         vertical-align: middle;
@@ -324,22 +332,30 @@ a {
         padding-left: 1rem;
         width: 100%;
     }
-    .userMessage p input[type="text"]::-webkit-input-placeholder, .userMessage p input[type="password"]::-webkit-input-placeholder {
+
+    .userMessage p input[type="text"]::-webkit-input-placeholder,
+    .userMessage p input[type="password"]::-webkit-input-placeholder {
         font-size: 1.5rem;
         font-weight: 300;
         color: #ccc;
     }
-    .userMessage p input[type="text"]::-moz-placeholder, .userMessage p input[type="password"]::-moz-placeholder {
+
+    .userMessage p input[type="text"]::-moz-placeholder,
+    .userMessage p input[type="password"]::-moz-placeholder {
         font-size: 1.5rem;
         font-weight: 300;
         color: #ccc;
     }
-    .userMessage p input[type="text"]:-moz-placeholder, .userMessage p input[type="password"]:-moz-placeholder {
+
+    .userMessage p input[type="text"]:-moz-placeholder,
+    .userMessage p input[type="password"]:-moz-placeholder {
         font-size: 1.5rem;
         font-weight: 300;
         color: #ccc;
     }
-    .userMessage p input[type="text"]:-ms-input-placeholder, .userMessage p input[type="password"]:-ms-input-placeholder {
+
+    .userMessage p input[type="text"]:-ms-input-placeholder,
+    .userMessage p input[type="password"]:-ms-input-placeholder {
         font-size: 1.5rem;
         font-weight: 300;
         color: #ccc;
@@ -472,7 +488,7 @@ a {
     }
 
     .userList {
-        height: 10em;
+        height: 13rem;
         position: absolute;
         top: 3.25rem;
         left: -.035rem;
@@ -485,6 +501,8 @@ a {
         border: .065rem solid #cccccc;
         border-top: 0;
         overflow: auto;
+        border-bottom-left-radius: .5rem;
+        border-bottom-right-radius: .5rem;
     }
 
     .userList::-webkit-scrollbar {
@@ -639,11 +657,6 @@ a {
         margin-top: .91rem;
         line-height: 1.45em;
         color: #ff4545;
-    }
-
-    .inputHover {
-        border-color: rgb(55, 206, 190)!important;
-        box-shadow: 0 0 .24rem .24rem rgba(156, 238, 230, 0.3);
     }
 }
 
@@ -965,20 +978,24 @@ a {
 
     :-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 1rem;
     }
 
     ::-moz-placeholder {
         /* Mozilla Firefox 19+ */
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 1rem;
     }
 
     input:-ms-input-placeholder {
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 1rem;
     }
 
     input::-webkit-input-placeholder {
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 1rem;
     }
 
     .mainBox {
@@ -987,16 +1004,20 @@ a {
     }
 
     .inputGroup {
-        max-width: 20.2em;
+        max-width: 20.2rem;
         width: 80%;
-        height: 2.8em;
-        line-height: 2.8em;
-        margin: 0 auto 1.8em;
+        height: 2rem;
+        line-height: 2rem;
+        margin: 0 auto 1.5625rem;
         border-radius: 3px;
-        padding-left: 3.2em;
         box-sizing: border-box;
         position: relative;
-        background: #F7F7F7;
+        border: 1px solid #ccc;
+        padding-left: 2.625rem;
+    }
+
+    .noBottomMargin {
+        margin-bottom: 0;
     }
 
     .inputGroup>span:first-of-type {
@@ -1008,6 +1029,9 @@ a {
     .inputGroup>span:first-of-type>input {
         border: none;
         outline: none;
+        height: 1.875rem;
+        line-height: 1.875rem;
+        vertical-align: top;
     }
 
     .inputGroup>span:first-of-type>input:hover {
@@ -1027,28 +1051,20 @@ a {
         border: none !important;
     }
 
-    .inputGroup:before {
-        display: inline-block;
+    .inputGroup>img {
         position: absolute;
-        width: 2.8em;
-        height: 2.8em;
-        top: 0;
-        left: 0;
-        content: "";
-    }
-
-    .userName:before {
-        background: url('https://www.diteng.site/public/images/name2.png');
-        background-size: auto 1.13rem;
-        background-repeat: no-repeat;
-        background-position: center;
+        top: 50%;
+        left: .75rem;
+        transform: translateY(-50%);
+        width: 1.125rem;
+        vertical-align: middle;
     }
 
     .chooseUser {
         display: inline-block;
         position: absolute;
-        width: 2.8em;
-        height: 2.8em;
+        width: 2rem;
+        height: 2rem;
         top: 0;
         right: 0;
         background: url('https://www.diteng.site/public/images/crow-down1.png');
@@ -1139,6 +1155,10 @@ a {
         background-position: center;
     }
 
+    .verify {
+        margin-bottom: 0;
+    }
+
     .verify:before {
         background: url('https://www.diteng.site/public/images/verify.png');
         background-size: auto 1.13rem;
@@ -1147,14 +1167,30 @@ a {
     }
 
     .operationLogin {
-        max-width: 20.2em;
+        max-width: 20.2rem;
+        margin: 0 auto;
         width: 80%;
-        margin: 0 auto 2.5em;
+        padding-top: .5625rem;
         text-align: left;
+        font-size: .75rem;
+        line-height: 1.125rem;
+        font-weight: 400;
+    }
+
+    .operationLogin>input {
+        vertical-align: top;
+        width: 1.125rem;
+        height: 1.125rem;
     }
 
     .operationLogin>label {
-        padding-left: .32rem;
+        padding-left: .5rem;
+        color: #ADACAC;
+    }
+
+    .operationLogin>a {
+        float: right;
+        color: #0169AB;
     }
 
     .protocolBox {
@@ -1162,14 +1198,21 @@ a {
     }
 
     .protocol {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         color: #999;
+        height: 1.125rem;
+        line-height: 1.125rem;
+    }
+
+    .protocol>input {
+        width: 1.125rem;
+        height: 1.125rem;
+        vertical-align: top;
     }
 
     .protocol>label {
-        padding-left: .32rem;
+        padding-left: .5rem;
+        display: inline-block;
+        vertical-align: top;
     }
 
     .sendCode {
@@ -1184,41 +1227,58 @@ a {
     }
 
     .btnSubmit {
-        max-width: 17.6em;
+        max-width: 20.2rem;
+        margin: 0 auto;
+        width: 80%;
         display: block;
-        width: 78%;
-        height: 2.7em;
-        line-height: 2.7em;
-        margin: 0 auto 2em;
+        height: 2rem;
+        line-height: 2rem;
+        margin: 0 auto;
         background-color: #008738;
         text-align: center;
-        font-size: 17px;
+        font-size: 1rem;
         color: #fff !important;
         outline: none;
         border: none;
-        border-radius: 2.7em;
+        border-radius: 3px;
+        margin-top: 1rem;
     }
 
     .customService {
         width: 100%;
         position: relative;
-        bottom: 0;
-        left: 0;
-        text-align: center;
+        padding-top: .75rem;
+    }
+
+    .customService>div {
+        max-width: 20.2rem;
+        margin: 0 auto;
+        width: 80%;
+        text-align: left;
+        font-size: .75rem;
+        line-height: 1.125rem;
+        font-weight: 400;
     }
 
     .customService h3 {
-        padding: 1em 0;
-        color: #333;
-        font-weight: normal;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2.875rem;
+        background-color: #ECEDF1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .customService a {
-        color: #FF9000;
+    .customService h3>a {
+        color: #0169AB;
+        font-size: .75rem;
     }
 
     .customService .protocol a {
-        color: #333;
+        color: #0169AB;
     }
 
     .upt {
@@ -1286,17 +1346,19 @@ a {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 13.44rem;
+        padding-top: 4.1875rem;
     }
 
     .logoBox>img {
-        width: 5.94rem;
+        width: 3.5rem;
     }
 
     .logoBox>h3 {
-        font-size: 1.36rem;
-        font-weight: bold;
-        padding-top: .49rem;
-        margin: 1em 0;
+        padding-top: 1.0625rem;
+        font-size: 1.1875rem;
+        line-height: 1.1875rem;
+        color: #333333;
+        font-weight: 300;
+        padding-bottom: 4.5rem;
     }
 }

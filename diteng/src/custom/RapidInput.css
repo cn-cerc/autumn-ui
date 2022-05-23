@@ -185,6 +185,7 @@
     min-width: auto;
     background: url('https://www.diteng.site/public/js/rapidInput/image/unselected.png') center no-repeat;
     margin: 0 .3125em;
+    background-size: contain;
 }
 
 .enterInput>input:checked+span,.stockInput>input:checked+span {
