@@ -14,7 +14,11 @@ type stateType = {
     ltype: number,
     rtype: number,
     ltable: number,
-    rtable: number
+    rtable: number,
+    mainData: object,
+    main1Data: object,
+    main2Data: Array<object>,
+    main3Data: Array<object>,
 }
 type PropsType = {
 
@@ -27,8 +31,69 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             ltype: 1,
             rtype: 3,
             ltable: 1,
-            rtable: 3
-
+            rtable: 3,
+            mainData:{
+                dimensions: ['product', '库容量', '安全库存', '当前库存', '在途库存'],
+                source: [
+                    { product: '煤炭', '库容量': 4.3, '安全库存': 2.4, '当前库存': 2, '在途库存': 4 },
+                    { product: '焦煤', '库容量': 2.5, '安全库存': 4.4, '当前库存': 2, '在途库存': 1.4 }
+                ]
+            },
+            main1Data: {
+                dimensions: ['product', '库容量', '安全库存', '当前库存', '在途库存'],
+                source: [
+                    { product: '磁铁矿', '库容量': 4.3, '安全库存': 2.4, '当前库存': 2, '在途库存': 1 },
+                    { product: '赤铁矿', '库容量': 2.5, '安全库存': 4.4, '当前库存': 2, '在途库存': 1 },
+                    { product: '褐铁矿', '库容量': 3.5, '安全库存': 1.8, '当前库存': 3, '在途库存': 2 },
+                    { product: '菱铁矿', '库容量': 4.5, '安全库存': 2.8, '当前库存': 5, '在途库存': 4 }
+                ]
+            },
+            main2Data:[
+                { value: 3.9, name: '锰' },
+                { value: 2, name: '硅' },
+                { value: 1.4, name: '钒' },
+                { value: 1.2, name: '钨' },
+                { value: 1, name: '钛' },
+                { value: 1.3, name: '钼' }
+            ],
+            main3Data:[
+                {
+                    name: 'A站',
+                    data: [4.3, 2.5, 3.5, 4.5, 2],
+                    type: 'line',
+                    label: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                {
+                    name: 'B站',
+                    data: [2.4, 4.4, 1.8, 2.8, 1],
+                    type: 'line',
+                    label: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                {
+                    name: 'C站',
+                    data: [1, 2, 3, 5, 4],
+                    type: 'line',
+                    label: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                {
+                    name: 'D站',
+                    data: [1, 2, 2, 3, 1.8],
+                    type: 'line',
+                    label: {
+                        show: true,
+                        position: 'top'
+                    }
+                }
+            ]
         }
     }
 
@@ -69,32 +134,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                                 </div>
                                 <ul>
                                     {this.getLDom()}
-                                    {/* <li className={styles.echartItem}>
-                                         <div className={styles.eName}>
-                                             项目关注点类分布
-                                             <p>
-                                                 <span className={styles.radioskin}></span>
-                                                 <span className={styles.radioskin}></span>
-                                                 <span className={styles.radioskin}></span>
-                                             </p>
-                                         </div>
-                                         <div>
-                                             <div id='main' className={styles.main}></div>
-                                         </div>
-                                    </li> */}
-                                    {/* <li className={`${styles.echartItem} ${styles.echartItemhide}`}>
-                                        <p className={styles.eName}>
-                                            项目关注点类分布
-                                            <p>
-                                                <span className={styles.radioskin}></span>
-                                                <span className={styles.radioskin}></span>
-                                                <span className={styles.radioskin}></span>
-                                            </p>
-                                        </p>
-                                        <div>
-                                            <div id='main1' className={styles.main}>图表</div>
-                                        </div>
-                                    </li> */}
                                 </ul>
                             </div>
                             <div className={styles.fEchart}>
@@ -107,23 +146,27 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                                 </ul>
                             </div>
                         </div>
-                        <div className='dataTale'>
+                        <div className={styles.dataTale}>
                             <div className={styles.lContainer}>
                                 <p>
-                                    <a className={this.state.ltable == 1?styles.active:''} onClick={this.toggleTable.bind(this, 1)}>煤炭采购动态</a>
-                                    <a className={this.state.ltable == 2?styles.active:''} onClick={this.toggleTable.bind(this, 2)}>铁矿石采购动态</a>
+                                    <a className={this.state.ltable == 1 ? styles.active : ''} onClick={this.toggleTable.bind(this, 1)}>煤炭采购动态</a>
+                                    <a className={this.state.ltable == 2 ? styles.active : ''} onClick={this.toggleTable.bind(this, 2)}>铁矿石采购动态</a>
                                 </p>
                                 <div>
-                                    {this.getLTable()}
+                                    <div>
+                                        {this.getLTable()}
+                                    </div>
                                 </div>
                             </div>
                             <div className={styles.rContainer}>
                                 <p>
-                                    <a className={this.state.rtable == 3?styles.active:''} onClick={this.toggleTable.bind(this, 3)}>合金采购动态</a>
-                                    <a className={this.state.rtable == 4?styles.active:''} onClick={this.toggleTable.bind(this, 4)}>废钢采购动态</a>
+                                    <a className={this.state.rtable == 3 ? styles.active : ''} onClick={this.toggleTable.bind(this, 3)}>合金采购动态</a>
+                                    <a className={this.state.rtable == 4 ? styles.active : ''} onClick={this.toggleTable.bind(this, 4)}>废钢采购动态</a>
                                 </p>
                                 <div>
-                                    {this.getRTable()}
+                                    <div>
+                                        {this.getRTable()}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -180,33 +223,35 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         var myChart = echarts.init(document.getElementById('main'));
         // 指定图表的配置项和数据
         var option = {
-            color:['#61ede7','#6fc7ff','#daa4fd','#fe8589'],
+            color: ['#61ede7', '#6fc7ff', '#daa4fd', '#fe8589'],
             legend: {
-                bottom:0
+                bottom: 0
             },
             tooltip: {},
-            dataset: {
-                dimensions: ['product', '库容量', '安全库存', '当前库存', '在途库存'],
-                source: [
-                    { product: '煤炭', '库容量': 4.3, '安全库存': 2.4, '当前库存': 2, '在途库存': 4 },
-                    { product: '焦煤', '库容量': 2.5, '安全库存': 4.4, '当前库存': 2, '在途库存': 1.4 }
-                ]
-            },
+            dataset:this.state.mainData,
             xAxis: { type: 'category' },
             yAxis: {},
-            series: [{ type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }, { type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }, { type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }, { type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }]
+            series: [{
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }, {
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }, {
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }, {
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }]
         };
         // 使用刚指定的配置项和数据显示图表。
         //@ts-ignore
@@ -217,35 +262,35 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         var myChart = echarts.init(document.getElementById('main1'));
         // 指定图表的配置项和数据
         var option = {
-            color:['#61ede7','#6fc7ff','#daa4fd','#fe8589'],
+            color: ['#61ede7', '#6fc7ff', '#daa4fd', '#fe8589'],
             legend: {
-                bottom:0
+                bottom: 0
             },
             tooltip: {},
-            dataset: {
-                dimensions: ['product', '库容量', '安全库存', '当前库存', '在途库存'],
-                source: [
-                    { product: '磁铁矿', '库容量': 4.3, '安全库存': 2.4, '当前库存': 2, '在途库存': 1 },
-                    { product: '赤铁矿', '库容量': 2.5, '安全库存': 4.4, '当前库存': 2, '在途库存': 1 },
-                    { product: '褐铁矿', '库容量': 3.5, '安全库存': 1.8, '当前库存': 3, '在途库存': 2 },
-                    { product: '菱铁矿', '库容量': 4.5, '安全库存': 2.8, '当前库存': 5, '在途库存': 4 }
-                ]
-            },
+            dataset:this.state.main1Data,
             xAxis: { type: 'category' },
             yAxis: {},
-            series: [{ type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }, { type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }, { type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }, { type: 'bar',label: {
-                show: true,
-                position: 'top'
-            } }]
+            series: [{
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }, {
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }, {
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }, {
+                type: 'bar', label: {
+                    show: true,
+                    position: 'top'
+                }
+            }]
         };
         // 使用刚指定的配置项和数据显示图表。
         //@ts-ignore
@@ -256,18 +301,18 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         var myChart = echarts.init(document.getElementById('main2'));
         // 指定图表的配置项和数据
         var option = {
-            color:['#61ede7','#6fc7ff','#daa4fd','#fe8589','#ff8ebf','#ffdc57'],
+            color: ['#61ede7', '#6fc7ff', '#daa4fd', '#fe8589', '#ff8ebf', '#ffdc57'],
             tooltip: {
                 trigger: 'item'
             },
             legend: {
-                width: '100px',
+                width: '50px',
                 top: 'center',
-                right: '1%'
+                right: '2%'
             },
             series: [
                 {
-                    name: 'Access From',
+                    // name: 'Access From',
                     type: 'pie',
                     radius: ['50%', '85%'],
                     avoidLabelOverlap: false,
@@ -291,21 +336,14 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '40',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
                     labelLine: {
                         show: false
                     },
-                    data: [
-                        { value: 3.9, name: '锰' },
-                        { value: 2, name: '硅' },
-                        { value: 1.4, name: '钒' },
-                        { value: 1.2, name: '钨' },
-                        { value: 1, name: '钛' },
-                        { value: 1.3, name: '钼' }
-                    ]
+                    data:this.state.main2Data,
                 }
             ]
         };
@@ -318,10 +356,9 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         var myChart = echarts.init(document.getElementById('main3'));
         // 指定图表的配置项和数据
         var option = {
-            color:['#61ede7','#6fc7ff','#daa4fd','#fe8589'],
+            color: ['#61ede7', '#6fc7ff', '#daa4fd', '#fe8589'],
             legend: {
-                bottom:0,
-                // data: ['A站', 'B站', 'C站', 'D站']
+                bottom: 0,
             },
             grid: {
                 left: '3%',
@@ -329,52 +366,14 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 bottom: '13%',
                 containLabel: true
             },
-        
+
             xAxis: {
                 type: 'category',
-                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             },
             yAxis: {
                 type: 'value'
             },
-            series: [
-                {
-                    name:'A站',
-                    data: [4.3, 2.5, 3.5, 4.5, 2],
-                    type: 'line',
-                    label: {
-                        show: true,
-                        position: 'top'
-                    }
-                },
-                {
-                    name:'B站',
-                    data: [2.4, 4.4, 1.8, 2.8, 1],
-                    type: 'line',
-                    label: {
-                        show: true,
-                        position: 'top'
-                    }
-                },
-                {   
-                    name:'C站',
-                    data: [1, 2, 3, 5, 4],
-                    type: 'line',
-                    label: {
-                        show: true,
-                        position: 'top'
-                    }
-                },
-                {   
-                    name:'D站',
-                    data: [1, 2, 2, 3, 1.8],
-                    type: 'line',
-                    label: {
-                        show: true,
-                        position: 'top'
-                    }
-                }
-            ]
+            series:this.state.main3Data,
         };
         // 使用刚指定的配置项和数据显示图表。
         //@ts-ignore
@@ -493,9 +492,9 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     getTable1() { //煤炭采购动态
         return <table className={styles.lTable}>
             <colgroup>
-            <col width={'33%'}/>
-            <col width={'33%'}/>
-            <col width={'33%'}/>
+                <col width={'33%'} />
+                <col width={'33%'} />
+                <col width={'33%'} />
             </colgroup>
             <thead>
                 <tr>
@@ -572,11 +571,11 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     getTable2() { //铁矿石采购动态
         return <table className={styles.lTable}>
             <colgroup>
-            <col width={'24%'}/>
-            <col width={'19%'}/>
-            <col width={'19%'}/>
-            <col width={'19%'}/>
-            <col width={'19%'}/>
+                <col width={'24%'} />
+                <col width={'19%'} />
+                <col width={'19%'} />
+                <col width={'19%'} />
+                <col width={'19%'} />
             </colgroup>
             <thead>
                 <tr>
@@ -682,13 +681,13 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     getTable3() { //合金采购动态
         return <table className={styles.rTable}>
             <colgroup>
-            <col width={'22%'}/>
-            <col width={'13%'}/>
-            <col width={'13%'}/>
-            <col width={'13%'}/>
-            <col width={'13%'}/>
-            <col width={'13%'}/>
-            <col width={'13%'}/>
+                <col width={'22%'} />
+                <col width={'13%'} />
+                <col width={'13%'} />
+                <col width={'13%'} />
+                <col width={'13%'} />
+                <col width={'13%'} />
+                <col width={'13%'} />
             </colgroup>
             <thead>
                 <tr>
@@ -812,11 +811,11 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     getTable4() { //废钢采购动态
         return <table className={styles.rTable}>
             <colgroup>
-            <col width={'24%'}/>
-            <col width={'19%'}/>
-            <col width={'19%'}/>
-            <col width={'19%'}/>
-            <col width={'19%'}/>
+                <col width={'24%'} />
+                <col width={'19%'} />
+                <col width={'19%'} />
+                <col width={'19%'} />
+                <col width={'19%'} />
             </colgroup>
             <thead>
                 <tr>
