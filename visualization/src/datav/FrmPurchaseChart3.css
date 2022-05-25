@@ -1,9 +1,29 @@
+
 *{
     list-style: none;
-    padding:0;
-    margin:0;
-    color:#333;
+    /* padding:0; */
+    /* margin:0; */
+    /* color:#333; */
 }
+
+.data-view {
+    width: 100%;
+    height: 100%;
+    background-color: #030409;
+    color: #fff;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  
+  .data-view .dv-full-screen-container {
+    background-image: url('../../img/bg.png');
+    background-size: 100% 100%;
+    box-shadow: 0 0 3px blue;
+    display: flex;
+    flex-direction: column;
+    position: relative !important;
+  }
+
 .page{
     padding:0 15px;
 }
@@ -16,14 +36,14 @@
 }
 .echartItems{
     display: flex;
-    background-color: #f2f6fa;
+    /* background-color: #f2f6fa; */
     justify-content:space-around;
 }
 
 .echartItems > .f-echart {
     flex-grow:1;
     margin:5px 10px;
-    background: #fff;
+    /* background: #fff; */
     width:50%;
 }
 .echartItems > .f-echart > div{
@@ -36,8 +56,19 @@
     cursor: pointer;
 }
 
-.echartItems > .f-echart >div a.active{
-    color:#634eff;
+.echartItems > .f-echart >div a.active,.l-container p a.active, .r-container p a.active{
+    /* color:#634eff; */
+    color:#66ff66;
+}
+
+.l-echart > ul .main{
+    margin-left:6%;
+}
+.l-echart > div{
+   padding-left:17% !important;
+}
+.r-echart{
+    
 }
 
 .f-echart > div{
@@ -45,8 +76,13 @@
     padding-right:10px;
 }
 .f-echart > ul{
-    height:320px;
+    height:390px;
 }
+
+/* f-echart > ul .main{
+    margin-left:10%;
+} */
+
 .echartItems > ul{
     display: flex;
     justify-content:space-around;
@@ -55,7 +91,7 @@
 
 .echartItem{
     /* margin:5px 10px; */
-    background: #fff;
+    /* background: #fff; */
     flex-grow:1;
 }
 
@@ -69,26 +105,26 @@
     padding-left:15px;
     padding-right:10px;
     position: relative;
-    border-bottom: 1px solid #e6e6e6;
+    /* border-bottom: 1px solid #fff; */
     font-size: 14px;
 
 }
-.eName > p{
+/* .eName > p{
     position: absolute;
     right:10px;
     top:0;
     height:34px;
-}
-.radioskin{
+} */
+/* .radioskin{
     display: inline-block;
     width:4px;
     height:4px;
-    background-color: #e6e6e6;
+    background-color: #fff;
     border-radius: 50%;
     margin:0 3px;
-}
+} */
 .dataTale{
-    background: #f2f6fa;
+ margin-top:50px;
 }
 
 .dataTale::after{
@@ -112,18 +148,18 @@
     margin-left: 10px;
 } */
 
-.l-container p{
+/* .l-container p{
     padding-right:10px;
 }
 .r-container p{
     padding-left:10px;
-}
-.l-container p , .r-container p {
-    background-color: #fff;
-}
-.l-container p a.active, .r-container p a.active{
+} */
+/* .l-container p , .r-container p { */
+    /* background-color: #fff; */
+/* } */
+/* .l-container p a.active, .r-container p a.active{
     color: #634eff;
-}
+} */
 
 /* .l-container > div, .r-container > div{ */
    /* background: #f2f6fa; */
@@ -131,10 +167,15 @@
    /* height:450px; */
 /* } */
 .l-container > div > div,.r-container > div > div{
-    margin:5px 10px 5px 10px;
-    background: #fff;
-    height:100%;
+    margin: 5px auto;
+    /* background: #fff; */
+    height: 100%;
+    width: 74%;
 }
+/* .l-container > div > div{
+    margin-right: 90px;
+    float: right;
+} */
 /* .r-container > div > div{
     margin:5px 10px 5px 10px;
     background: #fff;
@@ -156,6 +197,7 @@
     color:#fff;
     font-size: 16px;
 }
+
 .l-table tbody tr td,.r-table tbody tr td{
     height:24px;
     line-height: 24px;
@@ -173,8 +215,9 @@
 .l-container p ,.r-container p{
     height:40px;
     line-height: 40px;
-    padding-top:10px;
-    padding-bottom:10px;
+    /* padding-top:10px; */
+    /* padding-bottom:10px; */
+    padding: 10px 172px;
 }
 .l-container p a ,.r-container p a{
     font-size: 16px;
@@ -184,5 +227,62 @@
 
 .main{
     width:90%;
-    height:280px;
+    height:380px;
+}
+
+
+.box {
+    width: 100%;
+    /* margin: 100px auto; */
+}
+
+.grid {
+    height: 430px;
+    display: flex;
+    flex-direction: column;
+}
+
+.grid {
+    padding: .75rem 1rem;
+    box-sizing: border-box;
+}
+
+.grid>div {
+    background-color: transparent;
+}
+
+.grid>div th {
+    background-color: #00BAFF;
+    border: 0;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.grid>div td:nth-child(1){
+    text-align: left;
+}
+.grid>div td:nth-child(n + 2){
+    text-align: right;
+}
+.grid>div td {
+    border: 0;
+    line-height: 1rem;
+    font-size: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.grid>div th::before, .grid>div td::before {
+    width: 0!important;
+}
+
+.grid>div tbody>tr:nth-child(2n) {
+    background-color: #003B51;
+    height:1.8rem;
+}
+
+.grid>div tbody>tr:nth-child(2n+1) {
+    background-color: #0A2732;
+    height:1.8rem;
 }
