@@ -1,10 +1,7 @@
-import { FullScreenContainer } from '@jiaminghi/data-view-react';
-import * as echarts from "echarts";
 import React from "react";
 import "../tool/Summer.css";
 import { Excel, excelData } from '../tool/Utils';
 import styles from './FrmPurchaseChart2.css';
-import TopHeader from './TopHeader';
 type stateType = {
     arr: number[]
 }
