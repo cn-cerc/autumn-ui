@@ -1,0 +1,21 @@
+#wrapper{
+    width:100vw;
+    height:100vh;
+    padding:60px 80px;
+    background: rgba(255, 255, 255, 1);
+}
+.state-item{
+    width:80px;
+    height:40px;
+    color:#626266;
+    background-color: #f6f6f6;
+    border:2px solid rgba(0, 0, 0, 0.05);
+    text-align: center;
+    line-height: 40px;
+    border-radius: 4px;
+    margin-right:60px;
+}
+.line-wrap{
+    display: flex;
+    margin-bottom:40px;
+}

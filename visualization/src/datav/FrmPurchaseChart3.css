@@ -1,9 +1,5 @@
-
 *{
     list-style: none;
-    /* padding:0; */
-    /* margin:0; */
-    /* color:#333; */
 }
 
 .data-view {
@@ -36,14 +32,12 @@
 }
 .echartItems{
     display: flex;
-    /* background-color: #f2f6fa; */
     justify-content:space-around;
 }
 
 .echartItems > .f-echart {
     flex-grow:1;
     margin:5px 10px;
-    /* background: #fff; */
     width:50%;
 }
 .echartItems > .f-echart > div{
@@ -57,7 +51,6 @@
 }
 
 .echartItems > .f-echart >div a.active,.l-container p a.active, .r-container p a.active{
-    /* color:#634eff; */
     color:#66ff66;
 }
 
@@ -67,9 +60,6 @@
 .l-echart > div{
    padding-left:17% !important;
 }
-.r-echart{
-    
-}
 
 .f-echart > div{
     padding-left:15px;
@@ -78,11 +68,6 @@
 .f-echart > ul{
     height:390px;
 }
-
-/* f-echart > ul .main{
-    margin-left:10%;
-} */
-
 .echartItems > ul{
     display: flex;
     justify-content:space-around;
@@ -90,39 +75,16 @@
 }
 
 .echartItem{
-    /* margin:5px 10px; */
-    /* background: #fff; */
     flex-grow:1;
 }
-
-/* .echartItemhide{
-    display: none;
-} */
-
 .eName{
     height:30px;
     line-height: 30px;
     padding-left:15px;
     padding-right:10px;
     position: relative;
-    /* border-bottom: 1px solid #fff; */
     font-size: 14px;
-
 }
-/* .eName > p{
-    position: absolute;
-    right:10px;
-    top:0;
-    height:34px;
-} */
-/* .radioskin{
-    display: inline-block;
-    width:4px;
-    height:4px;
-    background-color: #fff;
-    border-radius: 50%;
-    margin:0 3px;
-} */
 .dataTale{
  margin-top:50px;
 }
@@ -137,50 +99,13 @@
 
 .l-container, .r-container{
     float: left;
-    /* width:calc(50% - 10px); */
     width:50%;
-    
 }
-/* .l-container{
-    margin-right: 10px;
-}
-.r-container{
-    margin-left: 10px;
-} */
-
-/* .l-container p{
-    padding-right:10px;
-}
-.r-container p{
-    padding-left:10px;
-} */
-/* .l-container p , .r-container p { */
-    /* background-color: #fff; */
-/* } */
-/* .l-container p a.active, .r-container p a.active{
-    color: #634eff;
-} */
-
-/* .l-container > div, .r-container > div{ */
-   /* background: #f2f6fa; */
-   /* padding-bottom:10px; */
-   /* height:450px; */
-/* } */
 .l-container > div > div,.r-container > div > div{
     margin: 5px auto;
-    /* background: #fff; */
     height: 100%;
-    width: 74%;
+    width: 76%;
 }
-/* .l-container > div > div{
-    margin-right: 90px;
-    float: right;
-} */
-/* .r-container > div > div{
-    margin:5px 10px 5px 10px;
-    background: #fff;
-    height:100%;
-} */
 .l-table,.r-table{
     width: 100%;
     table-layout: fixed;
@@ -189,10 +114,6 @@
     background-color: #00A0e9;
     height:36px;
 }
-/* .r-table thead tr{
-    background-color: #0068D7;
-    height:26px;
-} */
 .l-table thead tr th,.r-table thead tr th{
     color:#fff;
     font-size: 16px;
@@ -215,8 +136,6 @@
 .l-container p ,.r-container p{
     height:40px;
     line-height: 40px;
-    /* padding-top:10px; */
-    /* padding-bottom:10px; */
     padding: 10px 172px;
 }
 .l-container p a ,.r-container p a{
@@ -230,10 +149,8 @@
     height:380px;
 }
 
-
 .box {
     width: 100%;
-    /* margin: 100px auto; */
 }
 
 .grid {
@@ -243,7 +160,7 @@
 }
 
 .grid {
-    padding: .75rem 1rem;
+    padding: 1rem 1.5rem;
     box-sizing: border-box;
 }
 
@@ -269,8 +186,8 @@
     border: 0;
     line-height: 1rem;
     font-size: 14px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 12px;
 }
 
 .grid>div th::before, .grid>div td::before {
