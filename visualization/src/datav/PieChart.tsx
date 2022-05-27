@@ -1,5 +1,6 @@
 import * as echarts from "echarts";
 import React from 'react';
+import ReactDOM from "react-dom";
 import styles from './PieChart.css';
 
 type PropsType = {
@@ -16,20 +17,29 @@ type stateType = {
 
 export default class PieChart extends React.Component<PropsType, stateType> {
   private timer: any = null;
+  private myChart: any = null;
+  private echartId: string;
   constructor(props: PropsType) {
     super(props);
     this.state = {
       width: '10rem',
-      height: '10rem'
+      height: '10rem',
     }
   }
 
   componentDidMount(): void {
     this.initData();
+    // this.echartId = this.props.eleId;
+    this.echartId = 'PieChart4'
   }
 
   componentWillUnmount() {
     clearInterval(this.timer);
+    let box = document.getElementById(this.props.eleId);
+            ReactDOM.unmountComponentAtNode(box);
+            if (box) box.remove();
+    // this.myChart.dispose(document.getElementById(this.echartId));
+    // this.myChart.setOption({})
   }
 
   render() {
@@ -105,7 +115,7 @@ export default class PieChart extends React.Component<PropsType, stateType> {
       pieOption['color'] = this.props.lineColor;
     }
     let chart = document.getElementById(this.props.eleId) as HTMLDivElement;
-    let myChart = echarts.init(chart);
-    myChart.setOption(pieOption);
+    this.myChart = echarts.init(chart);
+    this.myChart.setOption(pieOption);
   }
 }
