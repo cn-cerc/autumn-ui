@@ -29,9 +29,12 @@ import FrmReport7 from "./src/datav/FrmReport7";
 import FrmReport8 from "./src/datav/FrmReport8";
 import FrmReport9 from "./src/datav/FrmReport9";
 import FrmSaleChart from "./src/datav/FrmSaleChart";
-
+import FrmPurchaseChart3 from "./src/datav/FrmPurchaseChart3";
+import FrmPurchaseChart4 from "./src/datav/FrmPurchaseChart4";
 export default {
     FrmPurchaseChart,
+    FrmPurchaseChart3,
+    FrmPurchaseChart4,
     FrmManufactureChart,
     FrmSaleChart,
     FrmReport1,
