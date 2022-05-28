@@ -27,7 +27,7 @@ type stateType = {
 type PropsType = {
 }
 
-export default class FrmSaleChart extends React.Component<PropsType, stateType> {
+export default class FrmPurchaseChart4 extends React.Component<PropsType, stateType> {
     private timer: any = null;
     private lineLenged: string[] = ['一区', '二区', '三区', '四区', '五区'];
     private xName: string[] = [];
