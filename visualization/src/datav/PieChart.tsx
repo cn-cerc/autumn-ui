@@ -45,7 +45,8 @@ export default class PieChart extends React.Component<PropsType, stateType> {
   initPieChart() {
     if (this.props.price.length == 0)
       return
-    let legendArray = ['一区', '二区', '三区', '四区', '五区', '六区'];
+    let legendArray = ['一区', '二区', '三区', '四区', '五区'];
+    // let legendArray = ['一区', '二区', '三区', '四区', '五区', '六区'];
     let seriesData1: any[] = [];
     let seriesData2: any[] = [];
     legendArray.forEach((value, index) => {

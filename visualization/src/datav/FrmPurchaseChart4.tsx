@@ -2,6 +2,7 @@ import { FullScreenContainer } from '@jiaminghi/data-view-react';
 import { DataRow, DataSet } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import { AuiMath } from '../tool/Summer';
 import { Excel, excelData } from "../tool/Utils";
 import styles from './FrmPurchaseChart4.css';
 import PieChart from './PieChart';
@@ -16,13 +17,21 @@ type stateType = {
     dynamicDataArr: any[],
     dynamicDataArr2: any[],
     lengedState: boolean[],
+    lengedState1: boolean[],
     dataList: excelData[],
     saleroom: Map<string, any>,
     refreshKey: number,
     quotation: object[],
     timeFlag: any,
     timeNub: number,
-    pageType1: number
+    pageType1: number,
+    area1: DataSet,
+    area2: DataSet,
+    area3: DataSet,
+    area4: DataSet,
+    area5: DataSet,
+    page1Month12: any,
+    page2Month12: any
 }
 type PropsType = {
 }
@@ -58,6 +67,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             showIndex: 0,
             boardConfig: {},
             lengedState: [true, true, true, true, true],
+            lengedState1: [true, true, true, true, true],
             dynamicDataArr: [],
             dynamicDataArr2: [],
             dataList: [],
@@ -73,7 +83,14 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             ],
             timeFlag: null,
             timeNub: 30 * 1000,
-            pageType1: 1
+            pageType1: 1,
+            area1: new DataSet,
+            area2: new DataSet,
+            area3: new DataSet,
+            area4: new DataSet,
+            area5: new DataSet,
+            page1Month12: [],
+            page2Month12: [],
         }
     }
 
@@ -82,6 +99,28 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         // this.timer = setInterval(() => {
         //     this.initData()
         // }, 30000)
+        document.onkeydown = (e: any) => {
+            e = e || window.event;
+            if (e.keyCode == 32) {
+                this.clearIntervalFun();
+                return;
+            }
+            if (e.keyCode == 49 || e.keyCode == 97) {
+                this.setState({ timeNub: 30 * 1000 });
+                clearInterval(this.state.timeFlag);
+                this.setState({
+                    timeFlag: null
+                });
+                this.autoTogglePage();
+            } else if (e.keyCode == 50 || e.keyCode == 98) {
+                this.setState({ timeNub: 60 * 1000 });
+                clearInterval(this.state.timeFlag);
+                this.setState({
+                    timeFlag: null
+                });
+                this.autoTogglePage();
+            }
+        }
     }
 
     componentWillUnmount() {
@@ -94,6 +133,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
 
     async initData() {
         let dataList: excelData[] = [];
+        let page1Temp: number[][] = [],
+            page2Temp: number[][] = [];
+        let math = new AuiMath();
         await fetch('./kanban3_1.xls', {
             method: 'get',
         }).then(function (response) {
@@ -101,8 +143,25 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         }).then((data) => {
             let execl = new Excel();
             dataList = execl.getDataByArrayBuffer(data);
-            this.setState({ ...this.state, dataList })
+            this.setState({ ...this.state, dataList, area1: dataList[7].data, area2: dataList[8].data, area3: dataList[9].data, area4: dataList[10].data, area5: dataList[11].data });
+            let fullYearList: DataSet = dataList[4].data;
+
+            for (var i = 0; i < 6; i++) {
+                page1Temp.push([]);
+                page2Temp.push([]);
+            }
+            fullYearList.first();
+            while (fullYearList.fetch()) {
+                page1Temp[0].push(fullYearList.getDouble('螺纹钢'));
+                page1Temp[2].push(fullYearList.getDouble('型钢'));
+                page1Temp[4].push(fullYearList.getDouble('带钢'));
+                page2Temp[0].push(fullYearList.getDouble('线材'));
+                page2Temp[2].push(fullYearList.getDouble('板材'));
+                page2Temp[4].push(fullYearList.getDouble('管材'));
+            }
         })
+        let now = new Date();
+        let nowMonth = new Date().getMonth();
         this.xName = [];
         this.xName2 = []
         let dynamicDataArr: any[] = new Array(this.lineLenged.length);
@@ -111,25 +170,111 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             dynamicDataArr[i] = new Array();
             dynamicDataArr2[i] = new Array();
         }
-        let ds: DataSet = dataList[5].data;
-        ds.first();
-        while (ds.fetch()) {
-            if (ds.getString('类型') == '螺纹钢' || ds.getString('类型') == '型钢' || ds.getString('类型') == '带钢') {
-                this.xName.push(ds.getString('类型'))
-                dynamicDataArr[0].push(ds.getDouble('一区'));
-                dynamicDataArr[1].push(ds.getDouble('二区'));
-                dynamicDataArr[2].push(ds.getDouble('三区'));
-                dynamicDataArr[3].push(ds.getDouble('四区'));
-                dynamicDataArr[4].push(ds.getDouble('五区'));
-            } else {
-                this.xName2.push(ds.getString('类型'))
-                dynamicDataArr2[0].push(ds.getDouble('一区'));
-                dynamicDataArr2[1].push(ds.getDouble('二区'));
-                dynamicDataArr2[2].push(ds.getDouble('三区'));
-                dynamicDataArr2[3].push(ds.getDouble('四区'));
-                dynamicDataArr2[4].push(ds.getDouble('五区'));
-            }
+        let fiveArea = [this.state.area1, this.state.area2, this.state.area3, this.state.area4, this.state.area5]; //保存五个区
+        let page1Month12: { name: string, value: number }[][] = [],
+            page2Month12: { name: string, value: number }[][] = [];
+        var temp: number[][] = [];
+        for (var i = 0; i < 6; i++) {
+            temp.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         }
+        fiveArea.forEach((area, areaIndex) => {
+            page1Month12 = [],
+                page2Month12 = [];
+            for (let i = 0; i < 12; i++) {
+                page1Month12.push([{ name: '螺纹钢', value: 0 }, { name: '型钢', value: 0 }, { name: '带钢', value: 0 }]);
+                page2Month12.push([{ name: '线材', value: 0 }, { name: '板材', value: 0 }, { name: '管材', value: 0 }]);
+            }
+            let ds: DataSet = area;
+            ds.first();
+            while (ds.fetch()) {
+                let zl = ds.getString('类型'); //保存种类
+                let xssl = ds.getDouble('销售数量'); //保存销售数量
+                for (var i = 0; i < 12; i++) { //循坏12个月
+                    if (zl == '螺纹钢' || zl == '型钢' || zl == '带钢') {
+                        if (new Date(ds.getString('销售日期')).getMonth() == i) {
+                            if (zl == '螺纹钢') {
+                                this.xName[0] = zl;
+                                page1Month12[i][0].value = math.toFixed(page1Month12[i][0].value + xssl, 1);
+                                temp[0][i] = math.toFixed(temp[0][i] + page1Month12[i][0].value, 1);
+                            }
+                            if (zl == '型钢') {
+                                this.xName[1] = zl;
+                                page1Month12[i][1].value = math.toFixed(page1Month12[i][1].value + xssl, 1);
+                                temp[1][i] = math.toFixed(temp[1][i] + page1Month12[i][1].value, 1);
+                            }
+                            if (zl == '带钢') {
+                                this.xName[2] = zl;
+                                page1Month12[i][2].value = math.toFixed(page1Month12[i][2].value + xssl, 1);
+                                temp[2][i] = math.toFixed(temp[2][i] + page1Month12[i][2].value, 1);
+                            }
+                        }
+                    } else {
+                        if (new Date(ds.getString('销售日期')).getMonth() == i) {
+                            if (zl == '线材') {
+                                this.xName2[0] = zl;
+                                page2Month12[i][0].value = math.toFixed(page2Month12[i][0].value + xssl, 1);
+                                temp[3][i] = math.toFixed(temp[3][i] + page2Month12[i][0].value, 1);
+                            }
+                            if (zl == '板材') {
+                                this.xName2[1] = zl;
+                                page2Month12[i][1].value = math.toFixed(page2Month12[i][1].value + xssl, 1);
+                                temp[4][i] = math.toFixed(temp[4][i] + page2Month12[i][1].value, 1);
+                            }
+                            if (zl == '管材') {
+                                this.xName2[2] = zl;
+                                page2Month12[i][2].value = math.toFixed(page2Month12[i][2].value + xssl, 1);
+                                temp[5][i] = math.toFixed(temp[5][i] + page2Month12[i][2].value, 1);
+                            }
+                        }
+                    }
+                }
+                if (new Date(ds.getString('销售日期')).getMonth() == nowMonth) {
+                    if (zl == '螺纹钢') {
+                        dynamicDataArr[areaIndex][0] = dynamicDataArr[areaIndex][0] > 0 ? dynamicDataArr[areaIndex][0] : 0;
+                        dynamicDataArr[areaIndex][0] = math.toFixed(dynamicDataArr[areaIndex][0] + page1Month12[nowMonth][0].value, 1);
+                    }
+                    if (zl == '型钢') {
+                        dynamicDataArr[areaIndex][1] = dynamicDataArr[areaIndex][1] > 0 ? dynamicDataArr[areaIndex][1] : 0;
+                        dynamicDataArr[areaIndex][1] = math.toFixed(dynamicDataArr[areaIndex][1] + page1Month12[nowMonth][1].value, 1);
+                    }
+                    if (zl == '带钢') {
+                        dynamicDataArr[areaIndex][2] = dynamicDataArr[areaIndex][1] > 0 ? dynamicDataArr[areaIndex][2] : 0;
+                        dynamicDataArr[areaIndex][2] = math.toFixed(dynamicDataArr[areaIndex][2] + page1Month12[nowMonth][2].value, 1);
+                    }
+                    if (zl == '线材') {
+                        dynamicDataArr2[areaIndex][0] = dynamicDataArr2[areaIndex][0] > 0 ? dynamicDataArr2[areaIndex][0] : 0;
+                        dynamicDataArr2[areaIndex][0] = math.toFixed(dynamicDataArr2[areaIndex][0] + page2Month12[nowMonth][0].value, 1);
+                    }
+                    if (zl == '板材') {
+                        dynamicDataArr2[areaIndex][1] = dynamicDataArr2[areaIndex][1] > 0 ? dynamicDataArr2[areaIndex][1] : 0;
+                        dynamicDataArr2[areaIndex][1] = math.toFixed(dynamicDataArr2[areaIndex][1] + page2Month12[nowMonth][1].value, 1);
+                    }
+                    if (zl == '管材') {
+                        dynamicDataArr2[areaIndex][2] = dynamicDataArr2[areaIndex][2] > 0 ? dynamicDataArr2[areaIndex][2] : 0;
+                        dynamicDataArr2[areaIndex][2] = math.toFixed(dynamicDataArr2[areaIndex][2] + page2Month12[nowMonth][2].value, 1);
+                    }
+                }
+            }
+        })
+        temp[0].splice(nowMonth + 1, temp[0].length);
+        temp[1].splice(nowMonth + 1, temp[1].length);
+        temp[2].splice(nowMonth + 1, temp[2].length);
+        temp[3].splice(nowMonth + 1, temp[3].length);
+        temp[4].splice(nowMonth + 1, temp[4].length);
+        temp[5].splice(nowMonth + 1, temp[5].length);
+
+        page1Temp[1] = temp[0];
+        page1Temp[3] = temp[1];
+        page1Temp[5] = temp[2];
+        page2Temp[1] = temp[3];
+        page2Temp[3] = temp[4];
+        page2Temp[5] = temp[5];
+
+        this.setState({
+            ...this.state,
+            page1Month12: page1Temp,
+            page2Month12: page2Temp
+        })
 
         let saleroom: Map<string, any> = this.state.saleroom;
         let dsSaleroom: DataSet = dataList[6].data;
@@ -141,7 +286,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         })
 
         this.setState({ ...this.state, dynamicDataArr, dynamicDataArr2, saleroom, refreshKey: new Date().getTime() })
-        this.initBarChart(dynamicDataArr);
+        this.initBarChart();
         this.initLineChart();
         this.autoTogglePage();
     }
@@ -284,7 +429,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                                 <span>{symbol}{item.percentage}</span>
                             </div>
                         </li>
-                        <li className={styles.saleDate}>{item.date}</li>
+                        {/* <li className={styles.saleDate}>{item.date}</li> */}
                     </ul>
                 </div>
             }
@@ -312,15 +457,28 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
     }
 
     initBarChart(dynamicDataArr?: any[]) {
-        let dataArr = this.state.dynamicDataArr;
-        if (dynamicDataArr)
-            dataArr = dynamicDataArr;
+        let dataArr;
+        if (this.state.pageType1 == 1) {
+            dataArr = this.state.dynamicDataArr;
+        } else {
+            dataArr = this.state.dynamicDataArr2;
+        }
+        // if (dynamicDataArr)
+        //     dataArr = dynamicDataArr;
         let siteSize = 0;
         let dynamicSeries = [];
-        this.state.lengedState.forEach((bool: boolean) => {
-            if (bool)
-                siteSize++;
-        })
+        if (this.state.pageType1 == 1) {
+            this.state.lengedState.forEach((bool: boolean) => {
+                if (bool)
+                    siteSize++;
+            })
+        } else {
+            this.state.lengedState1.forEach((bool: boolean) => {
+                if (bool)
+                    siteSize++;
+            })
+        }
+
         let barWidth = 32;
         let site = 0;
 
@@ -397,8 +555,13 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 },
                 data: dataArr[i],
             })
-            if (this.state.lengedState[i])
-                site = site + barWidth + barWidth * 0.1
+            if (this.state.pageType1 == 1) {
+                if (this.state.lengedState[i])
+                    site = site + barWidth + barWidth * 0.1
+            } else {
+                if (this.state.lengedState1[i])
+                    site = site + barWidth + barWidth * 0.1
+            }
         }
         let xData: any[] = [];
         var xName = this.xName;
@@ -499,16 +662,17 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             ],
             series: dynamicSeries,
         });
-        if (!this.isLengedEvent) {
-            this.isLengedEvent = true;
-            myChart.on('legendselectchanged', (obj: {
-                name: string,
-                selected: object,
-                type: string
-            }) => {
-                this.lengedChanage(obj)
-            })
-        }
+        myChart.off('legendselectchanged');
+        // if (!this.isLengedEvent) {
+        // this.isLengedEvent = true;
+        myChart.on('legendselectchanged', (obj: {
+            name: string,
+            selected: object,
+            type: string
+        }) => {
+            this.lengedChanage(obj)
+        })
+        // }
     }
 
     lengedChanage(obj: {
@@ -520,12 +684,20 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         Object.values(obj.selected).forEach((bool: boolean, index: number) => {
             lengedState.push(bool);
         })
-        this.setState({
-            lengedState
-        }, () => {
-            this.initBarChart();
-            this.initLineChart();
-        })
+        if (this.state.pageType1 == 1) {
+            this.setState({
+                lengedState
+            }, () => {
+                this.initBarChart(this.state.dynamicDataArr);
+            })
+        } else {
+            this.setState({
+                lengedState1: lengedState
+            }, () => {
+                this.initBarChart(this.state.dynamicDataArr2);
+            })
+        }
+
     }
 
     initLineChart(option?: any) {
@@ -533,28 +705,30 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         let lineColir = ['#41aebd', '#EBBB06', '#1CB53C'];
         let purchaseLenged1 = ['螺纹钢', '型钢', '带钢'];
         let purchaseLenged2 = ['线材', '板材', '管材'];
-        let purchaseDataArr1: any = [
-            [10, 12, 13, 14, 12, 8, 8.8, 10, 12, 11, 9, 10],
-            [11, 11.5, 12, 13, 13],
-            // [6, 2.1, 6, 9, 3, 6.9, 4.9, 11, 9, 10, 9.5, 10.9],
-            [15, 18, 19, 18, 16, 14, 16, 15.5, 14, 13.8, 15, 16.8],
-            [12, 16, 18, 19, 18],
-            // [2, 3.6, 5, 2, 8.3, 9, 4, 9, 5.1, 10.5, 9, 10.5],
-            [6, 8, 9.5, 8, 7.5, 8, 7, 6.5, 6, 5.5, 7, 7.8],
-            [6.5, 7.5, 8, 9, 7.9],
-            // [9, 6.1, 7, 4, 6.8, 1, 9, 7, 9, 7, 8.9, 10]
-        ];
-        let purchaseDataArr2: any = [
-            [32, 28, 29.6, 31, 31.5, 34, 32, 30, 28, 29.2, 28.6, 29],
-            [31.8, 32.6, 31.4, 30, 28],
-            // [6, 2.1, 6, 9, 3, 9, 9, 11, 9, 10, 7, 8],
-            [16, 18, 17.8, 16.5, 15.5, 17, 18.2, 16.8, 19.3, 20, 20.5, 18],
-            [18, 18.5, 17, 17.8, 16],
-            // [2, 6, 5, 2, 8.3, 8.9, 3, 9, 5.1, 10.5, 9, 10.5],
-            [25, 25.5, 26, 26.8, 24.5, 23.8, 22, 24, 26, 26.8, 25.7, 26.3],
-            [28, 26.8, 24, 25.9, 26],
-            // [9, 6.6, 6.8, 4, 6.8, 7, 9, 6.7, 5.9, 6.8, 8.9, 10]
-        ];
+        let purchaseDataArr1: any = this.state.page1Month12;
+        // let purchaseDataArr1: any = [
+        //     [10, 12, 13, 14, 12, 8, 8.8, 10, 12, 11, 9, 10],
+        //     [11, 11.5, 12, 13, 13],
+        //     // [6, 2.1, 6, 9, 3, 6.9, 4.9, 11, 9, 10, 9.5, 10.9],
+        //     [15, 18, 19, 18, 16, 14, 16, 15.5, 14, 13.8, 15, 16.8],
+        //     [12, 16, 18, 19, 18],
+        //     // [2, 3.6, 5, 2, 8.3, 9, 4, 9, 5.1, 10.5, 9, 10.5],
+        //     [6, 8, 9.5, 8, 7.5, 8, 7, 6.5, 6, 5.5, 7, 7.8],
+        //     [6.5, 7.5, 8, 9, 7.9],
+        //     // [9, 6.1, 7, 4, 6.8, 1, 9, 7, 9, 7, 8.9, 10]
+        // ];
+        let purchaseDataArr2: any = this.state.page2Month12;
+        // let purchaseDataArr2: any = [
+        //     [32, 28, 29.6, 31, 31.5, 34, 32, 30, 28, 29.2, 28.6, 29],
+        //     [31.8, 32.6, 31.4, 30, 28],
+        //     // [6, 2.1, 6, 9, 3, 9, 9, 11, 9, 10, 7, 8],
+        //     [16, 18, 17.8, 16.5, 15.5, 17, 18.2, 16.8, 19.3, 20, 20.5, 18],
+        //     [18, 18.5, 17, 17.8, 16],
+        //     // [2, 6, 5, 2, 8.3, 8.9, 3, 9, 5.1, 10.5, 9, 10.5],
+        //     [25, 25.5, 26, 26.8, 24.5, 23.8, 22, 24, 26, 26.8, 25.7, 26.3],
+        //     [28, 26.8, 24, 25.9, 26],
+        //     // [9, 6.6, 6.8, 4, 6.8, 7, 9, 6.7, 5.9, 6.8, 8.9, 10]
+        // ];
         let purchaseLenged: any[], purchaseDataArr;
         if (this.state.pageType1 == 1) {
             purchaseLenged = purchaseLenged1;
@@ -580,7 +754,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 type = 'dotted';
                 opacity = 0.6;
             }
-                
+
             lineSeries.push({
                 name: leagedName,
                 type: 'line',
@@ -649,8 +823,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                                     <span style="background-color: ${obj.color}; width: 12px; height: 12px; border-radius: 50%;"></span>
                                     <span style="width: 5em; padding-left: 0.5em;">${obj.name}</span>
                                     <span style="font-size: 18px; color: black; font-weight: 500;">${obj.data}</span>
-                                </div>
-                    `
+                                </div>`;
                 },
             },
             // 内容区域位置
@@ -662,7 +835,6 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 containLabel: true
             },
             xAxis: {
-
                 data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
                 axisLine: {
                     lineStyle: {
@@ -693,14 +865,19 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 pageType1 = 2;
                 break;
         }
-        this.setState({ pageType1 }, () => {
-            this.setState({ timeNub: 30 * 1000 });
-            clearInterval(this.state.timeFlag);
-            this.setState({
-                timeFlag: null
+        this.setState({
+            lengedState: [true, true, true, true, true],
+            lengedState1: [true, true, true, true, true]
+        }, () => {
+            this.setState({ pageType1 }, () => {
+                this.setState({ timeNub: 30 * 1000 });
+                clearInterval(this.state.timeFlag);
+                this.setState({
+                    timeFlag: null
+                });
+                this.initData();
             });
-            this.initData();
-        });
+        })
     }
     //设置自动切换界面
     autoTogglePage() {
@@ -711,17 +888,27 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                     this.setState({
                         pageType1: 1
                     });
-                    this.initBarChart(this.state.dynamicDataArr);
+                    this.initBarChart();
                     this.initLineChart();
                 } else {
                     this.setState({
                         pageType1: 2
                     });
-                    this.initBarChart(this.state.dynamicDataArr2);
+                    this.initBarChart();
                     this.initLineChart();
                 }
-            }, 30000)
-            // }, this.state.timeNub)
+                // }, 30000)
+            }, this.state.timeNub)
         })
+    }
+
+    //关闭或开启界面定时切换
+    clearIntervalFun() {
+        if (this.state.timeFlag != null) {
+            clearInterval(this.state.timeFlag);
+            this.setState({ timeFlag: null });
+        } else {
+            this.autoTogglePage();
+        }
     }
 }

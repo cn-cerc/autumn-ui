@@ -551,7 +551,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         let style = ''
         if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu;
-        console.log(style)
         return style
     }
 
@@ -777,6 +776,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         };
         //@ts-ignore
         myChart.setOption(option);
+        myChart.off('legendselectchanged');
         myChart.on('legendselectchanged', (obj: {
             name: string,
             selected: object,
@@ -931,6 +931,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         };
         //@ts-ignore
         myChart.setOption(option);
+        myChart.off('legendselectchanged');
         myChart.on('legendselectchanged', (obj: {
             name: string,
             selected: object,
