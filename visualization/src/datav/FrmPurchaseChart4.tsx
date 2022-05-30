@@ -50,7 +50,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 href: 'javascript:aui.showPage("FrmPurchaseChart3", "采购数据管理中心")'
             }], ['制造数据管理中心', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart", "制造数据管理中心")'
+                href: 'javascript:aui.showPage("FrmPurchaseChart5", "制造数据管理中心")'
             }], ['销售数据管理中心', {
                 imgSrc: './kanban3.png',
                 href: 'javascript:aui.showPage("FrmPurchaseChart4", "销售数据管理中心")'

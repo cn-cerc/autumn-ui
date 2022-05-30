@@ -90,7 +90,6 @@
     align-items: center;
     justify-content: center;
     padding: 16px 0;
-    border-bottom: 1px dashed #66ff66;
 }
 
 .navHover {
@@ -134,6 +133,10 @@
     width: 150px;
 }
 
+.stove2 {
+    width: 100px;
+}
+
 .stock1 {
     position: absolute;
     left: 180px;
@@ -165,7 +168,95 @@
     bottom: 40px;
 }
 
-.nameBox {
+.stock6 {
+    position: absolute;
+    left: 180px;
+    top: 100px;
+}
+
+.stock7 {
+    position: absolute;
+    left: 180px;
+    bottom: 100px;
+}
+
+.stock8 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.stock9 {
+    position: absolute;
+    top: 480px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.stock10 {
+    position: absolute;
+    right: 180px;
+    top: 233px;
+    transform: translateY(-50%);
+}
+
+.stock11 {
+    position: absolute;
+    right: 180px;
+    bottom: 233px;
+    transform: translateY(50%);
+}
+
+.stock12 {
+    position: absolute;
+    left: 100px;
+    top: 120px;
+}
+
+.stock13 {
+    position: absolute;
+    left: 100px;
+    bottom: 264px;
+}
+
+.stock14 {
+    position: absolute;
+    left: 538px;
+    top: 197px;
+}
+
+.stock15 {
+    position: absolute;
+    left: 538px;
+    bottom: 187px;
+}
+
+.stock16 {
+    position: absolute;
+    left: 976px;
+    top: 120px;
+}
+
+.stock17 {
+    position: absolute;
+    left: 976px;
+    bottom: 187px;
+}
+
+.stock18 {
+    position: absolute;
+    left: 1414px;
+    top: 120px;
+}
+
+.stock19 {
+    position: absolute;
+    left: 1414px;
+    bottom: 120px;
+}
+
+.nameBox, .noNameBox {
     width: 168px;
     border: 1px solid #174B5E;
     height: 52px;
@@ -180,13 +271,22 @@
     left: 50%;
 }
 
+.noNameBox {
+    color: red;
+}
+
 .box {
-    padding: 16px;
+    padding: 12px 16px;
     border: 1px solid #174B5E;
     border-radius: 10px;
     min-width: 100px;
     position: absolute;
     min-height: 120px;
+    white-space: nowrap;
+}
+
+.noMinHeight {
+    min-height: auto;
 }
 
 .boxTitle {
@@ -235,4 +335,146 @@
     top: 50%;
     left: calc(100% + 20px);
     transform: translateY(-50%);
+}
+
+.box9 {
+    bottom: 145px;
+    left: calc(100% + 20px);
+}
+
+.box10 {
+    bottom: -190px;
+    left: calc(100% + 40px);
+}
+
+.box11 {
+    top: 50%;
+    transform: translateY(-50%);
+    right: calc(100% + 20px);
+}
+
+.box12 {
+    top: 205px;
+    left: calc(100% + 40px);
+}
+
+.box13 {
+    right: calc(100% + 40px);
+    top: -60px;
+}
+
+.box14 {
+    right: calc(100% + 60px);
+    bottom: -70px;
+}
+
+.box15 {
+    left: calc(100% + 20px);
+    top: 0;
+}
+
+.box16 {
+    left: calc(100% + 20px);
+    bottom: -32px;
+}
+
+.box17 {
+    bottom: 100%;
+}
+
+.box18 {
+    bottom: 64px;
+}
+
+.box19 {
+    top: 74px;
+}
+
+.box20 {
+    top: 74px;
+}
+
+.box21 {
+    top: 10px;
+    left: 180px;
+}
+
+.box22 {
+    top: 163px;
+    left: 180px;
+}
+
+.box23 {
+    top: -40px;
+    left: 180px;
+}
+
+.box24 {
+    top: 56px;
+    left: 180px;
+}
+
+.box25 {
+    top: calc(100% + 10px);
+    left: 95px;
+}
+
+.box26 {
+    top: 48px;
+    left: 180px;
+}
+
+.box27 {
+    top: 202px;
+    left: 180px;
+}
+
+.box28 {
+    top: 226px;
+    left: 0px;
+}
+
+.box29 {
+    top: 68px;
+    left: 0px;
+}
+
+.box30 {
+    top: 70px;
+    left: 0px;
+}
+
+.box31 {
+    top: 226px;
+    left: 0px;
+}
+
+.box32 {
+    top: 378px;
+    left: 0px;
+}
+
+.box33 {
+    left: 260px;
+    top: -8px;
+}
+
+.box34 {
+    left: 260px;
+    top: 142px;
+}
+
+.box35 {
+    left: 260px;
+    top: -10px;
+}
+
+.box36 {
+    left: 260px;
+    top: 148px;
+}
+
+.box37 {
+    left: 260px;
+    top: 300px;
 }

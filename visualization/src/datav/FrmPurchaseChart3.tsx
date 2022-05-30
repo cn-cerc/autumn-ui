@@ -23,7 +23,7 @@ type stateType = {
     lengedState: boolean[],
     lengedState1: boolean[],
     timeFlag: any,
-    timeNub:number
+    timeNub: number
 }
 type PropsType = {
     dataSet: DataSet,
@@ -45,7 +45,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 href: 'javascript:aui.showPage("FrmPurchaseChart3", "采购数据管理中心")'
             }], ['制造数据管理中心', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart", "制造数据管理中心")'
+                href: 'javascript:aui.showPage("FrmPurchaseChart5", "制造数据管理中心")'
             }], ['销售数据管理中心', {
                 imgSrc: './kanban3.png',
                 href: 'javascript:aui.showPage("FrmPurchaseChart4", "销售数据管理中心")'
@@ -122,7 +122,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             lengedState: [true, true, true, true],
             lengedState1: [true, true, true, true],
             timeFlag: null,
-            timeNub:30 * 1000
+            timeNub: 30 * 1000
         }
     }
 
@@ -142,54 +142,54 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let now = new Date();
             let nowYear = now.getFullYear();
             let nowMonth = now.getMonth();
-            let arr = ['今日挂牌价（T/元）','今日采购价（T/元）','今日损耗数量（T）','本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）','库存均价（T/元）',''];
+            let arr = ['今日挂牌价（T/元）', '今日采购价（T/元）', '今日损耗数量（T）', '本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）', '库存均价（T/元）', ''];
             let math = new AuiMath();
-           
+
             arr.forEach((item, index) => {
                 tempDataSet.append().setValue('项次', item);
-                var temp : {
+                var temp: {
                     name: string,
                     p: number,
                     c: number
-                }[] = [{name:'煤炭',p: 0,c:0},{name:'焦煤',p: 0,c:0}];
+                }[] = [{ name: '煤炭', p: 0, c: 0 }, { name: '焦煤', p: 0, c: 0 }];
                 calcData.first();
                 while (calcData.fetch()) {
                     let zl = calcData.getString('种类');
-                    if(zl != '煤炭' && zl != '焦煤') continue;
+                    if (zl != '煤炭' && zl != '焦煤') continue;
                     if (item == '今日挂牌价（T/元）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl,calcData.current.getDouble('单价'));
+                        tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
                     if (item == '今日采购价（T/元）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl,calcData.current.getDouble('单价'));
+                        tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
                     if (item == '今日损耗数量（T）' && new Date(calcData.getString('到货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) ,1));
+                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')), 1));
                     }
-                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth ) {
-                        tempDataSet.setValue(zl,  math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth ) {
-                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl) ,1));
+                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if(item == '当前库存数量（T）'){
-                        tempDataSet.setValue(zl, math.toFixed( calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '当前库存数量（T）') {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
-                        switch(zl){
+                        switch (zl) {
                             case '煤炭':
                                 temp[0].p += calcData.current.getDouble('单价');
-                                temp[0].c +=1;
-                            break;
+                                temp[0].c += 1;
+                                break;
                             case '焦煤':
                                 temp[1].p += calcData.current.getDouble('单价');
-                                temp[1].c +=1;
-                            break;
+                                temp[1].c += 1;
+                                break;
                         }
                     }
                 }
-                if(item == '库存均价（T/元）'){
-                    temp.forEach((item1,index1)=>{
-                        tempDataSet.setValue(item1.name, math.toFixed(math.div((item1.p||0), (item1.c||0)), 2));
+                if (item == '库存均价（T/元）') {
+                    temp.forEach((item1, index1) => {
+                        tempDataSet.setValue(item1.name, math.toFixed(math.div((item1.p || 0), (item1.c || 0)), 2));
                     })
                 }
                 this.setState({
@@ -212,16 +212,16 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let now = new Date();
             let nowYear = now.getFullYear();
             let nowMonth = now.getMonth();
-            let arr = ['今日挂牌价（T/元）','今日发货数量（T）','今日到厂数量（T）','今日损耗数量（T）','本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）','库存均价（T/元）',''];
+            let arr = ['今日挂牌价（T/元）', '今日发货数量（T）', '今日到厂数量（T）', '今日损耗数量（T）', '本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）', '库存均价（T/元）', ''];
             let math = new AuiMath();
-           
+
             arr.forEach((item, index) => {
                 tempDataSet.append().setValue('项次', item);
-                var temp : {
+                var temp: {
                     name: string,
                     p: number,
                     c: number
-                }[] = [{name:'磁铁矿',p: 0,c:0},{name:'赤铁矿',p: 0,c:0},{name:'褐铁矿',p: 0,c:0},{name:'菱铁矿',p: 0,c:0}];
+                }[] = [{ name: '磁铁矿', p: 0, c: 0 }, { name: '赤铁矿', p: 0, c: 0 }, { name: '褐铁矿', p: 0, c: 0 }, { name: '菱铁矿', p: 0, c: 0 }];
                 calcData.first();
                 while (calcData.fetch()) {
                     let zl = calcData.getString('种类');
@@ -229,54 +229,54 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
                     if (item == '今日发货数量（T）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '今日到厂数量（T）' && new Date(calcData.getString('到货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '今日损耗数量（T）' && new Date(calcData.getString('到货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量'))  + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth ) {
-                        tempDataSet.setValue(zl,  math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth ) {
-                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl) ,1));
+                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if(item == '当前库存数量（T）'){
-                        tempDataSet.setValue(zl, math.toFixed( calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '当前库存数量（T）') {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
-                        switch(zl){
+                        switch (zl) {
                             case '磁铁矿':
                                 temp[0].p += calcData.current.getDouble('单价');
-                                temp[0].c +=1;
-                            break;
+                                temp[0].c += 1;
+                                break;
                             case '褐铁矿':
                                 temp[1].p += calcData.current.getDouble('单价');
-                                temp[1].c +=1;
-                            break;
+                                temp[1].c += 1;
+                                break;
                             case '赤铁矿':
                                 temp[2].p += calcData.current.getDouble('单价');
-                                temp[2].c +=1;
-                            break;
+                                temp[2].c += 1;
+                                break;
                             case '菱铁矿':
                                 temp[3].p += calcData.current.getDouble('单价');
-                                temp[3].c +=1;
-                            break;
+                                temp[3].c += 1;
+                                break;
                         }
                     }
                 }
-                if(item == '库存均价（T/元）'){
-                    temp.forEach((item1,index1)=>{
-                        tempDataSet.setValue(item1.name, (item1.p||0) / (item1.c||0));
+                if (item == '库存均价（T/元）') {
+                    temp.forEach((item1, index1) => {
+                        tempDataSet.setValue(item1.name, (item1.p || 0) / (item1.c || 0));
                     })
                 }
                 this.setState({
                     mineralList: tempDataSet
                 })
             })
-           
+
         })
         await fetch('./合金.xls', {
             method: 'get',
@@ -293,77 +293,77 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let now = new Date();
             let nowYear = now.getFullYear();
             let nowMonth = now.getMonth();
-            let arr = ['今日挂牌价（T/元）','今日入库数量（T）', '本月入库数量（T）', '年度入库数量（T）',
-                '当前库存数量（T）', '本月采购数量（T）', '年度采购数量（T）', '采购在途数量（T）', '当前库存均价（T）','','',''];
+            let arr = ['今日挂牌价（T/元）', '今日入库数量（T）', '本月入库数量（T）', '年度入库数量（T）',
+                '当前库存数量（T）', '本月采购数量（T）', '年度采购数量（T）', '采购在途数量（T）', '当前库存均价（T）', '', '', ''];
             let math = new AuiMath();
-           
+
             arr.forEach((item, index) => {
                 tempDataSet.append().setValue('项次', item);
-                var temp : {
+                var temp: {
                     name: string,
                     p: number,
                     c: number
-                }[] = [{name:'锰',p: 0,c:0},{name:'硅',p: 0,c:0},{name:'钒',p: 0,c:0},{name:'钨',p: 0,c:0},{name:'钛',p: 0,c:0},{name:'钼',p: 0,c:0}];
+                }[] = [{ name: '锰', p: 0, c: 0 }, { name: '硅', p: 0, c: 0 }, { name: '钒', p: 0, c: 0 }, { name: '钨', p: 0, c: 0 }, { name: '钛', p: 0, c: 0 }, { name: '钼', p: 0, c: 0 }];
                 calcData.first();
                 while (calcData.fetch()) {
                     let zl = calcData.getString('种类');
                     if (item == '今日挂牌价（T/元）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl,calcData.current.getDouble('单价'));
+                        tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
                     if (item == '今日入库数量（T）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth ) {
-                        tempDataSet.setValue(zl,  math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '本月入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '年度入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear ) {
+                    if (item == '年度入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear) {
                         //如果等于年度
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量')+ tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if(item == '当前库存数量（T）'){
-                        tempDataSet.setValue(zl, math.toFixed( calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '当前库存数量（T）') {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月采购数量（T）' && new Date(calcData.getString('发货日期')).getFullYear() == nowYear && new Date(calcData.getString('发货日期')).getMonth() == nowMonth ) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '本月采购数量（T）' && new Date(calcData.getString('发货日期')).getFullYear() == nowYear && new Date(calcData.getString('发货日期')).getMonth() == nowMonth) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '年度采购数量（T）' && new Date(calcData.getString('发货日期')).getFullYear() == nowYear ) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl),1) );
+                    if (item == '年度采购数量（T）' && new Date(calcData.getString('发货日期')).getFullYear() == nowYear) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '采购在途数量（T）' && new Date(calcData.getString('到货日期')) > now) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '当前库存均价（T）' && new Date(calcData.getString('到货日期')) <= now) {
-                        switch(zl){
+                        switch (zl) {
                             case '锰':
                                 temp[0].p += calcData.current.getDouble('单价');
-                                temp[0].c +=1;
-                            break;
+                                temp[0].c += 1;
+                                break;
                             case '硅':
                                 temp[1].p += calcData.current.getDouble('单价');
-                                temp[1].c +=1;
-                            break;
+                                temp[1].c += 1;
+                                break;
                             case '钒':
                                 temp[2].p += calcData.current.getDouble('单价');
-                                temp[2].c +=1;
-                            break;
+                                temp[2].c += 1;
+                                break;
                             case '钨':
                                 temp[3].p += calcData.current.getDouble('单价');
-                                temp[3].c +=1;
-                            break;
+                                temp[3].c += 1;
+                                break;
                             case '钛':
                                 temp[4].p += calcData.current.getDouble('单价');
-                                temp[4].c +=1;
-                            break;
+                                temp[4].c += 1;
+                                break;
                             case '钼':
                                 temp[5].p += calcData.current.getDouble('单价');
-                                temp[5].c +=1;
-                            break;
+                                temp[5].c += 1;
+                                break;
                         }
                     }
                 }
-                if(item == '当前库存均价（T）'){
-                    temp.forEach((item1,index1)=>{
-                        tempDataSet.setValue(item1.name, math.toFixed(math.div((item1.p||0), (item1.c||0)), 2));
+                if (item == '当前库存均价（T）') {
+                    temp.forEach((item1, index1) => {
+                        tempDataSet.setValue(item1.name, math.toFixed(math.div((item1.p || 0), (item1.c || 0)), 2));
                     })
                 }
                 this.setState({
@@ -386,61 +386,61 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let now = new Date();
             let nowYear = now.getFullYear();
             let nowMonth = now.getMonth();
-            let arr = ['今日收购均价（T/元）','今日收料（T）', '本月收料（T）', '年度累计收料（T）',
+            let arr = ['今日收购均价（T/元）', '今日收料（T）', '本月收料（T）', '年度累计收料（T）',
                 '年度累计回厂（T）', '收购站当前库存（T）', '厂区当前库存（T）', '厂区当前库存均价（T/元）'];
             let math = new AuiMath();
-            arr.forEach((item,index)=>{
+            arr.forEach((item, index) => {
                 tempDataSet.append().setValue('项次', item);
-                var temp : {
+                var temp: {
                     name: string,
                     p: number,
                     c: number
-                }[] = [{name:'A站',p: 0,c:0},{name:'B站',p: 0,c:0},{name:'C站',p: 0,c:0},{name:'D站',p: 0,c:0}];
+                }[] = [{ name: 'A站', p: 0, c: 0 }, { name: 'B站', p: 0, c: 0 }, { name: 'C站', p: 0, c: 0 }, { name: 'D站', p: 0, c: 0 }];
                 calcData.first();
                 while (calcData.fetch()) {
                     let zl = calcData.getString('种类');
                     if (item == '今日收购均价（T/元）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl,calcData.current.getDouble('单价'));
+                        tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
                     if (item == '今日收料（T）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月收料（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth ) {
-                        tempDataSet.setValue(zl,  math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                    if (item == '本月收料（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '年度累计收料（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear) {
-                        tempDataSet.setValue(zl,  math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '收购站当前库存（T）' && new Date(calcData.getString('到货日期')) <= now) {
-                        tempDataSet.setValue(zl,  math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '厂区当前库存（T）' && new Date(calcData.getString('到货日期')) <= now) {
-                        tempDataSet.setValue(zl,  math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl),1));
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '厂区当前库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
-                        switch(zl){
+                        switch (zl) {
                             case 'A站':
                                 temp[0].p = math.add(temp[0].p, calcData.current.getDouble('单价'));
-                                temp[0].c +=1;
-                            break;
+                                temp[0].c += 1;
+                                break;
                             case 'B站':
                                 temp[1].p = math.add(temp[1].p, calcData.current.getDouble('单价'));
-                                temp[1].c +=1;
-                            break;
+                                temp[1].c += 1;
+                                break;
                             case 'C站':
                                 temp[2].p = math.add(temp[2].p, calcData.current.getDouble('单价'));
-                                temp[2].c +=1;
-                            break;
+                                temp[2].c += 1;
+                                break;
                             case 'D站':
                                 temp[3].p = math.add(temp[3].p, calcData.current.getDouble('单价'));
-                                temp[3].c +=1;
-                            break;
+                                temp[3].c += 1;
+                                break;
                         }
                     }
                 }
-                
-                if(item == '厂区当前库存均价（T/元）'){
-                    temp.forEach((item1,index1)=>{
+
+                if (item == '厂区当前库存均价（T/元）') {
+                    temp.forEach((item1, index1) => {
                         tempDataSet.setValue(item1.name, (item1.p || 0) / (item1.c || 0));
                     })
                 }
@@ -458,24 +458,24 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
 
     componentDidMount() {
         this.initData();
-        document.onkeydown = (e:any) => {
+        document.onkeydown = (e: any) => {
             e = e || window.event;
-            if(e.keyCode == 32){
+            if (e.keyCode == 32) {
                 this.clearIntervalFun();
-                return ;
+                return;
             }
-            if(e.keyCode == 49 || e.keyCode == 97){
-                this.setState({timeNub:30 * 1000});
+            if (e.keyCode == 49 || e.keyCode == 97) {
+                this.setState({ timeNub: 30 * 1000 });
                 clearInterval(this.state.timeFlag);
                 this.setState({
-                    timeFlag:null
+                    timeFlag: null
                 });
                 this.autoTogglePage();
-            }else if(e.keyCode == 50 || e.keyCode == 98){
-                this.setState({timeNub:60 * 1000});
+            } else if (e.keyCode == 50 || e.keyCode == 98) {
+                this.setState({ timeNub: 60 * 1000 });
                 clearInterval(this.state.timeFlag);
                 this.setState({
-                    timeFlag:null
+                    timeFlag: null
                 });
                 this.autoTogglePage();
             }
@@ -490,14 +490,14 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
                     <TopHeader title='采购数据管理中心' handleCick={this.titleClick.bind(this)} />
+                    <div className={styles.headerTitle}>
+                        <a className={this.state.ltype == 1 ? styles.active : ''} onClick={this.toggleData.bind(this, 1)}>煤炭/铁矿石</a>
+                        <a className={this.state.ltype == 2 ? styles.active : ''} onClick={this.toggleData.bind(this, 2)}>合金/废钢</a>
+                    </div>
                     <div className={styles.mainContent}>
                         <div className={styles.page}>
                             <div className={styles.echartItems}>
                                 <div className={`${styles.fEchart} ${styles.lEchart}`}>
-                                    <div className=''>
-                                        <a className={this.state.ltype == 1 ? styles.active : ''} onClick={this.toggleData.bind(this, 1)}>煤炭/铁矿石</a>
-                                        <a className={this.state.ltype == 2 ? styles.active : ''} onClick={this.toggleData.bind(this, 2)}>合金/废钢</a>
-                                    </div>
                                     <ul>
                                         {this.getLDom()}
                                     </ul>
@@ -562,18 +562,18 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 var ltype = this.state.ltype == 1 ? 2 : 1;
                 this.setState({
                     ltype
-                },()=>{
+                }, () => {
                     this.initEchart();
                 })
             }, this.state.timeNub)
         })
     }
     //关闭或开启界面定时切换
-    clearIntervalFun(){
-        if(this.state.timeFlag != null){
+    clearIntervalFun() {
+        if (this.state.timeFlag != null) {
             clearInterval(this.state.timeFlag);
-            this.setState({timeFlag:null});
-        }else{
+            this.setState({ timeFlag: null });
+        } else {
             this.autoTogglePage();
         }
     }
@@ -581,11 +581,11 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     getColumns(reportHead: DataRow) {
         let list: ReactNode[] = [];
         reportHead.forEach((key: string, value: any) => {
-            if(key == '项次'){
+            if (key == '项次') {
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key} customText={(row: DataRow) => {
-                    return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{color:'red', 'fontSize': '12px'}}>我的钢铁网</span></span> : row.getString('项次')
+                    return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px' }}>我的钢铁网</span></span> : row.getString('项次')
                 }}></Column>);
-            }else{
+            } else {
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key}></Column>);
             }
         })
@@ -968,14 +968,14 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         borderRadius: 10,
                         borderColor: '#fff',
                         borderWidth: 2,
-                        
+
                         normal: {
                             label: {
                                 show: true,
                                 position: 'outside',
                                 formatter: '{b}: {c} ( {d}% )',
                                 color: '#fff',
-                                fontSize:14,
+                                fontSize: 14,
                             }
                         }
                     },
@@ -1071,10 +1071,10 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             this.setState({ ltype }, () => {
                 this.initEchart();
 
-                this.setState({timeNub:30 * 1000});
+                this.setState({ timeNub: 30 * 1000 });
                 clearInterval(this.state.timeFlag);
                 this.setState({
-                    timeFlag:null
+                    timeFlag: null
                 });
                 this.autoTogglePage();
             });
@@ -1095,18 +1095,18 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         reportHead.setValue('项次', { name: '项次', width: '6' }).setValue('煤炭', { name: '煤炭', width: '6' }).setValue('焦煤', { name: '焦煤', width: '6' });
         return this.getHtmlFun(reportHead, this.state.ironOreList);
     }
-    getTable2() { //铁矿石采购动态 table
-        let reportHead = new DataRow();
-        reportHead.setValue('项次', { name: '项次', width: '20' }).setValue('磁铁矿', { name: '磁铁矿', width: '13' })
-            .setValue('赤铁矿', { name: '赤铁矿', width: '13' }).setValue('褐铁矿', { name: '褐铁矿', width: '13' }).setValue('菱铁矿', { name: '菱铁矿', width: '13' });
-        return this.getHtmlFun(reportHead, this.state.mineralList);
-    }
-    getTable3() { //合金采购动态 table
+    getTable2() { //合金采购动态 table
         let reportHead = new DataRow();
         reportHead.setValue('项次', { name: '项次', width: '40' }).setValue('锰', { name: '锰', width: '16' }).setValue('硅', { name: '硅', width: '16' })
             .setValue('钒', { name: '钒', width: '16' }).setValue('钨', { name: '钨', width: '16' }).setValue('钛', { name: '钛', width: '16' })
             .setValue('钼', { name: '钼', width: '16' });
         return this.getHtmlFun(reportHead, this.state.alloyList);
+    }
+    getTable3() { //铁矿石采购动态 table
+        let reportHead = new DataRow();
+        reportHead.setValue('项次', { name: '项次', width: '20' }).setValue('磁铁矿', { name: '磁铁矿', width: '13' })
+            .setValue('赤铁矿', { name: '赤铁矿', width: '13' }).setValue('褐铁矿', { name: '褐铁矿', width: '13' }).setValue('菱铁矿', { name: '菱铁矿', width: '13' });
+        return this.getHtmlFun(reportHead, this.state.mineralList);
     }
     getTable4() { //废钢采购动态 table
         let reportHead = new DataRow();

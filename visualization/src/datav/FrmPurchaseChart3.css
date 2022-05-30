@@ -54,12 +54,6 @@
     cursor: pointer;
 }
 
-.echartItems>.f-echart>div a.active,
-.l-container p a.active,
-.r-container p a.active {
-    color: #66ff66;
-}
-
 .l-echart>ul .main {
     margin-left: 6%;
 }
@@ -297,4 +291,19 @@ table tr>td:nth-child(n+2)::before {
 
 table tr>th:nth-child(n+2)::before {
     background-color: #719aaf!important;
+}
+
+.headerTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerTitle>a {
+    margin-right: 35px;
+    cursor: pointer;
+}
+
+.active {
+    color: #66ff66;
 }
