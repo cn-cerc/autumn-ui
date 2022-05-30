@@ -133,8 +133,8 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
 
     async initData() {
         let dataList: excelData[] = [];
-        let page1Temp:number[][] = [],
-            page2Temp:number[][] = [];
+        let page1Temp: number[][] = [],
+            page2Temp: number[][] = [];
         let math = new AuiMath();
         await fetch('./kanban3_1.xls', {
             method: 'get',
@@ -144,9 +144,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             let execl = new Excel();
             dataList = execl.getDataByArrayBuffer(data);
             this.setState({ ...this.state, dataList, area1: dataList[7].data, area2: dataList[8].data, area3: dataList[9].data, area4: dataList[10].data, area5: dataList[11].data });
-            let fullYearList:DataSet = dataList[4].data;
-          
-            for(var i =0;i<6;i++){
+            let fullYearList: DataSet = dataList[4].data;
+
+            for (var i = 0; i < 6; i++) {
                 page1Temp.push([]);
                 page2Temp.push([]);
             }
@@ -173,18 +173,18 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         let fiveArea = [this.state.area1, this.state.area2, this.state.area3, this.state.area4, this.state.area5]; //保存五个区
         let page1Month12: { name: string, value: number }[][] = [],
             page2Month12: { name: string, value: number }[][] = [];
-        var temp :number[][] = [];
-        for(var i=0;i<6;i++){
-            temp.push([0,0,0,0,0,0,0,0,0,0,0,0]);
+        var temp: number[][] = [];
+        for (var i = 0; i < 6; i++) {
+            temp.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         }
-        fiveArea.forEach((area,areaIndex)=>{
-                page1Month12 = [],
+        fiveArea.forEach((area, areaIndex) => {
+            page1Month12 = [],
                 page2Month12 = [];
             for (let i = 0; i < 12; i++) {
                 page1Month12.push([{ name: '螺纹钢', value: 0 }, { name: '型钢', value: 0 }, { name: '带钢', value: 0 }]);
                 page2Month12.push([{ name: '线材', value: 0 }, { name: '板材', value: 0 }, { name: '管材', value: 0 }]);
             }
-            let ds:DataSet = area;
+            let ds: DataSet = area;
             ds.first();
             while (ds.fetch()) {
                 let zl = ds.getString('类型'); //保存种类
@@ -194,36 +194,36 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         if (new Date(ds.getString('销售日期')).getMonth() == i) {
                             if (zl == '螺纹钢') {
                                 this.xName[0] = zl;
-                                page1Month12[i][0].value = math.toFixed(page1Month12[i][0].value + xssl,1);
-                                temp[0][i] = math.toFixed(temp[0][i] + page1Month12[i][0].value,1);
+                                page1Month12[i][0].value = math.toFixed(page1Month12[i][0].value + xssl, 1);
+                                temp[0][i] = math.toFixed(temp[0][i] + page1Month12[i][0].value, 1);
                             }
                             if (zl == '型钢') {
                                 this.xName[1] = zl;
-                                page1Month12[i][1].value = math.toFixed(page1Month12[i][1].value + xssl,1);
-                                temp[1][i] = math.toFixed(temp[1][i] + page1Month12[i][1].value,1);
+                                page1Month12[i][1].value = math.toFixed(page1Month12[i][1].value + xssl, 1);
+                                temp[1][i] = math.toFixed(temp[1][i] + page1Month12[i][1].value, 1);
                             }
                             if (zl == '带钢') {
                                 this.xName[2] = zl;
-                                page1Month12[i][2].value = math.toFixed(page1Month12[i][2].value + xssl,1);
-                                temp[2][i] = math.toFixed(temp[2][i] + page1Month12[i][2].value,1);
+                                page1Month12[i][2].value = math.toFixed(page1Month12[i][2].value + xssl, 1);
+                                temp[2][i] = math.toFixed(temp[2][i] + page1Month12[i][2].value, 1);
                             }
                         }
                     } else {
                         if (new Date(ds.getString('销售日期')).getMonth() == i) {
                             if (zl == '线材') {
                                 this.xName2[0] = zl;
-                                page2Month12[i][0].value = math.toFixed(page2Month12[i][0].value + xssl,1);
-                                temp[3][i] = math.toFixed(temp[3][i] + page2Month12[i][0].value,1);
+                                page2Month12[i][0].value = math.toFixed(page2Month12[i][0].value + xssl, 1);
+                                temp[3][i] = math.toFixed(temp[3][i] + page2Month12[i][0].value, 1);
                             }
                             if (zl == '板材') {
                                 this.xName2[1] = zl;
-                                page2Month12[i][1].value = math.toFixed(page2Month12[i][1].value + xssl,1);
-                                temp[4][i] = math.toFixed(temp[4][i] + page2Month12[i][1].value,1);
+                                page2Month12[i][1].value = math.toFixed(page2Month12[i][1].value + xssl, 1);
+                                temp[4][i] = math.toFixed(temp[4][i] + page2Month12[i][1].value, 1);
                             }
                             if (zl == '管材') {
                                 this.xName2[2] = zl;
-                                page2Month12[i][2].value = math.toFixed(page2Month12[i][2].value + xssl,1);
-                                temp[5][i] = math.toFixed(temp[5][i] + page2Month12[i][2].value,1);
+                                page2Month12[i][2].value = math.toFixed(page2Month12[i][2].value + xssl, 1);
+                                temp[5][i] = math.toFixed(temp[5][i] + page2Month12[i][2].value, 1);
                             }
                         }
                     }
@@ -231,11 +231,11 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 if (new Date(ds.getString('销售日期')).getMonth() == nowMonth) {
                     if (zl == '螺纹钢') {
                         dynamicDataArr[areaIndex][0] = dynamicDataArr[areaIndex][0] > 0 ? dynamicDataArr[areaIndex][0] : 0;
-                        dynamicDataArr[areaIndex][0] = math.toFixed(dynamicDataArr[areaIndex][0] + page1Month12[nowMonth][0].value,1);
+                        dynamicDataArr[areaIndex][0] = math.toFixed(dynamicDataArr[areaIndex][0] + page1Month12[nowMonth][0].value, 1);
                     }
                     if (zl == '型钢') {
                         dynamicDataArr[areaIndex][1] = dynamicDataArr[areaIndex][1] > 0 ? dynamicDataArr[areaIndex][1] : 0;
-                        dynamicDataArr[areaIndex][1] = math.toFixed(dynamicDataArr[areaIndex][1] + page1Month12[nowMonth][1].value,1);
+                        dynamicDataArr[areaIndex][1] = math.toFixed(dynamicDataArr[areaIndex][1] + page1Month12[nowMonth][1].value, 1);
                     }
                     if (zl == '带钢') {
                         dynamicDataArr[areaIndex][2] = dynamicDataArr[areaIndex][1] > 0 ? dynamicDataArr[areaIndex][2] : 0;
@@ -243,25 +243,25 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                     }
                     if (zl == '线材') {
                         dynamicDataArr2[areaIndex][0] = dynamicDataArr2[areaIndex][0] > 0 ? dynamicDataArr2[areaIndex][0] : 0;
-                        dynamicDataArr2[areaIndex][0] = math.toFixed(dynamicDataArr2[areaIndex][0] + page2Month12[nowMonth][0].value,1);
+                        dynamicDataArr2[areaIndex][0] = math.toFixed(dynamicDataArr2[areaIndex][0] + page2Month12[nowMonth][0].value, 1);
                     }
                     if (zl == '板材') {
                         dynamicDataArr2[areaIndex][1] = dynamicDataArr2[areaIndex][1] > 0 ? dynamicDataArr2[areaIndex][1] : 0;
-                        dynamicDataArr2[areaIndex][1] = math.toFixed(dynamicDataArr2[areaIndex][1] + page2Month12[nowMonth][1].value,1);
+                        dynamicDataArr2[areaIndex][1] = math.toFixed(dynamicDataArr2[areaIndex][1] + page2Month12[nowMonth][1].value, 1);
                     }
                     if (zl == '管材') {
                         dynamicDataArr2[areaIndex][2] = dynamicDataArr2[areaIndex][2] > 0 ? dynamicDataArr2[areaIndex][2] : 0;
-                        dynamicDataArr2[areaIndex][2] = math.toFixed( dynamicDataArr2[areaIndex][2] + page2Month12[nowMonth][2].value,1);
+                        dynamicDataArr2[areaIndex][2] = math.toFixed(dynamicDataArr2[areaIndex][2] + page2Month12[nowMonth][2].value, 1);
                     }
                 }
             }
         })
-        temp[0].splice(nowMonth+1, temp[0].length);
-        temp[1].splice(nowMonth+1, temp[1].length);
-        temp[2].splice(nowMonth+1, temp[2].length);
-        temp[3].splice(nowMonth+1, temp[3].length);
-        temp[4].splice(nowMonth+1, temp[4].length);
-        temp[5].splice(nowMonth+1, temp[5].length);
+        temp[0].splice(nowMonth + 1, temp[0].length);
+        temp[1].splice(nowMonth + 1, temp[1].length);
+        temp[2].splice(nowMonth + 1, temp[2].length);
+        temp[3].splice(nowMonth + 1, temp[3].length);
+        temp[4].splice(nowMonth + 1, temp[4].length);
+        temp[5].splice(nowMonth + 1, temp[5].length);
 
         page1Temp[1] = temp[0];
         page1Temp[3] = temp[1];
@@ -272,8 +272,8 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
 
         this.setState({
             ...this.state,
-            page1Month12:page1Temp,
-            page2Month12:page2Temp
+            page1Month12: page1Temp,
+            page2Month12: page2Temp
         })
 
         let saleroom: Map<string, any> = this.state.saleroom;
@@ -664,14 +664,14 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         });
         myChart.off('legendselectchanged');
         // if (!this.isLengedEvent) {
-            // this.isLengedEvent = true;
-            myChart.on('legendselectchanged', (obj: {
-                name: string,
-                selected: object,
-                type: string
-            }) => {
-                this.lengedChanage(obj)
-            })
+        // this.isLengedEvent = true;
+        myChart.on('legendselectchanged', (obj: {
+            name: string,
+            selected: object,
+            type: string
+        }) => {
+            this.lengedChanage(obj)
+        })
         // }
     }
 

@@ -551,7 +551,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         let style = ''
         if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu;
-        // console.log(style)
         return style
     }
 
