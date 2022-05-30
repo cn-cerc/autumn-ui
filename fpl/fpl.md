@@ -47,9 +47,9 @@ cnpm i -D autumn-ui
 cnpm run dev
 ```
 
-打包生成 autumn-ui.js，用于正式环境
+打包生成 diteng-aui.js，用于正式环境
 ```
-cnpm run build
+cnpm run fpl
 ```
 
 ## 一键安装环境
