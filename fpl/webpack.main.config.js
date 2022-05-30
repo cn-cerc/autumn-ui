@@ -48,8 +48,7 @@ module.exports = {
 	resolve: { // new add +
 		extensions: ['.tsx', '.ts', '.js'],
 		alias: {
-			'@diteng': path.join(__dirname, '../diteng'),
-			'@fpl': path.join(__dirname, './src')
+			'@diteng': path.join(__dirname, '../diteng/src')
 		}
 	},
 	plugins: [

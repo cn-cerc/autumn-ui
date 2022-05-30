@@ -12,8 +12,7 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
-            "@fpl/*": ["./src/*"],
-            "@diteng/*": ["../diteng/*"]
+            "@diteng/*": ["../diteng/src/*"],
         },
     }
 }

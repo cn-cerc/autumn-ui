@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
 	entry: './src/fpl.ts',
 	output: {
-		filename: './aui.js',
+		filename: './diteng-aui.js',
 		library: 'aui',
 		libraryExport: 'default',
 		libraryTarget: 'window' //导出到浏览器的 window 对象中
@@ -52,14 +52,28 @@ module.exports = {
 						}
 					}
 				]
+			},
+			{
+				include: [path.resolve(__dirname, "../diteng")],
+				test: /\.css?$/, use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+							modules: {
+								localIdentName: '[name]__--[hash:base64:5]',
+								exportLocalsConvention: "camelCase",
+							}
+						}
+					}
+				]
 			}
 		]
 	},
 	resolve: { // new add +
 		extensions: ['.tsx', '.ts', '.js'],
 		alias: {
-			'@diteng': path.join(__dirname, '../diteng'),
-			'@fpl': path.join(__dirname, './src')
+			'@diteng': path.join(__dirname, '../diteng/src')
 		}
 	},
 	plugins: [

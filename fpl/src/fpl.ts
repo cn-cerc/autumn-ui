@@ -1,14 +1,15 @@
 //引入autumn-ui样式文件
 import "autumn-ui/assets/autumn-ui.css";
-import CategoryDialog from "@fpl/dialog/CategoryDialog";
-import DialogDOM from "@diteng/src/dialog/DialogDOM";
-import DriverInfoDialog from "@fpl/dialog/DriverInfoDialog";
-import FleetDialog from "@fpl/dialog/FleetDialog";
-import OwnerDialog from "@fpl/dialog/OwnerDialog";
-import CeshiDialog from "@fpl/dialog/CeshiDialog";
+import diteng from "@diteng/diteng";
+import DialogDOM from "@diteng/dialog/DialogDOM";
+import CategoryDialog from "./dialog/CategoryDialog";
+import CeshiDialog from "./dialog/CeshiDialog";
+import DriverInfoDialog from "./dialog/DriverInfoDialog";
+import FleetDialog from "./dialog/FleetDialog";
+import OwnerDialog from "./dialog/OwnerDialog";
 
 export default {
-    // ...diteng,
+    ...diteng,
     DialogDOM,
     CeshiDialog,
     CategoryDialog,
