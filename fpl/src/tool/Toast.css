@@ -1,0 +1,144 @@
+div[id^='toast_lists'] {
+	position: fixed;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	z-index: 100;
+}
+
+div[id='toast_lists'] {
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+div[id='toast_lists_left'] {
+	left: 50px;
+}
+
+div[id='toast_lists_right'] {
+	right: 50px;
+}
+
+.toast {
+	min-width: 240px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 15px;
+	border-radius: 3px;
+	font-size: 14px;
+	display: flex;
+	box-sizing: border-box;
+	border-width: 1px;
+	border-style: solid;
+	margin-top: 20px;
+	animation: toast .2s linear;
+}
+
+.toastRemove {
+	animation: toastRemove .4s linear;
+}
+
+.toast>.iconfont {
+	font-size: 18px;
+}
+
+.toast>span {
+	padding-left: 10px;
+}
+
+.success {
+	background-color: #f0f9eb;
+	color: #67c23a;
+	border-color: #e1f3d8;
+}
+
+.error {
+	background-color: #fef0f0;
+	color: #f56c6c;
+	border-color: #fde2e2;
+}
+
+.warn {
+	background-color: #fdf6ec;
+	color: #e6a23c;
+	border-color: #faecd8;
+}
+
+.info {
+	background-color: #edf2fc;
+	color: #909399;
+	border-color: #ebeef5;
+}
+
+@keyframes toast{
+	from{
+		transform: translateY(-60px);
+	}
+	to{
+		transform: translateY(0);
+	}
+}
+
+@keyframes toastRemove{
+	0%{
+		margin-top: 20px;
+		opacity: 1;
+	}
+	50%{
+		margin-top: -40px;
+		opacity: 0;
+	}
+	100%{
+		margin-top: -40px;
+		opacity: 0;
+	}
+}
+
+.toastMobile {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	background-color: rgba(0,0,0,.9);
+	padding: 5px 10px;
+	color: #fff;
+	border-radius: 4px;
+	animation: toastMobile .2s linear;
+	max-width: 80%;
+}
+
+@keyframes toastMobile{
+	from{
+		transform: translate(-50%,0);
+		margin-top: 40px;
+		opacity: 0;
+	}
+	to{
+		transform: translate(-50%,-50%);
+		margin-top: 0;
+		opacity: 1;
+	}
+}
+
+.toastMobile_remove {
+	animation: toastMobile_remove .4s linear;
+}
+
+@keyframes toastMobile_remove{
+	0%{
+		transform: translate(-50%,-50%);
+		margin-top: 0;
+		opacity: 1;
+	}
+	50%{
+		transform: translate(-50%,0);
+		margin-top: 40px;
+		opacity: 0;
+	}
+	100%{
+		transform: translate(-50%,0);
+		margin-top: 40px;
+		opacity: 0;
+	}
+}
