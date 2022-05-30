@@ -23,7 +23,9 @@ type stateType = {
     lengedState: boolean[],
     lengedState1: boolean[],
     timeFlag: any,
-    timeNub: number
+    timeNub: number,
+    optionOne: any[],
+    optionTwo: any[],
 }
 type PropsType = {
     dataSet: DataSet,
@@ -122,7 +124,9 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             lengedState: [true, true, true, true],
             lengedState1: [true, true, true, true],
             timeFlag: null,
-            timeNub: 30 * 1000
+            timeNub: 30 * 1000,
+            optionOne: [],
+            optionTwo: [],
         }
     }
 
@@ -132,10 +136,48 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         }).then(function (response) {
             return response.arrayBuffer()
         }).then((data) => {
+            let ksList: any = [
+                [],
+                [],
+                [],
+                []
+            ]
             let execl = new Excel();
             let dataList: excelData[] = execl.getDataByArrayBuffer(data);
             this.setState({ ironOreList: dataList[2].data });
-
+            let ksSheet1 = dataList[0].data;
+            let ksSheet2 = dataList[1].data;
+            ksSheet1.first();
+            ksSheet2.first();
+            while (ksSheet1.fetch()) {
+                switch (ksSheet1.getString('名称')) {
+                    case '煤炭':
+                        ksList[0][0] = ksSheet1.getString('仓库容量')
+                        ksList[1][0] = ksSheet1.getString('安全库存')
+                        break;
+                    case '焦煤':
+                        ksList[0][1] = ksSheet1.getString('仓库容量')
+                        ksList[1][1] = ksSheet1.getString('安全库存')
+                        break;
+                }
+            }
+            let date = new Date
+            let d = date.getDate();
+            let m = date.getMonth();
+            while (ksSheet2.fetch()) {
+                let ksDate = new Date(ksSheet2.getString('发货日期'))
+                let ksDate2 = new Date(ksSheet2.getString('到货日期'))
+                if (m <= ksDate2.getMonth()) {
+                    if (ksDate.getDate() <= d && d < ksDate2.getDate()) {
+                        if (ksSheet2.getString('种类') == '煤炭') {
+                            ksList[3][0] = ksSheet2.getString('数量')
+                        }
+                        if (ksSheet2.getString('种类') == '焦煤') {
+                            ksList[3][1] = ksSheet2.getString('数量')
+                        }
+                    }
+                }
+            }
             let calcData: DataSet = dataList[1].data; //第二个表数据
             let tempDataSet: DataSet = new DataSet();
             tempDataSet.appendDataSet(this.state.ironOreList);
@@ -171,7 +213,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
                         tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '当前库存数量（T）') {
+                    if (item == '当前库存数量（T）' && new Date(calcData.getString('到货日期')) <= now) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
@@ -196,17 +238,58 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     ironOreList: tempDataSet
                 })
             })
+            this.state.ironOreList.first()
+            while (this.state.ironOreList.fetch()) {
+                if (this.state.ironOreList.getString('项次') == '当前库存数量（T）') {
+                    ksList[2][0] = this.state.ironOreList.getString('煤炭')
+                    ksList[2][1] = this.state.ironOreList.getString('焦煤')
+                }
+            }
+            this.setState({
+                optionOne: ksList
+            })
         })
         await fetch('./铁矿石.xls', {
             method: 'get',
         }).then(function (response) {
             return response.arrayBuffer()
         }).then((data) => {
+            let tksList: any = [
+                [],
+                [],
+                [],
+                []
+            ]
             let execl = new Excel();
             let dataList: excelData[] = execl.getDataByArrayBuffer(data);
             this.setState({ mineralList: dataList[0].data });
-
             let calcData: DataSet = dataList[1].data; //第二个表数据
+
+            let tksSheet2 = dataList[1].data;
+            tksSheet2.first();
+            let date = new Date
+            let d = date.getDate();
+            while (tksSheet2.fetch()) {
+                let ksDate = new Date(tksSheet2.getString('发货日期'))
+                let ksDate2 = new Date(tksSheet2.getString('到货日期'))
+                if (ksDate.getDate() <= d && d < ksDate2.getDate()) {
+                    switch (tksSheet2.getString('种类')) {
+                        case '磁铁矿':
+                            tksList[3][0] = tksSheet2.getString('数量')
+                            break;
+                        case '赤铁矿':
+                            tksList[3][1] = tksSheet2.getString('数量')
+                            break;
+                        case '褐铁矿':
+                            tksList[3][2] = tksSheet2.getString('数量')
+                            break;
+                        case '菱铁矿':
+                            tksList[3][3] = tksSheet2.getString('数量')
+                            break;
+                    }
+                }
+            }
+
             let tempDataSet: DataSet = new DataSet();
             tempDataSet.appendDataSet(this.state.mineralList);
             let now = new Date();
@@ -214,7 +297,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let nowMonth = now.getMonth();
             let arr = ['今日挂牌价（T/元）', '今日发货数量（T）', '今日到厂数量（T）', '今日损耗数量（T）', '本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）', '库存均价（T/元）', ''];
             let math = new AuiMath();
-
             arr.forEach((item, index) => {
                 tempDataSet.append().setValue('项次', item);
                 var temp: {
@@ -243,7 +325,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
                         tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '当前库存数量（T）') {
+                    if (item == '当前库存数量（T）' && new Date(calcData.getString('到货日期')) <= now) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
@@ -276,13 +358,44 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     mineralList: tempDataSet
                 })
             })
-
+            tempDataSet.first()
+            while (tempDataSet.fetch()) {
+                if (tempDataSet.getString('项次') == '仓库容量（T）') {
+                    tksList[0][0] = tempDataSet.getString('磁铁矿')
+                    tksList[0][1] = tempDataSet.getString('赤铁矿')
+                    tksList[0][2] = tempDataSet.getString('褐铁矿')
+                    tksList[0][3] = tempDataSet.getString('菱铁矿')
+                }
+                if (tempDataSet.getString('项次') == '安全库存（T）') {
+                    tksList[1][0] = tempDataSet.getString('磁铁矿')
+                    tksList[1][1] = tempDataSet.getString('赤铁矿')
+                    tksList[1][2] = tempDataSet.getString('褐铁矿')
+                    tksList[1][3] = tempDataSet.getString('菱铁矿')
+                }
+                if (tempDataSet.getString('项次') == '当前库存数量（T）') {
+                    tksList[2][0] = tempDataSet.getString('磁铁矿')
+                    tksList[2][1] = tempDataSet.getString('赤铁矿')
+                    tksList[2][2] = tempDataSet.getString('褐铁矿')
+                    tksList[2][3] = tempDataSet.getString('菱铁矿')
+                }
+            }
+            this.setState({
+                optionTwo: tksList
+            })
         })
         await fetch('./合金.xls', {
             method: 'get',
         }).then(function (response) {
             return response.arrayBuffer()
         }).then((data) => {
+            let hjList: any[] = [
+                { value: 3.9, name: '锰' },
+                { value: 2, name: '硅' },
+                { value: 1.4, name: '钒' },
+                { value: 1.2, name: '钨' },
+                { value: 1, name: '钛' },
+                { value: 1.3, name: '钼' }
+            ]
             let execl = new Excel();
             let dataList: excelData[] = execl.getDataByArrayBuffer(data);
             this.setState({ alloyList: dataList[0].data });
@@ -370,6 +483,26 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     alloyList: tempDataSet
                 })
             })
+            tempDataSet.first();
+            while (tempDataSet.fetch()) {
+                if (tempDataSet.getString('项次') == '当前库存数量（T）') {
+                    hjList[0].value = tempDataSet.getString('锰')
+                    hjList[0].name = '锰'
+                    hjList[1].value = tempDataSet.getString('硅')
+                    hjList[1].name = '硅'
+                    hjList[2].value = tempDataSet.getString('钒')
+                    hjList[2].name = '钒'
+                    hjList[3].value = tempDataSet.getString('钨')
+                    hjList[3].name = '钨'
+                    hjList[4].value = tempDataSet.getString('钛')
+                    hjList[4].name = '钛'
+                    hjList[5].value = tempDataSet.getString('钼')
+                    hjList[5].name = '钼'
+                }
+            }
+            this.setState({
+                main2Data: hjList
+            })
         })
         await fetch('./废钢.xls', {
             method: 'get',
@@ -445,15 +578,118 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     })
                 }
             })
+            let main3Data = [
+                {
+                    name: 'A站',
+                    data: [0, 0, 0, 0, 0],
+                    type: 'line',
+                    symbolSize: 8,
+                    smooth: true,
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: '#fff',
+                        fontSize: 13
+                    },
 
+                },
+                {
+                    name: 'B站',
+                    data: [0, 0, 0, 0, 0],
+                    type: 'line',
+                    symbolSize: 8,
+                    smooth: true,
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: '#fff',
+                        fontSize: 13
+                    }
+                },
+                {
+                    name: 'C站',
+                    data: [0, 0, 0, 0, 0],
+                    type: 'line',
+                    symbolSize: 8,
+                    smooth: true,
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: '#fff',
+                        fontSize: 13
+                    }
+                },
+                {
+                    name: 'D站',
+                    data: [0, 0, 0, 0, 0],
+                    type: 'line',
+                    symbolSize: 8,
+                    smooth: true,
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: '#fff',
+                        fontSize: 13
+                    }
+                }
+            ]
+            // let date = new Date
+            // let m = date.getMonth() + 1
+            let ftSheet = dataList[1].data
+            ftSheet.first();
+            while (ftSheet.fetch()) {
+                let month = new Date(ftSheet.getString('到货日期')).getMonth() + 1
+                switch (month) {
+                    case 1:
+                        this.monthSwitch(ftSheet, main3Data, 0);
+                        break;
+                    case 2:
+                        this.monthSwitch(ftSheet, main3Data, 1);
+                        break;
+                    case 3:
+                        this.monthSwitch(ftSheet, main3Data, 2);
+                        break;
+                    case 4:
+                        this.monthSwitch(ftSheet, main3Data, 3);
+                        break;
+                    case 5:
+                        this.monthSwitch(ftSheet, main3Data, 4);
+                        break;
+                    // case 6:
+                    //     this.monthSwitch(ftSheet, main3Data, 5);
+                    //     break;
+                }
+            }
             this.setState({
-                steellList: tempDataSet
+                steellList: tempDataSet,
+                main3Data: main3Data
             })
         })
         setTimeout(() => {
             this.initEchart();
             this.autoTogglePage();
         }, 1000);
+    }
+
+    monthSwitch(ftSheet: { getString: (arg0: string) => any; }, main3Data: { data: number[]; }[], i: any) {
+        switch (ftSheet.getString('种类')) {
+            case 'A站':
+                main3Data[0].data[i] += Number(ftSheet.getString('到货数量'));
+                main3Data[0].data[i] = Number((main3Data[0].data[i]).toFixed(1))
+                break;
+            case 'B站':
+                main3Data[1].data[i] += Number(ftSheet.getString('到货数量'));
+                main3Data[1].data[i] = Number((main3Data[1].data[i]).toFixed(1))
+                break;
+            case 'C站':
+                main3Data[2].data[i] += Number(ftSheet.getString('到货数量'));
+                main3Data[2].data[i] = Number((main3Data[2].data[i]).toFixed(1))
+                break;
+            case 'D站':
+                main3Data[3].data[i] += Number(ftSheet.getString('到货数量'));
+                main3Data[3].data[i] = Number((main3Data[3].data[i]).toFixed(1))
+                break;
+        }
     }
 
     componentDidMount() {
@@ -551,7 +787,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         let style = ''
         if (this.state.showIndex > 0)
             style = this.state.showIndex % 2 == 0 ? styles.hideMenu : styles.showMenu;
-        console.log(style)
+        // console.log(style)
         return style
     }
 
@@ -639,12 +875,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     }
     //初始化煤炭图表
     initMain() {
-        let dataArr: any[] = [
-            [4.3, 2.5],
-            [2.4, 4.4],
-            [2, 2],
-            [4, 1.4]
-        ];
+        let dataArr: any[] = this.state.optionOne;
         let siteSize = 0;
         let dynamicSeries = [];
         this.state.lengedState.forEach((bool: boolean) => {
@@ -777,6 +1008,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         };
         //@ts-ignore
         myChart.setOption(option);
+        myChart.off('legendselectchanged');
         myChart.on('legendselectchanged', (obj: {
             name: string,
             selected: object,
@@ -787,12 +1019,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     }
     //初始化铁矿石图表
     initMain1() {
-        let dataArr: any[] = [
-            [4.3, 2.5, 3.5, 4.5],
-            [2.4, 4.4, 1.8, 2.8],
-            [2, 2, 3, 5],
-            [1, 1, 2, 4]
-        ];
+        let dataArr: any[] = this.state.optionTwo
         let siteSize = 0;
         let dynamicSeries = [];
         this.state.lengedState1.forEach((bool: boolean) => {
@@ -931,6 +1158,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         };
         //@ts-ignore
         myChart.setOption(option);
+        myChart.off('legendselectchanged');
         myChart.on('legendselectchanged', (obj: {
             name: string,
             selected: object,
