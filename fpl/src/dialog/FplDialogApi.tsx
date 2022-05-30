@@ -172,6 +172,6 @@ export default class FplDialogApi {
 
     /** 查询司机列表 */
     static getDriverInfos(params: DataRow) {
-        return FplDialogApi.getDataOut('SvrDriverDetails.getDriverInfosByCode', params);
+        return FplDialogApi.getDataOut('SvrDriverDetalis.getDriverInfosByCode', params);
     }
 }
