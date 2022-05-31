@@ -28,7 +28,7 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
                 <div className={styles.box}>
                     <BorderBox9>
                         <div className={styles.grid}>
-                            <DBGrid dataSet={this.props.dataSet} key={this.getColumns().toString()}>
+                            <DBGrid dataSet={this.props.dataSet} key={this.getColumns().toString()} openPage={false}>
                                 {this.getColumns()}
                             </DBGrid>
                         </div>

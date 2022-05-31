@@ -140,7 +140,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         }).then((data) => {
             let execl = new Excel();
             dataList = execl.getDataByArrayBuffer(data);
-            this.setState({ ...this.state, dataList, area1: dataList[7].data, area2: dataList[8].data, area3: dataList[9].data, area4: dataList[10].data, area5: dataList[11].data });
+            this.setState({ ...this.state, dataList, area1: dataList[6].data, area2: dataList[7].data, area3: dataList[8].data, area4: dataList[9].data, area5: dataList[10].data });
             let fullYearList: DataSet = dataList[4].data;
 
             console.log(this.state.area1)
@@ -189,7 +189,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 let xssl = ds.getDouble('销售数量'); //保存销售数量
                 for (var i = 0; i < 12; i++) { //循坏12个月
                     if (zl == '螺纹钢' || zl == '型钢' || zl == '带钢') {
-                        if (new Date(ds.getString('销售日期')).getMonth() == i) {
+                        if (new Date(ds.getString('接单日期')).getMonth() == i) {
                             if (zl == '螺纹钢') {
                                 this.xName[0] = zl;
                                 page1Month12[i][0].value = math.toFixed(page1Month12[i][0].value + xssl, 1);
@@ -207,7 +207,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                             }
                         }
                     } else {
-                        if (new Date(ds.getString('销售日期')).getMonth() == i) {
+                        if (new Date(ds.getString('接单日期')).getMonth() == i) {
                             if (zl == '线材') {
                                 this.xName2[0] = zl;
                                 page2Month12[i][0].value = math.toFixed(page2Month12[i][0].value + xssl, 1);
@@ -226,7 +226,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         }
                     }
                 }
-                if (new Date(ds.getString('销售日期')).getMonth() == nowMonth) {
+                if (new Date(ds.getString('接单日期')).getMonth() == nowMonth) {
                     if (zl == '螺纹钢')
                         dynamicDataArr[areaIndex][0] = page1Month12[nowMonth][0].value;
 
@@ -270,7 +270,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         })
 
         let saleroom: Map<string, any> = this.state.saleroom;
-        let dsSaleroom: DataSet = dataList[6].data;
+        let dsSaleroom: DataSet = dataList[5].data;
         dsSaleroom.first()
         dsSaleroom.forEach((item: DataRow) => {
             let array: { price: any, saleroom: any } = saleroom.get(item.getString('材料'));
@@ -327,6 +327,10 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('螺纹钢').price}
                         saleroom={this.state.saleroom.get('螺纹钢').saleroom}
                         lineColor={this.lineColor}
+                        onClick={()=>{
+                            //@ts-ignore
+                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 0})
+                        }}
                     ></PieChart>
                 </div>
                 <div>
@@ -339,6 +343,10 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('型钢').price}
                         saleroom={this.state.saleroom.get('型钢').saleroom}
                         lineColor={this.lineColor}
+                        onClick={()=>{
+                            //@ts-ignore
+                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 1})
+                        }}
                     ></PieChart>
                 </div>
                 <div>
@@ -351,6 +359,10 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('带钢').price}
                         saleroom={this.state.saleroom.get('带钢').saleroom}
                         lineColor={this.lineColor}
+                        onClick={()=>{
+                            //@ts-ignore
+                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 2})
+                        }}
                     ></PieChart>
 
                 </div>
@@ -369,6 +381,10 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('板材').price}
                         saleroom={this.state.saleroom.get('板材').saleroom}
                         lineColor={this.lineColor}
+                        onClick={()=>{
+                            //@ts-ignore
+                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 3})
+                        }}
                     ></PieChart>
                 </div>
                 <div>
@@ -381,6 +397,10 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('线材').price}
                         saleroom={this.state.saleroom.get('线材').saleroom}
                         lineColor={this.lineColor}
+                        onClick={()=>{
+                            //@ts-ignore
+                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 4})
+                        }}
                     ></PieChart>
                 </div>
                 <div>
@@ -393,6 +413,10 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('管材').price}
                         saleroom={this.state.saleroom.get('管材').saleroom}
                         lineColor={this.lineColor}
+                        onClick={()=>{
+                            //@ts-ignore
+                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 5})
+                        }}
                     ></PieChart>
                 </div>
                 <div>
@@ -422,7 +446,6 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                                 <span>{symbol}{item.percentage}</span>
                             </div>
                         </li>
-                        {/* <li className={styles.saleDate}>{item.date}</li> */}
                     </ul>
                 </div>
             }
@@ -665,6 +688,12 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         }) => {
             this.lengedChanage(obj)
         })
+        myChart.on('click', (params: any)=>{
+            let num = this.state.pageType1 == 1 ? 0 : 3;
+            let index: number = num + params.dataIndex;
+            //@ts-ignore
+            aui.showPage("SaleDetail2", "销售数据管理中心", {index});
+        })
         // }
     }
 
@@ -845,6 +874,13 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         }
         let lineChart = document.getElementById('lineChart') as HTMLDivElement;
         let myChart = echarts.init(lineChart);
+        myChart.on('click', (params: any)=>{
+            let num = this.state.pageType1 == 1 ? 0 : 3;
+            let index: number = num + params.dataIndex;
+            console.log(params)
+            //@ts-ignore
+            // aui.showPage("SaleDetail2", "销售数据管理中心", {index});
+        })
         myChart.setOption(lineOption);
     }
     //切换界面图表及数据
