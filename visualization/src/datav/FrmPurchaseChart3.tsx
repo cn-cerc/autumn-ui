@@ -1351,7 +1351,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         return <div className={styles.box} key={this.state.ltype}>
             <BorderBox1>
                 <div className={styles.grid}>
-                    <DBGrid dataSet={currentData} key={this.getColumns(reportHead).toString()}>
+                    <DBGrid dataSet={currentData} key={this.getColumns(reportHead).toString()} onRowClick={this.handleRowClick.bind(this)}>
                         {this.getColumns(reportHead)}
                     </DBGrid>
                 </div>
@@ -1381,5 +1381,10 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 this.initMain();
             })
         }
+    }
+
+    handleRowClick(row: DataRow, sender: any) {
+        //@ts-ignore
+        aui.showPage("ReportDetail1", "铁矿石年度入库数量（T）");
     }
 }
