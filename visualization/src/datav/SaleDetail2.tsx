@@ -48,7 +48,7 @@ export default class SaleDetail2 extends React.Component<FrmReportTypeProps, Frm
             if (data.name.indexOf('区材料销售') > -1)
                 dataArr.push(data.data);
         })
-        let date = new Date('2022-06-04');
+        let date = new Date();
         let year = date.getFullYear();
         let month = date.getMonth();
         let day = date.getDate();

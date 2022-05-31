@@ -143,7 +143,6 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             this.setState({ ...this.state, dataList, area1: dataList[6].data, area2: dataList[7].data, area3: dataList[8].data, area4: dataList[9].data, area5: dataList[10].data });
             let fullYearList: DataSet = dataList[4].data;
 
-            console.log(this.state.area1)
             for (var i = 0; i < 6; i++) {
                 page1Temp.push([]);
                 page2Temp.push([]);
@@ -247,7 +246,6 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
 
                 }
             }
-            console.log(page1Month12)
         })
         temp[0].splice(nowMonth + 1, temp[0].length);
         temp[1].splice(nowMonth + 1, temp[1].length);
@@ -327,9 +325,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('螺纹钢').price}
                         saleroom={this.state.saleroom.get('螺纹钢').saleroom}
                         lineColor={this.lineColor}
-                        onClick={()=>{
+                        onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 0})
+                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 0 })
                         }}
                     ></PieChart>
                 </div>
@@ -343,9 +341,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('型钢').price}
                         saleroom={this.state.saleroom.get('型钢').saleroom}
                         lineColor={this.lineColor}
-                        onClick={()=>{
+                        onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 1})
+                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 1 })
                         }}
                     ></PieChart>
                 </div>
@@ -359,9 +357,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('带钢').price}
                         saleroom={this.state.saleroom.get('带钢').saleroom}
                         lineColor={this.lineColor}
-                        onClick={()=>{
+                        onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 2})
+                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 2 })
                         }}
                     ></PieChart>
 
@@ -381,9 +379,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('板材').price}
                         saleroom={this.state.saleroom.get('板材').saleroom}
                         lineColor={this.lineColor}
-                        onClick={()=>{
+                        onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 3})
+                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 3 })
                         }}
                     ></PieChart>
                 </div>
@@ -397,9 +395,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('线材').price}
                         saleroom={this.state.saleroom.get('线材').saleroom}
                         lineColor={this.lineColor}
-                        onClick={()=>{
+                        onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 4})
+                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 4 })
                         }}
                     ></PieChart>
                 </div>
@@ -413,9 +411,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         price={this.state.saleroom.get('管材').price}
                         saleroom={this.state.saleroom.get('管材').saleroom}
                         lineColor={this.lineColor}
-                        onClick={()=>{
+                        onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", {index: 5})
+                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 5 })
                         }}
                     ></PieChart>
                 </div>
@@ -688,11 +686,11 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         }) => {
             this.lengedChanage(obj)
         })
-        myChart.on('click', (params: any)=>{
+        myChart.on('click', (params: any) => {
             let num = this.state.pageType1 == 1 ? 0 : 3;
             let index: number = num + params.dataIndex;
             //@ts-ignore
-            aui.showPage("SaleDetail2", "销售数据管理中心", {index});
+            aui.showPage("SaleDetail2", "销售数据管理中心", { index });
         })
         // }
     }
@@ -726,7 +724,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         let lineSeries = [];
         let lineColir = ['#41aebd', '#EBBB06', '#1CB53C'];
         let purchaseLenged1 = ['螺纹钢', '型钢', '带钢'];
-        let purchaseLenged2 = ['线材', '板材', '管材'];
+        let purchaseLenged2 = ['板材', '线材', '管材'];
         let purchaseDataArr1: any = this.state.page1Month12;
         // let purchaseDataArr1: any = [
         //     [10, 12, 13, 14, 12, 8, 8.8, 10, 12, 11, 9, 10],
@@ -776,7 +774,6 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 type = 'dotted';
                 opacity = 0.6;
             }
-
             lineSeries.push({
                 name: leagedName,
                 type: 'line',
@@ -840,7 +837,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         num2 = 1;
                     else
                         num2 = 2;
-                    return `${purchaseLenged[num2]}${arr[num]}<br/>
+                    return `${obj.seriesName}${arr[num]}<br/>
                                 <div style="width: 120px; display: flex; align-items: center; padding-top: 12px;">
                                     <span style="background-color: ${obj.color}; width: 12px; height: 12px; border-radius: 50%;"></span>
                                     <span style="width: 5em; padding-left: 0.5em;">${obj.name}</span>
@@ -874,12 +871,12 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         }
         let lineChart = document.getElementById('lineChart') as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        myChart.on('click', (params: any)=>{
-            let num = this.state.pageType1 == 1 ? 0 : 3;
-            let index: number = num + params.dataIndex;
-            console.log(params)
+        myChart.on('click', (params: any) => {
+            let name: string = params.seriesName;
+            let arr = ['螺纹钢', '型钢', '带钢', '板材', '线材', '管材'];
+            let num = arr.indexOf(name);
             //@ts-ignore
-            // aui.showPage("SaleDetail2", "销售数据管理中心", {index});
+            aui.showPage("SaleDetail3", "销售数据管理中心", {index: num});
         })
         myChart.setOption(lineOption);
     }
