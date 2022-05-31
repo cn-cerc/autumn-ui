@@ -96,9 +96,6 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
 
     componentDidMount(): void {
         this.initData();
-        // this.timer = setInterval(() => {
-        //     this.initData()
-        // }, 30000)
         document.onkeydown = (e: any) => {
             e = e || window.event;
             if (e.keyCode == 32) {
@@ -146,6 +143,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             this.setState({ ...this.state, dataList, area1: dataList[7].data, area2: dataList[8].data, area3: dataList[9].data, area4: dataList[10].data, area5: dataList[11].data });
             let fullYearList: DataSet = dataList[4].data;
 
+            console.log(this.state.area1)
             for (var i = 0; i < 6; i++) {
                 page1Temp.push([]);
                 page2Temp.push([]);
@@ -229,32 +227,27 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                     }
                 }
                 if (new Date(ds.getString('销售日期')).getMonth() == nowMonth) {
-                    if (zl == '螺纹钢') {
-                        dynamicDataArr[areaIndex][0] = dynamicDataArr[areaIndex][0] > 0 ? dynamicDataArr[areaIndex][0] : 0;
-                        dynamicDataArr[areaIndex][0] = math.toFixed(dynamicDataArr[areaIndex][0] + page1Month12[nowMonth][0].value, 1);
-                    }
-                    if (zl == '型钢') {
-                        dynamicDataArr[areaIndex][1] = dynamicDataArr[areaIndex][1] > 0 ? dynamicDataArr[areaIndex][1] : 0;
-                        dynamicDataArr[areaIndex][1] = math.toFixed(dynamicDataArr[areaIndex][1] + page1Month12[nowMonth][1].value, 1);
-                    }
-                    if (zl == '带钢') {
-                        dynamicDataArr[areaIndex][2] = dynamicDataArr[areaIndex][1] > 0 ? dynamicDataArr[areaIndex][2] : 0;
-                        dynamicDataArr[areaIndex][2] = math.toFixed(dynamicDataArr[areaIndex][2] + page1Month12[nowMonth][2].value, 1);
-                    }
-                    if (zl == '线材') {
-                        dynamicDataArr2[areaIndex][0] = dynamicDataArr2[areaIndex][0] > 0 ? dynamicDataArr2[areaIndex][0] : 0;
-                        dynamicDataArr2[areaIndex][0] = math.toFixed(dynamicDataArr2[areaIndex][0] + page2Month12[nowMonth][0].value, 1);
-                    }
-                    if (zl == '板材') {
-                        dynamicDataArr2[areaIndex][1] = dynamicDataArr2[areaIndex][1] > 0 ? dynamicDataArr2[areaIndex][1] : 0;
-                        dynamicDataArr2[areaIndex][1] = math.toFixed(dynamicDataArr2[areaIndex][1] + page2Month12[nowMonth][1].value, 1);
-                    }
-                    if (zl == '管材') {
-                        dynamicDataArr2[areaIndex][2] = dynamicDataArr2[areaIndex][2] > 0 ? dynamicDataArr2[areaIndex][2] : 0;
-                        dynamicDataArr2[areaIndex][2] = math.toFixed(dynamicDataArr2[areaIndex][2] + page2Month12[nowMonth][2].value, 1);
-                    }
+                    if (zl == '螺纹钢')
+                        dynamicDataArr[areaIndex][0] = page1Month12[nowMonth][0].value;
+
+                    if (zl == '型钢')
+                        dynamicDataArr[areaIndex][1] = page1Month12[nowMonth][1].value
+
+                    if (zl == '带钢')
+                        dynamicDataArr[areaIndex][2] = page1Month12[nowMonth][2].value;
+
+                    if (zl == '线材')
+                        dynamicDataArr2[areaIndex][0] = page2Month12[nowMonth][0].value;
+
+                    if (zl == '板材')
+                        dynamicDataArr2[areaIndex][1] = page2Month12[nowMonth][1].value;
+
+                    if (zl == '管材')
+                        dynamicDataArr2[areaIndex][2] = page2Month12[nowMonth][2].value;
+
                 }
             }
+            console.log(page1Month12)
         })
         temp[0].splice(nowMonth + 1, temp[0].length);
         temp[1].splice(nowMonth + 1, temp[1].length);
