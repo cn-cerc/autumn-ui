@@ -7,7 +7,8 @@ type PropsType = {
   pieTitle: string,
   price: number[],
   saleroom: number[],
-  lineColor?:string[]
+  lineColor?: string[],
+  onClick?: Function
 }
 type stateType = {
   width: string,
@@ -95,7 +96,7 @@ export default class PieChart extends React.Component<PropsType, stateType> {
           center: ['50%', '45%'],
           label: {
             formatter: '{d}%',
-            color:'#fff'
+            color: '#fff'
           },
           data: seriesData2,
         }
@@ -107,6 +108,10 @@ export default class PieChart extends React.Component<PropsType, stateType> {
     }
     let chart = document.getElementById(this.props.eleId) as HTMLDivElement;
     let myChart = echarts.init(chart);
+    myChart.on('click', () => {
+      if (this.props.onClick)
+        this.props.onClick();
+    })
     myChart.setOption(pieOption);
   }
 }
