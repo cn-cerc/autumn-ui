@@ -511,14 +511,25 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         }).then((data) => {
             let execl = new Excel();
             let dataList: excelData[] = execl.getDataByArrayBuffer(data);
-            this.setState({ steellList: dataList[2].data });
+            let now = new Date();
+            let nowYear = now.getFullYear();
+            let nowMonth = now.getMonth();
+            let table1data = dataList[2].data;
+            let tempDataSet1: DataSet = new DataSet();
+                table1data.first();
+            while (table1data.fetch()) {
+                if( new Date(table1data.getString('日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
+                    tempDataSet1.append().setValue('项次',table1data.getString('项次')).setValue('A站',table1data.getString('A站'))
+                    .setValue('B站',table1data.getString('B站')).setValue('C站',table1data.getString('C站')).setValue('D站',table1data.getString('D站'));
+                }
+            }
+
+            this.setState({ steellList: tempDataSet1 });
 
             let calcData: DataSet = dataList[1].data; //第二个表数据
             let tempDataSet: DataSet = new DataSet();
             tempDataSet.appendDataSet(this.state.steellList);
-            let now = new Date();
-            let nowYear = now.getFullYear();
-            let nowMonth = now.getMonth();
+           
             let arr = ['今日收购均价（T/元）', '今日收料（T）', '本月收料（T）', '年度累计收料（T）',
                 '年度累计回厂（T）', '收购站当前库存（T）', '厂区当前库存（T）', '厂区当前库存均价（T/元）'];
             let math = new AuiMath();
@@ -1384,7 +1395,32 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     }
 
     handleRowClick(row: DataRow, sender: any) {
-        //@ts-ignore
-        aui.showPage("ReportDetail1", "铁矿石年度入库数量（T）");
+        // @ts-ignore
+        // aui.showPage("ReportDetail1", "铁矿石年度入库数量（T）");
+
+        //以下代码 李敏负责部分 =====================
+        // let fieldText = sender.target.getAttribute('data-field');
+        // if(fieldText == '项次' || fieldText == '锰' || fieldText == '硅' || fieldText == '钒' || fieldText == '钨' || fieldText == '钛' || fieldText == '钼'){
+            var itemText = row.getString('项次');
+            switch(itemText){
+                case '今日入库数量（T）':
+                    // @ts-ignore
+                    aui.showPage("PurchaseDetailAlloy1", "合金今日入库数量",{index:1,title:'今日入库数量（T）'});
+                    break;
+                case '本月入库数量（T）':
+                    // @ts-ignore
+                    aui.showPage("PurchaseDetailAlloy2", "合金本月入库数量",{index:1,title:'本月入库数量（T）'});
+                    break;
+            }
+        // }else if( fieldText == '项次' || fieldText == '锰' || fieldText == '硅' || fieldText == '钒' || fieldText == '钨' ){
+            var itemText = row.getString('项次');
+            switch(itemText){
+                case '今日收料（T）':
+                    // @ts-ignore
+                    aui.showPage("PurchaseDetailSteell", "废铁今日收料数量（T）",{index:1,title:'今日收料（T）'});
+                    break;
+            }
+        // }
+        //华丽的分割线==============================
     }
 }
