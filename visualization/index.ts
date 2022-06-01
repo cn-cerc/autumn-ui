@@ -1,14 +1,16 @@
-import "./src/tool/Summer.css";
 import "autumn-ui/assets/autumn-ui.css";
-
 import React from "react";
 import ReactDOM from "react-dom";
+import Employee from "./src/datav/Employee";
 import FrmEmployee1 from "./src/datav/FrmEmployee1";
 import FrmEmployee2 from "./src/datav/FrmEmployee2";
 import FrmEmployee3 from "./src/datav/FrmEmployee3";
 import FrmEmployee4 from "./src/datav/FrmEmployee4";
 import FrmManufactureChart from "./src/datav/FrmManufactureChart";
 import FrmPurchaseChart from "./src/datav/FrmPurchaseChart";
+import FrmPurchaseChart3 from "./src/datav/FrmPurchaseChart3";
+import FrmPurchaseChart4 from "./src/datav/FrmPurchaseChart4";
+import FrmPurchaseChart5 from "./src/datav/FrmPurchaseChart5";
 import FrmReport1 from "./src/datav/FrmReport1";
 import FrmReport10 from "./src/datav/FrmReport10";
 import FrmReport11 from "./src/datav/FrmReport11";
@@ -29,9 +31,7 @@ import FrmReport7 from "./src/datav/FrmReport7";
 import FrmReport8 from "./src/datav/FrmReport8";
 import FrmReport9 from "./src/datav/FrmReport9";
 import FrmSaleChart from "./src/datav/FrmSaleChart";
-import FrmPurchaseChart3 from "./src/datav/FrmPurchaseChart3";
-import FrmPurchaseChart4 from "./src/datav/FrmPurchaseChart4";
-import FrmPurchaseChart5 from "./src/datav/FrmPurchaseChart5";
+import PurchaseEmployee1 from "./src/datav/PurchaseEmployee1";
 import ReportDetail1 from "./src/datav/ReportDetail1";
 import PurchaseDetailAlloy1 from "./src/datav/PurchaseDetailAlloy1";
 import PurchaseDetailAlloy2 from "./src/datav/PurchaseDetailAlloy2";
@@ -39,8 +39,8 @@ import PurchaseDetailSteell from "./src/datav/PurchaseDetailSteell";
 import SaleDetail1 from "./src/datav/SaleDetail1";
 import SaleDetail2 from "./src/datav/SaleDetail2";
 import SaleDetail3 from "./src/datav/SaleDetail3";
-import SaleDetail4 from "./src/datav/SaleDetail4";
-import SaleDetail5 from "./src/datav/SaleDetail5";
+import "./src/tool/Summer.css";
+
 export default {
     FrmPurchaseChart,
     FrmPurchaseChart3,
@@ -75,8 +75,8 @@ export default {
 	SaleDetail1,
     SaleDetail2,
     SaleDetail3,
-    SaleDetail4,
-    SaleDetail5,
+    PurchaseEmployee1,
+    Employee,
     PurchaseDetailAlloy1,
     PurchaseDetailAlloy2,
     PurchaseDetailSteell,

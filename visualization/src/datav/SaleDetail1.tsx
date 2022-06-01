@@ -11,7 +11,8 @@ export type FrmReportTypeState = {
 }
 
 type FrmReportTypeProps = {
-    index: number
+    index: number,
+    pageType1: number
 }
 
 export default class SaleDetail1 extends React.Component<FrmReportTypeProps, FrmReportTypeState> {
@@ -48,7 +49,7 @@ export default class SaleDetail1 extends React.Component<FrmReportTypeProps, Frm
             if (data.name.indexOf('区材料销售') > -1)
                 dataArr.push(data.data);
         })
-        let date = new Date('2022-06-04');
+        let date = new Date();
         let year = date.getFullYear();
         let month = date.getMonth();
         let day = date.getDate();
@@ -85,7 +86,7 @@ export default class SaleDetail1 extends React.Component<FrmReportTypeProps, Frm
                 <span style={{ 'color': this.state.showOut ? '#fff' : '#66ff66', 'cursor': 'pointer' }} onClick={() => this.setShowOut(false)}>接单</span>
                 <span style={{ 'paddingLeft': '35px', 'color': this.state.showOut ? '#66ff66' : '#fff', 'cursor': 'pointer' }} onClick={this.setShowOut.bind(this, true)}>出货</span>
             </div>
-            <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}今日${this.state.showOut ? '出货' : '接单'}动态（${month}月${day}日）`} key={String(this.state.showOut)} backHref='FrmPurchaseChart4' backTitle='采购数据管理中心'></ReportDetail>
+            <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}今日${this.state.showOut ? '出货' : '接单'}动态（${month}月${day}日）`} key={String(this.state.showOut)} backHref='FrmPurchaseChart4' backTitle='采购数据管理中心' params={{ pageType1: this.props.pageType1 }}></ReportDetail>
         </React.Fragment>
     }
 

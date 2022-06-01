@@ -4,6 +4,7 @@ import * as echarts from "echarts";
 import styles from "./FrmPurchaseChart5.css";
 import { FullScreenContainer } from "@jiaminghi/data-view-react";
 import TopHeader from "./TopHeader";
+import { DataRow } from "autumn-ui";
 
 type stateType = {
     menuOptions: ViewMenuMap,
@@ -12,12 +13,14 @@ type stateType = {
     navIndex: number,
 }
 type PropsType = {
+    navIndex?: number
 }
 
 export default class FrmPurchaseChart5 extends React.Component<PropsType, stateType> {
     private myChart: any;
     constructor(props: PropsType) {
         super(props);
+        let navIndex = this.props.navIndex ? this.props.navIndex : 0;
         this.state = {
             menuOptions: new Map([['采购数据管理中心', {
                 imgSrc: './kanban1.png',
@@ -31,7 +34,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             }]]),
             showIndex: 0,
             navArr: ['炼铁', '炼钢', '轧钢'],
-            navIndex: 0
+            navIndex
         }
     }
 
@@ -55,7 +58,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     render(): React.ReactNode {
         return <div className={styles.dataView}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
-                <TopHeader title='销售数据管理中心' handleCick={this.titleClick.bind(this)} />
+                <TopHeader title='制造数据管理中心' handleCick={this.titleClick.bind(this)} />
                 {this.getNav()}
                 <div className={styles.content}>
                     <div id="canvas" className={styles.canvas}></div>
@@ -96,7 +99,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     getProcess1() {
         return <div className={styles.main}>
-            <div className={styles.stock1}>
+            <div className={styles.stock1} onClick={() => {
+                this.toEmployee(0, '焦煤厂', 0, 2)
+            }}>
                 <img src="./home.png" className={styles.home} />
                 <div className={styles.nameBox}>焦煤厂</div>
                 <ul className={`${styles.box1} ${styles.box}`}>
@@ -116,7 +121,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <li>E：</li>
                 </ul>
             </div>
-            <div className={styles.stock2}>
+            <div className={styles.stock2} onClick={() => {
+                this.toEmployee(0, '煤气回收', 0, 1, '立方米/时')
+            }}>
                 <img src="./home.png" className={styles.home} />
                 <div className={styles.nameBox}>煤气回收</div>
                 <ul className={`${styles.box3} ${styles.box}`}>
@@ -139,7 +146,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <li>碳排放：</li>
                 </ul>
             </div>
-            <div className={styles.stock4}>
+            <div className={styles.stock4} onClick={() => {
+                this.toEmployee(0, '烧结厂', 0, 2)
+            }}>
                 <img src="./home.png" className={styles.home} />
                 <div className={styles.nameBox}>烧结厂</div>
                 <ul className={`${styles.box6} ${styles.box}`}>
@@ -159,7 +168,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <li>E：</li>
                 </ul>
             </div>
-            <div className={styles.stock5}>
+            <div className={styles.stock5} onClick={() => {
+                this.toEmployee(0, '铁水运转', 0)
+            }}>
                 <img src="./car.png" className={styles.car} />
                 <div className={styles.nameBox}>铁水运转</div>
                 <ul className={`${styles.box8} ${styles.box}`}>
@@ -271,7 +282,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     getProcess2() {
         return <div className={styles.main}>
-            <div className={styles.stock6}>
+            <div className={styles.stock6} onClick={() => {
+                this.toEmployee(0, '废钢', 1)
+            }}>
                 <img src="./home.png" className={styles.home} />
                 <div className={styles.nameBox}>废钢</div>
                 <ul className={`${styles.box9} ${styles.box}`}>
@@ -291,7 +304,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <li>E：</li>
                 </ul>
             </div>
-            <div className={styles.stock7}>
+            <div className={styles.stock7} onClick={() => {
+                this.toEmployee(0, '制氧厂', 2, 1, '立方米/时')
+            }}>
                 <img src="./home.png" className={styles.home} />
                 <div className={styles.nameBox}>制氧厂</div>
                 <ul className={`${styles.box11} ${styles.box}`}>
@@ -330,7 +345,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </ul>
             </div>
             <div className={styles.stock10}>
-                <div className={styles.noNameBox}>方坯</div>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '方坯', 1)
+                }}>方坯</div>
                 <ul className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
                     <li>钢水今日供应：</li>
                     <li>钢水本月累计：</li>
@@ -340,7 +357,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <li>本月累计：</li>
                     <li>单位成本：</li>
                 </ul>
-                <div className={styles.noNameBox} style={{ 'marginTop': '80px' }}>管坯</div>
+                <div className={styles.noNameBox} style={{ 'marginTop': '80px' }} onClick={() => {
+                    this.toEmployee(0, '管坯', 1)
+                }}>管坯</div>
                 <ul className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`}>
                     <li>钢水今日供应：</li>
                     <li>钢水本月累计：</li>
@@ -352,7 +371,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </ul>
             </div>
             <div className={styles.stock11}>
-                <div className={styles.noNameBox}>钢锭</div>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '钢锭', 1)
+                }}>钢锭</div>
                 <ul className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
                     <li>钢水今日供应：</li>
                     <li>钢水本月累计：</li>
@@ -362,7 +383,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <li>本月累计：</li>
                     <li>单位成本：</li>
                 </ul>
-                <div className={styles.noNameBox} style={{ 'marginTop': '80px' }}>板坯</div>
+                <div className={styles.noNameBox} style={{ 'marginTop': '80px' }} onClick={() => {
+                    this.toEmployee(0, '板坯', 1)
+                }}>板坯</div>
                 <ul className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`}>
                     <li>钢水今日供应：</li>
                     <li>钢水本月累计：</li>
@@ -391,39 +414,49 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 coords: [
                     [428, 186],
                     [669, 186],
-                    [669, 286],
-                    [910, 286]
+                    [669, 346]
                 ]
             }, {
                 coords: [
                     [469, 346],
+                    [669, 346],
+                ]
+            }, {
+                coords: [
+                    [669, 346],
                     [910, 346]
                 ]
             }, {
                 coords: [
-                    [1010, 842],
-                    [1341, 842],
-                    [1341, 754],
-                    [1570, 754],
+                    [1010, 692],
+                    [1241, 692],
                 ]
             }, {
                 coords: [
-                    [1010, 742],
-                    [1241, 742],
+                    [1241, 692],
+                    [1241, 756],
+                    [1570, 756],
+                ]
+            }, {
+                coords: [
+                    [1241, 692],
                     [1241, 620],
                     [1570, 620],
                 ]
             }, {
                 coords: [
-                    [1010, 346],
-                    [1341, 346],
-                    [1341, 296],
+                    [1010, 236],
+                    [1241, 236],
+                ]
+            }, {
+                coords: [
+                    [1241, 236],
+                    [1241, 296],
                     [1570, 296],
                 ]
             }, {
                 coords: [
-                    [1010, 286],
-                    [1241, 286],
+                    [1241, 236],
                     [1241, 162],
                     [1570, 162],
                 ]
@@ -485,6 +518,172 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         };
         //@ts-ignore
         this.myChart.setOption(option);
+    }
+
+    getProcess3() {
+        return <div className={styles.main}>
+            <div className={styles.stock12}>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '管坯', 2)
+                }}>管坯</div>
+                <div className={styles.noNameBox} style={{ 'marginTop': '100px' }} onClick={() => {
+                    this.toEmployee(0, '方坯', 2)
+                }}>方坯</div>
+                <ul className={`${styles.box17} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>管坯今日供应：</li>
+                    <li>管坯本月累计：</li>
+                </ul>
+                <ul className={`${styles.box18} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>方坯今日供应：</li>
+                    <li>方坯本月累计：</li>
+                </ul>
+            </div>
+            <div className={styles.stock13}>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '板坯', 2)
+                }}>板坯</div>
+                <ul className={`${styles.box19} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>板坯今日供应：</li>
+                    <li>板坯本月累计：</li>
+                </ul>
+            </div>
+            <div className={styles.stock14}>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '初轧机', 2)
+                }}>初轧机</div>
+                <ul className={`${styles.box20} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+            </div>
+            <div className={styles.stock15}>
+                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
+                    this.toEmployee(0, '2050热连扎线', 2)
+                }}>2050热连扎线</div>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '1580热连扎线', 2)
+                }}>1580热连扎线</div>
+                <ul className={`${styles.box21} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+                <ul className={`${styles.box22} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+            </div>
+            <div className={styles.stock16}>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '管坯', 2)
+                }}>管坯</div>
+                <ul className={`${styles.box23} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>管坯今日产出：</li>
+                    <li>管坯本月累计：</li>
+                </ul>
+                <div className={styles.noNameBox} style={{ 'marginTop': '40px' }} onClick={() => {
+                    this.toEmployee(0, '方坯', 2)
+                }}>方坯</div>
+                <ul className={`${styles.box24} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>方坯今日产出：</li>
+                    <li>方坯本月累计：</li>
+                </ul>
+                <div className={styles.noNameBox} style={{ 'marginTop': '40px' }} onClick={() => {
+                    this.toEmployee(0, '板坯', 2)
+                }}>板坯</div>
+                <ul className={`${styles.box25} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>板坯今日产出：</li>
+                    <li>板坯本月累计：</li>
+                </ul>
+            </div>
+            <div className={styles.stock17}>
+                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
+                    this.toEmployee(0, '热轧钢卷', 2)
+                }}>热轧钢卷</div>
+                <ul className={`${styles.box26} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>钢卷今日产出：</li>
+                    <li>钢卷本月累计：</li>
+                </ul>
+                <ul className={`${styles.box27} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>轧板今日供应：</li>
+                    <li>轧板本月累计：</li>
+                </ul>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '热轧板', 2)
+                }}>热轧板</div>
+            </div>
+            <div className={styles.stock18}>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '140连续轧管线', 2)
+                }}>140连续轧管线</div>
+                <ul className={`${styles.box28} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+                <ul className={`${styles.box33} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>管材今日产出：</li>
+                    <li>管材本月累计：</li>
+                    <li>管材单位成本：</li>
+                </ul>
+                <div className={styles.noNameBox} style={{ 'marginTop': '100px' }} onClick={() => {
+                    this.toEmployee(0, '高速线材轧机', 2)
+                }}>高速线材轧机</div>
+                <ul className={`${styles.box29} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+                <ul className={`${styles.box34} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>线材今日产出：</li>
+                    <li>线材本月累计：</li>
+                    <li>线材单位成本：</li>
+                </ul>
+            </div>
+            <div className={styles.stock19}>
+                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
+                    this.toEmployee(0, '2030冷链轧机', 2)
+                }}>2030冷链轧机</div>
+                <ul className={`${styles.box30} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+                <ul className={`${styles.box35} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>今日产出：</li>
+                    <li>本月累计：</li>
+                    <li>单位成本：</li>
+                </ul>
+                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
+                    this.toEmployee(0, '1550冷链轧机', 2)
+                }}>1550冷链轧机</div>
+                <ul className={`${styles.box31} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+                <ul className={`${styles.box36} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>今日产出：</li>
+                    <li>本月累计：</li>
+                    <li>单位成本：</li>
+                </ul>
+                <div className={styles.noNameBox} onClick={() => {
+                    this.toEmployee(0, '1420冷链轧机', 2)
+                }}>1420冷链轧机</div>
+                <ul className={`${styles.box32} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>设备状况：</li>
+                    <li>今日停产时间：</li>
+                    <li>本月停产时间：</li>
+                </ul>
+                <ul className={`${styles.box37} ${styles.box}  ${styles.noMinHeight}`}>
+                    <li>今日产出：</li>
+                    <li>本月累计：</li>
+                    <li>单位成本：</li>
+                </ul>
+            </div>
+        </div>
     }
 
     initCanvas3() {
@@ -686,138 +885,27 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         this.myChart.setOption(option);
     }
 
-    getProcess3() {
-        return <div className={styles.main}>
-            <div className={styles.stock12}>
-                <div className={styles.noNameBox}>管坯</div>
-                <div className={styles.noNameBox} style={{ 'marginTop': '100px' }}>方坯</div>
-                <ul className={`${styles.box17} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>管坯今日供应：</li>
-                    <li>管坯本月累计：</li>
-                </ul>
-                <ul className={`${styles.box18} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>方坯今日供应：</li>
-                    <li>方坯本月累计：</li>
-                </ul>
-            </div>
-            <div className={styles.stock13}>
-                <div className={styles.noNameBox}>板坯</div>
-                <ul className={`${styles.box19} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>板坯今日供应：</li>
-                    <li>板坯本月累计：</li>
-                </ul>
-            </div>
-            <div className={styles.stock14}>
-                <div className={styles.noNameBox}>初轧机</div>
-                <ul className={`${styles.box20} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-            </div>
-            <div className={styles.stock15}>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }}>2050热连扎线</div>
-                <div className={styles.noNameBox}>1580热连扎线</div>
-                <ul className={`${styles.box21} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-                <ul className={`${styles.box22} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-            </div>
-            <div className={styles.stock16}>
-                <div className={styles.noNameBox}>管坯</div>
-                <ul className={`${styles.box23} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>管坯今日产出：</li>
-                    <li>管坯本月累计：</li>
-                </ul>
-                <div className={styles.noNameBox} style={{ 'marginTop': '40px' }}>方坯</div>
-                <ul className={`${styles.box24} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>方坯今日产出：</li>
-                    <li>方坯本月累计：</li>
-                </ul>
-                <div className={styles.noNameBox} style={{ 'marginTop': '40px' }}>板坯</div>
-                <ul className={`${styles.box25} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>板坯今日产出：</li>
-                    <li>板坯本月累计：</li>
-                </ul>
-            </div>
-            <div className={styles.stock17}>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }}>热轧钢卷</div>
-                <ul className={`${styles.box26} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>钢卷今日产出：</li>
-                    <li>钢卷本月累计：</li>
-                </ul>
-                <ul className={`${styles.box33} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>方坯今日供应：</li>
-                    <li>方坯本月累计：</li>
-                </ul>
-                <div className={styles.noNameBox}>热轧板</div>
-            </div>
-            <div className={styles.stock18}>
-                <div className={styles.noNameBox}>140连续轧管线</div>
-                <ul className={`${styles.box28} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-                <ul className={`${styles.box33} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>管材今日产出：</li>
-                    <li>管材本月累计：</li>
-                    <li>管材单位成本：</li>
-                </ul>
-                <div className={styles.noNameBox} style={{ 'marginTop': '100px' }}>高速线材轧机</div>
-                <ul className={`${styles.box29} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-                <ul className={`${styles.box34} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>线材今日产出：</li>
-                    <li>线材本月累计：</li>
-                    <li>线材单位成本：</li>
-                </ul>
-            </div>
-            <div className={styles.stock19}>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }}>2030冷链轧机</div>
-                <ul className={`${styles.box30} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-                <ul className={`${styles.box35} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>今日产出：</li>
-                    <li>本月累计：</li>
-                    <li>单位成本：</li>
-                </ul>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }}>1550冷链轧机</div>
-                <ul className={`${styles.box31} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-                <ul className={`${styles.box36} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>今日产出：</li>
-                    <li>本月累计：</li>
-                    <li>单位成本：</li>
-                </ul>
-                <div className={styles.noNameBox}>1420冷链轧机</div>
-                <ul className={`${styles.box32} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>设备状况：</li>
-                    <li>今日停产时间：</li>
-                    <li>本月停产时间：</li>
-                </ul>
-                <ul className={`${styles.box37} ${styles.box}  ${styles.noMinHeight}`}>
-                    <li>今日产出：</li>
-                    <li>本月累计：</li>
-                    <li>单位成本：</li>
-                </ul>
-            </div>
-        </div>
+    toEmployee(num: number, title: string, navIndex: number = 0, type: 1 | 2 = 1, unit: string = '吨/天') {
+        console.log(type, unit)
+        let surnameArr = '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐'.split('');
+        let name = `${surnameArr[this.getRandom(surnameArr.length)]}××`;
+        let contact = `138××××${this.getRandom(10)}${this.getRandom(10)}${this.getRandom(10)}${this.getRandom(10)}`;
+        let currentCapacity = `${(this.getRandom(50) + 50) / 10}${unit}`;
+        let state = '良好';
+        let bool = type && type == 2;
+        let row1 = bool ? `${this.getRandom(10) + 30}℃` : `${this.getRandom(100) + 100}℃`;
+        let row2 = bool ? `${this.getRandom(30) + 50}%` : `${this.getRandom(60)}s/次`;
+        let row3 = `${this.getRandom(50) + 30}分贝`;
+        let row4 = '良好';
+        let row5 = bool ? '' : '良好';
+        let row = new DataRow();
+        row.setValue('A1', row1).setValue('A2', row2).setValue('A3', row3).setValue('A4', row4).setValue('A5', row5).setValue('Name_', name).setValue('Contact_', contact).setValue('CurrentCapacity_', currentCapacity).setValue('State_', state);
+        //@ts-ignore
+        aui.showPage('Employee', title, { dataRow: row, title: title, backHref: 'FrmPurchaseChart5', backTitle: '制造数据管理中心', type: bool ? 2 : 1, params: { navIndex } })
+    }
+
+    getRandom(num: number) {
+        return Math.floor(Math.random() * num);
     }
 
     getMenus() {
