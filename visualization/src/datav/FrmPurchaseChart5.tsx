@@ -1,10 +1,10 @@
-import React from "react";
-import ViewMenu, { ViewMenuMap } from "./ViewMenu";
-import * as echarts from "echarts";
-import styles from "./FrmPurchaseChart5.css";
-import { FullScreenContainer } from "@jiaminghi/data-view-react";
-import TopHeader from "./TopHeader";
+import { BorderBox10, FullScreenContainer } from "@jiaminghi/data-view-react";
 import { DataRow } from "autumn-ui";
+import * as echarts from "echarts";
+import React from "react";
+import styles from "./FrmPurchaseChart5.css";
+import TopHeader from "./TopHeader";
+import ViewMenu, { ViewMenuMap } from "./ViewMenu";
 
 type stateType = {
     menuOptions: ViewMenuMap,
@@ -102,83 +102,95 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             <div className={styles.stock1} onClick={() => {
                 this.toEmployee(0, '焦煤厂', 0, 2)
             }}>
-                <img src="./home.png" className={styles.home} />
-                <div className={styles.nameBox}>焦煤厂</div>
-                <ul className={`${styles.box1} ${styles.box}`}>
-                    <li className={styles.boxTitle}>领用材料：</li>
-                    <li>A：</li>
-                    <li>B：</li>
-                    <li>C：</li>
-                    <li>D：</li>
-                    <li>E：</li>
-                </ul>
-                <ul className={`${styles.box2} ${styles.box}`}>
-                    <li className={styles.boxTitle}>产出半成品：</li>
-                    <li>A：</li>
-                    <li>B：</li>
-                    <li>C：</li>
-                    <li>D：</li>
-                    <li>E：</li>
-                </ul>
+                <img src="./img/焦煤厂.gif" className={styles.jmc} />
+                <div className={`${styles.nameBox1} ${styles.nameBox}`}>焦煤厂</div>
+                <div className={`${styles.box1} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日领料（煤）：<span className={styles.number}>5</span>T</li>
+                            <li>本月领料（煤）：<span className={styles.number}>100</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+                <div className={`${styles.box2} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日产出（焦煤）：<span className={styles.number}>4.8</span>T</li>
+                            <li>本月产出（焦煤）：<span className={styles.number}>96</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
             </div>
             <div className={styles.stock2} onClick={() => {
                 this.toEmployee(0, '煤气回收', 0, 1, '立方米/时')
             }}>
-                <img src="./home.png" className={styles.home} />
-                <div className={styles.nameBox}>煤气回收</div>
-                <ul className={`${styles.box3} ${styles.box}`}>
-                    <li className={styles.boxTitle}>回收煤气：</li>
-                    <li>A：</li>
-                    <li>B：</li>
-                </ul>
-                <ul className={`${styles.box4} ${styles.box}`}>
-                    <li className={styles.boxTitle}>回收煤气：</li>
-                    <li>A：</li>
-                    <li>B：</li>
-                </ul>
+                <img src="./img/煤气回收.gif" className={styles.mqhs} />
+                <div className={`${styles.nameBox2} ${styles.nameBox}`}>煤气回收</div>
+                <div className={`${styles.box3} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日回收煤气：<span className={styles.number}>50</span>立方</li>
+                            <li>本月回收煤气：<span className={styles.number}>1000</span>立方</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+                <div className={`${styles.box4} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日回收煤气：<span className={styles.number}>30</span>立方</li>
+                            <li>本月回收煤气：<span className={styles.number}>600</span>立方</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
             </div>
             <div className={styles.stock3}>
-                <img src="./stove.png" className={styles.stove} />
-                <ul className={`${styles.box5} ${styles.box}`}>
-                    <li>温度：</li>
-                    <li>压力：</li>
-                    <li>正常运行时间：</li>
-                    <li>碳排放：</li>
-                </ul>
+                <img src="./img/fire.gif" className={styles.fire1} />
+                <div className={`${styles.box5} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>温度：</li>
+                            <li>压力：</li>
+                            <li>正常运行时间：</li>
+                            <li>碳排放：</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
             </div>
             <div className={styles.stock4} onClick={() => {
                 this.toEmployee(0, '烧结厂', 0, 2)
             }}>
-                <img src="./home.png" className={styles.home} />
-                <div className={styles.nameBox}>烧结厂</div>
-                <ul className={`${styles.box6} ${styles.box}`}>
-                    <li className={styles.boxTitle}>产出半成品：</li>
-                    <li>A：</li>
-                    <li>B：</li>
-                    <li>C：</li>
-                    <li>D：</li>
-                    <li>E：</li>
-                </ul>
-                <ul className={`${styles.box7} ${styles.box}`}>
-                    <li className={styles.boxTitle}>领用材料：</li>
-                    <li>A：</li>
-                    <li>B：</li>
-                    <li>C：</li>
-                    <li>D：</li>
-                    <li>E：</li>
-                </ul>
+                <img src="./img/烧结厂.gif" className={styles.sjc} />
+                <div className={`${styles.nameBox3} ${styles.nameBox}`}>烧结厂</div>
+                <div className={`${styles.box6} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日产出（铁球）：<span className={styles.number}>6</span>T</li>
+                            <li>本月产出（铁球）：<span className={styles.number}>120</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+                <div className={`${styles.box7} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日领用（煤）：<span className={styles.number}>8</span>T</li>
+                            <li>本月领用（煤）：<span className={styles.number}>160</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
             </div>
             <div className={styles.stock5} onClick={() => {
                 this.toEmployee(0, '铁水运转', 0)
             }}>
-                <img src="./car.png" className={styles.car} />
-                <div className={styles.nameBox}>铁水运转</div>
-                <ul className={`${styles.box8} ${styles.box}`}>
-                    <li className={styles.boxTitle}>产出铁水：</li>
-                    <li>A：</li>
-                    <li>B：</li>
-                    <li>C：</li>
-                </ul>
+                <img src="./img/铁水运转.png" className={styles.tsyz} />
+                <div className={`${styles.nameBox4} ${styles.nameBox}`}>铁水运转</div>
+                <div className={`${styles.box8} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日输出（铁水）：<span className={styles.number}>5.8</span>T</li>
+                            <li>本月输出（铁水）：<span className={styles.number}>116</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
             </div>
         </div>
     }
@@ -189,36 +201,34 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             nodes,
             linesData: [{
                 coords: [
-                    [428, 802],
-                    [650, 802],
-                    [650, 583],
-                    [885, 583],
+                    [492, 596],
+                    [492, 496],
+                    [862, 496],
                 ]
             }, {
                 coords: [
-                    [885, 343],
-                    [650, 343],
-                    [650, 124],
-                    [428, 124],
+                    [862, 343],
+                    [780, 343],
+                    [780, 124],
+                    [440, 124],
                 ]
             }, {
                 coords: [
-                    [1492, 802],
-                    [1270, 802],
-                    [1270, 583],
-                    [1035, 583],
+                    [1468, 676],
+                    [1468, 496],
+                    [1055, 496],
                 ]
             }, {
                 coords: [
-                    [1035, 343],
-                    [1270, 343],
-                    [1270, 124],
-                    [1492, 124],
+                    [1055, 343],
+                    [1120, 343],
+                    [1120, 124],
+                    [1438, 124],
                 ]
             }, {
                 coords: [
-                    [304, 605],
-                    [304, 310],
+                    [404, 600],
+                    [404, 270],
                 ]
             }]
         }
@@ -249,7 +259,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 label: {
                     show: true,
                     position: 'bottom',
-                    color: 'orange',
+                    color: '#fff',
                     formatter: function (item: any) {
                         return item.data.nodeName
                     }
@@ -262,7 +272,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 lineStyle: {
                     type: 'dashed',
                     width: 2,
-                    color: '#175064',
+                    color: '#E3F0FF',
                     curveness: 0.3
 
                 },
@@ -271,7 +281,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     trailLength: 0.1,
                     symbol: 'arrow',
                     color: 'orange',
-                    symbolSize: 8
+                    symbolSize: 12
                 },
                 data: charts.linesData
             }]
