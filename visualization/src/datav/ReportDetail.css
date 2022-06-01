@@ -44,7 +44,7 @@
 }
 
 .grid>div th::before, .grid>div td::before {
-    width: 0!important;
+    /* width: 0 !important; */
 }
 
 .grid>div tbody>tr:nth-child(2n) {
@@ -62,3 +62,50 @@
     width: 100px;
     cursor: pointer;
 }
+
+
+.lmTable table tr>td:nth-child(n+1)::before{
+    background-color: #4b5960;
+}
+
+.lmTable table tr>td:nth-child(n+1)::before{
+    content: '';
+    position: absolute;
+    left: -1px;
+    width: 1px;
+    top: 0;
+    bottom: 0;
+}
+
+/* table tr>td, table tr>th {
+    position: relative;
+}
+
+table tr>td:nth-child(n+2)::before, table tr>th:nth-child(n+2)::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    width: 1px;
+    top: 0;
+    bottom: 0;
+}
+
+table tr>td:nth-child(n+2)::before {
+    background-color: #4b5960;
+}
+
+table tr>th:nth-child(n+2)::before {
+    background-color: #719aaf !important;
+} */
+
+/* table tr>td, table tr>th {
+    position: relative;
+} */
+
+/* table tr>td:nth-child(n+2)::before {
+    background-color: #4b5960;
+}
+
+table tr>th:nth-child(n+2)::before {
+    background-color: #719aaf!important;
+} */

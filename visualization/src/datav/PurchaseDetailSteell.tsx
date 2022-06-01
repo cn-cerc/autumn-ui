@@ -55,125 +55,33 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
         let now = new Date();
         let nowYear = now.getFullYear();
         let nowMonth = now.getMonth();
-        let arr = ['重废','中废','小废','统料'];
+        let arr = ['A站','B站','C站','D站'];
         let dataArr:any[] = [];
         arr.forEach((item,arrIndex)=>{
             let temp:number[][] = [];
             for(var i = 0;i<31;i++){
                 temp.push([]);
+                temp[i][0] = 0;
+                temp[i][1] = 0;
+                temp[i][2] = 0;
+                temp[i][3] = 0;
+                temp[i][4] = 0;
+                if(i >= now.getDate()){
+                    continue;
+                }
                 dataSet.first();
                 while (dataSet.fetch()) {
                     var timeDay = new Date(dataSet.getString('日期')).getDate();
                     var monthTime = new Date(dataSet.getString('日期')).getMonth();
                     if( monthTime == nowMonth && timeDay == (i+1)){
-                        if(item == '重废'){
-                            if(!temp[i][0]){
-                                temp[i][0] = 0;
-                            }
-                            if(!temp[i][1]){
-                                temp[i][1] = 0;
-                            }
-                            if(!temp[i][2]){
-                                temp[i][2] = 0;
-                            }
-                            if(!temp[i][3]){
-                                temp[i][3] = 0;
-                            }
-                            if(!temp[i][4]){
-                                temp[i][4] = 0;
-                            }
-                            dataSet1.first();
-                            while (dataSet1.fetch()) {
-                                if(new Date(dataSet1.getString('发货日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
+                        dataSet1.first();
+                        while (dataSet1.fetch()) {
+                            var zl = dataSet1.getString('种类');
+                            var thatMontTime = new Date(dataSet1.getString('发货日期')).getMonth();
+                            if(zl == item){
+                                if(thatMontTime == nowMonth && new Date(dataSet1.getString('发货日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
                                     temp[i][0] = dataSet1.getDouble('单价');
                                     temp[i][1] = dataSet1.getDouble('单价');
-                                    temp[i][2] = math.toFixed(temp[i][2] + dataSet1.getDouble('数量'),1);
-                                    temp[i][3] = math.toFixed(temp[i][3] + dataSet1.getDouble('数量'),1);
-                                }
-                                if(new Date(dataSet1.getString('到货日期')) <= now){
-                                    temp[i][4] = math.toFixed(temp[i][4] + dataSet1.getDouble('数量'),1);
-                                }
-                            }
-                        }
-                        if(item == '中废'){
-                            if(!temp[i][0]){
-                                temp[i][0] = 0;
-                            }
-                            if(!temp[i][1]){
-                                temp[i][1] = 0;
-                            }
-                            if(!temp[i][2]){
-                                temp[i][2] = 0;
-                            }
-                            if(!temp[i][3]){
-                                temp[i][3] = 0;
-                            }
-                            if(!temp[i][4]){
-                                temp[i][4] = 0;
-                            }
-                            dataSet1.first();
-                            while (dataSet1.fetch()) {
-                                if(new Date(dataSet1.getString('发货日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
-                                    temp[i][0] = temp[i][0] + dataSet1.getDouble('单价');
-                                    temp[i][1] = math.toFixed(temp[i][1] + dataSet1.getDouble('单价'),1);
-                                    temp[i][2] = math.toFixed(temp[i][2] + dataSet1.getDouble('数量'),1);
-                                    temp[i][3] = math.toFixed(temp[i][3] + dataSet1.getDouble('数量'),1);
-                                }
-                                if(new Date(dataSet1.getString('到货日期')) <= now){
-                                    temp[i][4] = math.toFixed(temp[i][4] + dataSet1.getDouble('数量'),1);
-                                }
-                            }
-                        }
-                        if(item == '小废'){
-                            if(!temp[i][0]){
-                                temp[i][0] = 0;
-                            }
-                            if(!temp[i][1]){
-                                temp[i][1] = 0;
-                            }
-                            if(!temp[i][2]){
-                                temp[i][2] = 0;
-                            }
-                            if(!temp[i][3]){
-                                temp[i][3] = 0;
-                            }
-                            if(!temp[i][4]){
-                                temp[i][4] = 0;
-                            }
-                            dataSet1.first();
-                            while (dataSet1.fetch()) {
-                                if(new Date(dataSet1.getString('发货日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
-                                    temp[i][0] = temp[i][0] + dataSet1.getDouble('单价');
-                                    temp[i][1] = math.toFixed(temp[i][1] + dataSet1.getDouble('单价'),1);
-                                    temp[i][2] = math.toFixed(temp[i][2] + dataSet1.getDouble('数量'),1);
-                                    temp[i][3] = math.toFixed(temp[i][3] + dataSet1.getDouble('数量'),1);
-                                }
-                                if(new Date(dataSet1.getString('到货日期')) <= now){
-                                    temp[i][4] = math.toFixed(temp[i][4] + dataSet1.getDouble('数量'),1);
-                                }
-                            }
-                        }
-                        if(item == '统料'){
-                            if(!temp[i][0]){
-                                temp[i][0] = 0;
-                            }
-                            if(!temp[i][1]){
-                                temp[i][1] = 0;
-                            }
-                            if(!temp[i][2]){
-                                temp[i][2] = 0;
-                            }
-                            if(!temp[i][3]){
-                                temp[i][3] = 0;
-                            }
-                            if(!temp[i][4]){
-                                temp[i][4] = 0;
-                            }
-                            dataSet1.first();
-                            while (dataSet1.fetch()) {
-                                if(new Date(dataSet1.getString('发货日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
-                                    temp[i][0] = temp[i][0] + dataSet1.getDouble('单价');
-                                    temp[i][1] = math.toFixed(temp[i][1] + dataSet1.getDouble('单价'),1);
                                     temp[i][2] = math.toFixed(temp[i][2] + dataSet1.getDouble('数量'),1);
                                     temp[i][3] = math.toFixed(temp[i][3] + dataSet1.getDouble('数量'),1);
                                 }
@@ -187,7 +95,6 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
             }
             dataArr.push(temp);
         })
-        // console.log(dataArr);
         var arr1:any[]= [
             [[],[],[],[],[]],
             [[],[],[],[],[]],
@@ -204,22 +111,23 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
                 arr1[i][4].push(dataArr[i][k][4]>0?dataArr[i][k][4]:0);
             }
         }
-
         this.setState({
             dataArr:arr1
         })
-        // console.log(arr1);
     }
 
     render(): JSX.Element {
         return (
             <div className={styles.main}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader title='废铁今日收料数量（T）' handleCick={this.titleClick.bind(this)} />
-                    <div className={styles.box}>
+                    <TopHeader title='废铁今日收料数量（T）' handleCick={() => {
+                    //@ts-ignore
+                    return aui.showPage('FrmPurchaseChart3', '采购数据管理中心',{index:2});
+                }} />
+                    <div className={styles.box} style={{width:'1700px'}}>
                         <BorderBox9>
                             <div className={styles.grid}>
-                            <div className={'aui-dbgrid-main'} role="dbgrid">
+                            <div className={'aui-dbgrid-main ' + `${styles.lmTable}`} role="dbgrid">
                                 {this.getTable(this.state.dataArr)}
                             </div>
                             </div>
@@ -234,70 +142,62 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
         return <React.Fragment>
             <table>
                 <tbody>
-                    <tr>
-                        <th>序</th>
-                        <th>类</th>
-                        <th>项目</th>
+                    <tr key={'tr0-0-0'}>
+                        <th style={{fontSize:'12px',width:'16px'}}>种类</th>
+                        <th style={{fontSize:'12px',width:'70px'}}>项目</th>
                         {this.getHeadTd(31,true)}
-                        <th>合计</th>
+                        <th style={{fontSize:'12px',width:'58px'}}>合计</th>
                     </tr>
-                    {this.getBodyItem(data)}
+                    {this.getBodyItem(data[0],'A','A站')}
+                    {this.getBodyItem(data[1],'B','B站')}
+                    {this.getBodyItem(data[2],'C','C站')}
+                    {this.getBodyItem(data[3],'D','D站')}
                 </tbody>
             </table>
         </React.Fragment>
     }
 
-    getBodyItem(data:any){
-        // console.log(data[0]);
+    getBodyItem(data:any,trIndex:string,text:string){
+        if(!data || data.length == 0) return;
         return <React.Fragment>
-            <tr>
-                <td rowSpan={5}>1</td>
-                <td rowSpan={5}>重废</td>
-                <td>今日挂牌价</td>
-                {this.getHeadTd(31,false,data[0])}
-                <td></td>
+            <tr key={`${trIndex}-tr1`}>
+                <td rowSpan={5} style={{fontSize:'12px',textAlign:'center'}} key={`${trIndex}_td1`}>{text}</td>
+                <td style={{fontSize:'12px',textAlign:'center'}} key={`${trIndex}_td2`}>今日挂牌价</td>
+                {this.getHeadTd(31,false,trIndex+'-td1',data[0])}
             </tr>
-            <tr>
-                <td>收购价格</td>
-                {this.getHeadTd(31,false,data[1])}
-                <td></td>
+            <tr key={`${trIndex}-tr2`}>
+                <td style={{fontSize:'12px',textAlign:'center'}} key={`${trIndex}_td3`}>收购价格</td>
+                {this.getHeadTd(31,false,trIndex+'-td2',data[1])}
             </tr>
-            <tr>
-                <td>收购数量</td>
-                {this.getHeadTd(31,false,data[2])}
-                <td></td>
+            <tr key={`${trIndex}-tr3`}>
+                <td style={{fontSize:'12px',textAlign:'center'}} key={`${trIndex}_td4`}>收购数量</td>
+                {this.getHeadTd(31,false,trIndex+'-td3',data[2])}
             </tr>
-            <tr>
-                <td>今日发货</td>
-                {this.getHeadTd(31,false,data[3])}
-                <td></td>
+            <tr key={`${trIndex}-tr4`}>
+                <td style={{fontSize:'12px',textAlign:'center'}} key={`${trIndex}_td5`}>今日发货</td>
+                {this.getHeadTd(31,false,trIndex+'-td4',data[3])}
             </tr>   
-            <tr>
-                <td>今日库存</td>
-                {this.getHeadTd(31,false,data[4])}
-                <td></td>
+            <tr key={`${trIndex}-tr5`}>
+                <td style={{fontSize:'12px',textAlign:'center'}} key={`${trIndex}_td6`}>今日库存</td>
+                {this.getHeadTd(31,false,trIndex+'-td5',data[4])}
             </tr>
         </React.Fragment>
     }
-    getHeadTd(count:number,type:boolean,data?:any){
-        console.log(data)
+    getHeadTd(count:number,type:boolean,trIndex?:string,data?:any){
+        var temp = 0;
         let list: ReactNode[] = [];
         for(var i=1;i<=count;i++){
             if(type){
-                list.push(<th key={i}>{i}</th>);
+                list.push(<th key={`th-${i}`} style={{fontSize:'12px',width:'42px'}}>{i}</th>);
             }else{
-                // list.push(<td key={i}>{data[i]}</td>);
+                temp +=  data[i-1];
+                list.push(<td key={`${trIndex}-${i}`} style={{fontSize:'12px',textAlign:'right'}}>{data[i-1]}</td>);
+                console.log(trIndex+'-'+i)
             }
+        }
+        if(data && !type){
+            list.push(<td key={`${trIndex}-${temp}`} style={{fontSize:'12px',textAlign:'right'}}>{temp}</td>);
         }
         return list;
     }
-
-    titleClick() {
-        // let showIndex = this.state.showIndex + 1;
-        // this.setState({
-        //     showIndex
-        // })
-    }
-    // return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}${this.props.title}`} key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='采购数据管理中心'></ReportDetail>
-
 }

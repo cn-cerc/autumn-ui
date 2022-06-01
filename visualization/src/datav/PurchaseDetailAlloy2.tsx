@@ -69,9 +69,7 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
                     .setValue('出港损耗数量',math.toFixed(dataSet.getDouble('出港损耗数量') + tempData.getDouble('出港损耗数量'),2))
                     .setValue('到厂数量',math.toFixed(dataSet.getDouble('到厂数量') + tempData.getDouble('到厂数量'),2))
                     .setValue('到厂损耗数量',math.toFixed(dataSet.getDouble('到厂损耗数量') + tempData.getDouble('到厂损耗数量'),2))
-                    
                     .setValue('到厂损耗比例',math.toFixed( (dataSet.getDouble('到厂损耗比例')>0?dataSet.getDouble('到厂损耗比例'):0) + (tempData.getDouble('到厂损耗比例')>0?tempData.getDouble('到厂损耗比例'):0),2))
-
                     .setValue('总损耗数量',math.toFixed(dataSet.getDouble('总损耗数量') + tempData.getDouble('总损耗数量'),2))
                     .setValue('总损耗比例',math.toFixed(dataSet.getDouble('总损耗比例') + tempData.getDouble('总损耗比例'),2))
                     .setValue('采购合同', dataSet.getString('采购合同')).setValue('备注', dataSet.getString('备注'))
@@ -100,6 +98,6 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}${this.props.title}`} key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='采购数据管理中心' hideIt={true}></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}${this.props.title}`} key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='采购数据管理中心' hideIt={true} index={2}></ReportDetail>
     }
 }

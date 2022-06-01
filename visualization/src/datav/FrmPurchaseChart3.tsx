@@ -33,6 +33,7 @@ type PropsType = {
     backHref?: string,
     backTitle?: string,
     hideIt?: boolean,
+    index?:number
 }
 
 export default class FrmPurchaseChart3 extends React.Component<PropsType, stateType>{
@@ -52,7 +53,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 imgSrc: './kanban3.png',
                 href: 'javascript:aui.showPage("FrmPurchaseChart4", "销售数据管理中心")'
             }]]),
-            ltype: 1,
+            ltype: this.props.index || 1,
             rtype: 3,
             main2Data: [
                 { value: 3.9, name: '锰' },
@@ -423,13 +424,13 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     if (item == '今日挂牌价（T/元）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
                         tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
-                    if (item == '今日入库数量（T）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
+                    if (item == '今日入库数量（T）' && new Date(calcData.getString('到货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                    if (item == '本月入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth && new Date(calcData.getString('到货日期')) <= now) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '年度入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear) {
+                    if (item == '年度入库数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth && new Date(calcData.getString('到货日期')) <= now) {
                         //如果等于年度
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
@@ -511,25 +512,14 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         }).then((data) => {
             let execl = new Excel();
             let dataList: excelData[] = execl.getDataByArrayBuffer(data);
-            let now = new Date();
-            let nowYear = now.getFullYear();
-            let nowMonth = now.getMonth();
-            let table1data = dataList[2].data;
-            let tempDataSet1: DataSet = new DataSet();
-                table1data.first();
-            while (table1data.fetch()) {
-                if( new Date(table1data.getString('日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
-                    tempDataSet1.append().setValue('项次',table1data.getString('项次')).setValue('A站',table1data.getString('A站'))
-                    .setValue('B站',table1data.getString('B站')).setValue('C站',table1data.getString('C站')).setValue('D站',table1data.getString('D站'));
-                }
-            }
-
-            this.setState({ steellList: tempDataSet1 });
+            this.setState({ steellList: dataList[2].data });
 
             let calcData: DataSet = dataList[1].data; //第二个表数据
             let tempDataSet: DataSet = new DataSet();
             tempDataSet.appendDataSet(this.state.steellList);
-           
+            let now = new Date();
+            let nowYear = now.getFullYear();
+            let nowMonth = now.getMonth();
             let arr = ['今日收购均价（T/元）', '今日收料（T）', '本月收料（T）', '年度累计收料（T）',
                 '年度累计回厂（T）', '收购站当前库存（T）', '厂区当前库存（T）', '厂区当前库存均价（T/元）'];
             let math = new AuiMath();
@@ -824,12 +814,28 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         }
     }
     //渲染数据表行
-    getColumns(reportHead: DataRow) {
+    getColumns(reportHead: DataRow,type?:number) {
         let list: ReactNode[] = [];
         reportHead.forEach((key: string, value: any) => {
             if (key == '项次') {
+                
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key} customText={(row: DataRow) => {
-                    return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px' }}>我的钢铁网</span></span> : row.getString('项次')
+                    switch(type){
+                        case 3:
+                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月入库数量（T）'?<span style={{color:'#66ff66'}}>{row.getString('项次')}</span>:row.getString('项次');
+                            break;
+                        case 4:
+                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px' }}>我的钢铁网</span></span> : row.getString('项次') == '今日收料（T）'?<span style={{color:'#66ff66'}}>{row.getString('项次')}</span>:row.getString('项次');
+                            break;
+                        default:
+                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px' }}>我的钢铁网</span></span> : row.getString('项次');
+                            break;
+                    }
+                    // if(type == 4){
+                    //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px' }}>我的钢铁网</span></span> : row.getString('项次')
+                    // }else{
+                    //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px' }}>我的钢铁网</span></span> : row.getString('项次')
+                    // }
                 }}></Column>);
             } else {
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key}></Column>);
@@ -1338,7 +1344,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         reportHead.setValue('项次', { name: '项次', width: '40' }).setValue('锰', { name: '锰', width: '16' }).setValue('硅', { name: '硅', width: '16' })
             .setValue('钒', { name: '钒', width: '16' }).setValue('钨', { name: '钨', width: '16' }).setValue('钛', { name: '钛', width: '16' })
             .setValue('钼', { name: '钼', width: '16' });
-        return this.getHtmlFun(reportHead, this.state.alloyList);
+        return this.getHtmlFun(reportHead, this.state.alloyList,3);
     }
     getTable3() { //铁矿石采购动态 table
         let reportHead = new DataRow();
@@ -1350,10 +1356,10 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         let reportHead = new DataRow();
         reportHead.setValue('项次', { name: '项次', width: '32' }).setValue('A站', { name: 'A站', width: '18' }).setValue('B站', { name: 'B站', width: '18' })
             .setValue('C站', { name: 'C站', width: '18' }).setValue('D站', { name: 'D站', width: '18' });
-        return this.getHtmlFun(reportHead, this.state.steellList);
+        return this.getHtmlFun(reportHead, this.state.steellList,4);
     }
 
-    getHtmlFun(reportHead: DataRow, dataList: DataSet) {
+    getHtmlFun(reportHead: DataRow, dataList: DataSet,type?:number) {
         let currentData = new DataSet();
         dataList.first();
         while (dataList.fetch()) {
@@ -1363,7 +1369,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             <BorderBox1>
                 <div className={styles.grid}>
                     <DBGrid dataSet={currentData} key={this.getColumns(reportHead).toString()} onRowClick={this.handleRowClick.bind(this)}>
-                        {this.getColumns(reportHead)}
+                        {this.getColumns(reportHead,type)}
                     </DBGrid>
                 </div>
             </BorderBox1>
@@ -1395,32 +1401,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     }
 
     handleRowClick(row: DataRow, sender: any) {
-        // @ts-ignore
-        // aui.showPage("ReportDetail1", "铁矿石年度入库数量（T）");
-
-        //以下代码 李敏负责部分 =====================
-        // let fieldText = sender.target.getAttribute('data-field');
-        // if(fieldText == '项次' || fieldText == '锰' || fieldText == '硅' || fieldText == '钒' || fieldText == '钨' || fieldText == '钛' || fieldText == '钼'){
-            var itemText = row.getString('项次');
-            switch(itemText){
-                case '今日入库数量（T）':
-                    // @ts-ignore
-                    aui.showPage("PurchaseDetailAlloy1", "合金今日入库数量",{index:1,title:'今日入库数量（T）'});
-                    break;
-                case '本月入库数量（T）':
-                    // @ts-ignore
-                    aui.showPage("PurchaseDetailAlloy2", "合金本月入库数量",{index:1,title:'本月入库数量（T）'});
-                    break;
-            }
-        // }else if( fieldText == '项次' || fieldText == '锰' || fieldText == '硅' || fieldText == '钒' || fieldText == '钨' ){
-            var itemText = row.getString('项次');
-            switch(itemText){
-                case '今日收料（T）':
-                    // @ts-ignore
-                    aui.showPage("PurchaseDetailSteell", "废铁今日收料数量（T）",{index:1,title:'今日收料（T）'});
-                    break;
-            }
-        // }
-        //华丽的分割线==============================
+        //@ts-ignore
+        aui.showPage("ReportDetail1", "铁矿石年度入库数量（T）");
     }
 }

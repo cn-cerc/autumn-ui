@@ -290,7 +290,7 @@ table tr>td:nth-child(n+2)::before {
 }
 
 table tr>th:nth-child(n+2)::before {
-    background-color: #719aaf!important;
+    background-color: #719aaf !important;
 }
 
 .headerTitle {
