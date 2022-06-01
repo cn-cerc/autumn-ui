@@ -50,7 +50,7 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
             dataList = execl.getDataByArrayBuffer(data);
         })
         
-        let dataSet = dataList[2].data;
+        // let dataSet = dataList[2].data;
         let dataSet1 = dataList[1].data;
         let now = new Date();
         let nowYear = now.getFullYear();
@@ -69,38 +69,43 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
                 if(i >= now.getDate()){
                     continue;
                 }
-                dataSet.first();
-                while (dataSet.fetch()) {
-                    var timeDay = new Date(dataSet.getString('日期')).getDate();
-                    var monthTime = new Date(dataSet.getString('日期')).getMonth();
-                    if( monthTime == nowMonth && timeDay == (i+1)){
+                // dataSet.first();
+                // while (dataSet.fetch()) {
+                    // var timeDay = new Date(dataSet.getString('日期')).getDate();
+                    // var monthTime = new Date(dataSet.getString('日期')).getMonth();
+                    // if( monthTime == nowMonth && timeDay == (i+1)){
+                        let addStock:number = 0;
+                        // let loseStock:number = 0;
                         dataSet1.first();
                         while (dataSet1.fetch()) {
                             var zl = dataSet1.getString('种类');
+                            var thatYearTime = new Date(dataSet1.getString('发货日期')).getFullYear();
                             var thatMontTime = new Date(dataSet1.getString('发货日期')).getMonth();
-                            if(zl == item){
-                                if(thatMontTime == nowMonth && new Date(dataSet1.getString('发货日期')).setHours(0,0,0,0) == now.setHours(0,0,0,0)){
+                            addStock = math.toFixed(addStock + dataSet1.getDouble('到货数量') - dataSet1.getDouble('出货数量'),1);
+                            if(thatYearTime == nowYear && thatMontTime == nowMonth && zl == item){
+                                if( new Date(dataSet1.getString('发货日期')).getDate() == i+1){
                                     temp[i][0] = dataSet1.getDouble('单价');
                                     temp[i][1] = dataSet1.getDouble('单价');
                                     temp[i][2] = math.toFixed(temp[i][2] + dataSet1.getDouble('数量'),1);
                                     temp[i][3] = math.toFixed(temp[i][3] + dataSet1.getDouble('数量'),1);
-                                }
-                                if(new Date(dataSet1.getString('到货日期')) <= now){
-                                    temp[i][4] = math.toFixed(temp[i][4] + dataSet1.getDouble('数量'),1);
+                                    temp[i][4] = math.toFixed(addStock ,1);
                                 }
                             }
+                            
                         }
-                    }
-                }
+                    // }
+                // }
             }
             dataArr.push(temp);
         })
+        
         var arr1:any[]= [
             [[],[],[],[],[]],
             [[],[],[],[],[]],
             [[],[],[],[],[]],
-            [[],[],[],[],[]],
+            [[],[],[],[],[]]
         ];
+        //对dataArr数组格式进行切换arr1模式
         var dataArr1:any = []
         for(var i=0;i<dataArr.length;i++){
             for(var k=0;k<dataArr[i].length;k++){
@@ -144,7 +149,7 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
                 <tbody>
                     <tr key={'tr0-0-0'}>
                         <th style={{fontSize:'12px',width:'16px'}}>种类</th>
-                        <th style={{fontSize:'12px',width:'70px'}}>项目</th>
+                        <th style={{fontSize:'12px',width:'74px'}}>项目</th>
                         {this.getHeadTd(31,true)}
                         <th style={{fontSize:'12px',width:'58px'}}>合计</th>
                     </tr>
@@ -192,11 +197,12 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
             }else{
                 temp +=  data[i-1];
                 list.push(<td key={`${trIndex}-${i}`} style={{fontSize:'12px',textAlign:'right'}}>{data[i-1]}</td>);
-                console.log(trIndex+'-'+i)
+                // console.log(trIndex+'-'+i)
             }
         }
         if(data && !type){
-            list.push(<td key={`${trIndex}-${temp}`} style={{fontSize:'12px',textAlign:'right'}}>{temp}</td>);
+            let math = new AuiMath();
+            list.push(<td key={`${trIndex}-${temp}`} style={{fontSize:'12px',textAlign:'right'}}>{math.toFixed(temp,2)}</td>);
         }
         return list;
     }

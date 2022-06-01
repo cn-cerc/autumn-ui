@@ -189,8 +189,9 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 let zl = ds.getString('类型'); //保存种类
                 let xssl = ds.getDouble('销售数量'); //保存销售数量
                 for (var i = 0; i < 12; i++) { //循坏12个月
+                   
                     if (zl == '螺纹钢' || zl == '型钢' || zl == '带钢') {
-                        if (new Date(ds.getString('接单日期')).getMonth() == i) {
+                        if (new Date(ds.getString('接单日期')).getMonth() == i && new Date(ds.getString('接单日期')) <= now) {
                             if (zl == '螺纹钢') {
                                 this.xName[0] = zl;
                                 page1Month12[i][0].value = math.toFixed(page1Month12[i][0].value + xssl, 1);
@@ -205,7 +206,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                             }
                         }
                     } else {
-                        if (new Date(ds.getString('接单日期')).getMonth() == i) {
+                        if (new Date(ds.getString('接单日期')).getMonth() == i && new Date(ds.getString('接单日期')) <= now) {
                             if (zl == '线材') {
                                 this.xName2[0] = zl;
                                 page2Month12[i][0].value = math.toFixed(page2Month12[i][0].value + xssl, 1);
