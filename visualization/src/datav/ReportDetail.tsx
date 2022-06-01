@@ -10,7 +10,8 @@ type FrmReportTypeProps = {
     title: string,
     backHref?: string,
     backTitle?: string,
-    hideIt?: boolean
+    hideIt?: boolean,
+    params?: object
 }
 
 export default class ReportDetail extends React.Component<FrmReportTypeProps> {
@@ -23,7 +24,7 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
             <FullScreenContainer className={styles.dvFullScreenContainer}>
                 <TopHeader title={this.props.title} handleCick={() => {
                     //@ts-ignore
-                    return aui.showPage(this.props.backHref, this.props.backTitle)
+                    return aui.showPage(this.props.backHref, this.props.backTitle, this.props.params ? Object.assign({}, this.props.params) : {})
                 }} />
                 <div className={styles.box}>
                     <BorderBox9>

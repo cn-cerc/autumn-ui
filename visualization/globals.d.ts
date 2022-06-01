@@ -11,6 +11,7 @@ declare module '@jiaminghi/data-view-react' {
     export const BorderBox9: any
     export const BorderBox10: any
     export const BorderBox11: any
+    export const BorderBox12: any
     export const BorderBox13: any
     export const Decoration1: any
     export const Charts: any
