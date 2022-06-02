@@ -97,7 +97,7 @@
 }
 
 .nav>li {
-    margin-right: 35px;
+    margin:  0 17px;
     font-size: 24px;
     cursor: pointer;
 }
@@ -176,13 +176,13 @@
 }
 
 .hl {
-    width: 240px;
+    width: 188px;
 }
 
 .stocks {
     position: absolute;
-    bottom: 380px;
-    left: 180px;
+    bottom: 420px;
+    left: 150px;
 }
 
 .stocks img {
@@ -433,8 +433,8 @@
 }
 
 .box51 {
-    top: calc(100% - 10px);
-    left: calc(100% + 275px);
+    top: calc(100% - -10px);
+    left: calc(50%);
     transform: translateX(-50%);
     width: 200px;
 }
@@ -634,3 +634,14 @@
 {
     min-width:188px;
 }
+
+.imgToTop {
+    position: relative;
+    margin-bottom: 100px;
+}
+.xxx {
+    font-size: 100px;
+}
+.imgP {
+    text-align: center;
+    }
