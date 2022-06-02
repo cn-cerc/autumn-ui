@@ -123,7 +123,6 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
     }
 
     componentWillUnmount() {
-        console.log('baibai')
         clearInterval(this.state.timeFlag);
         this.setState({
             timeFlag: null
@@ -193,7 +192,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 let zl = ds.getString('类型'); //保存种类
                 let xssl = ds.getDouble('销售数量'); //保存销售数量
                 for (var i = 0; i < 12; i++) { //循坏12个月
-                   
+
                     if (zl == '螺纹钢' || zl == '型钢' || zl == '带钢') {
                         if (new Date(ds.getString('接单日期')).getMonth() == i && new Date(ds.getString('接单日期')) <= now) {
                             if (zl == '螺纹钢') {
@@ -249,17 +248,17 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                 }
             }
             //结算五个区 12个月的数据分析
-            for(var j=0;j<12;j++){
-                for(var k=0;k<3;k++){
+            for (var j = 0; j < 12; j++) {
+                for (var k = 0; k < 3; k++) {
                     temp[k][j] = math.toFixed(temp[k][j] + page1Month12[j][k].value, 1);
                 }
-                for(var k=0;k<3;k++){
-                    temp[k+3][j] = math.toFixed(temp[k][j] + page2Month12[j][k].value, 1);
+                for (var k = 0; k < 3; k++) {
+                    temp[k + 3][j] = math.toFixed(temp[k][j] + page2Month12[j][k].value, 1);
                 }
             }
-          
+
         })
-        for(var i=0;i<6;i++){
+        for (var i = 0; i < 6; i++) {
             temp[i].splice(nowMonth + 1, temp[i].length);
         }
         page1Temp[1] = temp[0];

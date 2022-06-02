@@ -72,7 +72,7 @@ export default {
     FrmEmployee3,
     FrmEmployee4,
     ReportDetail1,
-	SaleDetail1,
+    SaleDetail1,
     SaleDetail2,
     SaleDetail3,
     PurchaseEmployee1,
