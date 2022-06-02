@@ -2,7 +2,7 @@ import { FullScreenContainer } from '@jiaminghi/data-view-react';
 import { DataRow, DataSet } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
-import { AuiMath } from '../tool/Summer';
+import { AuiMath, showPage } from '../tool/Summer';
 import { Excel, excelData } from "../tool/Utils";
 import styles from './FrmPurchaseChart4.css';
 import PieChart from './PieChart';
@@ -333,8 +333,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('螺纹钢').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            //@ts-ignore
-                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 0, pageType1: this.state.pageType1 })
+                            showPage("SaleDetail1", "销售数据管理中心", { index: 0, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -349,8 +348,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('型钢').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            //@ts-ignore
-                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 1, pageType1: this.state.pageType1 })
+                            showPage("SaleDetail1", "销售数据管理中心", { index: 1, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -365,8 +363,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('带钢').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            //@ts-ignore
-                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 2, pageType1: this.state.pageType1 })
+                            showPage("SaleDetail1", "销售数据管理中心", { index: 2, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
 
@@ -387,8 +384,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('板材').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            //@ts-ignore
-                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 3, pageType1: this.state.pageType1 })
+                            showPage("SaleDetail1", "销售数据管理中心", { index: 3, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -403,8 +399,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('线材').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            //@ts-ignore
-                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 4, pageType1: this.state.pageType1 })
+                            showPage("SaleDetail1", "销售数据管理中心", { index: 4, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -419,8 +414,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('管材').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            //@ts-ignore
-                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 5, pageType1: this.state.pageType1 })
+                            showPage("SaleDetail1", "销售数据管理中心", { index: 5, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -692,8 +686,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         myChart.on('click', (params: any) => {
             let num = this.state.pageType1 == 1 ? 0 : 3;
             let index: number = num + params.dataIndex;
-            //@ts-ignore
-            aui.showPage("SaleDetail2", "工业4.0-数字化销售管理中心V1.0", { index, pageType1: this.state.pageType1 });
+            showPage("SaleDetail2", "销售数据管理中心", { index, pageType1: this.state.pageType1 });
         })
     }
 
@@ -855,8 +848,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             let name: string = params.seriesName;
             let arr = ['螺纹钢', '型钢', '带钢', '板材', '线材', '管材'];
             let num = arr.indexOf(name);
-            //@ts-ignore
-            aui.showPage("SaleDetail3", "工业4.0-数字化销售管理中心V1.0", { index: num, pageType1: this.state.pageType1 });
+            showPage("SaleDetail3", "销售数据管理中心", { index: num, pageType1: this.state.pageType1 });
         })
         myChart.setOption(lineOption);
     }

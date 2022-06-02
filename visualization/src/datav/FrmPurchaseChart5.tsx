@@ -2,6 +2,7 @@ import { BorderBox10, FullScreenContainer } from "@jiaminghi/data-view-react";
 import { DataRow } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import { showPage } from "../tool/Summer";
 import styles from "./FrmPurchaseChart5.css";
 import TopHeader from "./TopHeader";
 import ViewMenu, { ViewMenuMap } from "./ViewMenu";
@@ -125,21 +126,21 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             <div className={styles.stock2} onClick={() => {
                 this.toEmployee(0, '煤气回收', 0, 1, '立方米/时')
             }}>
-                <img src="./img/煤气回收.gif" className={styles.mqhs} />
+                <img src="./img/煤气回收2.gif" className={styles.mqhs} />
                 <div className={`${styles.nameBox2} ${styles.nameBox}`}>煤气回收</div>
                 <div className={`${styles.box3} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日回收煤气：<span className={styles.number}>50</span>立方</li>
-                            <li>本月回收煤气：<span className={styles.number}>1000</span>立方</li>
+                            <li>今日回收煤气：<span className={styles.number}>50</span>m³</li>
+                            <li>本月回收煤气：<span className={styles.number}>1000</span>m³</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box4} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日回收煤气：<span className={styles.number}>30</span>立方</li>
-                            <li>本月回收煤气：<span className={styles.number}>600</span>立方</li>
+                            <li>今日回收煤气：<span className={styles.number}>30</span>m³</li>
+                            <li>本月回收煤气：<span className={styles.number}>600</span>m³</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -149,10 +150,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box5} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>温度：</li>
-                            <li>压力：</li>
-                            <li>正常运行时间：</li>
-                            <li>碳排放：</li>
+                            <li>转炉温度：<span className={styles.number}>650°</span></li>
+                            <li>转炉压力：<span className={styles.number}>240<i>ata</i></span></li>
+                            <li>正常运行时间：<span className={styles.number}>41<i>h</i></span></li>
+                            <li>碳排放：<span className={styles.number}>41<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -182,7 +183,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             <div className={styles.stock5} onClick={() => {
                 this.toEmployee(0, '铁水运转', 0)
             }}>
-                <img src="./img/铁水运转.gif" className={styles.tsyz} />
+                <img src="./img/铁水运转2.gif" className={styles.tsyz} />
                 <div className={`${styles.nameBox4} ${styles.nameBox}`}>铁水运转</div>
                 <div className={`${styles.box8} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -215,8 +216,8 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 ]
             }, {
                 coords: [
-                    [1468, 686],
-                    [1468, 496],
+                    [1518, 686],
+                    [1518, 496],
                     [1045, 496],
                 ]
             }, {
@@ -224,7 +225,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     [1075, 343],
                     [1143, 343],
                     [1143, 124],
-                    [1448, 124],
+                    [1510, 124],
                 ]
             }, {
                 coords: [
@@ -401,7 +402,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <img src="./img/管坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '管坯', 1) }} />
                     <p className={styles.imgP}>管坯</p>
                 </div>
-                <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`}> 
+                <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`} style={{ 'marginLeft': '100px' }}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>钢水今日供应：<span className={styles.number}>14.0</span>T</li>
@@ -595,28 +596,29 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} onClick={() => {
                     this.toEmployee(0, '管坯', 2)
                 }}>
-                    <img src="./img/管坯.png" className={styles.stove2} />{/* 管坯 */}
+                    <img src="./img/管坯.png" className={styles.stove2} />
+                    <div className={styles.nameText}>管坯</div>
                 </div>
                 <div className={styles.noNameBox} style={{ 'marginTop': '130px' }} onClick={() => {
                     this.toEmployee(0, '方坯', 2)
                 }}>
                     <img src="./img/方坯.png" className={styles.stove2} />
-                    {/* 方坯 */}
+                    <div className={styles.nameText}>方坯</div>
                 </div>
 
                 <div className={`${styles.box17} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>管坯今日供应：<span className={styles.number}>3</span>T</li>
-                            <li>管坯本月累计：<span className={styles.number}>1</span>T</li>
+                            <li>管坯今日供应：<span className={styles.number}>3.4</span>T</li>
+                            <li>管坯本月累计：<span className={styles.number}>41.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box18} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>方坯今日供应：<span className={styles.number}>5</span>T</li>
-                            <li>方坯本月累计：<span className={styles.number}>4</span>T</li>
+                            <li>方坯今日供应：<span className={styles.number}>5.0</span>T</li>
+                            <li>方坯本月累计：<span className={styles.number}>44.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -625,13 +627,14 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} onClick={() => {
                     this.toEmployee(0, '板坯', 2)
                 }}>
-                    <img src="./img/板坯.png" className={styles.stove2} /> {/* 板坯 */}
+                    <img src="./img/板坯.png" className={styles.stove2} />
+                    <div className={styles.nameText}>板坯</div>
                 </div>
                 <div className={`${styles.box19} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>板坯今日供应：<span className={styles.number}>5</span>T</li>
-                            <li>板坯本月累计：<span className={styles.number}>2</span>T</li>
+                            <li>板坯今日供应：<span className={styles.number}>5.1</span>T</li>
+                            <li>板坯本月累计：<span className={styles.number}>52.3</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -640,41 +643,44 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} onClick={() => {
                     this.toEmployee(0, '初轧机', 2)
                 }}>
-                    <img src="./img/1.gif" className={styles.stove2} />{/* 初轧机 */}
+                    <img src="./img/1.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>初轧机</div>
                 </div>
                 <div className={`${styles.box20} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日停产时间：<span className={styles.number}>6</span>H</li>
-                            <li>本月停产时间：<span className={styles.number}>36</span>H</li>
+                            <li>今日停产时间：<span className={styles.number}>6.9</span>H</li>
+                            <li>本月停产时间：<span className={styles.number}>36.0</span>H</li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock15}>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '40px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginBottom': '66px' }} onClick={() => {
                     this.toEmployee(0, '2050热连扎线', 2)
                 }}>
-                    <img src="./img/2.gif" className={styles.stove2} />{/* 2050热连扎线 */}
+                    <img src="./img/2.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>2050热连扎线</div>
                 </div>
                 <div className={styles.noNameBox} onClick={() => {
                     this.toEmployee(0, '1580热连扎线', 2)
                 }}>
-                    <img src="./img/3.gif" className={styles.stove2} />{/* 1580热连扎线 */}
+                    <img src="./img/3.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>1580热连扎线</div>
                 </div>
                 <div className={`${styles.box21} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日停产时间：<span className={styles.number}>2</span>H</li>
-                            <li>本月停产时间：<span className={styles.number}>24</span>H</li>
+                            <li>今日停产时间：<span className={styles.number}>2.7</span><span style={{ 'float': 'right' }}>H</span></li>
+                            <li>本月停产时间：<span className={styles.number}>24.4</span><span style={{ 'float': 'right' }}>H</span></li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box22} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日停产时间：<span className={styles.number}>8</span>H</li>
-                            <li>本月停产时间：<span className={styles.number}>100</span>H</li>
+                            <li>今日停产时间：<span className={styles.number}>8.4</span><span style={{ 'float': 'right' }}>H</span></li>
+                            <li>本月停产时间：<span className={styles.number}>100.5</span><span style={{ 'float': 'right' }}>H</span></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -683,40 +689,43 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} onClick={() => {
                     this.toEmployee(0, '管坯', 2)
                 }}>
-                    <img src="./img/管坯.png" className={styles.stove2} />{/* 管坯1 */}
+                    <img src="./img/管坯.png" className={styles.stove2} />
+                    <div className={styles.nameText}>管坯1</div>
                 </div>
                 <div className={`${styles.box23} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>管坯今日产出：<span className={styles.number}>3</span>T</li>
-                            <li>管坯本月累计：<span className={styles.number}>19</span>T</li>
+                            <li>管坯今日产出：<span className={styles.number}>3.2</span>T</li>
+                            <li>管坯本月累计：<span className={styles.number}>19.7</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
 
-                <div className={styles.noNameBox} style={{ 'marginTop': '50px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }} onClick={() => {
                     this.toEmployee(0, '方坯', 2)
                 }}>
-                    <img src="./img/方坯.png" className={styles.stove2} />{/* 方坯 */}
+                    <img src="./img/方坯.png" className={styles.stove2} />
+                    <div className={styles.nameText}>方坯</div>
                 </div>
                 <div className={`${styles.box24} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>方坯今日产出：<span className={styles.number}>2</span>T</li>
-                            <li>方坯本月累计：<span className={styles.number}>10</span>T</li>
+                            <li>方坯今日产出：<span className={styles.number}>2.3</span>T</li>
+                            <li>方坯本月累计：<span className={styles.number}>10.7</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
-                <div className={styles.noNameBox} style={{ 'marginTop': '48px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }} onClick={() => {
                     this.toEmployee(0, '板坯', 2)
                 }}>
-                    <img src="./img/板坯.png" className={styles.stove2} />{/* 板坯 */}
+                    <img src="./img/板坯.png" className={styles.stove2} />
+                    <div className={styles.nameText}>板坯</div>
                 </div>
                 <div className={`${styles.box25} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>板坯今日产出：<span className={styles.number}>2</span>T</li>
-                            <li>板坯本月累计：<span className={styles.number}>26</span>T</li>
+                            <li>板坯今日产出：<span className={styles.number}>2.8</span>T</li>
+                            <li>板坯本月累计：<span className={styles.number}>26.9</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -726,21 +735,22 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
                     this.toEmployee(0, '热轧钢卷', 2)
                 }}>
-                    <img src="./img/热轧钢卷2.png" className={styles.stove2} style={{width:'84px'}}/>{/* 热轧钢卷 */}
+                    <img src="./img/热轧钢卷3.png" className={styles.stove2} style={{ width: '80px' }} />
+                    <div className={styles.nameText}>热轧钢卷</div>
                 </div>
                 <div className={`${styles.box26} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>钢卷今日产出：<span className={styles.number}>4</span>T</li>
-                            <li>钢卷本月累计：<span className={styles.number}>80</span>T</li>
+                            <li>钢卷今日产出：<span className={styles.number}>4.3</span>T</li>
+                            <li>钢卷本月累计：<span className={styles.number}>80.7</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box27} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>轧板今日供应：<span className={styles.number}>5</span>T</li>
-                            <li>轧板本月累计：<span className={styles.number}>130</span>T</li>
+                            <li>轧板今日供应：<span className={styles.number}>5.5</span>T</li>
+                            <li>轧板本月累计：<span className={styles.number}>130.4</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -748,51 +758,55 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     this.toEmployee(0, '热轧板', 2)
                 }}>
                     <img src="./img/热轧板.png" className={styles.stove2} />
-                    {/* 热轧板 */}
+                    <div className={styles.nameText}>热轧板</div>
                 </div>
             </div>
             <div className={styles.stock18}>
                 <div className={styles.noNameBox} onClick={() => {
                     this.toEmployee(0, '140连续轧管线', 2)
                 }}>
-                    <img src="./img/资源-28.gif" className={styles.stove2} />{/* 140连续轧管线 */}
+                    <img src="./img/资源-28.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>140连续轧管线</div>
                 </div>
                 <div className={`${styles.box28} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日停产时间：<span className={styles.number}>2</span>T</li>
-                            <li>本月停产时间：<span className={styles.number}>70</span>T</li>
+                            <li>今日停产时间：<span className={styles.number}>2.7</span>T</li>
+                            <li>本月停产时间：<span className={styles.number}>70.9</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box33} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>管材今日产出：<span className={styles.number}>5</span>T</li>
-                            <li>管材本月累计：<span className={styles.number}>90</span>T</li>
-                            <li>管材单位成本：<span className={styles.number}>6</span>T</li>
+                            <li>今日产出：<span className={styles.number}>5.1</span>T</li>
+                            <li>本月累计：<span className={styles.number}>90.2</span>T</li>
+                            <li>本月目标：<span className={styles.number}>390.2</span>T</li>
+                            <li>单位成本：<span className={styles.number}>6.5</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
-                <div className={styles.noNameBox} style={{ 'marginTop': '40px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }} onClick={() => {
                     this.toEmployee(0, '高速线材轧机', 2)
                 }}>
-                    <img src="./img/资源-29.gif" className={styles.stove2} />{/* 高速线材轧机 */}
+                    <img src="./img/资源-29.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>高速线材轧机</div>
                 </div>
                 <div className={`${styles.box29} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日停产时间：<span className={styles.number}>3</span>H</li>
-                            <li>本月停产时间：<span className={styles.number}>80</span>H</li>
+                            <li>今日停产时间：<span className={styles.number}>3.5</span>H</li>
+                            <li>本月停产时间：<span className={styles.number}>80.7</span>H</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box34} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>线材今日产出：<span className={styles.number}>6</span>T</li>
-                            <li>线材本月累计：<span className={styles.number}>106</span>T</li>
-                            <li>线材单位成本：<span className={styles.number}>7</span>T</li>
+                            <li>今日产出：<span className={styles.number}>6.3</span>T</li>
+                            <li>本月累计：<span className={styles.number}>106.9</span>T</li>
+                            <li>本月目标：<span className={styles.number}>310.2</span>T</li>
+                            <li>单位成本：<span className={styles.number}>7.2</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -801,22 +815,24 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
                     this.toEmployee(0, '2030冷链轧机', 2)
                 }}>
-                    <img src="./img/4.gif" className={styles.stove2} />{/* 2030冷链轧机 */}
+                    <img src="./img/4.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>2030冷链轧机</div>
                 </div>
                 <div className={`${styles.box30} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日停产时间：<span className={styles.number}>5</span>H</li>
-                            <li>本月停产时间：<span className={styles.number}>100</span>H</li>
+                            <li>今日停产时间：<span className={styles.number}>5.7</span>H</li>
+                            <li>本月停产时间：<span className={styles.number}>100.4</span>H</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box35} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日产出：<span className={styles.number}>4</span>T</li>
-                            <li>本月累计：<span className={styles.number}>130</span>T</li>
-                            <li>单位成本：<span className={styles.number}>5</span>T</li>
+                            <li>今日产出：<span className={styles.number}>4.9</span>T</li>
+                            <li>本月累计：<span className={styles.number}>130.7</span>T</li>
+                            <li>本月目标：<span className={styles.number}>287.2</span>T</li>
+                            <li>单位成本：<span className={styles.number}>5.2</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -824,22 +840,24 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
                     this.toEmployee(0, '1550冷链轧机', 2)
                 }}>
-                    <img src="./img/5.gif" className={styles.stove2} />{/* 1550冷链轧机 */}
+                    <img src="./img/5.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>1550冷链轧机</div>
                 </div>
                 <div className={`${styles.box31} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日停产时间：<span className={styles.number}>3</span>H</li>
-                            <li>本月停产时间：<span className={styles.number}>40</span>H</li>
+                            <li>今日停产时间：<span className={styles.number}>3.3</span>H</li>
+                            <li>本月停产时间：<span className={styles.number}>40.0</span>H</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box36} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日产出：<span className={styles.number}>9</span>T</li>
-                            <li>本月累计：<span className={styles.number}>200</span>T</li>
-                            <li>单位成本：<span className={styles.number}>10</span>T</li>
+                            <li>今日产出：<span className={styles.number}>9.7</span>T</li>
+                            <li>本月累计：<span className={styles.number}>200.3</span>T</li>
+                            <li>本月目标：<span className={styles.number}>500</span>T</li>
+                            <li>单位成本：<span className={styles.number}>10.0</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -847,22 +865,24 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} onClick={() => {
                     this.toEmployee(0, '1420冷链轧机', 2)
                 }}>
-                    <img src="./img/6.gif" className={styles.stove2} />{/* 1420冷链轧机 */}
+                    <img src="./img/6.gif" className={styles.stove2} />
+                    <div className={styles.nameText}>1420冷链轧机</div>
                 </div>
                 <div className={`${styles.box32} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日停产时间：<span className={styles.number}>4</span>H</li>
-                            <li>本月停产时间：<span className={styles.number}>70</span>H</li>
+                            <li>今日停产时间：<span className={styles.number}>4.3</span>H</li>
+                            <li>本月停产时间：<span className={styles.number}>70.1</span>H</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box37} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>今日产出：<span className={styles.number}>6</span>T</li>
-                            <li>本月累计：<span className={styles.number}>150</span>T</li>
-                            <li>单位成本：<span className={styles.number}>7</span>T</li>
+                            <li>今日产出：<span className={styles.number}>6.2</span>T</li>
+                            <li>本月累计：<span className={styles.number}>150.3</span>T</li>
+                            <li>本月目标：<span className={styles.number}>410</span>T</li>
+                            <li>单位成本：<span className={styles.number}>7.1</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -876,172 +896,158 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             nodes,
             linesData: [{
                 coords: [
-                    [245, 769],
+                    [168, 769],
                     [380, 769],
-                    [380, 675],
-                    [490, 675],
+                    [380, 670],
+                    [490, 670],
                 ]
             }, {
                 coords: [
-                    [245, 580],
+                    [168, 580],
                     [380, 580],
-                    [380, 675],
-                    [490, 675],
+                    [380, 670],
+                    [490, 670],
                 ]
             }, {
                 coords: [
                     [580, 675],
                     [680, 675],
                 ]
-            }, {
+            },
+            {
                 coords: [
-                    [680, 675],
-                    [680, 768],
-                    [830, 768],
+                    [680, 670],
+                    [680, 790],
+                    [830, 790],
                 ]
-            }, {
-                coords: [
-                    [680, 692],
+            },
+            {
+                coords: [ //方坯 左边线条
+                    [680, 675],
                     [680, 675],
                     [830, 675],
                 ]
-            }, {
-                coords: [
-                    [680, 692],
-                    [680, 560],
-                    [830, 560],
+            },
+            {
+                coords: [ //板坯 左边线条
+                    [680, 675],
+                    [680, 580],
+                    [830, 580],
                 ]
-            }, {
-                coords: [
-                    [950, 768],
-                    [1150, 768],
-                    // [1150, 828],
-                    [1300, 768],
+            },
+            {
+                coords: [ //140连续轧管线 左边线条
+                    [940, 790],
+                    [1300, 790],
                 ]
-            }, {
-                coords: [
-                    [1380, 768],
-                    [1666, 768],
+            },
+            {
+                coords: [ //140连续轧管线 右边线条
+                    [1380, 790],
+                    [1666, 790],
                 ]
-            }, {
-                coords: [
-                    [950, 674],
-                    [1300, 674],
-                    // [1324, 616],
-                    // [1414, 616],
+            },
+            {
+                coords: [ //高速线材轧机左边线条
+                    [900, 677],
+                    [1300, 677],
                 ]
-            }, {
-                coords: [
-                    [1380, 675],
-                    [1666, 675],
+            },
+            {
+                coords: [ //高速线材轧机右边线条
+                    [1380, 677],
+                    [1666, 677],
                 ]
-            }, {
-                coords: [
-                    [890, 535],
-                    [890, 484],
-                    [185, 484],
-                    [185, 280],
+            },
+            {
+                coords: [ //板坯右侧往下线条
+                    [930, 550],
+                    [930, 484],
+                    [130, 484],
+                    [130, 270],
                 ]
             }, {
                 coords: [ //左侧 下方第一个图线条
-                    [230, 255],
-                    [400, 255],
-                ]
-            }, 
-            {
-                coords: [
-                    [580, 291],
-                    [860, 291],
+                    [165, 255],
+                    [380, 255],
                 ]
             },
             {
-                coords: [
-                    [580, 204],
-                    [850, 204],
-                ]
-            },{
-                coords: [
-                    [400, 291],
-                    [400, 300],
-                    [528, 300],
-                ]
-            }, 
-            {
-                coords: [
-                    [580, 291],
-                    [860, 291],
+                coords: [//2050热线链接热轧钢卷线条
+                    [580, 320],
+                    [860, 320],
                 ]
             },
             {
-                coords: [
+                coords: [//1580热线链接热轧板线条
                     [580, 204],
                     [850, 204],
                 ]
-            },{
-                coords: [
-                    [400, 291],
-                    [400, 300],
-                    [528, 300],
+            },
+            {
+                coords: [ //2050热连扎线 线条
+                    [380, 260],
+                    [380, 318],
+                    [495, 318],
                 ]
-            }, {
-                coords: [
-                    [400, 291],
-                    [400, 214],
-                    [528, 214],
+            },
+            {
+                coords: [ //1580热连扎线 线条
+                    [380, 255],
+                    [380, 200],
+                    [495, 200],
                 ]
-            }, {
-                coords: [
+            },
+            {
+                coords: [ //热轧钢卷右边线条
                     [930, 328],
-                    [1324, 328],
-                ]
-            }, {
-                coords: [
-                    [930, 204],
-                    [1230, 204],
-                ]
-            }, {
-                coords: [
-                    [1230, 350],
-                    [1230, 484],
-                    [1350, 484],
-                ]
-            }, {
-                coords: [
-                    [1345, 484],
-                    [1666, 484],
-                ]
-            }, 
-            {
-                coords: [
-                    [1230, 350],
-                    [1230, 300],
-                ]
-            }, 
-            {
-                coords: [
                     [1230, 328],
-                    [1350, 328],
                 ]
-            }, {
-                coords: [
+            },
+            {
+                coords: [ //热轧板右边线条
+                    [930, 204],
+                    [1160, 204],
+                    [1160, 328],
+                    [1240, 328],
+                ]
+            },
+            {
+                coords: [ //2030冷链轧机 左边线条
+                    [1230, 333],
+                    [1230, 475],
+                    [1300, 475],
+                ]
+            },
+            {
+                coords: [//2030冷链轧机 右边线条
+                    [1345, 475],
+                    [1666, 475],
+                ]
+            },
+            {
+                coords: [ //1550 冷链轧机 左边线条
+                    [1230, 328],
+                    [1300, 328],
+                ]
+            },
+            {
+                coords: [ //1550 冷链轧机 右边线条
                     [1345, 328],
                     [1666, 328],
                 ]
-            }, {
-                coords: [
-                    [1230, 214],
-                    [1230, 298],
+            },
+            {
+                coords: [ //1420 冷链轧机 左边线条
+                    [1230, 330],
+                    [1230, 172],
+                    [1300, 172],
                 ]
-            }, {
+            },
+            {
                 coords: [
-                    [1230, 304],
-                    [1230, 180],
-                    [1350, 180],
-                ]
-            }, {
-                coords: [
-                    [1345, 180],
-                    [1666, 180],
+                    [1345, 172],
+                    [1666, 172],
                 ]
             }]
         }
@@ -1104,7 +1110,6 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     }
 
     toEmployee(num: number, title: string, navIndex: number = 0, type: 1 | 2 = 1, unit: string = '吨/天') {
-        console.log(type, unit)
         let surnameArr = '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐'.split('');
         let name = `${surnameArr[this.getRandom(surnameArr.length)]}××`;
         let contact = `138××××${this.getRandom(10)}${this.getRandom(10)}${this.getRandom(10)}${this.getRandom(10)}`;
@@ -1141,11 +1146,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     handleNavClick(navIndex: number) {
         if (navIndex != this.state.navIndex)
-            this.setState({
-                navIndex
-            }, () => {
-                this.initCanvas(navIndex)
-            })
+            showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
     }
 
     initCanvas(num: number) {
