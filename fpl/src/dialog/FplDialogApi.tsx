@@ -194,4 +194,9 @@ export default class FplDialogApi {
         return FplDialogApi.getDataOut('SvrPayeeRegister.getPayeeCode', params);
     }
 
+    /** 查询合同列表 */
+    static getContractList(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrContract.search', params);
+    }
+
 }
