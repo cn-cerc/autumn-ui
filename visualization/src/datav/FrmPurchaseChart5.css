@@ -241,7 +241,7 @@
 .stock13 {
     position: absolute;
     left: 100px;
-    bottom: 264px;
+    bottom: 222px;
 }
 
 .stock14 {
@@ -276,7 +276,7 @@
 
 .stock19 {
     position: absolute;
-    left: 1414px;
+    left: 1250px;
     bottom: 160px;
 }
 
@@ -468,7 +468,7 @@
 }
 
 .box24 {
-    top: 56px;
+    top: 50px;
     left: 180px;
 }
 
@@ -488,52 +488,52 @@
 }
 
 .box28 {
-    top: 184px;
-    left: 15px;
+    top: 160px;
+    left: 150px;
 }
 
 .box29 {
-    top: -92px;
-    left: 15px;
+    top: -40px;
+    left: 150px;
 }
 
 .box30 {
-    top: 70px;
-    left: -150px;
+    top: 60px;
+    left: 150px;
 }
 
 .box31 {
-    top: 226px;
-    left: -150px;
+    top: 215px;
+    left: 150px;
 }
 
 .box32 {
-    top: 378px;
-    left: -150px;
+    top: 360px;
+    left: 150px;
 }
 
 .box33 {
-    left: 260px;
+    left: 414px;
     top: -40px;
 }
 
 .box34 {
-    left: 260px;
+    left: 414px;
     top: 136px;
 }
 
 .box35 {
-    left: 260px;
+    left: 420px;
     top: -10px;
 }
 
 .box36 {
-    left: 260px;
+    left: 420px;
     top: 148px;
 }
 
 .box37 {
-    left: 260px;
+    left: 420px;
     top: 300px;
 }
 
