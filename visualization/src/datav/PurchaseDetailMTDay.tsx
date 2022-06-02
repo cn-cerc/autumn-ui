@@ -82,6 +82,6 @@ export default class PurchaseDetailMTDay extends React.Component<FrmReportTypePr
     }
 
     render(): React.ReactNode {
-        return <ReportDetail params={{index:1}} dataSet={this.state.reportData} head={this.state.reportHead} title='煤炭今日入库数量（T）' key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='采购数据管理中心'></ReportDetail>
+        return <ReportDetail params={{index:1}} dataSet={this.state.reportData} head={this.state.reportHead} title='煤炭今日入库数量（T）' key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='工业4.0-数字化供应链管理中心V1.0'></ReportDetail>
     }
 }

@@ -22,6 +22,6 @@ export default class FrmEmployee4 extends React.Component<FrmEmployeeTypeProps, 
     }
 
     render(): React.ReactNode {
-        return <Employee dataRow={this.state.dataRow} title='螺纹钢材生产线' backHref='FrmManufactureChart' backTitle='制造数据管理中心'></Employee>
+        return <Employee dataRow={this.state.dataRow} title='螺纹钢材生产线' backHref='FrmManufactureChart' backTitle='工业4.0-数字化制造管理中心V1.0'></Employee>
     }
 }

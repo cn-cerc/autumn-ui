@@ -22,6 +22,6 @@ export default class PurchaseEmployee1 extends React.Component<FrmEmployeeTypePr
     }
 
     render(): React.ReactNode {
-        return <Employee dataRow={this.state.dataRow} title='焦煤厂' backHref='FrmPurchaseChart5' backTitle='制造数据管理中心' type={2}></Employee>
+        return <Employee dataRow={this.state.dataRow} title='焦煤厂' backHref='FrmPurchaseChart5' backTitle='工业4.0-数字化制造管理中心V1.0' type={2}></Employee>
     }
 }

@@ -97,7 +97,7 @@
 }
 
 .nav>li {
-    margin-right: 35px;
+    margin: 0 17.5px;
     font-size: 16px;
     cursor: pointer;
 }
@@ -142,17 +142,17 @@
 }
 
 .home {
-    width: 250px;
+    width: 220px;
 }
 
 .hl {
-    width: 240px;
+    width: 188px;
 }
 
 .stocks {
     position: absolute;
-    bottom: 380px;
-    left: 180px;
+    bottom: 430px;
+    left: 150px;
 }
 
 .stocks img {
@@ -169,6 +169,10 @@
 
 .fp {
     width: 150px;
+}
+
+.gp {
+    width: 135px;
 }
 
 .car {
@@ -220,13 +224,13 @@
 
 .stock6 {
     position: absolute;
-    left: 120px;
-    top: 100px;
+    left: 140px;
+    top: 45px;
 }
 
 .stock7 {
     position: absolute;
-    left: 180px;
+    left: 160px;
     bottom: 100px;
 }
 
@@ -246,14 +250,14 @@
 
 .stock10 {
     position: absolute;
-    right: 220px;
-    top: 233px;
+    right: 250px;
+    top: 166px;
     transform: translateY(-50%);
 }
 
 .stock11 {
     position: absolute;
-    right: 220px;
+    right: 250px;
     bottom: 233px;
     transform: translateY(50%);
 }
@@ -352,7 +356,7 @@
 
 .box {
     border-radius: 10px;
-    min-width: 100px;
+    min-width: 190px;
     position: absolute;
     min-height: 120px;
     white-space: nowrap;
@@ -403,15 +407,15 @@
 }
 
 .box51 {
-    top: calc(100% - 48px);
-    left: calc(100% + 275px);
+    top: calc(100% + 10px);
+    left: 50%;
     transform: translateX(-50%);
     width: 200px;
 }
 
 
 .box5 {
-    top: calc(100% + 78px);
+    top: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
@@ -434,12 +438,12 @@
 }
 
 .box9 {
-    bottom: 98px;
+    bottom: 55px;
     left: calc(100% + 20px);
 }
 
 .box10 {
-    bottom: 68px;
+    bottom: 15px;
     left: calc(100% + 40px);
 }
 
@@ -455,13 +459,18 @@
 }
 
 .box13 {
-    right: calc(100% + 60px);
-    top: -60px;
+    right: calc(100% + 30px);
+    top: -20px;
 }
 
 .box14 {
-    right: calc(100% + 60px);
-    bottom: -70px;
+    right: calc(100% + 30px);
+    bottom: 65px;
+}
+
+.box14s {
+    right: calc(100% + 40px);
+    bottom: 45px;
 }
 
 .box15 {
@@ -471,7 +480,7 @@
 
 .box16 {
     left: calc(100% + 10px);
-    bottom: -32px;
+    bottom: 10px;
 }
 
 .box17 {
@@ -578,4 +587,15 @@
 
 .number {
     color: #00f3ff;
+}
+
+.imgToTop {
+    position: relative;
+    margin-bottom: 100px;
+}
+.xxx {
+    font-size: 100px;
+}
+.imgP {
+    text-align: center;
 }

@@ -20,17 +20,17 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     private myChart: any;
     constructor(props: PropsType) {
         super(props);
-        let navIndex = this.props.navIndex ? this.props.navIndex : 0;
+        let navIndex = this.props.navIndex ? this.props.navIndex : 1;
         this.state = {
-            menuOptions: new Map([['采购数据管理中心', {
+            menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart3", "采购数据管理中心")'
-            }], ['制造数据管理中心', {
+                href: 'javascript:aui.showPage("FrmPurchaseChart3", "工业4.0-数字化供应链管理中心V1.0")'
+            }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart5", "制造数据管理中心")'
-            }], ['销售数据管理中心', {
+                href: 'javascript:aui.showPage("FrmPurchaseChart5", "工业4.0-数字化制造管理中心V1.0")'
+            }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart4", "销售数据管理中心")'
+                href: 'javascript:aui.showPage("FrmPurchaseChart4", "工业4.0-数字化销售管理中心V1.0")'
             }]]),
             showIndex: 0,
             navArr: ['炼铁', '炼钢', '轧钢'],
@@ -53,12 +53,14 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 break;
 
         }
+        console.log(TopHeader)
     }
 
     render(): React.ReactNode {
         return <div className={styles.dataView}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
-                <TopHeader title='制造数据管理中心' handleCick={this.titleClick.bind(this)} />
+                <TopHeader title='工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>' handleCick={this.titleClick.bind(this)} />
+                {/* <div handleCick={this.titleClick.bind(this)}>xxx</div> */}
                 {this.getNav()}
                 <div className={styles.content}>
                     <div id="canvas" className={styles.canvas}></div>
@@ -181,7 +183,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             <div className={styles.stock5} onClick={() => {
                 this.toEmployee(0, '铁水运转', 0)
             }}>
-                <img src="./img/铁水运转.png" className={styles.tsyz} />
+                <img src="./img/铁水运转.gif" className={styles.tsyz} />
                 <div className={`${styles.nameBox4} ${styles.nameBox}`}>铁水运转</div>
                 <div className={`${styles.box8} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -292,27 +294,30 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     getProcess2() {
         return <div className={styles.main}>
-            <div className={styles.stock6} style={{ 'marginTop': '-20px' }}>
+            <div className={styles.stock6}>
                 <img src="./img/废钢.png" className={styles.hl} onClick={() => { this.toEmployee(0, '废钢', 1) }} />
-                <div className={styles.nameBox}>废钢当前库存：<span className={styles.number}>200</span>T</div>
+                <p className={styles.imgP}>废钢</p>
+                <div className={styles.nameBox}></div>
                 <div className={`${styles.box9} ${styles.box}`} style={{ 'marginLeft': '0px' }}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>废钢供应：<span className={styles.number}>233</span>T</li>
-                            <li>今日供应：<span className={styles.number}>36</span>T</li>
-                            <li>本月供应：<span className={styles.number}>178</span>T</li>
+                            <li>废钢供应：<span className={styles.number}>233.0</span>T</li>
+                            <li>今日供应：<span className={styles.number}>36.0</span>T</li>
+                            <li>本月供应：<span className={styles.number}>178.0</span>T</li>
+                            <li>当前库存：<span className={styles.number}>200.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stocks}>
-                <img src="./img/铁水运转.png" className={styles.fp} />
+                <img src="./img/铁水运转.gif" className={styles.fp} />
+                <div className={styles.nameBox}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;铁水运转</div>
                 <div className={`${styles.box10} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>铁水供应：<span className={styles.number}>654</span>T</li>
-                            <li>今日供应：<span className={styles.number}>23</span>T</li>
-                            <li>本月供应：<span className={styles.number}>186</span>T</li>
+                            <li>铁水供应：<span className={styles.number}>654.0</span>T</li>
+                            <li>今日供应：<span className={styles.number}>23.0</span>T</li>
+                            <li>本月供应：<span className={styles.number}>186.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -320,7 +325,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
             <div className={styles.stock7} >
                 <img src="./img/制氧厂.png" className={styles.fp} onClick={() => { this.toEmployee(0, '制氧厂', 2, 1, '立方米/时') }} />
-                <div className={styles.nameBox}>制氧厂</div>
+                <div className={styles.nameBox}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;制氧厂</div>
                 {/* <div className={`${styles.box11} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
@@ -336,120 +341,128 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box12} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日供氧：<span className={styles.number}>41</span>T</li>
-                            <li>本月累计：<span className={styles.number}>503</span>T</li>
-                            <li>单位成本：<span className={styles.number}>6536</span>T</li>
-                            <li>当前储存：<span className={styles.number}>7865</span>T</li>
+                            <li>今日供氧：<span className={styles.number}>41.0</span>T</li>
+                            <li>本月累计：<span className={styles.number}>503.0</span>T</li>
+                            <li>单位成本：<span className={styles.number}>656.0</span>T</li>
+                            <li>当前储存：<span className={styles.number}>785.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock8} style={{ 'marginTop': '-20px' }}>
                 <img src="./img/fire.gif" className={styles.home} />
-                <div className={`${styles.box51} ${styles.box}`} style={{ 'marginTop': '-180px', 'marginLeft': '-200px' }}>
+                <div className={`${styles.box51} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>电炉温度：<span className={styles.number}>650°</span></li>
-                            <li>电炉压力：<span className={styles.number}>240<i>ata</i></span></li>
-                            <li>正常运行时间：<span className={styles.number}>41<i>h</i></span></li>
-                            <li>碳排放：<span className={styles.number}>41<i>T</i></span></li>
+                            <li>电炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
+                            <li>正常运行：<span className={styles.number}>41<i>H</i></span></li>
+                            <li>碳排放：<span className={styles.number}>41.0<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock9} style={{ 'marginTop': '-20px' }}>
-                <img src="./img/fire.gif" className={styles.home} />
-                <div className={`${styles.box5} ${styles.box}`} style={{ 'marginTop': '-310px', 'marginLeft': '200px' }}>
+                <img src="./img/fire-2.gif" className={styles.home} />
+                <div className={`${styles.box5} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>转炉温度：<span className={styles.number}>650°</span></li>
-                            <li>转炉压力：<span className={styles.number}>240<i>ata</i></span></li>
-                            <li>正常运行时间：<span className={styles.number}>41<i>h</i></span></li>
-                            <li>碳排放：<span className={styles.number}>41<i>T</i></span></li>
+                            <li>转炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
+                            <li>正常运行：<span className={styles.number}>41<i>H</i></span></li>
+                            <li>碳排放：<span className={styles.number}>41.0<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock10}>
-                <div >
-                    <img src="./img/方坯.png" className={styles.fp} onClick={() => { this.toEmployee(0, '方坯', 1) }} />
+                <div style={{ 'marginBottom': '100px' }}>
+                    <img src="./img/方坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '方坯', 1) }} />
+                    <p className={styles.imgP}>方坯</p>
                 </div>
-                <div className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`} style={{ 'marginLeft': '-100px' }}>
+                <div className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>钢水今日供应：<span className={styles.number}>12</span>T</li>
-                            <li>钢水本月累计：<span className={styles.number}>132</span>T</li>
+                            <li>钢水今日供应：<span className={styles.number}>12.0</span>T</li>
+                            <li>钢水本月累计：<span className={styles.number}>132.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box15} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日产出：<span className={styles.number}>23</span>T</li>
-                            <li>本月累计：<span className={styles.number}>232</span>T</li>
-                            <li>单位成本：<span className={styles.number}>5646</span>元</li>
+                            <li>今日产出：<span className={styles.number}>23.0</span>T</li>
+                            <li>本月累计：<span className={styles.number}>232.0</span>T</li>
+                            <li>本月目标：<span className={styles.number}>240.0</span>T</li>
+                            <li>单位成本：<span className={styles.number}>5646</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div >
-                    <img src="./img/管坯.png" className={styles.fp} onClick={() => { this.toEmployee(0, '管坯', 1) }} />
+                    <img src="./img/管坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '管坯', 1) }} />
+                    <p className={styles.imgP}>管坯</p>
                 </div>
-                <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`} style={{ 'marginLeft': '100px' }}> 
+                <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`}> 
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>钢水今日供应：<span className={styles.number}>14</span>T</li>
-                            <li>钢水本月累计：<span className={styles.number}>322</span>T</li>
+                            <li>钢水今日供应：<span className={styles.number}>14.0</span>T</li>
+                            <li>钢水本月累计：<span className={styles.number}>322.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box16} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日产出：<span className={styles.number}>22</span>T</li>
-                            <li>本月累计：<span className={styles.number}>211</span>T</li>
-                            <li>单位成本：<span className={styles.number}>4544</span>元</li>
+                            <li>今日产出：<span className={styles.number}>22.0</span>T</li>
+                            <li>本月累计：<span className={styles.number}>211.0</span>T</li>
+                            <li>本月目标：<span className={styles.number}>240.0</span>T</li>
+                            <li>单位成本：<span className={styles.number}>4544</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock11}>
-                <div >
-                    <img src="./img/钢锭.png" className={styles.fp} onClick={() => { this.toEmployee(0, '钢锭', 1) }} />
+                <div style={{ 'marginBottom': '100px' }}>
+                    <img src="./img/钢锭.png" className={styles.gp} onClick={() => { this.toEmployee(0, '钢锭', 1) }} />
+                    <p className={styles.imgP}>钢锭</p>
                 </div>
                 <div className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>钢水今日供应：<span className={styles.number}>5</span>T</li>
-                            <li>钢水本月累计：<span className={styles.number}>100</span>T</li>
+                            <li>钢水今日供应：<span className={styles.number}>5.0</span>T</li>
+                            <li>钢水本月累计：<span className={styles.number}>100.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box15} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日产出：<span className={styles.number}>10</span>T</li>
-                            <li>本月累计：<span className={styles.number}>200</span>T</li>
-                            <li>单位成本：<span className={styles.number}>5466</span>元</li>
+                            <li>今日产出：<span className={styles.number}>10.0</span>T</li>
+                            <li>本月累计：<span className={styles.number}>200.0</span>T</li>
+                            <li>本月目标：<span className={styles.number}>220.0</span>T</li>
+                            <li>单位成本：<span className={styles.number}>5466</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div style={{ 'marginTop': '40px' }} >
-                    <img src="./img/板坯.png" className={styles.fp} onClick={() => { this.toEmployee(0, '板坯', 1) }} />
+                    <img src="./img/板坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '板坯', 1) }} />
+                    <p className={styles.imgP}>板坯</p>
                 </div>
-                <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`}>
+                <div className={`${styles.box14} ${styles.box} ${styles.box14s} ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>钢水今日供应：<span className={styles.number}>4</span>T</li>
-                            <li>钢水本月累计：<span className={styles.number}>80</span>T</li>
+                            <li>钢水今日供应：<span className={styles.number}>4.0</span>T</li>
+                            <li>钢水本月累计：<span className={styles.number}>80.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box16} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日产出：<span className={styles.number}>3.8</span>T</li>
-                            <li>本月累计：<span className={styles.number}>70</span>T</li>
-                            <li>单位成本：<span className={styles.number}>3215</span>元</li>
+                            <li>今日产出：<span className={styles.number}>3.8.0</span>T</li>
+                            <li>本月累计：<span className={styles.number}>70.0</span>T</li>
+                            <li>本月目标：<span className={styles.number}>65.0</span>T</li>
+                            <li>单位成本：<span className={styles.number}>3215</span>￥/T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -463,59 +476,59 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             nodes,
             linesData: [{
                 coords: [
-                    [356, 800],
-                    [878, 800],
+                    [320, 750],
+                    [885, 750],
                 ]
             }, {
                 coords: [
-                    [356, 186],
+                    [325, 186],
                     [669, 186],
                     [669, 346],
                 ]
             }, {
                 coords: [
-                    [356, 450],
+                    [325, 450],
                     [669, 450],
                     [669, 346],
                 ]
             }, {
                 coords: [
-                    [669, 346],
-                    [878, 346],
+                    [669, 320],
+                    [890, 320],
                 ]
             }, {
                 coords: [
-                    [1060, 692],
-                    [1301, 692],
+                    [1040, 750],
+                    [1280, 750],
                 ]
             }, {
                 coords: [
-                    [1301, 692],
-                    [1301, 756],
-                    [1560, 756],
+                    [1280, 750],
+                    [1280, 850],
+                    [1530, 850],
                 ]
             }, {
                 coords: [
-                    [1301, 692],
-                    [1301, 620],
-                    [1560, 620],
+                    [1280, 750],
+                    [1280, 660],
+                    [1530, 660],
                 ]
             }, {
                 coords: [
-                    [1060, 236],
-                    [1301, 236],
+                    [1040, 236],
+                    [1280, 236],
                 ]
             }, {
                 coords: [
-                    [1301, 236],
-                    [1301, 296],
-                    [1560, 296],
+                    [1280, 240],
+                    [1280, 312],
+                    [1540, 312],
                 ]
             }, {
                 coords: [
-                    [1301, 236],
-                    [1301, 162],
-                    [1560, 162],
+                    [1280, 233],
+                    [1280, 126],
+                    [1540, 126],
                 ]
             }]
         }
@@ -1089,7 +1102,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         let row = new DataRow();
         row.setValue('A1', row1).setValue('A2', row2).setValue('A3', row3).setValue('A4', row4).setValue('A5', row5).setValue('Name_', name).setValue('Contact_', contact).setValue('CurrentCapacity_', currentCapacity).setValue('State_', state);
         //@ts-ignore
-        aui.showPage('Employee', title, { dataRow: row, title: title, backHref: 'FrmPurchaseChart5', backTitle: '制造数据管理中心', type: bool ? 2 : 1, params: { navIndex } })
+        aui.showPage('Employee', title, { dataRow: row, title: title, backHref: 'FrmPurchaseChart5', backTitle: '工业4.0-数字化制造管理中心V1.0', type: bool ? 2 : 1, params: { navIndex } })
     }
 
     getRandom(num: number) {

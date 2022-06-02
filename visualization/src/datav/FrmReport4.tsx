@@ -134,6 +134,6 @@ export default class FrmReport4 extends React.Component<FrmReportTypeProps, FrmR
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`今日${this.state.reportName}入库动态（T）`} key={this.state.reportData.json} backHref='FrmManufactureChart' backTitle='制造数据管理中心'></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`今日${this.state.reportName}入库动态（T）`} key={this.state.reportData.json} backHref='FrmManufactureChart' backTitle='工业4.0-数字化制造管理中心V1.0'></ReportDetail>
     }
 }

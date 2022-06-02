@@ -56,15 +56,15 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         let pageType1 = this.props.pageType1 ? this.props.pageType1 : 1;
         this.state = {
             polylineOption: {},
-            menuOptions: new Map([['采购数据管理中心', {
+            menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart3", "采购数据管理中心")'
-            }], ['制造数据管理中心', {
+                href: 'javascript:aui.showPage("FrmPurchaseChart3", "工业4.0-数字化供应链管理中心V1.0")'
+            }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart5", "制造数据管理中心")'
-            }], ['销售数据管理中心', {
+                href: 'javascript:aui.showPage("FrmPurchaseChart5", "工业4.0-数字化制造管理中心V1.0")'
+            }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart4", "销售数据管理中心")'
+                href: 'javascript:aui.showPage("FrmPurchaseChart4", "工业4.0-数字化销售管理中心V1.0")'
             }]]),
             showIndex: 0,
             boardConfig: {},
@@ -293,7 +293,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         return (
             <div className={styles.dataView} key={this.state.pageType1}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader title='销售数据管理中心' handleCick={this.titleClick.bind(this)} />
+                    <TopHeader title='工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>' handleCick={this.titleClick.bind(this)} />
                     <div className={styles.btnContent}>
                         <a className={this.state.pageType1 == 1 ? styles.active : ''} onClick={this.toggleData.bind(this, 1)}>螺纹钢/型钢/带钢</a>
                         <a className={this.state.pageType1 == 2 ? styles.active : ''} onClick={this.toggleData.bind(this, 2)}>板材/线材/管材</a>
@@ -334,7 +334,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         lineColor={this.lineColor}
                         onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 0, pageType1: this.state.pageType1 })
+                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 0, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -350,7 +350,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         lineColor={this.lineColor}
                         onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 1, pageType1: this.state.pageType1 })
+                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 1, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -366,7 +366,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         lineColor={this.lineColor}
                         onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 2, pageType1: this.state.pageType1 })
+                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 2, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
 
@@ -388,7 +388,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         lineColor={this.lineColor}
                         onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 3, pageType1: this.state.pageType1 })
+                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 3, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -404,7 +404,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         lineColor={this.lineColor}
                         onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 4, pageType1: this.state.pageType1 })
+                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 4, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -420,7 +420,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         lineColor={this.lineColor}
                         onClick={() => {
                             //@ts-ignore
-                            aui.showPage("SaleDetail1", "销售数据管理中心", { index: 5, pageType1: this.state.pageType1 })
+                            aui.showPage("SaleDetail1", "工业4.0-数字化销售管理中心V1.0", { index: 5, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -693,7 +693,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             let num = this.state.pageType1 == 1 ? 0 : 3;
             let index: number = num + params.dataIndex;
             //@ts-ignore
-            aui.showPage("SaleDetail2", "销售数据管理中心", { index, pageType1: this.state.pageType1 });
+            aui.showPage("SaleDetail2", "工业4.0-数字化销售管理中心V1.0", { index, pageType1: this.state.pageType1 });
         })
     }
 
@@ -856,7 +856,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             let arr = ['螺纹钢', '型钢', '带钢', '板材', '线材', '管材'];
             let num = arr.indexOf(name);
             //@ts-ignore
-            aui.showPage("SaleDetail3", "销售数据管理中心", { index: num, pageType1: this.state.pageType1 });
+            aui.showPage("SaleDetail3", "工业4.0-数字化销售管理中心V1.0", { index: num, pageType1: this.state.pageType1 });
         })
         myChart.setOption(lineOption);
     }
