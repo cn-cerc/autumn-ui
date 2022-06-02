@@ -631,6 +631,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     name: 'D站',
                     data: [0, 0, 0, 0, 0, 0],
 
+                }
             ]
 				for (let i = 0; i < main3Data.length; i++) {
                 let obj = {
@@ -1497,6 +1498,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         aui.showPage("PurchaseDetailLTKDay", "菱铁矿今日入库数量（T）");
                         break;
                 }
-        }
+            }
     }
 }
