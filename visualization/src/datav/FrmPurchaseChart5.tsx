@@ -667,7 +667,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
                     this.toEmployee(0, '热轧钢卷', 2)
                 }}>
-                    <img src="./img/热轧钢卷2.png" className={styles.stove2} />{/* 热轧钢卷 */}
+                    <img src="./img/热轧钢卷2.png" className={styles.stove2} style={{width:'84px'}}/>{/* 热轧钢卷 */}
                 </div>
                 <div className={`${styles.box26} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
