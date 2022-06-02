@@ -8,6 +8,7 @@ import DriverBindingRecordDialog from "./dialog/DriverBindingRecordDialog";
 import DriverInfoDialog from "./dialog/DriverInfoDialog";
 import FleetDialog from "./dialog/FleetDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
+import PayeeDialog from "./dialog/PayeeDialog";
 
 export default {
     ...diteng,
@@ -17,5 +18,6 @@ export default {
     DriverInfoDialog,
     FleetDialog,
     DriverBindingRecordDialog,
-    NumberPlateDialog
+    NumberPlateDialog,
+    PayeeDialog,
 }

@@ -189,4 +189,9 @@ export default class FplDialogApi {
         return FplDialogApi.getDataOut('SvrPCarRegistration.getCarsByDeptCode', params);
     }
 
+    /** 查询收款人列表 **/
+    static getPayeeCode(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrPayeeRegister.getPayeeCode', params);
+    }
+
 }
