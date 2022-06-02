@@ -149,10 +149,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box5} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>温度：</li>
-                            <li>压力：</li>
-                            <li>正常运行时间：</li>
-                            <li>碳排放：</li>
+                            <li>转炉温度：<span className={styles.number}>650°</span></li>
+                            <li>转炉压力：<span className={styles.number}>240<i>ata</i></span></li>
+                            <li>正常运行时间：<span className={styles.number}>41<i>h</i></span></li>
+                            <li>碳排放：<span className={styles.number}>41<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
