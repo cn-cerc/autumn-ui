@@ -18,6 +18,7 @@ type PropsType = {
 }
 
 export default class FrmPurchaseChart5 extends React.Component<PropsType, stateType> {
+    private timer: any = null;
     private myChart: any;
     constructor(props: PropsType) {
         super(props);
@@ -41,6 +42,12 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     componentDidMount(): void {
         let canvas = document.getElementById('canvas') as HTMLDivElement;
+        this.timer = setInterval(() => {
+            let navIndex = this.state.navIndex + 1;
+            if (navIndex > 2)
+                navIndex = 0;
+            showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+        }, 30000)
         this.myChart = echarts.init(canvas);
         switch (this.state.navIndex) {
             case 0:
@@ -54,6 +61,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 break;
 
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
     }
 
     render(): React.ReactNode {
@@ -101,10 +112,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     getProcess1() {
         return <div className={styles.main}>
-            <div className={styles.stock1} onClick={() => {
-                this.toEmployee(0, '焦煤厂', 0, 2)
-            }}>
-                <img src="./img/焦煤厂.gif" className={styles.jmc} />
+            <div className={styles.stock1}>
+                <img src="./img/焦煤厂.gif" className={styles.jmc} onClick={() => {
+                    this.toEmployee(0, '焦煤厂', 0, 2, '吨/天', 'vedio1')
+                }} />
                 <div className={`${styles.nameBox1} ${styles.nameBox}`}>焦煤厂</div>
                 <div className={`${styles.box1} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -123,10 +134,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
             </div>
-            <div className={styles.stock2} onClick={() => {
-                this.toEmployee(0, '煤气回收', 0, 1, '立方米/时')
-            }}>
-                <img src="./img/煤气回收2.gif" className={styles.mqhs} />
+            <div className={styles.stock2}>
+                <img src="./img/煤气回收2.gif" className={styles.mqhs} onClick={() => {
+                    this.toEmployee(0, '煤气回收', 0, 1, '立方米/时')
+                }} />
                 <div className={`${styles.nameBox2} ${styles.nameBox}`}>煤气回收</div>
                 <div className={`${styles.box3} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -146,7 +157,9 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock3}>
-                <img src="./img/fire.gif" className={styles.fire1} />
+                <img src="./img/fire.gif" className={styles.fire1} onClick={() => {
+                    this.toEmployee(0, '转炉', 0)
+                }} />
                 <div className={`${styles.box5} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
@@ -158,10 +171,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
             </div>
-            <div className={styles.stock4} onClick={() => {
-                this.toEmployee(0, '烧结厂', 0, 2)
-            }}>
-                <img src="./img/烧结厂.gif" className={styles.sjc} />
+            <div className={styles.stock4}>
+                <img src="./img/烧结厂.gif" className={styles.sjc} onClick={() => {
+                    this.toEmployee(0, '烧结厂', 0, 2)
+                }} />
                 <div className={`${styles.nameBox3} ${styles.nameBox}`}>烧结厂</div>
                 <div className={`${styles.box6} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -180,10 +193,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
             </div>
-            <div className={styles.stock5} onClick={() => {
-                this.toEmployee(0, '铁水运转', 0)
-            }}>
-                <img src="./img/铁水运转2.gif" className={styles.tsyz} />
+            <div className={styles.stock5}>
+                <img src="./img/铁水运转2.gif" className={styles.tsyz} onClick={() => {
+                    this.toEmployee(0, '铁水运转', 0)
+                }} />
                 <div className={`${styles.nameBox4} ${styles.nameBox}`}>铁水运转</div>
                 <div className={`${styles.box8} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -310,7 +323,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stocks}>
-                <img src="./img/铁水运转.gif" className={styles.fp} />
+                <img src="./img/铁水运转.gif" className={styles.fp} onClick={() => { this.toEmployee(0, '铁水运转', 1) }} />
                 <div className={styles.nameBox}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;铁水运转</div>
                 <div className={`${styles.box10} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -326,18 +339,6 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             <div className={styles.stock7} >
                 <img src="./img/制氧厂.png" className={styles.fp} onClick={() => { this.toEmployee(0, '制氧厂', 2, 1, '立方米/时') }} />
                 <div className={styles.nameBox}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;制氧厂</div>
-                {/* <div className={`${styles.box11} ${styles.box}`}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
-                        <ul>
-                            <li>领用材料：</li>
-                            <li>A：</li>
-                            <li>B：</li>
-                            <li>C：</li>
-                            <li>D：</li>
-                            <li>E：</li>
-                        </ul>
-                    </BorderBox10>
-                </div> */}
                 <div className={`${styles.box12} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
@@ -350,7 +351,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock8} style={{ 'marginTop': '-20px' }}>
-                <img src="./img/fire.gif" className={styles.home} />
+                <img src="./img/fire.gif" className={styles.home} onClick={() => { this.toEmployee(0, '电炉', 1) }}/>
                 <div className={`${styles.box51} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
@@ -363,7 +364,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock9} style={{ 'marginTop': '-20px' }}>
-                <img src="./img/fire-2.gif" className={styles.home} />
+                <img src="./img/fire-2.gif" className={styles.home} onClick={() => { this.toEmployee(0, '转炉', 1) }}/>
                 <div className={`${styles.box5} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
@@ -593,16 +594,16 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     getProcess3() {
         return <div className={styles.main}>
             <div className={styles.stock12}>
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/管坯.png" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '管坯', 2)
-                }}>
-                    <img src="./img/管坯.png" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>管坯</div>
                 </div>
-                <div className={styles.noNameBox} style={{ 'marginTop': '130px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginTop': '130px' }}>
+                    <img src="./img/方坯.png" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '方坯', 2)
-                }}>
-                    <img src="./img/方坯.png" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>方坯</div>
                 </div>
 
@@ -624,10 +625,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock13}>
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/板坯.png" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '板坯', 2)
-                }}>
-                    <img src="./img/板坯.png" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>板坯</div>
                 </div>
                 <div className={`${styles.box19} ${styles.box}  ${styles.noMinHeight}`}>
@@ -640,10 +641,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock14}>
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/1.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '初轧机', 2)
-                }}>
-                    <img src="./img/1.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>初轧机</div>
                 </div>
                 <div className={`${styles.box20} ${styles.box}  ${styles.noMinHeight}`}>
@@ -656,16 +657,16 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock15}>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '66px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginBottom': '66px' }}>
+                    <img src="./img/2.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '2050热连扎线', 2)
-                }}>
-                    <img src="./img/2.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>2050热连扎线</div>
                 </div>
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/3.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '1580热连扎线', 2)
-                }}>
-                    <img src="./img/3.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>1580热连扎线</div>
                 </div>
                 <div className={`${styles.box21} ${styles.box}  ${styles.noMinHeight}`}>
@@ -686,10 +687,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock16}>
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/管坯.png" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '管坯', 2)
-                }}>
-                    <img src="./img/管坯.png" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>管坯1</div>
                 </div>
                 <div className={`${styles.box23} ${styles.box}  ${styles.noMinHeight}`}>
@@ -701,10 +702,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
 
-                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }}>
+                    <img src="./img/方坯.png" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '方坯', 2)
-                }}>
-                    <img src="./img/方坯.png" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>方坯</div>
                 </div>
                 <div className={`${styles.box24} ${styles.box}  ${styles.noMinHeight}`}>
@@ -715,10 +716,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         </ul>
                     </BorderBox10>
                 </div>
-                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }}>
+                    <img src="./img/板坯.png" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '板坯', 2)
-                }}>
-                    <img src="./img/板坯.png" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>板坯</div>
                 </div>
                 <div className={`${styles.box25} ${styles.box}  ${styles.noMinHeight}`}>
@@ -732,10 +733,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
             </div>
             <div className={styles.stock17}>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }}>
+                    <img src="./img/热轧钢卷3.png" className={styles.stove2} style={{ width: '80px' }} onClick={() => {
                     this.toEmployee(0, '热轧钢卷', 2)
-                }}>
-                    <img src="./img/热轧钢卷3.png" className={styles.stove2} style={{ width: '80px' }} />
+                }}/>
                     <div className={styles.nameText}>热轧钢卷</div>
                 </div>
                 <div className={`${styles.box26} ${styles.box}  ${styles.noMinHeight}`}>
@@ -754,18 +755,18 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         </ul>
                     </BorderBox10>
                 </div>
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/热轧板.png" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '热轧板', 2)
-                }}>
-                    <img src="./img/热轧板.png" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>热轧板</div>
                 </div>
             </div>
             <div className={styles.stock18}>
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/资源-28.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '140连续轧管线', 2)
-                }}>
-                    <img src="./img/资源-28.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>140连续轧管线</div>
                 </div>
                 <div className={`${styles.box28} ${styles.box}  ${styles.noMinHeight}`}>
@@ -786,10 +787,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         </ul>
                     </BorderBox10>
                 </div>
-                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginTop': '60px' }}>
+                    <img src="./img/资源-29.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '高速线材轧机', 2)
-                }}>
-                    <img src="./img/资源-29.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>高速线材轧机</div>
                 </div>
                 <div className={`${styles.box29} ${styles.box}  ${styles.noMinHeight}`}>
@@ -812,10 +813,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock19}>
-                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }}>
+                    <img src="./img/4.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '2030冷链轧机', 2)
-                }}>
-                    <img src="./img/4.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>2030冷链轧机</div>
                 </div>
                 <div className={`${styles.box30} ${styles.box}  ${styles.noMinHeight}`}>
@@ -837,10 +838,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
 
-                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
+                <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }}>
+                    <img src="./img/5.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '1550冷链轧机', 2)
-                }}>
-                    <img src="./img/5.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>1550冷链轧机</div>
                 </div>
                 <div className={`${styles.box31} ${styles.box}  ${styles.noMinHeight}`}>
@@ -862,10 +863,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
 
-                <div className={styles.noNameBox} onClick={() => {
+                <div className={styles.noNameBox}>
+                    <img src="./img/6.gif" className={styles.stove2} onClick={() => {
                     this.toEmployee(0, '1420冷链轧机', 2)
-                }}>
-                    <img src="./img/6.gif" className={styles.stove2} />
+                }}/>
                     <div className={styles.nameText}>1420冷链轧机</div>
                 </div>
                 <div className={`${styles.box32} ${styles.box}  ${styles.noMinHeight}`}>
@@ -1109,7 +1110,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         this.myChart.setOption(option);
     }
 
-    toEmployee(num: number, title: string, navIndex: number = 0, type: 1 | 2 = 1, unit: string = '吨/天') {
+    toEmployee(num: number, title: string, navIndex: number = 0, type: 1 | 2 = 1, unit: string = '吨/天', vedioName: string = "monitor") {
         let surnameArr = '赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐'.split('');
         let name = `${surnameArr[this.getRandom(surnameArr.length)]}××`;
         let contact = `138××××${this.getRandom(10)}${this.getRandom(10)}${this.getRandom(10)}${this.getRandom(10)}`;
@@ -1124,7 +1125,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         let row = new DataRow();
         row.setValue('A1', row1).setValue('A2', row2).setValue('A3', row3).setValue('A4', row4).setValue('A5', row5).setValue('Name_', name).setValue('Contact_', contact).setValue('CurrentCapacity_', currentCapacity).setValue('State_', state);
         //@ts-ignore
-        aui.showPage('Employee', title, { dataRow: row, title: title, backHref: 'FrmPurchaseChart5', backTitle: '工业4.0-数字化制造管理中心V1.0', type: bool ? 2 : 1, params: { navIndex } })
+        aui.showPage('Employee', title, { dataRow: row, title: title, backHref: 'FrmPurchaseChart5', backTitle: '工业4.0-数字化制造管理中心V1.0', type: bool ? 2 : 1, params: { navIndex }, vedioName })
     }
 
     getRandom(num: number) {

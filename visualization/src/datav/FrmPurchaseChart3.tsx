@@ -39,7 +39,6 @@ type PropsType = {
 
 export default class FrmPurchaseChart3 extends React.Component<PropsType, stateType>{
     private lineLenged: string[] = ['仓库容量', '安全库存', '当前库存', '在途库存'];
-    private isLengedEvent: boolean = false;
     constructor(props: PropsType) {
         super(props);
         this.state = {

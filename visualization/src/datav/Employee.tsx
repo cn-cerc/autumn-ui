@@ -1,4 +1,4 @@
-import { BorderBox12, BorderBox13, FullScreenContainer } from "@jiaminghi/data-view-react";
+import { BorderBox13, FullScreenContainer } from "@jiaminghi/data-view-react";
 import { DataRow } from "autumn-ui";
 import React from "react";
 import styles from "./Employee.css";
@@ -10,7 +10,8 @@ type EmployTypeProps = {
     backHref: string,
     backTitle: string,
     type?: 1 | 2,
-    params?: object
+    params?: object,
+    vedioName?: string
 }
 
 export default class Employee extends React.Component<EmployTypeProps> {
@@ -41,12 +42,17 @@ export default class Employee extends React.Component<EmployTypeProps> {
                         </div>
                     </div>
                     <div className={styles.right}>
-                        <video src="./monitor.mp4" autoPlay className={styles.img2} loop></video>
+                        <video src={this.getVedio()} autoPlay className={styles.img2} loop></video>
                         {this.getTable()}
                     </div>
                 </div>
             </FullScreenContainer>
         </div>
+    }
+    
+    getVedio() {
+        let vedio = this.props.vedioName ? `./mp4/${this.props.vedioName}.mp4` : './mp4/monitor.mp4';
+        return vedio;
     }
 
     getTable() {

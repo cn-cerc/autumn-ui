@@ -38,11 +38,9 @@ type PropsType = {
 }
 
 export default class FrmPurchaseChart4 extends React.Component<PropsType, stateType> {
-    private timer: any = null;
     private lineLenged: string[] = ['一区', '二区', '三区', '四区', '五区'];
     private xName: string[] = [];
     private xName2: string[] = [];
-    private isLengedEvent: boolean = false;
     private lineColor = ['#14C338', '#42E1D2', '#aecc63', '#00bfad', '#40e2c1', '#42aae1'];
     constructor(props: PropsType) {
         super(props);

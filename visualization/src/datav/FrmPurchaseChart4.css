@@ -428,15 +428,16 @@
 .btnContent {
   line-height: 24px;
   height: 24px;
+  font-size: 24px;
   text-align: center;
-  margin-bottom: 30px;
+  padding: 16px 0;
 }
 
 .btnContent>a {
-  margin-right: 35px;
+  margin: 0 17px;
   cursor: pointer;
 }
 
 .btnContent .active {
-  color: #66ff66;
+  color: #58f7ff
 }

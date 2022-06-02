@@ -297,15 +297,17 @@ table tr>th:nth-child(n+2)::before {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 16px 0;
+    font-size: 24px;
 }
 
 .headerTitle>a {
-    margin-right: 35px;
+    margin: 0 17px;
     cursor: pointer;
 }
 
 .active {
-    color: #66ff66;
+    color: #58f7ff;
 }
 
 .table1 table tbody tr {

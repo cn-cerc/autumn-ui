@@ -18,7 +18,7 @@ export default class Cards extends React.Component<CardTypeProps> {
     return (
       <div id={styles.topHeader}>
         <Decoration8 className={styles.headerLeftDecoration} />
-        <Decoration5 className={styles.headerCenterDecoration} />
+        <Decoration5 className={styles.headerCenterDecoration} style={{'width': '1000px'}}/>
         <Decoration8 className={styles.headerRightDecoration} reverse={true} />
         <div className={styles.centerTitle} onClick={this.handleClick.bind(this)} dangerouslySetInnerHTML = {{__html: this.props.title}}></div>
       </div>
