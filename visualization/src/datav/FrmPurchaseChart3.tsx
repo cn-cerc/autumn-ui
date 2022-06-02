@@ -3,7 +3,7 @@ import { Column, DataRow, DataSet, DBGrid } from 'autumn-ui';
 import * as echarts from "echarts";
 import { event } from 'jquery';
 import React, { ReactNode } from 'react';
-import { AuiMath } from '../tool/Summer';
+import { AuiMath, showPage } from '../tool/Summer';
 import "../tool/Summer.css";
 import { Excel, excelData } from '../tool/Utils';
 import styles from './FrmPurchaseChart3.css';
@@ -1418,24 +1418,19 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     }
 
     handleRowClick(row: DataRow, sender: any) {
-        // @ts-ignore
-        // aui.showPage("ReportDetail1", "铁矿石年度入库数量（T）");
         //以下代码 李敏负责部分 =====================
         var itemText = row.getString('项次');
         switch (itemText) {
             case '今日入库数量（T）':
-                // @ts-ignore
-                aui.showPage("PurchaseDetailAlloy1", "合金今日入库数量", { index: 1, title: '今日入库数量（T）' });
+                showPage("PurchaseDetailAlloy1", "合金今日入库数量", { index: 1, title: '今日入库数量（T）' });
                 break;
             case '本月入库数量（T）':
-                // @ts-ignore
-                aui.showPage("PurchaseDetailAlloy2", "合金本月入库数量", { index: 1, title: '本月入库数量（T）' });
+                showPage("PurchaseDetailAlloy2", "合金本月入库数量", { index: 1, title: '本月入库数量（T）' });
                 break;
         }
         switch (itemText) {
             case '今日收料（T）':
-                // @ts-ignore
-                aui.showPage("PurchaseDetailSteell", "废铁今日收料数量（T）", { index: 1, title: '今日收料（T）' });
+                showPage("PurchaseDetailSteell", "废铁今日收料数量（T）", { index: 1, title: '今日收料（T）' });
                 break;
         }
         
@@ -1444,58 +1439,46 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         switch (row.getString('项次')) {
             case '今日入库数量（T）':
                 if (target == '煤炭') {
-                    //@ts-ignore
-                    aui.showPage("PurchaseDetailMTDay", "煤炭今日入库数量（T）");
+                    showPage("PurchaseDetailMTDay", "煤炭今日入库数量（T）");
                 } else if (target == '焦煤') {
-                    //@ts-ignore
-                    aui.showPage("PurchaseDetailJMDay", "焦煤今日入库数量（T）");
+                    showPage("PurchaseDetailJMDay", "焦煤今日入库数量（T）");
                 }
                 break;
             case '本月到厂数量（T）':
                 switch (target) {
                     case '煤炭':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailMTMonth", "煤炭月度入库数量（T）");
+                        showPage("PurchaseDetailMTMonth", "煤炭月度入库数量（T）");
                         break;
                     case '焦煤':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailJMMonth", "焦煤月度入库数量（T）");
+                        showPage("PurchaseDetailJMMonth", "焦煤月度入库数量（T）");
                         break;
                     case '磁铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailCTKMonth", "磁铁矿月度入库数量（T）");
+                        showPage("PurchaseDetailCTKMonth", "磁铁矿月度入库数量（T）");
                         break;
                     case '赤铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailCHITKMonth", "赤铁矿月度入库数量（T）");
+                        showPage("PurchaseDetailCHITKMonth", "赤铁矿月度入库数量（T）");
                         break;
                     case '褐铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailHTKMonth", "褐铁矿月度入库数量（T）");
+                        showPage("PurchaseDetailHTKMonth", "褐铁矿月度入库数量（T）");
                         break;
                     case '菱铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailLTKMonth", "菱铁矿月度入库数量（T）");
+                        showPage("PurchaseDetailLTKMonth", "菱铁矿月度入库数量（T）");
                         break;
                 }
                 break;
             case '今日到厂数量（T）':
                 switch (target) {
                     case '磁铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailCTKDay", "磁铁矿今日入库数量（T）");
+                        showPage("PurchaseDetailCTKDay", "磁铁矿今日入库数量（T）");
                         break;
                     case '赤铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailCHITKDay", "赤铁矿今日入库数量（T）");
+                        showPage("PurchaseDetailCHITKDay", "赤铁矿今日入库数量（T）");
                         break;
                     case '褐铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailHTKDay", "褐铁矿今日入库数量（T）");
+                        showPage("PurchaseDetailHTKDay", "褐铁矿今日入库数量（T）");
                         break;
                     case '菱铁矿':
-                        //@ts-ignore
-                        aui.showPage("PurchaseDetailLTKDay", "菱铁矿今日入库数量（T）");
+                        showPage("PurchaseDetailLTKDay", "菱铁矿今日入库数量（T）");
                         break;
                 }
             }

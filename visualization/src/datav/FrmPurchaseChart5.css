@@ -98,7 +98,7 @@
 
 .nav>li {
     margin-right: 35px;
-    font-size: 16px;
+    font-size: 24px;
     cursor: pointer;
 }
 
@@ -260,13 +260,13 @@
 
 .stock12 {
     position: absolute;
-    left: 100px;
+    left: 30px;
     top: 120px;
 }
 
 .stock13 {
     position: absolute;
-    left: 100px;
+    left: 30px;
     bottom: 222px;
 }
 
@@ -285,7 +285,7 @@
 .stock16 {
     position: absolute;
     left: 800px;
-    top: 120px;
+    top: 90px;
 }
 
 .stock17 {
@@ -297,7 +297,7 @@
 .stock18 {
     position: absolute;
     left: 1250px;
-    top: 106px;
+    top: 86px;
 }
 
 .stock19 {
@@ -392,7 +392,7 @@
 }
 
 .box3 {
-    top: -40px;
+    top: -70px;
     right: 140px;
     transform: translateY(-100%);
 }
@@ -403,15 +403,14 @@
 }
 
 .box51 {
-    top: calc(100% - 48px);
+    top: calc(100% - 10px);
     left: calc(100% + 275px);
     transform: translateX(-50%);
     width: 200px;
 }
 
-
 .box5 {
-    top: calc(100% + 78px);
+    top: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
@@ -475,85 +474,88 @@
 }
 
 .box17 {
-    bottom: 100%;
+    left:150px;
+    bottom: 216px;
 }
 
 .box18 {
-    bottom: 64px;
+    left:150px;
+    bottom: 28px;
 }
 
 .box19 {
-    top: 74px;
+    top: -56px;
+    left: 150px;
 }
 
 .box20 {
-    top: 88px;
-    left: 15px;
+    top: -74px;
+    left: 0;
 }
 
 .box21 {
     top: -76px;
-    left: 15px;
+    left: 0;
 }
 
 .box22 {
-    top: 185px;
-    left: 15px;
+    top: 234px;
+    left: 0;
 }
 
 .box23 {
-    top: -40px;
-    left: 180px;
+    top: -36px;
+    left: 150px;
 }
 
 .box24 {
-    top: 50px;
-    left: 180px;
+    top: 76px;
+    left: 150px;
 }
 
 .box25 {
-    top: calc(100% - 90px);
-    left: 180px;
+    top: calc(100% - 60px);
+    left: 150px;
 }
 
 .box26 {
-    top: -24px;
-    left: 160px;
+    top: -14px;
+    left: 152px;
 }
 
 .box27 {
-    top: 102px;
-    left: 160px;
+    top: 108px;
+    left: 152px;
 }
 
 .box28 {
-    top: 160px;
+    top: 170px;
     left: 150px;
 }
 
 .box29 {
-    top: -40px;
+    top: -34px;
     left: 150px;
 }
 
 .box30 {
-    top: 60px;
+    top: 64px;
     left: 150px;
 }
 
 .box31 {
-    top: 215px;
+    top: 208px;
     left: 150px;
 }
 
 .box32 {
-    top: 360px;
+    top: 364px;
     left: 150px;
 }
 
 .box33 {
     left: 414px;
-    top: -40px;
+    top: -24px;
 }
 
 .box34 {
@@ -578,4 +580,22 @@
 
 .number {
     color: #00f3ff;
+}
+
+.nameText{
+    color:#fff;
+    font-size: 16px;
+    transform: translate(0px,-46%);
+}
+
+.stock12 .box,
+.stock13 .box,
+.stock14 .box,
+.stock15 .box,
+.stock16 .box,
+.stock17 .box,
+.stock18 .box,
+.stock19 .box
+{
+    min-width:188px;
 }

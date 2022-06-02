@@ -1,6 +1,5 @@
 import "autumn-ui/assets/autumn-ui.css";
-import React from "react";
-import ReactDOM from "react-dom";
+
 import Employee from "./src/datav/Employee";
 import FrmEmployee1 from "./src/datav/FrmEmployee1";
 import FrmEmployee2 from "./src/datav/FrmEmployee2";
@@ -52,6 +51,7 @@ import PurchaseDetailCHITKMonth from "./src/datav/PurchaseDetailCHITKMonth";
 import PurchaseDetailHTKMonth from "./src/datav/PurchaseDetailHTKMonth";
 import PurchaseDetailLTKMonth from "./src/datav/PurchaseDetailLTKMonth";
 import PurchaseEmployee1 from "./src/datav/PurchaseEmployee1";
+import { showPage } from "./src/tool/Summer";
 export default {
     FrmPurchaseChart,
     FrmPurchaseChart3,
@@ -106,9 +106,4 @@ export default {
     showPage
 }
 
-function showPage(str: string, title: string, props?: object) {
-    let app = document.getElementById('app');
-    ReactDOM.unmountComponentAtNode(app);
-    document.title = title;
-    ReactDOM.render(React.createElement(eval(`aui.${str}`), props), app)
-}
+

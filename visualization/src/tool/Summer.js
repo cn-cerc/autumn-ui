@@ -1,3 +1,5 @@
+import React from "react";
+import ReactDOM from "react-dom";
 function Loading(hintMessage) {
     var self = this;
     this.hideTime = 120; // 秒
@@ -203,5 +205,12 @@ class AuiMath {
         }
     }
 }
+//大数据看板展示页面需要
+function showPage(str, title, props) {
+    let app = document.getElementById('app');
+    ReactDOM.unmountComponentAtNode(app);
+    document.title = title;
+    ReactDOM.render(React.createElement(eval(`aui.${str}`), props), app)
+}
 
-export {Loading, showMsg, AuiMath}
+export {Loading, showMsg, AuiMath, showPage}
