@@ -906,11 +906,6 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     [400, 300],
                     [528, 300],
                 ]
-            }, {
-                coords: [
-                    [245, 291],
-                    [400, 291],
-                ]
             }, 
             {
                 coords: [
