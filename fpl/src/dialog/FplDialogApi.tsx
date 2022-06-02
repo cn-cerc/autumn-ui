@@ -159,7 +159,7 @@ export default class FplDialogApi {
     static async getOriginalHost() {
         return FplDialogApi.getService('SvrOriginalHost.loadAll');
     }
-    
+
     /** 查询类别列表 */
     static getCategorys(params: DataRow) {
         return FplDialogApi.getDataOut('SvrCategory.search', params);
@@ -167,11 +167,36 @@ export default class FplDialogApi {
 
     /** 获取车队列表 */
     static getFleets(params: DataRow) {
-        return FplDialogApi.getDataOut('TAppDept.Download', params);
+        if (params.getString('corp_no_')) {
+            return FplDialogApi.getDataOut('TAppDept.getFleets', params);
+        } else {
+            return FplDialogApi.getDataOut('SvrDept.download', params);
+        }
     }
 
     /** 查询司机列表 */
     static getDriverInfos(params: DataRow) {
         return FplDialogApi.getDataOut('SvrDriverDetalis.getDriverInfosByCode', params);
     }
+
+    /** 根据车辆编号查询所有司机 */
+    static getDriverBindingRecords(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrPDriverBindingRecord.getDriverByCarNo', params);
+    }
+
+    /** 根据车队查询车辆列表 */
+    static getCarsByDeptCode(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrPCarRegistration.getCarsByDeptCode', params);
+    }
+
+    /** 查询收款人列表 **/
+    static getPayeeCode(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrPayeeRegister.getPayeeCode', params);
+    }
+
+    /** 查询合同列表 */
+    static getContractList(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrContract.search', params);
+    }
+
 }
