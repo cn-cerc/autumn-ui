@@ -1,6 +1,7 @@
 import { BorderBox1, FullScreenContainer } from '@jiaminghi/data-view-react';
 import { Column, DataRow, DataSet, DBGrid } from 'autumn-ui';
 import * as echarts from "echarts";
+import { event } from 'jquery';
 import React, { ReactNode } from 'react';
 import { AuiMath } from '../tool/Summer';
 import "../tool/Summer.css";
@@ -141,7 +142,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 [],
                 [],
                 [],
-                []
+                [0, 0]
             ]
             let execl = new Excel();
             let dataList: excelData[] = execl.getDataByArrayBuffer(data);
@@ -163,29 +164,27 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 }
             }
             let date = new Date
-            let d = date.getDate();
-            let m = date.getMonth();
             while (ksSheet2.fetch()) {
                 let ksDate = new Date(ksSheet2.getString('发货日期'))
                 let ksDate2 = new Date(ksSheet2.getString('到货日期'))
-                if (m <= ksDate2.getMonth()) {
-                    if (ksDate.getDate() <= d && d < ksDate2.getDate()) {
-                        if (ksSheet2.getString('种类') == '煤炭') {
-                            ksList[3][0] = ksSheet2.getString('数量')
-                        }
-                        if (ksSheet2.getString('种类') == '焦煤') {
-                            ksList[3][1] = ksSheet2.getString('数量')
-                        }
+                if (ksDate <= date && date < ksDate2) {
+                    if (ksSheet2.getString('种类') == '煤炭') {
+                        ksList[3][0] += ksSheet2.getDouble('数量')
+                    }
+                    if (ksSheet2.getString('种类') == '焦煤') {
+                        ksList[3][1] += ksSheet2.getDouble('数量')
                     }
                 }
+
             }
             let calcData: DataSet = dataList[1].data; //第二个表数据
             let tempDataSet: DataSet = new DataSet();
-            tempDataSet.appendDataSet(this.state.ironOreList);
+
             let now = new Date();
             let nowYear = now.getFullYear();
             let nowMonth = now.getMonth();
-            let arr = ['今日挂牌价（T/元）', '今日采购价（T/元）', '今日损耗数量（T）', '本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）', '库存均价（T/元）', ''];
+            let nowDay = now.getDate();
+            let arr = ['今日挂牌价（T/元）', '今日采购价（T/元）', '今日损耗数量（T）', '今日入库数量（T）', '本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）', '库存均价（T/元）'];
             let math = new AuiMath();
 
             arr.forEach((item, index) => {
@@ -206,16 +205,19 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
                     if (item == '今日损耗数量（T）' && new Date(calcData.getString('到货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
-                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')), 1));
-                    }
-                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
-                    }
-                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
                         tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '当前库存数量（T）' && new Date(calcData.getString('到货日期')) <= now) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
+                    if (item == '今日入库数量（T）' && new Date(calcData.getString('到货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
+                    }
+                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth && new Date(calcData.getString('到货日期')).getDate() <= nowDay) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
+                    }
+                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth && new Date(calcData.getString('到货日期')).getDate() <= nowDay) {
+                        tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
+                    }
+                    if (item == '当前库存数量（T）' && new Date(calcData.getString('到货日期')) <= new Date((now).getTime() + 86400000)) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
                         switch (zl) {
@@ -235,9 +237,13 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         tempDataSet.setValue(item1.name, math.toFixed(math.div((item1.p || 0), (item1.c || 0)), 2));
                     })
                 }
-                this.setState({
-                    ironOreList: tempDataSet
-                })
+
+            })
+            tempDataSet.appendDataSet(this.state.ironOreList);
+            tempDataSet.append().setValue('项次', '').setValue('煤炭', '').setValue('焦炭', '')
+            tempDataSet.append().setValue('项次', '').setValue('煤炭', '').setValue('焦炭', '')
+            this.setState({
+                ironOreList: tempDataSet
             })
             this.state.ironOreList.first()
             while (this.state.ironOreList.fetch()) {
@@ -259,44 +265,68 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 [],
                 [],
                 [],
-                []
+                [0, 0, 0, 0]
             ]
             let execl = new Excel();
             let dataList: excelData[] = execl.getDataByArrayBuffer(data);
-            this.setState({ mineralList: dataList[0].data });
+            let dateListOne = dataList[0].data;
+            let xxx = new DataSet();
+            dateListOne.first();
+            while (dateListOne.fetch()) {
+                if (dateListOne.getString('项次') == '今日湿度检测（%）' || dateListOne.getString('项次') == '今日品位检测（%）') {
+                    xxx.append().
+                        setValue('项次', dateListOne.getString('项次')).
+                        setValue('磁铁矿', dateListOne.getString('磁铁矿')).
+                        setValue('赤铁矿', dateListOne.getString('赤铁矿')).
+                        setValue('褐铁矿', dateListOne.getString('褐铁矿')).
+                        setValue('菱铁矿', dateListOne.getString('菱铁矿'))
+                }
+                if (dateListOne.getString('项次') == '仓库容量（T）') {
+                    tksList[0][0] = dateListOne.getString('磁铁矿')
+                    tksList[0][1] = dateListOne.getString('赤铁矿')
+                    tksList[0][2] = dateListOne.getString('褐铁矿')
+                    tksList[0][3] = dateListOne.getString('菱铁矿')
+                }
+                if (dateListOne.getString('项次') == '安全库存（T）') {
+                    tksList[1][0] = dateListOne.getString('磁铁矿')
+                    tksList[1][1] = dateListOne.getString('赤铁矿')
+                    tksList[1][2] = dateListOne.getString('褐铁矿')
+                    tksList[1][3] = dateListOne.getString('菱铁矿')
+                }
+            }
+            this.setState({ mineralList: xxx });
             let calcData: DataSet = dataList[1].data; //第二个表数据
 
             let tksSheet2 = dataList[1].data;
             tksSheet2.first();
             let date = new Date
-            let d = date.getDate();
             while (tksSheet2.fetch()) {
                 let ksDate = new Date(tksSheet2.getString('发货日期'))
                 let ksDate2 = new Date(tksSheet2.getString('到货日期'))
-                if (ksDate.getDate() <= d && d < ksDate2.getDate()) {
+                if (ksDate <= date && date < ksDate2) {
                     switch (tksSheet2.getString('种类')) {
                         case '磁铁矿':
-                            tksList[3][0] = tksSheet2.getString('数量')
+                            tksList[3][0] += tksSheet2.getDouble('数量')
                             break;
                         case '赤铁矿':
-                            tksList[3][1] = tksSheet2.getString('数量')
+                            tksList[3][1] += tksSheet2.getDouble('数量')
                             break;
                         case '褐铁矿':
-                            tksList[3][2] = tksSheet2.getString('数量')
+                            tksList[3][2] += tksSheet2.getDouble('数量')
                             break;
                         case '菱铁矿':
-                            tksList[3][3] = tksSheet2.getString('数量')
+                            tksList[3][3] += tksSheet2.getDouble('数量')
                             break;
                     }
                 }
             }
 
             let tempDataSet: DataSet = new DataSet();
-            tempDataSet.appendDataSet(this.state.mineralList);
             let now = new Date();
             let nowYear = now.getFullYear();
             let nowMonth = now.getMonth();
-            let arr = ['今日挂牌价（T/元）', '今日发货数量（T）', '今日到厂数量（T）', '今日损耗数量（T）', '本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）', '库存均价（T/元）', ''];
+            let nowDay = now.getDate();
+            let arr = ['今日挂牌价（T/元）', '今日采购价（T/元）', '今日发货数量（T）', '今日到厂数量（T）', '今日损耗数量（T）', '本月到厂数量（T）', '本月损耗数量（T）', '当前库存数量（T）', '库存均价（T/元）'];
             let math = new AuiMath();
             arr.forEach((item, index) => {
                 tempDataSet.append().setValue('项次', item);
@@ -311,6 +341,9 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     if (item == '今日挂牌价（T/元）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
                         tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
                     }
+                    if (item == '今日采购价（T/元）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
+                        tempDataSet.setValue(zl, calcData.current.getDouble('单价'));
+                    }
                     if (item == '今日发货数量（T）' && new Date(calcData.getString('发货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
@@ -320,14 +353,14 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     if (item == '今日损耗数量（T）' && new Date(calcData.getString('到货日期')).setHours(0, 0, 0, 0) == now.setHours(0, 0, 0, 0)) {
                         tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                    if (item == '本月到厂数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth && new Date(calcData.getString('到货日期')).getDate() <= nowDay) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth) {
+                    if (item == '本月损耗数量（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')).getMonth() == nowMonth && new Date(calcData.getString('到货日期')).getDate() <= nowDay) {
                         tempDataSet.setValue(zl, math.toFixed((calcData.current.getDouble('数量') - calcData.current.getDouble('到货数量')) + tempDataSet.current.getDouble(zl), 1));
                     }
-                    if (item == '当前库存数量（T）' && new Date(calcData.getString('到货日期')) <= now) {
-                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
+                    if (item == '当前库存数量（T）' && new Date(calcData.getString('到货日期')) <= new Date((now).getTime() + 86400000)) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
                         switch (zl) {
@@ -352,27 +385,18 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 }
                 if (item == '库存均价（T/元）') {
                     temp.forEach((item1, index1) => {
-                        tempDataSet.setValue(item1.name, (item1.p || 0) / (item1.c || 0));
+                        tempDataSet.setValue(item1.name, ((item1.p || 0) / (item1.c || 0)).toFixed(2));
                     })
                 }
-                this.setState({
-                    mineralList: tempDataSet
-                })
+
+            })
+            tempDataSet.appendDataSet(this.state.mineralList);
+            tempDataSet.append().setValue('项次', '').setValue('磁铁矿', '').setValue('赤铁矿', '').setValue('褐铁矿', '').setValue('菱铁矿', '')
+            this.setState({
+                mineralList: tempDataSet
             })
             tempDataSet.first()
             while (tempDataSet.fetch()) {
-                if (tempDataSet.getString('项次') == '仓库容量（T）') {
-                    tksList[0][0] = tempDataSet.getString('磁铁矿')
-                    tksList[0][1] = tempDataSet.getString('赤铁矿')
-                    tksList[0][2] = tempDataSet.getString('褐铁矿')
-                    tksList[0][3] = tempDataSet.getString('菱铁矿')
-                }
-                if (tempDataSet.getString('项次') == '安全库存（T）') {
-                    tksList[1][0] = tempDataSet.getString('磁铁矿')
-                    tksList[1][1] = tempDataSet.getString('赤铁矿')
-                    tksList[1][2] = tempDataSet.getString('褐铁矿')
-                    tksList[1][3] = tempDataSet.getString('菱铁矿')
-                }
                 if (tempDataSet.getString('项次') == '当前库存数量（T）') {
                     tksList[2][0] = tempDataSet.getString('磁铁矿')
                     tksList[2][1] = tempDataSet.getString('赤铁矿')
@@ -593,46 +617,23 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 {
                     name: 'A站',
                     data: [0, 0, 0, 0, 0, 0],
-                    type: 'line',
-                    symbolSize: 8,
-                    smooth: true,
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#fff',
-                        fontSize: 13
-                    },
-
                 },
                 {
                     name: 'B站',
                     data: [0, 0, 0, 0, 0, 0],
-                    type: 'line',
-                    symbolSize: 8,
-                    smooth: true,
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#fff',
-                        fontSize: 13
-                    }
+  
                 },
                 {
                     name: 'C站',
                     data: [0, 0, 0, 0, 0, 0],
-                    type: 'line',
-                    symbolSize: 8,
-                    smooth: true,
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#fff',
-                        fontSize: 13
-                    }
                 },
                 {
                     name: 'D站',
                     data: [0, 0, 0, 0, 0, 0],
+
+            ]
+				for (let i = 0; i < main3Data.length; i++) {
+                let obj = {
                     type: 'line',
                     symbolSize: 8,
                     smooth: true,
@@ -643,7 +644,8 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         fontSize: 13
                     }
                 }
-            ]
+                Object.assign(main3Data[i], obj)
+            }
             let date = new Date
             let d = date.getDate()
             let ftSheet = dataList[1].data
@@ -833,6 +835,12 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             if (key == '项次') {
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key} customText={(row: DataRow) => {
                     switch (type) {
+						case 1:
+                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                            break;
+                        case 2:
+                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日到厂数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                            break;
                         case 3:
                             return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月入库数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
                             break;
@@ -1412,8 +1420,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         // @ts-ignore
         // aui.showPage("ReportDetail1", "铁矿石年度入库数量（T）");
         //以下代码 李敏负责部分 =====================
-        // let fieldText = sender.target.getAttribute('data-field');
-        // if(fieldText == '项次' || fieldText == '锰' || fieldText == '硅' || fieldText == '钒' || fieldText == '钨' || fieldText == '钛' || fieldText == '钼'){
         var itemText = row.getString('项次');
         switch (itemText) {
             case '今日入库数量（T）':
@@ -1425,15 +1431,72 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 aui.showPage("PurchaseDetailAlloy2", "合金本月入库数量", { index: 1, title: '本月入库数量（T）' });
                 break;
         }
-        // }else if( fieldText == '项次' || fieldText == '锰' || fieldText == '硅' || fieldText == '钒' || fieldText == '钨' ){
-        var itemText = row.getString('项次');
         switch (itemText) {
             case '今日收料（T）':
                 // @ts-ignore
                 aui.showPage("PurchaseDetailSteell", "废铁今日收料数量（T）", { index: 1, title: '今日收料（T）' });
                 break;
         }
-        // }
+        
         //华丽的分割线==============================
+        let target = sender.target.getAttribute('data-field');
+        switch (row.getString('项次')) {
+            case '今日入库数量（T）':
+                if (target == '煤炭') {
+                    //@ts-ignore
+                    aui.showPage("PurchaseDetailMTDay", "煤炭今日入库数量（T）");
+                } else if (target == '焦煤') {
+                    //@ts-ignore
+                    aui.showPage("PurchaseDetailJMDay", "焦煤今日入库数量（T）");
+                }
+                break;
+            case '本月到厂数量（T）':
+                switch (target) {
+                    case '煤炭':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailMTMonth", "煤炭月度入库数量（T）");
+                        break;
+                    case '焦煤':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailJMMonth", "焦煤月度入库数量（T）");
+                        break;
+                    case '磁铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailCTKMonth", "磁铁矿月度入库数量（T）");
+                        break;
+                    case '赤铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailCHITKMonth", "赤铁矿月度入库数量（T）");
+                        break;
+                    case '褐铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailHTKMonth", "褐铁矿月度入库数量（T）");
+                        break;
+                    case '菱铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailLTKMonth", "菱铁矿月度入库数量（T）");
+                        break;
+                }
+                break;
+            case '今日到厂数量（T）':
+                switch (target) {
+                    case '磁铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailCTKDay", "磁铁矿今日入库数量（T）");
+                        break;
+                    case '赤铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailCHITKDay", "赤铁矿今日入库数量（T）");
+                        break;
+                    case '褐铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailHTKDay", "褐铁矿今日入库数量（T）");
+                        break;
+                    case '菱铁矿':
+                        //@ts-ignore
+                        aui.showPage("PurchaseDetailLTKDay", "菱铁矿今日入库数量（T）");
+                        break;
+                }
+        }
     }
 }

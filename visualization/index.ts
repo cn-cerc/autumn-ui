@@ -31,7 +31,6 @@ import FrmReport7 from "./src/datav/FrmReport7";
 import FrmReport8 from "./src/datav/FrmReport8";
 import FrmReport9 from "./src/datav/FrmReport9";
 import FrmSaleChart from "./src/datav/FrmSaleChart";
-import PurchaseEmployee1 from "./src/datav/PurchaseEmployee1";
 import ReportDetail1 from "./src/datav/ReportDetail1";
 import PurchaseDetailAlloy1 from "./src/datav/PurchaseDetailAlloy1";
 import PurchaseDetailAlloy2 from "./src/datav/PurchaseDetailAlloy2";
@@ -40,7 +39,19 @@ import SaleDetail1 from "./src/datav/SaleDetail1";
 import SaleDetail2 from "./src/datav/SaleDetail2";
 import SaleDetail3 from "./src/datav/SaleDetail3";
 import "./src/tool/Summer.css";
-
+import PurchaseDetailMTDay from "./src/datav/PurchaseDetailMTDay";
+import PurchaseDetailJMDay from "./src/datav/PurchaseDetailJMDay";
+import PurchaseDetailMTMonth from "./src/datav/PurchaseDetailMTMonth";
+import PurchaseDetailJMMonth from "./src/datav/PurchaseDetailJMMonth";
+import PurchaseDetailCTKDay from "./src/datav/PurchaseDetailCTKDay";
+import PurchaseDetailCHITKDay from "./src/datav/PurchaseDetailCHITKDay";
+import PurchaseDetailHTKDay from "./src/datav/PurchaseDetailHTKDay";
+import PurchaseDetailLTKDay from "./src/datav/PurchaseDetailLTKDay";
+import PurchaseDetailCTKMonth from "./src/datav/PurchaseDetailCTKMonth";
+import PurchaseDetailCHITKMonth from "./src/datav/PurchaseDetailCHITKMonth";
+import PurchaseDetailHTKMonth from "./src/datav/PurchaseDetailHTKMonth";
+import PurchaseDetailLTKMonth from "./src/datav/PurchaseDetailLTKMonth";
+import PurchaseEmployee1 from "./src/datav/PurchaseEmployee1";
 export default {
     FrmPurchaseChart,
     FrmPurchaseChart3,
@@ -80,6 +91,18 @@ export default {
     PurchaseDetailAlloy1,
     PurchaseDetailAlloy2,
     PurchaseDetailSteell,
+	PurchaseDetailMTDay,
+    PurchaseDetailJMDay,
+    PurchaseDetailMTMonth,
+    PurchaseDetailJMMonth,
+    PurchaseDetailCTKDay,
+    PurchaseDetailCHITKDay,
+    PurchaseDetailHTKDay,
+    PurchaseDetailLTKDay,
+    PurchaseDetailCTKMonth,
+    PurchaseDetailCHITKMonth,
+    PurchaseDetailHTKMonth,
+    PurchaseDetailLTKMonth,
     showPage
 }
 
