@@ -7,6 +7,11 @@ import { DataSet, DataRow, BaseDialogStateType, BaseDialog, BaseDialogPropsType,
 
 const CUSTOMER_204008 = '204008';
 
+type FleetProps = {
+    corpNo: string,
+} & Partial<BaseDialogPropsType>
+
+
 type DepartmentTypeState = {
     dataSet: DataSet,
     dataIn: DataRow,
@@ -15,8 +20,8 @@ type DepartmentTypeState = {
     history: DataSet[]
 } & Partial<BaseDialogStateType>
 
-export default class FleetDialog extends BaseDialog<BaseDialogPropsType, DepartmentTypeState> {
-    constructor(props: BaseDialogPropsType) {
+export default class FleetDialog extends BaseDialog<FleetProps, DepartmentTypeState> {
+    constructor(props: FleetProps) {
         super(props);
         let options = new Map();
         options.set("一级车队", "8");
@@ -53,6 +58,7 @@ export default class FleetDialog extends BaseDialog<BaseDialogPropsType, Departm
         if (cropNo == CUSTOMER_204008)
             this.state.dataIn.setValue('DeptLevel_', '12');
         this.state.dataIn.setValue('fleet_', true);
+        this.state.dataIn.setValue('corp_no_', this.props.corpNo);
         let dataSet = await this.getFleets();
         this.state.history.push(dataSet);
         if (dataSet.state <= 0) {

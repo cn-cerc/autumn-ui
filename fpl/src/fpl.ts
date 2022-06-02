@@ -4,8 +4,10 @@ import diteng from "@diteng/diteng";
 import "autumn-ui/assets/autumn-ui.css";
 import CategoryDialog from "./dialog/CategoryDialog";
 import CeshiDialog from "./dialog/CeshiDialog";
+import DriverBindingRecordDialog from "./dialog/DriverBindingRecordDialog";
 import DriverInfoDialog from "./dialog/DriverInfoDialog";
 import FleetDialog from "./dialog/FleetDialog";
+import NumberPlateDialog from "./dialog/NumberPlateDialog";
 
 export default {
     ...diteng,
@@ -14,4 +16,6 @@ export default {
     CategoryDialog,
     DriverInfoDialog,
     FleetDialog,
+    DriverBindingRecordDialog,
+    NumberPlateDialog
 }
