@@ -20,7 +20,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     private myChart: any;
     constructor(props: PropsType) {
         super(props);
-        let navIndex = this.props.navIndex ? this.props.navIndex : 1;
+        let navIndex = this.props.navIndex ? this.props.navIndex : 0;
         this.state = {
             menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
@@ -727,7 +727,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={styles.noNameBox} style={{ 'marginBottom': '100px' }} onClick={() => {
                     this.toEmployee(0, '热轧钢卷', 2)
                 }}>
-                    <img src="./img/热轧钢卷2.png" className={styles.stove2} />{/* 热轧钢卷 */}
+                    <img src="./img/热轧钢卷2.png" className={styles.stove2} style={{width:'84px'}}/>{/* 热轧钢卷 */}
                 </div>
                 <div className={`${styles.box26} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -922,7 +922,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             }, {
                 coords: [
                     [1380, 768],
-                    [1510, 768],
+                    [1666, 768],
                 ]
             }, {
                 coords: [
@@ -934,19 +934,37 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             }, {
                 coords: [
                     [1380, 675],
-                    [1510, 675],
+                    [1666, 675],
                 ]
             }, {
                 coords: [
                     [890, 535],
                     [890, 484],
                     [185, 484],
-                    [185, 320],
+                    [185, 280],
                 ]
             }, {
+                coords: [ //左侧 下方第一个图线条
+                    [230, 255],
+                    [400, 255],
+                ]
+            }, 
+            {
                 coords: [
-                    [245, 291],
+                    [580, 291],
+                    [860, 291],
+                ]
+            },
+            {
+                coords: [
+                    [580, 204],
+                    [850, 204],
+                ]
+            },{
+                coords: [
                     [400, 291],
+                    [400, 300],
+                    [528, 300],
                 ]
             }, 
             {
@@ -986,11 +1004,11 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 coords: [
                     [1230, 350],
                     [1230, 484],
-                    [1450, 484],
+                    [1350, 484],
                 ]
             }, {
                 coords: [
-                    [1545, 484],
+                    [1345, 484],
                     [1666, 484],
                 ]
             }, 
@@ -1003,11 +1021,11 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             {
                 coords: [
                     [1230, 328],
-                    [1450, 328],
+                    [1350, 328],
                 ]
             }, {
                 coords: [
-                    [1545, 328],
+                    [1345, 328],
                     [1666, 328],
                 ]
             }, {
@@ -1019,11 +1037,11 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 coords: [
                     [1230, 304],
                     [1230, 180],
-                    [1450, 180],
+                    [1350, 180],
                 ]
             }, {
                 coords: [
-                    [1545, 180],
+                    [1345, 180],
                     [1666, 180],
                 ]
             }]
