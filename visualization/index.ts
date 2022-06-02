@@ -32,6 +32,9 @@ import FrmReport8 from "./src/datav/FrmReport8";
 import FrmReport9 from "./src/datav/FrmReport9";
 import FrmSaleChart from "./src/datav/FrmSaleChart";
 import ReportDetail1 from "./src/datav/ReportDetail1";
+import PurchaseDetailAlloy1 from "./src/datav/PurchaseDetailAlloy1";
+import PurchaseDetailAlloy2 from "./src/datav/PurchaseDetailAlloy2";
+import PurchaseDetailSteell from "./src/datav/PurchaseDetailSteell";
 import SaleDetail1 from "./src/datav/SaleDetail1";
 import SaleDetail2 from "./src/datav/SaleDetail2";
 import SaleDetail3 from "./src/datav/SaleDetail3";
@@ -85,7 +88,10 @@ export default {
     SaleDetail3,
     PurchaseEmployee1,
     Employee,
-    PurchaseDetailMTDay,
+    PurchaseDetailAlloy1,
+    PurchaseDetailAlloy2,
+    PurchaseDetailSteell,
+	PurchaseDetailMTDay,
     PurchaseDetailJMDay,
     PurchaseDetailMTMonth,
     PurchaseDetailJMMonth,
