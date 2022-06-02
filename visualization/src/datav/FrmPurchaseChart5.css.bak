@@ -250,8 +250,13 @@
 
 .stock6 {
     position: absolute;
+<<<<<<< HEAD
     left: 140px;
     top: 45px;
+=======
+    left: 120px;
+    top: 100px;
+>>>>>>> hhc-change-kanban
 }
 
 .stock7 {
@@ -276,14 +281,23 @@
 
 .stock10 {
     position: absolute;
+<<<<<<< HEAD
     right: 250px;
     top: 166px;
+=======
+    right: 220px;
+    top: 233px;
+>>>>>>> hhc-change-kanban
     transform: translateY(-50%);
 }
 
 .stock11 {
     position: absolute;
+<<<<<<< HEAD
     right: 250px;
+=======
+    right: 220px;
+>>>>>>> hhc-change-kanban
     bottom: 233px;
     transform: translateY(50%);
 }
@@ -433,6 +447,7 @@
 }
 
 .box51 {
+<<<<<<< HEAD
     top: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
@@ -445,6 +460,20 @@
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
+=======
+    top: calc(100% - 48px);
+    left: calc(100% + 275px);
+    transform: translateX(-50%);
+    width: 200px;
+}
+
+
+.box5 {
+    top: calc(100% + 78px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+>>>>>>> hhc-change-kanban
 }
 
 .box6 {
@@ -464,12 +493,20 @@
 }
 
 .box9 {
+<<<<<<< HEAD
     bottom: 55px;
+=======
+    bottom: 98px;
+>>>>>>> hhc-change-kanban
     left: calc(100% + 20px);
 }
 
 .box10 {
+<<<<<<< HEAD
     bottom: 15px;
+=======
+    bottom: 68px;
+>>>>>>> hhc-change-kanban
     left: calc(100% + 40px);
 }
 
@@ -485,8 +522,13 @@
 }
 
 .box13 {
+<<<<<<< HEAD
     right: calc(100% + 30px);
     top: -20px;
+=======
+    right: calc(100% + 60px);
+    top: -60px;
+>>>>>>> hhc-change-kanban
 }
 
 .box14 {
@@ -506,7 +548,11 @@
 
 .box16 {
     left: calc(100% + 10px);
+<<<<<<< HEAD
     bottom: 10px;
+=======
+    bottom: -32px;
+>>>>>>> hhc-change-kanban
 }
 
 .box17 {

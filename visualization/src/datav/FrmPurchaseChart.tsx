@@ -100,15 +100,15 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
                 name: '年度在库数量',
                 key: 'stock',
             }],
-            menuOptions: new Map([['采购数据管理中心', {
+            menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart", "采购数据管理中心")'
-            }], ['制造数据管理中心', {
+                href: 'javascript:aui.showPage("FrmPurchaseChart", "工业4.0-数字化供应链管理中心V1.0")'
+            }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart", "制造数据管理中心")'
-            }], ['销售数据管理中心', {
+                href: 'javascript:aui.showPage("FrmManufactureChart", "工业4.0-数字化制造管理中心V1.0")'
+            }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmSaleChart", "销售数据管理中心")'
+                href: 'javascript:aui.showPage("FrmSaleChart", "工业4.0-数字化销售管理中心V1.0")'
             }]]),
             showIndex: 0,
             lengedState: [true, true, true, true],
@@ -336,7 +336,7 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
         return (
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader title='采购数据管理中心' handleCick={this.titleClick.bind(this)} />
+                    <TopHeader title='工业4.0-数字化供应链管理中心V1.0' handleCick={this.titleClick.bind(this)} />
                     <div className={styles.mainContent}>
                         <div className={styles.blockLeftRightContent}>
                             <div className={styles.textList}>

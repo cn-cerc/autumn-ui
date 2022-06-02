@@ -86,7 +86,7 @@ export default class SaleDetail1 extends React.Component<FrmReportTypeProps, Frm
                 <span style={{ 'color': this.state.showOut ? '#fff' : '#66ff66', 'cursor': 'pointer' }} onClick={() => this.setShowOut(false)}>接单</span>
                 <span style={{ 'paddingLeft': '35px', 'color': this.state.showOut ? '#66ff66' : '#fff', 'cursor': 'pointer' }} onClick={this.setShowOut.bind(this, true)}>出货</span>
             </div>
-            <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}今日${this.state.showOut ? '出货' : '接单'}动态（${month}月${day}日）`} key={String(this.state.showOut)} backHref='FrmPurchaseChart4' backTitle='采购数据管理中心' params={{ pageType1: this.props.pageType1 }}></ReportDetail>
+            <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}今日${this.state.showOut ? '出货' : '接单'}动态（${month}月${day}日）`} key={String(this.state.showOut)} backHref='FrmPurchaseChart4' backTitle='工业4.0-数字化供应链管理中心V1.0' params={{ pageType1: this.props.pageType1 }}></ReportDetail>
         </React.Fragment>
     }
 

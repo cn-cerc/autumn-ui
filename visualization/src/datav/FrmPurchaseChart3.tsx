@@ -44,15 +44,15 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         super(props);
         this.state = {
             showIndex: 0,
-            menuOptions: new Map([['采购数据管理中心', {
+            menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart3", "采购数据管理中心")'
-            }], ['制造数据管理中心', {
+                href: 'javascript:aui.showPage("FrmPurchaseChart3", "工业4.0-数字化供应链管理中心V1.0")'
+            }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart5", "制造数据管理中心")'
-            }], ['销售数据管理中心', {
+                href: 'javascript:aui.showPage("FrmPurchaseChart5", "工业4.0-数字化制造管理中心V1.0")'
+            }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart4", "销售数据管理中心")'
+                href: 'javascript:aui.showPage("FrmPurchaseChart4", "工业4.0-数字化销售管理中心V1.0")'
             }]]),
             ltype: this.props.index || 1,
             rtype: 3,
@@ -240,8 +240,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
 
             })
             tempDataSet.appendDataSet(this.state.ironOreList);
-            tempDataSet.append().setValue('项次', '').setValue('煤炭', '').setValue('焦炭', '')
-            tempDataSet.append().setValue('项次', '').setValue('煤炭', '').setValue('焦炭', '')
             this.setState({
                 ironOreList: tempDataSet
             })
@@ -391,7 +389,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
 
             })
             tempDataSet.appendDataSet(this.state.mineralList);
-            tempDataSet.append().setValue('项次', '').setValue('磁铁矿', '').setValue('赤铁矿', '').setValue('褐铁矿', '').setValue('菱铁矿', '')
             this.setState({
                 mineralList: tempDataSet
             })
@@ -432,7 +429,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let nowYear = now.getFullYear();
             let nowMonth = now.getMonth();
             let arr = ['今日挂牌价（T/元）', '今日入库数量（T）', '本月入库数量（T）', '年度入库数量（T）',
-                '当前库存数量（T）', '本月采购数量（T）', '年度采购数量（T）', '采购在途数量（T）', '当前库存均价（T）', '', '', ''];
+                '当前库存数量（T）', '本月采购数量（T）', '年度采购数量（T）', '采购在途数量（T）', '当前库存均价（T）'];
             let math = new AuiMath();
 
             arr.forEach((item, index) => {
@@ -621,7 +618,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 {
                     name: 'B站',
                     data: [0, 0, 0, 0, 0, 0],
-  
+
                 },
                 {
                     name: 'C站',
@@ -633,7 +630,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
 
                 }
             ]
-				for (let i = 0; i < main3Data.length; i++) {
+            for (let i = 0; i < main3Data.length; i++) {
                 let obj = {
                     type: 'line',
                     symbolSize: 8,
@@ -744,7 +741,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         return (
             <div className={styles.dataView}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
-                    <TopHeader title='采购数据管理中心' handleCick={this.titleClick.bind(this)} />
+                    <TopHeader title='工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>' handleCick={this.titleClick.bind(this)} />
                     <div className={styles.headerTitle}>
                         <a className={this.state.ltype == 1 ? styles.active : ''} onClick={this.toggleData.bind(this, 1)}>煤炭/铁矿石</a>
                         <a className={this.state.ltype == 2 ? styles.active : ''} onClick={this.toggleData.bind(this, 2)}>合金/废钢</a>
@@ -836,12 +833,12 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             if (key == '项次') {
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key} customText={(row: DataRow) => {
                     switch (type) {
-						case 1:
-                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
-                            break;
-                        case 2:
-                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日到厂数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
-                            break;
+                        // case 1:
+                        //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                        //     break;
+                        // case 2:
+                        //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日到厂数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                        //     break;
                         case 3:
                             return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月入库数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
                             break;
@@ -1379,10 +1376,25 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     getHtmlFun(reportHead: DataRow, dataList: DataSet, type?: number) {
         let currentData = new DataSet();
         dataList.first();
+        let className = '';
+        switch (type) {
+            case 1:
+                className = styles.table1;
+                break;
+            case 2:
+                className = styles.table2;
+                break;
+            case 3:
+                className = styles.table3;
+                break;
+            case 4:
+                className = styles.table4;
+                break;
+        }
         while (dataList.fetch()) {
             currentData.append().copyRecord(dataList.current);
         }
-        return <div className={styles.box} key={this.state.ltype}>
+        return <div className={`${styles.box} ${className}`} key={this.state.ltype}>
             <BorderBox1>
                 <div className={styles.grid}>
                     <DBGrid dataSet={currentData} key={this.getColumns(reportHead).toString()} onRowClick={this.handleRowClick.bind(this)}>
@@ -1438,7 +1450,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 aui.showPage("PurchaseDetailSteell", "废铁今日收料数量（T）", { index: 1, title: '今日收料（T）' });
                 break;
         }
-        
+
         //华丽的分割线==============================
         let target = sender.target.getAttribute('data-field');
         switch (row.getString('项次')) {
@@ -1498,6 +1510,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         aui.showPage("PurchaseDetailLTKDay", "菱铁矿今日入库数量（T）");
                         break;
                 }
-            }
+        }
     }
 }
