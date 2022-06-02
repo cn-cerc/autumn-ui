@@ -123,7 +123,11 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
     }
 
     componentWillUnmount() {
-        clearInterval(this.timer);
+        console.log('baibai')
+        clearInterval(this.state.timeFlag);
+        this.setState({
+            timeFlag: null
+        });
     }
 
     getRandom(num: number) {

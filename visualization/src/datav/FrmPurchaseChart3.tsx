@@ -553,6 +553,9 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                     if (item == '年度累计收料（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
+                    if (item == '年度累计回厂（T）' && new Date(calcData.getString('到货日期')).getFullYear() == nowYear && new Date(calcData.getString('到货日期')) <= now) {
+                        tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
+                    }
                     if (item == '收购站当前库存（T）' && new Date(calcData.getString('到货日期')) <= now) {
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
@@ -830,7 +833,6 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         let list: ReactNode[] = [];
         reportHead.forEach((key: string, value: any) => {
             if (key == '项次') {
-                
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key} customText={(row: DataRow) => {
                     switch(type){
                         case 3:
@@ -1345,7 +1347,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     getTable1() { //煤炭采购动态 table
         let reportHead = new DataRow();
         reportHead.setValue('项次', { name: '项次', width: '6' }).setValue('煤炭', { name: '煤炭', width: '6' }).setValue('焦煤', { name: '焦煤', width: '6' });
-        return this.getHtmlFun(reportHead, this.state.ironOreList);
+        return this.getHtmlFun(reportHead, this.state.ironOreList,1);
     }
     getTable2() { //合金采购动态 table
         let reportHead = new DataRow();
@@ -1358,7 +1360,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         let reportHead = new DataRow();
         reportHead.setValue('项次', { name: '项次', width: '20' }).setValue('磁铁矿', { name: '磁铁矿', width: '13' })
             .setValue('赤铁矿', { name: '赤铁矿', width: '13' }).setValue('褐铁矿', { name: '褐铁矿', width: '13' }).setValue('菱铁矿', { name: '菱铁矿', width: '13' });
-        return this.getHtmlFun(reportHead, this.state.mineralList);
+        return this.getHtmlFun(reportHead, this.state.mineralList,2);
     }
     getTable4() { //废钢采购动态 table
         let reportHead = new DataRow();

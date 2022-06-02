@@ -43,10 +43,10 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
             dataList = execl.getDataByArrayBuffer(data);
         })
 
-        reportHead.setValue('月份', { name: '月份', width: '8' }).setValue('到港数量', { name: '到港数量', width: '20' })
-        .setValue('出港数量', { name: '出港数量', width: '10' }).setValue('出港损耗数量', { name: '出港损耗数量', width: '20' }).setValue('到厂数量', { name: '到厂数量', width: '15' })
-        .setValue('到厂损耗数量', { name: '到厂损耗数量', width: '10' }).setValue('到厂损耗比例', { name: '到厂损耗比例', width: '10' }).setValue('总损耗数量', { name: '总损耗数量', width: '10' })
-        .setValue('总损耗比例', { name: '总损耗比例', width: '10' }).setValue('采购合同', { name: '采购合同', width: '10' }).setValue('备注', { name: '备注', width: '10' });
+        reportHead.setValue('月份', { name: '月份', width: '8' }).setValue('到港数量', { name: '到港数量(T)', width: '14' })
+        .setValue('出港数量', { name: '出港数量(T)', width: '14' }).setValue('出港损耗数量', { name: '出港损耗数量(T)', width: '14' }).setValue('到厂数量', { name: '到厂数量(T)', width: '15' })
+        .setValue('到厂损耗数量', { name: '到厂损耗数量(T)', width: '14' }).setValue('到厂损耗比例', { name: '到厂损耗比例(T)', width: '14' }).setValue('总损耗数量', { name: '总损耗数量(T)', width: '14' })
+        .setValue('总损耗比例', { name: '总损耗比例(T)', width: '14' }).setValue('采购合同', { name: '采购合同号', width: '14' }).setValue('备注', { name: '备注', width: '10' });
        
         let now = new Date();
         let nowYear = now.getFullYear();
@@ -64,15 +64,29 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
             while (dataSet.fetch()) {
                 let dataTextTimeMonth = new Date(dataSet.getString('到货日期')).getMonth();
                 if(dataTextTimeMonth == index){
-                    tempData.setValue('到港数量',math.toFixed(dataSet.getDouble('到港数量') + tempData.getDouble('到港数量'),2))
-                    .setValue('出港数量',math.toFixed(dataSet.getDouble('出港数量') + tempData.getDouble('出港数量'),2))
-                    .setValue('出港损耗数量',math.toFixed(dataSet.getDouble('出港损耗数量') + tempData.getDouble('出港损耗数量'),2))
-                    .setValue('到厂数量',math.toFixed(dataSet.getDouble('到厂数量') + tempData.getDouble('到厂数量'),2))
-                    .setValue('到厂损耗数量',math.toFixed(dataSet.getDouble('到厂损耗数量') + tempData.getDouble('到厂损耗数量'),2))
-                    .setValue('到厂损耗比例',math.toFixed( (dataSet.getDouble('到厂损耗比例')>0?dataSet.getDouble('到厂损耗比例'):0) + (tempData.getDouble('到厂损耗比例')>0?tempData.getDouble('到厂损耗比例'):0),2))
-                    .setValue('总损耗数量',math.toFixed(dataSet.getDouble('总损耗数量') + tempData.getDouble('总损耗数量'),2))
-                    .setValue('总损耗比例',math.toFixed(dataSet.getDouble('总损耗比例') + tempData.getDouble('总损耗比例'),2))
-                    .setValue('采购合同', dataSet.getString('采购合同')).setValue('备注', dataSet.getString('备注'))
+                    if(dataTextTimeMonth != nowMonth){
+                        tempData.setValue('到港数量',math.toFixed(dataSet.getDouble('到港数量') + tempData.getDouble('到港数量'),2))
+                        .setValue('出港数量',math.toFixed(dataSet.getDouble('出港数量') + tempData.getDouble('出港数量'),2))
+                        .setValue('出港损耗数量',math.toFixed(dataSet.getDouble('出港损耗数量') + tempData.getDouble('出港损耗数量'),2))
+                        .setValue('到厂数量',math.toFixed(dataSet.getDouble('到厂数量') + tempData.getDouble('到厂数量'),2))
+                        .setValue('到厂损耗数量',math.toFixed(dataSet.getDouble('损耗数量') + tempData.getDouble('损耗数量'),2))
+                        .setValue('到厂损耗比例',math.toFixed( (dataSet.getDouble('到厂损耗比例')>0?dataSet.getDouble('到厂损耗比例'):0) + (tempData.getDouble('到厂损耗比例')>0?tempData.getDouble('到厂损耗比例'):0),2))
+                        .setValue('总损耗数量',math.toFixed(dataSet.getDouble('总损耗数量') + tempData.getDouble('总损耗数量'),2))
+                        .setValue('总损耗比例',math.toFixed(dataSet.getDouble('总损耗比例') + tempData.getDouble('总损耗比例'),2))
+                        .setValue('采购合同', dataSet.getString('采购合同号')).setValue('备注', dataSet.getString('备注'))
+                    }else{
+                        if(new Date(dataSet.getString('到货日期')).getDate() <= now.getDate()){
+                            tempData.setValue('到港数量',math.toFixed(dataSet.getDouble('到港数量') + tempData.getDouble('到港数量'),2))
+                            .setValue('出港数量',math.toFixed(dataSet.getDouble('出港数量') + tempData.getDouble('出港数量'),2))
+                            .setValue('出港损耗数量',math.toFixed(dataSet.getDouble('出港损耗数量') + tempData.getDouble('出港损耗数量'),2))
+                            .setValue('到厂数量',math.toFixed(dataSet.getDouble('到厂数量') + tempData.getDouble('到厂数量'),2))
+                            .setValue('到厂损耗数量',math.toFixed(dataSet.getDouble('损耗数量') + tempData.getDouble('损耗数量'),2))
+                            .setValue('到厂损耗比例',math.toFixed( (dataSet.getDouble('到厂损耗比例')>0?dataSet.getDouble('到厂损耗比例'):0) + (tempData.getDouble('到厂损耗比例')>0?tempData.getDouble('到厂损耗比例'):0),2))
+                            .setValue('总损耗数量',math.toFixed(dataSet.getDouble('总损耗数量') + tempData.getDouble('总损耗数量'),2))
+                            .setValue('总损耗比例',math.toFixed(dataSet.getDouble('总损耗比例') + tempData.getDouble('总损耗比例'),2))
+                            .setValue('采购合同', dataSet.getString('采购合同号')).setValue('备注', dataSet.getString('备注'))
+                        }
+                    }
                 }
             }
             reportData.append().setValue('月份', item).setValue('到港数量', tempData.current.getDouble('到港数量'))
