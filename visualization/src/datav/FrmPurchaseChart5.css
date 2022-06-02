@@ -246,43 +246,43 @@
 
 .stock14 {
     position: absolute;
-    left: 538px;
+    left: 450px;
     top: 197px;
 }
 
 .stock15 {
     position: absolute;
-    left: 538px;
+    left: 450px;
     bottom: 187px;
 }
 
 .stock16 {
     position: absolute;
-    left: 976px;
+    left: 800px;
     top: 120px;
 }
 
 .stock17 {
     position: absolute;
-    left: 976px;
-    bottom: 187px;
+    left: 798px;
+    bottom: 178px;
 }
 
 .stock18 {
     position: absolute;
-    left: 1414px;
-    top: 120px;
+    left: 1250px;
+    top: 106px;
 }
 
 .stock19 {
     position: absolute;
     left: 1414px;
-    bottom: 120px;
+    bottom: 160px;
 }
 
 .noNameBox {
     width: 168px;
-    border: 1px solid #174B5E;
+    /* border: 1px solid #174B5E; */
     height: 52px;
     text-align: center;
     line-height: 52px;
@@ -448,17 +448,18 @@
 }
 
 .box20 {
-    top: 74px;
+    top: 88px;
+    left: 15px;
 }
 
 .box21 {
-    top: 10px;
-    left: 180px;
+    top: -76px;
+    left: 15px;
 }
 
 .box22 {
-    top: 163px;
-    left: 180px;
+    top: 185px;
+    left: 15px;
 }
 
 .box23 {
@@ -472,53 +473,53 @@
 }
 
 .box25 {
-    top: calc(100% + 10px);
-    left: 95px;
+    top: calc(100% - 90px);
+    left: 180px;
 }
 
 .box26 {
-    top: 48px;
-    left: 180px;
+    top: -24px;
+    left: 160px;
 }
 
 .box27 {
-    top: 202px;
-    left: 180px;
+    top: 102px;
+    left: 160px;
 }
 
 .box28 {
-    top: 226px;
-    left: 0px;
+    top: 184px;
+    left: 15px;
 }
 
 .box29 {
-    top: 68px;
-    left: 0px;
+    top: -92px;
+    left: 15px;
 }
 
 .box30 {
     top: 70px;
-    left: 0px;
+    left: -150px;
 }
 
 .box31 {
     top: 226px;
-    left: 0px;
+    left: -150px;
 }
 
 .box32 {
     top: 378px;
-    left: 0px;
+    left: -150px;
 }
 
 .box33 {
     left: 260px;
-    top: -8px;
+    top: -40px;
 }
 
 .box34 {
     left: 260px;
-    top: 142px;
+    top: 136px;
 }
 
 .box35 {
