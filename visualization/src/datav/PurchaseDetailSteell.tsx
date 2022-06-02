@@ -127,7 +127,7 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
                     <TopHeader title='废铁今日收料数量（T）' handleCick={() => {
                         //@ts-ignore
-                        return aui.showPage('FrmPurchaseChart3', '采购数据管理中心', { index: 2 });
+                        return aui.showPage('FrmPurchaseChart3', '工业4.0-数字化供应链管理中心V1.0', { index: 2 });
                     }} />
                     <div className={styles.box} style={{ width: '1700px' }}>
                         <BorderBox9>

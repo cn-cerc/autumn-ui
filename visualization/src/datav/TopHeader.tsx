@@ -20,7 +20,7 @@ export default class Cards extends React.Component<CardTypeProps> {
         <Decoration8 className={styles.headerLeftDecoration} />
         <Decoration5 className={styles.headerCenterDecoration} />
         <Decoration8 className={styles.headerRightDecoration} reverse={true} />
-        <div className={styles.centerTitle} onClick={this.handleClick.bind(this)}>{this.props.title}</div>
+        <div className={styles.centerTitle} onClick={this.handleClick.bind(this)} dangerouslySetInnerHTML = {{__html: this.props.title}}></div>
       </div>
     )
   }

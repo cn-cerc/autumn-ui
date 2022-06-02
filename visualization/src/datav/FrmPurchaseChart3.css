@@ -307,3 +307,26 @@ table tr>th:nth-child(n+2)::before {
 .active {
     color: #66ff66;
 }
+
+.table1 table tbody tr {
+    height: 35px!important;
+}
+.table1 table tbody tr:nth-child(5)>td,.table1 table tbody tr:nth-child(6)>td{
+    color: rgb(102, 255, 102);
+}
+.table1 table tbody tr:nth-child(5)>td:first-child,.table1 table tbody tr:nth-child(6)>td:first-child,
+.table2 table tbody tr:nth-child(5)>td:first-child,.table2 table tbody tr:nth-child(7)>td:first-child{
+    color: #FFFFFF;
+}
+.table2 table tbody tr{
+    height: 32.2px!important;
+}
+.table2 table tbody tr:nth-child(5)>td,.table2 table tbody tr:nth-child(7)>td{
+    color: rgb(102, 255, 102);
+}
+.table3 table tbody tr{
+    height: 38.5px!important;
+}
+.table4 table tbody tr{
+    height: 30px!important;
+}

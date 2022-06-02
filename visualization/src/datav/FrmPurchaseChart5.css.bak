@@ -97,8 +97,8 @@
 }
 
 .nav>li {
-    margin-right: 35px;
-    font-size: 24px;
+    margin: 0 17.5px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -238,20 +238,25 @@
 
 .stock4 {
     position: absolute;
-    right: 220px;
+    right: 280px;
     top: 140px;
 }
 
 .stock5 {
     position: absolute;
-    right: 230px;
+    right: 300px;
     bottom: 110px;
 }
 
 .stock6 {
     position: absolute;
+<<<<<<< HEAD
     left: 140px;
     top: 45px;
+=======
+    left: 120px;
+    top: 100px;
+>>>>>>> hhc-change-kanban
 }
 
 .stock7 {
@@ -276,27 +281,36 @@
 
 .stock10 {
     position: absolute;
+<<<<<<< HEAD
     right: 250px;
     top: 166px;
+=======
+    right: 220px;
+    top: 233px;
+>>>>>>> hhc-change-kanban
     transform: translateY(-50%);
 }
 
 .stock11 {
     position: absolute;
+<<<<<<< HEAD
     right: 250px;
+=======
+    right: 220px;
+>>>>>>> hhc-change-kanban
     bottom: 233px;
     transform: translateY(50%);
 }
 
 .stock12 {
     position: absolute;
-    left: 30px;
+    left: 100px;
     top: 120px;
 }
 
 .stock13 {
     position: absolute;
-    left: 30px;
+    left: 100px;
     bottom: 222px;
 }
 
@@ -315,7 +329,7 @@
 .stock16 {
     position: absolute;
     left: 800px;
-    top: 90px;
+    top: 120px;
 }
 
 .stock17 {
@@ -327,7 +341,7 @@
 .stock18 {
     position: absolute;
     left: 1250px;
-    top: 86px;
+    top: 106px;
 }
 
 .stock19 {
@@ -422,7 +436,7 @@
 }
 
 .box3 {
-    top: -70px;
+    top: -40px;
     right: 140px;
     transform: translateY(-100%);
 }
@@ -433,17 +447,33 @@
 }
 
 .box51 {
-    top: calc(100% - 10px);
-    left: calc(100% + 275px);
+<<<<<<< HEAD
+    top: calc(100% + 10px);
+    left: 50%;
     transform: translateX(-50%);
     width: 200px;
 }
+
 
 .box5 {
     top: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%);
     width: 200px;
+=======
+    top: calc(100% - 48px);
+    left: calc(100% + 275px);
+    transform: translateX(-50%);
+    width: 200px;
+}
+
+
+.box5 {
+    top: calc(100% + 78px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+>>>>>>> hhc-change-kanban
 }
 
 .box6 {
@@ -463,12 +493,20 @@
 }
 
 .box9 {
+<<<<<<< HEAD
     bottom: 55px;
+=======
+    bottom: 98px;
+>>>>>>> hhc-change-kanban
     left: calc(100% + 20px);
 }
 
 .box10 {
+<<<<<<< HEAD
     bottom: 15px;
+=======
+    bottom: 68px;
+>>>>>>> hhc-change-kanban
     left: calc(100% + 40px);
 }
 
@@ -484,8 +522,13 @@
 }
 
 .box13 {
+<<<<<<< HEAD
     right: calc(100% + 30px);
     top: -20px;
+=======
+    right: calc(100% + 60px);
+    top: -60px;
+>>>>>>> hhc-change-kanban
 }
 
 .box14 {
@@ -505,92 +548,93 @@
 
 .box16 {
     left: calc(100% + 10px);
+<<<<<<< HEAD
     bottom: 10px;
+=======
+    bottom: -32px;
+>>>>>>> hhc-change-kanban
 }
 
 .box17 {
-    left:150px;
-    bottom: 216px;
+    bottom: 100%;
 }
 
 .box18 {
-    left:150px;
-    bottom: 28px;
+    bottom: 64px;
 }
 
 .box19 {
-    top: -56px;
-    left: 150px;
+    top: 74px;
 }
 
 .box20 {
-    top: -74px;
-    left: 0;
+    top: 88px;
+    left: 15px;
 }
 
 .box21 {
     top: -76px;
-    left: 0;
+    left: 15px;
 }
 
 .box22 {
-    top: 234px;
-    left: 0;
+    top: 185px;
+    left: 15px;
 }
 
 .box23 {
-    top: -36px;
-    left: 150px;
+    top: -40px;
+    left: 180px;
 }
 
 .box24 {
-    top: 76px;
-    left: 150px;
+    top: 50px;
+    left: 180px;
 }
 
 .box25 {
-    top: calc(100% - 60px);
-    left: 150px;
+    top: calc(100% - 90px);
+    left: 180px;
 }
 
 .box26 {
-    top: -14px;
-    left: 152px;
+    top: -24px;
+    left: 160px;
 }
 
 .box27 {
-    top: 108px;
-    left: 152px;
+    top: 102px;
+    left: 160px;
 }
 
 .box28 {
-    top: 170px;
+    top: 160px;
     left: 150px;
 }
 
 .box29 {
-    top: -34px;
+    top: -40px;
     left: 150px;
 }
 
 .box30 {
-    top: 64px;
+    top: 60px;
     left: 150px;
 }
 
 .box31 {
-    top: 208px;
+    top: 215px;
     left: 150px;
 }
 
 .box32 {
-    top: 364px;
+    top: 360px;
     left: 150px;
 }
 
 .box33 {
     left: 414px;
-    top: -24px;
+    top: -40px;
 }
 
 .box34 {
@@ -617,20 +661,13 @@
     color: #00f3ff;
 }
 
-.nameText{
-    color:#fff;
-    font-size: 16px;
-    transform: translate(0px,-46%);
+.imgToTop {
+    position: relative;
+    margin-bottom: 100px;
 }
-
-.stock12 .box,
-.stock13 .box,
-.stock14 .box,
-.stock15 .box,
-.stock16 .box,
-.stock17 .box,
-.stock18 .box,
-.stock19 .box
-{
-    min-width:188px;
+.xxx {
+    font-size: 100px;
+}
+.imgP {
+    text-align: center;
 }

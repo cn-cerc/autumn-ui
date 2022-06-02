@@ -25,7 +25,7 @@ function getMenus(options: ViewMenuMap) {
         list.push(
             <li key={key} onMouseLeave={(e)=>handleLeave(e)} onMouseEnter={(e)=>handleEnter(e)} onClick={handleClick.bind(this, val.href)}>
                 <img src={val.imgSrc}/>
-                <div>{key}</div>
+                <div dangerouslySetInnerHTML={{__html: key}}></div>
             </li>
         )
     })

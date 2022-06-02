@@ -112,6 +112,6 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}${this.props.title}`} key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='采购数据管理中心' hideIt={true} params={{index:2}}></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}${this.props.title}`} key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='工业4.0-数字化供应链管理中心V1.0' hideIt={true} params={{index:2}}></ReportDetail>
     }
 }
