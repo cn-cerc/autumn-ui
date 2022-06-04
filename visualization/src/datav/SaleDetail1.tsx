@@ -67,6 +67,9 @@ export default class SaleDetail1 extends React.Component<FrmReportTypeProps, Frm
                 }
             }
         })
+        while (reportData.size < 10) {
+            reportData.append().setValue('订单编号', '').setValue('客户名称', '').setValue('单价', '').setValue('销售数量', '').setValue('销售额', '').setValue('备注', '');
+        }
         this.setState({
             reportHead,
             reportData,
@@ -82,9 +85,9 @@ export default class SaleDetail1 extends React.Component<FrmReportTypeProps, Frm
         if (day < 10)
             day = `0${day}`;
         return <React.Fragment>
-            <div style={{ 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'position': 'fixed', 'top': '120px', 'left': '0', 'right': '0', 'zIndex': '1000' }}>
-                <span style={{ 'color': this.state.showOut ? '#fff' : '#66ff66', 'cursor': 'pointer' }} onClick={() => this.setShowOut(false)}>接单</span>
-                <span style={{ 'paddingLeft': '35px', 'color': this.state.showOut ? '#66ff66' : '#fff', 'cursor': 'pointer' }} onClick={this.setShowOut.bind(this, true)}>出货</span>
+            <div style={{ 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'position': 'fixed', 'top': '120px', 'left': '0', 'right': '0', 'zIndex': '1000', 'fontSize': '24px' }}>
+                <span style={{ 'color': this.state.showOut ? '#fff' : '#58f7ff', 'cursor': 'pointer' }} onClick={() => this.setShowOut(false)}>接单</span>
+                <span style={{ 'paddingLeft': '35px', 'color': this.state.showOut ? '#58f7ff' : '#fff', 'cursor': 'pointer', 'fontSize': '24px' }} onClick={this.setShowOut.bind(this, true)}>出货</span>
             </div>
             <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}今日${this.state.showOut ? '出货' : '接单'}动态（${month}月${day}日）`} key={String(this.state.showOut)} backHref='FrmPurchaseChart4' backTitle='工业4.0-数字化供应链管理中心V1.0' params={{ pageType1: this.props.pageType1 }}></ReportDetail>
         </React.Fragment>

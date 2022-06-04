@@ -314,7 +314,7 @@ table tr>th:nth-child(n+2)::before {
     height: 35px!important;
 }
 .table1 table tbody tr:nth-child(5)>td,.table1 table tbody tr:nth-child(6)>td{
-    color: rgb(102, 255, 102);
+    color: #58f7ff;
 }
 .table1 table tbody tr:nth-child(5)>td:first-child,.table1 table tbody tr:nth-child(6)>td:first-child,
 .table2 table tbody tr:nth-child(5)>td:first-child,.table2 table tbody tr:nth-child(7)>td:first-child{
@@ -324,7 +324,7 @@ table tr>th:nth-child(n+2)::before {
     height: 32.2px!important;
 }
 .table2 table tbody tr:nth-child(5)>td,.table2 table tbody tr:nth-child(7)>td{
-    color: rgb(102, 255, 102);
+    color: #58f7ff;
 }
 .table3 table tbody tr{
     height: 38.5px!important;

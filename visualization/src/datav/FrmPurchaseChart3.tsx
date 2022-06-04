@@ -833,16 +833,16 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 list.push(<Column code={value.name} name={key} width={value.width} textAlign='center' key={key} customText={(row: DataRow) => {
                     switch (type) {
                         // case 1:
-                        //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                        //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#58f7ff' }}>{row.getString('项次')}</span> : row.getString('项次');
                         //     break;
                         // case 2:
-                        //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日到厂数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                        //     return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日到厂数量（T）' || row.getString('项次') == '本月到厂数量（T）' ? <span style={{ color: '#58f7ff' }}>{row.getString('项次')}</span> : row.getString('项次');
                         //     break;
                         case 3:
-                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月入库数量（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日入库数量（T）' || row.getString('项次') == '本月入库数量（T）' ? <span style={{ color: '#58f7ff' }}>{row.getString('项次')}</span> : row.getString('项次');
                             break;
                         case 4:
-                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日收料（T）' ? <span style={{ color: '#66ff66' }}>{row.getString('项次')}</span> : row.getString('项次');
+                            return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次') == '今日收料（T）' ? <span style={{ color: '#58f7ff' }}>{row.getString('项次')}</span> : row.getString('项次');
                             break;
                         default:
                             return row.getString('项次').indexOf('牌价') > -1 ? <span>{row.getString('项次')}<span style={{ color: 'red', 'fontSize': '12px', 'transform': 'scale(0.8)' }}>我的钢铁网</span></span> : row.getString('项次');
