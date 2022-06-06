@@ -182,7 +182,7 @@
   background-image: url('../../img/bg.png');
   background-position: 0 -90px;
   transform: translateY(100%);
-  z-index: 101;
+  z-index: 1001;
 }
 
 .hideMenu {

@@ -47,7 +47,7 @@
     background-image: url('../../img/bg.png');
     background-position: 0 -90px;
     transform: translateY(100%);
-    z-index: 101;
+    z-index: 1001;
 }
 
 .hideMenu {
@@ -219,6 +219,11 @@
     top: 140px;
 }
 
+.stock1>img, .stock2>img, .stock3>img, .stock4>img, .stock5>img, .stock6>img, .stock7>img, .stock8>img, .stock9>img, .stock10>img, .stock11>img,  .stock12>img, .stock13>img, .stock14>img, .stock15>img, .stock16>img .stock17>img .stock18>img .stock10>img {
+    position: relative;
+    z-index: 1000;
+}
+
 .stock2 {
     position: absolute;
     left: 280px;
@@ -338,7 +343,7 @@
 
 .noNameBox {
     width: 168px;
-    /* border: 1px solid #174B5E; */
+    z-index: 1000;
     height: 52px;
     text-align: center;
     line-height: 52px;
