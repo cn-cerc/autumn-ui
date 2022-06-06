@@ -97,7 +97,7 @@
 }
 
 .nav>li {
-    margin:  0 17px;
+    margin: 0 17px;
     font-size: 24px;
     cursor: pointer;
 }
@@ -213,13 +213,34 @@
     width: 100px;
 }
 
+.stove3 {
+    width: 300px;
+    /* position: absolute;
+    left: 40px; */
+}
+
 .stock1 {
     position: absolute;
     left: 280px;
     top: 140px;
 }
 
-.stock1>img, .stock2>img, .stock3>img, .stock4>img, .stock5>img, .stock6>img, .stock7>img, .stock8>img, .stock9>img, .stock10>img, .stock11>img,  .stock12>img, .stock13>img, .stock14>img, .stock15>img, .stock16>img .stock17>img .stock18>img .stock10>img {
+.stock1>img,
+.stock2>img,
+.stock3>img,
+.stock4>img,
+.stock5>img,
+.stock6>img,
+.stock7>img,
+.stock8>img,
+.stock9>img,
+.stock10>img,
+.stock11>img,
+.stock12>img,
+.stock13>img,
+.stock14>img,
+.stock15>img,
+.stock16>img .stock17>img .stock18>img .stock10>img {
     position: relative;
     z-index: 1000;
 }
@@ -295,14 +316,14 @@
 
 .stock12 {
     position: absolute;
-    left: 30px;
-    top: 120px;
+    left: 135px;
+    top: 20px;
 }
 
 .stock13 {
     position: absolute;
-    left: 30px;
-    bottom: 222px;
+    left: 135px;
+    bottom: 480px;
 }
 
 .stock14 {
@@ -339,6 +360,57 @@
     position: absolute;
     left: 1250px;
     bottom: 160px;
+}
+
+.stock20 {
+    position: absolute;
+    left: 990px;
+    top: 100px;
+}
+
+.stock21 {
+    position: absolute;
+    left: 990px;
+    top: 290px;
+}
+
+.stock22 {
+    position: absolute;
+    left: 990px;
+    top: 480px;
+}
+
+.stock23 {
+    position: absolute;
+    left: 990px;
+    top: 670px;
+}
+
+.stock24 {
+    position: absolute;
+    left: 135px;
+    bottom: 260px;
+}
+
+.stock25 {
+    position: absolute;
+    left: 1415px;
+    top: 100px;
+}
+.stock26 {
+    position: absolute;
+    left: 1415px;
+    top: 290px;
+}
+.stock27 {
+    position: absolute;
+    left: 1415px;
+    top: 480px;
+}
+.stock28 {
+    position: absolute;
+    left: 1415px;
+    top: 670px;
 }
 
 .noNameBox {
@@ -514,12 +586,12 @@
 }
 
 .box17 {
-    left:150px;
+    left: 150px;
     bottom: 216px;
 }
 
 .box18 {
-    left:150px;
+    left: 150px;
     bottom: 28px;
 }
 
@@ -618,14 +690,34 @@
     top: 300px;
 }
 
+.box38 {
+    left: -380px;
+    bottom: 20px;
+}
+
+.box39 {
+    left: 150px;
+    bottom: 28px;
+}
+
+.box40 {
+    left: -190px;
+    top: 60px;
+}
+
+.box41 {
+    left: 150px;
+    top: 0px;
+}
+
 .number {
     color: #00f3ff;
 }
 
-.nameText{
-    color:#fff;
+.nameText {
+    color: #fff;
     font-size: 16px;
-    transform: translate(0px,-46%);
+    transform: translate(0px, -46%);
 }
 
 .stock12 .box,
@@ -635,18 +727,37 @@
 .stock16 .box,
 .stock17 .box,
 .stock18 .box,
-.stock19 .box
-{
-    min-width:188px;
+.stock19 .box {
+    min-width: 188px;
 }
 
 .imgToTop {
     position: relative;
     margin-bottom: 100px;
 }
+
 .xxx {
     font-size: 100px;
 }
+
 .imgP {
     text-align: center;
-    }
+}
+
+.imgBox {
+    position: absolute;
+    top: 10px;
+    right: -65px;
+}
+
+.noNameBox1 {
+    position: absolute;
+    top: 0;
+    left: 110%;
+}
+
+.noNameBox2 {
+    position: absolute;
+    top: 0;
+    left: 170%;
+}
