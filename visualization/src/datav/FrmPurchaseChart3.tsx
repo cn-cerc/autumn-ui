@@ -55,69 +55,8 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             }]]),
             ltype: this.props.index || 1,
             rtype: 3,
-            main2Data: [
-                { value: 3.9, name: '锰' },
-                { value: 2, name: '硅' },
-                { value: 1.4, name: '钒' },
-                { value: 1.2, name: '钨' },
-                { value: 1, name: '钛' },
-                { value: 1.3, name: '钼' }
-            ],
-            main3Data: [
-                {
-                    name: 'A站',
-                    data: [4.3, 2.5, 3.5, 4.5, 2],
-                    type: 'line',
-                    symbolSize: 8,
-                    smooth: true,
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#fff',
-                        fontSize: 13
-                    },
-
-                },
-                {
-                    name: 'B站',
-                    data: [2.4, 4.4, 1.8, 2.8, 1],
-                    type: 'line',
-                    symbolSize: 8,
-                    smooth: true,
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#fff',
-                        fontSize: 13
-                    }
-                },
-                {
-                    name: 'C站',
-                    data: [1, 2, 3, 5, 4],
-                    type: 'line',
-                    symbolSize: 8,
-                    smooth: true,
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#fff',
-                        fontSize: 13
-                    }
-                },
-                {
-                    name: 'D站',
-                    data: [1, 2, 2, 3, 1.8],
-                    type: 'line',
-                    symbolSize: 8,
-                    smooth: true,
-                    label: {
-                        show: true,
-                        position: 'top',
-                        color: '#fff',
-                        fontSize: 13
-                    }
-                }
-            ],
+            main2Data: [],
+            main3Data: [],
             ironOreList: new DataSet(), //铁矿石=》煤炭 数据
             mineralList: new DataSet(), //矿石 数据
             alloyList: new DataSet(), //合金 数据
@@ -270,13 +209,13 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let xxx = new DataSet();
             dateListOne.first();
             while (dateListOne.fetch()) {
-                if (dateListOne.getString('项次') == '今日湿度检测（%）' || dateListOne.getString('项次') == '今日品位检测（%）') {
+                if (dateListOne.getString('项次') == '今日湿度检测' || dateListOne.getString('项次') == '今日品位检测') {
                     xxx.append().
                         setValue('项次', dateListOne.getString('项次')).
-                        setValue('磁铁矿', dateListOne.getString('磁铁矿')).
-                        setValue('赤铁矿', dateListOne.getString('赤铁矿')).
-                        setValue('褐铁矿', dateListOne.getString('褐铁矿')).
-                        setValue('菱铁矿', dateListOne.getString('菱铁矿'))
+                        setValue('磁铁矿', dateListOne.getString('磁铁矿') + "%").
+                        setValue('赤铁矿', dateListOne.getString('赤铁矿') + "%").
+                        setValue('褐铁矿', dateListOne.getString('褐铁矿') + "%").
+                        setValue('菱铁矿', dateListOne.getString('菱铁矿') + "%")
                 }
                 if (dateListOne.getString('项次') == '仓库容量（T）') {
                     tksList[0][0] = dateListOne.getString('磁铁矿')
@@ -1150,25 +1089,13 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 },
                 type: 'category',
                 data: [{
-                    value: '磁铁矿',
+                    value: '进口矿',
                     textStyle: {
                         fontSize: 14,
                         color: '#fff'
                     }
                 }, {
-                    value: '赤铁矿',
-                    textStyle: {
-                        fontSize: 14,
-                        color: '#fff'
-                    }
-                }, {
-                    value: '褐铁矿',
-                    textStyle: {
-                        fontSize: 14,
-                        color: '#fff'
-                    }
-                }, {
-                    value: '菱铁矿',
+                    value: '国产矿',
                     textStyle: {
                         fontSize: 14,
                         color: '#fff'
@@ -1200,7 +1127,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     initMain2() {
         var myChart = echarts.init(document.getElementById('main1'));
         var option = {
-            color: ['#61ede7', '#6fc7ff', '#daa4fd', '#fe8589', '#ff8ebf', '#ffdc57'],
+            color: ['#E4E626', '#1087E7', '#008E9F', '#D150EF', '#E77049', '#D4407E'],
             textStyle: {
                 color: '#fff'
             },
@@ -1273,7 +1200,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     initMain3() {
         var myChart = echarts.init(document.getElementById('main3'));
         var option = {
-            color: ['#61ede7', '#6fc7ff', '#daa4fd', '#fe8589'],
+            color: ['#E4E626', '#1087E7', '#008E9F', '#D150EF'],
             textStyle: {
                 color: '#fff'
             },
@@ -1361,8 +1288,8 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     }
     getTable3() { //铁矿石采购动态 table
         let reportHead = new DataRow();
-        reportHead.setValue('项次', { name: '项次', width: '20' }).setValue('磁铁矿', { name: '磁铁矿', width: '13' })
-            .setValue('赤铁矿', { name: '赤铁矿', width: '13' }).setValue('褐铁矿', { name: '褐铁矿', width: '13' }).setValue('菱铁矿', { name: '菱铁矿', width: '13' });
+        reportHead.setValue('项次', { name: '项次', width: '33' }).setValue('进口矿', { name: '磁铁矿', width: '33' })
+            .setValue('国产矿', { name: '赤铁矿', width: '33' });
         return this.getHtmlFun(reportHead, this.state.mineralList, 2);
     }
     getTable4() { //废钢采购动态 table
