@@ -572,9 +572,9 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 let obj = {
                     type: 'line',
                     symbolSize: 8,
-                    smooth: true,
+                    // smooth: true,
                     label: {
-                        show: true,
+                        // show: true,
                         position: 'top',
                         color: '#fff',
                         fontSize: 13
@@ -1201,6 +1201,15 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         var myChart = echarts.init(document.getElementById('main3'));
         var option = {
             color: ['#E4E626', '#1087E7', '#008E9F', '#D150EF'],
+            tooltip:{
+                trigger:'axis',
+                axisPointer:{
+                    type:'cross',
+                    label:{
+                        backgroundColor:'#6a7982'
+                    }
+                }
+            },
             textStyle: {
                 color: '#fff'
             },

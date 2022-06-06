@@ -42,12 +42,12 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     componentDidMount(): void {
         let canvas = document.getElementById('canvas') as HTMLDivElement;
-        this.timer = setInterval(() => {
+        // this.timer = setInterval(() => {
             let navIndex = this.state.navIndex + 1;
             if (navIndex > 2)
                 navIndex = 0;
             showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
-        }, 30000)
+        // }, 30000)
         this.myChart = echarts.init(canvas);
         switch (this.state.navIndex) {
             case 0:
@@ -132,15 +132,15 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     getProcess1() {
         return <div className={styles.main}>
             <div className={styles.stock1}>
-                <img src="./img/焦煤厂.gif" className={styles.jmc} onClick={() => {
-                    this.toEmployee(0, '焦煤厂', 0, 2, '吨/天', 'vedio6')
+                <img src="./img/焦化厂.gif" className={styles.jmc} onClick={() => {
+                    this.toEmployee(0, '焦化厂', 0, 2, '吨/天', 'vedio6')
                 }} />
-                <div className={`${styles.nameBox1} ${styles.nameBox}`}>焦煤厂</div>
+                <div className={`${styles.nameBox1} ${styles.nameBox}`}>焦化厂</div>
                 <div className={`${styles.box1} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日领料（煤）：<span className={styles.number}>5</span>T</li>
-                            <li>本月领料（煤）：<span className={styles.number}>100</span>T</li>
+                            <li>今日领料（煤）：<span className={styles.number}>5.5</span>T</li>
+                            <li>本月领料（煤）：<span className={styles.number}>100.1</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -148,44 +148,80 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>今日产出（焦煤）：<span className={styles.number}>4.8</span>T</li>
-                            <li>本月产出（焦煤）：<span className={styles.number}>96</span>T</li>
+                            <li>本月产出（焦煤）：<span className={styles.number}>96.9</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+                <div className={`${styles.box2ss} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日产出（焦油）：<span className={styles.number}>5.0</span>T</li>
+                            <li>本月产出（焦油）：<span className={styles.number}>130.6</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock2}>
-                <img src="./img/煤气回收2.gif" className={styles.mqhs} onClick={() => {
+                <img src="./img/煤渣.png" style={{width:'200px'}} onClick={() => {
+                    this.toEmployee(0, '粉煤', 0, 1, '立方米/时', 'vedio6')
+                }} />
+                <div className={`${styles.nameBox2} ${styles.nameBox}`} style={{width: '100%', textAlign: 'center'}}>粉煤</div>
+                <div className={`${styles.box2fm1} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>
+                                今日领料：
+                                <span className={styles.number}>50.3</span>m³
+                                </li>
+                            <li>
+                                本月领料：
+                               <span className={styles.number}>998.8</span>m³
+                                </li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+            </div>
+            <div className={styles.stock2s}>
+                <img src="./img/煤气回收.gif" className={styles.mqhs} onClick={() => {
                     this.toEmployee(0, '煤气回收', 0, 1, '立方米/时', 'vedio6')
                 }} />
-                <div className={`${styles.nameBox2} ${styles.nameBox}`}>煤气回收</div>
+                <div className={`${styles.nameBox2} ${styles.nameBox}`} style={{width: '100%', textAlign: 'center'}}>煤气回收</div>
                 <div className={`${styles.box3} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日回收煤气：<span className={styles.number}>50</span>m³</li>
-                            <li>本月回收煤气：<span className={styles.number}>1000</span>m³</li>
+                            <li>焦化今日煤气回收：<span className={styles.number}>50.5</span>m³</li>
+                            <li>焦化本月累计：<span className={styles.number}>1030.1</span>m³</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box4} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日回收煤气：<span className={styles.number}>30</span>m³</li>
-                            <li>本月回收煤气：<span className={styles.number}>600</span>m³</li>
+                            <li>
+                                今日回收煤气：
+                              <span className={styles.number}>30.2</span>m³
+                            </li>
+                            <li>
+                                本月回收煤气：
+                                <span className={styles.number}>603.7</span>m³
+                            </li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock3}>
-                <img src="./img/fire.gif" className={styles.fire1} onClick={() => {
+                <img src="./img/fire-3.gif" className={styles.fire1} onClick={() => {
                     this.toEmployee(0, '转炉', 0, 1, '吨/天', 'vedio8')
                 }} />
                 <div className={`${styles.box5} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>转炉温度：<span className={styles.number}>650°</span></li>
+                            <li>高炉温度：<span className={styles.number}>1271°</span></li>
                             <li>转炉压力：<span className={styles.number}>240<i>ata</i></span></li>
-                            <li>正常运行时间：<span className={styles.number}>41<i>h</i></span></li>
-                            <li>碳排放：<span className={styles.number}>41<i>T</i></span></li>
+                            <li>正常运行时间：<span className={styles.number}>46.1<i>h</i></span></li>
+                            <li>碳排放：<span className={styles.number}>42.7<i>T</i></span></li>
+                            <li>容积：<span className={styles.number}>43.1<i>h</i></span></li>
+                            <li>利用率：<span className={styles.number}>41.4<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -198,30 +234,86 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box6} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日产出（铁球）：<span className={styles.number}>6</span>T</li>
-                            <li>本月产出（铁球）：<span className={styles.number}>120</span>T</li>
+                            <li>
+                                合格率：
+                                <span className={styles.number}>93</span>%
+                                </li>
+                            <li>今日产出（球团）：
+                            <span className={styles.number}>5.8</span>T</li>
+                            <li>本月产出（球团）：
+                           <span className={styles.number}>121.0</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+                <div className={`${styles.box6s} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>
+                                合格率：
+                                <span className={styles.number}>94</span>%
+                                </li>
+                            <li>
+                                今日产出（烧结矿）：
+                               <span className={styles.number}>4.9</span>T</li>
+                            <li>
+                                本月产出（烧结矿）：
+                                <span className={styles.number}>107.0</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box7} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日领用（矿石）：<span className={styles.number}>8</span>T</li>
-                            <li>本月领用（矿石）：<span className={styles.number}>160</span>T</li>
+                            <li>今日领用（矿石）：<span className={styles.number}>8.1</span>T</li>
+                            <li>本月领用（矿石）：<span className={styles.number}>160.3</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
             <div className={styles.stock5}>
-                <img src="./img/铁水运转2.gif" className={styles.tsyz} onClick={() => {
+                <img src="./img/渣水.png" className={styles.tsyz} onClick={() => {
                     this.toEmployee(0, '铁水运转', 0, 1, '吨/天', 'vedio5')
                 }} />
-                <div className={`${styles.nameBox4} ${styles.nameBox}`}>铁水运转</div>
+                <div className={`${styles.nameBox4} ${styles.nameBox}`}>水渣</div>
                 <div className={`${styles.box8} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日输出（铁水）：<span className={styles.number}>5.8</span>T</li>
-                            <li>本月输出（铁水）：<span className={styles.number}>116</span>T</li>
+                            <li>
+                                今日产出（水渣）：
+                                <span className={styles.number}>5.4</span>T
+                                </li>
+                            <li>
+                                本月产出（水渣）：
+                                <span className={styles.number}>116.7</span>T
+                                </li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+            </div>
+            <div className={styles.stock5s}>
+                <img src="./img/铁水运转.gif" className={styles.tsyz} onClick={() => {
+                    this.toEmployee(0, '铁水运转', 0, 1, '吨/天', 'vedio5')
+                }} />
+                <div className={`${styles.nameBox4} ${styles.nameBox}`}>铁水运转</div>
+                <div className={`${styles.box8s} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>
+                                今日产出（铁水）：
+                                <span className={styles.number}>5.9</span>T
+                                </li>
+                            <li>
+                                本月产出（铁水）：
+                                <span className={styles.number}>118.1</span>T
+                                </li>
+                            <li>
+                                合格率：
+                                <span className={styles.number}>94</span>%
+                            </li>
+                            <li>
+                                单位成本：
+                                <span className={styles.number}>8.5</span>T
+                            </li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -233,38 +325,75 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         let nodes: any[] = [];
         var charts = {
             nodes,
-            linesData: [{
-                coords: [
-                    [493, 596],
-                    [493, 496],
-                    [878, 496],
+            linesData: [
+                {
+                coords: [ //焦煤厂指向火炉线条
+                    [530, 780],
+                    [810, 780],
+                    [810, 530],
                 ]
-            }, {
-                coords: [
-                    [852, 343],
-                    [780, 343],
-                    [780, 124],
-                    [440, 124],
+            }, 
+            {
+                coords: [ //焦煤厂指向煤气回收线条
+                    [495, 860],
+                    [495, 920],
+                    [1530, 920],
                 ]
-            }, {
-                coords: [
-                    [1518, 686],
-                    [1518, 496],
-                    [1045, 496],
+            }, 
+            
+            {
+                coords: [ //煤气回收指向转炉线条
+                    [1220, 680],
+                    [1550, 680],
+                    [1550, 790],
                 ]
-            }, {
-                coords: [
-                    [1075, 343],
-                    [1143, 343],
-                    [1143, 124],
-                    [1510, 124],
+            }, 
+            {
+                coords: [ //上转炉指向煤气回收线条
+                    [1040, 580],
+                    [1220, 580],
+                    [1220, 680],
                 ]
-            }, {
-                coords: [
-                    [404, 610],
-                    [404, 260],
+            }, 
+            {
+                coords: [ //烧结厂指向火炉线条
+                    [480, 200],
+                    [810, 200],
+                    [810, 530],
                 ]
-            }]
+            },
+             {
+                coords: [ //高炉右边线条
+                    [1055, 450],
+                    [1220, 450],
+                ]
+            },
+            {
+                coords: [ //铁渣左边线条
+                    [1220, 450],
+                    [1523, 450],
+                ]
+            },
+            {
+                coords: [ //铁水运转左边线条
+                    [1220, 450],
+                    [1220, 230],
+                    [1523, 230]
+                ]
+            },
+            {
+                coords: [ //粉煤指向转炉
+                    [480, 530],
+                    [810, 530],
+                ]
+            },
+            {
+                coords: [ //高炉左边短线
+                    [810, 530],
+                    [888, 530],
+                ]
+            },
+            ]
         }
 
         let option = {
@@ -313,6 +442,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 effect: {
                     show: true,
                     trailLength: 0.1,
+                    constantSpeed:50,
                     symbol: 'arrow',
                     color: 'orange',
                     symbolSize: 12
@@ -333,7 +463,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box9} ${styles.box}`} style={{ 'marginLeft': '0px' }}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>废钢供应：<span className={styles.number}>233.0</span>T</li>
+                            {/* <li>废钢供应：<span className={styles.number}>233.0</span>T</li> */}
                             <li>今日供应：<span className={styles.number}>36.0</span>T</li>
                             <li>本月供应：<span className={styles.number}>178.0</span>T</li>
                             <li>当前库存：<span className={styles.number}>200.0</span>T</li>
@@ -341,7 +471,22 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
             </div>
-            <div className={styles.stocks}>
+            <div className={styles.stock6_2}>
+                <img src="./img/合金.png" className={styles.hl} onClick={() => { this.toEmployee(0, '废钢', 1, 1, '吨/天', 'vedio9') }} />
+                <p className={styles.imgP}>合金</p>
+                <div className={styles.nameBox}></div>
+                <div className={`${styles.box9_1} ${styles.box}`} style={{ 'marginLeft': '0px' }}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            {/* <li>废钢供应：<span className={styles.number}>233.0</span>T</li> */}
+                            <li>今日供应：<span className={styles.number}>36.0</span>T</li>
+                            <li>本月供应：<span className={styles.number}>178.0</span>T</li>
+                            <li>当前库存：<span className={styles.number}>200.0</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+            </div>
+            <div className={styles.stock6_1}>
                 <img src="./img/铁水运转.gif" className={styles.fp} onClick={() => { this.toEmployee(0, '铁水运转', 1, 1, '吨/天', 'vedio5') }} />
                 <div className={styles.nameBox}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;铁水运转</div>
                 <div className={`${styles.box10} ${styles.box}`} >
@@ -370,83 +515,26 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock8} style={{ 'marginTop': '-20px' }}>
-                <img src="./img/fire.gif" className={styles.home} onClick={() => { this.toEmployee(0, '电炉', 1, 1, '吨/天', 'vedio7') }} />
+                <img src="./img/fire-3.gif" className={styles.home} onClick={() => { this.toEmployee(0, '电炉', 1, 1, '吨/天', 'vedio7') }}/>
                 <div className={`${styles.box51} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>电炉温度：<span className={styles.number}>650°</span></li>
-                            <li>电炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
+                            <li>电弧炉温度：<span className={styles.number}>1271°</span></li>
+                            <li>电弧炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
                             <li>正常运行：<span className={styles.number}>41<i>H</i></span></li>
                             <li>碳排放：<span className={styles.number}>41.0<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
-            </div>
-            <div className={styles.stock9} style={{ 'marginTop': '-20px' }}>
-                <img src="./img/fire-2.gif" className={styles.home} onClick={() => { this.toEmployee(0, '转炉', 1, 1, '吨/天', 'vedio4') }} />
-                <div className={`${styles.box5} ${styles.box}`} >
+                <div className={`${styles.box51_1} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>转炉温度：<span className={styles.number}>650°</span></li>
-                            <li>转炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
-                            <li>正常运行：<span className={styles.number}>41<i>H</i></span></li>
-                            <li>碳排放：<span className={styles.number}>41.0<i>T</i></span></li>
+                            <li>今日运转次数：<span className={styles.number}>99</span>n</li>
+                            <li>今日合格率：<span className={styles.number}>92</span>%</li>
                         </ul>
                     </BorderBox10>
                 </div>
-            </div>
-            <div className={styles.stock10}>
-                <div style={{ 'marginBottom': '100px' }}>
-                    <img src="./img/方坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '方坯', 1, 1, '吨/天', 'vedio2') }} />
-                    <p className={styles.imgP}>方坯</p>
-                </div>
-                <div className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
-                        <ul>
-                            <li>钢水今日供应：<span className={styles.number}>12.0</span>T</li>
-                            <li>钢水本月累计：<span className={styles.number}>132.0</span>T</li>
-                        </ul>
-                    </BorderBox10>
-                </div>
-                <div className={`${styles.box15} ${styles.box}  ${styles.noMinHeight}`}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
-                        <ul>
-                            <li>今日产出：<span className={styles.number}>23.0</span>T</li>
-                            <li>本月累计：<span className={styles.number}>232.0</span>T</li>
-                            <li>本月目标：<span className={styles.number}>240.0</span>T</li>
-                            <li>单位成本：<span className={styles.number}>5646</span>￥/T</li>
-                        </ul>
-                    </BorderBox10>
-                </div>
-                <div >
-                    <img src="./img/管坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '管坯', 1, 1, '吨/天', 'vedio1') }} />
-                    <p className={styles.imgP}>管坯</p>
-                </div>
-                <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`} style={{ 'marginLeft': '100px' }}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
-                        <ul>
-                            <li>钢水今日供应：<span className={styles.number}>14.0</span>T</li>
-                            <li>钢水本月累计：<span className={styles.number}>322.0</span>T</li>
-                        </ul>
-                    </BorderBox10>
-                </div>
-                <div className={`${styles.box16} ${styles.box}  ${styles.noMinHeight}`}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
-                        <ul>
-                            <li>今日产出：<span className={styles.number}>22.0</span>T</li>
-                            <li>本月累计：<span className={styles.number}>211.0</span>T</li>
-                            <li>本月目标：<span className={styles.number}>240.0</span>T</li>
-                            <li>单位成本：<span className={styles.number}>4544</span>￥/T</li>
-                        </ul>
-                    </BorderBox10>
-                </div>
-            </div>
-            <div className={styles.stock11}>
-                <div style={{ 'marginBottom': '100px' }}>
-                    <img src="./img/钢锭.png" className={styles.gp} onClick={() => { this.toEmployee(0, '钢锭', 1, 1, '吨/天', 'vedio3') }} />
-                    <p className={styles.imgP}>钢锭</p>
-                </div>
-                <div className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
+                <div className={`${styles.box51_3} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>钢水今日供应：<span className={styles.number}>5.0</span>T</li>
@@ -454,35 +542,129 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         </ul>
                     </BorderBox10>
                 </div>
-                <div className={`${styles.box15} ${styles.box}  ${styles.noMinHeight}`}>
+            </div>
+            <div className={styles.stock9} style={{ 'marginTop': '-20px' }}>
+                <img src="./img/fire-4.gif" className={styles.home} onClick={() => { this.toEmployee(0, '转炉', 1, 1, '吨/天', 'vedio4') }}/>
+                <div className={`${styles.box5} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日产出：<span className={styles.number}>10.0</span>T</li>
-                            <li>本月累计：<span className={styles.number}>200.0</span>T</li>
-                            <li>本月目标：<span className={styles.number}>220.0</span>T</li>
-                            <li>单位成本：<span className={styles.number}>5466</span>￥/T</li>
+                            <li>氧气炉温度：<span className={styles.number}>650°</span></li>
+                            <li>氧气炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
+                            <li>正常运行：<span className={styles.number}>41<i>H</i></span></li>
+                            <li>碳排放：<span className={styles.number}>41.0<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
-                <div style={{ 'marginTop': '40px' }} >
-                    <img src="./img/板坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '板坯', 1, 1, '吨/天', 'vedio2') }} />
+                <div className={`${styles.box5_2} ${styles.box}`} >
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日运转次数：<span className={styles.number}>101</span>n</li>
+                            <li>今日合格率：<span className={styles.number}>96</span>%</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+                <div className={`${styles.box5_4} ${styles.box}  ${styles.noMinHeight}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>钢水今日供应：<span className={styles.number}>5.0</span>T</li>
+                            <li>钢水本月累计：<span className={styles.number}>100.0</span>T</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+            </div>
+            <div className={styles.stock10}>
+               
+                <div >
+                    <img src="./img/板坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '管坯', 1, 1, '吨/天', 'vedio1') }} />
                     <p className={styles.imgP}>板坯</p>
                 </div>
-                <div className={`${styles.box14} ${styles.box} ${styles.box14s} ${styles.noMinHeight}`}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`} style={{ 'marginLeft': '100px' }}>
+                    {/* <BorderBox10 color={['#8aafff', '#88bdff']}> */}
                         <ul>
-                            <li>钢水今日供应：<span className={styles.number}>4.0</span>T</li>
-                            <li>钢水本月累计：<span className={styles.number}>80.0</span>T</li>
+                            <li>连续浇铸</li>
                         </ul>
-                    </BorderBox10>
+                    {/* </BorderBox10> */}
                 </div>
                 <div className={`${styles.box16} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日产出：<span className={styles.number}>3.8.0</span>T</li>
-                            <li>本月累计：<span className={styles.number}>70.0</span>T</li>
-                            <li>本月目标：<span className={styles.number}>65.0</span>T</li>
-                            <li>单位成本：<span className={styles.number}>3215</span>￥/T</li>
+                        <li>
+                                产出设备：
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>电弧炉</span></p>
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>氧气炉</span></p>
+                            </li>
+                            <li>
+                                今日产出：
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>23.0</span>T</p>
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>23.0</span>T</p>
+                            </li>
+                            <li>本月累计：<p style={{padding:'0 5px'}}><span className={styles.number}>232.0</span>T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>232.0</span>T</p></li>
+                            <li>本月目标：<p style={{padding:'0 5px'}}><span className={styles.number}>240.0</span>T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>240.0</span>T</p></li>
+                            <li>单位成本：<p style={{padding:'0 5px'}}><span className={styles.number}>5646</span>￥/T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>5646</span>￥/T</p></li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+            </div>
+            <div className={styles.stock11}>
+                <div style={{ 'marginBottom': '100px' }}>
+                    <img src="./img/方坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '钢锭', 1, 1, '吨/天', 'vedio3') }} />
+                    <p className={styles.imgP}>方坯</p>
+                </div>
+                <div className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
+                    {/* <BorderBox10 color={['#8aafff', '#88bdff']}> */}
+                        <ul>
+                            <li>连续浇铸</li>
+                        </ul>
+                    {/* </BorderBox10> */}
+                </div>
+                <div className={`${styles.box15} ${styles.box}  ${styles.noMinHeight}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                        <li>
+                                产出设备：
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>电弧炉</span></p>
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>氧气炉</span></p>
+                            </li>
+                            <li>
+                                今日产出：
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>23.0</span>T</p>
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>23.0</span>T</p>
+                            </li>
+                            <li>本月累计：<p style={{padding:'0 5px'}}><span className={styles.number}>232.0</span>T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>232.0</span>T</p></li>
+                            <li>本月目标：<p style={{padding:'0 5px'}}><span className={styles.number}>240.0</span>T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>240.0</span>T</p></li>
+                            <li>单位成本：<p style={{padding:'0 5px'}}><span className={styles.number}>5646</span>￥/T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>5646</span>￥/T</p></li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+            </div>
+            <div className={styles.stock11_1}>
+                <div style={{ 'marginBottom': '100px' }}>
+                    <img src="./img/方坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '钢锭', 1, 1, '吨/天', 'vedio3') }} />
+                    <p className={styles.imgP}>钢渣</p>
+                </div>
+                <div className={`${styles.box15_1} ${styles.box}  ${styles.noMinHeight}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                        <li>
+                                产出设备：
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>电弧炉</span></p>
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>氧气炉</span></p>
+                            </li>
+                            <li>
+                                今日产出：
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>23.0</span>T</p>
+                                <p style={{padding:'0 5px'}}><span className={styles.number}>23.0</span>T</p>
+                            </li>
+                            <li>本月累计：<p style={{padding:'0 5px'}}><span className={styles.number}>232.0</span>T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>232.0</span>T</p></li>
+                            <li>本月目标：<p style={{padding:'0 5px'}}><span className={styles.number}>240.0</span>T</p>
+                            <p style={{padding:'0 5px'}}><span className={styles.number}>240.0</span>T</p></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -494,63 +676,84 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         let nodes: any[] = [];
         var charts = {
             nodes,
-            linesData: [{
-                coords: [
-                    [320, 750],
-                    [885, 750],
+            linesData: [
+                {
+                coords: [ //制氧厂左边线条
+                    [146, 750],
+                    [90, 750],
+                    [90, 220],
+                    [885, 220],
                 ]
-            }, {
-                coords: [
+            }, 
+            {
+                coords: [ //铁水运转 右边线条
                     [325, 186],
-                    [669, 186],
-                    [669, 346],
+                    [885, 186],
                 ]
-            }, {
-                coords: [
-                    [325, 450],
-                    [669, 450],
-                    [669, 346],
+            }, 
+            {
+                coords: [ //合金右边线条
+                    [320, 330],
+                    [669, 330],
                 ]
-            }, {
-                coords: [
-                    [669, 320],
-                    [890, 320],
+            }, 
+            {
+                coords: [ //合金右边往上线条
+                    [669, 330],
+                    [669, 750],
                 ]
-            }, {
-                coords: [
-                    [1040, 750],
+            },
+            {
+                coords: [ //合金至氧气炉条线
+                    [669, 330],
+                    [895, 330],
+                ]
+            },
+             {
+                coords: [ //电弧炉右边线条
+                    [1028, 750],
                     [1280, 750],
+                    [1280, 479],
                 ]
-            }, {
-                coords: [
-                    [1280, 750],
-                    [1280, 850],
-                    [1530, 850],
-                ]
-            }, {
-                coords: [
-                    [1280, 750],
+            }, 
+            {
+                coords: [ //上面板坯坯左边线条
                     [1280, 660],
                     [1530, 660],
                 ]
-            }, {
-                coords: [
+            }, 
+            {
+                coords: [ //氧气炉右边线条
                     [1040, 236],
                     [1280, 236],
+                    [1280, 479],
                 ]
-            }, {
-                coords: [
-                    [1280, 240],
+            }, 
+            {
+                coords: [ //下方方坯左边线条
                     [1280, 312],
                     [1540, 312],
                 ]
-            }, {
-                coords: [
-                    [1280, 233],
-                    [1280, 126],
-                    [1540, 126],
+            }, 
+            {
+                coords: [ //钢渣左边线条
+                    [1280, 478],
+                    [1388, 478],
                 ]
-            }]
+            }, 
+            {
+                coords:[ //废钢右边线条  
+                    [335, 618],
+                    [669, 618],
+                ]
+            },
+            {
+                coords:[ //氧气炉左边线条
+                    [670, 750],
+                    [895, 750],
+                ]
+            }
+            ]
         }
 
         let option = {
@@ -599,6 +802,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 effect: {
                     show: true,
                     trailLength: 0.1,
+                    constantSpeed:50,
                     symbol: 'arrow',
                     color: 'orange',
                     symbolSize: 12
@@ -962,6 +1166,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 effect: {
                     show: true,
                     trailLength: 0.1,
+                    constantSpeed:50,
                     symbol: 'arrow',
                     color: 'orange',
                     symbolSize: 12

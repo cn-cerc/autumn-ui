@@ -90,9 +90,9 @@
     font-size: 14px;
 }
 
-.dataTale {
-    margin-top: 50px;
-}
+/* .dataTale {
+    margin-top: 10px;
+} */
 
 .dataTale::after {
     display: block;
@@ -176,13 +176,13 @@
 }
 
 .grid {
-    height: 430px;
+    height: 496px;
     display: flex;
     flex-direction: column;
 }
 
 .grid {
-    padding: 1rem 1.5rem;
+    padding: 0.8rem 1.2rem;
     box-sizing: border-box;
 }
 
@@ -194,7 +194,7 @@
     background-color: #00BAFF;
     border: 0;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 15px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -210,7 +210,7 @@
 .grid>div td {
     border: 0;
     line-height: 1rem;
-    font-size: 14px;
+    font-size: 15px;
     padding-left: 10px;
     padding-right: 12px;
 }
@@ -311,7 +311,7 @@ table tr>th:nth-child(n+2)::before {
 }
 
 .table1 table tbody tr {
-    height: 35px!important;
+    height: 35px !important;
 }
 .table1 table tbody tr:nth-child(5)>td,.table1 table tbody tr:nth-child(6)>td{
     color: #58f7ff;
@@ -321,14 +321,14 @@ table tr>th:nth-child(n+2)::before {
     color: #FFFFFF;
 }
 .table2 table tbody tr{
-    height: 32.2px!important;
+    height: 38px !important;
 }
 .table2 table tbody tr:nth-child(5)>td,.table2 table tbody tr:nth-child(7)>td{
     color: #58f7ff;
 }
 .table3 table tbody tr{
-    height: 38.5px!important;
+    height: 45.5px !important;
 }
 .table4 table tbody tr{
-    height: 30px!important;
+    height: 35px !important;
 }
