@@ -5,7 +5,7 @@ import styles from "./FrmMessage.css";
 import PageApi from "./PageApi";
 
 type FrmMessageTypeProps = {
-    userCode?: string
+    fromUser?: string
 }
 
 type FrmMessageTypeState = {
@@ -14,7 +14,8 @@ type FrmMessageTypeState = {
     messageData: DataSet,
     currentContact: number,
     contactName: string,
-    userCode: string,
+    contactDate: string,
+    fromUser: string,
     messageText: string,
     showMessage: boolean
 }
@@ -23,22 +24,23 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     private timer: any = null;
     constructor(props: FrmMessageTypeProps) {
         super(props);
-        let userCode = this.props.userCode || null;
+        let fromUser = this.props.fromUser || null;
         let showMessage = this.isPhone ? false : true;
         this.state = {
             timing: 15,
             contactData: new DataSet(),     //联系人DataSet
             messageData: new DataSet(),     //消息列表DataSet
-            currentContact: 0,      //当前选中的联系人下标
+            currentContact: this.isPhone ? -1 : 0,      //当前选中的联系人下标
             contactName: '',        //当前选中的联系人名称
-            userCode,       //当前选中的联系人Code字段
+            contactDate: '',        //当前选中人消息查询的日期
+            fromUser,       //当前选中的联系人Code字段
             messageText: '',        //当前输入的消息
             showMessage,        //是否展示消息列表
         }
     }
 
     componentDidMount(): void {
-        this.initData(this.state.userCode, this.state.currentContact);
+        this.initData();
         this.startTimer();
     }
 
@@ -53,9 +55,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         </div>
     }
 
-    async initData(code: string, num: number) {
+    async initData() {
         await this.getContactData();
-        this.getMessageData(code, num);
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.contactData);
+        ds.first();
+        let fromUser = ds.getString('AppUser_');
+        let date = ds.getString('LatestDate_');
+        let contactName = ds.getString('Name_');
+        if (!this.isPhone)
+            this.getMessageData(fromUser, date, contactName, 0);
     }
 
     async getContactData() {
@@ -65,30 +74,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         })
     }
 
-    async getMessageData(code: string, num: number) {
+    async getMessageData(fromUser: string, date: string, name: string, num: number) {
         let row = new DataRow();
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.contactData);
-        ds.first();
-        let fromUser = ds.getString('AppUser_');
-        let date = ds.getString('LatestDate_');
-        let contactName = ds.getString('Name_');
-        if (code || code == '') {
-            fromUser = code;
-            while (ds.fetch()) {
-                if (ds.getString('AppUser_') == code) {
-                    date = ds.getString('LatestDate_');
-                    contactName = ds.getString('Name_') || '未知发件人';
-                }
-            }
-        }
         row.setValue('FromUser_', fromUser).setValue('Date_', date);
         let messageData = await PageApi.getMessageDetails(row);
         this.setState({
             currentContact: num,
             messageData,
-            contactName,
-            userCode: code
+            contactName: name,
+            fromUser: fromUser,
+            contactDate: date
         });
     }
 
@@ -106,7 +101,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let num = ds.recNo - 1;
                 if (seconds < 10)
                     seconds = '0' + seconds;
-                list.push(<li key={ds.recNo} className={num == this.state.currentContact ? styles.selectContact : ''} onClick={this.handleClick.bind(this, num, ds.getString('AppUser_'))}>
+                list.push(<li key={ds.recNo} className={num == this.state.currentContact ? styles.selectContact : ''} onClick={this.handleClick.bind(this, ds.getString('AppUser_'), ds.getString('LatestDate_'), name, num)}>
                     <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
                     <div>
                         <div className={styles.contactTitle}>
@@ -156,13 +151,17 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         return <ul className={styles.messageList}>{list}</ul>
     }
 
-    handleClick(num: number, userCode: string) {
-        this.getMessageData(userCode, num);
+    handleClick(fromUser: string, date: string, name: string, num: number) {
+        if (!this.isPhone)
+            this.getMessageData(fromUser, date, name, num);
+        else {
+            location.href = `./FrmNewMessage.details?fromUser=${fromUser}&date=${date}&name=${name}`
+        }
     }
 
     startTimer() {
         this.timer = setInterval(() => {
-            this.getMessageData(this.state.userCode, this.state.currentContact);
+            this.getMessageData(this.state.fromUser, this.state.contactDate, this.state.contactName, this.state.currentContact);
         }, this.state.timing * 1000)
     }
 
@@ -181,7 +180,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async handleSubmit(e: any) {
         e.preventDefault();
         let row = new DataRow();
-        row.setValue('ToUser_', this.state.userCode).setValue('Content_', this.state.messageText);
+        row.setValue('ToUser_', this.state.fromUser).setValue('Content_', this.state.messageText);
         let dataOut = await PageApi.replyMessage(row);
         console.log(dataOut)
     }

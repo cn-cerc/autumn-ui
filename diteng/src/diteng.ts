@@ -71,6 +71,7 @@ import { Loading } from "./tool/Loading";
 import Utils, { ClientStorage } from "./tool/Utils";
 import RapidInput from "./custom/RapidInput";
 import FrmMessage from "./page/FrmMessage";
+import FrmMessageDetails from "./page/FrmMessageDetails";
 
 export default {
     //地藤专用
@@ -156,4 +157,5 @@ export default {
     FrmOEMChange,
     //地藤消息页面
     FrmMessage,
+    FrmMessageDetails,
 }
