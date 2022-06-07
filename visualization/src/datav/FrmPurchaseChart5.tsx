@@ -826,8 +826,8 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box18} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>方坯今日供应：<span className={styles.number}>5.0</span>T</li>
-                            <li>方坯本月累计：<span className={styles.number}>44.0</span>T</li>
+                            <li>方坯今日供应：<span className={styles.number}>10.0</span>T</li>
+                            <li>方坯本月累计：<span className={styles.number}>95.5</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -842,8 +842,8 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box19} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>板坯今日供应：<span className={styles.number}>5.1</span>T</li>
-                            <li>板坯本月累计：<span className={styles.number}>52.3</span>T</li>
+                            <li>板坯今日供应：<span className={styles.number}>12.2</span>T</li>
+                            <li>板坯本月累计：<span className={styles.number}>118.4</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -857,16 +857,16 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box38} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日坯料供应：<span className={styles.number}>5.1</span>T</li>
-                            <li>坯料本月累计：<span className={styles.number}>52.3</span>T</li>
+                            <li>今日坯料供应：<span className={styles.number}>4.5</span>T</li>
+                            <li>坯料本月累计：<span className={styles.number}>55.3</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box40} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日煤气供应：<span className={styles.number}>5.1</span>T</li>
-                            <li>本月煤气供应: <span className={styles.number}>52.3</span>T</li>
+                            <li>今日煤气供应：<span className={styles.number}>5.1</span>m³</li>
+                            <li>本月煤气供应: <span className={styles.number}>52.3</span>m³</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -887,8 +887,8 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box40} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日煤气供应：<span className={styles.number}>5.1</span>T</li>
-                            <li>本月煤气供应: <span className={styles.number}>52.3</span>T</li>
+                            <li>今日煤气供应：<span className={styles.number}>6.5</span>m³</li>
+                            <li>本月煤气供应: <span className={styles.number}>42.3</span>m³</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -901,16 +901,16 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box38} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日坯料供应：<span className={styles.number}>5.1</span>T</li>
-                            <li>坯料本月累计：<span className={styles.number}>52.3</span>T</li>
+                            <li>今日坯料供应：<span className={styles.number}>6.1</span>T</li>
+                            <li>坯料本月累计：<span className={styles.number}>56.3</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box40} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日煤气供应：<span className={styles.number}>5.1<i>T</i></span></li>
-                            <li>本月煤气供应: <span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>今日煤气供应：<span className={styles.number}>8.5<i>m³</i></span></li>
+                            <li>本月煤气供应: <span className={styles.number}>33.3<i>m³</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -923,16 +923,16 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box38} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日坯料供应：<span className={styles.number}>5.1<i>T</i></span></li>
-                            <li>坯料本月累计：<span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>今日坯料供应：<span className={styles.number}>6.5<i>T</i></span></li>
+                            <li>坯料本月累计：<span className={styles.number}>50.0<i>T</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box40} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日煤气供应：<span className={styles.number}>5.1<i>T</i></span></li>
-                            <li>本月煤气供应: <span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>今日煤气供应：<span className={styles.number}>6.9<i>m³</i></span></li>
+                            <li>本月煤气供应: <span className={styles.number}>66.6<i>m³</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -948,8 +948,8 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box39} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>板坯今日供应：<span className={styles.number}>5.1<i>T</i></span></li>
-                            <li>板坯本月累计：<span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>板坯今日供应：<span className={styles.number}>27.0<i>m³</i></span></li>
+                            <li>板坯本月累计：<span className={styles.number}>194.5<i>m³</i></span></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -967,6 +967,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         <ul>
                             <li>今日产出：<span className={styles.number}>5.1<i>T</i></span></li>
                             <li>本月累计：<span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>单位成本：<span className={styles.number}>2322<i>￥/T</i></span></li>
                             <li>制成率：<span className={styles.number}>98<i>%</i></span></li>
                         </ul>
                     </BorderBox10>
@@ -985,6 +986,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         <ul>
                             <li>今日产出：<span className={styles.number}>5.1<i>T</i></span></li>
                             <li>本月累计：<span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>单位成本：<span className={styles.number}>3365<i>￥/T</i></span></li>
                             <li>制成率：<span className={styles.number}>98<i>%</i></span></li>
                         </ul>
                     </BorderBox10>
@@ -1003,6 +1005,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         <ul>
                             <li>今日产出：<span className={styles.number}>5.1<i>T</i></span></li>
                             <li>本月累计：<span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>单位成本：<span className={styles.number}>2633<i>￥/T</i></span></li>
                             <li>制成率：<span className={styles.number}>98<i>%</i></span></li>
                         </ul>
                     </BorderBox10>
@@ -1021,6 +1024,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         <ul>
                             <li>今日产出：<span className={styles.number}>5.1<i>T</i></span></li>
                             <li>本月累计：<span className={styles.number}>52.3<i>T</i></span></li>
+                            <li>单位成本：<span className={styles.number}>2365<i>￥/T</i></span></li>
                             <li>制成率：<span className={styles.number}>98<i>%</i></span></li>
                         </ul>
                     </BorderBox10>
