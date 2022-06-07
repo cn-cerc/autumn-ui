@@ -540,20 +540,34 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 {
                     name: 'A站',
                     data: [0, 0, 0, 0, 0, 0],
+                    // areaStyle: { //折线图 面积效果
                 },
                 {
                     name: 'B站',
                     data: [0, 0, 0, 0, 0, 0],
-
+                    // areaStyle: { //折线图 面积效果
                 },
                 {
                     name: 'C站',
                     data: [0, 0, 0, 0, 0, 0],
+                    // areaStyle: { //折线图 面积效果
                 },
                 {
                     name: 'D站',
                     data: [0, 0, 0, 0, 0, 0],
-
+                    // areaStyle: { //折线图 面积效果
+                    //     opacity: 0.8,
+                    //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    //     {
+                    //         offset: 0,
+                    //         color: 'rgb(128, 255, 165)'
+                    //     },
+                    //     {
+                    //         offset: 1,
+                    //         color: 'rgb(1, 191, 236)'
+                    //     }
+                    //     ])
+                    // }
                 }
             ]
             for (let i = 0; i < main3Data.length; i++) {
