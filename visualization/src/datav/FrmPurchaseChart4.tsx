@@ -74,12 +74,12 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             saleroom,
             refreshKey: new Date().getTime(),
             quotation: [
-                { title: '螺纹钢 今日挂牌价<span style="color: red">我的钢铁网</span>', quotation: 4970, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
-                { title: '型钢 今日挂牌价<span style="color: red">我的钢铁网</span>', quotation: 5100, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
-                { title: '带钢 今日挂牌价<span style="color: red">我的钢铁网</span>', quotation: 4940, trendNum: 20, percentage: '0.41%', date: '2022-05-01' },
-                { title: '板材 今日挂牌价<span style="color: red">我的钢铁网</span>', quotation: 4970, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
-                { title: '线材 今日挂牌价<span style="color: red">我的钢铁网</span>', quotation: 5000, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
-                { title: '管材 今日挂牌价<span style="color: red">我的钢铁网</span>', quotation: 5400, trendNum: 0, percentage: '0.00%', date: '2022-05-01' }
+                { title: '螺纹钢 今日挂牌价<span style="color: red; font-size:16px">我的钢铁网</span>', quotation: 4970, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
+                { title: '型钢 今日挂牌价<span style="color: red; font-size:16px">我的钢铁网</span>', quotation: 5100, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
+                { title: '带钢 今日挂牌价<span style="color: red; font-size:16px">我的钢铁网</span>', quotation: 4940, trendNum: 20, percentage: '0.41%', date: '2022-05-01' },
+                { title: '板材 今日挂牌价<span style="color: red; font-size:16px">我的钢铁网</span>', quotation: 4970, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
+                { title: '线材 今日挂牌价<span style="color: red; font-size:16px">我的钢铁网</span>', quotation: 5000, trendNum: 0, percentage: '0.00%', date: '2022-05-01' },
+                { title: '管材 今日挂牌价<span style="color: red; font-size:16px">我的钢铁网</span>', quotation: 5400, trendNum: 0, percentage: '0.00%', date: '2022-05-01' }
             ],
             timeFlag: null,
             timeNub: 30 * 1000,
@@ -729,7 +729,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             purchaseDataArr = purchaseDataArr2;
         }
         for (let i = 0; i < purchaseDataArr.length; i++) {
-            let type = 'solid', color = '', leagedName = '', opacity = 1;
+            let type = 'solid', color = '', leagedName = '', opacity = 1, show = false;
             if (i < 2) {
                 color = lineColir[0];
                 leagedName = purchaseLenged[0];
@@ -744,16 +744,17 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             if (i % 2 == 0) {
                 type = 'dotted';
                 opacity = 0.6;
+                show = true;
             }
             lineSeries.push({
                 name: leagedName,
                 type: 'line',
                 data: purchaseDataArr[i],
-                smooth: true,
+                // smooth: true,
                 itemStyle: {
                     normal: {
                         label: {
-                            show: true,
+                            show: show,
                             textStyle: {
                                 // color: lineColir[i],
                                 color: '#fff',
