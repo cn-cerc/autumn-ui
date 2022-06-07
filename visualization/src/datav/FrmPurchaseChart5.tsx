@@ -800,34 +800,17 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <img src="./img/方坯.png" className={styles.stove2} onClick={() => {
                         this.toEmployee(0, '方坯', 2, 1, '吨/天', 'vedio1')
                     }} />
-                    <div className={styles.nameText}>方坯</div>
+                    <div className={styles.nameText}>钢坯</div>
                 </div>
                 <div className={`${styles.box18} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul >
-                            <li>方坯今日供应：<span className={styles.number}>10.0</span>T</li>
-                            <li>方坯本月累计：<span className={styles.number}>95.5</span>T</li>
+                            <li>钢坯今日供应：<span className={styles.number}>10.0</span>T</li>
+                            <li>钢坯本月累计：<span className={styles.number}>95.5</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
             </div>
-            <div className={styles.stock13}>
-                <div className={styles.noNameBox}>
-                    <img src="./img/板坯.png" className={styles.stove2} onClick={() => {
-                        this.toEmployee(0, '板坯', 2, 1, '吨/天', 'vedio3')
-                    }} />
-                    <div className={styles.nameText}>板坯</div>
-                </div>
-                <div className={`${styles.box19} ${styles.box}  ${styles.noMinHeight}`}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
-                        <ul>
-                            <li>板坯今日供应：<span className={styles.number}>12.2</span>T</li>
-                            <li>板坯本月累计：<span className={styles.number}>118.4</span>T</li>
-                        </ul>
-                    </BorderBox10>
-                </div>
-            </div>
-
             <div className={styles.stock20}>
                 <div className={styles.noNameBox} style={{ 'width': 'auto' }}>
                     <img src="./img/设备-1.gif" className={styles.stove3} onClick={() => { this.toEmployee(0, '板坯', 2, 1, '吨/天', 'vedio3') }} />
@@ -1015,20 +998,14 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 // 方坯板坯
                 {
                     coords: [
-                        [270, 733],
-                        [570, 733],
+                        [270, 625],
+                        [570, 625],
                     ]
                 },
                 {
                     coords: [
-                        [270, 508],
-                        [570, 508],
-                    ]
-                },
-                {
-                    coords: [
-                        [270, 270],
-                        [570, 270],
+                        [270, 345],
+                        [570, 345],
                     ]
                 },
                 // 设备
