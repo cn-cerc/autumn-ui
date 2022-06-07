@@ -12,6 +12,7 @@
     font-size: 14px;
     color: #fff;
     margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .message {
