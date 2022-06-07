@@ -211,8 +211,6 @@
 
 .stove3 {
     width: 300px;
-    /* position: absolute;
-    left: 40px; */
 }
 
 .stock1 {
@@ -229,19 +227,19 @@
 .stock2 {
     position: absolute;
     left: 286px;
-    top: 362px
+    top: 338px;
 }
 .stock2s{
     position: absolute;
     top: 70px;
-    right: 200px;
+    right: 15px;
     transform: translate(-50%, -50%);
 }
 
 .stock3 {
     position: absolute;
     top: 380px;
-    left: 50%;
+    left: 53%;
     transform: translate(-50%, -50%);
 }
 
@@ -258,12 +256,12 @@
 
 .stock5 {
     position: absolute;
-    right: 228px;
+    right: 44px;
     bottom: 416px;
 }
 .stock5s {
     position: absolute;
-    right: 234px;
+    right: 49px;
     bottom: 180px;
 }
 
@@ -276,7 +274,7 @@
 .stock6_2 {
     position: absolute;
     left: 130px;
-    top: 512px;
+    top: 530px;
 }
 
 .stock6_1 {
@@ -287,7 +285,7 @@
 
 .stock7 {
     position: absolute;
-    top: 0;
+    top: 56px;
     left: 150px;
 }
 
@@ -521,13 +519,24 @@
 }
 
 .box2fm1{
-    top: 38px;
+    top: 64px;
     right: -294px;
 }
-/* .box2fm2{
-    top: 90px;
-    left: 198px;
-} */
+
+.box2s {
+    top: 36px;
+    left: calc(100% - -20px);
+}
+
+.box2ss {
+    top: 56px;
+    right: 242px;
+}
+
+.box2fm1{
+    top: 62px;
+    right: -294px;
+}
 
 .box3 {
     top: 142px;
@@ -602,12 +611,12 @@
     transform: translateY(-50%); 
 }
 .box9 {
-    bottom: 4px;
+    bottom: 32px;
     left: calc(100% + 12px);
 }
 
 .box9_1 {
-    bottom: 58px;
+    bottom: 32px;
     left: calc(100% + 20px);
 }
 
@@ -842,4 +851,10 @@
 .stock5s .box
 {
     min-width:240px;
+}
+
+.stock11 .box,
+.stock11_1 .box,
+.stock10 .box{
+    min-width:270px;
 }
