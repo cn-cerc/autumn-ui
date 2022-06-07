@@ -8,6 +8,7 @@ import ContractDialog from "./dialog/ContractDialog";
 import DriverBindingRecordDialog from "./dialog/DriverBindingRecordDialog";
 import DriverInfoDialog from "./dialog/DriverInfoDialog";
 import FleetDialog from "./dialog/FleetDialog";
+import MaintainVehicleDialog from "./dialog/MaintainVehicleDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 
@@ -22,4 +23,5 @@ export default {
     NumberPlateDialog,
     PayeeDialog,
     ContractDialog,
+    MaintainVehicleDialog,
 }
