@@ -43,10 +43,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     componentDidMount(): void {
         let canvas = document.getElementById('canvas') as HTMLDivElement;
         // this.timer = setInterval(() => {
-            let navIndex = this.state.navIndex + 1;
-            if (navIndex > 2)
-                navIndex = 0;
-            showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+        let navIndex = this.state.navIndex + 1;
+        if (navIndex > 2)
+            navIndex = 0;
+        showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
         // }, 30000)
         this.myChart = echarts.init(canvas);
         switch (this.state.navIndex) {
@@ -152,6 +152,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     </BorderBox10>
                 </div>
                 <div className={`${styles.box2ss} ${styles.box}`}>
+                    <img src="./img/热轧钢卷.png" style={{ width: '65px', position: 'absolute', top: '-65px', left: '50px' }} />
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>今日产出（焦油）：<span className={styles.number}>5.0</span>T</li>
@@ -162,7 +163,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             </div>
             <div className={styles.stock2}>
                 <img src="./img/粉煤.png" style={{ width: '200px' }} onClick={() => {
-                    this.toEmployee(0, '粉煤', 0, 1, '立方米/时', 'vedio6')
+                    this.toEmployee(0, '粉煤', 0, 1, '吨/天', 'vedio6')
                 }} />
                 <div className={`${styles.nameBox2} ${styles.nameBox}`} style={{ width: '100%', textAlign: 'center' }}>粉煤</div>
                 <div className={`${styles.box2fm1} ${styles.box}`}>
@@ -170,6 +171,20 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         <ul>
                             <li>今日领料：<span className={styles.number}>50.3</span>m³</li>
                             <li>本月领料：<span className={styles.number}>998.8</span>m³</li>
+                        </ul>
+                    </BorderBox10>
+                </div>
+            </div>
+            <div className={styles.stock2a}>
+                <img src="./img/粉煤.png" style={{ width: '130px' }} onClick={() => {
+                    this.toEmployee(0, '矿石', 0, 1, '吨/天', 'vedio6')
+                }} />
+                <div className={`${styles.nameBox2} ${styles.nameBox}`} style={{ width: '100%', textAlign: 'center' }}>矿石</div>
+                <div className={`${styles.box2fm2} ${styles.box}`}>
+                    <BorderBox10 color={['#8aafff', '#88bdff']}>
+                        <ul>
+                            <li>今日领料：<span className={styles.number}>45.3</span>m³</li>
+                            <li>本月领料：<span className={styles.number}>908.8</span>m³</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -204,11 +219,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>高炉温度：<span className={styles.number}>1271°</span></li>
-                            <li>转炉压力：<span className={styles.number}>240<i>ata</i></span></li>
                             <li>正常运行时间：<span className={styles.number}>46.1<i>h</i></span></li>
                             <li>碳排放：<span className={styles.number}>42.7<i>T</i></span></li>
-                            <li>容积：<span className={styles.number}>43.1<i>h</i></span></li>
-                            <li>利用率：<span className={styles.number}>41.4<i>T</i></span></li>
+                            <li>容积：<span className={styles.number}>43.1<i>m³</i></span></li>
+                            <li>利用率：<span className={styles.number}>3.8</span></li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -253,14 +267,8 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box8} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>
-                                今日产出（水渣）：
-                                <span className={styles.number}>5.4</span>T
-                            </li>
-                            <li>
-                                本月产出（水渣）：
-                                <span className={styles.number}>116.7</span>T
-                            </li>
+                            <li>今日产出（水渣）：<span className={styles.number}>5.4</span>T</li>
+                            <li>本月产出（水渣）：<span className={styles.number}>116.7</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -273,22 +281,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box8s} ${styles.box}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>
-                                今日产出（铁水）：
-                                <span className={styles.number}>5.9</span>T
-                            </li>
-                            <li>
-                                本月产出（铁水）：
-                                <span className={styles.number}>118.1</span>T
-                            </li>
-                            <li>
-                                合格率：
-                                <span className={styles.number}>94</span>%
-                            </li>
-                            <li>
-                                单位成本：
-                                <span className={styles.number}>8.5</span>T
-                            </li>
+                            <li>今日产出（铁水）：<span className={styles.number}>5.9</span>T</li>
+                            <li>本月产出（铁水）：<span className={styles.number}>118.1</span>T</li>
+                            <li>合格率：<span className={styles.number}>94</span>%</li>
+                            <li>单位成本：<span className={styles.number}>8.5</span>T</li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -315,7 +311,13 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         [1750, 920],
                     ]
                 },
-
+                {
+                    coords: [ //焦煤厂指向焦油线条
+                        [270, 810],
+                        [125, 810],
+                        [125, 785],
+                    ]
+                },
                 {
                     coords: [ //转炉指向煤气回收线条
                         [1220, 680],
@@ -338,34 +340,35 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     ]
                 },
                 {
-                    coords: [ //高炉右边线条
-                        [1075, 450],
-                        [1220, 450],
-                    ]
-                },
-                {
                     coords: [ //铁渣左边线条
-                        [1220, 450],
+                        [1075, 450],
                         [1710, 450],
                     ]
                 },
                 {
                     coords: [ //铁水运转左边线条
-                        [1220, 450],
-                        [1220, 230],
-                        [1710, 230]
+                        [1075, 420],
+                        [1220, 420],
+                        [1220, 180],
+                        [1720, 180]
                     ]
                 },
                 {
                     coords: [ //粉煤指向转炉
-                        [480, 530],
-                        [810, 530],
+                        [480, 590],
+                        [810, 590],
                     ]
                 },
                 {
                     coords: [ //高炉左边短线
                         [810, 530],
                         [968, 530],
+                    ]
+                },
+                {
+                    coords: [ //矿石右边线条
+                        [450, 350],
+                        [810, 350],
                     ]
                 },
             ]
@@ -417,10 +420,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 effect: {
                     show: true,
                     trailLength: 0.1,
-                    constantSpeed: 50,
+                    constantSpeed: 20,
                     symbol: 'arrow',
                     color: 'orange',
-                    symbolSize: 12
+                    symbolSize: 6
                 },
                 data: charts.linesData
             }]
@@ -438,9 +441,26 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box9} ${styles.box}`} style={{ 'marginLeft': '0px' }}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日供应：<span className={styles.number}>3.7</span>T</li>
-                            <li>本月供应：<span className={styles.number}>178.0</span>T</li>
-                            <li>当前库存：<span className={styles.number}>200.0</span>T</li>
+                            <li>
+                                消耗设备：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>电弧炉</span></p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>转炉</span></p>
+                            </li>
+                            <li>
+                                今日供应：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>3.7</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>3.9</span>T</p>
+                            </li>
+                            <li>
+                                本月供应：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>178.0</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>173.2</span>T</p>
+                            </li>
+                            <li>
+                                当前库存：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>200.0</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>200.0</span>T</p>
+                            </li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -452,9 +472,26 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box9_1} ${styles.box}`} style={{ 'marginLeft': '0px' }}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>今日供应：<span className={styles.number}>3.6</span>T</li>
-                            <li>本月供应：<span className={styles.number}>178.0</span>T</li>
-                            <li>当前库存：<span className={styles.number}>200.0</span>T</li>
+                            <li>
+                                消耗设备：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>电弧炉</span></p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>转炉</span></p>
+                            </li>
+                            <li>
+                                今日供应：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>3.3</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>3.2</span>T</p>
+                            </li>
+                            <li>
+                                本月供应：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>171.0</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>162.8</span>T</p>
+                            </li>
+                            <li>
+                                当前库存：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>210.0</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>204.5</span>T</p>
+                            </li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -481,7 +518,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         <ul>
                             <li>今日供氧：<span className={styles.number}>4.1</span>m³</li>
                             <li>本月累计：<span className={styles.number}>503.0</span>m³</li>
-                            <li>单位成本：<span className={styles.number}>4.0</span>m³</li>
+                            <li>单位成本：<span className={styles.number}>100</span>￥/m³</li>
                             <li>当前储存：<span className={styles.number}>785.0</span>m³</li>
                         </ul>
                     </BorderBox10>
@@ -493,7 +530,6 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
                             <li>电弧炉温度：<span className={styles.number}>1271°</span></li>
-                            <li>电弧炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
                             <li>正常运行：<span className={styles.number}>41<i>H</i></span></li>
                             <li>碳排放：<span className={styles.number}>41.0<i>T</i></span></li>
                         </ul>
@@ -521,8 +557,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 <div className={`${styles.box5} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
-                            <li>氧气炉温度：<span className={styles.number}>650°</span></li>
-                            <li>氧气炉压力：<span className={styles.number}>240<i>ATA</i></span></li>
+                            <li>转炉温度：<span className={styles.number}>650°</span></li>
                             <li>正常运行：<span className={styles.number}>41<i>H</i></span></li>
                             <li>碳排放：<span className={styles.number}>41.0<i>T</i></span></li>
                         </ul>
@@ -548,10 +583,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             <div className={styles.stock10}>
                 <div >
                     <img src="./img/板坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '管坯', 1, 1, '吨/天', 'vedio1') }} />
-                    <p className={styles.imgP}>板坯</p>
+                    <p className={styles.imgP}>钢坯</p>
                 </div>
                 <div className={`${styles.box14} ${styles.box}  ${styles.noMinHeight}`} style={{ 'marginLeft': '100px' }}>
-                    <ul style={{transform: 'translate(50px, 0px)'}}>
+                    <ul style={{ transform: 'translate(50px, 0px)' }}>
                         <li>连续浇铸</li>
                     </ul>
                 </div>
@@ -561,7 +596,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                             <li>
                                 产出设备：
                                 <p style={{ padding: '0 5px' }}><span className={styles.number}>电弧炉</span></p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>氧气炉</span></p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>转炉</span></p>
                             </li>
                             <li>
                                 今日产出：
@@ -589,12 +624,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             <div className={styles.stock11}>
                 <div style={{ 'marginBottom': '100px' }}>
                     <img src="./img/方坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '钢锭', 1, 1, '吨/天', 'vedio3') }} />
-                    <p className={styles.imgP}>方坯</p>
-                </div>
-                <div className={`${styles.box13} ${styles.box}  ${styles.noMinHeight}`}>
-                    <ul style={{transform: 'translate(50px, 0px)'}}>
-                        <li>连续浇铸</li>
-                    </ul>
+                    <p className={styles.imgP}>钢渣</p>
                 </div>
                 <div className={`${styles.box15} ${styles.box}  ${styles.noMinHeight}`}>
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
@@ -602,45 +632,23 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                             <li>
                                 产出设备：
                                 <p style={{ padding: '0 5px' }}><span className={styles.number}>电弧炉</span></p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>氧气炉</span></p>
-                            </li>
-                            <li>
-                                今日产出：
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>6.0</span>T</p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>6.3</span>T</p>
-                            </li>
-                            <li>本月累计：<p style={{ padding: '0 5px' }}><span className={styles.number}>170.0</span>T</p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>178.0</span>T</p></li>
-                            <li>本月目标：<p style={{ padding: '0 5px' }}><span className={styles.number}>210.0</span>T</p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>220.0</span>T</p></li>
-                            <li>单位成本：<p style={{ padding: '0 5px' }}><span className={styles.number}>5606</span>￥/T</p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>5744</span>￥/T</p></li>
-                        </ul>
-                    </BorderBox10>
-                </div>
-            </div>
-            <div className={styles.stock11_1}>
-                <div style={{ 'marginBottom': '100px' }}>
-                    <img src="./img/方坯.png" className={styles.gp} onClick={() => { this.toEmployee(0, '钢锭', 1, 1, '吨/天', 'vedio3') }} />
-                    <p className={styles.imgP}>钢渣</p>
-                </div>
-                <div className={`${styles.box15_1} ${styles.box}  ${styles.noMinHeight}`}>
-                    <BorderBox10 color={['#8aafff', '#88bdff']}>
-                        <ul>
-                            <li>
-                                产出设备：
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>电弧炉</span></p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>氧气炉</span></p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>转炉</span></p>
                             </li>
                             <li>
                                 今日产出：
                                 <p style={{ padding: '0 5px' }}><span className={styles.number}>4.1</span>T</p>
                                 <p style={{ padding: '0 5px' }}><span className={styles.number}>4.5</span>T</p>
                             </li>
-                            <li>本月累计：<p style={{ padding: '0 5px' }}><span className={styles.number}>200.0</span>T</p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>200.0</span>T</p></li>
-                            <li>本月目标：<p style={{ padding: '0 5px' }}><span className={styles.number}>240.0</span>T</p>
-                                <p style={{ padding: '0 5px' }}><span className={styles.number}>240.0</span>T</p></li>
+                            <li>
+                                本月累计：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>200.0</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>200.0</span>T</p>
+                            </li>
+                            <li>
+                                本月目标：
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>240.0</span>T</p>
+                                <p style={{ padding: '0 5px' }}><span className={styles.number}>240.0</span>T</p>
+                            </li>
                         </ul>
                     </BorderBox10>
                 </div>
@@ -658,80 +666,92 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         [146, 750],
                         [90, 750],
                         [90, 220],
-                        [855, 220],
+                        [855, 220]
                     ]
                 },
                 {
                     coords: [ //铁水运转 右边线条
                         [325, 180],
-                        [855, 180],
+                        [855, 180]
                     ]
                 },
                 {
                     coords: [ //合金右边线条
-                        [320, 280],
-                        [669, 280],
-                    ]
-                },
-                {
-                    coords: [ //合金右边往上线条
-                        [669, 280],
-                        [669, 735],
+                        [320, 265],
+                        [669, 265]
                     ]
                 },
                 {
                     coords: [ //合金至氧气炉条线
-                        [669, 280],
-                        [855, 280],
+                        [669, 265],
+                        [855, 265]
                     ]
                 },
+                {
+                    coords: [ //合金右边往上电弧炉线条
+                        [725, 265],
+                        [725, 700],
+                        [855, 700]
+                    ]
+                },
+
                 {
                     coords: [ //电弧炉右边线条
-                        [1065, 750],
-                        [1280, 750],
-                        [1280, 479],
+                        [1065, 709],
+                        [1280, 709],
+                        [1280, 660]
                     ]
                 },
                 {
-                    coords: [ //电弧炉炉左边线条
-                        [670, 735],
-                        [895, 735],
-                    ]
-                },
-                {
-                    coords: [ //上面板坯坯左边线条
+                    coords: [ //钢坯左边线条
                         [1280, 660],
-                        [1530, 660],
+                        [1570, 660]
                     ]
                 },
                 {
-                    coords: [ //氧气炉右边线条
-                        [1040, 236],
-                        [1280, 236],
+                    coords: [ //转炉右边线条
+                        [1040, 280],
+                        [1280, 280],
                         [1280, 479],
-                    ]
-                },
-                {
-                    coords: [ //下方方坯左边线条
-                        [1280, 312],
-                        [1540, 312],
-                    ]
-                },
-                {
-                    coords: [ //钢渣左边线条
-                        [1280, 478],
-                        [1388, 478],
+                        [1280, 660]
                     ]
                 },
                 {
                     coords: [ //废钢右边线条  
                         [310, 530],
-                        [600, 530],
-                        [600, 680],
-                        [600, 765],
-                        [870, 765],
+                        [650, 530],
+                        [650, 730],
+                        [870, 730]
                     ]
-                }
+                },
+                {
+                    coords: [ //废钢至转炉右边线条 
+                        [650, 530],
+                        [650, 300],
+                        [870, 300]
+                    ]
+                },
+                {
+                    coords: [ //电炉至钢渣线条
+                        [1050, 685],
+                        [1050, 530],
+                        [1380, 530],
+                        [1380, 312]
+                    ]
+                },
+                {
+                    coords: [ //转炉至钢渣线条
+                        [1030, 170],
+                        [1380, 170],
+                        [1380, 312],
+                    ]
+                },
+                {
+                    coords: [ //钢渣左边线条
+                        [1380, 312],
+                        [1540, 312]
+                    ]
+                },
             ]
         }
 
@@ -781,10 +801,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 effect: {
                     show: true,
                     trailLength: 0.1,
-                    constantSpeed: 50,
+                    constantSpeed: 20,
                     symbol: 'arrow',
                     color: 'orange',
-                    symbolSize: 12
+                    symbolSize: 6
                 },
                 data: charts.linesData
             }]
@@ -1119,10 +1139,10 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 effect: {
                     show: true,
                     trailLength: 0.1,
-                    constantSpeed: 50,
+                    constantSpeed: 20,
                     symbol: 'arrow',
                     color: 'orange',
-                    symbolSize: 12
+                    symbolSize: 6
                 },
                 data: charts.linesData
             }]
