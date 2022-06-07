@@ -41,7 +41,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
     private lineLenged: string[] = ['一区', '二区', '三区', '四区', '五区'];
     private xName: string[] = [];
     private xName2: string[] = [];
-    private lineColor = ['#D4407E', '#1087E7', '#008E9F', '#D150EF', '#E77049', '#E4E626'];
+    private lineColor = ['#A587FF', '#5CB4FE', '#FF8B4B', '#00D3A0', '#007CFF', '#FFB800'];
     constructor(props: PropsType) {
         super(props);
         let saleroom: Map<string, any> = new Map();
@@ -499,29 +499,29 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 - barWidth / 2) * -1;
 
         let colorArr = [{
-            topColor: '#E79A49',
+            topColor: '#A5B1FF',
             bottomColor: '#00ffdb',
-            lineColor: ['#E77049', '#00DDdb'],
+            lineColor: ['#A587FF', '#00DDdb'],
             textColor: '#00DDdb'
         }, {
-            topColor: '#10AFE7',
+            topColor: '#5CC4FE',
             bottomColor: '#1b963b',
-            lineColor: ['#1087E7', '#1b963b'],
+            lineColor: ['#5CB4FE', '#1b963b'],
             textColor: '#B9E2A5'
         }, {
-            topColor: '#00B19F',
+            topColor: '#FFA64B',
             bottomColor: '#1C71D4',
-            lineColor: ['#008E9F', '#1C71D4'],
+            lineColor: ['#FF8B4B', '#1C71D4'],
             textColor: '#fff'
         }, {
-            topColor: '#D17BEF',
+            topColor: '#00ECA0',
             bottomColor: '#ebbb06',
-            lineColor: ['#D150EF', '#ebbb06'],
+            lineColor: ['#00D3A0', '#ebbb06'],
             textColor: '#F5DF90'
         }, {
-            topColor: '#D4797E',
+            topColor: '#0091FF',
             bottomColor: '#ebbb06',
-            lineColor: ['#D4407E', '#ebbb06'],
+            lineColor: ['#007CFF', '#ebbb06'],
             textColor: '#F5DF90'
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
@@ -715,7 +715,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
 
     initLineChart(option?: any) {
         let lineSeries = [];
-        let lineColir = ['#D150EF', '#1087E7', '#008E9F'];
+        let lineColir = ['#A587FF', '#5CB4FE', '#FF8B4B'];
         let purchaseLenged1 = ['螺纹钢', '型钢', '带钢'];
         let purchaseLenged2 = ['板材', '线材', '管材'];
         let purchaseDataArr1: any = this.state.page1Month12;

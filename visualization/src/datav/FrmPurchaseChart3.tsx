@@ -846,24 +846,24 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 - barWidth / 2) * -1;
 
         let colorArr = [{
-            topColor: '#E79A49',
+            topColor: '#A5B1FF',
             bottomColor: '#00ffdb',
-            lineColor: ['#E77049', '#00DDdb'],
+            lineColor: ['#A587FF', '#00DDdb'],
             textColor: '#00DDdb'
         }, {
-            topColor: '#10AFE7',
+            topColor: '#5CC4FE',
             bottomColor: '#1b963b',
-            lineColor: ['#1087E7', '#1b963b'],
+            lineColor: ['#5CB4FE', '#1b963b'],
             textColor: '#B9E2A5'
         }, {
-            topColor: '#00B19F',
+            topColor: '#FFA64B',
             bottomColor: '#1C71D4',
-            lineColor: ['#008E9F', '#1C71D4'],
+            lineColor: ['#FF8B4B', '#1C71D4'],
             textColor: '#fff'
         }, {
-            topColor: '#D17BEF',
+            topColor: '#00ECA0',
             bottomColor: '#ebbb06',
-            lineColor: ['#D150EF', '#ebbb06'],
+            lineColor: ['#00D3A0', '#ebbb06'],
             textColor: '#F5DF90'
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
@@ -990,24 +990,24 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 - barWidth / 2) * -1;
 
         let colorArr = [{
-            topColor: '#E79A49',
+            topColor: '#A5B1FF',
             bottomColor: '#00ffdb',
-            lineColor: ['#E77049', '#00DDdb'],
+            lineColor: ['#A587FF', '#00DDdb'],
             textColor: '#00DDdb'
         }, {
-            topColor: '#10AFE7',
+            topColor: '#5CC4FE',
             bottomColor: '#1b963b',
-            lineColor: ['#1087E7', '#1b963b'],
+            lineColor: ['#5CB4FE', '#1b963b'],
             textColor: '#B9E2A5'
         }, {
-            topColor: '#00B19F',
+            topColor: '#FFA64B',
             bottomColor: '#1C71D4',
-            lineColor: ['#008E9F', '#1C71D4'],
+            lineColor: ['#FF8B4B', '#1C71D4'],
             textColor: '#fff'
         }, {
-            topColor: '#D17BEF',
+            topColor: '#00ECA0',
             bottomColor: '#ebbb06',
-            lineColor: ['#D150EF', '#ebbb06'],
+            lineColor: ['#00D3A0', '#ebbb06'],
             textColor: '#F5DF90'
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
@@ -1115,7 +1115,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     initMain2() {
         var myChart = echarts.init(document.getElementById('main1'));
         var option = {
-            color: ['#E4E626', '#1087E7', '#008E9F', '#D150EF', '#E77049', '#D4407E'],
+            color: ['#A587FF', '#5CB4FE', '#FF8B4B', '#00D3A0', '#007CFF', '#FFB800'],
             textStyle: {
                 color: '#fff'
             },
@@ -1188,7 +1188,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     initMain3() {
         var myChart = echarts.init(document.getElementById('main3'));
         var option = {
-            color: ['#E4E626', '#1087E7', '#008E9F', '#D150EF'],
+            color: ['#A587FF', '#5CB4FE', '#FF8B4B', '#00D3A0'],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
