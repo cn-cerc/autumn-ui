@@ -311,7 +311,7 @@ table tr>th:nth-child(n+2)::before {
 }
 
 .table1 table tbody tr {
-    height: 35px !important;
+    height: 42px !important;
 }
 .table1 table tbody tr:nth-child(5)>td,.table1 table tbody tr:nth-child(6)>td{
     color: #58f7ff;
