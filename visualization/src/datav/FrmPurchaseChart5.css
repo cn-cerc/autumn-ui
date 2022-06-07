@@ -142,14 +142,12 @@
 }
 
 .home {
-    width: 220px;
+    width: 200px;
 }
 
 .hl {
     width: 188px;
 }
-
-
 
 .stock6_1 img {
     width: 160px;
@@ -291,14 +289,14 @@
 
 .stock8 {
     position: absolute;
-    top: 20px;
+    top: 125px;
     left: 50%;
     transform: translateX(-50%);
 }
 
 .stock9 {
     position: absolute;
-    top: 480px;
+    top: 514px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -556,13 +554,13 @@
     width: 200px;
 }
 .box51_1 {
-    top: calc(100% - 138px);
+    top: calc(100% - 144px);
     left: 306px;
     transform: translateX(-50%);
     width: 200px;
 }
 .box51_3 {
-    top: 86px;
+    top: 80px;
     left: 306px;
     transform: translateX(-50%);
     width: 200px;
@@ -575,13 +573,13 @@
     width: 200px;
 }
 .box5_2 {
-    top: 234px;
+    top: 200px;
     left: 306px;
     transform: translateX(-50%);
     width: 200px;
 }
 .box5_4{
-    top: 130px;
+    top: 110px;
     left: 306px;
     transform: translateX(-50%);
     width: 200px;

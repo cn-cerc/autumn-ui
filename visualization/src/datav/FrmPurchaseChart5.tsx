@@ -488,7 +488,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock8} style={{ 'marginTop': '-20px' }}>
-                <img src="./img/fire-3.gif" className={styles.home} onClick={() => { this.toEmployee(0, '电炉', 1, 1, '吨/天', 'vedio7') }} />
+                <img src="./img/电弧炉.gif" className={styles.home} onClick={() => { this.toEmployee(0, '电炉', 1, 1, '吨/天', 'vedio7') }} />
                 <div className={`${styles.box51} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
@@ -517,7 +517,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 </div>
             </div>
             <div className={styles.stock9} style={{ 'marginTop': '-20px' }}>
-                <img src="./img/fire-4.gif" className={styles.home} onClick={() => { this.toEmployee(0, '转炉', 1, 1, '吨/天', 'vedio4') }} />
+                <img src="./img/氧气转炉.gif" className={styles.home} onClick={() => { this.toEmployee(0, '转炉', 1, 1, '吨/天', 'vedio4') }} />
                 <div className={`${styles.box5} ${styles.box}`} >
                     <BorderBox10 color={['#8aafff', '#88bdff']}>
                         <ul>
@@ -658,13 +658,13 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         [146, 750],
                         [90, 750],
                         [90, 220],
-                        [885, 220],
+                        [855, 220],
                     ]
                 },
                 {
                     coords: [ //铁水运转 右边线条
                         [325, 180],
-                        [885, 180],
+                        [855, 180],
                     ]
                 },
                 {
@@ -676,20 +676,26 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 {
                     coords: [ //合金右边往上线条
                         [669, 280],
-                        [669, 720],
+                        [669, 735],
                     ]
                 },
                 {
                     coords: [ //合金至氧气炉条线
                         [669, 280],
-                        [895, 280],
+                        [855, 280],
                     ]
                 },
                 {
                     coords: [ //电弧炉右边线条
-                        [1028, 750],
+                        [1065, 750],
                         [1280, 750],
                         [1280, 479],
+                    ]
+                },
+                {
+                    coords: [ //电弧炉炉左边线条
+                        [670, 735],
+                        [895, 735],
                     ]
                 },
                 {
@@ -722,14 +728,8 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         [310, 530],
                         [600, 530],
                         [600, 680],
-                        [600, 750],
-                        [895, 750],
-                    ]
-                },
-                {
-                    coords: [ //氧气炉左边线条
-                        [670, 720],
-                        [895, 720],
+                        [600, 765],
+                        [870, 765],
                     ]
                 }
             ]
