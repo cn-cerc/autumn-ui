@@ -858,24 +858,24 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 - barWidth / 2) * -1;
 
         let colorArr = [{
-            topColor: '#00ffdb',
+            topColor: '#E4FF26',
             bottomColor: '#00ffdb',
-            lineColor: ['#00DDdb', '#00DDdb'],
+            lineColor: ['#E4E626', '#00DDdb'],
             textColor: '#00DDdb'
         }, {
-            topColor: '#1CD53C',
+            topColor: '#10AFE7',
             bottomColor: '#1b963b',
-            lineColor: ['#1CB53C', '#1b963b'],
+            lineColor: ['#1087E7', '#1b963b'],
             textColor: '#B9E2A5'
         }, {
-            topColor: '#1CA1D4',
+            topColor: '#00B19F',
             bottomColor: '#1C71D4',
-            lineColor: ['#1C71D4', '#1C71D4'],
+            lineColor: ['#008E9F', '#1C71D4'],
             textColor: '#fff'
         }, {
-            topColor: '#EBDB06',
+            topColor: '#D17BEF',
             bottomColor: '#ebbb06',
-            lineColor: ['#EBBB06', '#ebbb06'],
+            lineColor: ['#D150EF', '#ebbb06'],
             textColor: '#F5DF90'
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
@@ -1002,24 +1002,24 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             site = ((barWidth * siteSize + (barWidth * 0.1 * (siteSize - 1))) / 2 - barWidth / 2) * -1;
 
         let colorArr = [{
-            topColor: '#00ffdb',
+            topColor: '#E4FF26',
             bottomColor: '#00ffdb',
-            lineColor: ['#00DDdb', '#00DDdb'],
+            lineColor: ['#E4E626', '#00DDdb'],
             textColor: '#00DDdb'
         }, {
-            topColor: '#1CD53C',
+            topColor: '#10AFE7',
             bottomColor: '#1b963b',
-            lineColor: ['#1CB53C', '#1b963b'],
+            lineColor: ['#1087E7', '#1b963b'],
             textColor: '#B9E2A5'
         }, {
-            topColor: '#1CA1D4',
+            topColor: '#00B19F',
             bottomColor: '#1C71D4',
-            lineColor: ['#1C71D4', '#1C71D4'],
+            lineColor: ['#008E9F', '#1C71D4'],
             textColor: '#fff'
         }, {
-            topColor: '#EBDB06',
+            topColor: '#D17BEF',
             bottomColor: '#ebbb06',
-            lineColor: ['#EBBB06', '#ebbb06'],
+            lineColor: ['#D150EF', '#ebbb06'],
             textColor: '#F5DF90'
         }]
         for (let i = 0; i < this.lineLenged.length; i++) {
