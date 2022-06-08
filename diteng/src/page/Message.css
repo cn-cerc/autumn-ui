@@ -33,3 +33,22 @@
     border-radius: 4px;
     margin-top: 3px;
 }
+
+
+.msgRight{
+    flex-direction: row-reverse !important;
+}
+
+.msgRight .imageBox, .msgRight .message{
+    margin-right: 0 !important;
+    margin-left: 10px !important;
+}
+.msgRight .message{
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.msgRight .defaultMessage{
+    background-color: #d1e7ff;
+}
