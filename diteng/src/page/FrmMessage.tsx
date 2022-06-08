@@ -1,13 +1,13 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
-import React, {useRef} from "react";
+import React from "react";
 import DefaultMessage from "./DefaultMessage";
 import styles from "./FrmMessage.css";
 import PageApi from "./PageApi";
 
 type FrmMessageTypeProps = {
     fromUser?: string,
-    userCode:string,
-    userName:string
+    userCode: string,
+    userName: string
 }
 
 type FrmMessageTypeState = {
@@ -28,7 +28,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         super(props);
         let fromUser = this.props.fromUser || null;
         let showMessage = this.isPhone ? false : true;
-        
+
         this.state = {
             timing: 5,
             contactData: new DataSet(),     //联系人DataSet
@@ -102,16 +102,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let name = ds.getString('Name_') || '系统消息';
                 let date = new Date(ds.getString('LatestDate_'));
                 let hour = date.getHours();
-                let Minut: string | number = date.getMinutes()
+                let minut: string | number = date.getMinutes()
                 let num = ds.recNo - 1;
-                if (Minut < 10)
-                Minut = '0' + Minut;
+                if (minut < 10)
+                    minut = '0' + minut;
                 list.push(<li key={ds.recNo} className={num == this.state.currentContact ? styles.selectContact : ''} onClick={this.handleClick.bind(this, ds.getString('FromUser_'), ds.getString('LatestDate_'), name, num)}>
                     <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
                     <div>
                         <div className={styles.contactTitle}>
                             <span>{name}</span>
-                            <span>{`${hour}:${Minut}`}</span>
+                            <span>{`${hour}:${minut}`}</span>
                         </div>
                         <div>{ds.getString('LatestMessage_')}</div>
                     </div>
@@ -136,14 +136,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                         })
                     }}></textarea>
                     <div>
-                        <button className={this.state.fromUser?'':styles.disEvents}>发送(S)</button>
+                        <button className={this.state.fromUser ? '' : styles.disEvents}>发送(S)</button>
                     </div>
                 </form>
             </div>
         }
     }
 
-    getUserInfo(){
+    getUserInfo() {
         return <div className={styles.suerInfoBox}>
             <div>用户详细信息</div>
             <div>快速回复</div>
@@ -158,7 +158,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         while (ds.fetch()) {
             let siteR = false;
             let name = this.state.contactName;
-            if(ds.getString('AppUser_') == this.props.userCode){
+            if (ds.getString('AppUser_') == this.props.userCode) {
                 siteR = true;
                 name = this.props.userName;
             }
@@ -177,7 +177,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         else {
             location.href = `./FrmNewMessage.details?fromUser=${fromUser}&date=${date}&name=${name}`
         }
-        
+
     }
 
     startTimer() {
@@ -204,14 +204,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         row.setValue('ToUser_', this.state.fromUser).setValue('Content_', this.state.messageText);
         let dataOut = await PageApi.replyMessage(row);
         this.setState({
-            messageText:''
+            messageText: ''
         })
         this.getMessageData(this.state.fromUser, this.state.contactDate, this.state.contactName, this.state.currentContact);
         this.getContactData();
         console.log(dataOut)
     }
-    
-    scrollBottom(){
+
+    scrollBottom() {
         var el = document.getElementsByClassName(styles.messageList)[0];
         //@ts-ignore
         el.scrollTop = el.scrollHeight;
