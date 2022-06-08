@@ -828,7 +828,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         return <div className={styles.main}>
             <div className={styles.stock12}>
                 <div className={styles.noNameBox} style={{ 'marginTop': '130px' }}>
-                    <img src="./img/钢坯.png" className={styles.stove2} onClick={() => {
+                    <img src="./img/钢坯.png" className={styles.stove4} onClick={() => {
                         this.toEmployee(0, '钢坯', 2, 1, '吨/天', 'vedio1')
                     }} />
                     <div className={styles.nameText}>钢坯</div>
