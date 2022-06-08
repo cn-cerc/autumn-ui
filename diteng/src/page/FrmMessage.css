@@ -88,6 +88,26 @@
     color: #07c160;
 }
 
+.suerInfoBox{
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+    border-left: 1px solid #d6d6d6;
+}
+
+.disEvents{
+    pointer-events:none !important;
+    color:#c1c7c4 !important;
+}
+
+.msgTime{
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    line-height: 12px;
+}
+
 @media screen and (min-width: 768px) {
     .main {
         height: 0;

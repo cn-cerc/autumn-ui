@@ -5,7 +5,8 @@ import styles from "./Message.css"
 export type messageTypeProps = {
     row: DataRow;
     hideName?: boolean;
-    name: string
+    name: string,
+    siteR?:boolean
 }
 
 export default abstract class Message<T extends messageTypeProps = messageTypeProps, S = {}> extends React.Component<T, S> {
@@ -14,7 +15,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
     }
 
     render(): React.ReactNode {
-        return <div className={styles.main}>
+        return <div className={`${styles.main} ${ this.props.siteR?styles.msgRight:styles.msgLeft}`}>
             <div className={styles.imageBox}>{this.props.name.substring(this.props.name.length - 2)}</div>
             <div className={styles.message}>
                 {this.getName()}

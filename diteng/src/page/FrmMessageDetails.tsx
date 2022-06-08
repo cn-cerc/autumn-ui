@@ -7,7 +7,9 @@ import PageApi from "./PageApi";
 type FrmMessageDetailsTypeProps = {
     fromUser: string,
     date: string,
-    name: string
+    name: string,
+    userCode:string,
+    userName:string
 }
 
 type FrmMessageDetailsTypeState = {
@@ -34,6 +36,8 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let messageData = await PageApi.getMessageDetails(row);
         this.setState({
             messageData
+        },()=>{
+            this.scrollBottom();
         })
     }
 
@@ -47,7 +51,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     })
                 }}></textarea>
                 <div>
-                    <button>发送(S)</button>
+                    <button className={this.props.fromUser?'':styles.disEvents}>发送(S)</button>
                 </div>
             </form>
         </div>
@@ -59,8 +63,15 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         ds.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
+            let siteR = false;
+            let name = this.props.name;
+            if(ds.getString('FromUser_') == this.props.userCode){
+                siteR = true;
+                name = this.props.userName;
+            }
             list.push(<li key={ds.recNo} className={styles.messageLeft}>
-                <DefaultMessage row={ds.current} code='Content_' name={this.props.name} hideName={true}></DefaultMessage>
+                <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
+                <DefaultMessage row={ds.current} code='Content_' name={name} hideName={true} siteR={siteR}></DefaultMessage>
             </li>)
         }
         return <ul className={styles.messageList}>{list}</ul>
@@ -79,6 +90,16 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let row = new DataRow();
         row.setValue('ToUser_', this.props.fromUser).setValue('Content_', this.state.messageText);
         let dataOut = await PageApi.replyMessage(row);
+        this.setState({
+            messageText:''
+        })
+        this.getMessageData();
         console.log(dataOut)
+    }
+
+    scrollBottom(){
+        var el = document.getElementsByClassName(styles.messageList)[0];
+        //@ts-ignore
+        el.scrollTop = el.scrollHeight;
     }
 }

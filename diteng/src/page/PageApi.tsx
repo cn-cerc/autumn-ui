@@ -4,16 +4,16 @@ import DialogApi from "../dialog/DialogApi";
 export default class PageApi {
     /** 获取联系人列表 */
     static getContactList() {
-        return DialogApi.getService('SvrNewMessage.getUserList');
+        return DialogApi.getService('SvrMessages.messageSessions');
     }
 
     /** 获取消息详情 */
     static getMessageDetails(params: DataRow) {
-        return DialogApi.getDataOut('SvrNewMessage.getMessageDetail', params);
+        return DialogApi.getDataOut('SvrMessages.messageDetail', params);
     }
 
     /** 回复消息 */
     static replyMessage(params: DataRow) {
-        return DialogApi.getDataOut('SvrNewMessage.sendTo', params);
+        return DialogApi.getDataOut('SvrMessages.sendTo', params);
     }
 }
