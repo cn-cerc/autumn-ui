@@ -42,12 +42,12 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     componentDidMount(): void {
         let canvas = document.getElementById('canvas') as HTMLDivElement;
-        // this.timer = setInterval(() => {
-        let navIndex = this.state.navIndex + 1;
-        if (navIndex > 2)
-            navIndex = 0;
-        showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
-        // }, 30000)
+        this.timer = setInterval(() => {
+            let navIndex = this.state.navIndex + 1;
+            if (navIndex > 2)
+                navIndex = 0;
+            showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+        }, 30000)
         this.myChart = echarts.init(canvas);
         switch (this.state.navIndex) {
             case 0:
@@ -101,6 +101,17 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
     }
 
     titleClick() {
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        } else {
+            this.timer = setInterval(() => {
+                let navIndex = this.state.navIndex + 1;
+                if (navIndex > 2)
+                    navIndex = 0;
+                showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+            }, 30000)
+        }
         let showIndex = this.state.showIndex + 1;
         this.setState({
             showIndex
