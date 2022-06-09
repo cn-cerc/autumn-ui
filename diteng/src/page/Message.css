@@ -52,3 +52,28 @@
 .msgRight .defaultMessage{
     background-color: #d1e7ff;
 }
+
+.msgStatus{
+    color:#aaa;
+    font-size: 12px;
+}
+
+.specialMsg{
+    text-align: right;
+    padding: 15px 0 5px;
+}
+.specialMsg > button{
+    margin-left: 1.25rem;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    font-weight: 400;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    height:1.875rem;
+    line-height:1.875rem;
+}
+.rejectBtn{
+    background: #FFFFFF;
+    border: 1px solid #999999;
+    color:#333333;
+}

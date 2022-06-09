@@ -16,4 +16,14 @@ export default class PageApi {
     static replyMessage(params: DataRow) {
         return DialogApi.getDataOut('SvrMessages.sendTo', params);
     }
+
+    /** 获取用户备注 */
+    static getUserRemark(params: DataRow) {
+        return DialogApi.getDataOut('SvrUserRemark.userRemark', params);
+    }
+
+    /** 设置用户备注 */
+    static setUserRemark(params: DataRow) {
+        return DialogApi.getDataOut('SvrUserRemark.setUserRemark', params);
+    }
 }
