@@ -166,7 +166,7 @@
 }
 
 .gp {
-    width: 135px;
+    width: 124px;
 }
 
 .hl {
@@ -204,11 +204,15 @@
 }
 
 .stove2 {
-    width: 100px;
+    width: 124px;
 }
 
 .stove3 {
     width: 300px;
+}
+
+.stove4 {
+    width: 124px;
 }
 
 .stock1 {
@@ -383,7 +387,7 @@
 .stock24 {
     position: absolute;
     left: 135px;
-    top: 250px;
+    top: 200px;
 }
 
 .stock25 {
@@ -763,7 +767,7 @@
 
 .box39 {
     left: 150px;
-    bottom: 28px;
+    bottom: -25px;
 }
 
 .box40 {
