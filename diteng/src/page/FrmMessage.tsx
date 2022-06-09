@@ -238,6 +238,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         else {
             location.href = `./FrmNewMessage.details?fromUser=${fromUser}&date=${date}&name=${name}`
         }
+
     }
 
     startTimer() {
@@ -306,5 +307,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 })
             }
         }
+    }
+
+    scrollBottom() {
+        var el = document.getElementsByClassName(styles.messageList)[0];
+        //@ts-ignore
+        el.scrollTop = el.scrollHeight;
     }
 }

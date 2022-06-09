@@ -813,7 +813,6 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         if (this.state.isPhoneWeb)
             window.location.href = 'install?device=phone';
 
-        return;
         if (!this.isPhone) {
             try {
                 let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;

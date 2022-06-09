@@ -139,4 +139,10 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             showQuicReply: !this.state.showQuicReply
         })
     }
+
+    scrollBottom(){
+        var el = document.getElementsByClassName(styles.messageList)[0];
+        //@ts-ignore
+        el.scrollTop = el.scrollHeight;
+    }
 }
