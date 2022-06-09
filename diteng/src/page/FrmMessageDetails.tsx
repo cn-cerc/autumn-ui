@@ -51,7 +51,8 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
                 <textarea value={this.state.messageText} onChange={(e) => {
                     this.setState({
-                        messageText: e.target.value
+                        messageText: e.target.value,
+                        sendText: e.target.value
                     })
                 }}></textarea>
                 <div>
@@ -138,11 +139,5 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         this.setState({
             showQuicReply: !this.state.showQuicReply
         })
-    }
-
-    scrollBottom(){
-        var el = document.getElementsByClassName(styles.messageList)[0];
-        //@ts-ignore
-        el.scrollTop = el.scrollHeight;
     }
 }

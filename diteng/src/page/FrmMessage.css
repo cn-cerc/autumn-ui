@@ -450,12 +450,12 @@
 
     .quicReplyBox {
         position: relative;
-        width: 6.25rem;
+        width: 0;
     }
 
     .quicReplyBox>ul {
-        position: absolute;
-        left: 0;
+        position: fixed;
+        left: 10%;
         bottom: 3.125rem;
         width: 17.5rem;
         background: #fff;
