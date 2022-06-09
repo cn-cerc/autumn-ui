@@ -251,6 +251,7 @@ a {
         border: 1px solid #cccccc;
         border-radius: .25rem;
         margin-top: 1rem;
+        background-color: #fff;
     }
 
     .loginTitle {
@@ -282,8 +283,8 @@ a {
         text-align: center;
         color: #333333;
         font-weight: 500;
-        font-size: 2rem;
-        line-height: 2rem;
+        font-size: 28px;
+        line-height: 28px;
     }
 
     .contentRight {
@@ -330,7 +331,7 @@ a {
         border: none;
         outline: 0;
         vertical-align: middle;
-        font-size: 1.125rem;
+        font-size: 14px;
         color: #333;
         padding-left: 1rem;
         width: 100%;
@@ -338,7 +339,7 @@ a {
 
     .userMessage p input[type="text"]::-webkit-input-placeholder,
     .userMessage p input[type="password"]::-webkit-input-placeholder {
-        font-size: 1.5rem;
+        font-size: 14px;
         font-weight: 300;
         color: #ccc;
     }
@@ -565,7 +566,7 @@ a {
         line-height: 3.25rem;
         color: black;
         padding-left: 2.5rem;
-        font-size: 1.125rem;
+        font-size: 14px;
         box-sizing: border-box;
     }
 
