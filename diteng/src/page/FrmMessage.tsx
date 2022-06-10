@@ -4,6 +4,7 @@ import DefaultMessage from "./DefaultMessage";
 import styles from "./FrmMessage.css";
 import PageApi from "./PageApi";
 import SignMessage from "./SignMessage";
+import TaskMessage from "./TaskMessage";
 
 type FrmMessageTypeProps = {
     fromUser?: string,
@@ -139,6 +140,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let UnRead = 0;
                 if(!this.state.msgTypeStuteFlag){
                     UnRead = ds.getDouble('UnReadNum_') > 99 ? 99 : ds.getDouble('UnReadNum_');
+                    continue;
                 }
                 list.push(<li key={ds.recNo} className={num == this.state.currentContact ? styles.selectContact : ''} onClick={this.handleClick.bind(this, ds.getString('FromUser_'), ds.getString('LatestDate_'), name, num)}>
                     <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
@@ -257,6 +259,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             let mvClass = ds.getString('MVClass_'); //消息类别
             let messageName;
             switch (mvClass) {
+                case 'MVTask':
+                    messageName = TaskMessage;
+                    break;
                 case 'MVWorkflow':
                     messageName = SignMessage;
                     break;

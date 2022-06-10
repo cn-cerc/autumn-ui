@@ -18,12 +18,12 @@ export default class SignMessage extends Message<SignMessageTypeProps, SignMessa
     getMessage(): JSX.Element {
         let row = new DataRow();
         row.copyValues(this.props.row);
-        return <div className={styles.signMessage}>
+        return <div className={`${styles.signMessage, styles.defaultMessage}`}>
             <div dangerouslySetInnerHTML={{ __html: this.props.row.getString('Subject_') }}></div>
             <div dangerouslySetInnerHTML={{ __html: this.props.row.getString('Content_') }}></div>
             <div className={styles.specialMsg}>
-                <button>同意</button>
-                <button>不同意</button>
+                <button>确认</button>
+                {/* <button>不同意</button> */}
             </div>
         </div>
     }
