@@ -7,7 +7,7 @@ type UserTypeProps = {
 } & Partial<BaseDialogPropsType>
 
 type UserTypeState = {
-    list:any[],
+    list: string[],
     sheng: string,
     shi: string,
     xian: string,
@@ -47,7 +47,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             shi_HTML: '',
             xian_HTML: '',
             color: [],
-            list:[],
+            list: [],
         };
     }
 
@@ -80,7 +80,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     </div>
 
                     <div className={`${this.state.area2ShowHide ? styles.show : styles.hide} ${styles.site}`} id='Area2_' dangerouslySetInnerHTML={{ __html: this.state.shi_HTML }}>
-                        {this.getCityList()}
+                        {/* {this.getCityList()} */}
                     </div>
 
                     <div className={`${this.state.area3ShowHide ? styles.show : styles.hide} ${styles.site}`} id='Area3_' dangerouslySetInnerHTML={{ __html: this.state.xian_HTML }}>
@@ -99,10 +99,10 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
     }
 
     getCityList() {
-        let list = this.state.list.map((data,index) => {
-            return <a key={index}>{data}</a>
+        let list = this.provinceArr.map((province: string, index: number) => {
+            return <a key={index}>{province}</a>
         })
-        return <a ></a>
+        return list;
     }
 
     toggle(dom: any) {
@@ -244,10 +244,11 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
         }).then((data) => {
             return data.json();
         }).then((data) => {
-            console.log(data)
+            console.log(data.areaList)
             this_.setState({
-                list:data
+                list: data.areaList
             })
+            console.log(this.state.list)
             // $.each(data.areaList, function (key, value) {
             //     if (key == 0)
             //         // $(dom).append(
