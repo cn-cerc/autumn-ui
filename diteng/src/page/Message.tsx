@@ -19,7 +19,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
 
     render(): React.ReactNode {
         let _html: any = this.getMessage();
-        let mvClassJson;
+        let mvClassJson:any;
         switch (this.props.mvClass) {
             case 'MVDefault': // 默认类 正常展示
                 _html = this.getMessage();
@@ -31,38 +31,40 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
                     }
                 _html = <div className={`${_html.props.className}`}>
                     <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Subject_}` }}></div>
-                    <div dangerouslySetInnerHTML={{ __html: `${mvClassJson}` }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Content}` }}></div>
                     <div className={styles.specialMsg}>
-                        
-                        <button className={styles.agreeBtn} onClick={this.readMsgFun.bind(this)}>已读</button>
+                        <button className={styles.agreeBtn} onClick={this.readMsgFun.bind(this,_html.props.children.UID_)}>已读</button>
                     </div>
                 </div>
                 break;
             case 'MVWorkflow': // 签核类别 下方显示操作 同意，不同意，详情
                 _html = <div className={`${_html.props.className}`}>
-                    <div dangerouslySetInnerHTML={{ __html: `${_html.props.children}` }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Subject_}` }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Content}` }}></div>
                     <div className={styles.specialMsg}>
-                        <button className={styles.agreeBtn} onClick={this.agreeFun.bind(this)}>同意</button>
-                        <button>不同意</button>
+                        <button className={styles.agreeBtn} onClick={this.agreeFun.bind(this,_html.props.children.UID_)}>同意</button>
+                        <button className={styles.noAgreeBtn} onClick={this.agreeFun.bind(this,_html.props.children.UID_)}>不同意</button>
                         {/* <button>详情</button> */}
                     </div>
                 </div>
                 break;
             case 'MVTask': // 任务类别 显示出任务状态
-                    _html = <div className={`${_html.props.className}`}>
-                            <div dangerouslySetInnerHTML={{ __html: `${_html.props.children}` }}></div>
-                            <div className={styles.specialMsg}>
-                                {/* 显示出任务状态 */}
-                            </div>
-                        </div>
-                break;
-            case 'MVExport': // 导出消息 显示出导出状态
                 _html = <div className={`${_html.props.className}`}>
-                        <div dangerouslySetInnerHTML={{ __html: `${_html.props.children}` }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Subject_}` }}></div>
+                        <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Content.dataOut._message_}` }}></div>
                         <div className={styles.specialMsg}>
-                           {/* 显示出导出状态 */}
+                            <span>{_html.props.children.process==4?'完成':'任务进行中...'}</span>
                         </div>
                     </div>
+                break;
+            case 'MVExport': // 导出消息 显示出导出状态
+                    _html = <div className={`${_html.props.className}`}>
+                            <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Subject_}` }}></div>
+                            <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Content.dataOut._message_}` }}></div>
+                            <div className={styles.specialMsg}>
+                                <span>{_html.props.children.process==4?'完成':'任务进行中...'}</span>
+                            </div>
+                        </div>
                 break;
             default:
                 if(this.props.mvClass == '' && this.getMessage().props.children){
@@ -80,7 +82,6 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
                     <div dangerouslySetInnerHTML={{ __html: `${mvClassJson}` }}></div>
                 </div>
                 break;
-
         }
 
         return <div className={`${styles.main} ${this.props.siteR ? styles.msgRight : styles.msgLeft}`}>

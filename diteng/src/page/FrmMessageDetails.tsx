@@ -17,7 +17,7 @@ type FrmMessageDetailsTypeState = {
     messageText: string,
     showQuicReply: boolean,
     sendText:string,
-    quicReplyList:Array<string>
+    quicReplyList:Array<{text:string,uid:string}>
 }
 
 export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeProps, FrmMessageDetailsTypeState> {
@@ -28,7 +28,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             messageText: '',
             showQuicReply: false,
             sendText:'', //需要发送的消息
-            quicReplyList:['收到！','谢谢！','等等马上到！','快点吧，我等到花儿都谢了！']
+            quicReplyList:[],
         }
     }
 
@@ -61,8 +61,8 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     <div className={`${this.state.showQuicReply ? styles.show : styles.hide} ${styles.quicReplyBox}`}>
                         {this.getQuicReplyList()}
                     </div>
-                    <button className={`${this.props.fromUser ? '' : styles.disEvents} ${styles.quicReplyBtn}`} onClick={this.openQuicReplyList.bind(this)}>+</button>
-                    <button className={this.props.fromUser ? '' : styles.disEvents}>发送</button>
+                    <span className={`${this.props.fromUser ? '' : styles.disEvents} ${styles.quicReplyBtn}`} onClick={this.openQuicReplyList.bind(this)}>+</span>
+                    <button className={this.props.fromUser && this.state.messageText != '' ? '' : styles.disEvents}>发送</button>
                 </div>
             </form>
         </div>
@@ -71,6 +71,8 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     getMessageList() {
         let list = [];
         let ds = new DataSet();
+        let temp:number;
+        let showFalg:boolean = false;
         ds.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
@@ -84,8 +86,12 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                 systemMsg = true;
             }
             let mvClass = ds.getString('MVClass_'); //消息类别
+            temp = new Date(ds.getString('AppDate_')).getTime();
+            // if(){}
             list.push(<li key={ds.recNo} className={styles.messageLeft}>
+                
                 <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
+
                 <DefaultMessage row={ds.current} code='Content_' name={name} hideName={true} siteR={siteR} systemMsg={systemMsg} mvClass={mvClass}></DefaultMessage>
             </li>)
         }
@@ -101,6 +107,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     }
 
     async handleSubmit(e: any) {
+        if(this.state.sendText == '') return false;
         e.preventDefault();
         let row = new DataRow();
         row.setValue('ToUser_', this.props.fromUser).setValue('Content_', this.state.sendText);
@@ -122,7 +129,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let datalist = this.state.quicReplyList;
         let List:any = [];
         datalist.forEach((item)=>{
-            List.push(<li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>{item}</li>);
+            List.push(<li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)} key={item.uid}>{item.text}</li>);
         })
         return <ul>
             {List}
