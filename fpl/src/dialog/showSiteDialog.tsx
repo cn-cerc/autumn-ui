@@ -152,6 +152,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     $("#Area2_>a").css('background', '')
                     $(this).css('background', '#3273F4')
                     this_.onchange()
+                    
                     if ($("#shi").html() == this.innerHTML) {
                         return
                     } else {
@@ -175,6 +176,10 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     $("#xian").html(this.innerHTML)
                     $("#Area3_>a").css('background', '')
                     $(this).css('background', '#3273F4')
+                    let x = this_.props.inputId.split(",");
+                    $("#" + x[0]).val(this_.state.sheng + "/" + this_.state.shi + "/" + this_.state.xian)
+                    $("#" + x[1]).val(this_.state.sheng + "/" + this_.state.shi + "/" + this_.state.xian)
+                    this_.handleSelect();
                     return false
                 }
             }
@@ -195,9 +200,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             alert("请选择县区")
             return
         }
-        let x = this.props.inputId;
-        $("#"+x).val(this.state.sheng + "/" + this.state.shi + "/" + this.state.xian)
-        this.handleSelect();
+
     }
 
     fetch(site: string, dom: string) {
