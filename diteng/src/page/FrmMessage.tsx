@@ -21,7 +21,12 @@ type FrmMessageTypeState = {
     messageText: string,
     showMessage: boolean,
     sendText: string,
-    remarkText:string
+    remarkText:string,
+    quicReplyList:Array<{text:string,uid:string}>
+    quicReplyEditFlag:boolean,
+    HistoricalRecordsDay:number,
+    quicReplyItemIptText:string,
+    msgTypeStuteFlag:boolean
 }
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
@@ -43,6 +48,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             showMessage,        //是否展示消息列表
             sendText:'', //发送的消息
             remarkText:'',
+            quicReplyList:[],
+            quicReplyEditFlag:false,
+            HistoricalRecordsDay:1,
+            quicReplyItemIptText:'',
+            msgTypeStuteFlag:true,
         }
     }
 
@@ -71,6 +81,15 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let fromUser = ds.getString('FromUser_');
         let date = ds.getString('LatestDate_');
         let contactName = ds.getString('Name_');
+
+        var now = new Date();
+        var yyyy = now.getFullYear();
+        var m:any = now.getMonth()+1;
+        var day:any = now.getDate(); 
+        if(m<10) m = '0'+m;
+        if(day<10) day = '0'+day;
+        date = yyyy+'-'+m+'-'+day;
+
         if (!this.isPhone)
             this.getMessageData(fromUser, date, contactName, 0);
     }
@@ -94,6 +113,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             contactDate: date
         },()=>{
             this.getUserRemarkFun();
+            this.getQuicReplyListFun();
         });
         this.scrollBottom();
     }
@@ -115,11 +135,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     timeText = `${hour}:${minut}`;
                 }
                 let num = ds.recNo - 1;
-                let UnRead = ds.getDouble('UnReadNum_') > 99 ? 99 : ds.getDouble('UnReadNum_');
+                let UnRead = 0;
+                if(!this.state.msgTypeStuteFlag){
+                    UnRead = ds.getDouble('UnReadNum_') > 99 ? 99 : ds.getDouble('UnReadNum_');
+                }
                 list.push(<li key={ds.recNo} className={num == this.state.currentContact ? styles.selectContact : ''} onClick={this.handleClick.bind(this, ds.getString('FromUser_'), ds.getString('LatestDate_'), name, num)}>
                     <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
                     <div>
-                        <span className={styles.UnReadNum}>{UnRead}</span>
+                        {UnRead?<span className={styles.UnReadNum }>{UnRead}</span>:''}
                         <div className={styles.contactTitle}>
                             <span>{name}</span>
                             <span>{timeText}</span>
@@ -128,7 +151,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     </div>
                 </li>);
             }
-            return <ul className={styles.contactList}>{list}</ul>
+            return <ul className={styles.contactList}>
+                <li className={styles.msgTypeStatusBox} key="1-1">
+                    <div><span className={this.state.msgTypeStuteFlag?styles.msgTypeStute:''} onClick={this.msgTypeStuteFun.bind(this)}>所有消息</span></div>
+                    <div><span className={this.state.msgTypeStuteFlag?'':styles.msgTypeStute} onClick={this.msgTypeStuteFun.bind(this)}>未读消息</span></div>
+                </li>
+                {list}
+                </ul>
+
         }
     }
 
@@ -147,7 +177,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                         })
                     }}></textarea>
                     <div>
-                        <button className={this.state.fromUser ? '' : styles.disEvents}>发送(S)</button>
+                        <button className={this.state.fromUser && this.state.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
                     </div>
                 </form>
             </div>
@@ -166,7 +196,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 <div className={styles.quicReply}>
                     <p className={styles.rightBoxTitle}>
                         快速回复
-                        <span className={styles.editBtn}>编辑</span>
+                        <span className={styles.editBtn} onClick={this.quicReplyEdit.bind(this)}>{this.state.quicReplyEditFlag?'完成':'编辑'}</span>
                     </p>
                     <div>
                         {this.getQuicReplyList()}
@@ -177,15 +207,13 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     getUserInfoList() {
-
         //循环获取用户信息并拼接到ul
-
         return <ul>
             <li className={styles.userInfoItem}><span>{this.state.contactName}</span></li>
             <li className={styles.userInfoItem}>所属角色：<span>经理</span></li>
             <li className={styles.userInfoItem}>联系方式：<span>13266813644</span></li>
             <li className={styles.remarkBox}>
-                <p><span>备注</span><button onClick={this.setUserRemarkFun.bind(this)}>保存</button></p>
+                <p><span>备注</span><button onClick={this.setUserRemarkFun.bind(this)} className={this.state.remarkText==''?styles.disEvents:''}>保存</button></p>
                 <div>
                     <textarea className={styles.remarkClass} placeholder="请输入备注" value={this.state.remarkText} onChange={(e) => {
                         this.setState({
@@ -197,11 +225,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         </ul>
     }
     getQuicReplyList() {
-        return <ul>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>收到！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>谢谢！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>等等马上到！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>快点吧，我等到花儿都谢了！</li>
+        let datalist = this.state.quicReplyList;
+        let List:any = [];
+        datalist.forEach((item)=>{
+            List.push(<li className={styles.quicReplyItem} key={item.uid}><p onClick={(e) => this.quicReplySend(e)}>{item.text}</p><span className={`${styles.delQuicReplyItemBtn} ${this.state.quicReplyEditFlag?'':styles.hide}`} onClick={this.delQuicReplyItemFun.bind(this,item.uid)}>删除</span></li>);
+        })
+        List.push(<li key="11-01" className={`${styles.quicReplyItem} ${this.state.quicReplyEditFlag?'':styles.hide}`}><p><input type="text" value={this.state.quicReplyItemIptText} onChange={(e)=>{this.setState({
+            quicReplyItemIptText:e.target.value
+        })}} className={styles.quicReplyItemIpt} placeholder="请输入快捷回复内容..." /></p><span className={`${styles.addQuicReplyItemBtn} ${this.state.quicReplyEditFlag?'':styles.hide}`} onClick={this.addQuicReplyItemFun.bind(this)}>添加</span></li>);
+        return <ul className={this.state.quicReplyEditFlag?styles.editUlSkin:''}>
+            {List}
         </ul>
     }
 
@@ -225,19 +258,23 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
                 <DefaultMessage row={ds.current} code='Content_' name={name} hideName={false} siteR={siteR} systemMsg={systemMsg} msgStatus={ds.getString('Status_')} mvClass={mvClass}></DefaultMessage>
             </li>)
-
         }
-        return <ul className={styles.messageList}>{list}</ul>
+        return <ul className={styles.messageList}><li key="10-1" className={styles.historicalRecordsBox}><span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>查看历史记录</span></li>{list}</ul>
     }
 
     handleClick(fromUser: string, date: string, name: string, num: number) {
         this.setState({
-            remarkText:''
+            remarkText:'',
+            quicReplyItemIptText:''
         })
         if (!this.isPhone)
             this.getMessageData(fromUser, date, name, num);
         else {
-            location.href = `./FrmNewMessage.details?fromUser=${fromUser}&date=${date}&name=${name}`
+            this.setState({
+                currentContact: num
+            },()=>{
+                location.href = `./FrmNewMessage.details?fromUser=${fromUser}&date=${date}&name=${name}`
+            })
         }
 
     }
@@ -262,6 +299,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     async handleSubmit(e: any) {
         e.preventDefault();
+        if(this.state.sendText == '') return false;
         let row = new DataRow();
         row.setValue('ToUser_', this.state.fromUser).setValue('Content_', this.state.sendText);
         let dataOut = await PageApi.replyMessage(row);
@@ -308,5 +346,79 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 })
             }
         }
+    }
+
+    //获取快捷回复列表
+    async getQuicReplyListFun(){
+        let quicReplyList:Array<{text:string,uid:string}> = [];
+        let row = new DataRow();
+        let dataOut = await PageApi.getQuickReplyList(row);
+        let ds = new DataSet();
+        ds.appendDataSet(dataOut);
+        ds.first();
+        while (ds.fetch()) {
+            quicReplyList.push({text:ds.getString('reply_content_'),uid:ds.getString('uid_')});
+        }
+       this.setState({
+            quicReplyList
+       }) 
+    }
+
+    //新增一条快捷回复
+    async addQuicReplyItemFun(){
+        console.log(this.state.quicReplyItemIptText);
+        let List:Array<string> = [];
+        let row = new DataRow();
+        row.setValue('Content_',this.state.quicReplyItemIptText);//.setValue('UID_','');
+        let dataOutawait = await PageApi.setQuickReplyItem(row);
+        this.setState({
+            quicReplyItemIptText:''
+        },()=>{
+            this.getQuicReplyListFun();
+        })
+    }
+    //删除某条快捷回复
+    async delQuicReplyItemFun(uid:string){
+        let List:Array<string> = [];
+        let row = new DataRow();
+        row.setValue('UID_',uid);
+        let dataOutawait = await PageApi.delQuickReplyItem(row);
+        //待完成
+    }
+    //编辑快捷回复
+    quicReplyEdit(){
+        this.setState({
+            quicReplyEditFlag: !this.state.quicReplyEditFlag
+        })
+    }
+    //获取历史消息 每次点击都获取当前查询时间 前一天
+    async getHistoricalRecordsFun(){
+        let date:any;
+        var nowTime = new Date().getTime() - (this.state.HistoricalRecordsDay * 24 * 60 * 60 * 1000);
+        var now = new Date(nowTime);
+        var yyyy = now.getFullYear();
+        var m:any = now.getMonth()+1;
+        var day:any = now.getDate();
+        if(m<10) m = '0'+m;
+        if(day<10) day = '0'+day;
+        date = yyyy+'-'+m+'-'+day;
+        // this.getMessageData(this.state.fromUser, date, this.state.contactName, 0);
+        let row = new DataRow();
+        row.setValue('FromUser_', this.state.fromUser).setValue('Date_', date);
+        let messageData = await PageApi.getMessageDetails(row);
+        this.setState({
+            messageData,
+            contactDate: date,
+            HistoricalRecordsDay : this.state.HistoricalRecordsDay + 1
+        });
+    }
+
+    //切换消息类型
+    msgTypeStuteFun(){
+        this.setState({
+            msgTypeStuteFlag: !this.state.msgTypeStuteFlag
+        },()=>{
+            this.getContactList();
+        })
     }
 }
