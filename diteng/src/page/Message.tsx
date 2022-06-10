@@ -88,7 +88,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
             <div className={styles.imageBox}>{this.props.name.substring(this.props.name.length - 2)}</div>
             <div className={styles.message}>
                 {this.getName()}
-                {_html}
+                {this.getMessage()}
                 {this.props.siteR ? this.getReadMsg() : ''}
             </div>
         </div>

@@ -3,6 +3,7 @@ import React from "react";
 import DefaultMessage from "./DefaultMessage";
 import styles from "./FrmMessage.css";
 import PageApi from "./PageApi";
+import SignMessage from "./SignMessage";
 
 type FrmMessageTypeProps = {
     fromUser?: string,
@@ -111,7 +112,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             contactName: name,
             fromUser: fromUser,
             contactDate: date
-        },()=>{
+        }, () => {
             this.getUserRemarkFun();
             this.getQuicReplyListFun();
         });
@@ -173,7 +174,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     <textarea value={this.state.messageText} onChange={(e) => {
                         this.setState({
                             messageText: e.target.value,
-                            sendText : e.target.value
+                            sendText: e.target.value
                         })
                     }}></textarea>
                     <div>
@@ -254,9 +255,25 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 systemMsg = true;
             }
             let mvClass = ds.getString('MVClass_'); //消息类别
-            list.push(<li key={ds.recNo} className={styles.messageLeft}>
+            let messageName;
+            switch (mvClass) {
+                case 'MVWorkflow':
+                    messageName = SignMessage;
+                    break;
+                default:
+                    messageName = DefaultMessage;
+                    break;
+            }
+            list.push(<li key={ds.recNo}>
                 <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
-                <DefaultMessage row={ds.current} code='Content_' name={name} hideName={false} siteR={siteR} systemMsg={systemMsg} msgStatus={ds.getString('Status_')} mvClass={mvClass}></DefaultMessage>
+                {React.createElement(messageName, {
+                    row: ds.current,
+                    name,
+                    hideName: false,
+                    siteR
+                })}
+                {/* <SignMessage row={ds.current} name={name} hideName={false} siteR={siteR}></SignMessage> */}
+                {/* <DefaultMessage row={ds.current} code='Content_' name={name} hideName={false} siteR={siteR} systemMsg={systemMsg} msgStatus={ds.getString('Status_')} mvClass={mvClass}></DefaultMessage> */}
             </li>)
         }
         return <ul className={styles.messageList}><li key="10-1" className={styles.historicalRecordsBox}><span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>查看历史记录</span></li>{list}</ul>
@@ -305,7 +322,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let dataOut = await PageApi.replyMessage(row);
         this.setState({
             messageText: '',
-            sendText:'',
+            sendText: '',
         })
         this.getMessageData(this.state.fromUser, this.state.contactDate, this.state.contactName, this.state.currentContact);
         this.getContactData();
@@ -325,14 +342,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         })
     }
 
-    async setUserRemarkFun(){
+    async setUserRemarkFun() {
         let row = new DataRow();
         row.setValue('corp_no_', '目前不知道').setValue('UserCode_', this.state.fromUser)
-        .setValue('from_user_', this.props.userCode).setValue('Remark_', this.state.remarkText);
+            .setValue('from_user_', this.props.userCode).setValue('Remark_', this.state.remarkText);
         let dataOut = await PageApi.setUserRemark(row);
     }
 
-    async getUserRemarkFun(){
+    async getUserRemarkFun() {
         let row = new DataRow();
         row.setValue('UserCode_', this.state.fromUser)
         let dataOut = await PageApi.getUserRemark(row);
@@ -340,9 +357,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         ds.appendDataSet(dataOut);
         ds.first();
         while (ds.fetch()) {
-            if(ds.getString('remark_')){
+            if (ds.getString('remark_')) {
                 this.setState({
-                    remarkText:ds.getString('remark_')
+                    remarkText: ds.getString('remark_')
                 })
             }
         }
