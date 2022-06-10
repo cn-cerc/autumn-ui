@@ -7,6 +7,7 @@ type UserTypeProps = {
 } & Partial<BaseDialogPropsType>
 
 type UserTypeState = {
+    list:any[],
     sheng: string,
     shi: string,
     xian: string,
@@ -46,6 +47,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             shi_HTML: '',
             xian_HTML: '',
             color: [],
+            list:[],
         };
     }
 
@@ -78,7 +80,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     </div>
 
                     <div className={`${this.state.area2ShowHide ? styles.show : styles.hide} ${styles.site}`} id='Area2_' dangerouslySetInnerHTML={{ __html: this.state.shi_HTML }}>
-
+                        {this.getCityList()}
                     </div>
 
                     <div className={`${this.state.area3ShowHide ? styles.show : styles.hide} ${styles.site}`} id='Area3_' dangerouslySetInnerHTML={{ __html: this.state.xian_HTML }}>
@@ -94,6 +96,13 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             return <a key={index}>{province}</a>
         })
         return list;
+    }
+
+    getCityList() {
+        let list = this.state.list.map((data,index) => {
+            return <a key={index}>{data}</a>
+        })
+        return <a ></a>
     }
 
     toggle(dom: any) {
@@ -236,6 +245,9 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             return data.json();
         }).then((data) => {
             console.log(data)
+            this_.setState({
+                list:data
+            })
             // $.each(data.areaList, function (key, value) {
             //     if (key == 0)
             //         // $(dom).append(
