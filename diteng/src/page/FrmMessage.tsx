@@ -499,7 +499,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async fromDetailFun(){
         let row = new DataRow();
         row.setValue('FromUser_', this.state.fromUser);
-        let dataOut = await PageApi.getMessageDetails(row);
+        let dataOut = await PageApi.fromDetail(row);
         let ds = new DataSet();
         ds.appendDataSet(dataOut);
         ds.first();
