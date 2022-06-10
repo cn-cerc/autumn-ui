@@ -500,13 +500,20 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         row.setValue('FromUser_', this.state.fromUser);
         let dataOut = await PageApi.fromDetail(row);
-        let ds = new DataSet();
-        ds.appendDataSet(dataOut);
-        ds.first();
-        while (ds.fetch()) {
+        if(!dataOut.message){
+            let ds = new DataSet();
+            ds.appendDataSet(dataOut);
+            ds.first();
+            while (ds.fetch()) {
+                this.setState({
+                    RoleName:ds.getString('RoleName_'),
+                    Mobile:ds.getString('Mobile_')
+                })
+            }
+        }else{
             this.setState({
-                RoleName:ds.getString('RoleName_'),
-                Mobile:ds.getString('Mobile_')
+                RoleName:'',
+                Mobile:''
             })
         }
     }
