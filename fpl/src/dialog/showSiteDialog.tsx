@@ -74,6 +74,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                         <a>浙江</a>
                         <a>海南</a>
                         <a>湖北</a>
+                        <a>湖南</a>
                         <a>澳门</a>
                         <a>甘肃</a>
                         <a>福建</a>
