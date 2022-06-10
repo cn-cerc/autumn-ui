@@ -26,4 +26,19 @@ export default class PageApi {
     static setUserRemark(params: DataRow) {
         return DialogApi.getDataOut('SvrUserRemark.setUserRemark', params);
     }
+    
+    /** 获取快速回复列表 */
+    static getQuickReplyList(params: DataRow) {
+        return DialogApi.getDataOut('SvrQuickReply.list', params);
+    }
+
+    /** 设置快速回复 */
+    static setQuickReplyItem(params: DataRow) {
+        return DialogApi.getDataOut('SvrQuickReply.setReplyContent', params);
+    }
+
+    /** 删除快速回复 */
+    static delQuickReplyItem(params: DataRow) {
+        return DialogApi.getDataOut('SvrQuickReply.delReplyContent', params);
+    }
 }

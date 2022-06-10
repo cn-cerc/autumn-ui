@@ -19,20 +19,70 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
 
     render(): React.ReactNode {
         let _html: any = this.getMessage();
-        // if(this.props.mvClass){
-        // _html = <div className={`${_html.props.className}`}>
-        //     <div dangerouslySetInnerHTML={{ __html: `${_html.props.children}` }}></div>
-        //     <div className={styles.specialMsg}>
-        //         <button className={styles.rejectBtn}>拒收</button>
-        //         <button>确认收货</button>
-        //     </div>
-        // </div>
-        // }
-        if(this.props.systemMsg){ //将后端返回的特殊消息 HTML字符串 转译成HTML输出
-            _html = <div dangerouslySetInnerHTML={{__html:`${_html.props.children}`}} className={`${_html.props.className}`}></div>
-        }else{
-            _html = this.getMessage()
+        let mvClassJson;
+        switch (this.props.mvClass) {
+            case 'MVDefault': // 默认类 正常展示
+                _html = this.getMessage();
+                break;
+            case 'MVNotice': // 通知类别 下方需要显示操作 已读 未读
+                    mvClassJson = this.getMessage().props.children;
+                    if(mvClassJson == null){
+                        mvClassJson = '';
+                    }
+                _html = <div className={`${_html.props.className}`}>
+                    <div dangerouslySetInnerHTML={{ __html: `${_html.props.children.Subject_}` }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: `${mvClassJson}` }}></div>
+                    <div className={styles.specialMsg}>
+                        
+                        <button className={styles.agreeBtn} onClick={this.readMsgFun.bind(this)}>已读</button>
+                    </div>
+                </div>
+                break;
+            case 'MVWorkflow': // 签核类别 下方显示操作 同意，不同意，详情
+                _html = <div className={`${_html.props.className}`}>
+                    <div dangerouslySetInnerHTML={{ __html: `${_html.props.children}` }}></div>
+                    <div className={styles.specialMsg}>
+                        <button className={styles.agreeBtn} onClick={this.agreeFun.bind(this)}>同意</button>
+                        <button>不同意</button>
+                        {/* <button>详情</button> */}
+                    </div>
+                </div>
+                break;
+            case 'MVTask': // 任务类别 显示出任务状态
+                    _html = <div className={`${_html.props.className}`}>
+                            <div dangerouslySetInnerHTML={{ __html: `${_html.props.children}` }}></div>
+                            <div className={styles.specialMsg}>
+                                {/* 显示出任务状态 */}
+                            </div>
+                        </div>
+                break;
+            case 'MVExport': // 导出消息 显示出导出状态
+                _html = <div className={`${_html.props.className}`}>
+                        <div dangerouslySetInnerHTML={{ __html: `${_html.props.children}` }}></div>
+                        <div className={styles.specialMsg}>
+                           {/* 显示出导出状态 */}
+                        </div>
+                    </div>
+                break;
+            default:
+                if(this.props.mvClass == '' && this.getMessage().props.children){
+                    mvClassJson = this.getMessage().props.children;
+                    try {
+                        mvClassJson = JSON.parse(this.getMessage().props.children);
+                        if(typeof mvClassJson == 'object'){
+                            mvClassJson = JSON.parse(JSON.parse(this.getMessage().props.children).dataIn).head._subject_;
+                        }
+                    } catch(e) {
+                        mvClassJson = this.getMessage().props.children;
+                    }
+                }
+                _html = <div className={`${_html.props.className}`}>
+                    <div dangerouslySetInnerHTML={{ __html: `${mvClassJson}` }}></div>
+                </div>
+                break;
+
         }
+
         return <div className={`${styles.main} ${this.props.siteR ? styles.msgRight : styles.msgLeft}`}>
             <div className={styles.imageBox}>{this.props.name.substring(this.props.name.length - 2)}</div>
             <div className={styles.message}>
@@ -42,15 +92,24 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
             </div>
         </div>
     }
-
+    //获取自己的名称HTML
     getName() {
         if (!this.props.hideName)
             return <div style={{ 'paddingBottom': '3px' }}>{this.props.name}</div>
     }
+    //标记是否已读
     getReadMsg() {
-        return <div style={{marginTop:'4px'}}>
+        return <div style={{ marginTop: '4px' }}>
             <span className={styles.msgStatus}>{this.props.msgStatus == '1' ? '已读' : '未读'}</span>
         </div>
+    }
+    // 同意按钮
+    agreeFun(){
+        
+    }
+    //已读按钮
+    readMsgFun(){
+        
     }
     abstract getMessage(): JSX.Element;
 }

@@ -16,7 +16,8 @@ type FrmMessageDetailsTypeState = {
     messageData: DataSet,
     messageText: string,
     showQuicReply: boolean,
-    sendText:string
+    sendText:string,
+    quicReplyList:Array<string>
 }
 
 export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeProps, FrmMessageDetailsTypeState> {
@@ -26,7 +27,8 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             messageData: new DataSet(),
             messageText: '',
             showQuicReply: false,
-            sendText:'' //需要发送的消息
+            sendText:'', //需要发送的消息
+            quicReplyList:['收到！','谢谢！','等等马上到！','快点吧，我等到花儿都谢了！']
         }
     }
 
@@ -81,9 +83,10 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             if (ds.getString('FromUser_') == '') { //目前FromUser_ 为空则判定为系统消息
                 systemMsg = true;
             }
+            let mvClass = ds.getString('MVClass_'); //消息类别
             list.push(<li key={ds.recNo} className={styles.messageLeft}>
                 <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
-                <DefaultMessage row={ds.current} code='Content_' name={name} hideName={true} siteR={siteR} systemMsg={systemMsg}></DefaultMessage>
+                <DefaultMessage row={ds.current} code='Content_' name={name} hideName={true} siteR={siteR} systemMsg={systemMsg} mvClass={mvClass}></DefaultMessage>
             </li>)
         }
         return <ul className={styles.messageList}>{list}</ul>
@@ -116,13 +119,13 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     }
 
     getQuicReplyList() {
+        let datalist = this.state.quicReplyList;
+        let List:any = [];
+        datalist.forEach((item)=>{
+            List.push(<li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>{item}</li>);
+        })
         return <ul>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>收到！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>谢谢！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>等等马上到！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>快点吧，我等到花儿都谢了！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>快点吧，我等到花儿都谢了！</li>
-            <li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)}>快点吧，我等到花儿都谢了！</li>
+            {List}
         </ul>
     }
 

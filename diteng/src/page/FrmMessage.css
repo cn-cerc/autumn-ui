@@ -108,12 +108,12 @@
 
 .suerInfoBox {
     top: 0;
-    bottom: 50%;
+    bottom: 60%;
     border-bottom: 1px solid #EBEBEB;
 }
 
 .quicReply {
-    top: 50%;
+    top: 40%;
     bottom: 0;
 }
 
@@ -190,9 +190,8 @@
     display: flex;
     align-items: center;
     padding: 0 15px;
-    border-bottom: 1px solid #ccc;
-    color: #0283f7;
     cursor: pointer;
+    justify-content: space-between;
 }
 
 .disEvents {
@@ -205,6 +204,42 @@
     color: #999;
     font-size: 12px;
     line-height: 12px;
+}
+.historicalRecordsBox{
+    text-align: center;
+}
+.historicalRecordsBtn{
+    text-align: center;
+    width: 42px;
+    height: 26px;
+    border-radius: 4px;
+    line-height: 26px;
+    border: 1px solid #EBEBEB;
+    color: #666;
+    font-size: 12px;
+    padding: 2px 5px;
+    background: #f2f2f2;
+    cursor: pointer;
+}
+
+.delQuicReplyItemBtn{
+    border: 1px solid #eee;
+    background-color: #f95d5d;
+    width: 38px;
+    color: #ffffff;
+    font-size: 12px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none !important;
 }
 
 @media screen and (min-width: 768px) {
@@ -455,20 +490,14 @@
 
     .quicReplyBox>ul {
         position: fixed;
-        left: 10%;
+        left: 50%;
         bottom: 3.125rem;
         width: 17.5rem;
         background: #fff;
         border-radius: 5px;
         box-shadow: 0 0 5px rgb(200 200 200 / 80%);
         font-size: 0.75rem;
+        transform: translate(-50%,0);
     }
 
-    .show {
-        display: block;
-    }
-
-    .hide {
-        display: none;
-    }
 }
