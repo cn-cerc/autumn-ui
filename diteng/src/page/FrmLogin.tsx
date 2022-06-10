@@ -85,7 +85,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         } else {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
-                    <div className={styles.formTitle}>地藤管家登录</div>
+                    <div className={styles.formTitle}>系统登录</div>
                     <div className={styles.contentRight}>
                         <div className={styles.userMessage}>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
@@ -744,7 +744,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                                     <img src="images/login/logo.png" alt="地藤管家" />
                                     <span>地藤管家</span>
                                 </div>
-                                <div className={styles.loginLeftText}>地藤管家 您随身携带的大管家</div>
+                                <div className={styles.loginLeftText}>地藤，您随身携带的大管家</div>
                                 <a href="install" className={styles.loginInstall}>立即下载App</a>
                             </div>
                             <div className={styles.loginRight}>
