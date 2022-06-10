@@ -92,7 +92,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                 
                 <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
 
-                <DefaultMessage row={ds.current} code='Content_' name={name} hideName={true} siteR={siteR} systemMsg={systemMsg} mvClass={mvClass}></DefaultMessage>
+                <DefaultMessage row={ds.current} name={name} hideName={true} siteR={siteR} systemMsg={systemMsg} mvClass={mvClass}></DefaultMessage>
             </li>)
         }
         return <ul className={styles.messageList}>{list}</ul>
