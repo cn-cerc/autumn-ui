@@ -10,10 +10,22 @@ type UserTypeState = {
     sheng: string,
     shi: string,
     xian: string,
+    area1ShowHide: boolean,
+    area2ShowHide: boolean,
+    area3ShowHide: boolean,
+    shengText: string,
+    cityText: string,
+    xianText: string,
+    shengHTML: string,
+    shi_HTML: string,
+    xian_HTML: string,
+    color: any[]
 } & Partial<BaseDialogStateType>
 
 
 export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeState> {
+    private provinceArr: string[] = ['上海', '云南', '内蒙古', '北京', '吉林', '四川', '天津', '宁夏', '安徽', '山东', '山西', '广东', '新疆', '江苏', '江西',
+        '河北', '河南', '浙江', '海南', '湖北', '湖南', '澳门', '甘肃', '福建', '西藏', '贵州', '辽宁', '重庆', '陕西', '青海', '香港', '黑龙江', '臺灣',];
 
     constructor(props: UserTypeProps) {
         super(props);
@@ -24,6 +36,16 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             sheng: null,
             shi: null,
             xian: null,
+            area1ShowHide: true,
+            area2ShowHide: false,
+            area3ShowHide: false,
+            shengText: '省份',
+            cityText: '城市',
+            xianText: '县区',
+            shengHTML: '',
+            shi_HTML: '',
+            xian_HTML: '',
+            color: [],
         };
     }
 
@@ -34,10 +56,9 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
     async init() {
         setTimeout(() => {
             this.onchange()
-            $("#Area2_").hide()
-            $("#Area3_").hide()
         }, 100);
     }
+
     content() {
         return (
             <div className={styles.main} role='content'>
@@ -48,51 +69,19 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     </div>
 
                     <div className={styles.select}>
-                        <li id="sheng" onClick={this.toggle.bind(this, 'Area1_')}>省级</li>
-                        <li id="shi" onClick={this.toggle.bind(this, 'Area2_')}>城市</li>
-                        <li id="xian" onClick={this.toggle.bind(this, 'Area3_')}>县区</li>
+                        <li id="sheng" onClick={this.toggle.bind(this, 'Area1_')}>{this.state.shengText}</li>
+                        <li id="shi" onClick={this.toggle.bind(this, 'Area2_')}>{this.state.cityText}</li>
+                        <li id="xian" onClick={this.toggle.bind(this, 'Area3_')}>{this.state.xianText}</li>
                     </div>
-                    <div className={styles.site} id='Area1_'>
-                        <a>上海</a>
-                        <a>云南</a>
-                        <a>内蒙古</a>
-                        <a>北京</a>
-                        <a>吉林</a>
-                        <a>四川</a>
-                        <a>天津</a>
-                        <a>宁夏</a>
-                        <a>安徽</a>
-                        <a>山东</a>
-                        <a>山西</a>
-                        <a>广东</a>
-                        <a>新疆</a>
-                        <a>江苏</a>
-                        <a>江西</a>
-                        <a>河北</a>
-                        <a>河南</a>
-                        <a>浙江</a>
-                        <a>海南</a>
-                        <a>湖北</a>
-                        <a>湖南</a>
-                        <a>澳门</a>
-                        <a>甘肃</a>
-                        <a>福建</a>
-                        <a>西藏</a>
-                        <a>贵州</a>
-                        <a>辽宁</a>
-                        <a>重庆</a>
-                        <a>陕西</a>
-                        <a>青海</a>
-                        <a>香港</a>
-                        <a>黑龙江</a>
-                        <a>臺灣</a>
+                    <div className={`${this.state.area1ShowHide ? styles.show : styles.hide} ${styles.site}`} id='Area1_'>
+                        {this.getProvince()}
                     </div>
 
-                    <div className={styles.site} id='Area2_'>
+                    <div className={`${this.state.area2ShowHide ? styles.show : styles.hide} ${styles.site}`} id='Area2_' dangerouslySetInnerHTML={{ __html: this.state.shi_HTML }}>
 
                     </div>
 
-                    <div className={styles.site} id='Area3_'>
+                    <div className={`${this.state.area3ShowHide ? styles.show : styles.hide} ${styles.site}`} id='Area3_' dangerouslySetInnerHTML={{ __html: this.state.xian_HTML }}>
 
                     </div>
                 </div>
@@ -100,11 +89,36 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
         )
     }
 
+    getProvince() {
+        let list = this.provinceArr.map((province: string, index: number) => {
+            return <a key={index}>{province}</a>
+        })
+        return list;
+    }
+
     toggle(dom: any) {
-        $("#Area1_").hide()
-        $("#Area2_").hide()
-        $("#Area3_").hide()
-        $('#' + dom).show()
+        this.setState({
+            area1ShowHide: false,
+            area2ShowHide: false,
+            area3ShowHide: false,
+        })
+        switch (dom) {
+            case 'Area1_':
+                this.setState({
+                    area1ShowHide: true
+                })
+                break;
+            case 'Area2_':
+                this.setState({
+                    area2ShowHide: true
+                })
+                break;
+            case 'Area3_':
+                this.setState({
+                    area3ShowHide: true
+                })
+                break;
+        }
     }
 
     onchange() {
@@ -113,52 +127,58 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
         for (let i = 0; i < but.length; i++) {
             //@ts-ignore
             but[i].onclick = function () {
-                $("#Area2_").html(" ")
-                $("#Area3_").html(" ")
                 this_.state.sheng = this.innerHTML
-                this_.fetch(this_.state.sheng, '#Area2_')
-                $("#Area1_").hide()
-                $("#Area2_").show()
-                $("#Area3_").hide()
-                $("#Area1_>a").css('background', '')
+                this_.fetch(this_.state.sheng, '#Area2_', this_)
+                this_.setState({
+                    shi_HTML: "",
+                    xian_HTML: "",
+                    area1ShowHide: false,
+                    area2ShowHide: true,
+                    area3ShowHide: false,
+                })
+                $("#Area1_>a").css('background', '');
+                console.dir(this)
                 $(this).css('background', '#3273F4')
                 this_.onchange()
                 if ($("#sheng").html() == this.innerHTML) {
                     return
                 } else {
-                    $("#sheng").html(this.innerHTML)
-                    $("#shi").html("城市")
-                    $("#xian").html("县区")
                     this_.setState({
+                        shengText: this.innerHTML,
+                        cityText: "城市",
+                        xianText: "县区",
                         shi: null,
-                        xian: null
+                        xian: null,
                     })
                 }
                 return false
             }
         }
+
         setTimeout(() => {
             let shi = document.querySelectorAll("#Area2_>a")
             for (let k = 0; k < shi.length; k++) {
                 //@ts-ignore
                 shi[k].onclick = function () {
-                    $("#Area3_").html(" ")
                     this_.state.shi = this.innerHTML
                     let xxx = this_.state.sheng + "`" + this_.state.shi
-                    this_.fetch(xxx, '#Area3_')
-                    $("#Area1_").hide()
-                    $("#Area2_").hide()
-                    $("#Area3_").show()
+                    this_.fetch(xxx, '#Area3_', this_)
+                    this_.setState({
+                        xian_HTML: "",
+                        area1ShowHide: false,
+                        area2ShowHide: false,
+                        area3ShowHide: true,
+                    })
                     $("#Area2_>a").css('background', '')
                     $(this).css('background', '#3273F4')
                     this_.onchange()
-                    
+
                     if ($("#shi").html() == this.innerHTML) {
                         return
                     } else {
-                        $("#shi").html(this.innerHTML)
-                        $("#xian").html("县区")
                         this_.setState({
+                            cityText: this.innerHTML,
+                            xianText: "县区",
                             xian: null
                         })
                     }
@@ -173,7 +193,9 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                 //@ts-ignore
                 xian[k].onclick = function () {
                     this_.state.xian = this.innerHTML
-                    $("#xian").html(this.innerHTML)
+                    this_.setState({
+                        xianText: this.innerHTML,
+                    })
                     $("#Area3_>a").css('background', '')
                     $(this).css('background', '#3273F4')
                     let x = this_.props.inputId.split(",");
@@ -203,7 +225,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
 
     }
 
-    fetch(site: string, dom: string) {
+    fetch(site: string, dom: string, this_: this) {
         fetch('./BaseArea', {
             method: 'POST',
             headers: {
@@ -213,14 +235,41 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
         }).then((data) => {
             return data.json();
         }).then((data) => {
-            $.each(data.areaList, function (key, value) {
-                if (key == 0)
-                    $(dom).append(
-                        "<div>" + value + "</div>");
-                else
-                    $(dom).append(
-                        "<a>" + value + "</a>");
-            });
+            console.log(data)
+            // $.each(data.areaList, function (key, value) {
+            //     if (key == 0)
+            //         // $(dom).append(
+            //         //     "<div>" + value + "</div>");
+            //         switch (dom) {
+            //             case '#Area2_':
+            //                 this_.setState({
+            //                     shi_HTML: "<div>" + value + "</div>",
+            //                 })
+            //                 break;
+            //             case '#Area3_':
+            //                 this_.setState({
+            //                     xian_HTML: "<div>" + value + "</div>",
+            //                 })
+            //                 break;
+            //         }
+
+            //     else
+            //         // $(dom).append(
+            //         //     "<a>" + value + "</a>");
+            //         switch (dom) {
+            //             case '#Area2_':
+            //                 this_.setState({
+            //                     shi_HTML: this_.state.shi_HTML + "<a>" + value + "</a>",
+            //                 })
+            //                 break;
+            //             case '#Area3_':
+            //                 this_.setState({
+            //                     xian_HTML: this_.state.xian_HTML + <a className={''}> + value + </a>,
+            //                 })
+            //                 break;
+            //         }
+
+            // });
 
         })
     }

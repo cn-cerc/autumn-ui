@@ -16,13 +16,13 @@
     padding: 0 1rem;
     background-color: #009307;
     font-size: 1rem;
-    color: #fff!important;
+    color: #fff !important;
     border: none;
     outline: none;
     cursor: pointer;
     border-radius: 0.24rem;
     line-height: 1.88rem;
-    text-decoration:none!important;
+    text-decoration: none !important;
 }
 
 .select li {
@@ -51,10 +51,23 @@
     display: inline-block;
 }
 
-#Area2_,#Area3_ {
+#Area2_,
+#Area3_ {
     display: none;
 }
 
 .selected {
+    background: #3273F4 !important;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.blue {
     background: #3273F4!important;
 }
