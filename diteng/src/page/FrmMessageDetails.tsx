@@ -3,6 +3,8 @@ import React from "react";
 import DefaultMessage from "./DefaultMessage";
 import styles from "./FrmMessage.css";
 import PageApi from "./PageApi";
+import SignMessage from "./SignMessage";
+import TaskMessage from "./TaskMessage";
 
 type FrmMessageDetailsTypeProps = {
     fromUser: string,
@@ -87,12 +89,28 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             }
             let mvClass = ds.getString('MVClass_'); //消息类别
             temp = new Date(ds.getString('AppDate_')).getTime();
-            // if(){}
-            list.push(<li key={ds.recNo} className={styles.messageLeft}>
-                
+            let messageName;
+            switch (mvClass) {
+                case 'MVTask':
+                    messageName = TaskMessage;
+                    break;
+                case 'MVWorkflow':
+                    messageName = SignMessage;
+                    break;
+                default:
+                    messageName = DefaultMessage;
+                    break;
+            }
+            list.push(<li key={ds.recNo}>
                 <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
-
-                <DefaultMessage row={ds.current} name={name} hideName={true} siteR={siteR} systemMsg={systemMsg} mvClass={mvClass}></DefaultMessage>
+                {React.createElement(messageName, {
+                    row: ds.current,
+                    name,
+                    hideName: false,
+                    siteR
+                })}
+                {/* <SignMessage row={ds.current} name={name} hideName={false} siteR={siteR}></SignMessage> */}
+                {/* <DefaultMessage row={ds.current} code='Content_' name={name} hideName={false} siteR={siteR} systemMsg={systemMsg} msgStatus={ds.getString('Status_')} mvClass={mvClass}></DefaultMessage> */}
             </li>)
         }
         return <ul className={styles.messageList}>{list}</ul>

@@ -290,7 +290,7 @@
 .editUlSkin > li{
     border-bottom: 1px solid #eee;
 }
-.editUlSkin p {
+.editUlSkin p, .quicReplyItem > p {
     flex: 1;
 }
 
