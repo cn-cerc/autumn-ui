@@ -4,7 +4,6 @@ import Message, { messageTypeProps } from "./Message";
 import styles from "./Message.css";
 
 type DefaultMessageTypeProps = {
-    systemMsg?: boolean,
 } & messageTypeProps
 
 type DefaultMessageTypeState = {
