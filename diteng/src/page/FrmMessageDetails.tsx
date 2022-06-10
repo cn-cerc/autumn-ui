@@ -78,7 +78,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         ds.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
-            let siteR = false, systemMsg = false;
+            let siteR = false, systemMsg = false,msgStatus=ds.getString('Subject_');
             let name = this.props.name;
             if (ds.getString('FromUser_') == this.props.userCode) {
                 siteR = true;
@@ -107,7 +107,8 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     row: ds.current,
                     name,
                     hideName: false,
-                    siteR
+                    siteR,
+                    msgStatus
                 })}
                 {/* <SignMessage row={ds.current} name={name} hideName={false} siteR={siteR}></SignMessage> */}
                 {/* <DefaultMessage row={ds.current} code='Content_' name={name} hideName={false} siteR={siteR} systemMsg={systemMsg} msgStatus={ds.getString('Status_')} mvClass={mvClass}></DefaultMessage> */}

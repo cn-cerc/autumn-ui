@@ -4,6 +4,7 @@ import Message, { messageTypeProps } from "./Message";
 import styles from "./Message.css";
 
 type TaskMessageTypeProps = {
+    systemMsg?: boolean,
 } & messageTypeProps
 
 type TaskMessageTypeState = {

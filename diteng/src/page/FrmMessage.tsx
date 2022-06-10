@@ -140,7 +140,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let UnRead = 0;
                 if(!this.state.msgTypeStuteFlag){
                     UnRead = ds.getDouble('UnReadNum_') > 99 ? 99 : ds.getDouble('UnReadNum_');
-                    continue;
+                    // continue;
                 }
                 list.push(<li key={ds.recNo} className={num == this.state.currentContact ? styles.selectContact : ''} onClick={this.handleClick.bind(this, ds.getString('FromUser_'), ds.getString('LatestDate_'), name, num)}>
                     <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
@@ -247,7 +247,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         ds.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
-            let siteR = false, systemMsg = false;
+            let siteR = false, systemMsg = false,msgStatus=ds.getString('Subject_');
             let name = this.state.contactName;
             if (ds.getString('FromUser_') == this.props.userCode) { //判定是否是自己发出的消息
                 siteR = true;
@@ -275,13 +275,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     row: ds.current,
                     name,
                     hideName: false,
-                    siteR
+                    siteR,
+                    msgStatus
                 })}
                 {/* <SignMessage row={ds.current} name={name} hideName={false} siteR={siteR}></SignMessage> */}
                 {/* <DefaultMessage row={ds.current} code='Content_' name={name} hideName={false} siteR={siteR} systemMsg={systemMsg} msgStatus={ds.getString('Status_')} mvClass={mvClass}></DefaultMessage> */}
             </li>)
         }
-        return <ul className={styles.messageList}><li key="10-1" className={styles.historicalRecordsBox}><span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>查看历史记录</span></li>{list}</ul>
+        return <ul className={styles.messageList}><li key="10-1" className={styles.historicalRecordsBox}><span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>查看更多记录</span></li>{list}</ul>
     }
 
     handleClick(fromUser: string, date: string, name: string, num: number) {
