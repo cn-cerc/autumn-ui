@@ -1,10 +1,13 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import DefaultMessage from "./DefaultMessage";
+import ExportMessage from "./ExportMessage";
 import styles from "./FrmMessage.css";
+import NoticeMessage from "./NoticeMessage";
 import PageApi from "./PageApi";
 import SignMessage from "./SignMessage";
 import TaskMessage from "./TaskMessage";
+import { timing } from "./FrmMessage";
 
 type FrmMessageDetailsTypeProps = {
     fromUser: string,
@@ -19,30 +22,48 @@ type FrmMessageDetailsTypeState = {
     messageText: string,
     showQuicReply: boolean,
     sendText:string,
-    quicReplyList:Array<{text:string,uid:string}>
+    quicReplyList:Array<{text:string,uid:string}>,
+    HistoricalRecordsDay:number,
+    HistoricalRecordsFlag:boolean,
+    HistoricalRecordsList:DataSet,
+    scrollFlag:boolean,
+    scrollHeightNub:number,
+    timing:number
 }
 
 export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeProps, FrmMessageDetailsTypeState> {
+    private timer: any = null;
     constructor(props: FrmMessageDetailsTypeProps) {
         super(props);
         this.state = {
+            timing:timing,
             messageData: new DataSet(),
             messageText: '',
             showQuicReply: false,
             sendText:'', //需要发送的消息
             quicReplyList:[],
+            HistoricalRecordsDay:1,     //获取前面第几天的数据
+            HistoricalRecordsFlag:false,    //控制是否累加消息
+            HistoricalRecordsList:new DataSet(),     //保存历史记录List
+            scrollFlag:true,    //标记是否需要将聊天区域自动滚动到底部
+            scrollHeightNub:0,  //记录最新高度
         }
     }
 
     componentDidMount(): void {
         this.getMessageData();
+        this.startTimer();
     }
 
     async getMessageData() {
         let row = new DataRow();
         row.setValue('FromUser_', this.props.fromUser).setValue('Date_', this.props.date);
-        let messageData = await PageApi.getMessageDetails(row);
+        let messageData = new DataSet();
+        let ds = await PageApi.getMessageDetails(row);
+        messageData.appendDataSet(this.state.HistoricalRecordsList);
+        messageData.appendDataSet(ds);
         this.setState({
+            HistoricalRecordsFlag:false,
             messageData
         }, () => {
             this.scrollBottom();
@@ -78,7 +99,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         ds.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
-            let siteR = false, systemMsg = false,msgStatus=ds.getString('Subject_');
+            let siteR = false, systemMsg = false,msgStatus=ds.getString('Status_');
             let name = this.props.name;
             if (ds.getString('FromUser_') == this.props.userCode) {
                 siteR = true;
@@ -91,11 +112,17 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             temp = new Date(ds.getString('AppDate_')).getTime();
             let messageName;
             switch (mvClass) {
+                case 'MVNotice':
+                    messageName = NoticeMessage;
+                    break;
                 case 'MVTask':
                     messageName = TaskMessage;
                     break;
                 case 'MVWorkflow':
                     messageName = SignMessage;
+                    break;
+                case 'MVExport':
+                    messageName = ExportMessage;
                     break;
                 default:
                     messageName = DefaultMessage;
@@ -110,11 +137,11 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     siteR,
                     msgStatus
                 })}
-                {/* <SignMessage row={ds.current} name={name} hideName={false} siteR={siteR}></SignMessage> */}
-                {/* <DefaultMessage row={ds.current} code='Content_' name={name} hideName={false} siteR={siteR} systemMsg={systemMsg} msgStatus={ds.getString('Status_')} mvClass={mvClass}></DefaultMessage> */}
             </li>)
         }
-        return <ul className={styles.messageList}>{list}</ul>
+        return <ul className={styles.messageList} onScroll={(e)=>{
+            this.scrollEventFun(e);
+        }}><li key="10-1" className={styles.historicalRecordsBox}><span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>查看更多记录</span></li>{list}</ul>
     }
 
     handleKeyDown(e: any) {
@@ -139,9 +166,14 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     }
 
     scrollBottom() {
-        var el = document.getElementsByClassName(styles.messageList)[0];
-        //@ts-ignore
-        el.scrollTop = el.scrollHeight;
+        if(this.state.scrollFlag){
+            var el = document.getElementsByClassName(styles.messageList)[0];
+            //@ts-ignore
+            el.scrollTop = el.scrollHeight;
+            this.setState({
+                scrollHeightNub:el.scrollHeight
+            })
+        }
     }
 
     getQuicReplyList() {
@@ -168,5 +200,54 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         this.setState({
             showQuicReply: !this.state.showQuicReply
         })
+    }
+
+    //获取历史消息 每次点击都获取当前查询时间 前一天
+    async getHistoricalRecordsFun(){
+        let date:any;
+        var nowTime = new Date().getTime() - (this.state.HistoricalRecordsDay * 24 * 60 * 60 * 1000);
+        var now = new Date(nowTime);
+        var yyyy = now.getFullYear();
+        var m:any = now.getMonth()+1;
+        var day:any = now.getDate();
+        if(m<10) m = '0'+m;
+        if(day<10) day = '0'+day;
+        date = yyyy+'-'+m+'-'+day;
+        let row = new DataRow();
+        let HistoricalRecordsList = new DataSet();
+        row.setValue('FromUser_', this.props.userCode).setValue('Date_', date);
+        let messageData = await PageApi.getMessageDetails(row);
+        HistoricalRecordsList.appendDataSet(messageData);
+        HistoricalRecordsList.appendDataSet(this.state.HistoricalRecordsList);
+        this.setState({
+            HistoricalRecordsFlag:true,
+            HistoricalRecordsList,
+            HistoricalRecordsDay : this.state.HistoricalRecordsDay + 1
+        },()=>{
+            this.getMessageData();
+            console.log(this.state.HistoricalRecordsList);
+        });
+    }
+    
+    //自动滚动功能
+    scrollEventFun(e: any){
+        let scrollHeight = e.target.scrollTop + e.target.offsetHeight;
+        if(scrollHeight < this.state.scrollHeightNub){
+            this.setState({
+                scrollFlag:false,
+                scrollHeightNub:e.target.scrollHeight
+            })
+        }else{
+            this.setState({
+                scrollFlag:true,
+                scrollHeightNub:e.target.scrollHeight
+            })
+        }
+    }
+
+    startTimer() {
+        this.timer = setInterval(() => {
+            this.getMessageData();
+        }, this.state.timing * 1000)
     }
 }

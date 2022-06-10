@@ -41,4 +41,9 @@ export default class PageApi {
     static delQuickReplyItem(params: DataRow) {
         return DialogApi.getDataOut('SvrQuickReply.delReplyContent', params);
     }
+
+    /** 获取客户详细信息 */
+    static fromDetail(params: DataRow) {
+        return DialogApi.getDataOut('SvrMessages.fromDetail', params);
+    }
 }

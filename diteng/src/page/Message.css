@@ -82,3 +82,9 @@
 .noAgreeBtn{
     background-color: #e55050;
 }
+
+.disEvents {
+    pointer-events: none !important;
+    color: #c1c7c4 !important;
+    background-color: #d9d9d9!important;
+}
