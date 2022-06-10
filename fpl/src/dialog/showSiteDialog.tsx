@@ -17,7 +17,6 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
 
     constructor(props: UserTypeProps) {
         super(props);
-        ;
         this.state = {
             ...this.state,
             width: '45rem',
