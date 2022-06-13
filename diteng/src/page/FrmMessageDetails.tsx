@@ -128,11 +128,22 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     messageName = DefaultMessage;
                     break;
             }
+            let date = new Date(ds.getString('AppDate_'));
+            let h: number | string = date.getHours();
+            if (h < 10)
+                h = '0' + h;
+            let m: number | string = date.getMinutes();
+            if (m < 10)
+                m = '0' + m;
+            let s: number | string = date.getSeconds();
+            if (s < 10)
+                s = '0' + s;
             list.push(<li key={ds.recNo}>
                 <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
                 {React.createElement(messageName, {
                     row: ds.current,
                     name,
+                    time: `${h}:${m}:${s}`,
                     hideName: false,
                     siteR,
                     msgStatus

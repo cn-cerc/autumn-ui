@@ -89,122 +89,165 @@
     text-align: center;
     color: #fff;
 }
-.replyBox>div>span{
+
+.replyBox>div>span {
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #e9e9e9;
     color: #07c160;
 }
-.rightBox {
-    width: 360px;
+
+.nav {
+    width: 224px;
     display: flex;
     flex-direction: column;
-    background-color: #f5f5f5;
+    background-color: #dedee0;
     border-left: 1px solid #d6d6d6;
     position: relative;
-    background-color: #f3f3f3;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
-.suerInfoBox,
 .quicReply {
-    position: absolute;
-    left: 0;
-    right: 0;
+    height: 0;
+    flex: 1;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+}
+
+.title>span:first-child {
+    font-weight: bold;
+}
+
+.title>span:nth-child(2) {
+    cursor: pointer;
 }
 
 .suerInfoBox {
-    top: 0;
-    bottom: 63%;
-    border-bottom: 1px solid #dedede;
+    padding: 16px 16px 32px 16px;
 }
 
-.quicReply {
-    top: 37%;
-    bottom: 0;
-}
-
-.rightBoxTitle {
-    padding:0 20px;
-    display: flex;
-    align-items: center;
-    height: 56px;
-    font-size: 14px;
-    color: #333;
-    font-weight: bold;
-    font-family: "Microsoft YaHei";
-    justify-content: space-between;
-}
-
-.editBtn{
-    cursor: pointer;
-    font-size: 14px;
-    font-family: "Microsoft YaHei";
-    font-weight: 400;
-    color: #333333;
-}
-
-.suerInfoBox>div,
-.quicReply>div {
-    position: absolute;
-    top: 56px;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.suerInfoBox ul,
+.quicReply ul {
+    padding-top: 12px;
 }
 
 .userInfoItem {
-    height: 34px;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    font-family: "Microsoft YaHei";
+    line-height: 16px;
+    padding: 4px 0;
     font-weight: 400;
     color: #333333;
 }
 
-.remarkBox {
-    padding: 0 15px;
-}
-
-.remarkBox>p {
-    display: flex;
-    justify-content: space-between;
-    height: 36px;
-    align-items: center;
-}
-
-.remarkBox>p button {
-    border-radius: 5px;
-    width: 66px;
-    height: 30px;
-}
-
-.remarkClass {
-    width: 329px;
-    height: 95px;
-    background: #f3f3f3;
-    border: 1px solid #dedede;
-    resize: none;
-    color: #000000;
-    outline: none;
-    padding: 5px;
-    margin-top: 14px;
-}
-
 .quicReplyItem {
-    height: 32px;
+    line-height: 16px;
+    padding: 4px 0;
+    font-weight: 400;
+    color: #333333;
     display: flex;
-    align-items: center;
-    padding: 0 15px;
-    cursor: pointer;
     justify-content: space-between;
+    align-items: flex-start;
+}
+
+.quicReplyItem>span:first-child {
+    width: 0;
+    flex: 1;
+}
+
+.quicReplyItem>span:nth-child(2) {
+    color: #c73232;
+}
+
+.remarkBox {
+}
+
+.remarkBox>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    line-height: 24px;
+}
+
+.infoButton {
+    border-radius: 5px;
+    width: 56px;
+    height: 30px;
+    background-color: #0089ff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
 }
 
 .disEvents {
-    pointer-events: none !important;
-    color: #c1c7c4 !important;
-    background-color: #d9d9d9!important;
+    border-radius: 5px;
+    width: 56px;
+    height: 30px;
+    background-color: #cfcdcd;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    line-height: 30px;
+    color: #666;
+}
+
+.replyBox>div>button.disEvents {
+    background-color: #cfcdcd;
+    color: #666;
+}
+
+.remarkBox>textarea {
+    width: 100%;
+    height: 96px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px;
+    margin-top: 16px;
+}
+
+.quicReply {
+    padding-top: 32px;
+    overflow: auto;
+    padding: 16px 16px 32px 16px;
+    border-top: 1px solid #ccc;
+}
+
+.quicReplyNew {
+    line-height: 24px;
+    font-weight: 400;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.quicReplyNew>textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px;
+    margin-top: 16px;
+}
+
+.quicReplyNew>span {
+    cursor: pointer;
+
 }
 
 .msgTime {
@@ -214,10 +257,12 @@
     line-height: 0.8rem;
     margin: 10px 0 20px;
 }
-.historicalRecordsBox{
+
+.historicalRecordsBox {
     text-align: center;
 }
-.historicalRecordsBtn{
+
+.historicalRecordsBtn {
     text-align: center;
     width: 42px;
     height: 26px;
@@ -230,14 +275,16 @@
     background: #f2f2f2;
     cursor: pointer;
 }
-.msgTypeStatusBox{
+
+.msgTypeStatusBox {
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     position: relative;
 }
-.msgTypeStatusBox::after{
+
+.msgTypeStatusBox::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -246,26 +293,30 @@
     height: 1px;
     background-color: #dedede;
 }
-.msgTypeStatusBox span{
+
+.msgTypeStatusBox span {
     cursor: pointer;
     font-size: 0.875rem;
 }
-.msgTypeStute{
+
+.msgTypeStute {
     color: #429A60;
     position: relative;
 }
-.msgTypeStute::after{
+
+.msgTypeStute::after {
     content: '';
     position: absolute;
     bottom: -0.875rem;
     left: 1rem;
     right: 1rem;
     height: 1px;
-    border-bottom:2px solid #429A60;
+    border-bottom: 2px solid #429A60;
 }
 
 
-.delQuicReplyItemBtn,.addQuicReplyItemBtn{
+.delQuicReplyItemBtn,
+.addQuicReplyItemBtn {
     width: 38px;
     color: #ffffff;
     font-size: 12px;
@@ -275,22 +326,21 @@
     justify-content: center;
     align-items: center;
 }
-.delQuicReplyItemBtn{
+
+.delQuicReplyItemBtn {
     background-color: #f95d5d;
-  
+
 }
-.addQuicReplyItemBtn{
+
+.addQuicReplyItemBtn {
     background-color: #009307;
 }
 
-.quicReplyItemIpt{
+.quicReplyItemIpt {
     width: 95% !important;
 }
 
-.editUlSkin > li{
-    border-bottom: 1px solid #eee;
-}
-.editUlSkin p, .quicReplyItem > p {
+.editUlSkin p {
     flex: 1;
 }
 
@@ -311,7 +361,7 @@
     }
 
     .contactList {
-        width: 224px;
+        width: 360px;
         background-color: #fff;
         height: 100%;
         overflow: auto;
@@ -381,12 +431,12 @@
     }
 
     .messageList>li {
-        padding: 6px 24px;
+        padding: 12px 24px;
     }
 
     .replyBox {
         padding: 24px 32px 0 32px;
-        border-radius:0 !important;
+        border-radius: 0 !important;
     }
 
     .replyBox>textarea {
@@ -415,9 +465,12 @@
 }
 
 @media screen and (max-width: 767px) {
-    .main,.contactList{
-        min-height:100%;
+
+    .main,
+    .contactList {
+        min-height: 100%;
     }
+
     .contactList>li {
         position: relative;
     }
@@ -431,7 +484,7 @@
         height: 1px;
         background-color: #e5e5e5;
     } */
-    
+
     .contactList {
         background-color: #f3f3f3;
     }
@@ -486,7 +539,7 @@
         font-size: .75rem;
         line-height: .75rem;
         padding-top: .625rem;
-        padding-right:1.25rem;
+        padding-right: 1.25rem;
     }
 
     .messageTitle {
@@ -504,15 +557,15 @@
     }
 
     .replyBox {
-        height:2.75rem;
+        height: 2.75rem;
         display: flex;
         align-items: center;
         background-color: #F3F3F3 !important;
-        padding:0.5rem 0.5625rem 0.375rem;
+        padding: 0.5rem 0.5625rem 0.375rem;
     }
 
     .replyBox>textarea {
-        width:65%;
+        width: 65%;
         height: 1.875rem;
         font-size: 0.875rem;
         line-height: 1.875rem;
@@ -522,8 +575,8 @@
     }
 
     .replyBox>div {
-        width:35%;
-        padding:0;
+        width: 35%;
+        padding: 0;
     }
 
     .replyBox>div>button {
@@ -548,7 +601,7 @@
 
     .quicReplyBtn {
         min-width: 1.75rem !important;
-        width:1.875rem !important;
+        width: 1.875rem !important;
         margin-right: 0.625rem;
         border-radius: 50% !important;
     }
@@ -567,7 +620,7 @@
         border-radius: 5px;
         box-shadow: 0 0 5px rgb(200 200 200 / 80%);
         font-size: 0.75rem;
-        transform: translate(-50%,0);
+        transform: translate(-50%, 0);
     }
 
 }

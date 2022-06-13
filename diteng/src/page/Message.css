@@ -1,5 +1,25 @@
 .main {
     display: flex;
+    flex-direction: column;
+}
+
+.personBox {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 6px;
+}
+
+.person {
+    font-size: 14px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 14px;
+}
+
+.person>div:nth-child(2) {
+    color: #999;
 }
 
 .imageBox {
@@ -16,7 +36,6 @@
 }
 
 .message {
-    max-width: 20em;
     word-break: break-all;
 }
 
@@ -35,9 +54,16 @@
     text-align: left;
 }
 
+.defaultMessage table th {
+    position: relative;
+}
 
-.msgRight{
-    flex-direction: row-reverse !important;
+.msgRight .person {
+    align-items: flex-end;
+}
+
+.msgRight .personBox {
+    flex-direction: row-reverse;
 }
 
 .msgRight .imageBox, .msgRight .message{
@@ -63,6 +89,7 @@
     text-align: right;
     padding: 15px 0 5px;
 }
+
 .specialMsg > button{
     margin-left: 1.25rem;
     padding-left: 0.625rem;
