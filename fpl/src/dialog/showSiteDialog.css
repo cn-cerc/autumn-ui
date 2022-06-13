@@ -1,6 +1,4 @@
 .showSiteDialog {
-    /* padding: 20px 10px; */
-    /* border: 1px solid #000; */
     width: 100%;
 }
 
@@ -51,23 +49,7 @@
     display: inline-block;
 }
 
-#Area2_,
-#Area3_ {
-    display: none;
-}
-
-.selected {
-    background: #3273F4 !important;
-}
-
-.show {
-    display: block;
-}
-
-.hide {
-    display: none;
-}
-
-.blue {
+.color {
+    color: pink;
     background: #3273F4!important;
 }
