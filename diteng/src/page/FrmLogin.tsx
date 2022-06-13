@@ -73,6 +73,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         </div>
                         {this.getVerify()}
                         <div className={styles.operationLogin}>
+                            <img src={this.state.savePwd ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeSvaePwd.bind(this)}></img>
                             <input type="checkbox" id="savePwd" checked={this.state.savePwd} onChange={this.changeAutoLogin.bind(this)} /><label htmlFor="savePwd">自动登录</label>
                             <a href="FrmForgetPassword">找回密码?</a>
                         </div>
@@ -100,7 +101,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             </p>
                             {this.getVerify()}
                             <p className={styles.remember}>
-                                <span className={this.state.savePwd ? '' : styles.checkbox} onClick={() => { this.setState({ savePwd: true }) }}></span>
+                                <img src={this.state.savePwd ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeSvaePwd.bind(this)}></img>
                                 <input id="savePwd" type="checkbox" checked={this.state.savePwd} onChange={this.changeSvaePwd.bind(this)} />
                                 <label htmlFor="savePwd">记住密码（私人电脑可选择此项）</label>
                             </p>
@@ -408,7 +409,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     getMessageDOM() {
         if (this.props.lowVersion || this.state.message) {
             if (this.isPhone)
-                return <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "paddingBottom": ".5em" }}>{this.getMessage()}</div>;
+                return <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "padding": "0 .5rem", "fontSize": ".875rem" }}>{this.getMessage()}</div>;
             else
                 return <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
         }
@@ -513,6 +514,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             if (this.isPhone) {
                 return (
                     <div className={`${styles.inputGroup} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
+                        <img src={this.state.iconHover == 3 ? 'images/login/verify_hover.png' : 'images/login/verify.png'} />
                         <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                         <div onClick={this.sendCode.bind(this)} className={styles.sendCode}>发送验证码</div>
                     </div>
@@ -713,6 +715,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                     <section className={styles.customService}>
                         <div className={styles.protocolBox}>
                             <div className={styles.protocol}>
+                                <img src={this.state.protocol ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeProtocol.bind(this)}></img>
                                 <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
                                 <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
                             </div>
