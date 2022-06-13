@@ -337,15 +337,15 @@ a {
         width: 100%;
     }
 
-    .userMessage p input[type="text"]::-webkit-input-placeholder,
-    .userMessage p input[type="password"]::-webkit-input-placeholder {
+    .userMessage p input[type="text"]::-webkit-input-placeholder,.userMessage p input[type="text"]:-moz-placeholder,.userMessage p input[type="text"]::moz-placeholder,
+    .userMessage p input[type="password"]::-webkit-input-placeholder,.userMessage p input[type="password"]:-moz-placeholder,.userMessage p input[type="password"]::moz-placeholder {
         font-size: 14px;
         font-weight: 300;
         color: #ccc;
     }
 
-    .userMessage p input[type="text"]::-moz-placeholder,
-    .userMessage p input[type="password"]::-moz-placeholder {
+    .userMessage p input[type="text"]::-moz-placeholder,.userMessage p input[type="text"]:-moz-placeholder,.userMessage p input[type="text"]::moz-placeholder,
+    .userMessage p input[type="password"]::-moz-placeholder,.userMessage p input[type="password"]:-moz-placeholder,.userMessage p input[type="password"]::moz-placeholder {
         font-size: 1.5rem;
         font-weight: 300;
         color: #ccc;
