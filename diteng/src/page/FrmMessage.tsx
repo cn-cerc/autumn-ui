@@ -1,5 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
+import { showMsg } from "../tool/Summer";
 import DefaultMessage from "./DefaultMessage";
 import ExportMessage from "./ExportMessage";
 import styles from "./FrmMessage.css";
@@ -26,6 +27,7 @@ type FrmMessageTypeState = {
     showMessage: boolean,
     sendText: string,
     remarkText: string,
+    remarkText_: string
     quicReplyList: Array<{ text: string, uid: string }>
     quicReplyEditFlag: boolean,
     HistoricalRecordsDay: number,
@@ -38,7 +40,7 @@ type FrmMessageTypeState = {
     contactInfo: DataSet
 }
 
-export const timing = 5;
+export const timing = 5000;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
     private timer: any = null;
@@ -59,7 +61,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             messageText: '',        //当前输入的消息
             showMessage,        //是否展示消息列表
             sendText: '',    //发送的消息
-            remarkText: '',   //备注字段
+            remarkText_: '',        //默认备注字段，用来判断备注是否有修改
+            remarkText: '',     //备注字段
             quicReplyList: [],   //保存获取的快捷回复list
             quicReplyEditFlag: false,    //是否展示快捷回复消息列表
             HistoricalRecordsDay: 1,     //获取前面第几天的数据
@@ -99,13 +102,13 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let date = ds.getString('LatestDate_');
         let contactName = ds.getString('Name_');
 
-        var now = new Date();
-        var yyyy = now.getFullYear();
-        var m: any = now.getMonth() + 1;
-        var day: any = now.getDate();
-        if (m < 10) m = '0' + m;
-        if (day < 10) day = '0' + day;
-        date = yyyy + '-' + m + '-' + day;
+        // var now = new Date();
+        // var yyyy = now.getFullYear();
+        // var m: any = now.getMonth() + 1;
+        // var day: any = now.getDate();
+        // if (m < 10) m = '0' + m;
+        // if (day < 10) day = '0' + day;
+        // date = yyyy + '-' + m + '-' + day;
 
         if (!this.isPhone)
             this.getMessageData(fromUser, date, contactName, 0);
@@ -131,7 +134,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             messageData,
             contactName: name,
             fromUser: fromUser,
-            contactDate: date
+            contactDate: date,
+            remarkText: '',
+            quicReplyItemIptText: ''
         }, () => {
             this.getUserRemarkFun();
             this.getQuicReplyListFun();
@@ -238,7 +243,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             <li className={styles.remarkBox}>
                 <div>
                     <span>备注</span>
-                    <span onClick={this.setUserRemarkFun.bind(this)} className={this.state.remarkText == '' ? styles.disEvents : styles.infoButton}>保存</span>
+                    <span onClick={this.setUserRemarkFun.bind(this)} className={this.state.remarkText == this.state.remarkText_ ? styles.disEvents : styles.infoButton}>保存</span>
                 </div>
                 <textarea className={styles.remarkClass} placeholder="请输入备注" value={this.state.remarkText} onChange={(e) => {
                     this.setState({
@@ -339,10 +344,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     handleClick(fromUser: string, date: string, name: string, num: number) {
-        this.setState({
-            remarkText: '',
-            quicReplyItemIptText: ''
-        })
         if (!this.isPhone)
             this.getMessageData(fromUser, date, name, num);
         else {
@@ -426,11 +427,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     //设置备注信息
     async setUserRemarkFun() {
-        let row = new DataRow();
-        row.setValue('corp_no_', '目前不知道').setValue('UserCode_', this.state.fromUser)
-            .setValue('from_user_', this.props.userCode).setValue('Remark_', this.state.remarkText);
-        let dataOut = await PageApi.setUserRemark(row);
-        console.log(dataOut)
+        if(this.state.remarkText != this.state.remarkText_) {
+            let row = new DataRow();
+            row.setValue('UserCode_', this.state.fromUser).setValue('Remark_', this.state.remarkText);
+            let dataOut = await PageApi.setUserRemark(row);
+            if(dataOut.state < 0) {
+                showMsg(dataOut.message);
+            }
+        }
     }
 
     //获取备注信息
@@ -444,7 +448,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         while (ds.fetch()) {
             if (ds.getString('remark_')) {
                 this.setState({
-                    remarkText: ds.getString('remark_')
+                    remarkText: ds.getString('remark_'),
+                    remarkText_: ds.getString('remark_'),
                 })
             }
         }

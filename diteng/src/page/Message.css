@@ -37,6 +37,9 @@
 
 .message {
     word-break: break-all;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .message>div:first-of-type {
@@ -72,8 +75,6 @@
 }
 .msgRight .message{
     text-align: right;
-    display: flex;
-    flex-direction: column;
     align-items: flex-end;
 }
 .msgRight .defaultMessage{

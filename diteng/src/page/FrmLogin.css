@@ -75,7 +75,7 @@ a {
     height: 48px;
     border: none;
     overflow: hidden;
-    margin: 0 1.5rem;
+    margin-left: 1.5rem;
     visibility: hidden;
 }
 
@@ -611,6 +611,10 @@ a {
 
     .status div {
         padding: 0 !important;
+    }
+
+    .status>div:last-child {
+        margin-left: 1.5rem;
     }
 
     .status a {
