@@ -196,7 +196,7 @@ export default class FplDialogApi {
 
     /** 查询合同列表 */
     static getContractList(params: DataRow) {
-        return FplDialogApi.getDataOut('SvrContract.search', params);
+        return FplDialogApi.getDataOut('SvrContract.searchStatus', params);
     }
 
 }

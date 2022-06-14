@@ -5,7 +5,6 @@ import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
 
 type ContractProps = {
-    state: string,
 } & Partial<BaseDialogPropsType>
 
 
@@ -18,7 +17,6 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
     constructor(props: ContractProps) {
         super(props)
         let dataIn = new DataRow();
-        dataIn.setValue('status_', this.props.state);
         this.state = {
             ...this.state,
             dataIn,
@@ -48,9 +46,9 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                     <DBEdit dataField="contract_no_" dataName="合同编号" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <Column code="contract_no_" name="合同编号" width="50"></Column>
-                    <Column code="party_a_" name="甲方公司" width="50"></Column>
-                    <Column code="party_b_" name="乙方公司" width="50"></Column>
+                    <Column code="contract_no_" name="合同编号" width="100"></Column>
+                    <Column code="party_a_name_" name="甲方公司" width="100"></Column>
+                    <Column code="party_b_name_" name="乙方公司" width="100"></Column>
                     <Column code="contract_amount_" name="合同金额" width="50"></Column>
                     <Column code="recharged_amount_" name="已充值金额" width="50"></Column>
                     <Column code="remaining_amount_" name="可用余额" width="50"></Column>
@@ -67,7 +65,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         let input3 = document.getElementById("remaining_amount_") as HTMLInputElement;
-
+        
         input1.value = dataRow.getString('contract_no_');
         input2.value = dataRow.getString('contract_no_');
         input3.value = dataRow.getString('remaining_amount_');
