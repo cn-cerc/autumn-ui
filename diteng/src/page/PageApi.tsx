@@ -19,31 +19,31 @@ export default class PageApi {
 
     /** 获取用户备注 */
     static getUserRemark(params: DataRow) {
-        return DialogApi.getDataOut('SvrUserRemark.userRemark', params);
+        return DialogApi.getDataOutByCenter('SvrUserRemark.userRemark', params);
     }
 
     /** 设置用户备注 */
     static setUserRemark(params: DataRow) {
-        return DialogApi.getDataOut('SvrUserRemark.setUserRemark', params);
+        return DialogApi.getDataOutByCenter('SvrUserRemark.setUserRemark', params);
     }
     
     /** 获取快速回复列表 */
     static getQuickReplyList(params: DataRow) {
-        return DialogApi.getDataOut('SvrQuickReply.list', params);
+        return DialogApi.getDataOutByCenter('SvrQuickReply.list', params);
     }
 
     /** 设置快速回复 */
     static setQuickReplyItem(params: DataRow) {
-        return DialogApi.getDataOut('SvrQuickReply.setReplyContent', params);
+        return DialogApi.getDataOutByCenter('SvrQuickReply.setReplyContent', params);
     }
 
     /** 删除快速回复 */
     static delQuickReplyItem(params: DataRow) {
-        return DialogApi.getDataOut('SvrQuickReply.delReplyContent', params);
+        return DialogApi.getDataOutByCenter('SvrQuickReply.delReplyContent', params);
     }
 
     /** 获取客户详细信息 */
     static fromDetail(params: DataRow) {
-        return DialogApi.getDataOut('SvrMessages.fromDetail', params);
+        return DialogApi.getDataOutByCenter('SvrMessages.fromDetail', params);
     }
 }

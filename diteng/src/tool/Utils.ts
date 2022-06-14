@@ -27,6 +27,15 @@ export default class Utils {
         return `${year}-${month < 10 ? '0' + month : month}-${new Date(year, month, 0).getDate()}`
     }
 
+    // 获取当前时间yyyy-mm-dd
+    static getNowDate() {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`
+    }
+
     static saveSort(userNo: string, tb: string) {
         let client = new ClientStorage(`diteng_${userNo}`);
         let dataSet = new DataSet();
