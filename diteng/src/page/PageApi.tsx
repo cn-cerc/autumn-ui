@@ -44,6 +44,6 @@ export default class PageApi {
 
     /** 获取客户详细信息 */
     static fromDetail(params: DataRow) {
-        return DialogApi.getDataOutByCenter('SvrMessages.fromDetail', params);
+        return DialogApi.getDataOutByCenter('ApiUserInfo.fromDetail', params);
     }
 }
