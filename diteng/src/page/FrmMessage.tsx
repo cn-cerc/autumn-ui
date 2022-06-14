@@ -40,7 +40,7 @@ type FrmMessageTypeState = {
     contactInfo: DataSet
 }
 
-export const timing = 5000;
+export const timing = 5;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
     private timer: any = null;
