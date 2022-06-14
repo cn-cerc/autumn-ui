@@ -93,6 +93,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         </div>
     }
 
+    // 初始化页面数据加载
     async initData() {
         await this.getContactData();
         let ds = new DataSet();
@@ -101,19 +102,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let fromUser = ds.getString('FromUser_');
         let date = ds.getString('LatestDate_');
         let contactName = ds.getString('Name_');
-
-        // var now = new Date();
-        // var yyyy = now.getFullYear();
-        // var m: any = now.getMonth() + 1;
-        // var day: any = now.getDate();
-        // if (m < 10) m = '0' + m;
-        // if (day < 10) day = '0' + day;
-        // date = yyyy + '-' + m + '-' + day;
-
         if (!this.isPhone)
             this.getMessageData(fromUser, date, contactName, 0);
     }
 
+    // 获取联系人列表数据
     async getContactData() {
         let contactData = await PageApi.getContactList();
         this.setState({
@@ -121,6 +114,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         })
     }
 
+    // 获取单个联系人消息详情
     async getMessageData(fromUser: string, date: string, name: string, num: number) {
         let row = new DataRow();
         row.setValue('FromUser_', fromUser).setValue('Date_', date);
@@ -135,8 +129,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             contactName: name,
             fromUser: fromUser,
             contactDate: date,
-            remarkText: '',
-            quicReplyItemIptText: ''
         }, () => {
             this.getUserRemarkFun();
             this.getQuicReplyListFun();
@@ -145,6 +137,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         this.scrollBottom();
     }
 
+    // 获取联系人JSX结构
     getContactList() {
         if (!this.isPhone || !this.state.showMessage) {
             let list = [];
@@ -192,6 +185,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }
     }
 
+    // 获取消息详情JSX结构
     getMessageBox() {
         if (this.state.showMessage) {
             return <div className={styles.messageBox}>
@@ -214,6 +208,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }
     }
 
+    // 获取nav区域JSX
     getUserInfo() {
         if (!this.isPhone) {
             return <div className={styles.nav}>
@@ -234,8 +229,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }
     }
 
+    // 获取对象资料JSX结构
     getUserInfoList() {
-        //循环获取用户信息并拼接到ul
         return <ul>
             <li className={styles.userInfoItem}><span>{this.state.contactName}</span></li>
             <li className={styles.userInfoItem}>所属角色：<span>{this.state.contactInfo.getString('RoleName_')}</span></li>
@@ -253,6 +248,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             </li>
         </ul>
     }
+
+    // 获取快速回复JSX结构
     getQuicReplyList() {
         let datalist = this.state.quicReplyList;
         let list = datalist.map((obj) => {
@@ -278,11 +275,13 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         </ul>
     }
 
+    // 获取删除按钮展示与否
     getDelete(obj: { text: string, uid: string }) {
         if (this.state.quicReplyEditFlag)
             return <span className={styles.delete} onClick={this.delQuicReplyItemFun.bind(this, obj.uid)}>删除</span>
     }
 
+    // 获取具体的消息体结构
     getMessageList() {
         let list = [];
         let ds = new DataSet();
@@ -343,6 +342,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }}><li key="10-1" className={styles.historicalRecordsBox}><span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>查看更多记录</span></li>{list}</ul>
     }
 
+    // 点击联系人触发的事件
     handleClick(fromUser: string, date: string, name: string, num: number) {
         if (!this.isPhone)
             this.getMessageData(fromUser, date, name, num);
@@ -356,16 +356,19 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     }
 
+    // 开始定时请求数据进程
     startTimer() {
         this.timer = setInterval(() => {
             this.getMessageData(this.state.fromUser, this.state.contactDate, this.state.contactName, this.state.currentContact);
         }, this.state.timing * 1000)
     }
 
+    // 关闭定时请求数据进程
     removeTimer() {
         clearInterval(this.timer);
     }
 
+    // form表单键盘事件监听
     handleKeyDown(e: any) {
         let keyCode: number = e.keyCode;
         if (keyCode == 13) {
@@ -374,6 +377,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }
     }
 
+    // 消息回复
     async handleSubmit(e: any) {
         e.preventDefault();
         if (this.state.sendText == '') return false;
@@ -389,6 +393,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         this.getContactData();
     }
 
+    // 设置聊天区域滚动到底部
     scrollBottom() {
         if (this.state.scrollFlag) {
             var el = document.getElementsByClassName(styles.messageList)[0];
@@ -399,6 +404,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             })
         }
     }
+
+    // 消息区域滚动事件
     scrollEventFun(e: any) {
         let scrollHeight = e.target.scrollTop + e.target.offsetHeight;
         if (scrollHeight < this.state.scrollHeightNub) {
@@ -482,18 +489,21 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             this.getQuicReplyListFun();
         })
     }
+
     //删除某条快捷回复
     async delQuicReplyItemFun(uid: string) {
         let row = new DataRow();
         row.setValue('UID_', uid);
         await PageApi.delQuickReplyItem(row);
     }
+
     //编辑快捷回复
     quicReplyEdit() {
         this.setState({
             quicReplyEditFlag: !this.state.quicReplyEditFlag
         })
     }
+
     //获取历史消息 每次点击都获取当前查询时间 前一天
     async getHistoricalRecordsFun() {
         let date: any;
@@ -540,6 +550,5 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         this.setState({
             contactInfo
         })
-
     }
 }
