@@ -11,6 +11,7 @@ import FleetDialog from "./dialog/FleetDialog";
 import MaintainVehicleDialog from "./dialog/MaintainVehicleDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
+import showSiteDialog from "./dialog/showSiteDialog";
 
 export default {
     ...diteng,
@@ -23,5 +24,6 @@ export default {
     NumberPlateDialog,
     PayeeDialog,
     ContractDialog,
+    showSiteDialog,
     MaintainVehicleDialog,
 }
