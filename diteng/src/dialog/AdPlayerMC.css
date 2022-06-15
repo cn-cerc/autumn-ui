@@ -1,0 +1,36 @@
+.slideShow {
+    height: 100%;
+    position: relative;
+}
+
+.slideShowDiv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+
+}
+
+.slideDiv {
+    position: relative;
+    height: 100%;
+    display: flex;
+    background-position: center center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.slideDiv>img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.slideDiv div {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    font-weight: bold;
+}

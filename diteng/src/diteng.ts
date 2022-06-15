@@ -70,6 +70,7 @@ import { TCustomComponent } from "autumn-ui";
 import { Loading } from "./tool/Loading";
 import Utils, { ClientStorage } from "./tool/Utils";
 import RapidInput from "./custom/RapidInput";
+import AdPlayerMC from "./dialog/AdPlayerMC";
 import AdvertContentDialog from "./dialog/AdvertContentDialog";
 
 export default {
@@ -154,5 +155,6 @@ export default {
     FrmOEMAppend,
     //OEM修改
     FrmOEMChange,
+    AdPlayerMC,
     AdvertContentDialog,
 }
