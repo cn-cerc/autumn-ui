@@ -322,7 +322,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
         // @ts-ignore
         setAppliedTitleStatus(false);
-        $("body").css('height', $(document).height());
+        // $("body").css('height', $(document).height());
         // @ts-ignore
         window.addPhoneKeyBoardListener(function () {
             // $(document).scrollTop($('.logo').outerHeight() - 20);

@@ -35,11 +35,14 @@ div[id='app'] {
 
 .errpage>ul {
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .errpage>ul>li:first-child img {
     max-width: 100%;
-    width: 12em;
+    width: 13rem;
 }
 
 .errpage>ul>li:last-child img {
@@ -61,6 +64,14 @@ div[id='app'] {
     background: #007BD9;
     font-size: 1.1em;
     margin: 0 0.5em;
+}
+
+.message {
+    background-color: #F7F7F7;
+    border-radius: 4px;
+    padding: 12px 32px;
+    color: #FF4343;
+    margin: 16px 0;
 }
 
 .errpage>ul>li:last-child a span {
