@@ -10,6 +10,7 @@ type DefaultMessageTypeState = {
 
 }
 
+/** 默认文本消息 */
 export default class DefaultMessage extends Message<DefaultMessageTypeProps,DefaultMessageTypeState> {
     constructor(props: DefaultMessageTypeProps) {
         super(props);

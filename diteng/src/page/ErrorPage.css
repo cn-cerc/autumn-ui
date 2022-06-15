@@ -24,7 +24,7 @@ div[id='app'] {
     position: absolute;
     right: 0;
     left: 0;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
 }
 
