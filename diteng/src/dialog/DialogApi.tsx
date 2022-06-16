@@ -519,4 +519,8 @@ export default class DialogApi {
     static createSubitemBOM(params: DataSet) {
         return DialogApi.serviceDataSet('SvrSubitemBOM.createSubitemBOM', params);
     }
+
+    static getPlayList() {
+        return DialogApi.getService('/FrmAdvertPlay.getPlayList');
+    }
 }
