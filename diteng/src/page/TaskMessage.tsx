@@ -21,8 +21,7 @@ export default class TaskMessage extends Message<TaskMessageTypeProps, TaskMessa
     getMessage(): JSX.Element {
         let row = new DataRow();
         row.copyValues(this.props.row);
-        let task = JSON.parse(this.props.row.getString('Content_'));
-        let data = JSON.parse(task.dataOut);
+        let task = JSON.parse(row.getString('Content_'));
         return <div className={`${styles.TaskMessage, styles.defaultMessage}`}>
             <div dangerouslySetInnerHTML={{ __html: this.props.row.getString('Subject_') }}></div>
             <div>
@@ -37,10 +36,7 @@ export default class TaskMessage extends Message<TaskMessageTypeProps, TaskMessa
                 <span>处理时间:</span>
                 <span>{task.processTime}</span>
             </div>
-            <div>
-                <span>执行结果:</span>
-                <span>{`${data.head.msg || ''}${data.head._message_ || ''}` || '(空)'}</span>
-            </div>
+            {this.getResult(row)}
             <div>
                 <span>任务代码:</span>
                 <span>{task.service}</span>
@@ -50,5 +46,16 @@ export default class TaskMessage extends Message<TaskMessageTypeProps, TaskMessa
                 <span>{task.dataIn || '（空）'}</span>
             </div>
         </div>
+    }
+
+    getResult(row: DataRow) {
+        if (row.getDouble('Process_') < 3) {
+            let task = JSON.parse(row.getString('Content_'));
+            let data = JSON.parse(task.dataOut);
+            return <div>
+                <span>执行结果:</span>
+                <span>{`${data.head.msg || ''}${data.head._message_ || ''}` || '(空)'}</span>
+            </div>
+        }
     }
 }
