@@ -171,7 +171,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     data: messageDataList[num].data,
                     latestDate,
                     latestMessage,
-                    date: `${year_}-${month_ < 10 ? '0' + month_ : month_}-${day_ < 10 ? '0' + day_ : day_}`,
+                    date: messageDataList[num].date,
                     fromBottom: messageDataList[num].fromBottom,
                     fromUser: messageDataList[num].fromUser,
                     name: messageDataList[num].name,
@@ -232,8 +232,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             }
         }
         ds.setSort('AppDate_');
-        this.state.messageDataList[num].data = ds;
-        this.state.messageDataList[num].latestDate = date_;
+        messageData.data = ds;
         this.setState({
             currentIndex: num,
         });
@@ -658,7 +657,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             ds.setSort('AppDate_');
             messageData.data = ds;
             messageData.date = date_;
-            this.setState(this.state, ()=>{
+            this.setState(this.state, () => {
                 this.initMessageScroll();
             });
         }
