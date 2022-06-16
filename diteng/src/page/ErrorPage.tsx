@@ -32,17 +32,16 @@ export default class ErrorPage extends WebControl<errorTypeProps> {
     getContanier() {
         if (this.isPhone) {
             return (
-                <div className={styles.contanier}>
+                <div className={styles.contanier} style={{ "fontSize": "14px" }}>
                     <div className={styles.errpage}>
                         <ul>
                             <li><img src='images/bulb.png' /></li>
                             <li>
                                 <h3>非常抱歉，您此项请求无法处理</h3>
-                                <p style={{ "margin": "0px", "textAlign": "left", "textIndent": "2em" }}>请您确认您的操作是否有误，或将下述异常讯息记下来：</p>
+                                <p style={{ "margin": "0px", "textAlign": "center" }}>请您确认您的操作是否有误，或将下述异常讯息记下来：</p>
                             </li>
                         </ul>
-                        <p style={{ "color": "red", "width": "90%", "display": "block", "margin": "0px auto", "textAlign": "left", "textIndent": "2em" }}
-                            id="msg">{this.props.msg}</p>
+                        <p className={styles.message}>{this.props.msg}</p>
                         <a href="javascript:history.go(-1)">返回</a>
                     </div>
                     <div className=""></div>

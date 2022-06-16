@@ -54,7 +54,7 @@ export default class TaskMessage extends Message<TaskMessageTypeProps, TaskMessa
             let data = JSON.parse(task.dataOut);
             return <div>
                 <span>执行结果:</span>
-                <span>{`${data.head.msg || ''}${data.head._message_ || ''}` || '(空)'}</span>
+                <span>{`${data?.head?.msg || ''}${data?.head?._message_ || ''}` || '(空)'}</span>
             </div>
         }
     }
