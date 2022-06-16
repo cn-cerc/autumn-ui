@@ -22,17 +22,12 @@ type FrmMessageTypeState = {
     contactData: DataSet,
     messageDataList: messageDetail[],
     currentIndex: number,
-    messageText: string,
     showMessage: boolean,
-    remarkText: string,
-    remarkText_: string
     quicReplyList: Array<{ text: string, uid: string }>
     quicReplyEditFlag: boolean,
     HistoricalRecordsDay: number,
     quicReplyItemIptText: string,
     msgTypeStuteFlag: boolean,
-    scrollFlag: boolean,
-    scrollHeightNub: number,
     contactInfo: DataSet
 }
 
@@ -41,13 +36,16 @@ type messageDetail = {
     latestDate: string,
     latestMessage: string,
     date: string,
-    scrollTop: number,
+    fromBottom: number,
     fromUser: string,
     name: string,
-    unReadNum: number
+    unReadNum: number,
+    messageText: string,
+    remarkText: string,
+    remarkText_: string
 };
 
-export const timing = 5;
+export const timing = 5000;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
     private timer: any = null;
@@ -64,23 +62,21 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 latestDate: '',
                 latestMessage: '',
                 date: '',
-                scrollTop: 0,
+                fromBottom: 0,
                 fromUser: '',
                 name: '',
-                unReadNum: 0
+                unReadNum: 0,
+                messageText: '',
+                remarkText_: '',        //默认备注字段，用来判断备注是否有修改
+                remarkText: '',     //备注字段
             }],     //消息列表DataSet
             currentIndex: this.isPhone ? -1 : 0,      //当前选中的联系人下标
-            messageText: '',        //当前输入的消息
             showMessage,        //是否展示消息列表
-            remarkText_: '',        //默认备注字段，用来判断备注是否有修改
-            remarkText: '',     //备注字段
             quicReplyList: [],   //保存获取的快捷回复list
             quicReplyEditFlag: false,    //是否展示快捷回复消息列表
             HistoricalRecordsDay: 1,     //获取前面第几天的数据
             quicReplyItemIptText: '',    //新增快捷回复
             msgTypeStuteFlag: true,      //切换所有消息和未读消息
-            scrollFlag: true,    //标记是否需要将聊天区域自动滚动到底部
-            scrollHeightNub: 0,  //记录最新高度
             contactInfo,     // 联系人资料
         }
     }
@@ -104,13 +100,25 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 初始化页面数据加载
     async initData() {
-        await this.getContactData();
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.contactData);
-        ds.first();
+        let messageDataList = await this.getContactFirstData();
+        this.setState({
+            messageDataList
+        }, () => {
+            if (!this.isPhone) {
+                this.getMessageData(this.state.currentIndex);
+                this.getUserInfo();
+            }
+        })
+    }
+
+    // 第一次获取联系人列表数据
+    async getContactFirstData() {
+        let dataOut = await PageApi.getContactList();
+        dataOut.setSort('LatestDate_');
+        dataOut.first();
         let messageDataList: messageDetail[] = [];
-        while (ds.fetch()) {
-            let latestDate = ds.getString('LatestDate_');
+        while (dataOut.fetch()) {
+            let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
             let year_ = date_.getFullYear();
             let month_ = date_.getMonth() + 1;
@@ -118,41 +126,88 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             messageDataList.push({
                 data: new DataSet(),
                 latestDate,
-                latestMessage: ds.getString('LatestMessage_'),
+                latestMessage: dataOut.getString('LatestMessage_'),
                 date: `${year_}-${month_ < 10 ? '0' + month_ : month_}-${day_ < 10 ? '0' + day_ : day_}`,
-                scrollTop: 0,
-                fromUser: ds.getString('FromUser_'),
-                name: ds.getString('Name_'),
-                unReadNum: ds.getDouble('UnReadNum_')
+                fromBottom: 0,
+                fromUser: dataOut.getString('FromUser_'),
+                name: dataOut.getString('Name_'),
+                unReadNum: dataOut.getDouble('UnReadNum_'),
+                messageText: '',
+                remarkText: '',
+                remarkText_: ''
             })
         }
-        this.setState({
-            messageDataList: messageDataList
-        }, () => {
-            if (!this.isPhone) {
-                this.getMessageData(0);
-                this.getUserInfo();
-            }
-        })
+        return messageDataList;
     }
 
     // 获取联系人列表数据
     async getContactData() {
-        let contactData = await PageApi.getContactList();
-        this.setState({
-            contactData
-        })
+        let messageDataList = this.state.messageDataList;
+        let dataOut = await PageApi.getContactList();
+        dataOut.setSort('LatestDate_');
+        dataOut.first();
+        while (dataOut.fetch()) {
+            let bool = false;
+            let num = 0;
+            let latestDate = '';
+            let latestMessage = '';
+            let date_, year_, month_, day_, unReadNum;
+            for (let i = 0; i < messageDataList.length; i++) {
+                if (messageDataList[i].fromUser == dataOut.getString('FromUser_')) {
+                    bool = true;
+                    num = i;
+                    latestDate = dataOut.getString('LatestDate_');
+                    latestMessage = dataOut.getString('LatestMessage_');
+                    unReadNum = dataOut.getDouble('UnReadNum_');
+                    date_ = new Date(latestDate);
+                    year_ = date_.getFullYear();
+                    month_ = date_.getMonth() + 1;
+                    day_ = date_.getDate();
+                    break;
+                }
+            }
+            if (bool) {
+                messageDataList[num] = {
+                    data: messageDataList[num].data,
+                    latestDate,
+                    latestMessage,
+                    date: `${year_}-${month_ < 10 ? '0' + month_ : month_}-${day_ < 10 ? '0' + day_ : day_}`,
+                    fromBottom: messageDataList[num].fromBottom,
+                    fromUser: messageDataList[num].fromUser,
+                    name: messageDataList[num].name,
+                    unReadNum,
+                    messageText: messageDataList[num].messageText,
+                    remarkText: messageDataList[num].remarkText,
+                    remarkText_: messageDataList[num].remarkText_
+                }
+            } else {
+                messageDataList.push({
+                    data: new DataSet(),
+                    latestDate,
+                    latestMessage: dataOut.getString('LatestMessage_'),
+                    date: `${year_}-${month_ < 10 ? '0' + month_ : month_}-${day_ < 10 ? '0' + day_ : day_}`,
+                    fromBottom: 0,
+                    fromUser: dataOut.getString('FromUser_'),
+                    name: dataOut.getString('Name_'),
+                    unReadNum: dataOut.getDouble('UnReadNum_'),
+                    messageText: '',
+                    remarkText: '',
+                    remarkText_: ''
+                })
+            }
+        }
+        return messageDataList;
     }
 
     async getUserInfo() {
         let remarkText = await this.getUserRemarkFun();
         let quicReplyList = await this.getQuicReplyListFun();
         let contactInfo = await this.fromDetailFun();
+        this.state.messageDataList[this.state.currentIndex].remarkText = this.state.messageDataList[this.state.currentIndex].remarkText || remarkText;
+        this.state.messageDataList[this.state.currentIndex].remarkText_ = remarkText;
         this.setState({
             quicReplyEditFlag: false,
             quicReplyItemIptText: '',
-            remarkText,
-            remarkText_: remarkText,
             quicReplyList,
             contactInfo
         })
@@ -161,7 +216,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 获取单个联系人消息详情
     async getMessageData(num: number, date?: string) {
         let messageData = this.state.messageDataList[num]
-        let date_ = date ? date : messageData.date
+        let date_ = date ? date : messageData.date;
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date_);
         let dataOut = await PageApi.getMessageDetails(row);
@@ -176,12 +231,22 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 ds.copyRecord(dataOut.current);
             }
         }
+        ds.setSort('AppDate_');
         this.state.messageDataList[num].data = ds;
-        this.state.messageDataList[num].date = date;
+        this.state.messageDataList[num].latestDate = date_;
         this.setState({
             currentIndex: num,
         });
-        this.scrollBottom();
+        this.initMessageScroll();
+    }
+
+    // 获取历史消息
+    async getHistoryData(date: string) {
+        let messageData = this.state.messageDataList[this.state.currentIndex]
+        let row = new DataRow();
+        row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date);
+        let dataOut = await PageApi.getMessageDetails(row);
+        return dataOut;
     }
 
     // 获取联系人JSX结构
@@ -240,13 +305,12 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 </div>
                 {this.getMessageList()}
                 <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
-                    <textarea value={this.state.messageText} onChange={(e) => {
-                        this.setState({
-                            messageText: e.target.value
-                        })
+                    <textarea value={messageData.messageText} onChange={(e) => {
+                        messageData.messageText = e.target.value;
+                        this.setState(this.state)
                     }}></textarea>
                     <div>
-                        <button className={messageData.fromUser && this.state.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
+                        <button className={messageData.fromUser && messageData.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
                     </div>
                 </form>
             </div>
@@ -284,12 +348,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             <li className={styles.remarkBox}>
                 <div>
                     <span>备注</span>
-                    <span onClick={this.setUserRemarkFun.bind(this)} className={this.state.remarkText == this.state.remarkText_ ? styles.disEvents : styles.infoButton}>保存</span>
+                    <span onClick={this.setUserRemarkFun.bind(this)} className={messageData.remarkText == messageData.remarkText_ ? styles.disEvents : styles.infoButton}>保存</span>
                 </div>
-                <textarea className={styles.remarkClass} placeholder="请输入备注" value={this.state.remarkText} onChange={(e) => {
-                    this.setState({
-                        remarkText: e.target.value
-                    })
+                <textarea className={styles.remarkClass} placeholder="请输入备注" value={messageData.remarkText} onChange={(e) => {
+                    messageData.remarkText = e.target.value;
+                    this.setState(this.state);
                 }}></textarea>
             </li>
         </ul>
@@ -369,16 +432,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     messageName = DefaultMessage;
                     break;
             }
-            // let date = new Date(ds.getString('AppDate_'));
-            // let h: number | string = date.getHours();
-            // if (h < 10)
-            //     h = '0' + h;
-            // let m: number | string = date.getMinutes();
-            // if (m < 10)
-            //     m = '0' + m;
-            // let s: number | string = date.getSeconds();
-            // if (s < 10)
-            //     s = '0' + s;
             list.push(<li key={ds.recNo}>
                 {React.createElement(messageName, {
                     row: ds.current,
@@ -396,8 +449,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     getHistoryBtn(messageData: messageDetail) {
-        if (this.moreThanOneMonth(messageData.latestDate)) {
-            return <span>暂无更多历史消息</span>
+        if (this.moreThanOneMonth(messageData.date)) {
+            return <span className={styles.noHistory}>暂无更多历史消息</span>
         } else {
             return <span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>获取更多历史消息</span>;
         }
@@ -405,7 +458,21 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     moreThanOneMonth(date: string) {
         let date_ = new Date(date);
-        return false;
+        let year_ = date_.getFullYear();
+        let month_ = date_.getMonth() + 1;
+        let day_ = date_.getDate();
+        let _date = new Date();
+        let _year = _date.getFullYear();
+        let _month = _date.getMonth() + 1;
+        let _day = _date.getDate();
+        let bool = true;
+        if (year_ == _year && month_ == _month)
+            bool = false;
+        else if (year_ == year_ && month_ != month_ && day_ >= _day)
+            bool = false
+        else if (year_ != year_ && month_ == 12 && _month == 1 && day_ >= _day)
+            bool = false;
+        return bool;
     }
 
     // 点击联系人触发的事件
@@ -426,10 +493,13 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 开始定时请求数据进程
     startTimer() {
-        this.timer = setInterval(() => {
-            this.getContactData();
-            this.getMessageData(this.state.currentIndex);
-            this.getUserInfo();
+        this.timer = setInterval(async () => {
+            let messageDataList = await this.getContactData();
+            this.setState({
+                messageDataList
+            }, () => {
+                this.getMessageData(this.state.currentIndex);
+            })
         }, this.state.timing * 1000)
     }
 
@@ -451,68 +521,54 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async handleSubmit(e: any) {
         e.preventDefault();
         let messageData = this.state.messageDataList[this.state.currentIndex]
-        if (this.state.messageText == '') return false;
+        if (messageData.messageText == '') return false;
         let row = new DataRow();
-        row.setValue('ToUser_', messageData.fromUser).setValue('Content_', this.state.messageText);
+        row.setValue('ToUser_', messageData.fromUser).setValue('Content_', messageData.messageText);
         await PageApi.replyMessage(row);
+        this.state.messageDataList[this.state.currentIndex].messageText = '';
+        let messageDataList = await this.getContactFirstData();
         this.setState({
-            messageText: '',
-            scrollFlag: true
+            messageDataList
+        }, () => {
+            this.getMessageData(this.state.currentIndex, Utils.getNowDate());
         })
-        await this.getContactData();
-        this.getMessageData(this.state.currentIndex, Utils.getNowDate());
     }
 
     // 设置聊天区域滚动到底部
-    scrollBottom() {
-        var el = document.getElementsByClassName(styles.messageList)[0];
-        //@ts-ignore
-        el.scrollTop = el.scrollHeight;
-        this.setState({
-            scrollHeightNub: el.scrollHeight
-        })
+    initMessageScroll() {
+        let el = document.getElementsByClassName(styles.messageList)[0] as HTMLDivElement;
+        el.scrollTop = el.scrollHeight - this.state.messageDataList[this.state.currentIndex].fromBottom;
     }
 
     // 消息区域滚动事件
     scrollEventFun(e: any) {
-        let scrollHeight = e.target.scrollTop + e.target.offsetHeight;
-        if (scrollHeight < this.state.scrollHeightNub) {
-            this.setState({
-                scrollFlag: false,
-                scrollHeightNub: e.target.scrollHeight
-            })
-        } else {
-            this.setState({
-                scrollFlag: true,
-                scrollHeightNub: e.target.scrollHeight
-            })
-        }
+        let el = e.target as HTMLDivElement;
+        this.state.messageDataList[this.state.currentIndex].fromBottom = el.scrollHeight - el.scrollTop;
+        this.setState(this.state)
     }
 
     //快捷回复 发送
     quicReplySend(e: any) {
         if (this.state.quicReplyEditFlag)
             return
-        this.setState({
-            messageText: e.target.innerText
-        }, () => {
+        this.state.messageDataList[this.state.currentIndex].messageText = e.target.innerText;
+        this.setState(this.state, () => {
             this.handleSubmit(e);
         })
     }
 
     //设置备注信息
     async setUserRemarkFun() {
-        if (this.state.remarkText != this.state.remarkText_) {
-            let messageData = this.state.messageDataList[this.state.currentIndex]
+        let messageData = this.state.messageDataList[this.state.currentIndex];
+        if (messageData.remarkText != messageData.remarkText_) {
             let row = new DataRow();
-            row.setValue('UserCode_', messageData.fromUser).setValue('Remark_', this.state.remarkText);
+            row.setValue('UserCode_', messageData.fromUser).setValue('Remark_', messageData.remarkText);
             let dataOut = await PageApi.setUserRemark(row);
             if (dataOut.state < 0) {
                 showMsg(dataOut.message);
             } else {
-                this.setState({
-                    remarkText_: this.state.remarkText
-                })
+                messageData.remarkText_ = messageData.remarkText
+                this.setState(this.state)
             }
         }
     }
@@ -574,28 +630,38 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     //获取历史消息 每次点击都获取当前查询时间 前一天
     async getHistoricalRecordsFun() {
         let messageData = this.state.messageDataList[this.state.currentIndex];
-        // let date = new Date('')
-        // this.getMessageData()
-        // let date: any;
-        // var nowTime = new Date().getTime() - (this.state.HistoricalRecordsDay * 24 * 60 * 60 * 1000);
-        // var now = new Date(nowTime);
-        // var yyyy = now.getFullYear();
-        // var m: any = now.getMonth() + 1;
-        // var day: any = now.getDate();
-        // if (m < 10) m = '0' + m;
-        // if (day < 10) day = '0' + day;
-        // date = yyyy + '-' + m + '-' + day;
-        // let row = new DataRow();
-        // let HistoricalRecordsList = new DataSet();
-        // row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date);
-        // let messageData = await PageApi.getMessageDetails(row);
-        // HistoricalRecordsList.appendDataSet(messageData);
-        // HistoricalRecordsList.appendDataSet(this.state.HistoricalRecordsList);
-        // this.setState({
-        //     HistoricalRecordsFlag: true,
-        //     HistoricalRecordsList,
-        //     HistoricalRecordsDay: this.state.HistoricalRecordsDay + 1
-        // });
+        let beginTimer = new Date(messageData.date).getTime();
+        let endTimer = beginTimer - (24 * 60 * 60 * 1000 * 7);
+        let date = new Date(endTimer);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let date_ = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+        let dataOut = await this.getHistoryData(date_);
+        if (dataOut.size <= 0 && !this.moreThanOneMonth(date_)) {
+            messageData.date = date_;
+            this.setState(this.state, () => {
+                this.getHistoricalRecordsFun();
+            })
+        } else {
+            let ds = new DataSet();
+            ds.appendDataSet(messageData.data);
+            dataOut.first();
+            while (dataOut.fetch()) {
+                if (ds.locate('UID_', dataOut.getString('UID_'))) {
+                    ds.copyRecord(dataOut.current);
+                } else {
+                    ds.append();
+                    ds.copyRecord(dataOut.current);
+                }
+            }
+            ds.setSort('AppDate_');
+            messageData.data = ds;
+            messageData.date = date_;
+            this.setState(this.state, ()=>{
+                this.initMessageScroll();
+            });
+        }
     }
 
     //切换消息类型
