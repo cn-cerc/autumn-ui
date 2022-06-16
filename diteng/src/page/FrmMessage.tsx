@@ -114,7 +114,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 第一次获取联系人列表数据
     async getContactFirstData() {
         let dataOut = await PageApi.getContactList();
-        dataOut.setSort('LatestDate_');
+        dataOut.setSort('LatestDate_ DESC');
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         while (dataOut.fetch()) {
@@ -144,7 +144,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async getContactData() {
         let messageDataList = this.state.messageDataList;
         let dataOut = await PageApi.getContactList();
-        dataOut.setSort('LatestDate_');
+        dataOut.setSort('LatestDate_ DESC');
         dataOut.first();
         while (dataOut.fetch()) {
             let bool = false;
@@ -484,7 +484,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             this.setState({
                 currentIndex: num
             }, () => {
-                location.href = `./FrmNewMessage.details?fromUser=${messageData.fromUser}&date=${date}&name=${messageData.name}`
+                location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&date=${date}&name=${messageData.name}`
             })
         }
 
@@ -495,7 +495,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         this.timer = setInterval(async () => {
             let messageDataList = await this.getContactData();
             this.setState({
-                messageDataList
+                messageDataList,
             }, () => {
                 this.getMessageData(this.state.currentIndex);
             })
@@ -527,7 +527,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         this.state.messageDataList[this.state.currentIndex].messageText = '';
         let messageDataList = await this.getContactFirstData();
         this.setState({
-            messageDataList
+            messageDataList,
+            currentIndex: 0
         }, () => {
             this.getMessageData(this.state.currentIndex, Utils.getNowDate());
         })
