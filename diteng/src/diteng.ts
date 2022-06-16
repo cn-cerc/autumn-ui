@@ -71,6 +71,7 @@ import { Loading } from "./tool/Loading";
 import Utils, { ClientStorage } from "./tool/Utils";
 import RapidInput from "./custom/RapidInput";
 import AdPlayerMC from "./dialog/AdPlayerMC";
+import AdvertContentDialog from "./dialog/AdvertContentDialog";
 
 export default {
     //地藤专用
@@ -154,5 +155,6 @@ export default {
     FrmOEMAppend,
     //OEM修改
     FrmOEMChange,
-    AdPlayerMC
+    AdPlayerMC,
+    AdvertContentDialog,
 }

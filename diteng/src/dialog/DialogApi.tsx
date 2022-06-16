@@ -520,6 +520,11 @@ export default class DialogApi {
         return DialogApi.serviceDataSet('SvrSubitemBOM.createSubitemBOM', params);
     }
 
+    /** 获取广告内容列表 */
+    static getAdvertContentList(params: DataRow) {
+        return DialogApi.getDataOut('SvrAdvertContent.getAdvertContentList', params);
+    }
+
     static getPlayList() {
         return DialogApi.getService('/FrmAdvertPlay.getPlayList');
     }
