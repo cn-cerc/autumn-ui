@@ -519,4 +519,9 @@ export default class DialogApi {
     static createSubitemBOM(params: DataSet) {
         return DialogApi.serviceDataSet('SvrSubitemBOM.createSubitemBOM', params);
     }
+
+    /** 获取广告内容列表 */
+    static getAdvertContentList(params: DataRow) {
+        return DialogApi.getDataOut('SvrAdvertContent.getAdvertContentList', params);
+    }
 }
