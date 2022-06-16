@@ -21,7 +21,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
             ...this.state,
             dataIn,
             dataSet: new DataSet(),
-            width: '45rem',
+            width: '60rem',
             height: this.isPhone ? '25rem' : '30rem'
         }
     }

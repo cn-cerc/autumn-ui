@@ -524,5 +524,4 @@ export default class DialogApi {
     static getAdvertContentList(params: DataRow) {
         return DialogApi.getDataOut('SvrAdvertContent.getAdvertContentList', params);
     }
-
 }
