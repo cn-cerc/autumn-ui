@@ -240,12 +240,13 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     this.setState({
                         listArea: data.areaList
                     })
+                    break;
                 case 'City':
                     this.setState({
                         listCity: data.areaList
                     })
                     break;
-                case "County":
+                case 'County':
                     this.setState({
                         listCounty: data.areaList
                     })
