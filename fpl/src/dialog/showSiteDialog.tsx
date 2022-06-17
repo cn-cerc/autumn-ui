@@ -17,9 +17,9 @@ type UserTypeState = {
     cityText: string,
     CountyText: string,
     showHideIndex: number,
-    colorArea: boolean[],
-    colorCity: boolean[],
-    colorCounty: boolean[]
+    colorArea:number,
+    colorCIty:number,
+    colorCounty:number,
 } & Partial<BaseDialogStateType>
 
 
@@ -41,9 +41,10 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             listCity: ['请选择'],
             listCounty: ['请选择'],
             showHideIndex: 0,
-            colorArea: [],
-            colorCity: [],
-            colorCounty: []
+
+            colorArea:-1,
+            colorCIty:-1,
+            colorCounty:-1,
         };
     }
 
@@ -59,14 +60,11 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             this.getData(cookie[0] + "`" + cookie[1], 'County')
             setTimeout(() => {
                 let index0 = this.state.listArea.findIndex(value => value == cookie[0])
-                let colorArea = new Array(this.state.listArea.length).fill(false)
-                colorArea[index0] = true
+
                 let index1 = this.state.listCity.findIndex(value => value == cookie[1])
-                let colorCity = new Array(this.state.listCity.length).fill(false)
-                colorCity[index1] = true
+
                 let index2 = this.state.listCounty.findIndex(value => value == cookie[2])
-                let colorCounty = new Array(this.state.listCounty.length).fill(false)
-                colorCounty[index2] = true
+
                 this.setState({
                     Area: cookie[0],
                     AreaText: cookie[0],
@@ -75,9 +73,9 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     County: cookie[2],
                     CountyText: cookie[2],
                     showHideIndex: 2,
-                    colorArea: colorArea,
-                    colorCity: colorCity,
-                    colorCounty: colorCounty,
+                    colorArea:index0,
+                    colorCIty:index1,
+                    colorCounty:index2,
                 })
             }, 100);
         }
@@ -127,7 +125,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             if (index == 0) {
                 return <a key={index}>{data}</a>
             } else {
-                return <a className={this.state.colorArea[index] ? styles.color : styles} onClick={this.Area.bind(this, index)} key={index}>{data}</a>
+                return <a className={this.state.colorArea == index ? styles.color : styles} onClick={this.Area.bind(this, index)} key={index}>{data}</a>
             }
         })
         return list;
@@ -138,7 +136,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             if (index == 0) {
                 return <a key={index}>{data}</a>
             } else {
-                return <a className={this.state.colorCity[index] ? styles.color : styles} onClick={this.City.bind(this, index)} key={index}>{data}</a>
+                return <a className={this.state.colorCIty == index ? styles.color : styles} onClick={this.City.bind(this, index)} key={index}>{data}</a>
             }
         })
         return list;
@@ -149,20 +147,18 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             if (index == 0) {
                 return <a key={index}>{data}</a>
             } else {
-                return <a className={this.state.colorCounty[index] ? styles.color : styles} onClick={this.County.bind(this, index)} key={index}>{data}</a>
+                return <a className={this.state.colorCounty == index ? styles.color : styles} onClick={this.County.bind(this, index)} key={index}>{data}</a>
             }
         })
         return list;
     }
 
     Area(index: number) {
-        let colorList = new Array(this.state.listArea.length).fill(false)
-        colorList[index] = true
         this.state.Area = this.state.listArea[index]
         this.getData(this.state.Area, 'City')
         this.setState({
             showHideIndex: 1,
-            colorArea: colorList
+            colorArea:index
         })
         if (this.state.AreaText == this.state.listArea[index]) {
             return
@@ -173,8 +169,8 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                 CountyText: "县区",
                 City: null,
                 County: null,
-                colorCity: [],
-                colorCounty: [],
+                colorCIty: -1,
+                colorCounty: -1,
                 listCounty: []
             })
         }
@@ -182,14 +178,12 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
     }
 
     City(index: number) {
-        let colorList = new Array(this.state.listCity.length).fill(false)
-        colorList[index] = true
         this.state.City = this.state.listCity[index]
         let site = this.state.Area + "`" + this.state.City
         this.getData(site, 'County')
         this.setState({
             showHideIndex: 2,
-            colorCity: colorList
+            colorCIty:index
         })
         if (this.state.cityText == this.state.listCity[index]) {
             return
@@ -198,19 +192,17 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                 cityText: this.state.listCity[index],
                 CountyText: "县区",
                 County: null,
-                colorCounty: []
+                colorCounty: -1
             })
         }
         return false
     }
 
     County(index: number) {
-        let colorList = new Array(this.state.listCounty.length).fill(false)
-        colorList[index] = true
         this.state.County = this.state.listCounty[index]
         this.setState({
             CountyText: this.state.listCounty[index],
-            colorCounty: colorList
+            colorCounty:index
         })
         let inputArr = this.props.inputId.split(",");
         $("#" + inputArr[0]).val(this.state.Area + "/" + this.state.City + "/" + this.state.County)
@@ -275,6 +267,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             alert("请选择县区")
             return
         }
+        this.handleSelect();
     }
 }
 
