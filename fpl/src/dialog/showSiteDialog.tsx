@@ -7,6 +7,7 @@ type UserTypeProps = {
 } & Partial<BaseDialogPropsType>
 
 type UserTypeState = {
+    listArea: string[],
     listCity: string[],
     listCounty: string[],
     Area: string,
@@ -23,8 +24,6 @@ type UserTypeState = {
 
 
 export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeState> {
-    private provinceArr: string[] = ['上海', '云南', '内蒙古', '北京', '吉林', '四川', '天津', '宁夏', '安徽', '山东', '山西', '广东', '新疆', '江苏', '江西',
-        '河北', '河南', '浙江', '海南', '湖北', '湖南', '澳门', '甘肃', '福建', '西藏', '贵州', '辽宁', '重庆', '陕西', '青海', '香港', '黑龙江', '臺灣',];
 
     constructor(props: UserTypeProps) {
         super(props);
@@ -38,6 +37,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             AreaText: '省份',
             cityText: '城市',
             CountyText: '县区',
+            listArea: ['请选择'],
             listCity: ['请选择'],
             listCounty: ['请选择'],
             showHideIndex: 0,
@@ -52,13 +52,14 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
     }
 
     async init() {
+        this.getData("Area1_", "Area")
         let cookie = this.props.inputVal.split("/")
         if (cookie.length == 3) {
             this.getData(cookie[0], 'City')
             this.getData(cookie[0] + "`" + cookie[1], 'County')
             setTimeout(() => {
-                let index0 = this.provinceArr.findIndex(value => value == cookie[0])
-                let colorArea = new Array(this.provinceArr.length).fill(false)
+                let index0 = this.state.listArea.findIndex(value => value == cookie[0])
+                let colorArea = new Array(this.state.listArea.length).fill(false)
                 colorArea[index0] = true
                 let index1 = this.state.listCity.findIndex(value => value == cookie[1])
                 let colorCity = new Array(this.state.listCity.length).fill(false)
@@ -67,12 +68,12 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                 let colorCounty = new Array(this.state.listCounty.length).fill(false)
                 colorCounty[index2] = true
                 this.setState({
-                    Area:cookie[0],
-                    AreaText:cookie[0],
-                    City:cookie[1],
-                    cityText:cookie[1],
-                    County:cookie[2],
-                    CountyText:cookie[2],
+                    Area: cookie[0],
+                    AreaText: cookie[0],
+                    City: cookie[1],
+                    cityText: cookie[1],
+                    County: cookie[2],
+                    CountyText: cookie[2],
                     showHideIndex: 2,
                     colorArea: colorArea,
                     colorCity: colorCity,
@@ -122,8 +123,12 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
     }
 
     getProvince() {
-        let list = this.provinceArr.map((data: string, index: number) => {
-            return <a className={this.state.colorArea[index] ? styles.color : styles} onClick={this.Area.bind(this, index)} key={index}>{data}</a>
+        let list = this.state.listArea.map((data: string, index: number) => {
+            if (index == 0) {
+                return <a key={index}>{data}</a>
+            } else {
+                return <a className={this.state.colorArea[index] ? styles.color : styles} onClick={this.Area.bind(this, index)} key={index}>{data}</a>
+            }
         })
         return list;
     }
@@ -151,19 +156,19 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
     }
 
     Area(index: number) {
-        let colorList = new Array(this.provinceArr.length).fill(false)
+        let colorList = new Array(this.state.listArea.length).fill(false)
         colorList[index] = true
-        this.state.Area = this.provinceArr[index]
+        this.state.Area = this.state.listArea[index]
         this.getData(this.state.Area, 'City')
         this.setState({
             showHideIndex: 1,
             colorArea: colorList
         })
-        if (this.state.AreaText == this.provinceArr[index]) {
+        if (this.state.AreaText == this.state.listArea[index]) {
             return
         } else {
             this.setState({
-                AreaText: this.provinceArr[index],
+                AreaText: this.state.listArea[index],
                 cityText: "城市",
                 CountyText: "县区",
                 City: null,
@@ -231,6 +236,10 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             return data.json();
         }).then((data) => {
             switch (dom) {
+                case 'Area':
+                    this.setState({
+                        listArea: data.areaList
+                    })
                 case 'City':
                     this.setState({
                         listCity: data.areaList
@@ -246,9 +255,15 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
     }
 
     handleClickBySite() {
-        console.log(this.props.children)
         if (this.state.Area == null) {
             alert("请选择省份")
+            return
+        }
+        if (this.state.Area == "海外其它地区") {
+            let inputArr = this.props.inputId.split(",");
+            $("#" + inputArr[0]).val(this.state.Area)
+            $("#" + inputArr[1]).val(this.state.Area)
+            this.handleSelect();
             return
         }
         if (this.state.City == null) {
