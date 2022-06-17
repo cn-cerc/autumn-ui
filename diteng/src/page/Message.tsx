@@ -21,7 +21,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
     render(): React.ReactNode {
         return <div className={`${styles.main} ${this.props.siteR ? styles.msgRight : styles.msgLeft}`}>
             <div className={styles.personBox}>
-                <div className={styles.imageBox}>{this.props.name.substring(this.props.name.length - 2)}</div>
+                <div className={styles.imageBox}>{this.props.name == '系统消息' ? '系统' : this.props.name.substring(this.props.name.length - 2)}</div>
                 <div className={styles.person}>
                     <div style={{ 'paddingBottom': '3px' }}>{this.props.name}</div>
                     <div style={{ 'paddingBottom': '3px' }}>{this.props.time}</div>

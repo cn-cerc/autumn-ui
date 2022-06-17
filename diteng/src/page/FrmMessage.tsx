@@ -122,7 +122,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 break;
             }
         }
-        if(messageData == null)
+        if (messageData == null)
             messageData = this.state.messageDataList[0];
         return messageData
     }
@@ -250,7 +250,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 获取单个联系人消息详情
     async getMessageData(id: string, date?: string) {
         let messageData = this.getMessageDataByCode(id);
-        let date_ = date ? date : messageData.date;
+        let date_ = date ? date : messageData.latestDate;
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date_);
         let dataOut = await PageApi.getMessageDetails(row);
@@ -267,6 +267,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }
         ds.setSort('AppDate_');
         messageData.data = ds;
+        messageData.latestDate = date_;
         this.setState({
             currentUserId: id,
         });
@@ -306,7 +307,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     }
                 }
                 list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
-                    <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
+                    <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
                         <div className={styles.contactTitle}>
@@ -501,7 +502,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let bool = true;
         if (year_ == _year && month_ == _month)
             bool = false;
-        else if (year_ == year_ && month_ != month_ && day_ >= _day)
+        else if (year_ == year_ && month_ != _month && day_ >= _day)
             bool = false
         else if (year_ != year_ && month_ == 12 && _month == 1 && day_ >= _day)
             bool = false;
@@ -531,7 +532,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             this.setState({
                 messageDataList,
             }, () => {
-                this.getMessageData(this.state.currentUserId);
+                if (!this.isPhone) {
+                    this.getMessageData(this.state.currentUserId);
+                }
             })
         }, this.state.timing * 1000)
     }
@@ -559,7 +562,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         row.setValue('ToUser_', messageData.fromUser).setValue('Content_', messageData.messageText);
         await PageApi.replyMessage(row);
         messageData.messageText = '';
-        let messageDataList = await this.getContactFirstData();
+        messageData.fromBottom = 0;
+        let messageDataList = await this.getContactData();
         this.setState({
             messageDataList,
             currentUserId: messageData.fromUser

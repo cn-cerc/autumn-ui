@@ -487,22 +487,8 @@
         position: relative;
     }
 
-    /* .contactList>li::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 4.375rem;
-        right: 0;
-        height: 1px;
-        background-color: #e5e5e5;
-    } */
-
     .contactList {
         background-color: #f3f3f3;
-    }
-
-    .selectContact {
-        background-color: #fff;
     }
 
     .contactImage {
@@ -577,18 +563,15 @@
     }
 
     .replyBox>textarea {
-        width: 65%;
+        width: 0;
+        flex: 1;
         height: 1.875rem;
         font-size: 0.875rem;
         line-height: 1.875rem;
         background-color: #fff;
         border-radius: 4px;
         padding-left: 0.3125rem;
-    }
-
-    .replyBox>div {
-        width: 35%;
-        padding: 0;
+        margin-right: 1rem;
     }
 
     .replyBox>div>button {

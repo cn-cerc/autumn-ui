@@ -20,15 +20,12 @@ type FrmMessageDetailsTypeProps = {
 
 type FrmMessageDetailsTypeState = {
     messageData: DataSet,
+    date: string,
+    lastDate: string
     messageText: string,
     showQuicReply: boolean,
-    sendText: string,
     quicReplyList: Array<{ text: string, uid: string }>,
-    HistoricalRecordsDay: number,
-    HistoricalRecordsFlag: boolean,
-    HistoricalRecordsList: DataSet,
-    scrollFlag: boolean,
-    scrollHeightNub: number,
+    leaveBottom: number,
     timing: number
 }
 
@@ -39,35 +36,69 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         this.state = {
             timing: timing,
             messageData: new DataSet(),
-            messageText: '',
-            showQuicReply: false,
-            sendText: '', //需要发送的消息
-            quicReplyList: [],
-            HistoricalRecordsDay: 1,     //获取前面第几天的数据
-            HistoricalRecordsFlag: false,    //控制是否累加消息
-            HistoricalRecordsList: new DataSet(),     //保存历史记录List
-            scrollFlag: true,    //标记是否需要将聊天区域自动滚动到底部
-            scrollHeightNub: 0,  //记录最新高度
+            messageText: '',        //需要发送的消息
+            showQuicReply: false,       // 是否展示快捷发送
+            quicReplyList: [],      // 快捷发送列表
+            date: this.props.date,
+            lastDate: this.props.date,
+            leaveBottom: 0
         }
     }
 
     componentDidMount(): void {
-        this.getMessageData();
+        this.getFirstMessageDate();
+        // this.getQuicReplyListFun();
         this.startTimer();
     }
 
-    async getMessageData() {
+    componentWillUnmount(): void {
+        clearInterval(this.timer);
+    }
+
+    async getFirstMessageDate() {
         let row = new DataRow();
-        row.setValue('FromUser_', this.props.fromUser).setValue('Date_', this.props.date);
+        row.setValue('FromUser_', this.props.fromUser).setValue('Date_', this.state.lastDate);
         let messageData = new DataSet();
         let ds = await PageApi.getMessageDetails(row);
-        messageData.appendDataSet(this.state.HistoricalRecordsList);
-        messageData.appendDataSet(ds);
+        messageData.appendDataSet(this.state.messageData);
+        ds.first();
+        while (ds.fetch()) {
+            if (messageData.locate('UID_', ds.getString('UID_'))) {
+                messageData.copyRecord(ds.current);
+            } else {
+                messageData.append();
+                messageData.copyRecord(ds.current);
+            }
+        }
+        messageData.setSort('AppDate_');
         this.setState({
-            HistoricalRecordsFlag: false,
             messageData
         }, () => {
-            this.scrollBottom();
+            this.initMessageScroll();
+        })
+    }
+
+    async getMessageData(date: string) {
+        let row = new DataRow();
+        row.setValue('FromUser_', this.props.fromUser).setValue('Date_', date);
+        let messageData = new DataSet();
+        let ds = await PageApi.getMessageDetails(row);
+        messageData.appendDataSet(this.state.messageData);
+        ds.first();
+        while (ds.fetch()) {
+            if (messageData.locate('UID_', ds.getString('UID_'))) {
+                messageData.copyRecord(ds.current);
+            } else {
+                messageData.append();
+                messageData.copyRecord(ds.current);
+            }
+        }
+        messageData.setSort('AppDate_');
+        this.setState({
+            messageData,
+            date
+        }, () => {
+            this.initMessageScroll();
         })
     }
 
@@ -78,14 +109,13 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                 <textarea value={this.state.messageText} onChange={(e) => {
                     this.setState({
                         messageText: e.target.value,
-                        sendText: e.target.value
                     })
                 }}></textarea>
                 <div>
                     <div className={`${this.state.showQuicReply ? styles.show : styles.hide} ${styles.quicReplyBox}`}>
                         {this.getQuicReplyList()}
                     </div>
-                    <span className={`${this.props.fromUser ? '' : styles.disEvents} ${styles.quicReplyBtn}`} onClick={this.openQuicReplyList.bind(this)}>+</span>
+                    {/* <span className={`${this.props.fromUser ? '' : styles.disEvents} ${styles.quicReplyBtn}`} onClick={this.openQuicReplyList.bind(this)}>+</span> */}
                     <button className={this.props.fromUser && this.state.messageText != '' ? '' : styles.disEvents}>发送</button>
                 </div>
             </form>
@@ -96,7 +126,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let list = [];
         let ds = new DataSet();
         let temp: number;
-        let showFalg: boolean = false;
         ds.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
@@ -132,18 +161,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     messageName = DefaultMessage;
                     break;
             }
-            // let date = new Date(ds.getString('AppDate_'));
-            // let h: number | string = date.getHours();
-            // if (h < 10)
-            //     h = '0' + h;
-            // let m: number | string = date.getMinutes();
-            // if (m < 10)
-            //     m = '0' + m;
-            // let s: number | string = date.getSeconds();
-            // if (s < 10)
-            //     s = '0' + s;
             list.push(<li key={ds.recNo}>
-                <div className={styles.msgTime}>{ds.getString('AppDate_')}</div>
                 {React.createElement(messageName, {
                     row: ds.current,
                     name,
@@ -156,7 +174,15 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         }
         return <ul className={styles.messageList} onScroll={(e) => {
             this.scrollEventFun(e);
-        }}><li key="10-1" className={styles.historicalRecordsBox}><span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>查看更多记录</span></li>{list}</ul>
+        }}><li key="10-1" className={styles.historicalRecordsBox}>{this.getHistoryBtn()}</li>{list}</ul>
+    }
+
+    getHistoryBtn() {
+        if (this.moreThanOneMonth(this.state.date)) {
+            return <span className={styles.noHistory}>暂无更多历史消息</span>
+        } else {
+            return <span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>获取更多历史消息</span>;
+        }
     }
 
     handleKeyDown(e: any) {
@@ -168,43 +194,51 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     }
 
     async handleSubmit(e: any) {
-        if (this.state.sendText == '') return false;
+        if (this.state.messageText == '') return false;
         e.preventDefault();
         let row = new DataRow();
-        row.setValue('ToUser_', this.props.fromUser).setValue('Content_', this.state.sendText);
-        let dataOut = await PageApi.replyMessage(row);
+        row.setValue('ToUser_', this.props.fromUser).setValue('Content_', this.state.messageText);
+        await PageApi.replyMessage(row);
         this.setState({
             messageText: '',
-            sendText: ''
         })
-        this.getMessageData();
     }
 
-    scrollBottom() {
-        if (this.state.scrollFlag) {
-            var el = document.getElementsByClassName(styles.messageList)[0];
-            //@ts-ignore
-            el.scrollTop = el.scrollHeight;
-            this.setState({
-                scrollHeightNub: el.scrollHeight
-            })
+    // 设置聊天区域滚动到底部
+    initMessageScroll() {
+        let el = document.getElementsByClassName(styles.messageList)[0] as HTMLDivElement;
+        el.scrollTop = el.scrollHeight - this.state.leaveBottom;
+    }
+
+    //获取快捷回复列表
+    async getQuicReplyListFun() {
+        let quicReplyList: Array<{ text: string, uid: string }> = [];
+        let row = new DataRow();
+        let dataOut = await PageApi.getQuickReplyList(row);
+        let ds = new DataSet();
+        ds.appendDataSet(dataOut);
+        ds.first();
+        while (ds.fetch()) {
+            quicReplyList.push({ text: ds.getString('reply_content_'), uid: ds.getString('uid_') });
         }
+        this.setState({ quicReplyList });
     }
 
     getQuicReplyList() {
         let datalist = this.state.quicReplyList;
-        let List: any = [];
+        console.log(datalist)
+        let list: any = [];
         datalist.forEach((item) => {
-            List.push(<li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)} key={item.uid}>{item.text}</li>);
+            list.push(<li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)} key={item.uid}>{item.text}</li>);
         })
         return <ul>
-            {List}
+            {list}
         </ul>
     }
 
     quicReplySend(e: any) {
         this.setState({
-            sendText: e.target.innerText
+            messageText: e.target.innerText
         }, () => {
             this.handleSubmit(e);
             this.openQuicReplyList();
@@ -219,50 +253,82 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
 
     //获取历史消息 每次点击都获取当前查询时间 前一天
     async getHistoricalRecordsFun() {
-        let date: any;
-        var nowTime = new Date().getTime() - (this.state.HistoricalRecordsDay * 24 * 60 * 60 * 1000);
-        var now = new Date(nowTime);
-        var yyyy = now.getFullYear();
-        var m: any = now.getMonth() + 1;
-        var day: any = now.getDate();
-        if (m < 10) m = '0' + m;
-        if (day < 10) day = '0' + day;
-        date = yyyy + '-' + m + '-' + day;
+        let beginTimer = new Date(this.state.date).getTime();
+        let endTimer = beginTimer - (24 * 60 * 60 * 1000 * 7);
+        let date = new Date(endTimer);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let date_ = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+        let dataOut = await this.getHistoryData(date_);
+        console.log(dataOut.size)
+        if (dataOut.size <= 0 && !this.moreThanOneMonth(date_)) {
+            this.setState({
+                date: date_
+            }, () => {
+                console.log('我要触发了')
+                this.getHistoricalRecordsFun();
+            })
+        } else {
+            let ds = new DataSet();
+            ds.appendDataSet(this.state.messageData);
+            dataOut.first();
+            while (dataOut.fetch()) {
+                if (ds.locate('UID_', dataOut.getString('UID_'))) {
+                    ds.copyRecord(dataOut.current);
+                } else {
+                    ds.append();
+                    ds.copyRecord(dataOut.current);
+                }
+            }
+            ds.setSort('AppDate_');
+            this.setState({
+                messageData: ds,
+                date: date_
+            }, () => {
+                this.initMessageScroll();
+            });
+        }
+    }
+
+    moreThanOneMonth(date: string) {
+        let date_ = new Date(date);
+        let year_ = date_.getFullYear();
+        let month_ = date_.getMonth() + 1;
+        let day_ = date_.getDate();
+        let _date = new Date();
+        let _year = _date.getFullYear();
+        let _month = _date.getMonth() + 1;
+        let _day = _date.getDate();
+        let bool = true;
+        if (year_ == _year && month_ == _month)
+            bool = false;
+        else if (year_ == year_ && month_ != _month && day_ >= _day)
+            bool = false
+        else if (year_ != year_ && month_ == 12 && _month == 1 && day_ >= _day)
+            bool = false;
+        return bool;
+    }
+
+    // 获取历史消息
+    async getHistoryData(date: string) {
         let row = new DataRow();
-        let HistoricalRecordsList = new DataSet();
         row.setValue('FromUser_', this.props.userCode).setValue('Date_', date);
-        let messageData = await PageApi.getMessageDetails(row);
-        HistoricalRecordsList.appendDataSet(messageData);
-        HistoricalRecordsList.appendDataSet(this.state.HistoricalRecordsList);
-        this.setState({
-            HistoricalRecordsFlag: true,
-            HistoricalRecordsList,
-            HistoricalRecordsDay: this.state.HistoricalRecordsDay + 1
-        }, () => {
-            this.getMessageData();
-            console.log(this.state.HistoricalRecordsList);
-        });
+        let dataOut = await PageApi.getMessageDetails(row);
+        return dataOut;
     }
 
     //自动滚动功能
     scrollEventFun(e: any) {
-        let scrollHeight = e.target.scrollTop + e.target.offsetHeight;
-        if (scrollHeight < this.state.scrollHeightNub) {
-            this.setState({
-                scrollFlag: false,
-                scrollHeightNub: e.target.scrollHeight
-            })
-        } else {
-            this.setState({
-                scrollFlag: true,
-                scrollHeightNub: e.target.scrollHeight
-            })
-        }
+        let el = e.target as HTMLDivElement;
+        this.setState({
+            leaveBottom: el.scrollHeight - el.scrollTop
+        })
     }
 
     startTimer() {
         this.timer = setInterval(() => {
-            this.getMessageData();
+            this.getFirstMessageDate();
         }, this.state.timing * 1000)
     }
 }
