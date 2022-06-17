@@ -18,7 +18,7 @@ type UserTypeState = {
     CountyText: string,
     showHideIndex: number,
     colorArea:number,
-    colorCIty:number,
+    colorCity:number,
     colorCounty:number,
 } & Partial<BaseDialogStateType>
 
@@ -43,7 +43,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             showHideIndex: 0,
 
             colorArea:-1,
-            colorCIty:-1,
+            colorCity:-1,
             colorCounty:-1,
         };
     }
@@ -74,7 +74,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                     CountyText: cookie[2],
                     showHideIndex: 2,
                     colorArea:index0,
-                    colorCIty:index1,
+                    colorCity:index1,
                     colorCounty:index2,
                 })
             }, 100);
@@ -136,7 +136,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             if (index == 0) {
                 return <a key={index}>{data}</a>
             } else {
-                return <a className={this.state.colorCIty == index ? styles.color : styles} onClick={this.City.bind(this, index)} key={index}>{data}</a>
+                return <a className={this.state.colorCity == index ? styles.color : styles} onClick={this.City.bind(this, index)} key={index}>{data}</a>
             }
         })
         return list;
@@ -169,7 +169,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
                 CountyText: "县区",
                 City: null,
                 County: null,
-                colorCIty: -1,
+                colorCity: -1,
                 colorCounty: -1,
                 listCounty: []
             })
@@ -183,7 +183,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
         this.getData(site, 'County')
         this.setState({
             showHideIndex: 2,
-            colorCIty:index
+            colorCity:index
         })
         if (this.state.cityText == this.state.listCity[index]) {
             return
