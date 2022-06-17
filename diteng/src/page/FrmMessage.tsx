@@ -21,7 +21,7 @@ type FrmMessageTypeState = {
     timing: number,
     contactData: DataSet,
     messageDataList: messageDetail[],
-    currentIndex: number,
+    currentUserId: string,
     showMessage: boolean,
     quicReplyList: Array<{ text: string, uid: string }>
     quicReplyEditFlag: boolean,
@@ -70,7 +70,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 remarkText_: '',        //默认备注字段，用来判断备注是否有修改
                 remarkText: '',     //备注字段
             }],     //消息列表DataSet
-            currentIndex: this.isPhone ? -1 : 0,      //当前选中的联系人下标
+            currentUserId: null,
             showMessage,        //是否展示消息列表
             quicReplyList: [],   //保存获取的快捷回复list
             quicReplyEditFlag: false,    //是否展示快捷回复消息列表
@@ -101,14 +101,30 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 初始化页面数据加载
     async initData() {
         let messageDataList = await this.getContactFirstData();
+        let currentUserId = messageDataList[0].fromUser;
         this.setState({
-            messageDataList
+            messageDataList,
+            currentUserId
         }, () => {
             if (!this.isPhone) {
-                this.getMessageData(this.state.currentIndex);
+                this.getMessageData(this.state.currentUserId);
                 this.getUserInfo();
             }
         })
+    }
+
+    // 通过联系人ID获取下标
+    getMessageDataByCode(id: string) {
+        let messageData = null;
+        for (let i = 0; i < this.state.messageDataList.length; i++) {
+            if (this.state.messageDataList[i].fromUser == id) {
+                messageData = this.state.messageDataList[i];
+                break;
+            }
+        }
+        if(messageData == null)
+            messageData = this.state.messageDataList[0];
+        return messageData
     }
 
     // 第一次获取联系人列表数据
@@ -117,12 +133,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         dataOut.setSort('LatestDate_ DESC');
         dataOut.first();
         let messageDataList: messageDetail[] = [];
+        let allUnReadNum = 0;
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
             let year_ = date_.getFullYear();
             let month_ = date_.getMonth() + 1;
             let day_ = date_.getDate();
+            let unReadNum = dataOut.getDouble('UnReadNum_');
             messageDataList.push({
                 data: new DataSet(),
                 latestDate,
@@ -131,12 +149,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 fromBottom: 0,
                 fromUser: dataOut.getString('FromUser_'),
                 name: dataOut.getString('Name_'),
-                unReadNum: dataOut.getDouble('UnReadNum_'),
+                unReadNum,
                 messageText: '',
                 remarkText: '',
                 remarkText_: ''
             })
+            allUnReadNum += unReadNum;
         }
+        this.setHeaderMessageNum(allUnReadNum);
         return messageDataList;
     }
 
@@ -146,6 +166,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let dataOut = await PageApi.getContactList();
         dataOut.setSort('LatestDate_ DESC');
         dataOut.first();
+        let allUnReadNum = 0;
         while (dataOut.fetch()) {
             let bool = false;
             let num = 0;
@@ -181,30 +202,43 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     remarkText_: messageDataList[num].remarkText_
                 }
             } else {
-                messageDataList.push({
+                unReadNum = dataOut.getDouble('UnReadNum_');
+                date_ = new Date(latestDate);
+                year_ = date_.getFullYear();
+                month_ = date_.getMonth() + 1;
+                day_ = date_.getDate();
+                messageDataList.unshift({
                     data: new DataSet(),
-                    latestDate,
+                    latestDate: dataOut.getString('LatestDate_'),
                     latestMessage: dataOut.getString('LatestMessage_'),
                     date: `${year_}-${month_ < 10 ? '0' + month_ : month_}-${day_ < 10 ? '0' + day_ : day_}`,
                     fromBottom: 0,
                     fromUser: dataOut.getString('FromUser_'),
                     name: dataOut.getString('Name_'),
-                    unReadNum: dataOut.getDouble('UnReadNum_'),
+                    unReadNum,
                     messageText: '',
                     remarkText: '',
                     remarkText_: ''
                 })
             }
+            allUnReadNum += unReadNum;
         }
+        this.setHeaderMessageNum(allUnReadNum);
         return messageDataList;
+    }
+
+    setHeaderMessageNum(num: number) {
+        //@ts-ignore
+        setHeaderMessageNum(num);
     }
 
     async getUserInfo() {
         let remarkText = await this.getUserRemarkFun();
         let quicReplyList = await this.getQuicReplyListFun();
         let contactInfo = await this.fromDetailFun();
-        this.state.messageDataList[this.state.currentIndex].remarkText = this.state.messageDataList[this.state.currentIndex].remarkText || remarkText;
-        this.state.messageDataList[this.state.currentIndex].remarkText_ = remarkText;
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
+        messageData.remarkText = messageData.remarkText || remarkText;
+        messageData.remarkText_ = remarkText;
         this.setState({
             quicReplyEditFlag: false,
             quicReplyItemIptText: '',
@@ -214,8 +248,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     // 获取单个联系人消息详情
-    async getMessageData(num: number, date?: string) {
-        let messageData = this.state.messageDataList[num]
+    async getMessageData(id: string, date?: string) {
+        let messageData = this.getMessageDataByCode(id);
         let date_ = date ? date : messageData.date;
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date_);
@@ -234,14 +268,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         ds.setSort('AppDate_');
         messageData.data = ds;
         this.setState({
-            currentIndex: num,
+            currentUserId: id,
         });
         this.initMessageScroll();
     }
 
     // 获取历史消息
     async getHistoryData(date: string) {
-        let messageData = this.state.messageDataList[this.state.currentIndex]
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date);
         let dataOut = await PageApi.getMessageDetails(row);
@@ -271,7 +305,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                         continue;
                     }
                 }
-                list.push(<li key={num} className={num == this.state.currentIndex ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, num)}>
+                list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
                     <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
@@ -296,7 +330,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 获取消息详情JSX结构
     getMessageBox() {
-        let messageData = this.state.messageDataList[this.state.currentIndex]
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         if (this.state.showMessage) {
             return <div className={styles.messageBox}>
                 <div className={styles.messageTitle}>
@@ -339,7 +373,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 获取对象资料JSX结构
     getUserInfoList() {
-        let messageData = this.state.messageDataList[this.state.currentIndex]
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         return <ul>
             <li className={styles.userInfoItem}><span>{messageData.name}</span></li>
             <li className={styles.userInfoItem}>所属角色：<span>{this.state.contactInfo.getString('RoleName_')}</span></li>
@@ -393,7 +427,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     getMessageList() {
         let list = [];
         let ds = new DataSet();
-        let messageData = this.state.messageDataList[this.state.currentIndex];
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         list.push(<li key="10-1" className={styles.historicalRecordsBox}>
             {this.getHistoryBtn(messageData)}
         </li>)
@@ -475,14 +509,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     // 点击联系人触发的事件
-    async handleClick(date: string, num: number) {
-        let messageData = this.state.messageDataList[num];
+    async handleClick(date: string, id: string) {
+        let messageData = this.getMessageDataByCode(id);
         if (!this.isPhone) {
-            await this.getMessageData(num, date);
+            await this.getMessageData(id, date);
             this.getUserInfo();
         } else {
             this.setState({
-                currentIndex: num
+                currentUserId: id
             }, () => {
                 location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&date=${date}&name=${messageData.name}`
             })
@@ -497,7 +531,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             this.setState({
                 messageDataList,
             }, () => {
-                this.getMessageData(this.state.currentIndex);
+                this.getMessageData(this.state.currentUserId);
             })
         }, this.state.timing * 1000)
     }
@@ -519,31 +553,33 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 消息回复
     async handleSubmit(e: any) {
         e.preventDefault();
-        let messageData = this.state.messageDataList[this.state.currentIndex]
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         if (messageData.messageText == '') return false;
         let row = new DataRow();
         row.setValue('ToUser_', messageData.fromUser).setValue('Content_', messageData.messageText);
         await PageApi.replyMessage(row);
-        this.state.messageDataList[this.state.currentIndex].messageText = '';
+        messageData.messageText = '';
         let messageDataList = await this.getContactFirstData();
         this.setState({
             messageDataList,
-            currentIndex: 0
+            currentUserId: messageData.fromUser
         }, () => {
-            this.getMessageData(this.state.currentIndex, Utils.getNowDate());
+            this.getMessageData(messageData.fromUser, Utils.getNowDate());
         })
     }
 
     // 设置聊天区域滚动到底部
     initMessageScroll() {
         let el = document.getElementsByClassName(styles.messageList)[0] as HTMLDivElement;
-        el.scrollTop = el.scrollHeight - this.state.messageDataList[this.state.currentIndex].fromBottom;
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
+        el.scrollTop = el.scrollHeight - messageData.fromBottom;
     }
 
     // 消息区域滚动事件
     scrollEventFun(e: any) {
         let el = e.target as HTMLDivElement;
-        this.state.messageDataList[this.state.currentIndex].fromBottom = el.scrollHeight - el.scrollTop;
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
+        messageData.fromBottom = el.scrollHeight - el.scrollTop;
         this.setState(this.state)
     }
 
@@ -551,7 +587,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     quicReplySend(e: any) {
         if (this.state.quicReplyEditFlag)
             return
-        this.state.messageDataList[this.state.currentIndex].messageText = e.target.innerText;
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
+        messageData.messageText = e.target.innerText;
         this.setState(this.state, () => {
             this.handleSubmit(e);
         })
@@ -559,7 +596,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     //设置备注信息
     async setUserRemarkFun() {
-        let messageData = this.state.messageDataList[this.state.currentIndex];
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         if (messageData.remarkText != messageData.remarkText_) {
             let row = new DataRow();
             row.setValue('UserCode_', messageData.fromUser).setValue('Remark_', messageData.remarkText);
@@ -576,7 +613,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     //获取备注信息
     async getUserRemarkFun() {
         let row = new DataRow();
-        let messageData = this.state.messageDataList[this.state.currentIndex]
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         row.setValue('UserCode_', messageData.fromUser)
         let dataOut = await PageApi.getUserRemark(row);
         let ds = new DataSet();
@@ -618,6 +655,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         row.setValue('UID_', uid);
         await PageApi.delQuickReplyItem(row);
+        this.getUserInfo();
     }
 
     //编辑快捷回复
@@ -629,7 +667,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     //获取历史消息 每次点击都获取当前查询时间 前一天
     async getHistoricalRecordsFun() {
-        let messageData = this.state.messageDataList[this.state.currentIndex];
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let beginTimer = new Date(messageData.date).getTime();
         let endTimer = beginTimer - (24 * 60 * 60 * 1000 * 7);
         let date = new Date(endTimer);
@@ -675,7 +713,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     //获取对方资料
     async fromDetailFun() {
-        let messageData = this.state.messageDataList[this.state.currentIndex]
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let contactInfo = new DataSet();
         if (messageData.fromUser) {
             let row = new DataRow();
