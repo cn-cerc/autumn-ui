@@ -43,6 +43,9 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
     content(){
         return (
             <div role="content" className={styles.main}>
+                <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
+                    <DBEdit dataName='查询条件' dataField='SearchText_' autoFocus></DBEdit>
+                </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <Column name='收款人编号'  code='payee_no_' width='40'></Column>
                     <Column name='收款人姓名'  code='payee_name_' width='40'></Column>
