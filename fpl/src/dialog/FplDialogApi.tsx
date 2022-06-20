@@ -199,4 +199,9 @@ export default class FplDialogApi {
         return FplDialogApi.getDataOut('SvrContract.searchStatus', params);
     }
 
+    /** 获取维修厂所有车辆列表 */
+    static getMaintainVehicles(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrPVehicle.search', params);
+    }
+
 }
