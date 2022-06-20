@@ -226,7 +226,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
 
     getQuicReplyList() {
         let datalist = this.state.quicReplyList;
-        console.log(datalist)
         let list: any = [];
         datalist.forEach((item) => {
             list.push(<li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)} key={item.uid}>{item.text}</li>);
@@ -261,12 +260,10 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let day = date.getDate();
         let date_ = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
         let dataOut = await this.getHistoryData(date_);
-        console.log(dataOut.size)
         if (dataOut.size <= 0 && !this.moreThanOneMonth(date_)) {
             this.setState({
                 date: date_
             }, () => {
-                console.log('我要触发了')
                 this.getHistoricalRecordsFun();
             })
         } else {

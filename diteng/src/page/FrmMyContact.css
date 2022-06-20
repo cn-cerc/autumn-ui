@@ -1,0 +1,245 @@
+.nav {
+    width: 224px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e8e6e6;
+    border-left: 1px solid #d6d6d6;
+    position: relative;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    line-height: 1em;
+}
+
+.infoBox {
+    margin: 16px 12px;
+    border-radius: .28rem;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #F3F3F3;
+}
+.infoBox>.title{
+    font-size: 14px;
+    font-family: Microsoft YaHei;
+    font-weight: bold;
+    color: #333333;
+}
+.infoBox ul {
+    padding-top: 12px;
+}
+.infoBox ul li{
+    padding-bottom: 6px;
+    color: #666;
+    cursor: pointer;
+    height: 32px;
+    line-height: 32px;
+}
+.infoBox ul li:hover{
+    color: #2884cc;
+}
+
+.AllContactList {
+    border-left: 1px solid #d6d6d6;
+}
+
+.contactList>li,
+.AllContactList>li {
+    display: flex;
+    align-items: center;
+}
+
+.contactList>li>.title,
+.AllContactList>li>.title {
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+}
+
+.AllContactList>li .rightBtnContent{
+    display: none;
+}
+.AllContactList>li:hover{
+    background-color: #f7f7f7;
+}
+.AllContactList>li:hover .rightBtnContent{
+    display: block;
+}
+
+.contactImage {
+    text-align: center;
+    background-color: #0089FF;
+    color: #fff;
+}
+
+.contactImage+div {
+    width: 0;
+    flex: 1;
+    position: relative;
+}
+
+.contactTitle {
+    display: flex;
+    align-items: center;
+}
+
+.contactTitle+div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999999;
+}
+
+.contactTitle>span:first-child {
+    width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000000;
+    font-weight: 500;
+}
+
+.contactTitle>span:nth-child(2) {
+    color: #999999;
+}
+
+.selectContact {
+    background-color: #f5f5f5;
+}
+
+.rightBoxSendBtn {
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 5px;
+    font-family: "微软雅黑";
+    height: 1.6rem;
+}
+
+@media screen and (min-width: 768px) {
+    .main {
+        height: 0;
+        flex: 1;
+        display: flex;
+        line-height: 1em;
+    }
+
+    .contactList {
+        width: 360px;
+        background-color: #fff;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .AllContactList {
+        width: 0;
+        flex: 1;
+        background-color: #fff;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .contactList>li{
+        padding: 12px;
+    }
+    .AllContactList>li{
+        padding: 5px;
+    }
+
+    .selectContact {
+        background-color: #f5f5f5;
+    }
+
+    .contactImage {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 6px;
+        margin-right: 10px;
+        font-size: 14px;
+
+    }
+
+    .contactTitle {
+        line-height: 14px;
+    }
+
+    .contactTitle>span:first-child {
+        font-size: 14px;
+        line-height: 14px;
+    }
+
+    .contactTitle>span:nth-child(2) {
+        font-size: .75rem;
+    }
+
+    .contactTitle+div {
+        font-size: 14px;
+        line-height: 14px;
+        padding-top: 10px;
+        padding-right: 20px;
+    }
+
+}
+
+
+@media screen and (max-width: 767px) {
+
+    .main,
+    .contactList,
+    .AllContactList {
+        min-height: 100%;
+    }
+
+    .contactList>li {
+        position: relative;
+    }
+
+    .contactList,
+    .AllContactList {
+        background-color: #fff;
+    }
+
+    .contactImage,
+    .contactList>li>.title,
+    .AllContactList>li>.title {
+        width: 2.75rem;
+        height: 2.75rem;
+        line-height: 2.75rem;
+        border-radius: .25rem;
+        margin: 0.375rem 0.375rem 0.375rem 0.4375rem;
+        font-size: 0.875rem;
+    }
+
+    .contactImage+div {
+        padding-right: .75rem;
+        position: relative;
+    }
+
+    .contactTitle {
+        line-height: 1rem;
+    }
+
+    .contactTitle>span:nth-child(2) {
+        font-size: 0.75rem;
+    }
+
+    .contactTitle+div {
+        font-size: 0.875rem;
+        line-height: 0.875rem;
+        padding-top: 0.5rem;
+        padding-right: 1.25rem;
+    }
+
+    .contactList>li>.title,
+    .AllContactList>li>.title {
+        width: auto !important;
+    }
+}

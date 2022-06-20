@@ -488,7 +488,7 @@
     }
 
     .contactList {
-        background-color: #f3f3f3;
+        background-color: #fff;
     }
 
     .contactImage {
@@ -547,11 +547,11 @@
     }
 
     .messageList {
-        padding: .375rem 0;
+        padding: 0.375rem 0;
     }
 
     .messageList>li {
-        padding: .375rem 1rem;
+        padding: 0.375rem 1rem 0.9375rem;
     }
 
     .replyBox {
