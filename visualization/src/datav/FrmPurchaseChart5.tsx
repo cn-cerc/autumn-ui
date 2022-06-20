@@ -272,7 +272,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             </div>
             <div className={styles.stock5}>
                 <img src="./img/渣水.png" className={styles.tsyz} onClick={() => {
-                    this.toEmployee(0, '铁水运转', 0, 1, '吨/天', '水渣')
+                    this.toEmployee(0, '铁水运转', 0, 1, '吨/天', '铁水运输')
                 }} />
                 <div className={`${styles.nameBox4} ${styles.nameBox}`}>水渣</div>
                 <div className={`${styles.box8} ${styles.box}`}>
