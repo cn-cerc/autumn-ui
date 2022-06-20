@@ -11,6 +11,7 @@ import FleetDialog from "./dialog/FleetDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
+import FrmTaurusMC from "./page/FrmTaurusMC";
 
 export default {
     ...diteng,
@@ -24,4 +25,6 @@ export default {
     PayeeDialog,
     ContractDialog,
     showSiteDialog,
+    //MC控制台
+    FrmTaurusMC
 }
