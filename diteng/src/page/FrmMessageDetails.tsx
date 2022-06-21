@@ -9,6 +9,8 @@ import SignMessage from "./SignMessage";
 import TaskMessage from "./TaskMessage";
 import { timing } from "./FrmMessage";
 import SubscribeMessage from "./SubscribeMessage";
+import { showMsg } from "../tool/Summer";
+import Utils from "../tool/Utils";
 
 type FrmMessageDetailsTypeProps = {
     fromUser: string,
@@ -21,9 +23,10 @@ type FrmMessageDetailsTypeProps = {
 type FrmMessageDetailsTypeState = {
     messageData: DataSet,
     date: string,
-    lastDate: string
+    lastDate: string,
+    remarkText: string,
+    remarkText_: string,
     messageText: string,
-    showQuicReply: boolean,
     quicReplyList: Array<{ text: string, uid: string }>,
     leaveBottom: number,
     timing: number
@@ -37,8 +40,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             timing: timing,
             messageData: new DataSet(),
             messageText: '',        //需要发送的消息
-            showQuicReply: false,       // 是否展示快捷发送
             quicReplyList: [],      // 快捷发送列表
+            remarkText: '',
+            remarkText_: '',
             date: this.props.date,
             lastDate: this.props.date,
             leaveBottom: 0
@@ -47,8 +51,99 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
 
     componentDidMount(): void {
         this.getFirstMessageDate();
-        // this.getQuicReplyListFun();
+        this.getUserInfo();
         this.startTimer();
+        let remarkDOM = document.querySelector('#remark') as HTMLTextAreaElement;
+        remarkDOM.addEventListener('input', this.changeRemark.bind(this));
+        let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
+        saveBtn.addEventListener('click', this.setUserRemarkFun.bind(this));
+        document.querySelectorAll('.quickReply').forEach((dom) => {
+            dom.addEventListener('click', this.quicReplySend.bind(this))
+        })
+    }
+
+    changeRemark() {
+        let textarea = event.target as HTMLTextAreaElement;
+        let val = textarea.value;
+        let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
+        if (this.state.remarkText_ == val) {
+            saveBtn.classList.remove('change');
+        } else {
+            saveBtn.classList.add('change');
+        }
+        this.setState({
+            remarkText: val
+        });
+    }
+
+
+    async getUserInfo() {
+        let remarkText = await this.getUserRemarkFun();
+        let contactInfo = await this.fromDetailFun();
+        let remark1 = this.state.remarkText || remarkText;
+        let userName = document.querySelector('#userName') as HTMLSpanElement;
+        userName.innerHTML = this.props.name;
+        let belong = document.querySelector("#belong") as HTMLSpanElement;
+        belong.innerHTML = contactInfo.getString('RoleName_');
+        let contact = document.querySelector('#contact') as HTMLSpanElement;
+        contact.innerHTML = contactInfo.getString('Mobile_');
+        let remark = document.querySelector('#remark') as HTMLTextAreaElement;
+        remark.value = this.state.remarkText;
+        let remarkDOM = document.querySelector('#remark') as HTMLTextAreaElement;
+        remarkDOM.value = remark1;
+        this.setState({
+            remarkText_: remark1,
+            remarkText: remark1
+        })
+    }
+
+    //获取备注信息
+    async getUserRemarkFun() {
+        let row = new DataRow();
+        row.setValue('UserCode_', this.props.fromUser)
+        let dataOut = await PageApi.getUserRemark(row);
+        let ds = new DataSet();
+        ds.appendDataSet(dataOut);
+        ds.first();
+        let remarkText = '';
+        while (ds.fetch()) {
+            if (ds.getString('remark_')) {
+                remarkText = ds.getString('remark_')
+            }
+        }
+        return remarkText
+    }
+
+    //获取对方资料
+    async fromDetailFun() {
+        let contactInfo = new DataSet();
+        if (this.props.fromUser) {
+            let row = new DataRow();
+            row.setValue('FromUser_', this.props.fromUser);
+            contactInfo = await PageApi.fromDetail(row);
+        } else {
+            contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
+        }
+        return contactInfo;
+    }
+
+    //设置备注信息
+    async setUserRemarkFun() {
+        console.log(this.state.remarkText, this.state.remarkText_)
+        if (this.state.remarkText != this.state.remarkText_) {
+            let row = new DataRow();
+            row.setValue('UserCode_', this.props.fromUser).setValue('Remark_', this.state.remarkText);
+            let dataOut = await PageApi.setUserRemark(row);
+            if (dataOut.state < 0) {
+                showMsg(dataOut.message);
+            } else {
+                this.setState({
+                    remarkText_: this.state.remarkText
+                });
+                let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
+                saveBtn.classList.remove('change');
+            }
+        }
     }
 
     componentWillUnmount(): void {
@@ -112,10 +207,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     })
                 }}></textarea>
                 <div>
-                    <div className={`${this.state.showQuicReply ? styles.show : styles.hide} ${styles.quicReplyBox}`}>
-                        {this.getQuicReplyList()}
-                    </div>
-                    {/* <span className={`${this.props.fromUser ? '' : styles.disEvents} ${styles.quicReplyBtn}`} onClick={this.openQuicReplyList.bind(this)}>+</span> */}
                     <button className={this.props.fromUser && this.state.messageText != '' ? '' : styles.disEvents}>发送</button>
                 </div>
             </form>
@@ -201,6 +292,8 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         await PageApi.replyMessage(row);
         this.setState({
             messageText: '',
+        }, () => {
+            this.getMessageData(Utils.getNowDate());
         })
     }
 
@@ -210,43 +303,14 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         el.scrollTop = el.scrollHeight - this.state.leaveBottom;
     }
 
-    //获取快捷回复列表
-    async getQuicReplyListFun() {
-        let quicReplyList: Array<{ text: string, uid: string }> = [];
+    async quicReplySend(e: any) {
         let row = new DataRow();
-        let dataOut = await PageApi.getQuickReplyList(row);
-        let ds = new DataSet();
-        ds.appendDataSet(dataOut);
-        ds.first();
-        while (ds.fetch()) {
-            quicReplyList.push({ text: ds.getString('reply_content_'), uid: ds.getString('uid_') });
-        }
-        this.setState({ quicReplyList });
-    }
-
-    getQuicReplyList() {
-        let datalist = this.state.quicReplyList;
-        let list: any = [];
-        datalist.forEach((item) => {
-            list.push(<li className={styles.quicReplyItem} onClick={(e) => this.quicReplySend(e)} key={item.uid}>{item.text}</li>);
-        })
-        return <ul>
-            {list}
-        </ul>
-    }
-
-    quicReplySend(e: any) {
+        row.setValue('ToUser_', this.props.fromUser).setValue('Content_', e.target.innerText);
+        await PageApi.replyMessage(row);
         this.setState({
-            messageText: e.target.innerText
+            messageText: '',
         }, () => {
-            this.handleSubmit(e);
-            this.openQuicReplyList();
-        })
-    }
-
-    openQuicReplyList() {
-        this.setState({
-            showQuicReply: !this.state.showQuicReply
+            this.getMessageData(Utils.getNowDate());
         })
     }
 
@@ -326,6 +390,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     startTimer() {
         this.timer = setInterval(() => {
             this.getFirstMessageDate();
+            this.getUserInfo();
         }, this.state.timing * 1000)
     }
 }
