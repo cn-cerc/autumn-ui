@@ -64,7 +64,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         <div className={`${styles.inputGroup} ${styles.userName} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
                             <img src={this.state.iconHover == 1 ? 'images/login/account_hover.png' : 'images/login/account.png'} />
                             <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
-                            <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
+                            {this.getSelectBtn()}
                             {this.getChooseList()}
                         </div>
                         <div className={`${styles.inputGroup} ${styles.passWord} ${showVerify ? '' : styles.noBottomMargin} ${this.state.iconHover == 2 ? styles.inputHover : ''}`}>
@@ -92,7 +92,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
                                 <img src={this.state.iconHover == 1 ? 'images/login/account_hover.png' : 'images/login/account.png'} />
                                 <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
-                                <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
+                                {this.getSelectBtn()}
                                 {this.getChooseList()}
                             </p>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 2 ? styles.inputHover : ''}`}>
@@ -122,6 +122,11 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 </form>
             )
         }
+    }
+
+    getSelectBtn() {
+        if (this.state.accountData.size > 1)
+            return <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
     }
 
     setIconHover(num: 1 | 2 | 3) {
@@ -365,7 +370,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             }
         }
 
-        if (this.state.client.get('savePwd') == 'true'  && !this.props.loginMsg && this.props.dataRow.getString('password') && this.isPhone) {
+        if (this.state.client.get('savePwd') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password') && this.isPhone) {
             this.onSubmit();
         }
     }
@@ -516,7 +521,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     <div className={`${styles.inputGroup} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
                         <img src={this.state.iconHover == 3 ? 'images/login/verify_hover.png' : 'images/login/verify.png'} />
                         <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
-                        <div onClick={this.sendCode.bind(this)} className={styles.sendCode}>发送验证码</div>
+                        <div onClick={this.sendCode.bind(this)} className={`${this.state.hasSendCode ? styles.sendCoded : styles.sendCode}`}>发送验证码</div>
                     </div>
                 )
             } else {
@@ -524,7 +529,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     <p className={`${styles.keyInput} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
                         <img src={this.state.iconHover == 3 ? 'images/login/verify_hover.png' : 'images/login/verify.png'} />
                         <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
-                        <div onClick={this.sendCode.bind(this)} className={styles.sendCode}>发送验证码</div>
+                        <div onClick={this.sendCode.bind(this)} className={`${this.state.hasSendCode ? styles.sendCoded : styles.sendCode}`}>发送验证码</div>
                     </p>
                 )
             }

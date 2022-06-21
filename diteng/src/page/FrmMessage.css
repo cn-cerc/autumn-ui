@@ -1,6 +1,5 @@
 .contactList>li {
     display: flex;
-    align-items: center;
 }
 
 .contactList>li:nth-child(n+2) {
@@ -26,6 +25,7 @@
 .contactTitle {
     display: flex;
     align-items: center;
+    padding-top: 2px;
 }
 
 .contactTitle>span:first-child {
@@ -324,8 +324,8 @@
     content: '';
     position: absolute;
     bottom: -0.875rem;
-    left: 1rem;
-    right: 1rem;
+    left: 0;
+    right: 0;
     height: 1px;
     border-bottom: 2px solid #429A60;
 }
@@ -509,7 +509,7 @@
     }
 
     .contactImage+div {
-        padding-right: .75rem;
+        padding: .75rem .75rem .75rem 0;
         position: relative;
     }
 

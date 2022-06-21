@@ -903,14 +903,15 @@ a {
     .mainBox {
         background-color: #fff;
         border-radius: 1.88rem 1.88rem 0 0;
+        padding: 0 2rem;
+        font-size: 14px;
     }
 
     .inputGroup {
-        max-width: 20.2rem;
-        width: 80%;
-        height: 2.5rem;
-        line-height: 2.5rem;
-        margin: 0 auto 1.5625rem;
+        width: 100%;
+        height: 2.125rem;
+        line-height: 2.125rem;
+        margin: 0 auto 1.5rem;
         border-radius: 4px;
         box-sizing: border-box;
         position: relative;
@@ -931,8 +932,8 @@ a {
     .inputGroup>span:first-of-type>input {
         border: none;
         outline: none;
-        height: 2.375rem;
-        line-height: 2.375rem;
+        height: 2rem;
+        line-height: 2rem;
         vertical-align: top;
     }
 
@@ -945,7 +946,7 @@ a {
         outline: none;
         border: none;
         background: transparent;
-        font-size: 1rem;
+        font-size: 14px;
         padding: 0;
     }
 
@@ -965,29 +966,28 @@ a {
     .chooseUser {
         display: inline-block;
         position: absolute;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2.125rem;
+        height: 2.125rem;
         top: 0;
         right: 0;
         background: url('https://www.diteng.site/public/images/crow-down1.png');
-        background-size: 1.2em 1.2em;
+        background-size: 1rem 1rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .showList {
         background: url('https://www.diteng.site/public/images/crow-up1.png');
-        background-size: 1.2em 1.2em;
+        background-size: 1rem 1rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .userList {
-        max-width: 20.2em;
         width: calc(100% + 2px);
-        height: 10em;
+        max-height: 10em;
         position: absolute;
-        top: calc(2.5rem - 4px);
+        top: calc(2.125rem - 4px);
         left: -1px;
         background: #fff;
         box-sizing: border-box;
@@ -1019,8 +1019,8 @@ a {
     .userList li {
         position: relative;
         width: 100%;
-        height: 2.8em;
-        line-height: 2.8em;
+        height: 2rem;
+        line-height: 2rem;
         list-style: none;
         border-bottom: 1px solid #e6e6e6;
     }
@@ -1028,8 +1028,6 @@ a {
     .userList li span {
         display: inline-block;
         width: 80%;
-        height: 2.8em;
-        line-height: 2.8em;
         color: black;
     }
 
@@ -1044,8 +1042,8 @@ a {
     .userList li .remove {
         position: absolute;
         display: inline-block;
-        width: 2.8em;
-        height: 2.8em;
+        width: 2rem;
+        height: 2rem;
         top: 0;
         right: 0;
         background: url('https://www.diteng.site/public/images/remove.png');
@@ -1073,10 +1071,8 @@ a {
     }
 
     .operationLogin {
-        max-width: 20.2rem;
         margin: 0 auto;
-        width: 80%;
-        padding-top: .5625rem;
+        padding-top: .5rem;
         text-align: left;
         font-size: .75rem;
         line-height: 1.125rem;
@@ -1133,7 +1129,18 @@ a {
         position: absolute;
         right: 0.5rem;
         background-color: transparent;
-        color: black;
+        color: #0169AB;
+        font-size: .85rem;
+        top: 50%;
+        transform: translateY(-50%);
+        top: 50%;
+    }
+
+    .sendCoded {
+        position: absolute;
+        right: 0.5rem;
+        background-color: transparent;
+        color: #999;
         font-size: .85rem;
         top: 50%;
         transform: translateY(-50%);
@@ -1141,12 +1148,11 @@ a {
     }
 
     .btnSubmit {
-        max-width: 20.2rem;
+        width: 100%;
         margin: 0 auto;
-        width: 80%;
         display: block;
-        height: 2.5rem;
-        height: 2.5rem;
+        height: 2rem;
+        line-height: 2rem;
         margin: 0 auto;
         background-color: #008738;
         text-align: center;
@@ -1155,7 +1161,11 @@ a {
         outline: none;
         border: none;
         border-radius: 3px;
-        margin-top: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .btnSubmit:hover {
+        color: #009933!important;
     }
 
     .customService {
@@ -1165,9 +1175,7 @@ a {
     }
 
     .customService>div {
-        max-width: 20.2rem;
-        margin: 0 auto;
-        width: 80%;
+        margin: 0 2rem;
         text-align: left;
         font-size: .75rem;
         line-height: 1.125rem;
@@ -1260,19 +1268,19 @@ a {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding-top: 4.1875rem;
+        padding-top: 4rem;
     }
 
     .logoBox>img {
-        width: 3.5rem;
+        width: 3.375rem;
     }
 
     .logoBox>h3 {
-        padding-top: 1.0625rem;
-        font-size: 1.1875rem;
-        line-height: 1.1875rem;
+        padding-top: 1rem;
+        font-size: 18px;
+        line-height: 18px;
         color: #333333;
         font-weight: 300;
-        padding-bottom: 4.5rem;
+        padding-bottom: 4.3125rem;
     }
 }
