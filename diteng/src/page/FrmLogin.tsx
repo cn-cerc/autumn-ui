@@ -77,8 +77,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <input type="checkbox" id="savePwd" checked={this.state.savePwd} onChange={this.changeAutoLogin.bind(this)} /><label htmlFor="savePwd">自动登录</label>
                             <a href="FrmForgetPassword">找回密码?</a>
                         </div>
-                        {this.getMessageDOM()}
                         <button className={styles.btnSubmit} onClick={this.onSubmit.bind(this)}>登录</button>
+                        {this.getMessageDOM()}
                     </form>
                     {this.getLoad()}
                 </React.Fragment>
@@ -414,7 +414,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     getMessageDOM() {
         if (this.props.lowVersion || this.state.message) {
             if (this.isPhone)
-                return <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "padding": "0 .5rem", "fontSize": ".875rem" }}>{this.getMessage()}</div>;
+                return <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "padding": "0 .5rem", "fontSize": "14px" }}>{this.getMessage()}</div>;
             else
                 return <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
         }

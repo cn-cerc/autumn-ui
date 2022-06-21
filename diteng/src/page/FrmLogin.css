@@ -57,7 +57,7 @@ a {
 }
 
 .loginMsg {
-    margin: 0 3em;
+    margin: 1rem 3em 0;
 }
 
 .loginMsg>a {
@@ -1074,7 +1074,7 @@ a {
         margin: 0 auto;
         padding-top: .5rem;
         text-align: left;
-        font-size: .75rem;
+        font-size: 12px;
         line-height: 1.125rem;
         font-weight: 400;
     }
@@ -1177,7 +1177,7 @@ a {
     .customService>div {
         margin: 0 2rem;
         text-align: left;
-        font-size: .75rem;
+        font-size: 12px;
         line-height: 1.125rem;
         font-weight: 400;
     }

@@ -297,7 +297,10 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    position: relative;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
 }
 
 .msgTypeStatusBox::after {
@@ -312,7 +315,7 @@
 
 .msgTypeStatusBox span {
     cursor: pointer;
-    font-size: 0.875rem;
+    font-size: 14px;
 }
 
 .msgTypeStute {
@@ -323,7 +326,7 @@
 .msgTypeStute::after {
     content: '';
     position: absolute;
-    bottom: -0.875rem;
+    bottom: -15px;
     left: 0;
     right: 0;
     height: 1px;
@@ -491,12 +494,21 @@
         min-height: 100%;
     }
 
-    .contactList>li {
+    .contactList>li:nth-child(n+2) {
         position: relative;
+    }
+
+    .msgTypeStatusBox+li {
+        margin-top: .5rem;
+    }
+
+    .contactList>li:nth-child(n+2) {
+        padding: .5rem 1rem .5rem 1rem;
     }
 
     .contactList {
         background-color: #fff;
+        padding-bottom: .5rem;
     }
 
     .contactImage {
@@ -504,12 +516,11 @@
         height: 2.75rem;
         line-height: 2.75rem;
         border-radius: .25rem;
-        margin: .75rem .75rem .75rem .875rem;
-        font-size: .875rem;
+        margin-right: 1rem;
+        font-size: 14px;
     }
 
     .contactImage+div {
-        padding: .75rem .75rem .75rem 0;
         position: relative;
     }
 
@@ -529,22 +540,22 @@
     }
 
     .contactTitle>span:first-child {
-        font-size: .875rem;
-        line-height: .875rem;
+        font-size: 14px;
+        line-height: 14px;
     }
 
     .contactTitle {
-        line-height: .875rem;
+        line-height: 14px;
     }
 
     .contactTitle>span:nth-child(2) {
-        font-size: .75rem;
+        font-size: 12px;
     }
 
     .contactTitle+div {
-        font-size: .75rem;
-        line-height: .75rem;
-        padding-top: .625rem;
+        font-size: 12px;
+        line-height: 12px;
+        padding-top: 1rem;
         padding-right: 1.25rem;
     }
 
