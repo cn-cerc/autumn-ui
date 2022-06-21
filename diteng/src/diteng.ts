@@ -74,6 +74,8 @@ import AdPlayerMC from "./dialog/AdPlayerMC";
 import AdvertContentDialog from "./dialog/AdvertContentDialog";
 import FrmMessage from "./page/FrmMessage";
 import FrmMessageDetails from "./page/FrmMessageDetails";
+import FrmMyContact from "./page/FrmMyContact";
+import FrmMyContactDetail from "./page/FrmMyContactDetail";
 
 export default {
     //地藤专用
@@ -162,4 +164,7 @@ export default {
     //地藤消息页面
     FrmMessage,
     FrmMessageDetails,
+    //地藤通讯录
+    FrmMyContact,
+    FrmMyContactDetail,
 }

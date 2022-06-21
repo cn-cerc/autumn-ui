@@ -15,6 +15,7 @@ type FrmMessageTypeProps = {
     fromUser?: string,
     userCode: string,
     userName: string
+    toUser?:string
 }
 
 type FrmMessageTypeState = {
@@ -102,6 +103,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async initData() {
         let messageDataList = await this.getContactFirstData();
         let currentUserId = messageDataList[0].fromUser;
+        if(this.props.toUser != 'null' && this.props.toUser != ' '){
+            currentUserId = this.props.toUser
+        }
+        currentUserId = currentUserId;
         this.setState({
             messageDataList,
             currentUserId

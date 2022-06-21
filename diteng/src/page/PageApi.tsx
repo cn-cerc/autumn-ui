@@ -46,4 +46,10 @@ export default class PageApi {
     static fromDetail(params: DataRow) {
         return DialogApi.getDataOutByCenter('ApiUserInfo.fromDetail', params);
     }
+
+    /** 获取通讯录所有联系人分组列表的人员 */
+    static searchBook(params: DataRow) {
+        return DialogApi.getDataOut('SvrAddressBook.search', params);
+    }
+
 }
