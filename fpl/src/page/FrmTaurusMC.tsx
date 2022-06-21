@@ -47,11 +47,40 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <div className={styles.mcTitle}>简介</div>
-                <p>此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。</p>
+                <p>此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介，内容待完善。此模组为货运管理（货主）简介。</p>
             </div>
             <div className={styles.mcMain}>
-                <div className={styles.mcFlowChart}>
+                <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
+                    <div className={styles.mcFlowChartMain}>
+                        <div className={styles.mcFlowChart}></div>
+                        <div className={styles.mcFlowBox}>
+                            <div className={`${styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, 'TFrmPartInfo')}>
+                                <span>商品资料登记</span>
+                            </div>
+                            <div className={`${styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, 'TFrmCusInfo')}>
+                                <span>客户登记</span>
+                            </div>
+                            <div className={`${styles.register} ${styles.stock3}`}>
+                                <span>车队与司机登记</span>
+                            </div>
+                            <div className={`${styles.register} ${styles.stock4}`}>
+                                <span>货单登记</span>
+                            </div>
+                            <div className={`${styles.register} ${styles.stock5}`}>
+                                <span>自行派车运单登记</span>
+                            </div>
+                            <div className={`${styles.other} ${styles.stock6}`}>
+                                <span>委托第三方物流运输</span>
+                            </div>
+                            <div className={`${styles.other} ${styles.stock7}`}>
+                                <span>网络货运平台撮合</span>
+                            </div>
+                            <div className={`${styles.other} ${styles.stock8}`}>
+                                <span>司机端</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
@@ -59,9 +88,12 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                     <div className={styles.mcPieChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
-                        <div className={styles.mcPieBox}>
+                        <div className={styles.mcPieBox1}>
+                            <div className={styles.mcTitle}>比例图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
+                        </div>
+                        <div className={styles.mcPieBox2}>
+                            <div className={styles.mcTitle}>比例图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
@@ -74,6 +106,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         this.initLineChart();
         this.initPieChart1();
         this.initPieChart2();
+        this.initFlowChart();
     }
 
     initLineChart() {
@@ -89,13 +122,13 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             sData.push(ds.getDouble('Value_'));
         }
         let option = {
-            title: {
-                text: '本周货运总数(吨)',
-                left: 'center',
-                textStyle: {
-                    fontSize: 14
-                }
-            },
+            // title: {
+            //     text: '本周货运总数(吨)',
+            //     left: 'center',
+            //     textStyle: {
+            //         fontSize: 14
+            //     }
+            // },
             xAxis: {
                 type: 'category',
                 data: xArr,
@@ -117,10 +150,10 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             lengend: {},
             tooltip: {},
             grid: {
-                top: 40,
+                top: 10,
                 left: 0,
                 bottom: 0,
-                right: 20,
+                right: 10,
                 containLabel: true,
             },
             series: [
@@ -132,10 +165,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     },
                     lineStyle: {
                         color: MCChartColors[0]
-                    },
-                    areaStyle: {
-                        color: MCChartColors[0],
-                        opacity: 0.3
                     },
                     label: {
                         show: true,
@@ -162,14 +191,14 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             })
         }
         let option = {
-            title: {
-                text: '本周货运吨数占比',
-                left: 'center',
-                textStyle: {
-                    fontSize: 14
-                },
-                top: '16'
-            },
+            // title: {
+            //     text: '本周货运吨数占比',
+            //     left: 'center',
+            //     textStyle: {
+            //         fontSize: 14
+            //     },
+            //     top: '16'
+            // },
             tooltip: {
                 trigger: 'item'
             },
@@ -180,20 +209,12 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 right: 20,
                 containLabel: true,
             },
-            legend: {
-                bottom: '10',
-                left: 'center'
-            },
             series: [
                 {
                     name: '本周货运吨数占比',
                     type: 'pie',
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
                     emphasis: {
                         label: {
                             show: true,
@@ -201,9 +222,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {
-                        show: false
-                    },
+                    labelLine: {},
                     data: dataArr
                 }
             ]
@@ -226,20 +245,16 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             })
         }
         let option = {
-            title: {
-                text: '本周货运车辆占比',
-                left: 'center',
-                textStyle: {
-                    fontSize: 14
-                },
-                top: '16'
-            },
+            // title: {
+            //     text: '本周货运车辆占比',
+            //     left: 'center',
+            //     textStyle: {
+            //         fontSize: 14
+            //     },
+            //     top: '16'
+            // },
             tooltip: {
                 trigger: 'item'
-            },
-            legend: {
-                bottom: '10',
-                left: 'center'
             },
             series: [
                 {
@@ -247,10 +262,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     type: 'pie',
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
                     emphasis: {
                         label: {
                             show: true,
@@ -258,14 +269,134 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {
-                        show: false
-                    },
+                    labelLine: {},
                     data: dataArr
                 }
             ]
         }
         //@ts-ignore
         myChart.setOption(option);
+    }
+
+    initFlowChart() {
+        let flowChart = document.querySelector(`.${styles.mcFlowChart}`) as HTMLDivElement;
+        let myChart = echarts.init(flowChart);
+        let nodes: any[] = [];
+        let charts = {
+            nodes,
+            linesData: [
+                {
+                    coords: [
+                        [78, 40],
+                        [143, 40],
+                    ]
+                }, {
+                    coords: [
+                        [183, 40],
+                        [248, 40],
+                    ]
+                }, {
+                    coords: [
+                        [163, 180],
+                        [163, 200],
+                        [163, 220],
+                    ]
+                }, {
+                    coords: [
+                        [163, 180],
+                        [163, 200],
+                        [59, 200],
+                        [59, 220],
+                    ]
+                }, {
+                    coords: [
+                        [163, 180],
+                        [163, 200],
+                        [269, 200],
+                        [269, 220],
+                    ]
+                }, {
+                    coords: [
+                        [78, 242],
+                        [143, 242],
+                    ]
+                }, {
+                    coords: [
+                        [183, 242],
+                        [248, 242],
+                    ]
+                }, {
+                    coords: [
+                        [163, 292],
+                        [163, 320],
+                    ]
+                },
+            ]
+        }
+
+        let option = {
+            backgroundColor: "",
+            xAxis: {
+                min: 0,
+                max: 328,
+                show: false,
+                type: 'value',
+                position: 'top'
+            },
+            yAxis: {
+                min: 0,
+                max: function (val: number) {
+                    return flowChart.offsetHeight
+                },
+                show: false,
+                type: 'value',
+                inverse: true
+            },
+            grid: {
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0
+            },
+            series: [{
+                type: 'graph',
+                coordinateSystem: 'cartesian2d',
+                label: {
+                    show: true,
+                    position: 'bottom',
+                    color: '#fff',
+                    formatter: function (item: any) {
+                        return item.data.nodeName
+                    }
+                },
+                data: charts.nodes,
+            }, {
+                type: 'lines',
+                polyline: true,
+                coordinateSystem: 'cartesian2d',
+                lineStyle: {
+                    type: 'line',
+                    width: 2,
+                    color: '#ccc',
+                    curveness: 0.3
+
+                },
+                effect: {
+                    show: true,
+                    trailLength: 0,
+                    constantSpeed: 10,
+                    symbol: 'arrow',
+                    color: '#ccc',
+                    symbolSize: 6
+                },
+                data: charts.linesData
+            }]
+        };
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    linkTo(url: string) {
+        location.href = url
     }
 }

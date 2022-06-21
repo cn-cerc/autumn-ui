@@ -16,14 +16,36 @@
     padding-bottom: 16px;
 }
 
-.mcFlowChart, .mcTrendChart, .mcPieChart {
+.mcFlowChartBox, .mcTrendChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
 }
 
-.mcFlowChart {
+.mcFlowChartBox {
     width: 360px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcFlowChartMain {
+    height: 0;
+    flex: 1;
+    position: relative;
+}
+
+.mcFlowChart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.mcFlowBox {
+    position: relative;
+    z-index: 10;
 }
 
 .mcCharts {
@@ -46,26 +68,131 @@
     height: 0;
     flex: 1;
     display: flex;
-    flex-direction: column;
 }
 
 .FrmTaurusMCLine {
-    padding: 16px;
+    padding: 16px 16px 0 16px;
     flex: 1;
+}
+
+.register {
+    background: url("../image/register.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.receipt {
+    background: url("../image/receipt.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.control {
+    background: url("../image/control.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.other {
+    background: url("../image/other.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.register>span, .receipt>span, .control>span, .other>span {
+    width: 5em;
+    text-align: center;
+    display: block;
+}
+
+.register:hover {
+    background-image: url("../image/register_hover.png");
+}
+
+.receipt:hover {
+    background-image: url("../image/receipt_hover.png");
+}
+
+.control:hover {
+    background-image: url("../image/control_hover.png");
+}
+
+.other:hover {
+    background-image: url("../image/other_hover.png");
 }
 
 .mcTitle {
     font-weight: bold;
 }
 
-.mcPieBox {
-    display: flex;
+.mcPieBox1, .mcPieBox2 {
+    width: 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: .28rem;
+}
+
+.mcPieBox2 {
+    margin-left: 16px;
 }
 
 .FrmTaurusMCPie1, .FrmTaurusMCPie2 {
-    width: 50%;
-    height: 100%;
+    flex: 1;
+}
+
+.stock1 {
+    left: 23px;
+    top: 20px;
+}
+
+.stock2 {
+    left: 128px;
+    top: 20px;
+}
+
+.stock3 {
+    left: 233px;
+    top: 20px;
+}
+
+.stock4 {
+    left: 128px;
+    top: 120px;
+}
+
+.stock5 {
+    left: 23px;
+    top: 220px;
+}
+
+.stock6 {
+    left: 128px;
+    top: 220px;
+}
+
+.stock7 {
+    left: 233px;
+    top: 220px;
+}
+
+.stock8 {
+    left: 128px;
+    top: 320px;
 }
 
 @media screen and (min-width: 768px) {
