@@ -180,7 +180,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let name = messageData.name || '系统消息';
             let num = i;
             if(name == '系统消息') continue;
-            list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
+            list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
                 <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                 <div>
                     <div className={styles.contactTitle}>
@@ -224,7 +224,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         if (!this.isPhone) {
             location.href = `./FrmMyMessage?toUser=${id}&date=${date}&name=${name}`
         } else {
-            location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&toUser=${messageData.fromUser}&date=${date}&name=${messageData.name}`
+            location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&toUser=${messageData.fromUser}&date=${date}`
         }
 
     }
