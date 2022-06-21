@@ -253,7 +253,6 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             while (ds.fetch()) {
                 let name = ds.getString('name_');
                 let userCode = ds.getString('user_code_');
-                if(userCode == '') continue;
                 let text = ds.getString('corp_name_');
                 list.push(<li key={userCode}>
                     <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
@@ -263,9 +262,9 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                         </div>
                         <div>{text}</div>
                     </div>
-                    <div className={styles.rightBtnContent}>
+                    {userCode == ''?'':<div className={styles.rightBtnContent}>
                         <button className={styles.rightBoxSendBtn} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name)}>发送消息</button>
-                    </div>
+                    </div>}
                 </li>);
             }
             return <ul className={styles.AllContactList} onScroll={(e) => {
