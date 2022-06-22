@@ -34,7 +34,6 @@ export default {
     ContractDialog,
     showSiteDialog,
     MaintainVehicleDialog,
-    CodeRecordDialog,
     //MC控制台
     FrmTaurusMC,
     TStockMC,
