@@ -87,7 +87,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let numberConversion = document.getElementById("number_conversion_") as HTMLInputElement;
         let cargoLossRate = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
 
-        
         input1.value = dataRow.getString('code_');
         input2.value = dataRow.getString('code_');
         code.value = dataRow.getString('code_');
