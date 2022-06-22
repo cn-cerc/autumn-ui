@@ -56,9 +56,9 @@ a {
     line-height: 1rem;
 }
 
-.loginMsg {
+/* .loginMsg {
     margin: 1rem 3em 0;
-}
+} */
 
 .loginMsg>a {
     color: #fff;
@@ -288,12 +288,16 @@ a {
     }
 
     .contentRight {
-        padding: 0 3.625rem;
-        padding-bottom: 3rem;
+        padding: 0 16px 48px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .userMessage {
-        padding-top: 2.25rem;
+        padding-top: 36px;
+        margin: 0 42px;
+        width: calc(100% - 84px);
     }
 
     .userMessage .keyInput {
@@ -394,6 +398,8 @@ a {
 
     .userStatus {
         padding-top: 32px;
+        margin: 0 42px;
+        width: calc(100% - 84px);
     }
 
     .userStatus button {
@@ -409,7 +415,7 @@ a {
     }
 
     .userStatus button:hover {
-        border: none;
+        background-color: #009933;
     }
 
     p[role="pc"] {
@@ -456,6 +462,10 @@ a {
         right: -2.25rem;
     }
 
+    .bottom .afterInstall {
+        color: #3CB44E;
+    }
+
     .chooseUser {
         font-size: 1rem;
         display: inline-block;
@@ -480,7 +490,7 @@ a {
     }
 
     .userList {
-        height: 13rem;
+        max-height: 160px;
         position: absolute;
         top: 3.25rem;
         left: -.035rem;
@@ -587,6 +597,14 @@ a {
         cursor: pointer;
         text-align: right;
         padding-right: .69rem;
+        color: #0169AB;
+    }
+
+    .sendCoded {
+        color: #999;
+        cursor: pointer;
+        text-align: right;
+        padding-right: .69rem;
     }
 
     .verify>span {
@@ -651,9 +669,32 @@ a {
     }
 
     .loginMsg {
-        margin-top: .91rem;
-        line-height: 1.45em;
-        color: #ff4545;
+        margin-top: 16px;
+        line-height: 16px;
+        color: #333;
+        min-height: 40px;
+        padding: 12px 16px;
+        display: flex;
+        font-size: 14px;
+        box-sizing: border-box;
+        background-color: #FDF5E8;
+        border-radius: 6px;
+        border: 1px solid #F8DDC0;
+    }
+
+    .loginMsg>span:first-child {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: #FFA533;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .loginMsg>span:nth-child(2) {
+        padding-left: 8px;
+        text-align: left;
+        display: block;
     }
 }
 
@@ -723,9 +764,8 @@ a {
         line-height: 24px;
     }
 
-    .contentRight {
-        padding: 0 49px;
-        padding-bottom: 48px;
+    .contentRightMsg {
+        padding-bottom: 16px;
     }
 
     .remember {
@@ -734,10 +774,14 @@ a {
 
     .userStatus {
         padding-top: 20px;
+        margin: 0 32px;
+        width: calc(100% - 64px);
     }
 
     .userMessage {
         padding-top: 8px;
+        margin: 0 32px;
+        width: calc(100% - 64px);
     }
 
     .userMessage .keyInput {
@@ -752,10 +796,9 @@ a {
     }
 
     .userList {
-        height: 160px;
         top: 37px;
         left: -0.035rem;
-        width: 290px;
+        width: 292px;
     }
 
     .userList li {
@@ -804,11 +847,6 @@ a {
         min-height: auto;
         padding: 16px 0;
         font-size: 12px;
-    }
-
-    .loginMsg {
-        margin: 12px 1rem 0 1rem;
-        font-size: 14px;
     }
 
     .bottom {
@@ -1165,7 +1203,7 @@ a {
     }
 
     .btnSubmit:hover {
-        color: #009933!important;
+        background-color: #009933;
     }
 
     .customService {
@@ -1175,10 +1213,10 @@ a {
     }
 
     .customService>div {
-        margin: 0 2rem;
+        /* margin: 0 2rem; */
         text-align: left;
         font-size: 12px;
-        line-height: 1.125rem;
+        line-height: 12px;
         font-weight: 400;
     }
 

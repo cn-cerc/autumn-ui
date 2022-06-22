@@ -9,8 +9,7 @@ type LoginTypeProps = {
     dataRow: DataRow,
     loginMsg?: string,
     language?: string,
-    lowVersion?: boolean,
-    verify?: () => boolean
+    lowVersion?: boolean
 }
 
 type LoginTypeState = {
@@ -24,7 +23,8 @@ type LoginTypeState = {
     timer: any,
     currentIndex: number,
     isFirefox: boolean,
-    iconHover: 0 | 1 | 2 | 3
+    iconHover: 0 | 1 | 2 | 3,
+    protocol: boolean
 }
 
 var showVerify: boolean = false;
@@ -42,6 +42,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         this.props.dataRow.setValue('_password', _password);
         if (isFirefox)
             this.props.dataRow.setValue
+        let protocol = client.get("protocol") == 'true' ? true : false;
         this.state = {
             showAccountList: false,
             accountData,
@@ -53,7 +54,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             message: this.props.loginMsg || '',
             currentIndex: 0,
             isFirefox,
-            iconHover: this.isPhone ? 0 : 1
+            iconHover: this.isPhone ? 0 : 1,
+            protocol
         }
     }
     render() {
@@ -78,6 +80,16 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <a href="FrmForgetPassword">找回密码?</a>
                         </div>
                         <button className={styles.btnSubmit} onClick={this.onSubmit.bind(this)}>登录</button>
+                        <section className={styles.customService}>
+                            <div className={styles.protocolBox}>
+                                <div className={styles.protocol}>
+                                    <img src={this.state.protocol ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeProtocol.bind(this)}></img>
+                                    <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
+                                    <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
+                                </div>
+                            </div>
+                            <h3><a href="TFrmContact">如有疑问请联系客服中心{`>>`}</a></h3>
+                        </section>
                         {this.getMessageDOM()}
                     </form>
                     {this.getLoad()}
@@ -87,7 +99,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
                     <div className={styles.formTitle}>系统登录</div>
-                    <div className={styles.contentRight}>
+                    <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
                                 <img src={this.state.iconHover == 1 ? 'images/login/account_hover.png' : 'images/login/account.png'} />
@@ -115,13 +127,21 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <a href="FrmForgetPassword" className={styles.afterRight}>找回密码</a>
                             <a href="TFrmContact" className={styles.afterRight}>客服中心</a>
                             <a href="TFrmHardware" className={styles.afterRight}>硬件配置</a>
-                            <a href="https://www.mimrc.com">公司介绍</a>
+                            <a href="install" className={styles.afterInstall}>软件下载</a>
                         </div>
                         {this.getMessageDOM()}
                     </div>
                 </form>
             )
         }
+    }
+
+    changeProtocol = (sender: any) => {
+        let protocol = !this.state.protocol;
+        this.state.client.set('protocol', protocol);
+        this.setState({
+            protocol,
+        })
     }
 
     getSelectBtn() {
@@ -414,7 +434,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     getMessageDOM() {
         if (this.props.lowVersion || this.state.message) {
             if (this.isPhone)
-                return <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "padding": "0 .5rem", "fontSize": "14px" }}>{this.getMessage()}</div>;
+                return <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "marginTop": "1rem", "fontSize": "14px" }}>{this.getMessage()}</div>;
             else
                 return <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
         }
@@ -423,8 +443,17 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     getMessage() {
         if (this.props.lowVersion) {
             return <a href='FrmBrowserRecommend' target='_blank' style={{ 'color': '#ff4545' }}>你的浏览器版本太低，请使用推荐的浏览器</a>
-        } else
-            return <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>;;
+        } else {
+            if (this.isPhone)
+                return <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>
+            else {
+                return <React.Fragment>
+                    <span>!</span>
+                    <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>
+                </React.Fragment>
+            }
+        }
+
     }
 
     changeUserCode = (sender: any) => {
@@ -587,8 +616,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             sender.preventDefault();
         if (this.state.showLoad)
             return;
-        if (this.props.verify && !this.props.verify())
+        if (!this.state.protocol && this.isPhone) {
+            this.setState({
+                message: '请先同意用户协议和隐私协议',
+                showLoad: false
+            })
             return;
+        }
         if (!this.props.dataRow.getString('userCode') || !this.props.dataRow.getString('password')) {
             this.setState({
                 message: '请输入正确的帐号和密码',
@@ -673,7 +707,6 @@ type FrmLoginTypeState = {
     dataIn: DataRow,
     client: any,
     message: string,
-    protocol: boolean,
     isPhoneWeb: boolean
 }
 
@@ -690,11 +723,9 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         dataIn.setValue('languageId', this.props.language);
         dataIn.setValue('userCode', client.get('Account1') || '');
         dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') || '' : '');
-        let protocol = client.get("protocol") == 'true' ? true : false;
         this.state = {
             client,
             dataIn,
-            protocol,
             message: '',
             isPhoneWeb
         }
@@ -716,8 +747,8 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <img src="images/login/logo_phone.png" />
                         <h3>您好！欢迎登录地藤管家！</h3>
                     </div>
-                    <Login dataRow={this.state.dataIn} loginMsg={this.state.message} language={this.props.language || ''} lowVersion={this.props.lowVersion} verify={this.verify.bind(this)} key={new Date().getTime()} />
-                    <section className={styles.customService}>
+                    <Login dataRow={this.state.dataIn} loginMsg={this.state.message} language={this.props.language || ''} lowVersion={this.props.lowVersion} key={new Date().getTime()} />
+                    {/* <section className={styles.customService}>
                         <div className={styles.protocolBox}>
                             <div className={styles.protocol}>
                                 <img src={this.state.protocol ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeProtocol.bind(this)}></img>
@@ -726,7 +757,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                             </div>
                         </div>
                         <h3><a href="TFrmContact">如有疑问请联系客服中心{`>>`}</a></h3>
-                    </section>
+                    </section> */}
                     <div className={styles.upt}>
                         <div>
                             <img className={styles.backImg} src="images/forgetPwd/关闭.png" />
@@ -753,7 +784,6 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                                     <span>地藤管家</span>
                                 </div>
                                 <div className={styles.loginLeftText}>地藤，您随身携带的大管家</div>
-                                <a href="install" className={styles.loginInstall}>立即下载App</a>
                             </div>
                             <div className={styles.loginRight}>
                                 <div className={styles.loginTitle}>您好！欢迎登录地藤管家！</div>
@@ -792,25 +822,8 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         }
     }
 
-    verify(): boolean {
-        if (!this.state.protocol && this.isPhone) {
-            this.setState({
-                message: '请先同意用户协议和隐私协议'
-            })
-            return false;
-        } else
-            return true;
-    }
-
-    changeProtocol = (sender: any) => {
-        let protocol = !this.state.protocol;
-        this.state.client.set('protocol', protocol);
-        this.setState({
-            protocol,
-        })
-    }
-
     componentDidMount(): void {
+        // showMsg("123")
         let head = this.props.loginCenter;
         if (!head || head.indexOf(location.origin) > -1)
             head = location.origin;
