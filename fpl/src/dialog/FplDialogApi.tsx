@@ -204,4 +204,9 @@ export default class FplDialogApi {
         return FplDialogApi.getDataOut('SvrPVehicle.search', params);
     }
 
+    /** 获取货单料品使用记录 */
+    static getCargoCodeRecord(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrPCodeRecord.search', params);
+    }
+
 }
