@@ -196,42 +196,52 @@
 
 .stock1 {
     left: 23px;
-    top: 20px;
+    top: 15px;
 }
 
 .stock2 {
     left: 128px;
-    top: 20px;
+    top: 15px;
 }
 
 .stock3 {
     left: 233px;
-    top: 20px;
+    top: 15px;
 }
 
 .stock4 {
-    left: 128px;
-    top: 120px;
+    left: 23px;
+    top: 100px;
 }
 
 .stock5 {
-    left: 23px;
-    top: 220px;
+    left: 233px;
+    top: 100px;
 }
 
 .stock6 {
     left: 128px;
-    top: 220px;
+    top: 170px;
 }
 
 .stock7 {
-    left: 233px;
-    top: 220px;
+    left: 23px;
+    top: 260px;
 }
 
 .stock8 {
     left: 128px;
-    top: 320px;
+    top: 260px;
+}
+
+.stock9 {
+    left: 233px;
+    top: 260px;
+}
+
+.stock10 {
+    left: 128px;
+    top: 355px;
 }
 
 @media screen and (min-width: 768px) {

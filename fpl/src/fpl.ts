@@ -14,6 +14,9 @@ import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
 import FrmTaurusMC from "./page/FrmTaurusMC";
+import FrmTaurusMC1 from "./page/FrmTaurusMC1";
+import FrmTaurusMC2 from "./page/FrmTaurusMC2";
+import TOrd from "./page/TOrd";
 
 export default {
     ...diteng,
@@ -30,5 +33,8 @@ export default {
     MaintainVehicleDialog,
     CodeRecordDialog,
     //MC控制台
-    FrmTaurusMC
+    FrmTaurusMC,
+    TOrd,
+    FrmTaurusMC1,
+    FrmTaurusMC2
 }
