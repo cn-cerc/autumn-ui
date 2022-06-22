@@ -16,7 +16,8 @@
     padding-bottom: 16px;
 }
 
-.mcFlowChartBox, .mcTrendChart {
+.mcFlowChartBox,
+.mcTrendChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -176,7 +177,8 @@
     font-weight: bold;
 }
 
-.mcPieBox1, .mcPieBox2 {
+.mcPieBox1,
+.mcPieBox2 {
     width: 0;
     flex: 1;
     display: flex;
@@ -190,48 +192,54 @@
     margin-left: 16px;
 }
 
-.FrmTaurusMCPie1, .FrmTaurusMCPie2 {
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2 {
     flex: 1;
 }
 
 .stock1 {
-    left: 23px;
-    top: 20px;
+    left: 75px;
+    top: 15px;
 }
 
 .stock2 {
-    left: 128px;
-    top: 20px;
+    left: 183px;
+    top: 15px;
 }
 
 .stock3 {
-    left: 233px;
-    top: 20px;
+    left: 75px;
+    top: 100px;
 }
 
 .stock4 {
-    left: 128px;
-    top: 120px;
+    left: 183px;
+    top: 100px;
 }
 
 .stock5 {
-    left: 23px;
-    top: 220px;
+    left: 75px;
+    top: 185px;
 }
 
 .stock6 {
-    left: 128px;
-    top: 220px;
+    left: 183px;
+    top: 185px;
 }
 
 .stock7 {
-    left: 233px;
-    top: 220px;
+    left: 75px;
+    top: 270px;
 }
 
 .stock8 {
-    left: 128px;
-    top: 320px;
+    left: 183px;
+    top: 270px;
+}
+
+.stock9 {
+    left: 75px;
+    top: 355px;
 }
 
 @media screen and (min-width: 768px) {
