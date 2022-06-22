@@ -13,7 +13,11 @@ import MaintainVehicleDialog from "./dialog/MaintainVehicleDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
+import FrmContractManageMC from "./page/FrmContractManageMC";
+import FrmPurchaseMC from "./page/FrmPurchaseMC";
+import FrmSpectaculars2 from "./page/FrmSpectaculars2";
 import FrmTaurusMC from "./page/FrmTaurusMC";
+import TStockMC from "./page/TStockMC";
 import FrmTaurusMC1 from "./page/FrmTaurusMC1";
 import FrmTaurusMC2 from "./page/FrmTaurusMC2";
 import TOrd from "./page/TOrd";
@@ -34,6 +38,10 @@ export default {
     CodeRecordDialog,
     //MC控制台
     FrmTaurusMC,
+    TStockMC,
+    FrmContractManageMC,
+    FrmPurchaseMC,
+    FrmSpectaculars2,
     TOrd,
     FrmTaurusMC1,
     FrmTaurusMC2

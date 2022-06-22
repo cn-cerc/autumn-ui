@@ -1,0 +1,97 @@
+
+#fullContent{
+    min-height:100% !important;
+}
+.mcIntroduction, .li_3, .mcPieBox1, .mcPieBox2, .mcPieBox3, .mcMapBox, .mcLinkBox{
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.mcIntroduction>p {
+    line-height: 24px;
+    padding-top: 5px;
+    font-size: 16px;
+    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
+    font-weight: bold;
+    color: #333333;
+    text-align: center;
+}
+
+.mcMain {
+    flex: 1;
+    display: flex;
+    padding-bottom: 16px;
+    flex-direction: column;
+}
+.top_list{
+    display: flex;
+    align-items: center;
+}
+
+.li_3{
+    flex: 1;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.li_3:last-child{
+    margin-right:0;
+}
+.contentEcharts{
+    display: flex;
+    flex: 1;
+}
+.leftSiteEcharts, .rIghtSiteEcharts{
+    width: 264px;
+    display: flex;
+    flex-direction: column;
+}
+.mcPieBox1, .mcPieBox2, .mcPieBox3{
+    height:144px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+.mcPieBox3{
+    margin-bottom: 0;
+}
+
+.centerSiteEcharts{
+    width: 500px;
+    margin: 0 10px;
+}
+.mcMapBox{
+    height: 298px;
+    margin-bottom: 10px;
+}
+.mcLinkBox{
+    height: 144px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+    .mc {
+        font-size: 14px;
+        color: #333;
+        line-height: 1em;
+        font-weight: 400;
+        height: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+    
+    .mcIntroduction {
+        margin-bottom: 10px;
+    }
+
+    .mcPieChart {
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+  
+}
