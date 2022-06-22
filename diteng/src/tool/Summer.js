@@ -48,13 +48,12 @@ function showMsg(msg, remain) {
             width = "98%";
         }
         messageBox.css({
-            'width': width,
+            'max-width': width,
             'position': 'absolute',
             'margin': '0 auto',
-            'bottom': '2em',
-            'padding': '5px 5px 0',
-            'min-width': '8em',
-            'z-index': '1000000'
+            'bottom': '32px',
+            'z-index': '1000000',
+            'min-width': '308px'
         });
         if (mainBody.length == 1) {
             mainBody.append(messageBox);
@@ -66,28 +65,29 @@ function showMsg(msg, remain) {
     var messageBoxWidth;
     isPhone() ? messageBoxWidth = $('article>.content').outerWidth(false) / 1.5 : messageBoxWidth = $('article>.content').outerWidth(false) / 2;
     if ($('article>.content').length == 0) {
-        isPhone() ? messageBoxWidth = $('body').outerWidth(false) / 1.5 : messageBoxWidth = $('body').outerWidth(false) / 2;
-    } else {
-        isPhone() ? messageBoxWidth = $('body').outerWidth(false) / 1.5 : messageBoxWidth = $('body').outerWidth(false) / 2;
+        isPhone() ? messageBoxWidth = $('section[role="content"').outerWidth(false) / 1.5 : messageBoxWidth = $('section[role="content"').outerWidth(false) / 2;
     }
+
     messageBox = messageBox.html('').css({
         'opacity': 1,
-        'width': messageBoxWidth + 'px',
-        'left': ($('body').width() - messageBoxWidth) / 2 + 'px'
+        'left': "50%",
+        "transform": "translateX(-50%)"
     }).show();
 
-    var messageClose = $("<span/>").css({
-        "display": "inline-block",
-        "background": "url(images/close.png)",
-        "background-repeat": "no-repeat",
-        "background-position": "center",
-        "background-size": "1em 1em",
+    var messageClose = $("<span>×</span>").css({
         "position": "absolute",
         "cursor": "pointer",
-        "width": "1em",
-        "height": "1em",
-        "top": "0px",
-        "right": "0px",
+        "width": "24px",
+        "height": "24px",
+        "line-height": "22px",
+        "top": "50%",
+        "right": "16px",
+        "transform": "translateY(-50%)",
+        "color": "#fff",
+        "background-color": "#FFA533",
+        "font-size": "20px",
+        "border-radius": "50%",
+        "text-align": "center",
         "z-index": "102"
     }).click(function () {
         messageBox.stop().animate({
@@ -98,19 +98,17 @@ function showMsg(msg, remain) {
     });
 
     var messageContent = $("<div/>").html(msg).css({
-        "min-height": "2.5em",
-        "max-height": "6em",
-        "line-height": "1.5em",
+        "min-height": "40px",
         "overflow": "auto",
-        "border": "2px solid #faad61",
-        "border-radius": ".3em",
-        "-webkit-border-radius": ".3em",
-        "padding": ".4em",
-        "background-color": "#fff",
-        "width": "100%",
-        "right": "0",
-        "box-sizing": "border-box",
-        "color": "red"
+        "border": "1px solid #F8DDC0",
+        "border-radius": "6px",
+        "-webkit-border-radius": "6px",
+        "padding": "12px 48px 12px 16px",
+        "background-color": "#FDF5E8",
+        "font-size": "14px",
+        "line-height": "14px",
+        "color": "#333",
+        "box-sizing": "border-box"
     });
 
     // 获取底部操作区高度，设置消息提示出现的位置
@@ -143,7 +141,6 @@ function showMsg(msg, remain) {
     messageBox.on("mouseover", function () {
         clearTimeout(timer);
     });
-
     messageBox.on("mouseout", function () {
         if (msg.indexOf('</a>') == -1) {
             timer = setTimeout(function () {
