@@ -516,7 +516,7 @@
         height: 2.75rem;
         line-height: 2.75rem;
         border-radius: .25rem;
-        margin-right: 1rem;
+        margin-right: .5rem;
         font-size: 14px;
     }
 
@@ -555,7 +555,7 @@
     .contactTitle+div {
         font-size: 12px;
         line-height: 12px;
-        padding-top: 1rem;
+        padding-top: .5rem;
         padding-right: 1.25rem;
     }
 
