@@ -18,7 +18,6 @@
 
 .contactLiItemCenter {
     align-items: center;
-    padding-top: 0 !important;
 }
 
 .contactList>li>.title,
@@ -239,5 +238,7 @@
         margin-top: 0.3125rem;
         border-top: 1px solid #F7F7F7;
     }
-
+    .contactLiItemCenter {
+        padding-top: 0 !important;
+    }
 }
