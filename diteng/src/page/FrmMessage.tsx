@@ -5,6 +5,7 @@ import Utils from "../tool/Utils";
 import DefaultMessage from "./DefaultMessage";
 import ExportMessage from "./ExportMessage";
 import styles from "./FrmMessage.css";
+import ImageMessage from "./ImageMessage";
 import NoticeMessage from "./NoticeMessage";
 import PageApi from "./PageApi";
 import SignMessage from "./SignMessage";
@@ -415,6 +416,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     break;
                 case 'MVSubscribe':
                     messageName = SubscribeMessage;
+                    break;
+                case 'MVImage':
+                    messageName = ImageMessage;
                     break;
                 default:
                     messageName = DefaultMessage;
