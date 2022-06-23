@@ -433,10 +433,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     getMessageDOM() {
         if (this.props.lowVersion || this.state.message) {
-            if (this.isPhone)
-                return <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "marginTop": "1rem", "fontSize": "14px" }}>{this.getMessage()}</div>;
-            else
-                return <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
+            return <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
         }
     }
 
@@ -444,14 +441,10 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         if (this.props.lowVersion) {
             return <a href='FrmBrowserRecommend' target='_blank' style={{ 'color': '#ff4545' }}>你的浏览器版本太低，请使用推荐的浏览器</a>
         } else {
-            if (this.isPhone)
-                return <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>
-            else {
-                return <React.Fragment>
-                    <span>!</span>
-                    <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>
-                </React.Fragment>
-            }
+            return <React.Fragment>
+                <span>!</span>
+                <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>
+            </React.Fragment>
         }
 
     }

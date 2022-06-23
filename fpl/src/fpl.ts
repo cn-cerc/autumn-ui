@@ -20,6 +20,7 @@ import TStockMC from "./page/TStockMC";
 import FrmTaurusMC1 from "./page/FrmTaurusMC1";
 import FrmTaurusMC2 from "./page/FrmTaurusMC2";
 import TOrd from "./page/TOrd";
+import CodeRecordDialog from "./dialog/CodeRecordDialog";
 
 export default {
     ...diteng,
@@ -34,6 +35,7 @@ export default {
     ContractDialog,
     showSiteDialog,
     MaintainVehicleDialog,
+    CodeRecordDialog,
     //MC控制台
     FrmTaurusMC,
     TStockMC,
