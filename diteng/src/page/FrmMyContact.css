@@ -14,7 +14,11 @@
 .contactList>li,
 .AllContactList>li {
     display: flex;
+}
+
+.contactLiItemCenter {
     align-items: center;
+    padding-top: 0 !important;
 }
 
 .contactList>li>.title,
@@ -22,16 +26,18 @@
     height: 40px;
     line-height: 40px;
     font-size: 16px;
-    
+
 }
 
-.AllContactList>li .rightBtnContent{
+.AllContactList>li .rightBtnContent {
     display: none;
 }
-.AllContactList>li:hover{
+
+.AllContactList>li:hover {
     background-color: #f7f7f7;
 }
-.AllContactList>li:hover .rightBtnContent{
+
+.AllContactList>li:hover .rightBtnContent {
     display: block;
 }
 
@@ -50,6 +56,7 @@
 .contactTitle {
     display: flex;
     align-items: center;
+    padding-top: 2px;
 }
 
 .contactTitle+div {
@@ -66,6 +73,7 @@
     text-overflow: ellipsis;
     color: #000000;
     font-weight: 500;
+
 }
 
 .contactTitle>span:nth-child(2) {
@@ -76,7 +84,8 @@
     background-color: #f5f5f5;
 }
 
-.rightBoxSendBtn,.addContactBtn {
+.rightBoxSendBtn,
+.addContactBtn {
     width: 70px;
     display: flex;
     align-items: center;
@@ -87,8 +96,15 @@
     height: 1.6rem;
 }
 
-.addContactBtn{
+.addContactBtn {
     width: 84px;
+}
+
+.contactTitle+div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999999;
 }
 
 @media screen and (min-width: 768px) {
@@ -115,10 +131,11 @@
         padding: 10px;
     }
 
-    .contactList>li{
+    .contactList>li {
         padding: 12px;
     }
-    .AllContactList>li{
+
+    .AllContactList>li {
         padding: 5px;
     }
 
@@ -146,7 +163,7 @@
     }
 
     .contactTitle>span:nth-child(2) {
-        font-size: .75rem;
+        font-size: 0.75rem;
     }
 
     .contactTitle+div {
@@ -176,39 +193,51 @@
         background-color: #fff;
     }
 
-    .contactImage,
-    .contactList>li>.title,
-    .AllContactList>li>.title {
+    .contactImage {
         width: 2.75rem;
         height: 2.75rem;
         line-height: 2.75rem;
         border-radius: .25rem;
-        margin: 0.375rem 0.375rem 0.375rem 0.4375rem;
-        font-size: 0.875rem;
+        margin-right: .5rem;
+        font-size: 14px;
     }
 
-    .contactImage+div {
-        padding-right: .75rem;
-        position: relative;
+    .contactList>li>.title {
+        padding: .5rem 1rem .5rem 1rem;
     }
 
     .contactTitle {
         line-height: 1rem;
     }
 
-    .contactTitle>span:nth-child(2) {
-        font-size: 0.75rem;
+    .contactTitle>span {
+        font-size: 14px;
     }
 
     .contactTitle+div {
-        font-size: 0.875rem;
-        line-height: 0.875rem;
+        font-size: 12px;
+        line-height: 12px;
         padding-top: 0.5rem;
         padding-right: 1.25rem;
+    }
+
+    .contactLiItem,
+    .AllContactList>li {
+        padding: .5rem 1rem .5rem 1rem;
     }
 
     .contactList>li>.title,
     .AllContactList>li>.title {
         width: auto !important;
     }
+
+    .contactList {
+        padding-top: 0.3125rem;
+    }
+
+    .boderTop1 {
+        margin-top: 0.3125rem;
+        border-top: 1px solid #F7F7F7;
+    }
+
 }
