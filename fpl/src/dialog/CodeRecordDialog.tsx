@@ -49,8 +49,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column code="code_" name="料品名" width="100"></Column>
-                    <Column code="total_" name="总数量" width="100"></Column>
-                    <Column code="total_amount_" name="总金额" width="100"></Column>
                     <Column code="main_unit_" name="主单位" width="100" customText={
                         ((dataRow: DataRow) => {
                             let unit =dataRow.getValue("main_unit_");
@@ -78,8 +76,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         let code = document.getElementById("code_") as HTMLInputElement;
         let total = document.getElementById("total_") as HTMLInputElement;
-        let totalAmount = document.getElementById("total_amount_") as HTMLInputElement;
-        let mainUnit = document.getElementById("main_unit_") as HTMLInputElement;
         let unitPrice = document.getElementById("unit_price_") as HTMLInputElement;
         let deputyUnit = document.getElementById("deputy_unit_") as HTMLInputElement;
         let deputyUnitPrice = document.getElementById("deputy_unit_price_") as HTMLInputElement;
@@ -91,8 +87,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         input2.value = dataRow.getString('code_');
         code.value = dataRow.getString('code_');
         total.value = dataRow.getString('total_');
-        totalAmount.value = dataRow.getString('total_amount_');
-        mainUnit.value = dataRow.getString('main_unit_');
         unitPrice.value = dataRow.getString('unit_price_');
         deputyUnit.value = dataRow.getString('deputy_unit_');
         deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
