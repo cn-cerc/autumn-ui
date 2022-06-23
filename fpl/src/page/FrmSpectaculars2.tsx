@@ -53,7 +53,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         <div>
                             <div className={styles.topTitle}>交易金额</div>
                             <div className={styles.topInfo}>
-                                666 <span>辆</span>
+                                666.66 <span>万元</span>
                             </div>
                         </div>
                         <div>
@@ -62,9 +62,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     </li>
                     <li className={styles.li_3}>
                         <div>
-                            <div className={styles.topTitle}>安全监控中心</div>
+                            <div className={styles.topTitle}>运行时间</div>
                             <div className={styles.topInfo}>
-                                666 <span>辆</span>
+                                687466 <span>小时</span>
                             </div>
                         </div>
                         <div>
@@ -93,11 +93,11 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         </div>
                         <div className={styles.mcPieBox2}>
                             <div className={styles.mcTitle}>违章率</div>
-                            <div className={styles.FrmTaurusMCPie2}></div>
+                            <div className={styles.FrmSpectaculars2MCPie2}></div>
                         </div>
                         <div className={styles.mcPieBox3}>
                             <div className={styles.mcTitle}>事故率</div>
-                            <div className={styles.FrmTaurusMCPie3}></div>
+                            <div className={styles.FrmSpectaculars2MCPie3}></div>
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
@@ -116,9 +116,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         </div>
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
-                        <div className={styles.mcPieBox1}>
+                        <div className={styles.mcPieBox4}>
                             <div className={styles.mcTitle}>异常情况</div>
-                            <div className={styles.FrmTaurusMCPie1}></div>
+                            <div className={styles.FrmSpectaculars2MCPie1}></div>
                         </div>
                         <div className={styles.srcollListBox}>
                             <div className={styles.mcTitle}>异常动态</div>
@@ -250,7 +250,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
     }
 
     initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         ds.appendDataSet(this.state.pieData1);
@@ -307,53 +307,90 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
     }
 
     initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        const gaugeData = [
+            {
+                value: 60,
+                title: {
+                    offsetCenter: ['0%', '30%']
+                },
+                detail: {
+                    valueAnimation: true,
+                    offsetCenter: ['0%', '10%']
+                }
+            }
+        ];
         let option = {
-            // title: {
-            //     text: '本周货运车辆占比',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     },
-            //     top: '16'
-            // },
-            tooltip: {
-                trigger: 'item'
-            },
             series: [
                 {
-                    name: '本周货运车辆占比',
-                    type: 'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '24',
-                            fontWeight: 'bold'
+                    type: 'gauge',
+                    startAngle: 90,
+                    endAngle: -270,
+                    pointer: {
+                        show: false
+                    },
+                    progress: {
+                        show: true,
+                        overlap: false,
+                        roundCap: true,
+                        clip: false,
+                        itemStyle: {
+                            borderWidth: 1,
+                            borderColor: '#464646'
                         }
                     },
-                    labelLine: {},
-                    data: dataArr
+                    axisLine: {
+                        lineStyle: {
+                            width: 4
+                        }
+                    },
+                    splitLine: {
+                        show: false,
+                        distance: 0,
+                        length: 10
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false,
+                        distance: 20
+                    },
+                    data: gaugeData,
+                    title: {
+                        fontSize: 14
+                    },
+                    detail: {
+                        width: 5,
+                        height: 14,
+                        fontSize: 14,
+                        color: 'auto',
+                        borderColor: 'auto',
+                        formatter: '{value}%'
+                    }
                 }
             ]
-        }
+        };
+        setInterval(function () {
+            gaugeData[0].value = +(Math.random() * 100).toFixed(2);
+            myChart.setOption({
+                series: [
+                    {
+                        data: gaugeData,
+                        pointer: {
+                            show: false
+                        }
+                    }
+                ]
+            });
+        }, 2000);
+
         //@ts-ignore
         myChart.setOption(option);
     }
     initPieChart3() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         // ds.appendDataSet(this.state.pieData2);
@@ -372,7 +409,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             series: [
                 {
                     type: 'gauge',
-                    center: ['50%', '60%'],
+                    center: ['50%', '70%'],
                     startAngle: 200,
                     endAngle: -20,
                     min: 0,
@@ -383,14 +420,14 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     },
                     progress: {
                         show: true,
-                        width: 10
+                        width: 8
                     },
                     pointer: {
                         show: false
                     },
                     axisLine: {
                         lineStyle: {
-                            width: 10
+                            width: 8
                         }
                     },
                     axisTick: {
@@ -439,7 +476,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 },
                 {
                     type: 'gauge',
-                    center: ['50%', '60%'],
+                    center: ['50%', '70%'],
                     startAngle: 200,
                     endAngle: -20,
                     min: 0,
