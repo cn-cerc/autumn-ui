@@ -150,7 +150,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 第一次获取联系人列表数据
     async getContactFirstData() {
         let dataOut = await PageApi.getContactList();
-        dataOut.setSort('LatestDate_ DESC');
+        if (dataOut.size > 1) {
+            dataOut.setSort('LatestDate_ DESC');
+        }
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         let allUnReadNum = 0;
@@ -184,7 +186,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async getContactData() {
         let messageDataList = this.state.messageDataList;
         let dataOut = await PageApi.getContactList();
-        dataOut.setSort('LatestDate_ DESC');
+        if (dataOut.size > 1) {
+            dataOut.setSort('LatestDate_ DESC');
+        }
         dataOut.first();
         let allUnReadNum = 0;
         while (dataOut.fetch()) {
@@ -292,7 +296,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 ds.copyRecord(dataOut.current);
             }
         }
-        ds.setSort('AppDate_');
+        if (ds.size > 1) {
+            ds.setSort('AppDate_');
+        }
         messageData.data = ds;
         messageData.latestDate = date_;
         this.setState({
@@ -347,8 +353,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             }
             return <ul className={styles.contactList}>
                 <li className={styles.msgTypeStatusBox} key="1-1">
-                    <div><span className={this.state.msgTypeStuteFlag ? styles.msgTypeStute : ''} onClick={this.msgTypeStuteFun.bind(this)}>所有消息</span></div>
-                    <div><span className={this.state.msgTypeStuteFlag ? '' : styles.msgTypeStute} onClick={this.msgTypeStuteFun.bind(this)}>未读消息</span></div>
+                    <span className={this.state.msgTypeStuteFlag ? styles.msgTypeStute : ''} onClick={this.msgTypeStuteFun.bind(this)}>所有消息</span>
+                    <span className={this.state.msgTypeStuteFlag ? '' : styles.msgTypeStute} onClick={this.msgTypeStuteFun.bind(this)}>未读消息</span>
                 </li>
                 {list}
             </ul>
@@ -622,7 +628,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     ds.copyRecord(dataOut.current);
                 }
             }
-            ds.setSort('AppDate_');
+            if (ds.size > 1) {
+                ds.setSort('AppDate_');
+            }
             messageData.data = ds;
             messageData.date = date_;
             this.setState(this.state, () => {

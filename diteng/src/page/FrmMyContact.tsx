@@ -160,8 +160,11 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         return <ul className={styles.contactList}>
             <li>
                 <div className={styles.title}>
-                    所有联系人
-                    <button className={styles.addContactBtn} onClick={this.handleClickToAdd.bind(this)}>新增联系人</button>
+                    <span>所有联系人</span>
+                    <div onClick={this.handleClickToAdd.bind(this)} className={styles.addContactBtn}>
+                        <i>+</i>
+                        <span>新增联系人</span>
+                    </div>
                 </div>
             </li>
             {list}
@@ -169,7 +172,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 <div className={styles.title}>最近联系人</div>
             </li>
             {this.getNearestContactList()}
-        </ul>
+        </ul >
     }
 
     // 获取最近联系人JSX结构

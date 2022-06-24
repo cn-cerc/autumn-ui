@@ -300,22 +300,15 @@
     position: sticky;
     top: 0;
     background-color: #fff;
+    border-bottom: 1px solid #d6d6d6;
     z-index: 10;
-}
-
-.msgTypeStatusBox::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: #d6d6d6;
 }
 
 .msgTypeStatusBox span {
     cursor: pointer;
     font-size: 14px;
+    height: 100%;
+    line-height: 50px;
 }
 
 .msgTypeStute {
@@ -326,7 +319,7 @@
 .msgTypeStute::after {
     content: '';
     position: absolute;
-    bottom: -15px;
+    bottom: 0;
     left: 0;
     right: 0;
     height: 1px;
