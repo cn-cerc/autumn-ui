@@ -52,7 +52,7 @@ export default class PageApi {
         return DialogApi.getDataOut('SvrAddressBook.search', params);
     }
 
-    /** 获取通讯录所有联系人分组列表的人员 */
+    /** 接收类消息操作接口 */
     static acknowledge(serviceCode: string, params: DataRow) {
         return DialogApi.getDataOut(serviceCode, params);
     }
