@@ -351,7 +351,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     </div>
                 </li>);
             }
-            return <ul className={styles.contactList}>
+            return <ul className={`${styles.contactList} ${list.length ? styles.contactListPadding : ''}`}>
                 <li className={styles.msgTypeStatusBox} key="1-1">
                     <span className={this.state.msgTypeStuteFlag ? styles.msgTypeStute : ''} onClick={this.msgTypeStuteFun.bind(this)}>所有消息</span>
                     <span className={this.state.msgTypeStuteFlag ? '' : styles.msgTypeStute} onClick={this.msgTypeStuteFun.bind(this)}>未读消息</span>

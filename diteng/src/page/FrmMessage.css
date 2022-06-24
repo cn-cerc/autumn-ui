@@ -502,6 +502,9 @@
 
     .contactList {
         background-color: #fff;
+    }
+
+    .contactListPadding {
         padding-bottom: .5rem;
     }
 
