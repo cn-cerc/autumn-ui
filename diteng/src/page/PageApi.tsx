@@ -26,7 +26,7 @@ export default class PageApi {
     static setUserRemark(params: DataRow) {
         return DialogApi.getDataOutByCenter('SvrUserRemark.setUserRemark', params);
     }
-    
+
     /** 获取快速回复列表 */
     static getQuickReplyList(params: DataRow) {
         return DialogApi.getDataOutByCenter('SvrQuickReply.list', params);
@@ -50,6 +50,11 @@ export default class PageApi {
     /** 获取通讯录所有联系人分组列表的人员 */
     static searchBook(params: DataRow) {
         return DialogApi.getDataOut('SvrAddressBook.search', params);
+    }
+
+    /** 获取通讯录所有联系人分组列表的人员 */
+    static acknowledge(serviceCode: string, params: DataRow) {
+        return DialogApi.getDataOut(serviceCode, params);
     }
 
 }

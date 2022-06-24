@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
+import AcceptMessage from "./AcceptMessage";
 import DefaultMessage from "./DefaultMessage";
 import ExportMessage from "./ExportMessage";
 import styles from "./FrmMessage.css";
@@ -15,7 +16,7 @@ type FrmMessageTypeProps = {
     fromUser?: string,
     userCode: string,
     userName: string
-    toUser?:string
+    toUser?: string
 }
 
 type FrmMessageTypeState = {
@@ -46,7 +47,7 @@ type messageDetail = {
     remarkText_: string
 };
 
-export const timing = 5;
+export const timing = 50;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
     private timer: any = null;
@@ -103,7 +104,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async initData() {
         let messageDataList = await this.getContactFirstData();
         let currentUserId = messageDataList[0].fromUser;
-        if(this.props.toUser != 'null' && this.props.toUser != ' '){
+        if (this.props.toUser != 'null' && this.props.toUser != ' ') {
             currentUserId = this.props.toUser
         }
         currentUserId = currentUserId;
@@ -467,6 +468,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 case 'MVSubscribe':
                     messageName = SubscribeMessage;
                     break;
+                case 'MVAcceptMessage':
+                    messageName = AcceptMessage;
+                    break;
                 default:
                     messageName = DefaultMessage;
                     break;
@@ -478,13 +482,18 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     hideName: false,
                     siteR,
                     time: ds.getString('AppDate_'),
-                    msgStatus
+                    msgStatus,
+                    reloadMessage: this.reloadMessage.bind(this)
                 })}
             </li>)
         }
         return <ul className={styles.messageList} onScroll={(e) => {
             this.scrollEventFun(e);
-        }}>{list}</ul>
+        }} key={messageData.data.json}>{list}</ul>
+    }
+
+    reloadMessage() {
+        this.getMessageData(this.state.currentUserId, Utils.getNowDate())
     }
 
     getHistoryBtn(messageData: messageDetail) {
