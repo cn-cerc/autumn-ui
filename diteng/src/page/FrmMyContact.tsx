@@ -64,6 +64,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
 
     componentDidMount(): void {
         this.initGroup();
+        this.initData();
     }
 
     initGroup() {
@@ -92,8 +93,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
 
     render(): React.ReactNode {
         return <div className={styles.main}>
-            {this.getLeftContentDOM()}
-            {this.getContactList()}
+            {this.getContactListDOM()}
             {this.getRightBox()}
         </div>
     }
@@ -141,35 +141,8 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         setHeaderMessageNum(num);
     }
 
-    // 获取左边区域JSX
-    getLeftContentDOM() {
-        if (!this.isPhone) {
-            return <div className={styles.nav}>
-                <div className={styles.infoBox}>
-                    <div className={styles.title}>
-                        <span>当前账套</span>
-                    </div>
-                    <ul>
-                        <li>金牛水泥厂</li>
-                    </ul>
-                </div>
-                <div className={styles.infoBox}>
-                    <div className={styles.title}>
-                        <span>其他账套</span>
-                    </div>
-                    <ul>
-                        <li>地藤管理公司</li>
-                        <li>地藤管理公司1</li>
-                        <li>地藤管理公司2</li>
-                        <li>地藤管理公司3</li>
-                    </ul>
-                </div>
-            </div>
-        }
-    }
-
     // 获取联系人JSX结构
-    getContactList() {
+    getContactListDOM() {
         let list = [];
         for (let i = 0; i < this.state.searchType.length; i++) {
             let name = this.state.searchType[i];
@@ -186,7 +159,10 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         }
         return <ul className={styles.contactList}>
             <li>
-                <div className={styles.title}>所有联系人</div>
+                <div className={styles.title}>
+                    所有联系人
+                    <button className={styles.addContactBtn} onClick={this.handleClickToAdd.bind(this)}>新增联系人</button>
+                </div>
             </li>
             {list}
             <li>
@@ -204,7 +180,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let name = messageData.name || '系统消息';
             let num = i;
             if(name == '系统消息') continue;
-            list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
+            list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
                 <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                 <div>
                     <div className={styles.contactTitle}>
@@ -248,7 +224,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         if (!this.isPhone) {
             location.href = `./FrmMyMessage?toUser=${id}&date=${date}&name=${name}`
         } else {
-            location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&toUser=${messageData.fromUser}&date=${date}&name=${messageData.name}`
+            location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&toUser=${messageData.fromUser}&date=${date}`
         }
 
     }
@@ -286,9 +262,9 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                         </div>
                         <div>{text}</div>
                     </div>
-                    <div className={styles.rightBtnContent}>
+                    {userCode == ''?'':<div className={styles.rightBtnContent}>
                         <button className={styles.rightBoxSendBtn} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name)}>发送消息</button>
-                    </div>
+                    </div>}
                 </li>);
             }
             return <ul className={styles.AllContactList} onScroll={(e) => {
@@ -297,6 +273,10 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 {list}
             </ul>
         }
+    }
+
+    handleClickToAdd(){
+        location.href = `./FrmMyContact.append`
     }
 
     // 设置右边区域滚动到底部

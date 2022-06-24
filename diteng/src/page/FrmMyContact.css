@@ -1,47 +1,10 @@
-.nav {
-    width: 224px;
-    display: flex;
-    flex-direction: column;
-    background-color: #e8e6e6;
-    border-left: 1px solid #d6d6d6;
-    position: relative;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
 .title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: #333;
     line-height: 1em;
-}
-
-.infoBox {
-    margin: 16px 12px;
-    border-radius: .28rem;
-    padding: 16px;
-    box-sizing: border-box;
-    background-color: #F3F3F3;
-}
-.infoBox>.title{
-    font-size: 14px;
-    font-family: Microsoft YaHei;
-    font-weight: bold;
-    color: #333333;
-}
-.infoBox ul {
-    padding-top: 12px;
-}
-.infoBox ul li{
-    padding-bottom: 6px;
-    color: #666;
-    cursor: pointer;
-    height: 32px;
-    line-height: 32px;
-}
-.infoBox ul li:hover{
-    color: #2884cc;
+    flex: 1;
 }
 
 .AllContactList {
@@ -59,6 +22,7 @@
     height: 40px;
     line-height: 40px;
     font-size: 16px;
+    
 }
 
 .AllContactList>li .rightBtnContent{
@@ -112,7 +76,7 @@
     background-color: #f5f5f5;
 }
 
-.rightBoxSendBtn {
+.rightBoxSendBtn,.addContactBtn {
     width: 70px;
     display: flex;
     align-items: center;
@@ -121,6 +85,10 @@
     border-radius: 5px;
     font-family: "微软雅黑";
     height: 1.6rem;
+}
+
+.addContactBtn{
+    width: 84px;
 }
 
 @media screen and (min-width: 768px) {
@@ -144,6 +112,7 @@
         background-color: #fff;
         height: 100%;
         overflow: auto;
+        padding: 10px;
     }
 
     .contactList>li{

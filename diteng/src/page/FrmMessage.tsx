@@ -26,11 +26,7 @@ type FrmMessageTypeState = {
     currentUserId: string,
     showMessage: boolean,
     quicReplyList: Array<{ text: string, uid: string }>
-    quicReplyEditFlag: boolean,
-    HistoricalRecordsDay: number,
-    quicReplyItemIptText: string,
     msgTypeStuteFlag: boolean,
-    contactInfo: DataSet
 }
 
 type messageDetail = {
@@ -75,17 +71,36 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             currentUserId: null,
             showMessage,        //是否展示消息列表
             quicReplyList: [],   //保存获取的快捷回复list
-            quicReplyEditFlag: false,    //是否展示快捷回复消息列表
-            HistoricalRecordsDay: 1,     //获取前面第几天的数据
-            quicReplyItemIptText: '',    //新增快捷回复
             msgTypeStuteFlag: true,      //切换所有消息和未读消息
-            contactInfo,     // 联系人资料
         }
     }
 
     componentDidMount(): void {
         this.initData();
         this.startTimer();
+        if (!this.isPhone) {
+            let remarkDOM = document.querySelector('#remark') as HTMLTextAreaElement;
+            remarkDOM.addEventListener('input', this.changeRemark.bind(this));
+            let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
+            saveBtn.addEventListener('click', this.setUserRemarkFun.bind(this));
+            document.querySelectorAll('.quickReply').forEach((dom) => {
+                dom.addEventListener('click', this.quicReplySend.bind(this))
+            })
+        }
+    }
+
+    changeRemark() {
+        let textarea = event.target as HTMLTextAreaElement;
+        let val = textarea.value;
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
+        let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
+        if (messageData.remarkText_ == val) {
+            saveBtn.classList.remove('change');
+        } else {
+            saveBtn.classList.add('change');
+        }
+        messageData.remarkText = val;
+        this.setState(this.state);
     }
 
     componentWillUnmount(): void {
@@ -94,7 +109,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     render(): React.ReactNode {
         return <div className={styles.main}>
-            {this.getUserInfoDOM()}
+            {/* {this.getUserInfoDOM()} */}
             {this.getContactList()}
             {this.getMessageBox()}
         </div>
@@ -104,7 +119,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async initData() {
         let messageDataList = await this.getContactFirstData();
         let currentUserId = messageDataList[0].fromUser;
-        if (this.props.toUser != 'null' && this.props.toUser != ' ') {
+        if (this.props.toUser) {
             currentUserId = this.props.toUser
         }
         currentUserId = currentUserId;
@@ -240,17 +255,24 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     async getUserInfo() {
         let remarkText = await this.getUserRemarkFun();
-        let quicReplyList = await this.getQuicReplyListFun();
         let contactInfo = await this.fromDetailFun();
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         messageData.remarkText = messageData.remarkText || remarkText;
         messageData.remarkText_ = remarkText;
-        this.setState({
-            quicReplyEditFlag: false,
-            quicReplyItemIptText: '',
-            quicReplyList,
-            contactInfo
-        })
+        let userName = document.querySelector('#userName') as HTMLSpanElement;
+        userName.innerHTML = messageData.name;
+        let belong = document.querySelector("#belong") as HTMLSpanElement;
+        belong.innerHTML = contactInfo.getString('RoleName_');
+        let contact = document.querySelector('#contact') as HTMLSpanElement;
+        contact.innerHTML = contactInfo.getString('Mobile_');
+        let remark = document.querySelector('#remark') as HTMLTextAreaElement;
+        remark.value = messageData.remarkText;
+        let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
+        if (messageData.remarkText == messageData.remarkText_) {
+            saveBtn.classList.remove('change');
+        } else {
+            saveBtn.classList.add('change');
+        }
     }
 
     // 获取单个联系人消息详情
@@ -355,79 +377,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 </form>
             </div>
         }
-    }
-
-    // 获取nav区域JSX
-    getUserInfoDOM() {
-        if (!this.isPhone) {
-            return <div className={styles.nav}>
-                <div className={styles.suerInfoBox}>
-                    <div className={styles.title}>
-                        <span>对方资料</span>
-                    </div>
-                    {this.getUserInfoList()}
-                </div>
-                <div className={styles.quicReply}>
-                    <div className={styles.title}>
-                        <span>快速回复</span>
-                        <span className={styles.editBtn} onClick={this.quicReplyEdit.bind(this)}>{this.state.quicReplyEditFlag ? '完成' : '编辑'}</span>
-                    </div>
-                    {this.getQuicReplyList()}
-                </div>
-            </div>
-        }
-    }
-
-    // 获取对象资料JSX结构
-    getUserInfoList() {
-        let messageData = this.getMessageDataByCode(this.state.currentUserId);
-        return <ul>
-            <li className={styles.userInfoItem}><span>{messageData.name}</span></li>
-            <li className={styles.userInfoItem}>所属角色：<span>{this.state.contactInfo.getString('RoleName_')}</span></li>
-            <li className={styles.userInfoItem}>联系方式：<span>{this.state.contactInfo.getString('Mobile_')}</span></li>
-            <li className={styles.remarkBox}>
-                <div>
-                    <span>备注</span>
-                    <span onClick={this.setUserRemarkFun.bind(this)} className={messageData.remarkText == messageData.remarkText_ ? styles.disEvents : styles.infoButton}>保存</span>
-                </div>
-                <textarea className={styles.remarkClass} placeholder="请输入备注" value={messageData.remarkText} onChange={(e) => {
-                    messageData.remarkText = e.target.value;
-                    this.setState(this.state);
-                }}></textarea>
-            </li>
-        </ul>
-    }
-
-    // 获取快速回复JSX结构
-    getQuicReplyList() {
-        let datalist = this.state.quicReplyList;
-        let list = datalist.map((obj) => {
-            return <li className={styles.quicReplyItem} key={obj.uid}>
-                <span onClick={(e) => this.quicReplySend(e)}>{obj.text}</span>
-                {this.getDelete(obj)}
-            </li>
-        })
-        if (this.state.quicReplyEditFlag) {
-            list.push(
-                <li key='new' className={styles.quicReplyNew}>
-                    <textarea value={this.state.quicReplyItemIptText} onChange={(e) => {
-                        this.setState({
-                            quicReplyItemIptText: e.target.value
-                        })
-                    }} placeholder="请输入快捷回复内容..."></textarea>
-                    <span className={this.state.quicReplyItemIptText == '' ? styles.disEvents : styles.infoButton} style={{ 'marginTop': '16px' }} onClick={this.addQuicReplyItemFun.bind(this)}>添加</span>
-                </li>
-            )
-        }
-        return <ul className={this.state.quicReplyEditFlag ? styles.editUlSkin : ''}>
-            {list}
-        </ul>
-    }
-
-    // 获取删除按钮展示与否
-    getDelete(obj: { text: string, uid: string }) {
-        if (this.state.quicReplyEditFlag)
-            return <span className={styles.delete} onClick={this.delQuicReplyItemFun.bind(this, obj.uid)}>删除</span>
     }
 
     // 获取具体的消息体结构
@@ -602,13 +551,19 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     //快捷回复 发送
-    quicReplySend(e: any) {
-        if (this.state.quicReplyEditFlag)
-            return
+    async quicReplySend() {
+        let spanDom = event.target as HTMLSpanElement;
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
-        messageData.messageText = e.target.innerText;
-        this.setState(this.state, () => {
-            this.handleSubmit(e);
+        let row = new DataRow();
+        row.setValue('ToUser_', messageData.fromUser).setValue('Content_', spanDom.innerText);
+        await PageApi.replyMessage(row);
+        messageData.fromBottom = 0;
+        let messageDataList = await this.getContactData();
+        this.setState({
+            messageDataList,
+            currentUserId: messageData.fromUser
+        }, () => {
+            this.getMessageData(messageData.fromUser, Utils.getNowDate());
         })
     }
 
@@ -623,7 +578,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 showMsg(dataOut.message);
             } else {
                 messageData.remarkText_ = messageData.remarkText
-                this.setState(this.state)
+                this.setState(this.state);
+                let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
+                saveBtn.classList.remove('change');
             }
         }
     }
@@ -644,43 +601,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             }
         }
         return remarkText
-    }
-
-    //获取快捷回复列表
-    async getQuicReplyListFun() {
-        let quicReplyList: Array<{ text: string, uid: string }> = [];
-        let row = new DataRow();
-        let dataOut = await PageApi.getQuickReplyList(row);
-        let ds = new DataSet();
-        ds.appendDataSet(dataOut);
-        ds.first();
-        while (ds.fetch()) {
-            quicReplyList.push({ text: ds.getString('reply_content_'), uid: ds.getString('uid_') });
-        }
-        return quicReplyList;
-    }
-
-    //新增一条快捷回复
-    async addQuicReplyItemFun() {
-        let row = new DataRow();
-        row.setValue('Content_', this.state.quicReplyItemIptText);
-        await PageApi.setQuickReplyItem(row);
-        this.getUserInfo();
-    }
-
-    //删除某条快捷回复
-    async delQuicReplyItemFun(uid: string) {
-        let row = new DataRow();
-        row.setValue('UID_', uid);
-        await PageApi.delQuickReplyItem(row);
-        this.getUserInfo();
-    }
-
-    //编辑快捷回复
-    quicReplyEdit() {
-        this.setState({
-            quicReplyEditFlag: !this.state.quicReplyEditFlag
-        })
     }
 
     //获取历史消息 每次点击都获取当前查询时间 前一天

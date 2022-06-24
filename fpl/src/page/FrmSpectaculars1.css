@@ -1,0 +1,365 @@
+#fullContent {
+    min-height: 100% !important;
+}
+
+.mcIntroduction,
+.li_3,
+.mcPieBox1,
+.mcPieBox2,
+.mcPieBox3,
+.mcMapBox,
+.mcLinkBox,
+.mcLinkBox2,
+.srcollListBox,
+.rightSiteEchat1Box {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.mcIntroduction>p {
+    line-height: 24px;
+    padding-top: 5px;
+    font-size: 16px;
+    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
+    font-weight: bold;
+    color: #333333;
+    text-align: center;
+}
+
+.mcMain {
+    flex: 1;
+    display: flex;
+    padding-bottom: 16px;
+    flex-direction: column;
+}
+
+.top_list {
+    display: flex;
+    align-items: center;
+}
+
+.mcTitle {
+    font-size: 14px;
+    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
+    font-weight: bold;
+    color: #333333;
+    line-height: 14px;
+}
+
+.li_3 {
+    flex: 1;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.li_3:last-child {
+    margin-right: 0;
+}
+
+.topTitle {
+    font-size: 14px;
+    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 12px;
+}
+
+.topInfo {
+    font-size: 22px;
+    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
+    font-weight: bold;
+    color: #333333;
+}
+
+.topInfo>span {
+    font-size: 14px;
+    font-family: Microsoft YaHei-Regular, Microsoft YaHei;
+    font-weight: 400;
+    color: #666666;
+}
+
+.contentEcharts {
+    display: flex;
+    flex: 1;
+}
+
+.leftSiteEcharts,
+.rIghtSiteEcharts {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcPieBox1,
+.mcPieBox2,
+.mcPieBox3,
+.srcollListBox,
+.rightSiteEchat1,
+.mcLinkBox2 {
+    height: 216px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.srcollListContent {
+    margin-bottom: 0;
+}
+
+.centerSiteEcharts {
+    width: 60%;
+    margin: 0 10px;
+}
+
+.rightSiteEchat1 {
+    display: flex;
+}
+
+.rightSiteEchat1Box {
+    margin-bottom: 0;
+    margin-right: 10px;
+    flex: 1;
+}
+
+.rightSiteEchat1Box:last-child {
+    margin-right: 0;
+}
+
+.rightSiteEchat1BoxPie1,
+.rightSiteEchat1BoxPie2 {
+    height: 100px;
+}
+
+.mcMapBox {
+    height: 442px;
+    margin-bottom: 10px;
+}
+
+.mcMap {
+    height: 100%;
+}
+
+.mcLinkBox {
+    height: 216px;
+    margin-bottom: 10px;
+}
+
+.srcollListBox {
+    overflow: auto;
+}
+
+.srcollListMain {
+    margin: 10px 0 0;
+}
+
+.srcollListMain>li {
+    height: 19px;
+    line-height: 19px;
+    margin-bottom: 8px;
+}
+
+.srcollListMain>li:last-child {
+    margin-bottom: 0;
+}
+
+.leftScrollList {
+    margin: 10px 0 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.leftScrollListItem {
+    display: flex;
+    align-items: center;
+    height: 26px;
+    background: #EFF6FE;
+    line-height: 26px;
+    margin-bottom: 6px;
+}
+
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2,
+.FrmTaurusMCPie3,
+.mcLink,
+.mcLink2 {
+    height: 100px;
+}
+
+.colorSkin {
+    font-size: 14px;
+    color: #308DF2;
+    font-family: Microsoft YaHei-Regular, Microsoft YaHei;
+    font-weight: 400;
+}
+
+.rSkin {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #308DF2;
+    transform: translateY(-1px);
+    margin-right: 5px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+    .mc {
+        font-size: 14px;
+        color: #333;
+        line-height: 1em;
+        font-weight: 400;
+        height: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    .mcIntroduction {
+        margin-bottom: 10px;
+    }
+
+    .mcPieChart {
+        margin-top: 10px;
+    }
+
+    .leftSiteEcharts,
+    .rIghtSiteEcharts {
+        width: 264px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .centerSiteEcharts {
+        width: 500px;
+        margin: 0 10px;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2,
+    .mcPieBox3,
+    .srcollListBox,
+    .rightSiteEchat1,
+    .mcLinkBox2 {
+        height: 144px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    .mcMapBox {
+        height: 298px;
+        margin-bottom: 10px;
+    }
+
+    .mcLinkBox {
+        height: 144px;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .mcMain{
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+    .top_list {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .li_3 {
+        flex: auto;
+        margin-right: 0;
+        height: 78px;
+    }
+
+    .topTitle {
+        margin-bottom: 0;
+    }
+
+    .li_3>div {
+        line-height: 1.2;
+    }
+
+    .contentEcharts {
+        flex-direction: column;
+    }
+
+    .leftSiteEcharts,
+    .rIghtSiteEcharts {
+        width: 100%;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2,
+    .mcPieBox3,
+    .rightSiteEchat1,
+    .mcLinkBox{
+        height: 160px;
+    }
+    .mcLinkBox2{
+        height: 208px;
+    }
+    .srcollListBox{
+        height:132px;
+    }
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2,
+    .FrmTaurusMCPie3,
+    .mcLink,
+    .rightSiteEchat1BoxPie1,
+    .rightSiteEchat1BoxPie2 {
+        height: 130px;
+    }
+    .mcLink2{
+        height:180px;
+    }
+    
+    .centerSiteEcharts {
+        width: 100%;
+        margin: 0;
+    }
+
+    .srcollListMain>li {
+        height: 19px;
+        line-height: 19px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+    }
+
+    .rSkin{
+        transform:inherit;
+    }
+    .srcollListMain{
+        margin: 12px 0 0;
+    }
+    .centerSiteEcharts{
+        display: none;
+    }
+    .topInfo{
+        margin-top:4px;
+        height: 29px;
+        line-height: 29px;
+    }
+    .leftSiteEcharts{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .mcPieBox1, .mcPieBox2{
+        width: calc(50% - 5px);
+    }
+    .mcPieBox1{
+        margin-right:10px;
+    }
+    .mcPieBox3,.mcLinkBox2{
+        width: 100%;
+    }
+}
