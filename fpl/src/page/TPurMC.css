@@ -144,6 +144,7 @@
     width: 6em;
     text-align: center;
     display: block;
+    font-weight: 600;
 }
 
 .register:hover {
@@ -185,47 +186,47 @@
 }
 
 .stock1 {
-    left: 66px;
+    left: 60px;
     top: 15px;
 }
 
 .stock2 {
-    left: 168px;
+    left: 160px;
     top: 15px;
 }
 
 .stock3 {
-    left: 66px;
+    left: 60px;
     top: 100px;
 }
 
 .stock4 {
-    left: 168px;
+    left: 160px;
     top: 100px;
 }
 
 .stock5 {
-    left: 66px;
+    left: 60px;
     top: 185px;
 }
 
 .stock6 {
-    left: 168px;
+    left: 160px;
     top: 185px;
 }
 
 .stock7 {
-    left: 66px;
+    left: 60px;
     top: 270px;
 }
 
 .stock8 {
-    left: 168px;
+    left: 160px;
     top: 270px;
 }
 
 .stock9 {
-    left: 66px;
+    left: 60px;
     top: 355px;
 }
 

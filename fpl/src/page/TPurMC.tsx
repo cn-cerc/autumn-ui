@@ -287,48 +287,48 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                         [165, 125],
                     ]
                 },{
-                    coords: [
-                        [110, 75],
-                        [110, 105],
+                    coords: [ //厂商资料 往下线条
+                        [111, 75],
+                        [111, 105],
                     ]
                 },
                 {
-                    coords: [
-                        [110, 160],
-                        [110, 185],
+                    coords: [ //厂商报价 往下线条
+                        [111, 160],
+                        [111, 185],
                     ]
                 },
                 {
-                    coords: [
+                    coords: [ //生产订单 往右下线条
                         [198, 125],
                         [165, 125],
                         [165, 207]
                     ]
                 },{
-                    coords: [
+                    coords: [ //安全库存 往左线条
                         [198, 207],
-                        [130, 207]
+                        [133, 207]
                     ]
                 },{
-                    coords: [
-                        [110, 244],
-                        [110, 275]
+                    coords: [ //采购订单 往下线条
+                        [111, 244],
+                        [111, 275]
                     ]
                 },{
-                    coords: [
-                        [110, 330],
-                        [110, 360]
+                    coords: [ //进货单 往下线条
+                        [111, 330],
+                        [111, 360]
                     ]
                 },{
-                    coords: [
-                        [130, 293],
+                    coords: [ //进货单 往右线条
+                        [133, 293],
                         [200, 293]
                     ]
                 },{
-                    coords: [
+                    coords: [ //出货退回单 往左下线条
                         [219, 330],
                         [219, 375],
-                        [130, 375]
+                        [140, 375]
                     ]
                 }
             ]
@@ -341,7 +341,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 max: 328,
                 show: false,
                 type: 'value',
-                position: 'top'
+                position: 'top',
             },
             yAxis: {
                 min: 0,
@@ -350,7 +350,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 },
                 show: false,
                 type: 'value',
-                inverse: true
+                inverse: true,
             },
             grid: {
                 left: 0,
@@ -379,7 +379,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     width: 2,
                     color: '#ccc',
                     curveness: 0.3
-
                 },
                 effect: {
                     show: true,
@@ -389,7 +388,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     color: '#ccc',
                     symbolSize: 6
                 },
-                data: charts.linesData
+                data: charts.linesData,
             }]
         };
         //@ts-ignore

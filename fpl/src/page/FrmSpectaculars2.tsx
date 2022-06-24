@@ -250,6 +250,28 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
     }
 
     initPieChart1() {
+        let legend = {
+            orient: 'vertical',
+            top: 0,
+            right: 0,
+            itemWidth: 10,
+            itemHeight:10,
+            itemGap:2,
+            fontSize:8,
+            icon:'circle'
+        };
+        if (this.isPhone) {
+            legend = {
+                orient: 'vertical',
+                top: 30,
+                right: 0,
+                itemWidth: 10,
+                itemHeight:10,
+                itemGap:2,
+                fontSize:8,
+                icon:'circle'
+            }
+        }
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
@@ -266,12 +288,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             tooltip: {
                 trigger: 'item'
             },
-            legend: {
-                orient: 'vertical',
-                top: 0,
-                right: 0,
-                fontSize: 12
-            },
+            legend:legend,
             grid: {
                 top: 40,
                 left: 5,
@@ -372,19 +389,19 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 }
             ]
         };
-        setInterval(function () {
-            gaugeData[0].value = +(Math.random() * 100).toFixed(2);
-            myChart.setOption({
-                series: [
-                    {
-                        data: gaugeData,
-                        pointer: {
-                            show: false
-                        }
-                    }
-                ]
-            });
-        }, 2000);
+        // setInterval(function () {
+        //     gaugeData[0].value = +(Math.random() * 100).toFixed(2);
+        //     myChart.setOption({
+        //         series: [
+        //             {
+        //                 data: gaugeData,
+        //                 pointer: {
+        //                     show: false
+        //                 }
+        //             }
+        //         ]
+        //     });
+        // }, 2000);
 
         //@ts-ignore
         myChart.setOption(option);
@@ -392,150 +409,82 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        // ds.appendDataSet(this.state.pieData2);
-        // ds.first();
-        // let dataArr = [];
-        // while (ds.fetch()) {
-        //     dataArr.push({
-        //         name: ds.getString('Name_'),
-        //         value: ds.getDouble('Value_')
-        //     })
-        // }
+        const gaugeData = [
+            {
+                value: 60,
+                title: {
+                    offsetCenter: ['0%', '30%']
+                },
+                detail: {
+                    valueAnimation: true,
+                    offsetCenter: ['0%', '10%']
+                }
+            }
+        ];
         let option = {
-            tooltip: {
-                trigger: 'item'
-            },
             series: [
                 {
                     type: 'gauge',
-                    center: ['50%', '70%'],
-                    startAngle: 200,
-                    endAngle: -20,
-                    min: 0,
-                    max: 60,
-                    splitNumber: 12,
-                    itemStyle: {
-                        color: '#FFAB91'
-                    },
-                    progress: {
-                        show: true,
-                        width: 8
-                    },
+                    startAngle: 90,
+                    endAngle: -270,
                     pointer: {
                         show: false
                     },
-                    axisLine: {
-                        lineStyle: {
-                            width: 8
+                    progress: {
+                        show: true,
+                        overlap: false,
+                        roundCap: true,
+                        clip: false,
+                        itemStyle: {
+                            borderWidth: 1,
+                            borderColor: '#464646'
                         }
                     },
-                    axisTick: {
-                        distance: -17,
-                        splitNumber: 3,
+                    axisLine: {
                         lineStyle: {
-                            width: 1,
-                            color: '#999'
+                            width: 4
                         }
                     },
                     splitLine: {
-                        distance: -15,
-                        length: 3,
-                        lineStyle: {
-                            width: 1,
-                            color: '#999'
-                        }
+                        show: false,
+                        distance: 0,
+                        length: 10
                     },
-                    axisLabel: {
-                        distance: -10,
-                        color: '#999',
-                        fontSize: 8
-                    },
-                    anchor: {
+                    axisTick: {
                         show: false
                     },
+                    axisLabel: {
+                        show: false,
+                        distance: 20
+                    },
+                    data: gaugeData,
                     title: {
-                        show: false
+                        fontSize: 14
                     },
                     detail: {
-                        valueAnimation: true,
-                        width: '60%',
-                        lineHeight: 4,
-                        borderRadius: 4,
-                        offsetCenter: [0, '3%'],
-                        fontSize: 10,
-                        fontWeight: 'bolder',
-                        formatter: '{value} °C',
-                        color: 'auto'
-                    },
-                    data: [
-                        {
-                            value: 20
-                        }
-                    ]
-                },
-                {
-                    type: 'gauge',
-                    center: ['50%', '70%'],
-                    startAngle: 200,
-                    endAngle: -20,
-                    min: 0,
-                    max: 60,
-                    itemStyle: {
-                        color: '#FD7347'
-                    },
-                    progress: {
-                        show: true,
-                        width: 8
-                    },
-                    pointer: {
-                        show: false
-                    },
-                    axisLine: {
-                        show: false
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    splitLine: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false
-                    },
-                    detail: {
-                        show: false
-                    },
-                    data: [
-                        {
-                            value: 20
-                        }
-                    ]
+                        width: 5,
+                        height: 14,
+                        fontSize: 14,
+                        color: 'auto',
+                        borderColor: 'auto',
+                        formatter: '{value}%'
+                    }
                 }
             ]
-        }
-
-        setInterval(function () {
-            const random = +(Math.random() * 60).toFixed(2);
-            myChart.setOption({
-                series: [
-                    {
-                        data: [
-                            {
-                                value: random
-                            }
-                        ]
-                    },
-                    {
-                        data: [
-                            {
-                                value: random
-                            }
-                        ]
-                    }
-                ]
-            });
-        }, 2000);
+        };
+        // setInterval(function () {
+        //     gaugeData[0].value = +(Math.random() * 100).toFixed(2);
+        //     myChart.setOption({
+        //         series: [
+        //             {
+        //                 data: gaugeData,
+        //                 pointer: {
+        //                     show: false
+        //                 }
+        //             }
+        //         ]
+        //     });
+        // }, 2000);
         //@ts-ignore
         myChart.setOption(option);
     }

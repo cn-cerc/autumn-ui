@@ -296,22 +296,37 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         myChart.setOption(option);
     }
     initPieChart1() {
+        let legend = {
+            type: 'plain',
+            bottom:15,
+            orient:'vertical',
+            right: 0,
+            itemWidth: 10,
+            itemHeight:10,
+            itemGap:2,
+            fontSize:8,
+            icon:'circle'
+        };
+        if (this.isPhone) {
+            legend = {
+                type: 'plain',
+                bottom:45,
+                orient:'vertical',
+                right: 0,
+                itemWidth: 10,
+                itemHeight:10,
+                itemGap:4,
+                fontSize:8,
+                icon:'circle'
+            }
+        }
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let option = {
             tooltip: {
                 trigger: 'item'
             },
-            legend: {
-                type: 'plain',
-                bottom:15,
-                orient:'vertical',
-                right: 0,
-                itemWidth: 5,
-                itemHeight:5,
-                itemGap:2,
-                fontSize:8
-            },
+            legend:legend,
             series: [
                 {
                     type: 'pie',
@@ -370,22 +385,37 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         myChart.setOption(option);
     }
     initPieChart2() {
+        let legend = {
+            type: 'plain',
+            bottom:15,
+            orient:'vertical',
+            right: 0,
+            itemWidth: 10,
+            itemHeight:10,
+            itemGap:2,
+            fontSize:8,
+            icon:'circle'
+        };
+        if (this.isPhone) {
+            legend = {
+                type: 'plain',
+                bottom:45,
+                orient:'vertical',
+                right: 0,
+                itemWidth: 10,
+                itemHeight:10,
+                itemGap:4,
+                fontSize:8,
+                icon:'circle'
+            }
+        }
         let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let option = {
             tooltip: {
                 trigger: 'item'
             },
-            legend: {
-                type: 'plain',
-                bottom:15,
-                orient:'vertical',
-                right: 0,
-                itemWidth: 5,
-                itemHeight:5,
-                itemGap:2,
-                fontSize:8
-            },
+            legend:legend,
             series: [
                 {
                     type: 'pie',

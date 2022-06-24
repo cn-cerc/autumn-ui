@@ -538,128 +538,103 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         myChart.setOption(option);
     }
     initPieChart4() {
-        let legend = {
-            type: 'plain',
-            top: '3%',
-            left: 'left',
-            itemWidth: 0,
-            orient: 'vertical',
-            padding: 1,
-            itemGap: 2,
-        }
-        let radius = ['25%', '40%'],
-            center = ['20%', '80%'];
-        if (this.isPhone) {
-            legend = {
-                type: 'plain',
-                top: '30%',
-                left: 'left',
-                itemWidth: 0,
-                orient: 'vertical',
-                padding: 1,
-                itemGap: 2,
-            }
-            radius = ['25%', '40%'],
-                center = ['70%', '50%'];
-        }
         let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.pieData1);
+        ds.first();
+        let dataArr = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('Name_'),
+                value: ds.getDouble('Value_')
+            })
+        }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
-            legend: legend,
+            grid: {
+                top: 40,
+                left: 5,
+                bottom: 5,
+                right: 50,
+                containLabel: true,
+            },
             series: [
                 {
+                    name: '本周货运吨数占比',
                     type: 'pie',
-                    radius: radius,
-                    center: center,
+                    radius: ['28%', '40%'],
+                    center: ['50%', '50%'],
                     avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '40',
+                            fontSize: '16',
                             fontWeight: 'bold'
                         }
                     },
                     labelLine: {
-                        show: false
+                        length: 5,
+                        length2: 5,
+                        maxSurfaceAngle: 80
                     },
-                    data: [
-                        { value: 580, name: 'Email' },
-                        { value: 484, name: 'Union Ads' },
-                        { value: 300, name: 'Video Ads' }
-                    ]
+                    data: dataArr
                 }
             ]
-        };
+        }
         //@ts-ignore
         myChart.setOption(option);
     }
     initPieChart5() {
-        let legend = {
-            type: 'plain',
-            top: '3%',
-            left: 'left',
-            itemWidth: 0,
-            orient: 'vertical',
-            padding: 1,
-            itemGap: 2,
-        }
-        let radius = ['25%', '40%'],
-            center = ['20%', '80%'];
-        if (this.isPhone) {
-            legend = {
-                type: 'plain',
-                top: '30%',
-                left: 'left',
-                itemWidth: 0,
-                orient: 'vertical',
-                padding: 1,
-                itemGap: 2,
-            }
-            radius = ['25%', '40%'];
-            center = ['70%', '50%'];
-        }
         let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.pieData1);
+        ds.first();
+        let dataArr = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('Name_'),
+                value: ds.getDouble('Value_')
+            })
+        }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
-            legend: legend,
+            // legend:legend,
+            grid: {
+                top: 40,
+                left: 5,
+                bottom: 5,
+                right: 50,
+                containLabel: true,
+            },
             series: [
                 {
+                    name: '本周货运吨数占比',
                     type: 'pie',
-                    radius: radius,
-                    center: center,
+                    radius: ['28%', '40%'],
+                    center: ['50%', '50%'],
                     avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '40',
+                            fontSize: '16',
                             fontWeight: 'bold'
                         }
                     },
                     labelLine: {
-                        show: false
+                        length: 5,
+                        length2: 5,
+                        maxSurfaceAngle: 80
                     },
-                    data: [
-                        { value: 580, name: 'Email' },
-                        { value: 484, name: 'Union Ads' },
-                        { value: 300, name: 'Video Ads' }
-                    ]
+                    data: dataArr
                 }
             ]
-        };
+        }
         //@ts-ignore
         myChart.setOption(option);
     }

@@ -31,8 +31,8 @@
 }
 
 .mcIntroduction>p {
-    line-height: 24px;
-    padding-top: 5px;
+    height:100%;
+    line-height: 37px;
     font-size: 16px;
     font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
@@ -45,6 +45,7 @@
     display: flex;
     padding-bottom: 16px;
     flex-direction: column;
+    height:0;
 }
 
 .top_list {
@@ -122,12 +123,17 @@
 .mcPieBox3,
 .mcLinkBox,
 .mcLinkBox1 {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 0;
+    flex: 1;
 }
 
 .centerSiteEcharts {
     width: 60%;
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .rightSiteEchat1 {
@@ -172,6 +178,7 @@
 .rightSiteEchat1BoxPie1,
 .mcBar2,
 .mcLink1 {
+    flex: 1;
     height: 20vh;
 }
 
@@ -242,13 +249,12 @@
 .leftTop1ItemInfo>div:last-child {
     font-weight: bold;
 }
-
+.mcIntroduction {
+    margin-bottom: 10px;
+    padding: 0;
+    height: 37px;
+}
 @media screen and (min-width: 768px) and (max-width: 1366px) {
-
-    .mcIntroduction {
-        margin-bottom: 10px;
-    }
-
     .mcPieChart {
         margin-top: 10px;
     }

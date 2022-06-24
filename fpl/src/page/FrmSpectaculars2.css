@@ -29,8 +29,8 @@
 }
 
 .mcIntroduction>p {
-    line-height: 24px;
-    padding-top: 5px;
+    height:100%;
+    line-height: 37px;
     font-size: 16px;
     font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
@@ -43,6 +43,7 @@
     display: flex;
     padding-bottom: 16px;
     flex-direction: column;
+    height:0;
 }
 
 .top_list {
@@ -113,19 +114,20 @@
     height: 228px;
     margin-bottom: 10px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
-.mcLinkBox{
+.mcPieBox3, .mcLinkBox{
     margin-bottom: 0;
-}
-
-.mcPieBox3 {
-    margin-bottom: 0;
+    flex: 1;
 }
 
 .centerSiteEcharts {
     width: 60%;
     margin: 0 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 .mcMapBox {
@@ -208,7 +210,8 @@
 .FrmSpectaculars2MCPie2,
 .FrmSpectaculars2MCPie3,
 .mcLink {
-    height: 20vh;
+    flex: 1;
+    /* height: 20vh; */
 }
 
 .colorSkin {
@@ -228,10 +231,14 @@
     margin-right: 5px;
 }
 
+.mcIntroduction {
+    margin-bottom: 10px;
+    padding: 0;
+    height: 37px;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1366px) {
-    .mcIntroduction {
-        margin-bottom: 10px;
-    }
+
 
     .mcPieChart {
         margin-top: 10px;
