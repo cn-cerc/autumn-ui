@@ -51,7 +51,7 @@ function showMsg(msg, remain) {
             'max-width': width,
             'position': 'absolute',
             'margin': '0 auto',
-            'bottom': '32px',
+            'bottom': '64px',
             'z-index': '1000000',
             'min-width': '308px'
         });
@@ -80,9 +80,8 @@ function showMsg(msg, remain) {
         "width": "24px",
         "height": "24px",
         "line-height": "22px",
-        "top": "50%",
+        "top": "8px",
         "right": "16px",
-        "transform": "translateY(-50%)",
         "color": "#fff",
         "background-color": "#FFA533",
         "font-size": "20px",

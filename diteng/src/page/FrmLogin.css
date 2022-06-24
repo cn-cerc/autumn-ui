@@ -636,7 +636,6 @@ a {
 
     .status {
         width: 100%;
-        min-height: 5.625rem;
         background: #ffffff;
         padding: 1.25rem 0;
         display: flex;
