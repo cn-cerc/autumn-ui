@@ -252,7 +252,16 @@
 
     .boderTop1 {
         margin-top: 0.3125rem;
-        border-top: 1px solid #F7F7F7;
+        position: relative;
+    }
+    .boderTop1::before {
+        content: '';
+        position: absolute;
+        left: .5rem;
+        right: .5rem;
+        top: 0;
+        height: 1px;
+        background-color: #f2f2f2;
     }
     .contactLiItemCenter {
         padding-top: 0 !important;
