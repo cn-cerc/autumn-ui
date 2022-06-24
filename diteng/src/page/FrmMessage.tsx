@@ -43,7 +43,7 @@ type messageDetail = {
     remarkText_: string
 };
 
-export const timing = 50;
+export const timing = 5;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
     private timer: any = null;
