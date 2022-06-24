@@ -312,16 +312,15 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                     type: 'line',
                     width: 2,
                     color: '#ccc',
-                    curveness: 0.3
-
+                    curveness: 0.3,
                 },
                 effect: {
                     show: true,
                     trailLength: 0,
-                    constantSpeed: 0,
+                    constantSpeed: 10,
                     symbol: 'arrow',
                     color: '#ccc',
-                    symbolSize: 6
+                    symbolSize: 6,
                 },
                 data: charts.linesData
             }]

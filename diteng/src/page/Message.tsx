@@ -10,7 +10,8 @@ export type messageTypeProps = {
     systemMsg?: boolean,
     msgStatus?: string,
     mvClass?: string
-    time?: string
+    time?: string,
+    reloadMessage?: Function
 }
 
 export default abstract class Message<T extends messageTypeProps = messageTypeProps, S = {}> extends React.Component<T, S> {
@@ -46,6 +47,10 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
     //已读按钮
     readMsgFun() {
 
+    }
+    //刷新当前消息数据
+    reload() {
+        this.props.reloadMessage();
     }
     abstract getMessage(): JSX.Element;
 }
