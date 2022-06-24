@@ -1,24 +1,24 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./TStockMC.css";
+import styles from "./FrmCarManagerMC1.css";
 import * as echarts from "echarts";
 
-type TStockMCTypeProps = {
+type FrmCarManagerMC1TypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type TStockMCTypeState = {
+type FrmCarManagerMC1TypeState = {
     lineData: DataSet,
     barData: DataSet,
     dataJson: DataRow,
     introduction: string
 }
-
+//车辆管理控制台 货主
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
-export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCTypeState> {
-    constructor(props: TStockMCTypeProps) {
+export default class FrmCarManagerMC1 extends WebControl<FrmCarManagerMC1TypeProps, FrmCarManagerMC1TypeState> {
+    constructor(props: FrmCarManagerMC1TypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -58,38 +58,32 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '进货单')}>
-                                <span>进货单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`车队管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '车队管理')}>
+                                <span>车队管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`商品品牌设置_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '商品品牌设置')}>
-                                <span>商品品牌设置</span>
+                            <div className={`${this.state.dataJson.getBoolean(`司机管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '司机管理')}>
+                                <span>司机管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`商品资料登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '商品资料登记')}>
-                                <span>商品资料登记</span>
+                            <div className={`${this.state.dataJson.getBoolean(`司机认证_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '司机认证')}>
+                                <span>司机认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '进货退回单')}>
-                                <span>进货退回单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`收款人管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '收款人管理')}>
+                                <span>收款人管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存盘点单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '库存盘点单')}>
-                                <span>库存盘点单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`收款人认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '收款人认证')}>
+                                <span>收款人认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '库存报废单')}>
-                                <span>库存报废单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '车辆管理')}>
+                                <span>车辆管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '销售单')}>
-                                <span>销售单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`车辆类型维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '车辆类型维护')}>
+                                <span>车辆类型维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存总表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '库存总表')}>
-                                <span>库存总表</span>
+                            <div className={`${this.state.dataJson.getBoolean(`维修记录_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '维修记录')}>
+                                <span>维修记录</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进出库明细_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '进出库明细')}>
-                                <span>进出库明细</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '出货退回单')}>
-                                <span>出货退回单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库别调拨单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '库别调拨单')}>
-                                <span>库别调拨单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`维修厂系统_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修厂系统')}>
+                                <span>维修厂系统</span>
                             </div>
                         </div>
                     </div>
@@ -221,51 +215,51 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
             nodes,
             linesData: [
                 {
-                    coords: [ //进货单 往右下 出货退回单
-                        [78, 40],
-                        [105, 40],
-                        [105, 340],
-                        [78, 340],
-                    ]
-                }, {
-                    coords: [ //商品品牌设置 往右 商品资料登记
-                        [183, 40],
-                        [248, 40],
+                    coords: [ //车队管理 往右线条
+                        [75, 40],
+                        [143, 40]
                     ]
                 },
                 {
-                    coords: [ //进货退回单 往右线条
-                        [78, 142],
-                        [105, 142],
+                    coords: [ //车队管理 往下线条
+                        [50, 80],
+                        [50, 220]
                     ]
                 },
                 {
-                    coords: [ //库存盘点单 往下 库存总表
-                        [169, 180],
-                        [169, 220],
+                    coords: [ //司机管理 往右线条
+                        [190, 40],
+                        [256, 40]
                     ]
                 },
                 {
-                    coords: [ //库存报废单 往左下线条
-                        [276, 180],
-                        [276, 200],
-                        [169, 200],
+                    coords: [ //司机管理 往下线条
+                        [169, 80],
+                        [169, 130]
                     ]
                 },
                 {
-                    coords: [ //销售单 往右 库存总表
-                        [78, 242],
-                        [143, 242],
+                    coords: [ //收款人管理 往右线条
+                        [190, 140],
+                        [256, 140]
                     ]
-                }, {
-                    coords: [ //库存总表 往右 进出库明细
-                        [183, 242],
-                        [248, 242],
+                },
+                {
+                    coords: [ //车辆类型维护 往左线条
+                        [143, 240],
+                        [75, 240]
                     ]
-                }, {
-                    coords: [ //库别调拨单 往上 库存总表
-                        [169, 323],
-                        [169, 290],
+                },
+                {
+                    coords: [ //车辆管理 往下线条
+                        [50, 280],
+                        [50, 320]
+                    ]
+                },
+                {
+                    coords: [ //维修厂系统 往左线条
+                        [143, 340],
+                        [75, 340]
                     ]
                 },
             ]

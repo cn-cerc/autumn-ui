@@ -4,14 +4,16 @@ import styles from "./FrmTaurusMC.css";
 import * as echarts from "echarts";
 
 type FrmTaurusMCTypeProps = {
-    dataJson: string
+    dataJson: string,
+    introduction:string
 }
 
 type FrmTaurusMCTypeState = {
     lineData: DataSet,
     pieData1: DataSet,
     pieData2: DataSet,
-    linkRow: DataRow
+    linkRow: DataRow,
+    introduction:string
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
@@ -43,7 +45,8 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             lineData,
             pieData1,
             pieData2,
-            linkRow
+            linkRow,
+            introduction:this.props.introduction
         }
     }
 
@@ -51,7 +54,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <div className={styles.mcTitle}>简介</div>
-                <p>主要用于货单登记，以及后续的自行派车运单登记、委托第三方物流运输、网络货运平台撮合的三种模式货物运输方式派单给司机的主要功能。此模组中可以先事设置好商品资料登记、客户登记、以及车队与司机登记，以方便在货单登记、自行派车运单登记中选择相应的数据，节省大量的信息输入情况。</p>
+                <p>{this.state.introduction}</p>
             </div>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>

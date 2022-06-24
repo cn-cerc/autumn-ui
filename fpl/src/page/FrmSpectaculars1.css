@@ -2,6 +2,18 @@
     min-height: 100% !important;
 }
 
+.mc {
+    font-size: 14px;
+    color: #333;
+    line-height: 1em;
+    font-weight: 400;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
 .mcIntroduction,
 .li_3,
 .mcPieBox1,
@@ -101,12 +113,14 @@
 .srcollListBox,
 .rightSiteEchat1,
 .mcLinkBox2 {
-    height: 216px;
+    height: 228px;
     margin-bottom: 10px;
     box-sizing: border-box;
 }
 
-.srcollListContent {
+.mcPieBox3,
+.srcollListContent,
+.srcollListBox {
     margin-bottom: 0;
 }
 
@@ -131,11 +145,11 @@
 
 .rightSiteEchat1BoxPie1,
 .rightSiteEchat1BoxPie2 {
-    height: 100px;
+    height: 16vh;
 }
 
 .mcMapBox {
-    height: 442px;
+    height: 466px;
     margin-bottom: 10px;
 }
 
@@ -144,8 +158,8 @@
 }
 
 .mcLinkBox {
-    height: 216px;
-    margin-bottom: 10px;
+    height: 228px;
+    margin-bottom: 0;
 }
 
 .srcollListBox {
@@ -187,7 +201,7 @@
 .FrmTaurusMCPie3,
 .mcLink,
 .mcLink2 {
-    height: 100px;
+    height: 20vh;
 }
 
 .colorSkin {
@@ -208,18 +222,6 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1366px) {
-    .mc {
-        font-size: 14px;
-        color: #333;
-        line-height: 1em;
-        font-weight: 400;
-        height: 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-    }
-
     .mcIntroduction {
         margin-bottom: 10px;
     }
@@ -230,14 +232,13 @@
 
     .leftSiteEcharts,
     .rIghtSiteEcharts {
-        width: 264px;
-        display: flex;
-        flex-direction: column;
+        min-width: 264px;
+        width: 20%;
     }
 
     .centerSiteEcharts {
-        width: 500px;
-        margin: 0 10px;
+        min-width: 500px;
+        width: 60%;
     }
 
     .mcPieBox1,
@@ -247,26 +248,36 @@
     .rightSiteEchat1,
     .mcLinkBox2 {
         height: 144px;
-        margin-bottom: 10px;
-        box-sizing: border-box;
     }
 
     .mcMapBox {
         height: 298px;
-        margin-bottom: 10px;
     }
 
     .mcLinkBox {
         height: 144px;
-        margin-bottom: 10px;
     }
+
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2,
+    .FrmTaurusMCPie3,
+    .mcLink,
+    .mcLink2 {
+        height: 105px;
+    }
+
 }
 
 @media screen and (max-width: 767px) {
-    .mcMain{
+    .mc {
+        overflow: inherit;
+    }
+
+    .mcMain {
         margin-left: 12px;
         margin-right: 12px;
     }
+
     .top_list {
         align-items: stretch;
         flex-direction: column;
@@ -299,15 +310,18 @@
     .mcPieBox2,
     .mcPieBox3,
     .rightSiteEchat1,
-    .mcLinkBox{
+    .mcLinkBox {
         height: 160px;
     }
-    .mcLinkBox2{
+
+    .mcLinkBox2 {
         height: 208px;
     }
-    .srcollListBox{
-        height:132px;
+
+    .srcollListBox {
+        height: 132px;
     }
+
     .FrmTaurusMCPie1,
     .FrmTaurusMCPie2,
     .FrmTaurusMCPie3,
@@ -316,13 +330,9 @@
     .rightSiteEchat1BoxPie2 {
         height: 130px;
     }
-    .mcLink2{
-        height:180px;
-    }
-    
-    .centerSiteEcharts {
-        width: 100%;
-        margin: 0;
+
+    .mcLink2 {
+        height: 180px;
     }
 
     .srcollListMain>li {
@@ -335,31 +345,45 @@
         width: 80%;
     }
 
-    .rSkin{
-        transform:inherit;
+    .rSkin {
+        transform: inherit;
     }
-    .srcollListMain{
+
+    .srcollListMain {
         margin: 12px 0 0;
     }
-    .centerSiteEcharts{
+
+    .centerSiteEcharts {
         display: none;
     }
-    .topInfo{
-        margin-top:4px;
+
+    .topInfo {
+        margin-top: 4px;
         height: 29px;
         line-height: 29px;
     }
-    .leftSiteEcharts{
+
+    .leftSiteEcharts {
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .mcPieBox1, .mcPieBox2{
+
+    .mcPieBox1,
+    .mcPieBox2,
+    .rightSiteEchat1Box {
         width: calc(50% - 5px);
     }
-    .mcPieBox1{
-        margin-right:10px;
+
+    .mcPieBox1 {
+        margin-right: 10px;
     }
-    .mcPieBox3,.mcLinkBox2{
+
+    .mcPieBox3,
+    .mcLinkBox2 {
         width: 100%;
+    }
+
+    .mcPieBox3 {
+        margin-bottom: 10px;
     }
 }

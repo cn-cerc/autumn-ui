@@ -560,7 +560,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                 itemGap: 2,
             }
             radius = ['25%', '40%'],
-            center = ['70%', '50%'];
+                center = ['70%', '50%'];
         }
         let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);

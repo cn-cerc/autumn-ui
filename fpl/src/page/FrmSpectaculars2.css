@@ -2,6 +2,18 @@
     min-height: 100% !important;
 }
 
+.mc {
+    font-size: 14px;
+    color: #333;
+    line-height: 1em;
+    font-weight: 400;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
 .mcIntroduction,
 .li_3,
 .mcPieBox1,
@@ -88,7 +100,7 @@
 
 .leftSiteEcharts,
 .rIghtSiteEcharts {
-    width: 264px;
+    width: 20%;
     display: flex;
     flex-direction: column;
 }
@@ -96,10 +108,15 @@
 .mcPieBox1,
 .mcPieBox2,
 .mcPieBox3,
-.mcPieBox4 {
-    height: 144px;
+.mcPieBox4,
+.mcLinkBox {
+    height: 228px;
     margin-bottom: 10px;
     box-sizing: border-box;
+}
+
+.mcLinkBox{
+    margin-bottom: 0;
 }
 
 .mcPieBox3 {
@@ -107,18 +124,13 @@
 }
 
 .centerSiteEcharts {
-    width: 500px;
+    width: 60%;
     margin: 0 10px;
 }
 
 .mcMapBox {
     display: flex;
-    height: 298px;
-    margin-bottom: 10px;
-}
-
-.mcLinkBox {
-    height: 144px;
+    height: 466px;
     margin-bottom: 10px;
 }
 
@@ -134,10 +146,11 @@
 }
 
 .imgItem {
-    width: 246px;
-    height: 145px;
+    width: calc(50% - 4px);
+    height: 228px;
     margin-bottom: 8px;
     margin-right: 8px;
+    box-sizing: border-box;
 }
 
 .imgItem:nth-child(2n) {
@@ -152,7 +165,7 @@
 .srcollListBox {
     flex: 1;
     overflow: auto;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .srcollListMain {
@@ -170,10 +183,11 @@
 }
 
 .leftScrollList {
-    margin: 10px 0 0;
+    margin: 20px 0 0;
     display: flex;
     flex: 1;
     flex-direction: column;
+    height: 16vh;
 }
 
 .leftScrollListItem {
@@ -183,13 +197,18 @@
     background: #EFF6FE;
     line-height: 26px;
     margin-bottom: 6px;
+    flex: 1;
+    padding: 0 8px;
+}
+.leftScrollListItem>img{
+    margin-right:6px;
 }
 
 .FrmSpectaculars2MCPie1,
 .FrmSpectaculars2MCPie2,
 .FrmSpectaculars2MCPie3,
 .mcLink {
-    height: 100px;
+    height: 20vh;
 }
 
 .colorSkin {
@@ -209,19 +228,7 @@
     margin-right: 5px;
 }
 
-@media screen and (min-width: 768px) {
-    .mc {
-        font-size: 14px;
-        color: #333;
-        line-height: 1em;
-        font-weight: 400;
-        height: 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-    }
-
+@media screen and (min-width: 768px) and (max-width: 1366px) {
     .mcIntroduction {
         margin-bottom: 10px;
     }
@@ -229,9 +236,54 @@
     .mcPieChart {
         margin-top: 10px;
     }
+
+    .leftSiteEcharts,
+    .rIghtSiteEcharts {
+        min-width: 264px;
+        width:20%;
+    }
+
+    .centerSiteEcharts {
+        min-width: 500px;
+        width:60%;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2,
+    .mcPieBox3,
+    .mcPieBox4 {
+        height: 144px;
+    }
+
+    .FrmSpectaculars2MCPie1,
+    .FrmSpectaculars2MCPie2,
+    .FrmSpectaculars2MCPie3,
+    .mcLink {
+        height: 100px;
+    }
+
+    .mcMapBox {
+        height: 298px;
+    }
+
+    .mcLinkBox {
+        height: 144px;
+    }
+
+    .imgItem {
+        height: 145px;
+    }
+
+    .leftScrollList {
+        margin: 10px 0 0;
+        height: 96px;
+    }
 }
 
 @media screen and (max-width: 767px) {
+    .mc{
+        overflow: inherit;
+    }
     .mcMain {
         margin-left: 12px;
         margin-right: 12px;
@@ -367,5 +419,9 @@
 
     .mcPieBox2 {
         margin-right: 10px;
+    }
+    .leftScrollList{
+        margin: 12px 0 0;
+        height:15vh;
     }
 }

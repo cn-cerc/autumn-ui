@@ -104,10 +104,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         <div className={styles.mcMapBox}>
                             <div className={styles.mcMap}>
                                 <ul>
-                                    <li className={styles.imgItem}><img src="images/easypic-phone.jpg" alt="" /></li>
-                                    <li className={styles.imgItem}><img src="images/app-img2.png" alt="" /></li>
-                                    <li className={styles.imgItem}><img src="images/app-img1.png" alt="" /></li>
-                                    <li className={styles.imgItem}><img src="images/easypic-phone.jpg" alt="" /></li>
+                                    <li className={styles.imgItem}><img src="images/MCimg/bg-1.png" alt="" /></li>
+                                    <li className={styles.imgItem}><img src="images/MCimg/bg-2.png" alt="" /></li>
+                                    <li className={styles.imgItem}><img src="images/MCimg/bg-3.png" alt="" /></li>
+                                    <li className={styles.imgItem}><img src="images/MCimg/bg-4.png" alt="" /></li>
                                 </ul>
                             </div>
                         </div>

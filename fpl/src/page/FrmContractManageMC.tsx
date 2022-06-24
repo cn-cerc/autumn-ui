@@ -4,15 +4,17 @@ import styles from "./FrmContractManageMC.css";
 import * as echarts from "echarts";
 
 type FrmContractManageMCTypeProps = {
-    dataJson:string
+    dataJson: string,
+    introduction: string
 }
 
 type FrmContractManageMCTypeState = {
     lineData: DataSet,
     barData: DataSet,
-    dataJson:DataRow
+    dataJson: DataRow,
+    introduction: string
 }
-
+//合同管理(庆丰物流)
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
@@ -35,11 +37,12 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         barData.append().setValue('Value_', 10).setValue('Name_', '周五');
         barData.append().setValue('Value_', 11).setValue('Name_', '周六');
         barData.append().setValue('Value_', 12).setValue('Name_', '周日');
-        let dataJson:DataRow = lineRow.setJson(this.props.dataJson);
+        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
             barData,
-            dataJson:dataJson
+            dataJson: dataJson,
+            introduction: this.props.introduction
         }
     }
 
@@ -47,7 +50,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <div className={styles.mcTitle}>简介</div>
-                <p>此模组主要用于工厂销售或批发销售管理，根据与客户的作业模式不同，可以允许客户手动下单并录入【销售订单】，也可以要求客户直接在线下单，然后审核【在线订货单】，仓库根据【销售订单】进行备案，并生成相应的【销售单】。</p>
+                <p>{this.state.introduction}</p>
             </div>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
@@ -55,28 +58,24 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`银行维护_Dis`)?styles.other_disable:styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '银行维护')}>
+                            <div className={`${this.state.dataJson.getBoolean(`银行维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '银行维护')}>
                                 <span>银行维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同类别_Dis`)?styles.receipt:styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
+                            <div className={`${this.state.dataJson.getBoolean(`合同类别_Dis`) ? styles.receipt : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
                                 <span>合同类别</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`)?styles.register:styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
+                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
                                 <span>合同登记</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`待接收合同_Dis`)?styles.receipt:styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
+                            <div className={`${this.state.dataJson.getBoolean(`待接收合同_Dis`) ? styles.receipt : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
                                 <span>待接收合同</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`)?styles.control:styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
+                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`)?styles.other:styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
+                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
                                 <span>充值管理</span>
                             </div>
-                            {/* 中智运需要 */}
-                            {/* <div className={`${styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, 'TFrmCusInfo')}>
-                                <span>待接收充值（缺）</span>
-                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -182,17 +181,17 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 containLabel: true,
             },
             xAxis: {
-              type: 'category',
-              data: nameArr
+                type: 'category',
+                data: nameArr
             },
             yAxis: {
-              type: 'value'
+                type: 'value'
             },
             series: [
-              {
-                data: dataArr,
-                type: 'bar'
-              }
+                {
+                    data: dataArr,
+                    type: 'bar'
+                }
             ]
         };
         //@ts-ignore
@@ -229,20 +228,13 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                         [78, 242],
                         [143, 242],
                     ]
-                }, 
+                },
                 {
                     coords: [ //合同管理往下线条
                         [169, 280],
                         [169, 323],
                     ]
                 },
-                // 中智运需要
-                // {
-                //     coords: [ //待充值往左线条
-                //         [248, 339],
-                //         [183, 339],
-                //     ]
-                // },
             ]
         }
 
@@ -309,7 +301,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
     }
 
     linkTo(name: string) {
-        if(!this.state.dataJson.getBoolean(`${name}_Dis`)){
+        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataJson.getString(`${name}_URL`);
         }
     }

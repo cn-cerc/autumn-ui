@@ -99,7 +99,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                 </div>
                                 <div className={styles.leftTop1Item}>
                                     <div>
-                                        <img src="images/MCimg/7.png" alt="" />
+                                        <img src="images/MCimg/8.png" alt="" />
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>司机数</div>
@@ -108,7 +108,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                 </div>
                                 <div className={styles.leftTop1Item}>
                                     <div>
-                                        <img src="images/MCimg/7.png" alt="" />
+                                        <img src="images/MCimg/9.png" alt="" />
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>异常率</div>
@@ -117,7 +117,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                 </div>
                                 <div className={styles.leftTop1Item}>
                                     <div>
-                                        <img src="images/MCimg/7.png" alt="" />
+                                        <img src="images/MCimg/10.png" alt="" />
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>回款率</div>

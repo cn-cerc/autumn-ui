@@ -2,6 +2,18 @@
     min-height: 100% !important;
 }
 
+.mc {
+    font-size: 14px;
+    color: #333;
+    line-height: 1em;
+    font-weight: 400;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
 .mcIntroduction,
 .li_3,
 .mcPieBox1,
@@ -90,7 +102,7 @@
 
 .leftSiteEcharts,
 .rIghtSiteEcharts {
-    width: 264px;
+    width: 20%;
     display: flex;
     flex-direction: column;
 }
@@ -100,14 +112,21 @@
 .mcPieBox3,
 .rightSiteEchat1,
 .mcLinkBox1,
-.mcBarBox2 {
-    height: 144px;
+.mcBarBox2,
+.mcLinkBox {
+    height: 228px;
     margin-bottom: 10px;
     box-sizing: border-box;
 }
 
+.mcPieBox3,
+.mcLinkBox,
+.mcLinkBox1 {
+    margin-bottom: 0;
+}
+
 .centerSiteEcharts {
-    width: 500px;
+    width: 60%;
     margin: 0 10px;
 }
 
@@ -122,16 +141,12 @@
 }
 
 .mcMapBox {
-    height: 298px;
+    height: 466px;
     margin-bottom: 10px;
 }
 
 .mcMap {
     height: 100%;
-}
-
-.mcLinkBox {
-    height: 144px;
 }
 
 .leftScrollList {
@@ -157,7 +172,7 @@
 .rightSiteEchat1BoxPie1,
 .mcBar2,
 .mcLink1 {
-    height: 100px;
+    height: 20vh;
 }
 
 .colorSkin {
@@ -167,7 +182,10 @@
     font-weight: 400;
 }
 
-.FrmSpectaculars3LeftTop1 {}
+.FrmSpectaculars3LeftTop1 {
+    overflow: hidden;
+    margin-top: 15px;
+}
 
 .leftTop1Item {
     float: left;
@@ -177,6 +195,7 @@
     padding: 8px 6px;
     box-sizing: border-box;
     border: 1px solid #000;
+    height: 8vh;
 }
 
 .leftTop1Item:nth-child(1),
@@ -224,18 +243,7 @@
     font-weight: bold;
 }
 
-@media screen and (min-width: 768px) {
-    .mc {
-        font-size: 14px;
-        color: #333;
-        line-height: 1em;
-        font-weight: 400;
-        height: 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-    }
+@media screen and (min-width: 768px) and (max-width: 1366px) {
 
     .mcIntroduction {
         margin-bottom: 10px;
@@ -244,9 +252,55 @@
     .mcPieChart {
         margin-top: 10px;
     }
+
+    .leftSiteEcharts,
+    .rIghtSiteEcharts {
+        min-width: 264px;
+        width:20%;
+    }
+
+    .centerSiteEcharts {
+        min-width: 500px;
+        width:60%;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2,
+    .mcPieBox3,
+    .rightSiteEchat1,
+    .mcLinkBox1,
+    .mcBarBox2,
+    .mcLinkBox {
+        height: 144px;
+    }
+
+    .FrmSpectaculars3MCPie2,
+    .FrmSpectaculars3MCBar1,
+    .mcLink,
+    .mcLink2,
+    .rightSiteEchat1BoxPie1,
+    .mcBar2,
+    .mcLink1 {
+        height: 100px;
+    }
+
+    .mcMapBox {
+        height: 298px;
+    }
+
+    .leftTop1Item {
+        height: 46px;
+    }
+
+    .FrmSpectaculars3LeftTop1 {
+        margin-top: 10px;
+    }
 }
 
 @media screen and (max-width: 767px) {
+    .mc{
+        overflow: inherit;
+    }
     .mcMain {
         margin-left: 12px;
         margin-right: 12px;
@@ -286,7 +340,6 @@
         width: 100%;
     }
 
-    .mcPieBox1,
     .mcPieBox2,
     .mcPieBox3,
     .rightSiteEchat1,
@@ -294,6 +347,9 @@
     .mcBarBox2,
     .mcLinkBox1 {
         height: 208px;
+    }
+    .mcPieBox1{
+        height:160px;
     }
 
     .FrmSpectaculars3MCPie2,
@@ -312,5 +368,8 @@
 
     .FrmSpectaculars3LeftTop1 {
         margin-top: 10px;
+    }
+    .mcPieBox3{
+        margin-bottom: 10px;
     }
 }

@@ -4,14 +4,16 @@ import styles from "./FrmTaurusMC1.css";
 import * as echarts from "echarts";
 
 type FrmTaurusMCTypeProps = {
-    dataJson: string
+    dataJson: string,
+    introduction:string
 }
 
 type FrmTaurusMCTypeState = {
     lineData: DataSet,
     pieData1: DataSet,
     pieData2: DataSet,
-    linkRow: DataRow
+    linkRow: DataRow,
+    introduction:string
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
@@ -46,7 +48,8 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             lineData,
             pieData1,
             pieData2,
-            linkRow
+            linkRow,
+            introduction:this.props.introduction
         }
     }
 
@@ -54,7 +57,7 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <div className={styles.mcTitle}>简介</div>
-                <p>此模组主要用于工厂销售或批发销售管理，根据与客户的作业模式不同，可以允许客户手动下单并录入【销售订单】，也可以要求客户直接在线下单，然后审核【在线订货单】，仓库根据【销售订单】进行备案，并生成相应的【销售单】。</p>
+                <p>{this.state.introduction}</p>
             </div>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>

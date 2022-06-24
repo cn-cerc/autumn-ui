@@ -1,41 +1,42 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./TStockMC.css";
+import styles from "./FrmContractManageMC.css";
 import * as echarts from "echarts";
 
-type TStockMCTypeProps = {
+type FrmContractManageMCTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type TStockMCTypeState = {
+type FrmContractManageMCTypeState = {
     lineData: DataSet,
     barData: DataSet,
     dataJson: DataRow,
     introduction: string
 }
 
+//合同管理(中智运)
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
-export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCTypeState> {
-    constructor(props: TStockMCTypeProps) {
+export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
+    constructor(props: FrmContractManageMCTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 327).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 295).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 218).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 232).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 371).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 316).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 336).setValue('XName_', '周日');
+        lineData.append().setValue('Value_', 271).setValue('XName_', '周一');
+        lineData.append().setValue('Value_', 235).setValue('XName_', '周二');
+        lineData.append().setValue('Value_', 248).setValue('XName_', '周三');
+        lineData.append().setValue('Value_', 268).setValue('XName_', '周四');
+        lineData.append().setValue('Value_', 335).setValue('XName_', '周五');
+        lineData.append().setValue('Value_', 301).setValue('XName_', '周六');
+        lineData.append().setValue('Value_', 356).setValue('XName_', '周日');
         let barData = new DataSet();
-        barData.append().setValue('Value_', 28).setValue('Name_', '周一');
-        barData.append().setValue('Value_', 15).setValue('Name_', '周二');
+        barData.append().setValue('Value_', 19).setValue('Name_', '周一');
+        barData.append().setValue('Value_', 16).setValue('Name_', '周二');
         barData.append().setValue('Value_', 12).setValue('Name_', '周三');
         barData.append().setValue('Value_', 8).setValue('Name_', '周四');
         barData.append().setValue('Value_', 10).setValue('Name_', '周五');
-        barData.append().setValue('Value_', 14).setValue('Name_', '周六');
+        barData.append().setValue('Value_', 11).setValue('Name_', '周六');
         barData.append().setValue('Value_', 12).setValue('Name_', '周日');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
@@ -58,38 +59,26 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '进货单')}>
-                                <span>进货单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`银行维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '银行维护')}>
+                                <span>银行维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`商品品牌设置_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '商品品牌设置')}>
-                                <span>商品品牌设置</span>
+                            <div className={`${this.state.dataJson.getBoolean(`合同类别_Dis`) ? styles.receipt : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
+                                <span>合同类别</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`商品资料登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '商品资料登记')}>
-                                <span>商品资料登记</span>
+                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
+                                <span>合同登记</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '进货退回单')}>
-                                <span>进货退回单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`待接收合同_Dis`) ? styles.receipt : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
+                                <span>待接收合同</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存盘点单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '库存盘点单')}>
-                                <span>库存盘点单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
+                                <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '库存报废单')}>
-                                <span>库存报废单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
+                                <span>充值管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '销售单')}>
-                                <span>销售单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存总表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '库存总表')}>
-                                <span>库存总表</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进出库明细_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '进出库明细')}>
-                                <span>进出库明细</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '出货退回单')}>
-                                <span>出货退回单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库别调拨单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '库别调拨单')}>
-                                <span>库别调拨单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`待接收充值_Dis`) ? styles.other : styles.control} ${styles.stock12}`} onClick={this.linkTo.bind(this, '待接收充值')}>
+                                <span>待接收充值</span>
                             </div>
                         </div>
                     </div>
@@ -221,51 +210,39 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
             nodes,
             linesData: [
                 {
-                    coords: [ //进货单 往右下 出货退回单
+                    coords: [ //银行维护往右线条
                         [78, 40],
-                        [105, 40],
-                        [105, 340],
-                        [78, 340],
-                    ]
-                }, {
-                    coords: [ //商品品牌设置 往右 商品资料登记
-                        [183, 40],
-                        [248, 40],
+                        [143, 40],
                     ]
                 },
                 {
-                    coords: [ //进货退回单 往右线条
-                        [78, 142],
-                        [105, 142],
+                    coords: [ //合同类别往下线条
+                        [169, 80],
+                        [169, 120],
                     ]
                 },
                 {
-                    coords: [ //库存盘点单 往下 库存总表
+                    coords: [ //合同登记往下线条
                         [169, 180],
                         [169, 220],
                     ]
                 },
                 {
-                    coords: [ //库存报废单 往左下线条
-                        [276, 180],
-                        [276, 200],
-                        [169, 200],
-                    ]
-                },
-                {
-                    coords: [ //销售单 往右 库存总表
+                    coords: [ //待接收合同往右线条
                         [78, 242],
                         [143, 242],
                     ]
-                }, {
-                    coords: [ //库存总表 往右 进出库明细
-                        [183, 242],
-                        [248, 242],
-                    ]
-                }, {
-                    coords: [ //库别调拨单 往上 库存总表
+                },
+                {
+                    coords: [ //合同管理往下线条
+                        [169, 280],
                         [169, 323],
-                        [169, 290],
+                    ]
+                },
+                {
+                    coords: [ //待充值往左线条
+                        [248, 339],
+                        [183, 339],
                     ]
                 },
             ]
@@ -315,7 +292,8 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                     type: 'line',
                     width: 2,
                     color: '#ccc',
-                    curveness: 0.3,
+                    curveness: 0.3
+
                 },
                 effect: {
                     show: true,
@@ -323,7 +301,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                     constantSpeed: 10,
                     symbol: 'arrow',
                     color: '#ccc',
-                    symbolSize: 6,
+                    symbolSize: 6
                 },
                 data: charts.linesData
             }]

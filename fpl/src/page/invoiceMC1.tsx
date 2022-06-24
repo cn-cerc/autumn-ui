@@ -1,23 +1,25 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./FrmPurchaseMC.css";
+import styles from "./invoiceMC1.css";
 import * as echarts from "echarts";
 
-type FrmPurchaseMCTypeProps = {
-    dataJson:string
+type invoiceMCTypeProps = {
+    dataJson: string,
+    introduction: string
 }
 
-type FrmPurchaseMCTypeState = {
+type invoiceMCTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson:DataRow
+    dataJson: DataRow,
+    introduction: string
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
-export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmPurchaseMCTypeState> {
-    constructor(props: FrmPurchaseMCTypeProps) {
+export default class FrmTaurusMC extends WebControl<invoiceMCTypeProps, invoiceMCTypeState> {
+    constructor(props: invoiceMCTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -38,12 +40,13 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let dataJson:DataRow = lineRow.setJson(this.props.dataJson);
+        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson:dataJson
+            dataJson: dataJson,
+            introduction: this.props.introduction
         }
     }
 
@@ -51,7 +54,7 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <div className={styles.mcTitle}>简介</div>
-                <p>此模组主要用于工厂销售或批发销售管理，根据与客户的作业模式不同，可以允许客户手动下单并录入【销售订单】，也可以要求客户直接在线下单，然后审核【在线订货单】，仓库根据【销售订单】进行备案，并生成相应的【销售单】。</p>
+                <p>{this.state.introduction}</p>
             </div>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
@@ -59,60 +62,38 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                        <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.register_disable:styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '厂商资料')}>
-                                <span>厂商资料</span>
+                            <div className={`${styles.MCtext} ${styles.stock10}`}>
+                                <span>可用余额</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.register_disable:styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '销售订单')}>
-                                <span>销售订单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '合同管理')}>
+                                <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '厂商报价')}>
-                                <span>厂商报价</span>
+                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '充值管理')}>
+                                <span>充值管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
-                                <span>生产订单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`货单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '货单管理')}>
+                                <span>货单管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '采购订单')}>
-                                <span>采购订单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '运单管理')}>
+                                <span>运单管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '安全库存')}>
-                                <span>安全库存</span>
+                            <div className={`${this.state.dataJson.getBoolean(`发票管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '发票管理')}>
+                                <span>发票管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '进货单')}>
-                                <span>进货单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`发票及支付申请_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '发票及支付申请')}>
+                                <span>发票及支付申请</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '出货退回单')}>
-                                <span>出货退回单</span>
+                            <div className={styles.bdSkin}>
+                                <div className={`${this.state.dataJson.getBoolean(`支付处理_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '支付处理')}>
+                                    <span>支付处理</span>
+                                </div>
+                                <div className={`${this.state.dataJson.getBoolean(`发票申请审核_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '发票申请审核')}>
+                                    <span>发票申请审核</span>
+                                </div>
+                                <div className={`${styles.MCtext} ${styles.stock9}`}>
+                                    <span>网络货运公司</span>
+                                </div>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.control_disable:styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应付账款')}>
-                                <span>应付账款</span>
-                            </div>
-                            {/* <div className={`${styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, 'TBase')}>
-                                <span>厂商资料</span>
-                            </div>
-                            <div className={`${styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, 'TFrmTranOD')}>
-                                <span>销售订单</span>
-                            </div>
-                            <div className={`${styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, 'TFrmCusCreditLimit')}>
-                                <span>厂商报价</span>
-                            </div>
-                            <div className={`${styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, 'TFrmCusCreditLimit')}>
-                                <span>生产订单</span>
-                            </div>
-                            <div className={`${styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, 'TFrmTranDA')}>
-                                <span>采购订单</span>
-                            </div>
-                            <div className={`${styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, 'TFrmCusCreditLimit')}>
-                                <span>安全库存</span>
-                            </div>
-                            <div className={`${styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, 'TFrmTranAB')}>
-                                <span>进货单</span>
-                            </div>
-                            <div className={`${styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, 'TFrmTranBG')}>
-                                <span>出货退回单</span>
-                            </div>
-                            <div className={`${styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, 'TFrmCusCreditLimit')}>
-                                <span>应付账款</span>
-                            </div> */}
                         </div>
                     </div>
                 </div>
@@ -156,13 +137,6 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
             sData.push(ds.getDouble('Value_'));
         }
         let option = {
-            // title: {
-            //     text: '本周货运总数(吨)',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     }
-            // },
             xAxis: {
                 type: 'category',
                 data: xArr,
@@ -225,14 +199,6 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
             })
         }
         let option = {
-            // title: {
-            //     text: '本周货运吨数占比',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     },
-            //     top: '16'
-            // },
             tooltip: {
                 trigger: 'item'
             },
@@ -279,14 +245,6 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
             })
         }
         let option = {
-            // title: {
-            //     text: '本周货运车辆占比',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     },
-            //     top: '16'
-            // },
             tooltip: {
                 trigger: 'item'
             },
@@ -320,56 +278,53 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
             nodes,
             linesData: [
                 {
-                    coords: [ //销售订单 往左下线条
-                        [200, 35],
-                        [165, 35],
-                        [165, 125],
-                    ]
-                },{
-                    coords: [
-                        [110, 75],
-                        [110, 105],
+                    coords: [ //合同管理往右线条
+                        [140, 35],
+                        [210, 35]
                     ]
                 },
                 {
-                    coords: [
-                        [110, 160],
-                        [110, 185],
+                    coords: [ //合同管理往下线条
+                        [111, 75],
+                        [111, 130]
                     ]
                 },
                 {
-                    coords: [
-                        [198, 125],
-                        [165, 125],
-                        [165, 207]
+                    coords: [ //货单管理往右线条
+                        [140, 156],
+                        [210, 156]
                     ]
-                },{
-                    coords: [
-                        [198, 207],
-                        [130, 207]
+                },
+                {
+                    coords: [ //货单管理往下线条
+                        [111, 195],
+                        [111, 248]
                     ]
-                },{
-                    coords: [
-                        [110, 244],
-                        [110, 275]
+                },
+                {
+                    coords: [ //运单管理往下线条
+                        [234, 195],
+                        [234, 248]
                     ]
-                },{
-                    coords: [
-                        [110, 330],
-                        [110, 360]
+                },
+                {
+                    coords: [ //发票及支付申请往下线条
+                        [234, 319],
+                        [234, 350]
                     ]
-                },{
-                    coords: [
-                        [130, 293],
-                        [200, 293]
+                },
+                {
+                    coords: [ //支付处理往上线条
+                        [111, 350],
+                        [111, 310]
                     ]
-                },{
-                    coords: [
-                        [219, 330],
-                        [219, 375],
-                        [130, 375]
+                },
+                {
+                    coords: [ //发票申请审核往左线条
+                        [210, 370],
+                        [140, 370]
                     ]
-                }
+                },
             ]
         }
 
@@ -436,7 +391,7 @@ export default class FrmTaurusMC extends WebControl<FrmPurchaseMCTypeProps, FrmP
     }
 
     linkTo(name: string) {
-        if(!this.state.dataJson.getBoolean(`${name}_Dis`)){
+        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataJson.getString(`${name}_URL`);
         }
     }
