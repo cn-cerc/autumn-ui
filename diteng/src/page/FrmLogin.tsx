@@ -1,9 +1,9 @@
-import React from "react";
-import styles from "./FrmLogin.css";
-import { showMsg } from "../tool/Summer";
+import { DataRow, DataSet, DBEdit, Loading, QueryService, WebControl } from "autumn-ui";
 import Fingerprint2 from "fingerprintjs2";
+import React from "react";
+import { showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
-import { DataRow, DataSet, WebControl, DBEdit, QueryService, Loading } from "autumn-ui";
+import styles from "./FrmLogin.css";
 
 type LoginTypeProps = {
     dataRow: DataRow,

@@ -199,16 +199,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     render(): React.ReactNode {
         return <div className={styles.details}>
             {this.getMessageList()}
-            <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
-                <textarea value={this.state.messageText} onChange={(e) => {
-                    this.setState({
-                        messageText: e.target.value,
-                    })
-                }}></textarea>
-                <div>
-                    <button className={this.props.fromUser && this.state.messageText != '' ? '' : styles.disEvents}>发送</button>
-                </div>
-            </form>
+            {this.getForm()}
         </div>
     }
 
@@ -267,6 +258,20 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         }}><li key="10-1" className={styles.historicalRecordsBox}>{this.getHistoryBtn()}</li>{list}</ul>
     }
 
+    getForm() {
+        if (this.props.fromUser)
+            return <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
+                <textarea value={this.state.messageText} onChange={(e) => {
+                    this.setState({
+                        messageText: e.target.value,
+                    })
+                }}></textarea>
+                <div>
+                    <button className={this.state.messageText != '' ? '' : styles.disEvents}>发送</button>
+                </div>
+            </form>
+    }
+
     getHistoryBtn() {
         if (this.moreThanOneMonth(this.state.date)) {
             return <span className={styles.noHistory}>暂无更多历史消息</span>
@@ -303,14 +308,17 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     }
 
     async quicReplySend(e: any) {
-        let row = new DataRow();
-        row.setValue('ToUser_', this.props.fromUser).setValue('Content_', e.target.innerText);
-        await PageApi.replyMessage(row);
-        this.setState({
-            messageText: '',
-        }, () => {
-            this.getMessageData(Utils.getNowDate());
-        })
+        // 系统消息不允许快捷回复
+        if(this.props.fromUser) {
+            let row = new DataRow();
+            row.setValue('ToUser_', this.props.fromUser).setValue('Content_', e.target.innerText);
+            await PageApi.replyMessage(row);
+            this.setState({
+                messageText: '',
+            }, () => {
+                this.getMessageData(Utils.getNowDate());
+            })
+        }
     }
 
     //获取历史消息 每次点击都获取当前查询时间 前一天

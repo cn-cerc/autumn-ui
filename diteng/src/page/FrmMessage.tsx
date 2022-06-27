@@ -43,9 +43,10 @@ type messageDetail = {
     remarkText_: string
 };
 
-export const timing = 5;
+export const timing = 500;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
+    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
     private timer: any = null;
     constructor(props: FrmMessageTypeProps) {
         super(props);
@@ -341,7 +342,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     }
                 }
                 list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
-                    <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
+                    <div className={styles.contactImage} style={{ 'backgroundColor': this.colorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
                         <div className={styles.contactTitle}>
@@ -372,15 +373,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     <span>{messageData.name}</span>
                 </div>
                 {this.getMessageList()}
-                <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
-                    <textarea value={messageData.messageText} onChange={(e) => {
-                        messageData.messageText = e.target.value;
-                        this.setState(this.state)
-                    }}></textarea>
-                    <div>
-                        <button className={messageData.fromUser && messageData.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
-                    </div>
-                </form>
+                {this.getForm(messageData)}
             </div>
         }
     }
@@ -445,6 +438,19 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         return <ul className={styles.messageList} onScroll={(e) => {
             this.scrollEventFun(e);
         }} key={messageData.data.json}>{list}</ul>
+    }
+
+    getForm(messageData: messageDetail) {
+        if (messageData.fromUser)
+            return <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
+                <textarea value={messageData.messageText} onChange={(e) => {
+                    messageData.messageText = e.target.value;
+                    this.setState(this.state)
+                }} placeholder='请输入消息...'></textarea>
+                <div>
+                    <button className={messageData.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
+                </div>
+            </form>
     }
 
     reloadMessage() {
@@ -558,19 +564,22 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     //快捷回复 发送
     async quicReplySend() {
-        let spanDom = event.target as HTMLSpanElement;
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
-        let row = new DataRow();
-        row.setValue('ToUser_', messageData.fromUser).setValue('Content_', spanDom.innerText);
-        await PageApi.replyMessage(row);
-        messageData.fromBottom = 0;
-        let messageDataList = await this.getContactData();
-        this.setState({
-            messageDataList,
-            currentUserId: messageData.fromUser
-        }, () => {
-            this.getMessageData(messageData.fromUser, Utils.getNowDate());
-        })
+        // 系统消息不允许快捷回复
+        if(messageData.fromUser) {
+            let spanDom = event.target as HTMLSpanElement;
+            let row = new DataRow();
+            row.setValue('ToUser_', messageData.fromUser).setValue('Content_', spanDom.innerText);
+            await PageApi.replyMessage(row);
+            messageData.fromBottom = 0;
+            let messageDataList = await this.getContactData();
+            this.setState({
+                messageDataList,
+                currentUserId: messageData.fromUser
+            }, () => {
+                this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            })
+        }
     }
 
     //设置备注信息

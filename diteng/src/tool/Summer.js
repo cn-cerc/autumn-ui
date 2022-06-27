@@ -97,15 +97,14 @@ function showMsg(msg, remain) {
     });
 
     var messageContent = $("<div/>").html(msg).css({
-        "min-height": "40px",
         "overflow": "auto",
         "border": "1px solid #F8DDC0",
         "border-radius": "6px",
         "-webkit-border-radius": "6px",
-        "padding": "12px 48px 12px 16px",
+        "padding": "9.5px 48px 9.5px 16px",
         "background-color": "#FDF5E8",
         "font-size": "14px",
-        "line-height": "14px",
+        "line-height": "1.5em",
         "color": "#333",
         "box-sizing": "border-box"
     });

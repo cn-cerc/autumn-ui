@@ -16,14 +16,20 @@
     display: flex;
 }
 
+.contactLiItem {
+    cursor: pointer;
+}
+
+.contactLiItem:hover {
+    background-color: #e8e6e6;
+}
+
 .contactLiItemCenter {
     align-items: center;
 }
 
 .contactList>li>.title,
 .AllContactList>li>.title {
-    height: 40px;
-    line-height: 40px;
     font-size: 16px;
 }
 
@@ -36,13 +42,15 @@
 }
 
 .AllContactList>li:hover .rightBtnContent {
-    display: block;
+    display: flex;
+    align-items: center;
 }
 
 .contactImage {
     text-align: center;
-    background-color: #0089FF;
+    background-color: #0755aa;
     color: #fff;
+    border-radius: 50%;
 }
 
 .contactImage+div {
@@ -69,8 +77,9 @@
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #000000;
-    font-weight: 500;
+    color: #333;
+    font-weight: 400;
+    line-height: 1em;
 
 }
 
@@ -84,14 +93,18 @@
 }
 
 .rightBoxSendBtn {
-    width: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
     border-radius: 5px;
-    font-family: "微软雅黑";
     height: 1.6rem;
+}
+
+.addContact {
+    display: flex;
+    justify-content: flex-end;
+    padding: .5rem 1rem;
 }
 
 .addContactBtn {
@@ -119,7 +132,17 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #999999;
+    color: #ccc;
+}
+
+.alignItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.alignItem>div {
+    flex: 1;
 }
 
 @media screen and (min-width: 768px) {
@@ -128,6 +151,12 @@
         flex: 1;
         display: flex;
         line-height: 1em;
+    }
+
+    .contactList>li>.title,
+    .AllContactList>li>.title {
+        height: 16px;
+        line-height: 16px;
     }
 
     .contactList {
@@ -143,15 +172,19 @@
         background-color: #fff;
         height: 100%;
         overflow: auto;
-        padding: 10px;
     }
 
     .contactList>li {
-        padding: 12px;
+        padding: 10px 16px;
+    }
+
+    .contactList>.titleBox {
+        border-top: 1px solid #ebebeb;
+        padding: 16px 16px 8px;
     }
 
     .AllContactList>li {
-        padding: 5px;
+        padding: 10px 16px;
     }
 
     .selectContact {
@@ -162,7 +195,6 @@
         width: 40px;
         height: 40px;
         line-height: 40px;
-        border-radius: 6px;
         margin-right: 10px;
         font-size: 14px;
 
@@ -182,9 +214,9 @@
     }
 
     .contactTitle+div {
-        font-size: 14px;
-        line-height: 14px;
-        padding-top: 10px;
+        font-size: 12px;
+        line-height: 12px;
+        padding-top: 8px;
         padding-right: 20px;
     }
 
@@ -202,23 +234,26 @@
     .contactList>li {
         position: relative;
     }
-
+    
     .contactList,
     .AllContactList {
         background-color: #fff;
+        padding-bottom: .25rem;
     }
 
     .contactImage {
         width: 2.75rem;
         height: 2.75rem;
         line-height: 2.75rem;
-        border-radius: .25rem;
         margin-right: .5rem;
         font-size: 14px;
     }
 
     .contactList>li>.title {
-        padding: .5rem 1rem .5rem 1rem;
+        border-top: 1px solid #ebebeb;
+        padding: 1rem 1rem .25rem 1rem;
+        height: 2.5rem;
+        line-height: 2.5rem;
     }
 
     .contactTitle {
@@ -233,21 +268,20 @@
         font-size: 12px;
         line-height: 12px;
         padding-top: 0.5rem;
-        padding-right: 1.25rem;
     }
 
     .contactLiItem,
     .AllContactList>li {
-        padding: .5rem 1rem .5rem 1rem;
+        padding: .25rem 1rem .25rem 1rem;
+    }
+
+    .contactDetailList {
+        padding-top: 1rem;
     }
 
     .contactList>li>.title,
     .AllContactList>li>.title {
         width: auto !important;
-    }
-
-    .contactList {
-        padding-top: 0.3125rem;
     }
 
     .boderTop1 {
@@ -263,7 +297,8 @@
         height: 1px;
         background-color: #f2f2f2;
     }
-    .contactLiItemCenter {
-        padding-top: 0 !important;
+
+    .paddingBottom {
+        margin-bottom: .25rem;
     }
 }
