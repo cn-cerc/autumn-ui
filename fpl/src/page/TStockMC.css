@@ -247,7 +247,7 @@
     top: 320px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1366px) {
+@media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
         color: #333;

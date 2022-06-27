@@ -7,9 +7,11 @@
 .mcPieBox1,
 .mcPieBox2,
 .mcPieBox3,
-.mcPieBox4,
+.mcMapBox,
 .mcLinkBox,
-.srcollListBox {
+.mcLinkBox2,
+.srcollListBox,
+.rightSiteEchat1Box {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -88,7 +90,7 @@
 
 .leftSiteEcharts,
 .rIghtSiteEcharts {
-    width: 264px;
+    width: 20%;
     display: flex;
     flex-direction: column;
 }
@@ -96,63 +98,58 @@
 .mcPieBox1,
 .mcPieBox2,
 .mcPieBox3,
-.mcPieBox4 {
-    height: 144px;
+.srcollListBox,
+.rightSiteEchat1,
+.mcLinkBox2 {
+    height: 216px;
     margin-bottom: 10px;
     box-sizing: border-box;
 }
 
-.mcPieBox3 {
+.srcollListContent {
     margin-bottom: 0;
 }
 
 .centerSiteEcharts {
-    width: 500px;
+    width: 60%;
     margin: 0 10px;
 }
 
-.mcMapBox {
+.rightSiteEchat1 {
     display: flex;
-    height: 298px;
-    margin-bottom: 10px;
 }
 
-.mcLinkBox {
-    height: 144px;
+.rightSiteEchat1Box {
+    margin-bottom: 0;
+    margin-right: 10px;
+    flex: 1;
+}
+
+.rightSiteEchat1Box:last-child {
+    margin-right: 0;
+}
+
+.rightSiteEchat1BoxPie1,
+.rightSiteEchat1BoxPie2 {
+    height: 100px;
+}
+
+.mcMapBox {
+    height: 442px;
     margin-bottom: 10px;
 }
 
 .mcMap {
-    display: flex;
-    flex: 1;
-}
-
-.mcMap>ul {
-    display: flex;
-    flex: 1;
-    flex-flow: wrap;
-}
-
-.imgItem {
-    width: 246px;
-    height: 145px;
-    margin-bottom: 8px;
-    margin-right: 8px;
-}
-
-.imgItem:nth-child(2n) {
-    margin-right: 0;
-}
-
-.imgItem>img {
-    width: 100%;
     height: 100%;
 }
 
-.srcollListBox {
-    flex: 1;
-    overflow: auto;
+.mcLinkBox {
+    height: 216px;
     margin-bottom: 10px;
+}
+
+.srcollListBox {
+    overflow: auto;
 }
 
 .srcollListMain {
@@ -185,16 +182,17 @@
     margin-bottom: 6px;
 }
 
-.FrmSpectaculars2MCPie1,
-.FrmSpectaculars2MCPie2,
-.FrmSpectaculars2MCPie3,
-.mcLink {
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2,
+.FrmTaurusMCPie3,
+.mcLink,
+.mcLink2 {
     height: 100px;
 }
 
 .colorSkin {
     font-size: 14px;
-    color: #FA9531;
+    color: #308DF2;
     font-family: Microsoft YaHei-Regular, Microsoft YaHei;
     font-weight: 400;
 }
@@ -204,12 +202,12 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #FA9531;
+    background-color: #308DF2;
     transform: translateY(-1px);
     margin-right: 5px;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) and (max-width: 1366px) {
     .mc {
         font-size: 14px;
         color: #333;
@@ -229,14 +227,46 @@
     .mcPieChart {
         margin-top: 10px;
     }
+
+    .leftSiteEcharts,
+    .rIghtSiteEcharts {
+        width: 264px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .centerSiteEcharts {
+        width: 500px;
+        margin: 0 10px;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2,
+    .mcPieBox3,
+    .srcollListBox,
+    .rightSiteEchat1,
+    .mcLinkBox2 {
+        height: 144px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    .mcMapBox {
+        height: 298px;
+        margin-bottom: 10px;
+    }
+
+    .mcLinkBox {
+        height: 144px;
+        margin-bottom: 10px;
+    }
 }
 
 @media screen and (max-width: 767px) {
-    .mcMain {
+    .mcMain{
         margin-left: 12px;
         margin-right: 12px;
     }
-
     .top_list {
         align-items: stretch;
         flex-direction: column;
@@ -256,32 +286,8 @@
         line-height: 1.2;
     }
 
-    .mcPieBox3 {
-        margin-bottom: 10px;
-    }
-
     .contentEcharts {
         flex-direction: column;
-    }
-
-    .mcMapBox {
-        height: auto;
-    }
-
-    .mcMap ul {
-        flex-direction: column;
-    }
-
-    .mcMap ul .imgItem {
-        flex: 1;
-    }
-
-    .imgItem {
-        width: 100%;
-    }
-
-    .imgItem:last-child {
-        margin-bottom: 0;
     }
 
     .leftSiteEcharts,
@@ -289,34 +295,31 @@
         width: 100%;
     }
 
+    .mcPieBox1,
     .mcPieBox2,
     .mcPieBox3,
-    .mcPieBox4,
     .rightSiteEchat1,
-    .mcLinkBox {
+    .mcLinkBox{
+        height: 160px;
+    }
+    .mcLinkBox2{
         height: 208px;
     }
-
-    .mcPieBox1 {
-        height: 155px;
+    .srcollListBox{
+        height:132px;
     }
-
-    .FrmSpectaculars2MCPie1,
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2,
+    .FrmTaurusMCPie3,
     .mcLink,
-    .mcLink2 {
-        height: 180px;
+    .rightSiteEchat1BoxPie1,
+    .rightSiteEchat1BoxPie2 {
+        height: 130px;
     }
-
-    .FrmSpectaculars2MCPie2,
-    .FrmSpectaculars2MCPie3 {
-        height: 120px;
+    .mcLink2{
+        height:180px;
     }
-
-    .srcollListBox {
-        flex: auto;
-        height: 294px;
-    }
-
+    
     .centerSiteEcharts {
         width: 100%;
         margin: 0;
@@ -332,40 +335,31 @@
         width: 80%;
     }
 
-    .rSkin {
-        transform: inherit;
+    .rSkin{
+        transform:inherit;
     }
-
-    .srcollListMain {
+    .srcollListMain{
         margin: 12px 0 0;
     }
-
-    .leftSiteEcharts {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .centerSiteEcharts {
+    .centerSiteEcharts{
         display: none;
     }
-
-    .topInfo {
-        margin-top: 4px;
+    .topInfo{
+        margin-top:4px;
         height: 29px;
         line-height: 29px;
     }
-
-    .mcPieBox1 {
-        width: 100%;
+    .leftSiteEcharts{
+        flex-direction: row;
+        flex-wrap: wrap;
     }
-
-    .mcPieBox2,
-    .mcPieBox3 {
+    .mcPieBox1, .mcPieBox2{
         width: calc(50% - 5px);
-        height: 160px;
     }
-
-    .mcPieBox2 {
-        margin-right: 10px;
+    .mcPieBox1{
+        margin-right:10px;
+    }
+    .mcPieBox3,.mcLinkBox2{
+        width: 100%;
     }
 }

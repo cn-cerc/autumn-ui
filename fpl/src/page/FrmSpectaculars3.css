@@ -7,9 +7,11 @@
 .mcPieBox1,
 .mcPieBox2,
 .mcPieBox3,
-.mcPieBox4,
+.mcMapBox,
 .mcLinkBox,
-.srcollListBox {
+.rightSiteEchat1Box,
+.mcBarBox2,
+.mcLinkBox1 {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -96,14 +98,12 @@
 .mcPieBox1,
 .mcPieBox2,
 .mcPieBox3,
-.mcPieBox4 {
+.rightSiteEchat1,
+.mcLinkBox1,
+.mcBarBox2 {
     height: 144px;
     margin-bottom: 10px;
     box-sizing: border-box;
-}
-
-.mcPieBox3 {
-    margin-bottom: 0;
 }
 
 .centerSiteEcharts {
@@ -111,62 +111,27 @@
     margin: 0 10px;
 }
 
-.mcMapBox {
+.rightSiteEchat1 {
     display: flex;
+}
+
+.rightSiteEchat1Box {
+    margin-bottom: 0;
+    margin-right: 10px;
+    flex: 1;
+}
+
+.mcMapBox {
     height: 298px;
     margin-bottom: 10px;
 }
 
-.mcLinkBox {
-    height: 144px;
-    margin-bottom: 10px;
-}
-
 .mcMap {
-    display: flex;
-    flex: 1;
-}
-
-.mcMap>ul {
-    display: flex;
-    flex: 1;
-    flex-flow: wrap;
-}
-
-.imgItem {
-    width: 246px;
-    height: 145px;
-    margin-bottom: 8px;
-    margin-right: 8px;
-}
-
-.imgItem:nth-child(2n) {
-    margin-right: 0;
-}
-
-.imgItem>img {
-    width: 100%;
     height: 100%;
 }
 
-.srcollListBox {
-    flex: 1;
-    overflow: auto;
-    margin-bottom: 10px;
-}
-
-.srcollListMain {
-    margin: 10px 0 0;
-}
-
-.srcollListMain>li {
-    height: 19px;
-    line-height: 19px;
-    margin-bottom: 8px;
-}
-
-.srcollListMain>li:last-child {
-    margin-bottom: 0;
+.mcLinkBox {
+    height: 144px;
 }
 
 .leftScrollList {
@@ -185,28 +150,78 @@
     margin-bottom: 6px;
 }
 
-.FrmSpectaculars2MCPie1,
-.FrmSpectaculars2MCPie2,
-.FrmSpectaculars2MCPie3,
-.mcLink {
+.FrmSpectaculars3MCPie2,
+.FrmSpectaculars3MCBar1,
+.mcLink,
+.mcLink2,
+.rightSiteEchat1BoxPie1,
+.mcBar2,
+.mcLink1 {
     height: 100px;
 }
 
 .colorSkin {
     font-size: 14px;
-    color: #FA9531;
+    color: #308DF2;
     font-family: Microsoft YaHei-Regular, Microsoft YaHei;
     font-weight: 400;
 }
 
-.rSkin {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #FA9531;
-    transform: translateY(-1px);
-    margin-right: 5px;
+.FrmSpectaculars3LeftTop1 {}
+
+.leftTop1Item {
+    float: left;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    padding: 8px 6px;
+    box-sizing: border-box;
+    border: 1px solid #000;
+}
+
+.leftTop1Item:nth-child(1),
+.leftTop1Item:nth-child(2) {
+    border: none;
+}
+
+.leftTop1Item:nth-child(2) {
+    border-left: 1px solid #000;
+    padding-left: 16px;
+}
+
+.leftTop1Item:nth-child(3) {
+    border: none;
+    border-top: 1px solid #000;
+}
+
+.leftTop1Item:nth-child(4) {
+    border: none;
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+    padding-left: 16px;
+}
+
+.leftTop1ItemInfo {
+    display: flex;
+    font-size: 14px;
+    font-family: Microsoft YaHei-Regular, Microsoft YaHei;
+    font-weight: 400;
+    flex-direction: column;
+    padding-left: 6px;
+    justify-content: center;
+}
+
+.leftTop1ItemInfo>div {
+    height: 18px;
+    line-height: 18px;
+}
+
+.leftTop1ItemInfo>div:first-child {
+    color: #666666;
+}
+
+.leftTop1ItemInfo>div:last-child {
+    font-weight: bold;
 }
 
 @media screen and (min-width: 768px) {
@@ -256,97 +271,8 @@
         line-height: 1.2;
     }
 
-    .mcPieBox3 {
-        margin-bottom: 10px;
-    }
-
     .contentEcharts {
         flex-direction: column;
-    }
-
-    .mcMapBox {
-        height: auto;
-    }
-
-    .mcMap ul {
-        flex-direction: column;
-    }
-
-    .mcMap ul .imgItem {
-        flex: 1;
-    }
-
-    .imgItem {
-        width: 100%;
-    }
-
-    .imgItem:last-child {
-        margin-bottom: 0;
-    }
-
-    .leftSiteEcharts,
-    .rIghtSiteEcharts {
-        width: 100%;
-    }
-
-    .mcPieBox2,
-    .mcPieBox3,
-    .mcPieBox4,
-    .rightSiteEchat1,
-    .mcLinkBox {
-        height: 208px;
-    }
-
-    .mcPieBox1 {
-        height: 155px;
-    }
-
-    .FrmSpectaculars2MCPie1,
-    .mcLink,
-    .mcLink2 {
-        height: 180px;
-    }
-
-    .FrmSpectaculars2MCPie2,
-    .FrmSpectaculars2MCPie3 {
-        height: 120px;
-    }
-
-    .srcollListBox {
-        flex: auto;
-        height: 294px;
-    }
-
-    .centerSiteEcharts {
-        width: 100%;
-        margin: 0;
-    }
-
-    .srcollListMain>li {
-        height: 19px;
-        line-height: 19px;
-        margin-bottom: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 80%;
-    }
-
-    .rSkin {
-        transform: inherit;
-    }
-
-    .srcollListMain {
-        margin: 12px 0 0;
-    }
-
-    .leftSiteEcharts {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .centerSiteEcharts {
-        display: none;
     }
 
     .topInfo {
@@ -355,17 +281,36 @@
         line-height: 29px;
     }
 
-    .mcPieBox1 {
+    .leftSiteEcharts,
+    .rIghtSiteEcharts {
         width: 100%;
     }
 
+    .mcPieBox1,
     .mcPieBox2,
-    .mcPieBox3 {
-        width: calc(50% - 5px);
-        height: 160px;
+    .mcPieBox3,
+    .rightSiteEchat1,
+    .mcLinkBox,
+    .mcBarBox2,
+    .mcLinkBox1 {
+        height: 208px;
     }
 
-    .mcPieBox2 {
-        margin-right: 10px;
+    .FrmSpectaculars3MCPie2,
+    .FrmSpectaculars3MCBar1,
+    .mcLink,
+    .mcLink2,
+    .rightSiteEchat1BoxPie1,
+    .mcBar2,
+    .mcLink1 {
+        height: 180px;
+    }
+
+    .centerSiteEcharts {
+        display: none;
+    }
+
+    .FrmSpectaculars3LeftTop1 {
+        margin-top: 10px;
     }
 }
