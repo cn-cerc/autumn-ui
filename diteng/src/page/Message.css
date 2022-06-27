@@ -42,11 +42,6 @@
     align-items: flex-start;
 }
 
-.message>div:first-of-type {
-    font-size: 14px;
-    color: #000;
-}
-
 .defaultMessage {
     padding: 9px 12px;
     font-size: 14px;
