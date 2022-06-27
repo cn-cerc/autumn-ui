@@ -5,7 +5,7 @@ import * as echarts from "echarts";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
-    introduction:string
+    introduction: string
 }
 
 type FrmTaurusMCTypeState = {
@@ -13,7 +13,7 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     linkRow: DataRow,
-    introduction:string
+    introduction: string
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
@@ -46,7 +46,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             pieData1,
             pieData2,
             linkRow,
-            introduction:this.props.introduction
+            introduction: this.props.introduction
         }
     }
 
@@ -404,7 +404,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     linkTo(name: string) {
-        if(!this.state.linkRow.getBoolean(`${name}_Dis`)) {
+        if (!this.state.linkRow.getBoolean(`${name}_Dis`)) {
             location.href = this.state.linkRow.getString(`${name}_URL`);
         }
     }

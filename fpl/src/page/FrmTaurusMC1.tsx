@@ -5,7 +5,7 @@ import * as echarts from "echarts";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
-    introduction:string
+    introduction: string
 }
 
 type FrmTaurusMCTypeState = {
@@ -13,7 +13,7 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     linkRow: DataRow,
-    introduction:string
+    introduction: string
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
@@ -49,7 +49,7 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             pieData1,
             pieData2,
             linkRow,
-            introduction:this.props.introduction
+            introduction: this.props.introduction
         }
     }
 
@@ -307,46 +307,46 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                         [183, 40],
                         [248, 40],
                     ]
-                },{
+                }, {
                     coords: [
                         [58, 175],
                         [58, 190],
                         [145, 190]
                     ]
-                },{
+                }, {
                     coords: [
                         [268, 175],
                         [268, 190],
                         [183, 190]
                     ]
-                },{
+                }, {
                     coords: [
                         [164, 226],
                         [164, 265]
                     ]
-                },{
+                }, {
                     coords: [
                         [164, 245],
                         [60, 245],
                         [60, 265]
                     ]
-                },{
+                }, {
                     coords: [
                         [164, 245],
                         [268, 245],
                         [268, 265]
                     ]
-                },{
+                }, {
                     coords: [
                         [78, 282],
                         [143, 282]
                     ]
-                },{
+                }, {
                     coords: [
                         [183, 282],
                         [248, 282]
                     ]
-                },{
+                }, {
                     coords: [
                         [164, 335],
                         [164, 360]
@@ -418,7 +418,7 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
     }
 
     linkTo(name: string) {
-        if(!this.state.linkRow.getBoolean(`${name}_Dis`)) {
+        if (!this.state.linkRow.getBoolean(`${name}_Dis`)) {
             location.href = this.state.linkRow.getString(`${name}_URL`);
         }
     }

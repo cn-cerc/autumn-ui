@@ -16,7 +16,8 @@
     padding-bottom: 16px;
 }
 
-.mcFlowChartBox, .mcTrendChart {
+.mcFlowChartBox,
+.mcTrendChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -85,6 +86,7 @@
     text-align: center;
     cursor: pointer;
 }
+
 .register_disable {
     background: url("../image/register_disable.png") top center no-repeat;
     padding-top: 40px;
@@ -92,6 +94,7 @@
     position: absolute;
     text-align: center;
 }
+
 .receipt {
     background: url("../image/receipt.png") top center no-repeat;
     padding-top: 40px;
@@ -100,6 +103,7 @@
     text-align: center;
     cursor: pointer;
 }
+
 .receipt_disable {
     background: url("../image/receipt_disable.png") top center no-repeat;
     padding-top: 40px;
@@ -107,6 +111,7 @@
     position: absolute;
     text-align: center;
 }
+
 .control {
     background: url("../image/control.png") top center no-repeat;
     padding-top: 40px;
@@ -140,7 +145,11 @@
     position: absolute;
     text-align: center;
 }
-.register>span, .receipt>span, .control>span, .other>span {
+
+.register>span,
+.receipt>span,
+.control>span,
+.other>span {
     width: 6em;
     text-align: center;
     display: block;
@@ -167,7 +176,8 @@
     font-weight: bold;
 }
 
-.mcPieBox1, .mcPieBox2 {
+.mcPieBox1,
+.mcPieBox2 {
     width: 0;
     flex: 1;
     display: flex;
@@ -181,7 +191,8 @@
     margin-left: 16px;
 }
 
-.FrmTaurusMCPie1, .FrmTaurusMCPie2 {
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2 {
     flex: 1;
 }
 
@@ -249,46 +260,68 @@
     .mcIntroduction {
         display: none;
     }
+
     .mcMain {
         flex-wrap: wrap;
     }
+
     .mcFlowChartBox {
         height: 520px;
     }
-    .register>span, .receipt>span, .control>span, .other>span, .register_disable>span {
+
+    .register>span,
+    .receipt>span,
+    .control>span,
+    .other>span,
+    .register_disable>span {
         font-size: 14px;
         line-height: 1.2;
         margin-top: 5px;
     }
-    .register, .receipt, .control,.other  {
+
+    .register,
+    .receipt,
+    .control,
+    .other {
         padding-top: 35px;
     }
+
     .mcFlowChartBox {
         width: 100%;
     }
+
     .mcCharts {
         width: 100%;
         margin: auto;
     }
-    .mcTrendChart, .mcPieBox2{
+
+    .mcTrendChart,
+    .mcPieBox2 {
         margin-top: 16px;
     }
-    .FrmTaurusMCLine{
-        height:220px;
+
+    .FrmTaurusMCLine {
+        height: 220px;
         flex: auto;
     }
-    .mcPieChart{
+
+    .mcPieChart {
         flex-wrap: wrap;
         flex: auto;
     }
-    .mcPieBox1, .mcPieBox2{
+
+    .mcPieBox1,
+    .mcPieBox2 {
         width: 100%;
         flex: auto;
     }
-    .mcPieBox2{
+
+    .mcPieBox2 {
         margin-left: 0;
     }
-    .FrmTaurusMCPie1, .FrmTaurusMCPie2{
+
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2 {
         height: 220px;
         flex: auto;
     }

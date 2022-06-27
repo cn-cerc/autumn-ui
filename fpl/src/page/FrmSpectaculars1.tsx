@@ -85,43 +85,43 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                 </ul>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
-                        <div className={styles.mcPieBox1}>
+                        <div className={styles.leftBox1}>
                             <div className={styles.mcTitle}>在线率</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
-                        <div className={styles.mcPieBox2}>
+                        <div className={styles.leftBox2}>
                             <div className={styles.mcTitle}>满载率</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
-                        <div className={styles.mcPieBox3}>
+                        <div className={styles.leftBox3}>
                             <div className={styles.mcTitle}>货损率</div>
                             <div className={styles.FrmTaurusMCPie3}></div>
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
-                        <div className={styles.mcMapBox}>
+                        <div className={styles.centerBox1}>
                             <div className={styles.mcMap}>这里暂时放置图片，但是没有地图图片</div>
                         </div>
-                        <div className={styles.mcLinkBox}>
+                        <div className={styles.centerBox2}>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
-                        <div className={styles.rightSiteEchat1}>
-                            <div className={styles.rightSiteEchat1Box}>
+                        <div className={styles.rightBox1}>
+                            <div className={styles.rightBox1Box}>
                                 <div className={styles.mcTitle}>司机年龄</div>
-                                <div className={styles.rightSiteEchat1BoxPie1}></div>
+                                <div className={styles.rightBox1BoxPie1}></div>
                             </div>
-                            <div className={styles.rightSiteEchat1Box}>
+                            <div className={styles.rightBox1Box}>
                                 <div className={styles.mcTitle}>区域分布</div>
-                                <div className={styles.rightSiteEchat1BoxPie2}></div>
+                                <div className={styles.rightBox1BoxPie2}></div>
                             </div>
                         </div>
-                        <div className={styles.mcLinkBox2}>
+                        <div className={styles.rightBox2}>
                             <div className={styles.mcTitle}>异常动态</div>
                             <div className={styles.mcLink2}></div>
                         </div>
-                        <div className={styles.srcollListBox}>
+                        <div className={styles.rightBox3}>
                             <div className={styles.mcTitle}>实时动态</div>
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
@@ -350,20 +350,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
             ]
         };
 
-        setInterval(function () {
-            gaugeData[0].value = +(Math.random() * 100).toFixed(2);
-            myChart.setOption({
-                series: [
-                    {
-                        data: gaugeData,
-                        pointer: {
-                            show: false
-                        }
-                    }
-                ]
-            });
-        }, 2000);
-
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -437,20 +423,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
             ]
         };
 
-        setInterval(function () {
-            gaugeData[0].value = +(Math.random() * 100).toFixed(2);
-            myChart.setOption({
-                series: [
-                    {
-                        data: gaugeData,
-                        pointer: {
-                            show: false
-                        }
-                    }
-                ]
-            });
-        }, 2000);
-
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -520,25 +492,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                 }
             ]
         };
-        setInterval(function () {
-            gaugeData[0].value = +(Math.random() * 100).toFixed(2);
-            myChart.setOption({
-                series: [
-                    {
-                        data: gaugeData,
-                        pointer: {
-                            show: false
-                        }
-                    }
-                ]
-            });
-        }, 2000);
 
         //@ts-ignore
         myChart.setOption(option);
     }
     initPieChart4() {
-        let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie1}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.rightBox1BoxPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         ds.appendDataSet(this.state.pieData1);
@@ -588,7 +547,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         myChart.setOption(option);
     }
     initPieChart5() {
-        let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie2}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.rightBox1BoxPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         ds.appendDataSet(this.state.pieData1);

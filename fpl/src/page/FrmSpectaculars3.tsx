@@ -85,7 +85,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                 </ul>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
-                        <div className={styles.mcPieBox1}>
+                        <div className={styles.leftBox1}>
                             <div className={styles.mcTitle}>实时统计</div>
                             <div className={styles.FrmSpectaculars3LeftTop1}>
                                 <div className={styles.leftTop1Item}>
@@ -126,33 +126,33 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.mcPieBox2}>
+                        <div className={styles.leftBox2}>
                             <div className={styles.mcTitle}>交易状态</div>
                             <div className={styles.FrmSpectaculars3MCPie2}></div>
                         </div>
-                        <div className={styles.mcPieBox3}>
+                        <div className={styles.leftBox3}>
                             <div className={styles.mcTitle}>货物分类</div>
                             <div className={styles.FrmSpectaculars3MCBar1}></div>
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
-                        <div className={styles.mcMapBox}>
+                        <div className={styles.centerBox1}>
                             <div className={styles.mcMap}>这里暂时放置图片，但是没有地图图片</div>
                         </div>
-                        <div className={styles.mcLinkBox}>
+                        <div className={styles.centerBox2}>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
-                        <div className={styles.mcPieBox2}>
+                        <div className={styles.rightBox1}>
                             <div className={styles.mcTitle}>区域排名TOPS</div>
                             <div className={styles.rightSiteEchat1BoxPie1}></div>
                         </div>
-                        <div className={styles.mcBarBox2}>
+                        <div className={styles.rightBox2}>
                             <div className={styles.mcTitle}>运单量</div>
                             <div className={styles.mcBar2}></div>
                         </div>
-                        <div className={styles.mcLinkBox1}>
+                        <div className={styles.rightBox3}>
                             <div className={styles.mcTitle}>运单重量</div>
                             <div className={styles.mcLink1}></div>
                         </div>
@@ -298,26 +298,26 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
     initPieChart1() {
         let legend = {
             type: 'plain',
-            bottom:15,
-            orient:'vertical',
+            bottom: 15,
+            orient: 'vertical',
             right: 0,
             itemWidth: 10,
-            itemHeight:10,
-            itemGap:2,
-            fontSize:8,
-            icon:'circle'
+            itemHeight: 10,
+            itemGap: 2,
+            fontSize: 8,
+            icon: 'circle'
         };
         if (this.isPhone) {
             legend = {
                 type: 'plain',
-                bottom:45,
-                orient:'vertical',
+                bottom: 45,
+                orient: 'vertical',
                 right: 0,
                 itemWidth: 10,
-                itemHeight:10,
-                itemGap:4,
-                fontSize:8,
-                icon:'circle'
+                itemHeight: 10,
+                itemGap: 4,
+                fontSize: 8,
+                icon: 'circle'
             }
         }
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCPie2}`) as HTMLDivElement;
@@ -326,12 +326,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
             tooltip: {
                 trigger: 'item'
             },
-            legend:legend,
+            legend: legend,
             series: [
                 {
                     type: 'pie',
                     radius: ['55%', '75%'],
-                    center: ['35%', '50%'],
+                    center: ['25%', '50%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -367,19 +367,19 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
             legend: {},
             tooltip: {},
             dataset: {
-              source: [
-                ['product', '2015', '2016'],
-                ['Matcha Latte', 43.3, 85.8,],
-                ['Milk Tea', 83.1, 73.4],
-                ['Cheese Cocoa', 86.4, 65.2],
-                ['Walnut Brownie', 72.4, 53.9]
-              ]
+                source: [
+                    ['product', '2015', '2016'],
+                    ['Matcha Latte', 43.3, 85.8,],
+                    ['Milk Tea', 83.1, 73.4],
+                    ['Cheese Cocoa', 86.4, 65.2],
+                    ['Walnut Brownie', 72.4, 53.9]
+                ]
             },
             xAxis: { type: 'category' },
             yAxis: {},
-            grid: [{ top:25,left:40,right:10,bottom:30}],
+            grid: [{ top: 25, left: 40, right: 10, bottom: 30 }],
             series: [{ type: 'bar' }, { type: 'bar' }]
-          };
+        };
 
         //@ts-ignore
         myChart.setOption(option);
@@ -387,26 +387,26 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
     initPieChart2() {
         let legend = {
             type: 'plain',
-            bottom:15,
-            orient:'vertical',
+            bottom: 15,
+            orient: 'vertical',
             right: 0,
             itemWidth: 10,
-            itemHeight:10,
-            itemGap:2,
-            fontSize:8,
-            icon:'circle'
+            itemHeight: 10,
+            itemGap: 2,
+            fontSize: 8,
+            icon: 'circle'
         };
         if (this.isPhone) {
             legend = {
                 type: 'plain',
-                bottom:45,
-                orient:'vertical',
+                bottom: 45,
+                orient: 'vertical',
                 right: 0,
                 itemWidth: 10,
-                itemHeight:10,
-                itemGap:4,
-                fontSize:8,
-                icon:'circle'
+                itemHeight: 10,
+                itemGap: 4,
+                fontSize: 8,
+                icon: 'circle'
             }
         }
         let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie1}`) as HTMLDivElement;
@@ -415,12 +415,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
             tooltip: {
                 trigger: 'item'
             },
-            legend:legend,
+            legend: legend,
             series: [
                 {
                     type: 'pie',
                     radius: ['55%', '75%'],
-                    center: ['35%', '50%'],
+                    center: ['25%', '50%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -449,12 +449,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
-  
-    initBarchart2(){
+
+    initBarchart2() {
         let peiChart = document.querySelector(`.${styles.mcBar2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let option = {
-            grid:[{
+            grid: [{
                 left: 10,
                 top: 15,
                 right: 5,
@@ -462,19 +462,19 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                 containLabel: true,
             }],
             xAxis: {
-              type: 'category',
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             },
             yAxis: {
-              type: 'value'
+                type: 'value'
             },
             series: [
-              {
-                data: [120, 200, 150, 80, 70, 110, 130],
-                type: 'bar'
-              }
+                {
+                    data: [120, 200, 150, 80, 70, 110, 130],
+                    type: 'bar'
+                }
             ]
-          };
+        };
         //@ts-ignore
         myChart.setOption(option);
     }

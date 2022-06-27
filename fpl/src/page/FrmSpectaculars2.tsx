@@ -74,7 +74,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 </ul>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
-                        <div className={styles.mcPieBox1}>
+                        <div className={styles.leftBox1}>
                             <div className={styles.mcTitle}>安全学习</div>
                             <div className={styles.leftScrollList}>
                                 <div className={styles.leftScrollListItem}>
@@ -91,36 +91,48 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.mcPieBox2}>
+                        <div className={styles.leftBox2}>
                             <div className={styles.mcTitle}>违章率</div>
                             <div className={styles.FrmSpectaculars2MCPie2}></div>
                         </div>
-                        <div className={styles.mcPieBox3}>
+                        <div className={styles.leftBox3}>
                             <div className={styles.mcTitle}>事故率</div>
                             <div className={styles.FrmSpectaculars2MCPie3}></div>
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
-                        <div className={styles.mcMapBox}>
+                        <div className={styles.centerBox1}>
                             <div className={styles.mcMap}>
                                 <ul>
-                                    <li className={styles.imgItem}><img src="images/MCimg/bg-1.png" alt="" /></li>
-                                    <li className={styles.imgItem}><img src="images/MCimg/bg-2.png" alt="" /></li>
-                                    <li className={styles.imgItem}><img src="images/MCimg/bg-3.png" alt="" /></li>
-                                    <li className={styles.imgItem}><img src="images/MCimg/bg-4.png" alt="" /></li>
+                                    <li className={styles.imgItem}>
+                                        <img src="images/MCimg/bg-1.png" alt="" />
+                                        <p className={styles.imgBottomText}> <span>2022/06/20 00:00:00</span> <span>前</span></p>
+                                    </li>
+                                    <li className={styles.imgItem}>
+                                        <img src="images/MCimg/bg-2.png" alt="" />
+                                        <p className={styles.imgBottomText}> <span>后</span> <span></span></p>
+                                    </li>
+                                    <li className={styles.imgItem}>
+                                        <img src="images/MCimg/bg-3.png" alt="" />
+                                        <p className={styles.imgBottomText}> <span></span> <span>左</span></p>
+                                    </li>
+                                    <li className={styles.imgItem}>
+                                        <img src="images/MCimg/bg-4.png" alt="" />
+                                        <p className={styles.imgBottomText}> <span>右</span> <span></span></p>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
-                        <div className={styles.mcLinkBox}>
+                        <div className={styles.centerBox2}>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
-                        <div className={styles.mcPieBox4}>
+                        <div className={styles.rightBox1}>
                             <div className={styles.mcTitle}>异常情况</div>
                             <div className={styles.FrmSpectaculars2MCPie1}></div>
                         </div>
-                        <div className={styles.srcollListBox}>
+                        <div className={styles.rightBox2}>
                             <div className={styles.mcTitle}>异常动态</div>
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
@@ -255,10 +267,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             top: 0,
             right: 0,
             itemWidth: 10,
-            itemHeight:10,
-            itemGap:2,
-            fontSize:8,
-            icon:'circle'
+            itemHeight: 10,
+            itemGap: 2,
+            fontSize: 8,
+            icon: 'circle'
         };
         if (this.isPhone) {
             legend = {
@@ -266,10 +278,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 top: 30,
                 right: 0,
                 itemWidth: 10,
-                itemHeight:10,
-                itemGap:2,
-                fontSize:8,
-                icon:'circle'
+                itemHeight: 10,
+                itemGap: 2,
+                fontSize: 8,
+                icon: 'circle'
             }
         }
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie1}`) as HTMLDivElement;
@@ -288,7 +300,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             tooltip: {
                 trigger: 'item'
             },
-            legend:legend,
+            legend: legend,
             grid: {
                 top: 40,
                 left: 5,

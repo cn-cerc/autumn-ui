@@ -1,14 +1,14 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./invoiceMC.css";
+import styles from "./FrmInvoiceManage1.css";
 import * as echarts from "echarts";
 
-type invoiceMCTypeProps = {
+type FrmInvoiceManage1TypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type invoiceMCTypeState = {
+type FrmInvoiceManage1TypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
@@ -18,8 +18,8 @@ type invoiceMCTypeState = {
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
-export default class FrmTaurusMC extends WebControl<invoiceMCTypeProps, invoiceMCTypeState> {
-    constructor(props: invoiceMCTypeProps) {
+export default class FrmTaurusMC extends WebControl<FrmInvoiceManage1TypeProps, FrmInvoiceManage1TypeState> {
+    constructor(props: FrmInvoiceManage1TypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -62,32 +62,37 @@ export default class FrmTaurusMC extends WebControl<invoiceMCTypeProps, invoiceM
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`客户_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '客户')}>
-                                <span>客户</span>
+                            <div className={`${styles.MCtext} ${styles.stock10}`}>
+                                <span>可用余额</span>
                             </div>
-                            <div className={`${styles.MCtext} ${styles.stock2}`}>
-                                <span>发票并支付申请</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`发票申请_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '发票申请')}>
-                                <span>发票申请</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '合同管理')}>
+                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '充值管理')}>
+                                <span>充值管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`货单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '货单管理')}>
+                                <span>货单管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '运单管理')}>
+                                <span>运单管理</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`发票管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '发票管理')}>
                                 <span>发票管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '充值管理')}>
-                                <span>充值管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`发票及支付申请_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '发票及支付申请')}>
+                                <span>发票及支付申请</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`支付申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '支付申请')}>
-                                <span>支付申请</span>
-                            </div>
-                            <div className={`${styles.MCtext} ${styles.stock8}`}>
-                                <span>接收</span>
-                            </div>
-                            <div className={`${styles.MCtext} ${styles.stock9}`}>
-                                <span>可用余额</span>
+                            <div className={styles.bdSkin}>
+                                <div className={`${this.state.dataJson.getBoolean(`支付处理_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '支付处理')}>
+                                    <span>支付处理</span>
+                                </div>
+                                <div className={`${this.state.dataJson.getBoolean(`发票申请审核_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '发票申请审核')}>
+                                    <span>发票申请审核</span>
+                                </div>
+                                <div className={`${styles.MCtext} ${styles.stock9}`}>
+                                    <span>网络货运公司</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -273,33 +278,51 @@ export default class FrmTaurusMC extends WebControl<invoiceMCTypeProps, invoiceM
             nodes,
             linesData: [
                 {
-                    coords: [ //客户往下线条
-                        [111, 75],
-                        [111, 130]
-                    ]
-                },
-                {
                     coords: [ //合同管理往右线条
-                        [210, 156],
-                        [140, 156],
+                        [135, 35],
+                        [210, 35]
                     ]
                 },
                 {
                     coords: [ //合同管理往下线条
-                        [234, 195],
-                        [234, 248]
+                        [111, 75],
+                        [111, 120]
                     ]
                 },
                 {
-                    coords: [ //发票申请往下线条
-                        [111, 195],
-                        [111, 248]
+                    coords: [ //货单管理往右线条
+                        [135, 137],
+                        [210, 137]
                     ]
                 },
                 {
-                    coords: [ //发票管理往下线条
-                        [111, 310],
-                        [111, 350]
+                    coords: [ //货单管理往下线条
+                        [111, 175],
+                        [111, 220]
+                    ]
+                },
+                {
+                    coords: [ //运单管理往下线条
+                        [234, 175],
+                        [234, 220]
+                    ]
+                },
+                {
+                    coords: [ //发票及支付申请往下线条
+                        [234, 290],
+                        [234, 320]
+                    ]
+                },
+                {
+                    coords: [ //支付处理往上线条
+                        [111, 320],
+                        [111, 290]
+                    ]
+                },
+                {
+                    coords: [ //发票申请审核往左线条
+                        [210, 345],
+                        [135, 345]
                     ]
                 },
             ]
