@@ -129,7 +129,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
 
     //设置备注信息
     async setUserRemarkFun() {
-        console.log(this.state.remarkText, this.state.remarkText_)
         if (this.state.remarkText != this.state.remarkText_) {
             let row = new DataRow();
             row.setValue('UserCode_', this.props.fromUser).setValue('Remark_', this.state.remarkText);
