@@ -1,9 +1,3 @@
-.MCtext{
-    position: absolute;
-    color:#999;
-    font-size: 14px;
-}
-
 .mcIntroduction {
     background-color: #fff;
     border-radius: .28rem;
@@ -22,7 +16,9 @@
     padding-bottom: 16px;
 }
 
-.mcFlowChartBox, .mcTrendChart {
+.mcFlowChartBox,
+.mcTrendChart,
+.mcBarChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -78,7 +74,16 @@
     display: flex;
 }
 
-.FrmTaurusMCLine {
+.mcBarChart {
+    margin-top: 16px;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.FrmTaurusMCLine,
+.FrmTaurusMCBar {
     padding: 16px 16px 0 16px;
     flex: 1;
 }
@@ -91,6 +96,7 @@
     text-align: center;
     cursor: pointer;
 }
+
 .register_disable {
     background: url("../image/register_disable.png") top center no-repeat;
     padding-top: 40px;
@@ -98,6 +104,7 @@
     position: absolute;
     text-align: center;
 }
+
 .receipt {
     background: url("../image/receipt.png") top center no-repeat;
     padding-top: 40px;
@@ -106,6 +113,7 @@
     text-align: center;
     cursor: pointer;
 }
+
 .receipt_disable {
     background: url("../image/receipt_disable.png") top center no-repeat;
     padding-top: 40px;
@@ -113,6 +121,7 @@
     position: absolute;
     text-align: center;
 }
+
 .control {
     background: url("../image/control.png") top center no-repeat;
     padding-top: 40px;
@@ -146,10 +155,16 @@
     position: absolute;
     text-align: center;
 }
-.register>span, .receipt>span, .control>span, .other>span {
+
+.register>span,
+.receipt>span,
+.control>span,
+.other>span,
+.other_disable>span {
     width: 6em;
     text-align: center;
     display: block;
+    font-weight: 600;
 }
 
 .register:hover {
@@ -172,7 +187,8 @@
     font-weight: bold;
 }
 
-.mcPieBox1, .mcPieBox2 {
+.mcPieBox1,
+.mcPieBox2 {
     width: 0;
     flex: 1;
     display: flex;
@@ -186,55 +202,44 @@
     margin-left: 16px;
 }
 
-.FrmTaurusMCPie1, .FrmTaurusMCPie2 {
+.FrmTaurusMCBar {
     flex: 1;
 }
 
 .stock1 {
-    left: 60px;
-    top: 15px;
+    left: 20px;
+    top: 20px;
 }
 
 .stock2 {
-    left: 114px;
-    top: 120px;
-}
-
-.stock3 {
-    left: 60px;
-    top: 136px;
-}
-
-.stock4 {
-    left: 174px;
-    top: 136px;
+    left: 112px;
+    top: 20px;
 }
 
 .stock5 {
-    left: 60px;
-    top: 248px;
-}
-
-.stock6 {
-    left: 174px;
-    top: 248px;
+    left: 112px;
+    top: 120px;
 }
 
 .stock7 {
-    left: 60px;
-    top: 350px;
+    left: 20px;
+    top: 220px;
 }
 
 .stock8 {
-    left: 110px;
-    top: 230px
+    left: 112px;
+    top: 220px;
 }
 
-.stock9 {
-    left: 220px;
-    top: 230px;
+.stock11 {
+    left: 112px;
+    top: 320px;
 }
 
+.stock12 {
+    left: 210px;
+    top: 320px;
+}
 
 @media screen and (min-width: 768px) {
     .mc {
@@ -254,50 +259,49 @@
     .mcIntroduction {
         display: none;
     }
+
     .mcMain {
         flex-wrap: wrap;
     }
+
     .mcFlowChartBox {
         height: 520px;
     }
-    .register>span, .receipt>span, .control>span, .other>span, .register_disable>span {
+
+    .register>span,
+    .receipt>span,
+    .control>span,
+    .other>span,
+    .register_disable>span {
         font-size: 14px;
         line-height: 1.2;
         margin-top: 5px;
     }
-    .register, .receipt, .control,.other  {
+
+    .register,
+    .receipt,
+    .control,
+    .other {
         padding-top: 35px;
     }
+
     .mcFlowChartBox {
         width: 100%;
     }
+
     .mcCharts {
         width: 100%;
         margin: auto;
     }
-    .mcTrendChart, .mcPieBox2{
+
+    .mcTrendChart {
         margin-top: 16px;
     }
-    .FrmTaurusMCLine{
-        height:220px;
-        flex: auto;
-    }
-    .mcPieChart{
-        flex-wrap: wrap;
-        flex: auto;
-    }
-    .mcPieBox1, .mcPieBox2{
-        width: 100%;
-        flex: auto;
-    }
-    .mcPieBox2{
-        margin-left: 0;
-    }
-    .FrmTaurusMCPie1, .FrmTaurusMCPie2{
+
+    .FrmTaurusMCLine,
+    .FrmTaurusMCBar {
         height: 220px;
         flex: auto;
     }
-    .stock2 {
-        top: 112px;
-    }
+
 }

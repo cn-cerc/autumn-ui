@@ -2,25 +2,37 @@
     min-height: 100% !important;
 }
 
+.mc {
+    font-size: 14px;
+    color: #333;
+    line-height: 1em;
+    font-weight: 400;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
 .mcIntroduction,
 .li_3,
-.mcPieBox1,
-.mcPieBox2,
-.mcPieBox3,
-.mcMapBox,
-.mcLinkBox,
-.mcLinkBox2,
-.srcollListBox,
-.rightSiteEchat1Box {
+.leftBox1,
+.leftBox2,
+.leftBox3,
+.centerBox1,
+.centerBox2,
+.rightBox2,
+.rightBox3 {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
     margin-bottom: 16px;
+    box-sizing: border-box;
 }
 
 .mcIntroduction>p {
-    line-height: 24px;
-    padding-top: 5px;
+    height: 100%;
+    line-height: 37px;
     font-size: 16px;
     font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
@@ -33,6 +45,7 @@
     display: flex;
     padding-bottom: 16px;
     flex-direction: column;
+    height: 0;
 }
 
 .top_list {
@@ -93,62 +106,80 @@
     width: 20%;
     display: flex;
     flex-direction: column;
+    min-width: 264px;
 }
 
-.mcPieBox1,
-.mcPieBox2,
-.mcPieBox3,
-.srcollListBox,
-.rightSiteEchat1,
-.mcLinkBox2 {
-    height: 216px;
+.leftBox1,
+.leftBox2,
+.leftBox3,
+.rightBox3,
+.centerBox2,
+.rightBox1,
+.rightBox2 {
     margin-bottom: 10px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    /* flex: 1; */
+    height: 32.3%;
 }
+
 
 .srcollListContent {
     margin-bottom: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .centerSiteEcharts {
     width: 60%;
     margin: 0 10px;
-}
-
-.rightSiteEchat1 {
     display: flex;
+    flex-direction: column;
+    min-width: 500px;
 }
 
-.rightSiteEchat1Box {
-    margin-bottom: 0;
+.rightBox1 {
+    flex-direction: row;
+}
+
+.rightBox1Box {
+    border-radius: .28rem;
+    padding: 16px;
+    background-color: #fff;
     margin-right: 10px;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.rightSiteEchat1Box:last-child {
+.rightBox1Box:last-child {
     margin-right: 0;
 }
 
-.rightSiteEchat1BoxPie1,
-.rightSiteEchat1BoxPie2 {
-    height: 100px;
+.rightBox1BoxPie1,
+.rightBox1BoxPie2 {
+    flex: 1;
 }
 
-.mcMapBox {
-    height: 442px;
+.centerBox1 {
     margin-bottom: 10px;
+    height: calc(100% - 32.3% - 10px);
 }
 
 .mcMap {
     height: 100%;
 }
 
-.mcLinkBox {
-    height: 216px;
-    margin-bottom: 10px;
+.leftBox3,
+.centerBox2,
+.rightBox3 {
+    margin-bottom: 0;
 }
 
-.srcollListBox {
+.rightBox3 {
     overflow: auto;
 }
 
@@ -187,7 +218,7 @@
 .FrmTaurusMCPie3,
 .mcLink,
 .mcLink2 {
-    height: 100px;
+    flex: 1;
 }
 
 .colorSkin {
@@ -207,66 +238,34 @@
     margin-right: 5px;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1366px) {
-    .mc {
-        font-size: 14px;
-        color: #333;
-        line-height: 1em;
-        font-weight: 400;
-        height: 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-    }
+.mcIntroduction {
+    margin-bottom: 10px;
+    padding: 0;
+    height: 37px;
+}
 
-    .mcIntroduction {
-        margin-bottom: 10px;
-    }
+@media screen and (min-width: 768px) and (max-width: 1366px) {
 
     .mcPieChart {
         margin-top: 10px;
     }
 
-    .leftSiteEcharts,
-    .rIghtSiteEcharts {
-        width: 264px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .centerSiteEcharts {
-        width: 500px;
-        margin: 0 10px;
-    }
-
-    .mcPieBox1,
-    .mcPieBox2,
-    .mcPieBox3,
-    .srcollListBox,
-    .rightSiteEchat1,
-    .mcLinkBox2 {
-        height: 144px;
+    .centerBox1 {
         margin-bottom: 10px;
-        box-sizing: border-box;
-    }
-
-    .mcMapBox {
-        height: 298px;
-        margin-bottom: 10px;
-    }
-
-    .mcLinkBox {
-        height: 144px;
-        margin-bottom: 10px;
+        height: calc(100% - 32.3% - 6px);
     }
 }
 
 @media screen and (max-width: 767px) {
-    .mcMain{
+    .mc {
+        overflow: inherit;
+    }
+
+    .mcMain {
         margin-left: 12px;
         margin-right: 12px;
     }
+
     .top_list {
         align-items: stretch;
         flex-direction: column;
@@ -295,34 +294,33 @@
         width: 100%;
     }
 
-    .mcPieBox1,
-    .mcPieBox2,
-    .mcPieBox3,
-    .rightSiteEchat1,
-    .mcLinkBox{
+    .leftBox1,
+    .leftBox2,
+    .leftBox3,
+    .rightBox1,
+    .centerBox2 {
         height: 160px;
     }
-    .mcLinkBox2{
+
+    .rightBox2 {
         height: 208px;
     }
-    .srcollListBox{
-        height:132px;
+
+    .rightBox3 {
+        height: 132px;
     }
+
     .FrmTaurusMCPie1,
     .FrmTaurusMCPie2,
     .FrmTaurusMCPie3,
     .mcLink,
-    .rightSiteEchat1BoxPie1,
-    .rightSiteEchat1BoxPie2 {
+    .rightBox1BoxPie1,
+    .rightBox1BoxPie2 {
         height: 130px;
     }
-    .mcLink2{
-        height:180px;
-    }
-    
-    .centerSiteEcharts {
-        width: 100%;
-        margin: 0;
+
+    .mcLink2 {
+        height: 180px;
     }
 
     .srcollListMain>li {
@@ -335,31 +333,49 @@
         width: 80%;
     }
 
-    .rSkin{
-        transform:inherit;
+    .rSkin {
+        transform: inherit;
     }
-    .srcollListMain{
+
+    .srcollListMain {
         margin: 12px 0 0;
     }
-    .centerSiteEcharts{
+
+    .centerSiteEcharts {
         display: none;
     }
-    .topInfo{
-        margin-top:4px;
+
+    .topInfo {
+        margin-top: 4px;
         height: 29px;
         line-height: 29px;
     }
-    .leftSiteEcharts{
+
+    .leftSiteEcharts {
         flex-direction: row;
         flex-wrap: wrap;
     }
-    .mcPieBox1, .mcPieBox2{
+
+    .leftBox1,
+    .leftBox2,
+    .rightBox1Box {
         width: calc(50% - 5px);
     }
-    .mcPieBox1{
-        margin-right:10px;
+
+    .leftBox1 {
+        margin-right: 10px;
     }
-    .mcPieBox3,.mcLinkBox2{
+
+    .leftBox3,
+    .rightBox2 {
         width: 100%;
+    }
+
+    .leftBox3 {
+        margin-bottom: 10px;
+    }
+
+    .rightBox3 {
+        margin-bottom: 10px;
     }
 }

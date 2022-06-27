@@ -2,14 +2,26 @@
     min-height: 100% !important;
 }
 
+.mc {
+    font-size: 14px;
+    color: #333;
+    line-height: 1em;
+    font-weight: 400;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
 .mcIntroduction,
 .li_3,
-.mcPieBox1,
-.mcPieBox2,
-.mcPieBox3,
-.mcPieBox4,
-.mcLinkBox,
-.srcollListBox {
+.leftBox1,
+.leftBox2,
+.leftBox3,
+.rightBox1,
+.centerBox2,
+.rightBox2 {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -17,8 +29,8 @@
 }
 
 .mcIntroduction>p {
-    line-height: 24px;
-    padding-top: 5px;
+    height: 100%;
+    line-height: 37px;
     font-size: 16px;
     font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
@@ -31,6 +43,7 @@
     display: flex;
     padding-bottom: 16px;
     flex-direction: column;
+    height: 0;
 }
 
 .top_list {
@@ -88,43 +101,56 @@
 
 .leftSiteEcharts,
 .rIghtSiteEcharts {
-    width: 264px;
+    min-width: 264px;
+    width: 20%;
     display: flex;
     flex-direction: column;
 }
 
-.mcPieBox1,
-.mcPieBox2,
-.mcPieBox3,
-.mcPieBox4 {
-    height: 144px;
+.leftBox1,
+.leftBox2,
+.leftBox3,
+.rightBox1,
+.rightBox2,
+.centerBox2 {
     margin-bottom: 10px;
     box-sizing: border-box;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 32.3%;
 }
 
-.mcPieBox3 {
+.leftBox3,
+.centerBox2,
+.rightBox2 {
     margin-bottom: 0;
 }
 
 .centerSiteEcharts {
-    width: 500px;
+    min-width: 500px;
+    width: 60%;
     margin: 0 10px;
-}
-
-.mcMapBox {
     display: flex;
-    height: 298px;
-    margin-bottom: 10px;
+    flex-direction: column;
 }
 
-.mcLinkBox {
-    height: 144px;
+.rightBox1 {
+    flex: auto;
+}
+
+.centerBox1 {
     margin-bottom: 10px;
+    height: calc(100% - 32.3% - 9px);
+}
+
+.rightBox2 {
+    height: calc(100% - 32.3% - 9px);
 }
 
 .mcMap {
     display: flex;
-    flex: 1;
+    height: 100%;
 }
 
 .mcMap>ul {
@@ -134,29 +160,41 @@
 }
 
 .imgItem {
-    width: 246px;
-    height: 145px;
-    margin-bottom: 8px;
-    margin-right: 8px;
+    width: calc(50% - 5px);
+    height: calc(50% - 5px);
+    margin-bottom: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
 }
 
 .imgItem:nth-child(2n) {
     margin-right: 0;
 }
 
+.imgItem:nth-child(3),
+.imgItem:nth-child(4) {
+    margin-bottom: 0;
+}
+
 .imgItem>img {
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.srcollListBox {
-    flex: 1;
+.rightBox2 {
+    flex: auto;
     overflow: auto;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .srcollListMain {
-    margin: 10px 0 0;
+    flex: 1;
 }
 
 .srcollListMain>li {
@@ -170,7 +208,7 @@
 }
 
 .leftScrollList {
-    margin: 10px 0 0;
+    margin: 20px 0 0;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -183,13 +221,19 @@
     background: #EFF6FE;
     line-height: 26px;
     margin-bottom: 6px;
+    flex: 1;
+    padding: 0 8px;
+}
+
+.leftScrollListItem>img {
+    margin-right: 6px;
 }
 
 .FrmSpectaculars2MCPie1,
 .FrmSpectaculars2MCPie2,
 .FrmSpectaculars2MCPie3,
 .mcLink {
-    height: 100px;
+    flex: 1;
 }
 
 .colorSkin {
@@ -209,29 +253,51 @@
     margin-right: 5px;
 }
 
-@media screen and (min-width: 768px) {
-    .mc {
-        font-size: 14px;
-        color: #333;
-        line-height: 1em;
-        font-weight: 400;
-        height: 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-    }
+.mcIntroduction {
+    margin-bottom: 10px;
+    padding: 0;
+    height: 37px;
+}
 
-    .mcIntroduction {
-        margin-bottom: 10px;
-    }
+.imgBottomText {
+    position: absolute;
+    bottom: 0;
+    height: 24px;
+    line-height: 24px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 8px;
+    color: #fff;
+    background: rgba(0, 0, 0, .3);
+    font-size: 12px;
+}
+
+.rightBox2>div:last-child {
+    display: flex;
+    flex: 1;
+    padding: 10px 0;
+    overflow-y: auto;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+
 
     .mcPieChart {
         margin-top: 10px;
     }
+
+    .leftScrollList {
+        margin: 10px 0 0;
+        height: 96px;
+    }
 }
 
 @media screen and (max-width: 767px) {
+    .mc {
+        overflow: inherit;
+    }
+
     .mcMain {
         margin-left: 12px;
         margin-right: 12px;
@@ -256,7 +322,7 @@
         line-height: 1.2;
     }
 
-    .mcPieBox3 {
+    .leftBox3 {
         margin-bottom: 10px;
     }
 
@@ -264,7 +330,7 @@
         flex-direction: column;
     }
 
-    .mcMapBox {
+    .centerBox1 {
         height: auto;
     }
 
@@ -289,15 +355,17 @@
         width: 100%;
     }
 
-    .mcPieBox2,
-    .mcPieBox3,
-    .mcPieBox4,
+    .leftBox2,
+    .leftBox3,
+    .rightBox1,
     .rightSiteEchat1,
-    .mcLinkBox {
+    .centerBox2 {
         height: 208px;
+        flex: auto;
     }
 
-    .mcPieBox1 {
+    .leftBox1 {
+        flex: auto;
         height: 155px;
     }
 
@@ -312,9 +380,10 @@
         height: 120px;
     }
 
-    .srcollListBox {
+    .rightBox2 {
         flex: auto;
         height: 294px;
+        margin-bottom: 10px;
     }
 
     .centerSiteEcharts {
@@ -336,10 +405,6 @@
         transform: inherit;
     }
 
-    .srcollListMain {
-        margin: 12px 0 0;
-    }
-
     .leftSiteEcharts {
         flex-direction: row;
         flex-wrap: wrap;
@@ -355,17 +420,21 @@
         line-height: 29px;
     }
 
-    .mcPieBox1 {
+    .leftBox1 {
         width: 100%;
     }
 
-    .mcPieBox2,
-    .mcPieBox3 {
+    .leftBox2,
+    .leftBox3 {
         width: calc(50% - 5px);
         height: 160px;
     }
 
-    .mcPieBox2 {
+    .leftBox2 {
         margin-right: 10px;
+    }
+
+    .leftScrollList {
+        margin: 12px 0 0;
     }
 }

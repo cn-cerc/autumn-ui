@@ -23,7 +23,13 @@ import CodeRecordDialog from "./dialog/CodeRecordDialog";
 import TPurMC from "./page/TPurMC";
 import FrmSpectaculars1 from "./page/FrmSpectaculars1";
 import FrmSpectaculars3 from "./page/FrmSpectaculars3";
-import invoiceMC from "./page/invoiceMC";
+import FrmCarManagerMC from "./page/FrmCarManagerMC";
+import FrmCarManagerMC1 from "./page/FrmCarManagerMC1";
+import FrmContractManageMC1 from "./page/FrmContractManageMC1";
+import FrmContractManageMC2 from "./page/FrmContractManageMC2";
+import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
+import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
+import FrmInvoiceManage from "./page/FrmInvoiceManage";
 
 export default {
     ...diteng,
@@ -43,6 +49,8 @@ export default {
     FrmTaurusMC,
     TStockMC,
     FrmContractManageMC,
+    FrmContractManageMC1,
+    FrmContractManageMC2,
     TPurMC,
     FrmSpectaculars2,
     TOrd,
@@ -50,5 +58,9 @@ export default {
     FrmTaurusMC2,
     FrmSpectaculars1,
     FrmSpectaculars3,
-    invoiceMC
+    FrmInvoiceManage,
+    FrmInvoiceManage1,
+    FrmCarManagerMC,
+    FrmCarManagerMC1,
+    FrmCarManagerMC2,
 }

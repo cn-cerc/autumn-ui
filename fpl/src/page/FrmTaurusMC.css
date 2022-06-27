@@ -16,7 +16,8 @@
     padding-bottom: 16px;
 }
 
-.mcFlowChartBox, .mcTrendChart {
+.mcFlowChartBox,
+.mcTrendChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -176,7 +177,8 @@
     font-weight: bold;
 }
 
-.mcPieBox1, .mcPieBox2 {
+.mcPieBox1,
+.mcPieBox2 {
     width: 0;
     flex: 1;
     display: flex;
@@ -190,7 +192,8 @@
     margin-left: 16px;
 }
 
-.FrmTaurusMCPie1, .FrmTaurusMCPie2 {
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2 {
     flex: 1;
 }
 
