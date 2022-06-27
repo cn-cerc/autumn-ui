@@ -4,16 +4,16 @@ import styles from "./TPurMC.css";
 import * as echarts from "echarts";
 
 type TPurMCTypeProps = {
-    dataJson:string,
-    introduction:string
+    dataJson: string,
+    introduction: string
 }
 
 type TPurMCTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson:DataRow,
-    introduction:string
+    dataJson: DataRow,
+    introduction: string
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
@@ -40,13 +40,13 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let dataJson:DataRow = lineRow.setJson(this.props.dataJson);
+        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson:dataJson,
-            introduction:this.props.introduction
+            dataJson: dataJson,
+            introduction: this.props.introduction
         }
     }
 
@@ -62,31 +62,31 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                        <div className={`${this.state.dataJson.getBoolean(`厂商资料_Dis`)?styles.register_disable:styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '厂商资料')}>
+                            <div className={`${this.state.dataJson.getBoolean(`厂商资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '厂商资料')}>
                                 <span>厂商资料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`)?styles.register_disable:styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '销售订单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '销售订单')}>
                                 <span>销售订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`厂商报价_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '厂商报价')}>
+                            <div className={`${this.state.dataJson.getBoolean(`厂商报价_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '厂商报价')}>
                                 <span>厂商报价</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`生产订单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`生产订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
                                 <span>生产订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`采购订单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '采购订单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`采购订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '采购订单')}>
                                 <span>采购订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`安全库存_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '安全库存')}>
+                            <div className={`${this.state.dataJson.getBoolean(`安全库存_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '安全库存')}>
                                 <span>安全库存</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '进货单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '进货单')}>
                                 <span>进货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出货退回单_Dis`)?styles.receipt_disable:styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '出货退回单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`出货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '出货退回单')}>
                                 <span>出货退回单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付账款_Dis`)?styles.control_disable:styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应付账款')}>
+                            <div className={`${this.state.dataJson.getBoolean(`应付账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应付账款')}>
                                 <span>应付账款</span>
                             </div>
                         </div>
@@ -286,49 +286,49 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                         [165, 35],
                         [165, 125],
                     ]
-                },{
-                    coords: [
-                        [110, 75],
-                        [110, 105],
+                }, {
+                    coords: [ //厂商资料 往下线条
+                        [111, 75],
+                        [111, 105],
                     ]
                 },
                 {
-                    coords: [
-                        [110, 160],
-                        [110, 185],
+                    coords: [ //厂商报价 往下线条
+                        [111, 160],
+                        [111, 185],
                     ]
                 },
                 {
-                    coords: [
+                    coords: [ //生产订单 往右下线条
                         [198, 125],
                         [165, 125],
                         [165, 207]
                     ]
-                },{
-                    coords: [
+                }, {
+                    coords: [ //安全库存 往左线条
                         [198, 207],
-                        [130, 207]
+                        [133, 207]
                     ]
-                },{
-                    coords: [
-                        [110, 244],
-                        [110, 275]
+                }, {
+                    coords: [ //采购订单 往下线条
+                        [111, 244],
+                        [111, 275]
                     ]
-                },{
-                    coords: [
-                        [110, 330],
-                        [110, 360]
+                }, {
+                    coords: [ //进货单 往下线条
+                        [111, 330],
+                        [111, 360]
                     ]
-                },{
-                    coords: [
-                        [130, 293],
+                }, {
+                    coords: [ //进货单 往右线条
+                        [133, 293],
                         [200, 293]
                     ]
-                },{
-                    coords: [
+                }, {
+                    coords: [ //出货退回单 往左下线条
                         [219, 330],
                         [219, 375],
-                        [130, 375]
+                        [140, 375]
                     ]
                 }
             ]
@@ -341,7 +341,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 max: 328,
                 show: false,
                 type: 'value',
-                position: 'top'
+                position: 'top',
             },
             yAxis: {
                 min: 0,
@@ -350,7 +350,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 },
                 show: false,
                 type: 'value',
-                inverse: true
+                inverse: true,
             },
             grid: {
                 left: 0,
@@ -379,7 +379,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     width: 2,
                     color: '#ccc',
                     curveness: 0.3
-
                 },
                 effect: {
                     show: true,
@@ -389,7 +388,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     color: '#ccc',
                     symbolSize: 6
                 },
-                data: charts.linesData
+                data: charts.linesData,
             }]
         };
         //@ts-ignore
@@ -397,7 +396,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
     }
 
     linkTo(name: string) {
-        if(!this.state.dataJson.getBoolean(`${name}_Dis`)){
+        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataJson.getString(`${name}_URL`);
         }
     }
