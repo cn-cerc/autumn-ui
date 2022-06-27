@@ -159,15 +159,11 @@
 .register>span,
 .receipt>span,
 .control>span,
-<<<<<<<< HEAD:fpl/src/page/FrmContractManageMC1.css
 .other>span,
 .register_disable>span,
 .receipt_disable>span,
 .control_disable>span,
 .other_disable>span {
-========
-.other>span {
->>>>>>>> hhc-newUI:fpl/src/page/FrmCarManagerMC1.css
     width: 6em;
     text-align: center;
     display: block;
@@ -214,19 +210,13 @@
 }
 
 .stock1 {
-<<<<<<<< HEAD:fpl/src/page/FrmContractManageMC1.css
-    left: 20px;
-========
     left: 4px;
->>>>>>>> hhc-newUI:fpl/src/page/FrmCarManagerMC1.css
     top: 20px;
 }
 
 .stock2 {
     left: 112px;
     top: 20px;
-<<<<<<<< HEAD:fpl/src/page/FrmContractManageMC1.css
-========
 }
 
 .stock3 {
@@ -237,18 +227,11 @@
 .stock4 {
     left: 4px;
     top: 120px;
->>>>>>>> hhc-newUI:fpl/src/page/FrmCarManagerMC1.css
 }
 
 .stock5 {
     left: 112px;
     top: 120px;
-<<<<<<<< HEAD:fpl/src/page/FrmContractManageMC1.css
-}
-
-.stock7 {
-    left: 20px;
-========
 }
 
 .stock6 {
@@ -258,7 +241,6 @@
 
 .stock7 {
     left: 4px;
->>>>>>>> hhc-newUI:fpl/src/page/FrmCarManagerMC1.css
     top: 220px;
 }
 
@@ -267,13 +249,6 @@
     top: 220px;
 }
 
-<<<<<<<< HEAD:fpl/src/page/FrmContractManageMC1.css
-.stock11 {
-    left: 112px;
-    top: 320px;
-}
-
-========
 .stock9 {
     left: 212px;
     top: 220px;
@@ -289,7 +264,6 @@
     top: 320px;
 }
 
->>>>>>>> hhc-newUI:fpl/src/page/FrmCarManagerMC1.css
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -321,14 +295,10 @@
     .receipt>span,
     .control>span,
     .other>span,
-<<<<<<<< HEAD:fpl/src/page/FrmContractManageMC1.css
     .register_disable>span,
     .receipt_disable>span,
     .control_disable>span,
     .other_disable>span {
-========
-    .register_disable>span {
->>>>>>>> hhc-newUI:fpl/src/page/FrmCarManagerMC1.css
         font-size: 14px;
         line-height: 1.2;
         margin-top: 5px;
