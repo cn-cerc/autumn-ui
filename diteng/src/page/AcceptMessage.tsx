@@ -10,7 +10,6 @@ type TypeProps = {
 type TypeState = {
     messageData: DataRow,
     status: number,
-    statusName: string,
     remark: string
 }
 enum MessageStatus {
@@ -21,11 +20,9 @@ enum MessageStatus {
 export default class AcceptMessage extends Message<TypeProps, TypeState> {
     constructor(props: TypeProps) {
         super(props);
-        let status = ['未接收', '已接收', '已拒绝'];
         this.state = {
             messageData: new DataRow().setJson(props.row.getString('Content_')),
             status: props.row.getNumber('Status_'),
-            statusName: status[props.row.getNumber('Status_')],
             remark: ''
         }
     }
@@ -55,7 +52,6 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
 
     getMessage(): JSX.Element {
         let opera, remark;
-        console.log(this.state.messageData.getDouble('status'))
         if (this.state.messageData.getDouble('status') == 0) {
             opera = <React.Fragment>
                 <a href={this.state.messageData.getString('detailUrl')}>详情</a>
@@ -64,7 +60,7 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
             </React.Fragment>
             remark = <DBEdit dataField='remark' dataRow={this.state.messageData}></DBEdit>;
         } else {
-            opera = <span>{this.state.statusName}</span>
+            opera = <span>{MessageStatus[this.state.messageData.getDouble('status')]}</span>
             remark = <span>{this.state.messageData.getString('remark')}</span>
         }
         return <div className={`${styles.signMessage, styles.defaultMessage}`}>
