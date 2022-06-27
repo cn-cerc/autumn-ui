@@ -10,6 +10,8 @@ type FrmSpectaculars1TypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
+    pieData3: DataSet,
+    pieData4: DataSet,
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
@@ -35,10 +37,21 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
+        let pieData3 = new DataSet();
+        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
+        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
+        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
+        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
+        let pieData4 = new DataSet();
+        pieData4.append().setValue('Value_', 11).setValue('Name_', '18~35');
+        pieData4.append().setValue('Value_', 13).setValue('Name_', '18~35');
+        pieData4.append().setValue('Value_', 18).setValue('Name_', '18~35');
         this.state = {
             lineData,
             pieData1,
             pieData2,
+            pieData3,
+            pieData4
         }
     }
 
@@ -100,7 +113,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
-                            <div className={styles.mcMap}>这里暂时放置图片，但是没有地图图片</div>
+                            <div className={styles.mcMap}>
+                                <img src="images/MCimg/map.png" alt="" />
+                            </div>
                         </div>
                         <div className={styles.centerBox2}>
                             <div className={styles.mcLink}></div>
@@ -108,14 +123,8 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.rightBox1Box}>
-                                <div className={styles.mcTitle}>司机年龄</div>
-                                <div className={styles.rightBox1BoxPie1}></div>
-                            </div>
-                            <div className={styles.rightBox1Box}>
-                                <div className={styles.mcTitle}>区域分布</div>
-                                <div className={styles.rightBox1BoxPie2}></div>
-                            </div>
+                            <div className={styles.mcTitle}>司机年龄</div>
+                            <div className={styles.rightBox1Pie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
                             <div className={styles.mcTitle}>异常动态</div>
@@ -153,8 +162,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         this.initPieChart2();
         this.initPieChart3();
         this.initPieChart4();
-        this.initPieChart5();
-        // this.initMapechart();
     }
 
     initLineChart1() {
@@ -197,6 +204,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                 },
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -277,6 +285,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -285,8 +294,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: 60,
-                //   name: 'Commonly',
+                value: 90,
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -342,8 +350,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 14,
                         color: 'auto',
                         borderColor: 'auto',
-                        //   borderRadius: 20,
-                        //   borderWidth: 1,
                         formatter: '{value}%'
                     }
                 }
@@ -358,8 +364,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: 60,
-                //   name: 'Commonly',
+                value: 99,
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -415,8 +420,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 14,
                         color: 'auto',
                         borderColor: 'auto',
-                        //   borderRadius: 20,
-                        //   borderWidth: 1,
                         formatter: '{value}%'
                     }
                 }
@@ -431,7 +434,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: 60,
+                value: 10,
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -497,10 +500,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         myChart.setOption(option);
     }
     initPieChart4() {
-        let peiChart = document.querySelector(`.${styles.rightBox1BoxPie1}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds.appendDataSet(this.state.pieData4);
         ds.first();
         let dataArr = [];
         while (ds.fetch()) {
@@ -522,9 +525,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
             },
             series: [
                 {
-                    name: '本周货运吨数占比',
+                    name: '司机年龄',
                     type: 'pie',
-                    radius: ['28%', '40%'],
+                    radius: ['50%', '70%'],
                     center: ['50%', '50%'],
                     avoidLabelOverlap: false,
                     emphasis: {
@@ -543,69 +546,8 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                 }
             ]
         }
+
         //@ts-ignore
         myChart.setOption(option);
     }
-    initPieChart5() {
-        let peiChart = document.querySelector(`.${styles.rightBox1BoxPie2}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
-        let option = {
-            tooltip: {
-                trigger: 'item'
-            },
-            // legend:legend,
-            grid: {
-                top: 40,
-                left: 5,
-                bottom: 5,
-                right: 50,
-                containLabel: true,
-            },
-            series: [
-                {
-                    name: '本周货运吨数占比',
-                    type: 'pie',
-                    radius: ['28%', '40%'],
-                    center: ['50%', '50%'],
-                    avoidLabelOverlap: false,
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '16',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        length: 5,
-                        length2: 5,
-                        maxSurfaceAngle: 80
-                    },
-                    data: dataArr
-                }
-            ]
-        }
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-    // initMapechart(){
-    //     let peiChart = document.querySelector(`.${styles.mcMap}`) as HTMLDivElement;
-    //     let myChart = echarts.init(peiChart);
-
-
-    // }
-    // linkTo(name: string) {
-    // if(!this.state.dataJson.getBoolean(`${name}_Dis`)){
-    //     location.href = this.state.dataJson.getString(`${name}_URL`);
-    // }
-    // }
 }

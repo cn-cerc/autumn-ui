@@ -160,6 +160,9 @@
 .receipt>span,
 .control>span,
 .other>span,
+.register_disable>span,
+.receipt_disable>span,
+.control_disable>span,
 .other_disable>span {
     width: 6em;
     text-align: center;
@@ -267,7 +270,10 @@
     .receipt>span,
     .control>span,
     .other>span,
-    .register_disable>span {
+    .register_disable>span,
+    .receipt_disable>span,
+    .control_disable>span,
+    .other_disable>span {
         font-size: 14px;
         line-height: 1.2;
         margin-top: 5px;

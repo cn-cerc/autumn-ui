@@ -32,7 +32,6 @@
     height: 100%;
     line-height: 37px;
     font-size: 16px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
     text-align: center;
@@ -53,7 +52,6 @@
 
 .mcTitle {
     font-size: 14px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
     line-height: 14px;
@@ -74,7 +72,6 @@
 
 .topTitle {
     font-size: 14px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
     margin-bottom: 12px;
@@ -82,14 +79,12 @@
 
 .topInfo {
     font-size: 22px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
 }
 
 .topInfo>span {
     font-size: 14px;
-    font-family: Microsoft YaHei-Regular, Microsoft YaHei;
     font-weight: 400;
     color: #666666;
 }
@@ -239,7 +234,6 @@
 .colorSkin {
     font-size: 14px;
     color: #FA9531;
-    font-family: Microsoft YaHei-Regular, Microsoft YaHei;
     font-weight: 400;
 }
 

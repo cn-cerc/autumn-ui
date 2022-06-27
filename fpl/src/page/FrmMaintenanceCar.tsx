@@ -1,24 +1,24 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./FrmCarManagerMC1.css";
+import styles from "./FrmMaintenanceCar.css";
 import * as echarts from "echarts";
 
-type FrmCarManagerMC1TypeProps = {
+type FrmMaintenanceCarTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmCarManagerMC1TypeState = {
+type FrmMaintenanceCarTypeState = {
     lineData: DataSet,
     barData: DataSet,
     dataJson: DataRow,
     introduction: string
 }
-//车辆管理控制台 庆丰物流
+//车辆管理控制台 一汽建州修理厂
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
-export default class FrmCarManagerMC1 extends WebControl<FrmCarManagerMC1TypeProps, FrmCarManagerMC1TypeState> {
-    constructor(props: FrmCarManagerMC1TypeProps) {
+export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeProps, FrmMaintenanceCarTypeState> {
+    constructor(props: FrmMaintenanceCarTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -58,32 +58,29 @@ export default class FrmCarManagerMC1 extends WebControl<FrmCarManagerMC1TypePro
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`车队管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '车队管理')}>
-                                <span>车队管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`客户管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '客户管理')}>
+                                <span>客户管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '司机管理')}>
-                                <span>司机管理</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机认证_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '司机认证')}>
-                                <span>司机认证</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款人管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '收款人管理')}>
-                                <span>收款人管理</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款人认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '收款人认证')}>
-                                <span>收款人认证</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '车辆管理')}>
+                            <div className={`${this.state.dataJson.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '车辆管理')}>
                                 <span>车辆管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆类型维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '车辆类型维护')}>
-                                <span>车辆类型维护</span>
+                            <div className={`${this.state.dataJson.getBoolean(`新增车辆_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '新增车辆')}>
+                                <span>新增车辆</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`维修记录_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '维修记录')}>
-                                <span>维修记录</span>
+                            <div className={`${this.state.dataJson.getBoolean(`扫一扫_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '扫一扫')}>
+                                <span>扫一扫</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`维修厂系统_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修厂系统')}>
-                                <span>维修厂系统</span>
+                            <div className={`${this.state.dataJson.getBoolean(`新增维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '新增维修单')}>
+                                <span>新增维修单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`零配件管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '零配件管理')}>
+                                <span>零配件管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`维修单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修单管理')}>
+                                <span>维修单管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`月结收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '月结收款单')}>
+                                <span>月结收款单</span>
                             </div>
                         </div>
                     </div>
@@ -215,53 +212,44 @@ export default class FrmCarManagerMC1 extends WebControl<FrmCarManagerMC1TypePro
             nodes,
             linesData: [
                 {
-                    coords: [ //车队管理 往右线条
-                        [75, 40],
-                        [143, 40]
-                    ]
-                },
-                {
-                    coords: [ //车队管理 往下线条
-                        [50, 80],
-                        [50, 220]
-                    ]
-                },
-                {
-                    coords: [ //司机管理 往右线条
-                        [190, 40],
-                        [256, 40]
-                    ]
-                },
-                {
-                    coords: [ //司机管理 往下线条
+                    coords: [ //客户管理 往下线条
                         [169, 80],
                         [169, 130]
                     ]
                 },
                 {
-                    coords: [ //收款人管理 往右线条
-                        [190, 140],
-                        [256, 140]
+                    coords: [ //车辆管理 往下线条 
+                        [169, 180],
+                        [169, 220]
                     ]
                 },
                 {
-                    coords: [ //车辆类型维护 往左线条
-                        [143, 240],
-                        [75, 240]
+                    coords: [ //新增车辆 往左线条
+                        [256, 140],
+                        [190, 140]
                     ]
                 },
                 {
-                    coords: [ //车辆管理 往下线条
-                        [50, 280],
-                        [50, 320]
+                    coords: [ //扫一扫 往右线条
+                        [78, 242],
+                        [143, 242]
                     ]
-                },
-                {
-                    coords: [ //维修厂系统 往左线条
-                        [143, 340],
-                        [75, 340]
+                }, {
+                    coords: [ //零配件管理 往左线条
+                        [256, 242],
+                        [190, 242]
                     ]
-                },
+                }, {
+                    coords: [ //新增维修单 往下线条
+                        [169, 290],
+                        [169, 323]
+                    ]
+                }, {
+                    coords: [ //维修单管理 往右线条
+                        [190, 340],
+                        [256, 340]
+                    ]
+                }
             ]
         }
 
