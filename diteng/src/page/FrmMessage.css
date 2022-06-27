@@ -583,7 +583,7 @@
         width: 0;
         flex: 1;
         height: 1.875rem;
-        font-size: 0.875rem;
+        font-size: 14px;
         line-height: 1.875rem;
         background-color: #fff;
         border-radius: 4px;
@@ -594,7 +594,7 @@
     .replyBox>div>button {
         height: 2rem;
         line-height: 2rem;
-        font-size: .875rem;
+        font-size: 14px;
         border-radius: .25rem;
     }
 

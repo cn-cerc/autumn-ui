@@ -265,7 +265,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     this.setState({
                         messageText: e.target.value,
                     })
-                }}></textarea>
+                }} placeholder='请输入消息...'></textarea>
                 <div>
                     <button className={this.state.messageText != '' ? '' : styles.disEvents}>发送</button>
                 </div>
