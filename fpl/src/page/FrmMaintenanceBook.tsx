@@ -159,6 +159,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 }
             ]
         };
+        
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -197,6 +198,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -302,6 +304,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 data: charts.linesData
             }]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }

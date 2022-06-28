@@ -171,6 +171,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -209,6 +210,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -328,6 +330,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 data: charts.linesData
             }]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
