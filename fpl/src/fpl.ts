@@ -30,6 +30,7 @@ import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
 import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
 import FrmInvoiceManage from "./page/FrmInvoiceManage";
 import FrmMaintenanceCar from "./page/FrmMaintenanceCar";
+import FrmMaintenanceAR from "./page/FrmMaintenanceAR";
 
 export default {
     ...diteng,
@@ -62,5 +63,6 @@ export default {
     FrmInvoiceManage1,
     FrmCarManagerMC,
     FrmCarManagerMC2,
-    FrmMaintenanceCar
+    FrmMaintenanceCar,
+    FrmMaintenanceAR
 }
