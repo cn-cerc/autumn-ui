@@ -160,6 +160,9 @@
 .receipt>span,
 .control>span,
 .other>span,
+.register_disable>span,
+.receipt_disable>span,
+.control_disable>span,
 .other_disable>span {
     width: 6em;
     text-align: center;
@@ -236,6 +239,11 @@
     top: 320px;
 }
 
+.stock12 {
+    left: 210px;
+    top: 320px;
+}
+
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -267,7 +275,10 @@
     .receipt>span,
     .control>span,
     .other>span,
-    .register_disable>span {
+    .register_disable>span,
+    .receipt_disable>span,
+    .control_disable>span,
+    .other_disable>span {
         font-size: 14px;
         line-height: 1.2;
         margin-top: 5px;
