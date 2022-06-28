@@ -21,6 +21,7 @@
 .leftBox3,
 .centerBox1,
 .centerBox2,
+.rightBox1,
 .rightBox2,
 .rightBox3 {
     background-color: #fff;
@@ -34,7 +35,6 @@
     height: 100%;
     line-height: 37px;
     font-size: 16px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
     text-align: center;
@@ -55,7 +55,6 @@
 
 .mcTitle {
     font-size: 14px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
     line-height: 14px;
@@ -76,7 +75,6 @@
 
 .topTitle {
     font-size: 14px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
     margin-bottom: 12px;
@@ -84,14 +82,12 @@
 
 .topInfo {
     font-size: 22px;
-    font-family: Microsoft YaHei-Bold, Microsoft YaHei;
     font-weight: bold;
     color: #333333;
 }
 
 .topInfo>span {
     font-size: 14px;
-    font-family: Microsoft YaHei-Regular, Microsoft YaHei;
     font-weight: 400;
     color: #666666;
 }
@@ -140,37 +136,22 @@
     min-width: 500px;
 }
 
-.rightBox1 {
-    flex-direction: row;
-}
-
-.rightBox1Box {
-    border-radius: .28rem;
-    padding: 16px;
-    background-color: #fff;
-    margin-right: 10px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.rightBox1Box:last-child {
-    margin-right: 0;
-}
-
-.rightBox1BoxPie1,
-.rightBox1BoxPie2 {
-    flex: 1;
-}
-
 .centerBox1 {
     margin-bottom: 10px;
     height: calc(100% - 32.3% - 10px);
 }
 
 .mcMap {
+    position: relative;
     height: 100%;
+}
+.mcMap>img{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .leftBox3,
@@ -217,14 +198,14 @@
 .FrmTaurusMCPie2,
 .FrmTaurusMCPie3,
 .mcLink,
-.mcLink2 {
+.mcLink2,
+.rightBox1Pie1 {
     flex: 1;
 }
 
 .colorSkin {
     font-size: 14px;
     color: #308DF2;
-    font-family: Microsoft YaHei-Regular, Microsoft YaHei;
     font-weight: 400;
 }
 
@@ -313,9 +294,7 @@
     .FrmTaurusMCPie1,
     .FrmTaurusMCPie2,
     .FrmTaurusMCPie3,
-    .mcLink,
-    .rightBox1BoxPie1,
-    .rightBox1BoxPie2 {
+    .mcLink {
         height: 130px;
     }
 
@@ -357,8 +336,7 @@
     }
 
     .leftBox1,
-    .leftBox2,
-    .rightBox1Box {
+    .leftBox2 {
         width: calc(50% - 5px);
     }
 
