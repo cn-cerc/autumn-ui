@@ -129,13 +129,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             sData.push(ds.getDouble('Value_'));
         }
         let option = {
-            // title: {
-            //     text: '本周货运总数(吨)',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     }
-            // },
             xAxis: {
                 type: 'category',
                 data: xArr,
@@ -198,14 +191,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             })
         }
         let option = {
-            // title: {
-            //     text: '本周货运吨数占比',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     },
-            //     top: '16'
-            // },
             tooltip: {
                 trigger: 'item'
             },
@@ -252,14 +237,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             })
         }
         let option = {
-            // title: {
-            //     text: '本周货运车辆占比',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     },
-            //     top: '16'
-            // },
             tooltip: {
                 trigger: 'item'
             },
@@ -322,17 +299,22 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                         [269, 200],
                         [269, 220],
                     ]
-                }, {
-                    coords: [
-                        [78, 242],
-                        [143, 242],
+                },
+                {
+                    coords: [ //自行派车运单登记 往右下线条
+                        [60, 293],
+                        [60, 307],
+                        [164, 307]
                     ]
-                }, {
-                    coords: [
-                        [183, 242],
-                        [248, 242],
+                },
+                {
+                    coords: [ //网络货运平台撮合 往左下线条
+                        [268, 293],
+                        [268, 307],
+                        [164, 307],
                     ]
-                }, {
+                },
+                {
                     coords: [
                         [163, 292],
                         [163, 320],

@@ -171,6 +171,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -209,6 +210,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -230,7 +232,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 }, {
                     coords: [ //商品品牌设置 往右 商品资料登记
                         [183, 40],
-                        [248, 40],
+                        [256, 40],
                     ]
                 },
                 {
@@ -255,17 +257,17 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 {
                     coords: [ //销售单 往右 库存总表
                         [78, 242],
-                        [143, 242],
+                        [150, 242],
                     ]
                 }, {
                     coords: [ //库存总表 往右 进出库明细
                         [183, 242],
-                        [248, 242],
+                        [256, 242],
                     ]
                 }, {
                     coords: [ //库别调拨单 往上 库存总表
-                        [169, 323],
-                        [169, 290],
+                        [169, 320],
+                        [169, 280],
                     ]
                 },
             ]
@@ -328,6 +330,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 data: charts.linesData
             }]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
