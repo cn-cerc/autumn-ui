@@ -64,7 +64,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
 
     changeRemark() {
         let textarea = event.target as HTMLTextAreaElement;
-        let val = textarea.value;
+        let val = encodeURIComponent(textarea.value);
         let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
         if (this.state.remarkText_ == val) {
             saveBtn.classList.remove('change');
@@ -88,11 +88,10 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let contact = document.querySelector('#contact') as HTMLSpanElement;
         contact.innerHTML = contactInfo.getString('Mobile_');
         let remark = document.querySelector('#remark') as HTMLTextAreaElement;
-        remark.value = this.state.remarkText;
+        remark.value = decodeURIComponent(this.state.remarkText);
         let remarkDOM = document.querySelector('#remark') as HTMLTextAreaElement;
-        remarkDOM.value = remark1;
+        remarkDOM.value = decodeURIComponent(remark1);
         this.setState({
-            remarkText_: remark1,
             remarkText: remark1
         })
     }
