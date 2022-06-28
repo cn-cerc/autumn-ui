@@ -257,6 +257,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -331,6 +332,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 }
             ]
         }
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -401,19 +403,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 }
             ]
         };
-        // setInterval(function () {
-        //     gaugeData[0].value = +(Math.random() * 100).toFixed(2);
-        //     myChart.setOption({
-        //         series: [
-        //             {
-        //                 data: gaugeData,
-        //                 pointer: {
-        //                     show: false
-        //                 }
-        //             }
-        //         ]
-        //     });
-        // }, 2000);
 
         //@ts-ignore
         myChart.setOption(option);
@@ -484,26 +473,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 }
             ]
         };
-        // setInterval(function () {
-        //     gaugeData[0].value = +(Math.random() * 100).toFixed(2);
-        //     myChart.setOption({
-        //         series: [
-        //             {
-        //                 data: gaugeData,
-        //                 pointer: {
-        //                     show: false
-        //                 }
-        //             }
-        //         ]
-        //     });
-        // }, 2000);
+
         //@ts-ignore
         myChart.setOption(option);
     }
 
-    linkTo(name: string) {
-        // if(!this.state.dataJson.getBoolean(`${name}_Dis`)){
-        //     location.href = this.state.dataJson.getString(`${name}_URL`);
-        // }
-    }
 }

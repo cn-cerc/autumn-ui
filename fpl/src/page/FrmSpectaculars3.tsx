@@ -137,7 +137,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                     </div>
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
-                            <div className={styles.mcMap}>这里暂时放置图片，但是没有地图图片</div>
+                            <div className={styles.mcMap}>
+                                <img src="images/MCimg/map.png" alt="" />
+                            </div>
                         </div>
                         <div className={styles.centerBox2}>
                             <div className={styles.mcLink}></div>
@@ -168,7 +170,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         this.initPieChart1();
         this.initBarChart1();
         this.initPieChart2();
-        // this.initMapechart();
         this.initBarchart2();
     }
 
@@ -212,6 +213,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                 },
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -292,6 +294,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -357,6 +360,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -446,6 +450,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -475,18 +480,8 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                 }
             ]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }
-    // initMapechart(){
-    //     let peiChart = document.querySelector(`.${styles.mcMap}`) as HTMLDivElement;
-    //     let myChart = echarts.init(peiChart);
-
-
-    // }
-    // linkTo(name: string) {
-    // if(!this.state.dataJson.getBoolean(`${name}_Dis`)){
-    //     location.href = this.state.dataJson.getString(`${name}_URL`);
-    // }
-    // }
 }
