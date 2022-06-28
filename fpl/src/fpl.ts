@@ -30,6 +30,7 @@ import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
 import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
 import FrmInvoiceManage from "./page/FrmInvoiceManage";
 import FrmMaintenanceCar from "./page/FrmMaintenanceCar";
+import FrmMaintenanceAR from "./page/FrmMaintenanceAR";
 import FrmMaintenanceCus from "./page/FrmMaintenanceCus";
 import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
 import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
@@ -66,6 +67,7 @@ export default {
     FrmCarManagerMC,
     FrmCarManagerMC2,
     FrmMaintenanceCar,
+    FrmMaintenanceAR,
     FrmMaintenanceCus,
     FrmMaintenanceSparepart,
     FrmMaintenanceBook
