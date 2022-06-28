@@ -14,6 +14,7 @@ type FrmContractManageMCTypeState = {
     dataJson: DataRow,
     introduction: string
 }
+
 //合同管理(中智运)
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 

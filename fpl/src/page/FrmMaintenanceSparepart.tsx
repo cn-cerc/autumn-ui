@@ -1,41 +1,41 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./FrmContractManageMC2.css";
+import styles from "./FrmMaintenanceSparepart.css";
 import * as echarts from "echarts";
 
-type FrmContractManageMCTypeProps = {
+type FrmMaintenanceSparepartTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmContractManageMCTypeState = {
+type FrmMaintenanceSparepartTypeState = {
     lineData: DataSet,
     barData: DataSet,
     dataJson: DataRow,
     introduction: string
 }
-//合同管理(水泥厂)
+
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
-export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
-    constructor(props: FrmContractManageMCTypeProps) {
+export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSparepartTypeProps, FrmMaintenanceSparepartTypeState> {
+    constructor(props: FrmMaintenanceSparepartTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 271).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 235).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 248).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 268).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 335).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 301).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 356).setValue('XName_', '周日');
+        lineData.append().setValue('Value_', 327).setValue('XName_', '周一');
+        lineData.append().setValue('Value_', 295).setValue('XName_', '周二');
+        lineData.append().setValue('Value_', 218).setValue('XName_', '周三');
+        lineData.append().setValue('Value_', 232).setValue('XName_', '周四');
+        lineData.append().setValue('Value_', 371).setValue('XName_', '周五');
+        lineData.append().setValue('Value_', 316).setValue('XName_', '周六');
+        lineData.append().setValue('Value_', 336).setValue('XName_', '周日');
         let barData = new DataSet();
-        barData.append().setValue('Value_', 19).setValue('Name_', '周一');
-        barData.append().setValue('Value_', 16).setValue('Name_', '周二');
+        barData.append().setValue('Value_', 28).setValue('Name_', '周一');
+        barData.append().setValue('Value_', 15).setValue('Name_', '周二');
         barData.append().setValue('Value_', 12).setValue('Name_', '周三');
         barData.append().setValue('Value_', 8).setValue('Name_', '周四');
         barData.append().setValue('Value_', 10).setValue('Name_', '周五');
-        barData.append().setValue('Value_', 11).setValue('Name_', '周六');
+        barData.append().setValue('Value_', 14).setValue('Name_', '周六');
         barData.append().setValue('Value_', 12).setValue('Name_', '周日');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
@@ -58,23 +58,32 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`银行维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '银行维护')}>
-                                <span>银行维护</span>
+                            <div className={`${this.state.dataJson.getBoolean(`客户管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '客户管理')}>
+                                <span>客户管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同类别_Dis`) ? styles.receipt : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
-                                <span>合同类别</span>
+                            <div className={`${this.state.dataJson.getBoolean(`品牌维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '品牌维护')}>
+                                <span>品牌维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
-                                <span>合同登记</span>
+                            <div className={`${this.state.dataJson.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '车辆管理')}>
+                                <span>车辆管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`待接收合同_Dis`) ? styles.receipt : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
-                                <span>待接收合同</span>
+                            <div className={`${this.state.dataJson.getBoolean(`分类维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '分类维护')}>
+                                <span>分类维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
-                                <span>合同管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`扫一扫_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '扫一扫')}>
+                                <span>扫一扫</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
-                                <span>充值管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`新增维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '新增维修单')}>
+                                <span>新增维修单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`零配件管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '零配件管理')}>
+                                <span>零配件管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`维修单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修单管理')}>
+                                <span>维修单管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`月结收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '月结收款单')}>
+                                <span>月结收款单</span>
                             </div>
                         </div>
                     </div>
@@ -206,35 +215,59 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
             nodes,
             linesData: [
                 {
-                    coords: [ //银行维护往右线条
-                        [78, 40],
-                        [143, 40],
+                    coords: [ //客户管理 往右线条
+                        [190, 40],
+                        [256, 40],
                     ]
                 },
                 {
-                    coords: [ //合同类别往下线条
-                        [169, 80],
+                    coords: [ //品牌维护 往右下线条
+                        [295, 40],
+                        [320, 40],
+                        [320, 242],
+                        [295, 242],
+                    ]
+                },
+                {
+                    coords: [ //客户管理 往下线条
+                        [169, 79],
                         [169, 120],
                     ]
                 },
                 {
-                    coords: [ //合同登记往下线条
+                    coords: [ //车辆管理 往下线条
                         [169, 180],
                         [169, 220],
                     ]
                 },
                 {
-                    coords: [ //待接收合同往右线条
-                        [78, 242],
-                        [143, 242],
+                    coords: [ //分类维护 往下线条
+                        [278, 180],
+                        [278, 220],
                     ]
                 },
                 {
-                    coords: [ //合同管理往下线条
+                    coords: [ //扫一扫 往右线条
+                        [70, 242],
+                        [150, 242],
+                    ]
+                }, {
+                    coords: [ //零配件管理 往左线条
+                        [256, 242],
+                        [190, 242],
+                    ]
+                }, {
+                    coords: [ //新增维修单 往下线条
                         [169, 280],
-                        [169, 323],
+                        [169, 320],
                     ]
                 },
+                {
+                    coords: [ //维修单管理 往右线条
+                        [190, 341],
+                        [256, 341],
+                    ]
+                }
             ]
         }
 
@@ -282,8 +315,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     type: 'line',
                     width: 2,
                     color: '#ccc',
-                    curveness: 0.3
-
+                    curveness: 0.3,
                 },
                 effect: {
                     show: true,
@@ -291,7 +323,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     constantSpeed: 10,
                     symbol: 'arrow',
                     color: '#ccc',
-                    symbolSize: 6
+                    symbolSize: 6,
                 },
                 data: charts.linesData
             }]
