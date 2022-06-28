@@ -14,7 +14,8 @@ type FrmContractManageMCTypeState = {
     dataJson: DataRow,
     introduction: string
 }
-//合同管理(庆丰物流)
+
+//合同管理(中智运)
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
@@ -75,6 +76,9 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
                                 <span>充值管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`待接收充值_Dis`) ? styles.other : styles.control} ${styles.stock12}`} onClick={this.linkTo.bind(this, '待接收充值')}>
+                                <span>待接收充值</span>
                             </div>
                         </div>
                     </div>
@@ -233,6 +237,12 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     coords: [ //合同管理往下线条
                         [169, 280],
                         [169, 323],
+                    ]
+                },
+                {
+                    coords: [ //待充值往左线条
+                        [248, 339],
+                        [183, 339],
                     ]
                 },
             ]
