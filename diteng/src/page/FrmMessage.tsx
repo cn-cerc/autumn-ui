@@ -447,8 +447,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     getForm(messageData: messageDetail) {
         if (messageData.fromUser)
             return <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
-                <textarea value={messageData.messageText} onChange={(e) => {
-                    messageData.messageText = e.target.value;
+                <textarea value={decodeURIComponent(messageData.messageText)} onChange={(e) => {
+                    messageData.messageText = encodeURIComponent(e.target.value);
                     this.setState(this.state)
                 }} placeholder='请输入消息...'></textarea>
                 <div>

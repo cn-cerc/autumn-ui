@@ -261,9 +261,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     getForm() {
         if (this.props.fromUser)
             return <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
-                <textarea value={this.state.messageText} onChange={(e) => {
+                <textarea value={decodeURIComponent(this.state.messageText)} onChange={(e) => {
                     this.setState({
-                        messageText: e.target.value,
+                        messageText: encodeURIComponent(e.target.value),
                     })
                 }} placeholder='请输入消息...'></textarea>
                 <div>
