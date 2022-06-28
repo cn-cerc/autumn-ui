@@ -132,7 +132,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #ccc;
+    color: #b7b7b7;
 }
 
 .alignItem {
@@ -141,8 +141,20 @@
     justify-content: center;
 }
 
-.alignItem>div {
-    flex: 1;
+.hover {
+    cursor: pointer;
+}
+
+.AllContactList>.noContact {
+    color: #ccc;
+    padding: 1rem;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.AllContactList>.noContact:hover {
+    background-color: #fff;
 }
 
 @media screen and (min-width: 768px) {
@@ -216,7 +228,7 @@
     .contactTitle+div {
         font-size: 12px;
         line-height: 12px;
-        padding-top: 8px;
+        padding-top: 6px;
         padding-right: 20px;
     }
 
@@ -238,7 +250,7 @@
     .contactList,
     .AllContactList {
         background-color: #fff;
-        padding-bottom: .25rem;
+        padding-bottom: .5rem;
     }
 
     .contactImage {
@@ -250,10 +262,11 @@
     }
 
     .contactList>li>.title {
-        border-top: 1px solid #ebebeb;
-        padding: 1rem 1rem .25rem 1rem;
+        padding: 1rem 1rem .5rem 1rem;
         height: 2.5rem;
         line-height: 2.5rem;
+        position: relative;
+        border-top: 1px solid #ebebeb;
     }
 
     .contactTitle {
@@ -267,16 +280,16 @@
     .contactTitle+div {
         font-size: 12px;
         line-height: 12px;
-        padding-top: 0.5rem;
+        padding-top: .25rem;
     }
 
     .contactLiItem,
     .AllContactList>li {
-        padding: .25rem 1rem .25rem 1rem;
+        padding: .5rem 1rem .5rem 1rem;
     }
 
     .contactDetailList {
-        padding-top: 1rem;
+        padding-top: .5rem;
     }
 
     .contactList>li>.title,
@@ -299,6 +312,6 @@
     }
 
     .paddingBottom {
-        margin-bottom: .25rem;
+        margin-bottom: .5rem;
     }
 }

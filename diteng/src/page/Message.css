@@ -14,12 +14,12 @@
     height: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     line-height: 14px;
 }
 
 .person>div:nth-child(2) {
-    color: #999;
+    color: #b7b7b7;
 }
 
 .imageBox {
@@ -95,6 +95,7 @@
     border-radius: 4px;
     height:1.875rem;
     line-height:1.875rem;
+    padding: 0;
 }
 .rejectBtn{
     background: #FFFFFF;

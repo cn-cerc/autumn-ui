@@ -219,7 +219,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             })
             this.initMessageScroll();
         } else {
-            location.href = `./FrmMyContact.AllDetails?searchType=${this.state.searchTypeIndex}`
+            location.href = `./FrmMyContact.AllDetails?searchType=${num}`
         }
     }
 
@@ -265,7 +265,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 let userCode = ds.getString('user_code_');
                 let text = ds.getString('corp_name_');
                 list.push(<li key={userCode}>
-                    <div className={styles.contactImage} style={{'backgroundColor': this.colorArr[colorIndex]}}>{name.substring(name.length - 2)}</div>
+                    <div className={`${styles.contactImage} ${userCode == '' ? styles.hover : ''}`} style={{'backgroundColor': this.colorArr[colorIndex]}} onClick={this.toModify.bind(this, ds.current)}>{name.substring(name.length - 2)}</div>
                     <div className={styles.alignItem}>
                         <div className={styles.contactTitle}>
                             <span>{name}</span>
@@ -278,11 +278,21 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 </li>);
                 colorIndex = this.loopIndex(colorIndex);
             }
+            if(!list.length) {
+                list.push(<li className={styles.noContact} key='noContact'>暂无当前分类的联系人...</li>)
+            }
             return <ul className={styles.AllContactList} onScroll={(e) => {
                 this.scrollEventFun(e);
             }}>
                 {list}
             </ul>
+        }
+    }
+
+    // 跳转至联系人详情页面
+    toModify(row: DataRow) {
+        if(!row.getBoolean('user_code_')) {
+            location.href = `FrmMyContact.modify?uid=${row.getString('UID_')}`;
         }
     }
 
