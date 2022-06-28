@@ -43,7 +43,7 @@ type messageDetail = {
     remarkText_: string
 };
 
-export const timing = 500;
+export const timing = 5;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
     private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
@@ -349,7 +349,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                             <span>{name}</span>
                             <span>{timeText}</span>
                         </div>
-                        <div>{messageData.latestMessage}</div>
+                        {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
+                        
                     </div>
                 </li>);
             }
