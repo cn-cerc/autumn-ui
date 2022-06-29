@@ -206,7 +206,11 @@ export default class FplDialogApi {
 
     /** 获取货单料品使用记录 */
     static getCargoCodeRecord(params: DataRow) {
-        return FplDialogApi.getDataOut('SvrPCodeRecord.search', params);
+        return FplDialogApi.getDataOut('SvrCodeRecord.queryCodeRecord', params);
     }
 
+    /** 获取货单运输类型 */
+    static getCargoCodeTypeRecord(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrCodeRecord.queryCodeTypeList', params);
+    }
 }
