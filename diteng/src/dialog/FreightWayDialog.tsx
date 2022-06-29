@@ -10,8 +10,8 @@ export default class FreightWayDialog extends BaseDialog<BaseDialogPropsType, Fr
     constructor(props: BaseDialogPropsType) {
         super(props);
         let dataSet = new DataSet();
-        dataSet.append().setValue('FreightWay_', '順能安能');
         dataSet.append().setValue('FreightWay_', '金洲安能');
+        dataSet.append().setValue('FreightWay_', '順能安能');
         dataSet.append().setValue('FreightWay_', '德邦物流');
         dataSet.append().setValue('FreightWay_', '中通快运');
         dataSet.append().setValue('FreightWay_', '快递');
