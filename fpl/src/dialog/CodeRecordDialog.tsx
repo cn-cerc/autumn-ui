@@ -45,10 +45,10 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         return (
             <div role="content" className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataField="code_" dataName="料品名" autoFocus></DBEdit>
+                    <DBEdit dataField="code_" dataName="货物名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <Column code="code_" name="料品名" width="100"></Column>
+                    <Column code="code_" name="货物名称" width="100"></Column>
                     <Column code="main_unit_" name="主单位" width="100" customText={
                         ((dataRow: DataRow) => {
                             let unit =dataRow.getValue("main_unit_");
@@ -59,7 +59,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
                     <Column code="deputy_unit_" name="副单位" width="100"></Column>
                     <Column code="deputy_unit_price_" name="副单价" width="100"></Column>
                     <Column code="conversion_value_" name="换算值" width="100"></Column>
-                    <Column code="number_conversion_" name="换算数量" width="100"></Column>
                     <Column code="cargo_loss_rate_" name="货损率" width="100"></Column>
                     <Column code="remark_" name="备注" width="100"></Column> 
                     <Column code="opera" name="操作" width="100" textAlign='center' customText={(row: DataRow)=>{
@@ -80,7 +79,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let deputyUnit = document.getElementById("deputy_unit_") as HTMLInputElement;
         let deputyUnitPrice = document.getElementById("deputy_unit_price_") as HTMLInputElement;
         let conversionValue = document.getElementById("conversion_value_") as HTMLInputElement;
-        let numberConversion = document.getElementById("number_conversion_") as HTMLInputElement;
         let cargoLossRate = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
 
         input1.value = dataRow.getString('code_');
@@ -91,7 +89,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         deputyUnit.value = dataRow.getString('deputy_unit_');
         deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
         conversionValue.value = dataRow.getString('conversion_value_');
-        numberConversion.value = dataRow.getString('number_conversion_');
         cargoLossRate.value = dataRow.getString('cargo_loss_rate_');
         //切换单位
         $("#main_unit_").change();
