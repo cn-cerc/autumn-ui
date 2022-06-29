@@ -158,6 +158,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         let allUnReadNum = 0;
+        console.log(dataOut)
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
@@ -350,11 +351,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                             <span>{timeText}</span>
                         </div>
                         {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
-                        
+
                     </div>
                 </li>);
             }
-            if(!list.length) {
+            if (!list.length) {
                 list.push(<li key='noMessage' className={styles.noMessage}>{this.state.msgTypeStuteFlag ? '您暂时没有消息...' : '您暂时没有未读消息...'}</li>)
             }
             return <ul className={`${styles.contactList} ${list.length ? styles.contactListPadding : ''}`}>
@@ -507,14 +508,18 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 开始定时请求数据进程
     startTimer() {
         this.timer = setInterval(async () => {
-            let messageDataList = await this.getContactData();
-            this.setState({
-                messageDataList,
-            }, () => {
-                if (!this.isPhone) {
-                    this.getMessageData(this.state.currentUserId);
-                }
-            })
+            try {
+                let messageDataList = await this.getContactData();
+                this.setState({
+                    messageDataList,
+                }, () => {
+                    if (!this.isPhone) {
+                        this.getMessageData(this.state.currentUserId);
+                    }
+                })
+            } catch(e) {
+                this.removeTimer();
+            }
         }, this.state.timing * 1000)
     }
 
@@ -570,7 +575,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async quicReplySend() {
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         // 系统消息不允许快捷回复
-        if(messageData.fromUser) {
+        if (messageData.fromUser) {
             let spanDom = event.target as HTMLSpanElement;
             let row = new DataRow();
             row.setValue('ToUser_', messageData.fromUser).setValue('Content_', spanDom.innerText);

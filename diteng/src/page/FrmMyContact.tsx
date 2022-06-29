@@ -116,7 +116,6 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         dataOut.setSort('LatestDate_ DESC');
         dataOut.first();
         let messageDataList: messageDetail[] = [];
-        let allUnReadNum = 0;
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
@@ -133,15 +132,8 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 fromUser: dataOut.getString('FromUser_'),
                 name: dataOut.getString('Name_'),
             })
-            allUnReadNum += unReadNum;
         }
-        this.setHeaderMessageNum(allUnReadNum);
         return messageDataList;
-    }
-
-    setHeaderMessageNum(num: number) {
-        //@ts-ignore
-        setHeaderMessageNum(num);
     }
 
     // 获取联系人JSX结构
