@@ -708,9 +708,9 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         super(props);
         let isPhoneWeb = false;
         //@ts-ignore
-        // if (this.isPhone && !window.ApiCloud.isApiCloud()) {
-        //     isPhoneWeb = true;
-        // }
+        if (this.isPhone && !window.ApiCloud.isApiCloud()) {
+            isPhoneWeb = true;
+        }
         let client = new ClientStorage('ErpKey');
         let dataIn = new DataRow();
         dataIn.setValue('languageId', this.props.language);
