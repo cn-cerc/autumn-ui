@@ -2,6 +2,7 @@
 import DialogDOM from "@diteng/dialog/DialogDOM";
 import diteng from "@diteng/diteng";
 import "autumn-ui/assets/autumn-ui.css";
+import CargoCodeTypeDialog from "./dialog/CargoCodeTypeDialog";
 import CategoryDialog from "./dialog/CategoryDialog";
 import CeshiDialog from "./dialog/CeshiDialog";
 import ContractDialog from "./dialog/ContractDialog";
@@ -30,6 +31,7 @@ import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
 import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
 import FrmInvoiceManage from "./page/FrmInvoiceManage";
 import FrmMaintenanceCar from "./page/FrmMaintenanceCar";
+import FrmMaintenanceAR from "./page/FrmMaintenanceAR";
 import FrmMaintenanceCus from "./page/FrmMaintenanceCus";
 import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
 import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
@@ -48,6 +50,7 @@ export default {
     showSiteDialog,
     MaintainVehicleDialog,
     CodeRecordDialog,
+    CargoCodeTypeDialog,
     //MC控制台
     FrmTaurusMC,
     TStockMC,
@@ -66,6 +69,7 @@ export default {
     FrmCarManagerMC,
     FrmCarManagerMC2,
     FrmMaintenanceCar,
+    FrmMaintenanceAR,
     FrmMaintenanceCus,
     FrmMaintenanceSparepart,
     FrmMaintenanceBook

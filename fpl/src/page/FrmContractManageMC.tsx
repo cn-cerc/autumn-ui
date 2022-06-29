@@ -62,22 +62,22 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                             <div className={`${this.state.dataJson.getBoolean(`银行维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '银行维护')}>
                                 <span>银行维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同类别_Dis`) ? styles.receipt : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
+                            <div className={`${this.state.dataJson.getBoolean(`合同类别_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
                                 <span>合同类别</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
+                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
                                 <span>合同登记</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`待接收合同_Dis`) ? styles.receipt : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
+                            <div className={`${this.state.dataJson.getBoolean(`待接收合同_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
                                 <span>待接收合同</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
+                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
+                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
                                 <span>充值管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`待接收充值_Dis`) ? styles.other : styles.control} ${styles.stock12}`} onClick={this.linkTo.bind(this, '待接收充值')}>
+                            <div className={`${this.state.dataJson.getBoolean(`待接收充值_Dis`) ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '待接收充值')}>
                                 <span>待接收充值</span>
                             </div>
                         </div>
