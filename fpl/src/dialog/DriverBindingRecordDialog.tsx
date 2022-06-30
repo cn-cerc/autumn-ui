@@ -6,6 +6,7 @@ import "../tool/Summer.css";
 
 type DriverBindingRecordProps = {
     carNo: string,
+    objCorpNo: string
 } & Partial<BaseDialogPropsType>
 
 
@@ -19,6 +20,7 @@ export default class DriverBindingRecordDialog extends BaseDialog<DriverBindingR
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue('car_no_', this.props.carNo);
+        dataIn.setValue('obj_corp_no_', this.props.objCorpNo);
         this.state = {
             ...this.state,
             dataIn,
