@@ -36,9 +36,9 @@ export default class CheckWorkflow extends React.Component<propsType, stateType>
     render() {
         return (
             <React.Fragment>
-                <span>待签单据</span>
+                <img src="./images/webdefault/icon_dqdj.png" />
                 <div>
-                    <img src="./images/webdefault/icon_dqdj.png" />
+                    <span>待签单据</span>
                     <span onClick={this.onClick} className="unread">
                         {this.state.value}
                     </span>

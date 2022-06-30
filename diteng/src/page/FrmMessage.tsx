@@ -47,6 +47,7 @@ type messageDetail = {
 export const timing = 5;
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
+    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
     private timer: any = null;
     constructor(props: FrmMessageTypeProps) {
         super(props);
@@ -93,7 +94,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     changeRemark() {
         let textarea = event.target as HTMLTextAreaElement;
-        let val = textarea.value;
+        let val = encodeURIComponent(textarea.value);
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
         if (messageData.remarkText_ == val) {
@@ -161,6 +162,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         let allUnReadNum = 0;
+        console.log(dataOut)
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
@@ -275,7 +277,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let contact = document.querySelector('#contact') as HTMLSpanElement;
         contact.innerHTML = contactInfo.getString('Mobile_');
         let remark = document.querySelector('#remark') as HTMLTextAreaElement;
-        remark.value = messageData.remarkText;
+        remark.value = decodeURIComponent(messageData.remarkText);
         let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
         if (messageData.remarkText == messageData.remarkText_) {
             saveBtn.classList.remove('change');
@@ -303,7 +305,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 ds.copyRecord(dataOut.current);
             }
         }
-        ds.setSort('AppDate_');
+        if (ds.size > 1) {
+            ds.setSort('AppDate_');
+        }
         messageData.data = ds;
         messageData.latestDate = date_;
         this.setState({
@@ -346,21 +350,25 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     }
                 }
                 list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
-                    <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
+                    <div className={styles.contactImage} style={{ 'backgroundColor': this.colorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
                         <div className={styles.contactTitle}>
                             <span>{name}</span>
                             <span>{timeText}</span>
                         </div>
-                        <div>{messageData.latestMessage}</div>
+                        {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
+
                     </div>
                 </li>);
             }
-            return <ul className={styles.contactList}>
+            if (!list.length) {
+                list.push(<li key='noMessage' className={styles.noMessage}>{this.state.msgTypeStuteFlag ? '您暂时没有消息...' : '您暂时没有未读消息...'}</li>)
+            }
+            return <ul className={`${styles.contactList} ${list.length ? styles.contactListPadding : ''}`}>
                 <li className={styles.msgTypeStatusBox} key="1-1">
-                    <div><span className={this.state.msgTypeStuteFlag ? styles.msgTypeStute : ''} onClick={this.msgTypeStuteFun.bind(this)}>所有消息</span></div>
-                    <div><span className={this.state.msgTypeStuteFlag ? '' : styles.msgTypeStute} onClick={this.msgTypeStuteFun.bind(this)}>未读消息</span></div>
+                    <span className={this.state.msgTypeStuteFlag ? styles.msgTypeStute : ''} onClick={this.msgTypeStuteFun.bind(this)}>所有消息</span>
+                    <span className={this.state.msgTypeStuteFlag ? '' : styles.msgTypeStute} onClick={this.msgTypeStuteFun.bind(this)}>未读消息</span>
                 </li>
                 {list}
             </ul>
@@ -377,15 +385,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     <span>{messageData.name}</span>
                 </div>
                 {this.getMessageList()}
-                <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
-                    <textarea value={messageData.messageText} onChange={(e) => {
-                        messageData.messageText = e.target.value;
-                        this.setState(this.state)
-                    }}></textarea>
-                    <div>
-                        <button className={messageData.fromUser && messageData.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
-                    </div>
-                </form>
+                {this.getForm(messageData)}
             </div>
         }
     }
@@ -450,6 +450,19 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         return <ul className={styles.messageList} onScroll={(e) => {
             this.scrollEventFun(e);
         }} key={messageData.data.json}>{list}</ul>
+    }
+
+    getForm(messageData: messageDetail) {
+        if (messageData.fromUser)
+            return <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
+                <textarea value={decodeURIComponent(messageData.messageText)} onChange={(e) => {
+                    messageData.messageText = encodeURIComponent(e.target.value);
+                    this.setState(this.state)
+                }} placeholder='请输入消息...'></textarea>
+                <div>
+                    <button className={messageData.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
+                </div>
+            </form>
     }
 
     reloadMessage() {
@@ -567,19 +580,22 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     //快捷回复 发送
     async quicReplySend() {
-        let spanDom = event.target as HTMLSpanElement;
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
-        let row = new DataRow();
-        row.setValue('ToUser_', messageData.fromUser).setValue('Content_', spanDom.innerText);
-        await PageApi.replyMessage(row);
-        messageData.fromBottom = 0;
-        let messageDataList = await this.getContactData();
-        this.setState({
-            messageDataList,
-            currentUserId: messageData.fromUser
-        }, () => {
-            this.getMessageData(messageData.fromUser, Utils.getNowDate());
-        })
+        // 系统消息不允许快捷回复
+        if (messageData.fromUser) {
+            let spanDom = event.target as HTMLSpanElement;
+            let row = new DataRow();
+            row.setValue('ToUser_', messageData.fromUser).setValue('Content_', spanDom.innerText);
+            await PageApi.replyMessage(row);
+            messageData.fromBottom = 0;
+            let messageDataList = await this.getContactData();
+            this.setState({
+                messageDataList,
+                currentUserId: messageData.fromUser
+            }, () => {
+                this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            })
+        }
     }
 
     //设置备注信息
@@ -647,7 +663,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     ds.copyRecord(dataOut.current);
                 }
             }
-            ds.setSort('AppDate_');
+            if (ds.size > 1) {
+                ds.setSort('AppDate_');
+            }
             messageData.data = ds;
             messageData.date = date_;
             this.setState(this.state, () => {

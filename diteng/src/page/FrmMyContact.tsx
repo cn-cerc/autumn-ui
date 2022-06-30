@@ -1,7 +1,5 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import { showMsg } from "../tool/Summer";
-import Utils from "../tool/Utils";
 import styles from "./FrmMyContact.css";
 import PageApi from "./PageApi";
 
@@ -37,6 +35,7 @@ type AllMessageDetail = {
 };
 
 export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmMyContactTypeState>{
+    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
     constructor(props: FrmMyContactTypeProps) {
         super(props);
         this.state = {
@@ -65,6 +64,10 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     componentDidMount(): void {
         this.initGroup();
         this.initData();
+    }
+
+    loopIndex(index: number) {
+        return (index + 1) % 7;
     }
 
     initGroup() {
@@ -116,7 +119,6 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         }
         dataOut.first();
         let messageDataList: messageDetail[] = [];
-        let allUnReadNum = 0;
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
@@ -133,25 +135,19 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 fromUser: dataOut.getString('FromUser_'),
                 name: dataOut.getString('Name_'),
             })
-            allUnReadNum += unReadNum;
         }
-        this.setHeaderMessageNum(allUnReadNum);
         return messageDataList;
-    }
-
-    setHeaderMessageNum(num: number) {
-        //@ts-ignore
-        setHeaderMessageNum(num);
     }
 
     // 获取联系人JSX结构
     getContactListDOM() {
         let list = [];
+        let colorIndex = 0;
         for (let i = 0; i < this.state.searchType.length; i++) {
             let name = this.state.searchType[i];
             let num = i;
-            list.push(<li key={num} className={i == this.state.searchTypeIndex ? styles.selectContact : ''} onClick={this.handleClickGroup.bind(this, num)}>
-                <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
+            list.push(<li key={num} className={`${i == this.state.searchTypeIndex ? styles.selectContact : ''} ${styles.contactLiItem} ${styles.contactLiItemCenter} ${i == this.state.searchType.length - 1 ? styles.paddingBottom : ''}`} onClick={this.handleClickGroup.bind(this, num)}>
+                <div className={styles.contactImage} style={{'backgroundColor': this.colorArr[colorIndex]}}>{name.substring(name.length - 2)}</div>
                 <div>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
@@ -159,25 +155,30 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                     </div>
                 </div>
             </li>);
+            colorIndex = this.loopIndex(colorIndex);
         }
         return <ul className={styles.contactList}>
-            <li>
-                <div className={styles.title}>
-                    所有联系人
-                    <button className={styles.addContactBtn} onClick={this.handleClickToAdd.bind(this)}>新增联系人</button>
+            <li className={styles.addContact}>
+                <div onClick={this.handleClickToAdd.bind(this)} className={styles.addContactBtn}>
+                    <i>+</i>
+                    <span>新增联系人</span>
                 </div>
             </li>
+            <li className={styles.titleBox}>
+                <div className={styles.title}>所有联系人</div>
+            </li>
             {list}
-            <li>
+            <li  className={styles.titleBox}>
                 <div className={styles.title}>最近联系人</div>
             </li>
             {this.getNearestContactList()}
-        </ul>
+        </ul >
     }
 
     // 获取最近联系人JSX结构
     getNearestContactList() {
         let list = [];
+        let colorIndex = this.state.searchType.length;
         for (let i = 0; i < this.state.messageDataList.length; i++) {
             let messageData = this.state.messageDataList[i];
             let name = messageData.name || '系统消息';
@@ -189,7 +190,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
                     </div>
-                    <div>{messageData.latestMessage}</div>
+                    {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
                 </div>
             </li>);
 
@@ -213,7 +214,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             })
             this.initMessageScroll();
         } else {
-            location.href = `./FrmMyContact.AllDetails?searchType=${this.state.searchTypeIndex}`
+            location.href = `./FrmMyContact.AllDetails?searchType=${num}`
         }
     }
 
@@ -227,7 +228,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         if (!this.isPhone) {
             location.href = `./FrmMyMessage?toUser=${id}&date=${date}&name=${name}`
         } else {
-            location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&toUser=${messageData.fromUser}&date=${date}`
+            location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&toUser=${messageData.fromUser}&date=${date}&name=${name}`
         }
 
     }
@@ -253,22 +254,27 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             ds = this.state.AllMessageDetail[this.state.searchTypeIndex].data;
             let list = [];
             ds.first();
+            let colorIndex = 0;
             while (ds.fetch()) {
                 let name = ds.getString('name_');
                 let userCode = ds.getString('user_code_');
                 let text = ds.getString('corp_name_');
                 list.push(<li key={userCode}>
-                    <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
-                    <div>
+                    <div className={`${styles.contactImage} ${userCode == '' ? styles.hover : ''}`} style={{'backgroundColor': this.colorArr[colorIndex]}} onClick={this.toModify.bind(this, ds.current)}>{name.substring(name.length - 2)}</div>
+                    <div className={styles.alignItem}>
                         <div className={styles.contactTitle}>
                             <span>{name}</span>
                         </div>
-                        <div>{text}</div>
+                        {text ? <div>{text}</div> : ''}
                     </div>
                     {userCode == '' ? '' : <div className={styles.rightBtnContent}>
                         <button className={styles.rightBoxSendBtn} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name)}>发送消息</button>
                     </div>}
                 </li>);
+                colorIndex = this.loopIndex(colorIndex);
+            }
+            if(!list.length) {
+                list.push(<li className={styles.noContact} key='noContact'>暂无当前分类的联系人...</li>)
             }
             return <ul className={styles.AllContactList} onScroll={(e) => {
                 this.scrollEventFun(e);
