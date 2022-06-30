@@ -33,8 +33,7 @@ aside,
 footer,
 figure,
 figcaption,
-menu,
-button {
+menu {
     margin: 0;
     padding: 0;
     scrollbar-width: thin;

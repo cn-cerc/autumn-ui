@@ -24,8 +24,8 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
             <div className={styles.personBox}>
                 <div className={styles.imageBox}>{this.props.name == '系统消息' ? '系统' : this.props.name.substring(this.props.name.length - 2)}</div>
                 <div className={styles.person}>
-                    <div style={{ 'paddingBottom': '3px' }}>{this.props.name}</div>
-                    <div style={{ 'paddingBottom': '3px' }}>{this.props.time}</div>
+                    <div>{this.props.name}</div>
+                    <div style={{ 'paddingTop': '6px' }}>{this.props.time}</div>
                 </div>
             </div>
             <div className={styles.message}>

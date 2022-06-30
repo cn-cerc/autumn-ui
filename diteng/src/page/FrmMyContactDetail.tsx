@@ -18,6 +18,7 @@ type FrmMyContactTypeState = {
 }
 
 export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmMyContactTypeState>{
+    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
     constructor(props: FrmMyContactTypeProps) {
         super(props);
         this.state = {
@@ -32,8 +33,9 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     componentDidMount(): void {
         this.getAllMessageDetail();
     }
-    componentWillUnmount(): void {
 
+    loopIndex(index: number) {
+        return (index + 1) % 7;
     }
 
     render(): React.ReactNode {
@@ -58,22 +60,26 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         ds = this.state.AllMessageDetail;
         let list = [];
         ds.first();
+        let colorIndex = 0;
         while (ds.fetch()) {
             let name = ds.getString('name_');
             let userCode = ds.getString('user_code_');
-           
             let text = ds.getString('corp_name_');
-            list.push(<li key={userCode} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name)}>
-                <div className={styles.contactImage}>{name.substring(name.length - 2)}</div>
-                <div>
+            list.push(<li key={userCode} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name, ds.getString('UID_'))}>
+                <div className={styles.contactImage} style={{ 'backgroundColor': this.colorArr[colorIndex] }}>{name.substring(name.length - 2)}</div>
+                <div className={styles.alignItem}>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
                     </div>
-                    <div>{text}</div>
+                    {text ? <div>{text}</div> : ''}
                 </div>
             </li>);
+            colorIndex = this.loopIndex(colorIndex);
         }
-        return <ul className={styles.AllContactList} onScroll={(e) => {
+        if(!list.length) {
+            list.push(<li className={styles.noContact} key='noContact'>暂无当前分类的联系人...</li>)
+        }
+        return <ul className={`${styles.AllContactList} ${list.length > 0 ? styles.contactDetailList : ''}`} onScroll={(e) => {
             this.scrollEventFun(e);
         }}>
             {list}
@@ -81,9 +87,13 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     }
 
     // 点击最近联系人触发的事件
-    async handleClick(date: string, id: string, name: string) {
-        if(id == '') return;
-        location.href = `./FrmMyMessage.details?fromUser=${id}&toUser=${id}&date=${date}&name=${name}`
+    async handleClick(date: string, id: string, name: string, uid: string) {
+        if (id == '') {
+            location.href = `FrmMyContact.modify?uid=${uid}`;
+        } else {
+            location.href = `./FrmMyMessage.details?fromUser=${id}&toUser=${id}&date=${date}&name=${name}`
+        };
+
 
     }
 
