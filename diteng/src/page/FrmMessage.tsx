@@ -26,8 +26,7 @@ type FrmMessageTypeState = {
     currentUserId: string,
     showMessage: boolean,
     quicReplyList: Array<{ text: string, uid: string }>
-    msgTypeStuteFlag: boolean,
-    closeServer: boolean,
+    msgTypeStuteFlag: boolean
 }
 
 type messageDetail = {
@@ -74,7 +73,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             showMessage,        //是否展示消息列表
             quicReplyList: [],   //保存获取的快捷回复list
             msgTypeStuteFlag: true,      //切换所有消息和未读消息
-            closeServer: false,      //用户信息错误或者sid错误时关闭API请求
         }
     }
 
@@ -155,7 +153,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 第一次获取联系人列表数据
     async getContactFirstData() {
         let dataOut = await PageApi.getContactList();
-        this.closeServerFun(dataOut.state);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         if (dataOut.state > 1) {
             dataOut.setSort('LatestDate_ DESC');
         }
@@ -193,7 +193,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async getContactData() {
         let messageDataList = this.state.messageDataList;
         let dataOut = await PageApi.getContactList();
-        this.closeServerFun(dataOut.state);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         if (dataOut.state > 1) {
             dataOut.setSort('LatestDate_ DESC');
         }
@@ -293,7 +295,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date_);
         let dataOut = await PageApi.getMessageDetails(row);
-        this.closeServerFun(dataOut.state);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         let ds = new DataSet();
         ds.appendDataSet(messageData.data);
         dataOut.first();
@@ -322,7 +326,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date);
         let dataOut = await PageApi.getMessageDetails(row);
-        this.closeServerFun(dataOut.state);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         return dataOut;
     }
 
@@ -515,10 +521,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 开始定时请求数据进程
     startTimer() {
         this.timer = setInterval(async () => {
-            if (this.state.closeServer) {
-                clearInterval(this.timer);
-                return;
-            }
             let messageDataList = await this.getContactData();
             this.setState({
                 messageDataList,
@@ -622,7 +624,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         row.setValue('UserCode_', messageData.fromUser)
         let dataOut = await PageApi.getUserRemark(row);
-        this.closeServerFun(dataOut.state);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         let ds = new DataSet();
         ds.appendDataSet(dataOut);
         ds.first();
@@ -691,7 +695,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             let row = new DataRow();
             row.setValue('FromUser_', messageData.fromUser);
             contactInfo = await PageApi.fromDetail(row);
-            this.closeServerFun(contactInfo.state);
+            if (this.closeServerFun(contactInfo.state)) {
+                return;
+            }
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
@@ -699,10 +705,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
     //当前登录用户信息失效时关闭定时请求
     closeServerFun(state: number) {
-        if (state == 0) {
-            this.setState({
-                closeServer: true
-            })
+        if (state <= 0) {
+            this.removeTimer();
+            return true;
         }
     }
 }

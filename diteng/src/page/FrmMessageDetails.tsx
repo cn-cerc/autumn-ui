@@ -30,7 +30,6 @@ type FrmMessageDetailsTypeState = {
     quicReplyList: Array<{ text: string, uid: string }>,
     leaveBottom: number,
     timing: number,
-    closeServer: boolean,
 }
 
 export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeProps, FrmMessageDetailsTypeState> {
@@ -47,7 +46,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             date: this.props.date,
             lastDate: this.props.date,
             leaveBottom: 0,
-            closeServer: false,      //用户信息错误或者sid错误时关闭API请求
         }
     }
 
@@ -103,7 +101,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let row = new DataRow();
         row.setValue('UserCode_', this.props.fromUser)
         let dataOut = await PageApi.getUserRemark(row);
-        this.closeServerFun(dataOut.state);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         let ds = new DataSet();
         ds.appendDataSet(dataOut);
         ds.first();
@@ -123,7 +123,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             let row = new DataRow();
             row.setValue('FromUser_', this.props.fromUser);
             contactInfo = await PageApi.fromDetail(row);
-            this.closeServerFun(contactInfo.state);
+            if (this.closeServerFun(contactInfo.state)) {
+                return;
+            }
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
@@ -157,7 +159,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         row.setValue('FromUser_', this.props.fromUser).setValue('Date_', this.state.lastDate);
         let messageData = new DataSet();
         let ds = await PageApi.getMessageDetails(row);
-        this.closeServerFun(ds.state);
+        if (this.closeServerFun(ds.state)) {
+            return;
+        }
         messageData.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
@@ -181,7 +185,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         row.setValue('FromUser_', this.props.fromUser).setValue('Date_', date);
         let messageData = new DataSet();
         let ds = await PageApi.getMessageDetails(row);
-        this.closeServerFun(ds.state);
+        if (this.closeServerFun(ds.state)) {
+            return;
+        }
         messageData.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
@@ -314,7 +320,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
 
     async quicReplySend(e: any) {
         // 系统消息不允许快捷回复
-        if(this.props.fromUser) {
+        if (this.props.fromUser) {
             let row = new DataRow();
             row.setValue('ToUser_', this.props.fromUser).setValue('Content_', e.target.innerText);
             await PageApi.replyMessage(row);
@@ -388,7 +394,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let row = new DataRow();
         row.setValue('FromUser_', this.props.userCode).setValue('Date_', date);
         let dataOut = await PageApi.getMessageDetails(row);
-        this.closeServerFun(dataOut.state);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         return dataOut;
     }
 
@@ -402,20 +410,21 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
 
     startTimer() {
         this.timer = setInterval(() => {
-            if (this.state.closeServer) {
-                clearInterval(this.timer);
-                return;
-            }
             this.getFirstMessageDate();
             this.getUserInfo();
         }, this.state.timing * 1000)
     }
+
+    // 关闭定时请求数据进程
+    removeTimer() {
+        clearInterval(this.timer);
+    }
+
     //当前登录用户信息失效时关闭定时请求
     closeServerFun(state: number) {
-        if (state == 0) {
-            this.setState({
-                closeServer: true
-            })
+        if (state <= 0) {
+            this.removeTimer();
+            return true;
         }
     }
 }
