@@ -48,7 +48,6 @@ export default class CategoryDialog extends BaseDialog<CategoryProps, StaffTypeS
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <Column code="name_" name="类别名称" width="50"></Column>
-                    <Column code="it_" name="序" width="30"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
