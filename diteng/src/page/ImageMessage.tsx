@@ -20,7 +20,7 @@ export default class ImageMessage extends Message<DefaultMessageTypeProps, Defau
         row.copyValues(this.props.row);
         return <React.Fragment>
             <div>
-                <div className={styles.defaultMessage} dangerouslySetInnerHTML={{ __html: `<img src = '${row.getString('Content_')}' />` }}></div>
+                <div className={styles.defaultMessage}><img src={row.getString('Content_')} /></div>
             </div>
         </React.Fragment>
     }

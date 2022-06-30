@@ -420,6 +420,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     break;
                 case 'MVImage':
                     messageName = ImageMessage;
+                    break;
                 case 'MVAcceptMessage':
                     messageName = AcceptMessage;
                     break;
