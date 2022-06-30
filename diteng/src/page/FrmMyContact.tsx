@@ -16,7 +16,7 @@ type FrmMyContactTypeState = {
     messageDataList: messageDetail[],
     AllMessageDetail: AllMessageDetail[],
     currentUserId: string,
-    AllContactList: DataSet
+    AllContactList: DataSet,
 }
 
 type messageDetail = {
@@ -101,6 +101,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     // 初始化页面数据加载
     async initData() {
         let messageDataList = await this.getContactFirstData();
+        if (messageDataList.length == 0) { return }
         let currentUserId = messageDataList[0].fromUser;
         this.setState({
             messageDataList,
@@ -110,7 +111,9 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     // 第一次获取联系人列表数据
     async getContactFirstData() {
         let dataOut = await PageApi.getContactList();
-        dataOut.setSort('LatestDate_ DESC');
+        if (dataOut.state > 1) {
+            dataOut.setSort('LatestDate_ DESC');
+        }
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         let allUnReadNum = 0;
@@ -179,7 +182,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let messageData = this.state.messageDataList[i];
             let name = messageData.name || '系统消息';
             let num = i;
-            if(name == '系统消息') continue;
+            if (name == '系统消息') continue;
             list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
                 <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                 <div>
@@ -189,7 +192,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                     <div>{messageData.latestMessage}</div>
                 </div>
             </li>);
-            
+
         }
         return list
     }
@@ -262,7 +265,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                         </div>
                         <div>{text}</div>
                     </div>
-                    {userCode == ''?'':<div className={styles.rightBtnContent}>
+                    {userCode == '' ? '' : <div className={styles.rightBtnContent}>
                         <button className={styles.rightBoxSendBtn} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name)}>发送消息</button>
                     </div>}
                 </li>);
@@ -275,7 +278,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         }
     }
 
-    handleClickToAdd(){
+    handleClickToAdd() {
         location.href = `./FrmMyContact.append`
     }
 
