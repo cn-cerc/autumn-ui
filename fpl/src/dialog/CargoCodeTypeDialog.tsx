@@ -24,7 +24,7 @@ export default class CargoCodeTypeDialog extends BaseDialog<CargoCodeTypeProps, 
             ...this.state,
             dataIn,
             dataSet: new DataSet(),
-            width: '60rem',
+            width: '45rem',
             height: this.isPhone ? '25rem' : '30rem'
         }
     }
@@ -49,12 +49,12 @@ export default class CargoCodeTypeDialog extends BaseDialog<CargoCodeTypeProps, 
                     <DBEdit dataField="name_" dataName="运输类型" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <Column code="opera" name="操作" width="80" textAlign='center' customText={(row: DataRow)=>{
+                    <Column code="opera" name="操作" width="120" textAlign='center' customText={(row: DataRow)=>{
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
-                    <Column code="name_" name="运输类型" width="80"></Column>
-                    <Column code="count" name="货物数量" width="80"></Column>
-                    <Column code="remark_" name="备注" width="200"></Column>
+                    <Column code="name_" name="运输类型" width="90"></Column>
+                    <Column code="count" name="货物数量" width="90"></Column>
+                    <Column code="remark_" name="备注" width="150"></Column>
                 </DBGrid>   
             </div>
         )
@@ -67,6 +67,8 @@ export default class CargoCodeTypeDialog extends BaseDialog<CargoCodeTypeProps, 
 
         input1.value = dataRow.getString('code_');
         input2.value = dataRow.getString('name_');
+        $("#code__name").val("");
+        $("#code_").val("");
         this.handleSelect();
     }
 }
