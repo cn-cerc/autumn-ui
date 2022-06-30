@@ -1,11 +1,11 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
 
 type ContractProps = {
-    code:String,
+    code: String,
 } & Partial<BaseDialogPropsType>
 
 
@@ -48,11 +48,12 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
                     <DBEdit dataField="code_" dataName="货物名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                    <ColumnIt/>
                     <Column code="code_" name="货物名称" width="100"></Column>
                     <Column code="main_unit_" name="主单位" width="100" customText={
                         ((dataRow: DataRow) => {
-                            let unit =dataRow.getValue("main_unit_");
-                            return unit==0?"吨":unit==1?"方":"件";
+                            let unit = dataRow.getValue("main_unit_");
+                            return unit == 0 ? "吨" : unit == 1 ? "方" : "件";
                         })
                     }></Column>
                     <Column code="unit_price_" name="主单价" width="100" ></Column>
@@ -60,8 +61,8 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
                     <Column code="deputy_unit_price_" name="副单价" width="100"></Column>
                     <Column code="conversion_value_" name="换算值" width="100"></Column>
                     <Column code="cargo_loss_rate_" name="货损率" width="100"></Column>
-                    <Column code="remark_" name="备注" width="100"></Column> 
-                    <Column code="opera" name="操作" width="100" textAlign='center' customText={(row: DataRow)=>{
+                    <Column code="remark_" name="备注" width="100"></Column>
+                    <Column code="opera" name="操作" width="100" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
