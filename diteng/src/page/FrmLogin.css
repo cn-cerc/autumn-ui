@@ -33,8 +33,7 @@ aside,
 footer,
 figure,
 figcaption,
-menu,
-button {
+menu {
     margin: 0;
     padding: 0;
 }
@@ -52,16 +51,39 @@ a {
 .main {
     height: 100%;
     background-color: #fff;
-    font-size: 1rem;
-    line-height: 1rem;
+    line-height: 16px;
 }
 
 .loginMsg {
-    margin: 0 3em;
+    margin-top: 16px;
+    line-height: 1.5em;
+    color: #333;
+    min-height: 40px;
+    padding: 9.5px 16px;
+    display: flex;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #FDF5E8;
+    border-radius: 6px;
+    border: 1px solid #F8DDC0;
 }
 
-.loginMsg>a {
+.loginMsg>span:first-child {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 50%;
+    background-color: #FFA533;
     color: #fff;
+    flex-shrink: 0;
+    text-align: center;
+    margin-top: 2.5px;
+}
+
+.loginMsg>span:nth-child(2) {
+    padding-left: 8px;
+    text-align: left;
+    display: block;
 }
 
 .electronicFlag img {
@@ -219,7 +241,7 @@ a {
     .loginLogo {
         display: flex;
         align-items: center;
-        font-size: 2rem;
+        font-size: 32px;
         font-weight: bold;
         color: #22AC38;
     }
@@ -256,9 +278,9 @@ a {
 
     .loginTitle {
         font-weight: 300;
-        font-size: 1.5rem;
+        font-size: 24px;
         color: #333333;
-        line-height: 1.5rem;
+        line-height: 24px;
     }
 
     .loginRight {
@@ -288,12 +310,16 @@ a {
     }
 
     .contentRight {
-        padding: 0 3.625rem;
-        padding-bottom: 3rem;
+        padding: 0 16px 48px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .userMessage {
-        padding-top: 2.25rem;
+        padding-top: 36px;
+        margin: 0 42px;
+        width: calc(100% - 84px);
     }
 
     .userMessage .keyInput {
@@ -346,21 +372,21 @@ a {
 
     .userMessage p input[type="text"]::-moz-placeholder,.userMessage p input[type="text"]:-moz-placeholder,.userMessage p input[type="text"]::moz-placeholder,
     .userMessage p input[type="password"]::-moz-placeholder,.userMessage p input[type="password"]:-moz-placeholder,.userMessage p input[type="password"]::moz-placeholder {
-        font-size: 1.5rem;
+        font-size: 14px;
         font-weight: 300;
         color: #ccc;
     }
 
     .userMessage p input[type="text"]:-moz-placeholder,
     .userMessage p input[type="password"]:-moz-placeholder {
-        font-size: 1.5rem;
+        font-size: 14px;
         font-weight: 300;
         color: #ccc;
     }
 
     .userMessage p input[type="text"]:-ms-input-placeholder,
     .userMessage p input[type="password"]:-ms-input-placeholder {
-        font-size: 1.5rem;
+        font-size: 14px;
         font-weight: 300;
         color: #ccc;
     }
@@ -394,6 +420,8 @@ a {
 
     .userStatus {
         padding-top: 32px;
+        margin: 0 42px;
+        width: calc(100% - 84px);
     }
 
     .userStatus button {
@@ -405,11 +433,11 @@ a {
         height: 3.5rem;
         line-height: 3.5rem;
         border-radius: .5rem;
-        font-size: 1.25rem;
+        font-size: 20px;
     }
 
     .userStatus button:hover {
-        border: none;
+        background-color: #009933;
     }
 
     p[role="pc"] {
@@ -456,6 +484,10 @@ a {
         right: -2.25rem;
     }
 
+    .bottom .afterInstall {
+        color: #3CB44E;
+    }
+
     .chooseUser {
         font-size: 1rem;
         display: inline-block;
@@ -480,7 +512,7 @@ a {
     }
 
     .userList {
-        height: 13rem;
+        max-height: 160px;
         position: absolute;
         top: 3.25rem;
         left: -.035rem;
@@ -587,6 +619,14 @@ a {
         cursor: pointer;
         text-align: right;
         padding-right: .69rem;
+        color: #0169AB;
+    }
+
+    .sendCoded {
+        color: #999;
+        cursor: pointer;
+        text-align: right;
+        padding-right: .69rem;
     }
 
     .verify>span {
@@ -596,9 +636,8 @@ a {
 
     .status {
         width: 100%;
-        min-height: 5.625rem;
         background: #ffffff;
-        padding: 1.25rem 0;
+        padding: 20px 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -606,7 +645,7 @@ a {
         position: relative;
         z-index: 100;
         overflow: hidden;
-        font-size: .875rem;
+        font-size: 14px;
     }
 
     .status div {
@@ -648,12 +687,6 @@ a {
 
     .otherLinks>a:last-child {
         margin-right: 0;
-    }
-
-    .loginMsg {
-        margin-top: .91rem;
-        line-height: 1.45em;
-        color: #ff4545;
     }
 }
 
@@ -723,9 +756,8 @@ a {
         line-height: 24px;
     }
 
-    .contentRight {
-        padding: 0 49px;
-        padding-bottom: 48px;
+    .contentRightMsg {
+        padding-bottom: 16px;
     }
 
     .remember {
@@ -734,10 +766,14 @@ a {
 
     .userStatus {
         padding-top: 20px;
+        margin: 0 32px;
+        width: calc(100% - 64px);
     }
 
     .userMessage {
         padding-top: 8px;
+        margin: 0 32px;
+        width: calc(100% - 64px);
     }
 
     .userMessage .keyInput {
@@ -752,10 +788,9 @@ a {
     }
 
     .userList {
-        height: 160px;
         top: 37px;
         left: -0.035rem;
-        width: 290px;
+        width: 292px;
     }
 
     .userList li {
@@ -804,11 +839,6 @@ a {
         min-height: auto;
         padding: 16px 0;
         font-size: 12px;
-    }
-
-    .loginMsg {
-        margin: 12px 1rem 0 1rem;
-        font-size: 14px;
     }
 
     .bottom {
@@ -860,7 +890,6 @@ a {
     }
 
     html {
-        color: #333333;
         font-size: 16px;
     }
 
@@ -881,36 +910,41 @@ a {
     :-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
         color: #D5D5D5 !important;
-        font-size: 1rem;
+        font-size: 14px;
     }
 
     ::-moz-placeholder {
         /* Mozilla Firefox 19+ */
         color: #D5D5D5 !important;
-        font-size: 1rem;
+        font-size: 14px;
     }
 
     input:-ms-input-placeholder {
         color: #D5D5D5 !important;
-        font-size: 1rem;
+        font-size: 14px;
     }
 
     input::-webkit-input-placeholder {
         color: #D5D5D5 !important;
-        font-size: 1rem;
+        font-size: 14px;
     }
 
     .mainBox {
         background-color: #fff;
         border-radius: 1.88rem 1.88rem 0 0;
+        padding: 0 1rem;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .inputGroup {
-        max-width: 20.2rem;
-        width: 80%;
-        height: 2.5rem;
-        line-height: 2.5rem;
-        margin: 0 auto 1.5625rem;
+        width: calc(100% - 2rem);
+        height: 2.375rem;
+        line-height: 2.375rem;
+        margin: 0 1rem 1.5rem;
+        padding: 0 1rem;
         border-radius: 4px;
         box-sizing: border-box;
         position: relative;
@@ -931,8 +965,8 @@ a {
     .inputGroup>span:first-of-type>input {
         border: none;
         outline: none;
-        height: 2.375rem;
-        line-height: 2.375rem;
+        height: 2.25rem;
+        line-height: 2.25rem;
         vertical-align: top;
     }
 
@@ -945,7 +979,7 @@ a {
         outline: none;
         border: none;
         background: transparent;
-        font-size: 1rem;
+        font-size: 14px;
         padding: 0;
     }
 
@@ -965,29 +999,28 @@ a {
     .chooseUser {
         display: inline-block;
         position: absolute;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2.375rem;
+        height: 2.375rem;
         top: 0;
         right: 0;
         background: url('https://www.diteng.site/public/images/crow-down1.png');
-        background-size: 1.2em 1.2em;
+        background-size: .85rem .85rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .showList {
         background: url('https://www.diteng.site/public/images/crow-up1.png');
-        background-size: 1.2em 1.2em;
+        background-size: .85rem .85rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .userList {
-        max-width: 20.2em;
         width: calc(100% + 2px);
-        height: 10em;
+        max-height: 10em;
         position: absolute;
-        top: calc(2.5rem - 4px);
+        top: calc(2.375rem - 4px);
         left: -1px;
         background: #fff;
         box-sizing: border-box;
@@ -1019,8 +1052,8 @@ a {
     .userList li {
         position: relative;
         width: 100%;
-        height: 2.8em;
-        line-height: 2.8em;
+        height: 2.25rem;
+        line-height: 2.25rem;
         list-style: none;
         border-bottom: 1px solid #e6e6e6;
     }
@@ -1028,8 +1061,6 @@ a {
     .userList li span {
         display: inline-block;
         width: 80%;
-        height: 2.8em;
-        line-height: 2.8em;
         color: black;
     }
 
@@ -1044,8 +1075,8 @@ a {
     .userList li .remove {
         position: absolute;
         display: inline-block;
-        width: 2.8em;
-        height: 2.8em;
+        width: 2rem;
+        height: 2rem;
         top: 0;
         right: 0;
         background: url('https://www.diteng.site/public/images/remove.png');
@@ -1073,12 +1104,11 @@ a {
     }
 
     .operationLogin {
-        max-width: 20.2rem;
+        width: calc(100% - 2rem);
         margin: 0 auto;
-        width: 80%;
-        padding-top: .5625rem;
+        padding-top: .5rem;
         text-align: left;
-        font-size: .75rem;
+        font-size: 12px;
         line-height: 1.125rem;
         font-weight: 400;
     }
@@ -1114,8 +1144,8 @@ a {
     }
 
     .protocol>img {
-        width: 1.125rem;
-        height: 1.125rem;
+        width: 1rem;
+        height: 1rem;
         vertical-align: top;
     }
 
@@ -1133,7 +1163,18 @@ a {
         position: absolute;
         right: 0.5rem;
         background-color: transparent;
-        color: black;
+        color: #0169AB;
+        font-size: .85rem;
+        top: 50%;
+        transform: translateY(-50%);
+        top: 50%;
+    }
+
+    .sendCoded {
+        position: absolute;
+        right: 0.5rem;
+        background-color: transparent;
+        color: #999;
         font-size: .85rem;
         top: 50%;
         transform: translateY(-50%);
@@ -1141,12 +1182,11 @@ a {
     }
 
     .btnSubmit {
-        max-width: 20.2rem;
-        margin: 0 auto;
-        width: 80%;
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
         display: block;
-        height: 2.5rem;
-        height: 2.5rem;
+        height: 2.25rem;
+        line-height: 2.25rem;
         margin: 0 auto;
         background-color: #008738;
         text-align: center;
@@ -1155,22 +1195,25 @@ a {
         outline: none;
         border: none;
         border-radius: 3px;
-        margin-top: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .btnSubmit:hover {
+        background-color: #009933;
     }
 
     .customService {
-        width: 100%;
+        width: calc(100% - 2rem);
+        margin: 0 auto;
         position: relative;
         padding-top: .75rem;
     }
 
     .customService>div {
-        max-width: 20.2rem;
-        margin: 0 auto;
-        width: 80%;
+        /* margin: 0 2rem; */
         text-align: left;
-        font-size: .75rem;
-        line-height: 1.125rem;
+        font-size: 12px;
+        line-height: 12px;
         font-weight: 400;
     }
 
@@ -1260,19 +1303,19 @@ a {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding-top: 4.1875rem;
+        padding-top: 6rem;
     }
 
     .logoBox>img {
-        width: 3.5rem;
+        width: 3.375rem;
     }
 
     .logoBox>h3 {
-        padding-top: 1.0625rem;
-        font-size: 1.1875rem;
-        line-height: 1.1875rem;
+        padding-top: 1rem;
+        font-size: 18px;
+        line-height: 18px;
         color: #333333;
         font-weight: 300;
-        padding-bottom: 4.5rem;
+        padding-bottom: 4.3125rem;
     }
 }

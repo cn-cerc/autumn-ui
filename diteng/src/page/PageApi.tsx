@@ -49,7 +49,7 @@ export default class PageApi {
 
     /** 获取通讯录所有联系人分组列表的人员 */
     static searchBook(params: DataRow) {
-        return DialogApi.getDataOut('SvrAddressBook.search', params);
+        return DialogApi.getDataOutByCenter('SvrAddressBook.search', params);
     }
 
     /** 接收类消息操作接口 */

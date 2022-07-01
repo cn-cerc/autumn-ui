@@ -10,20 +10,23 @@ type TypeProps = {
 type TypeState = {
     messageData: DataRow,
     status: number,
-    remark: string
+    remark: string,
+    errorMessage: string
 }
 enum MessageStatus {
-    未接收, 已接收, 已拒绝
+    未接受, 已接受, 已拒绝
 }
 
 /** 需确认消息 */
 export default class AcceptMessage extends Message<TypeProps, TypeState> {
     constructor(props: TypeProps) {
         super(props);
+        console.log(props.row.getString('Content_'))
         this.state = {
             messageData: new DataRow().setJson(props.row.getString('Content_')),
             status: props.row.getNumber('Status_'),
-            remark: ''
+            remark: '',
+            errorMessage: ''
         }
     }
 
@@ -32,11 +35,9 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
         let dataIn = new DataRow();
         dataIn.setValue('uid', this.props.row.getString('UID_'));
         dataIn.setValue('remark', this.state.messageData.getString('remark'));
-        dataIn.setValue('status', MessageStatus.已接收);
-        console.log(this.state.messageData)
-        await PageApi.acknowledge(this.state.messageData.getString('serviceCode'), dataIn);
-        this.state.messageData.setValue('Status_', 1);
-        this.setState({ ...this.state })
+        dataIn.setValue('status', MessageStatus.未接受);
+        let dataOut = await PageApi.acknowledge(this.state.messageData.getString('serviceCode'), dataIn);
+        this.setState({ ...this.state, errorMessage: dataOut.state <= 0 ? dataOut.message : '' })
         this.reload();
     }
 
@@ -46,8 +47,9 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
         dataIn.setValue('uid', this.props.row.getString('UID_'));
         dataIn.setValue('remark', this.state.messageData.getString('remark'));
         dataIn.setValue('status', MessageStatus.已拒绝);
-        await PageApi.acknowledge(this.state.messageData.getString('serviceCode'), dataIn);
-        this.setState({ ...this.state })
+        let dataOut = await PageApi.acknowledge(this.state.messageData.getString('serviceCode'), dataIn);
+        this.setState({ ...this.state, errorMessage: dataOut.state <= 0 ? dataOut.message : '' })
+        this.reload();
     }
 
     getMessage(): JSX.Element {
@@ -55,7 +57,7 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
         if (this.state.messageData.getDouble('status') == 0) {
             opera = <React.Fragment>
                 <a href={this.state.messageData.getString('detailUrl')}>详情</a>
-                <button onClick={this.agreeFun.bind(this)}>接收</button>
+                <button onClick={this.agreeFun.bind(this)}>接受</button>
                 <button onClick={this.rejected.bind(this)} hidden={!this.state.messageData.getBoolean('showRejected')}>拒绝</button>
             </React.Fragment>
             remark = <DBEdit dataField='remark' dataRow={this.state.messageData}></DBEdit>;
@@ -67,6 +69,7 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
             <div dangerouslySetInnerHTML={{ __html: this.props.row.getString('Subject_') }}></div>
             <div dangerouslySetInnerHTML={{ __html: this.state.messageData.getString('content') }}></div>
             <div>备注：{remark} </div>
+            {this.state.errorMessage ? <span style={{ color: 'red' }}>{this.state.errorMessage}</span> : ''}
             <div className={styles.specialMsg}>
                 {opera}
             </div>

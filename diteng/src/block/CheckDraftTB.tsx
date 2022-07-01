@@ -35,9 +35,9 @@ export default class CheckDraftTB extends React.Component<propsType, stateType> 
     render() {
         return (
             <React.Fragment>
-                <span>草稿单据</span>
+                <img src="./images/webdefault/icon_cgdj.png" />
                 <div>
-                    <img src="./images/webdefault/icon_cgdj.png" />
+                    <span>草稿单据</span>
                     <span onClick={this.onClick} className="unread">
                         {this.state.value}
                     </span>
