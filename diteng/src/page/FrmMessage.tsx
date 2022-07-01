@@ -1,6 +1,5 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import ReactDOM from "react-dom";
 import CreateGroupDialog from "../dialog/CreateGroupDialog";
 import DialogDOM from "../dialog/DialogDOM";
 import ImageConfig from "../ImageConfig";
@@ -53,6 +52,7 @@ export const timing = 5;
 export const imageColorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
+    private mousedownTime: number = 0;
     private timer: any = null;
     constructor(props: FrmMessageTypeProps) {
         super(props);
@@ -553,7 +553,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // form表单键盘事件监听
     handleKeyDown(e: any) {
         let keyCode: number = e.keyCode;
-        if (keyCode == 13) {
+        console.log(e)
+        if (keyCode == 13 && !e.ctrlKey) {
             e.preventDefault();
             this.handleSubmit(e);
         }

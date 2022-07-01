@@ -112,3 +112,12 @@
     color: #c1c7c4 !important;
     background-color: #d9d9d9!important;
 }
+
+.imageMessage {
+    border: 1px solid #f1ecec;
+    border-radius: 4px;
+}
+
+.imageMessage {
+    margin: 0 16px;
+}
