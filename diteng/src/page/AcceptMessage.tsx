@@ -35,7 +35,7 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
         let dataIn = new DataRow();
         dataIn.setValue('uid', this.props.row.getString('UID_'));
         dataIn.setValue('remark', this.state.messageData.getString('remark'));
-        dataIn.setValue('status', MessageStatus.未接受);
+        dataIn.setValue('status', MessageStatus.已接受);
         let dataOut = await PageApi.acknowledge(this.state.messageData.getString('serviceCode'), dataIn);
         this.setState({ ...this.state, errorMessage: dataOut.state <= 0 ? dataOut.message : '' })
         this.reload();
