@@ -40,8 +40,8 @@ export default class RemoteService {
         return fetch(url, {
             method: 'POST', body: "dataIn=" + this.dataIn.json,
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                // "Content-Type": "multipart/form-data",
+                // "Content-Type": "application/x-www-form-urlencoded",
+                "Content-Type": "multipart/form-data",
             },
         }).then(function (response) {
             let contentType = response.headers.get("content-type");

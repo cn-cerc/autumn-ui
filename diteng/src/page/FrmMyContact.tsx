@@ -1,5 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
+import { imageColorArr } from "./FrmMessage";
 import styles from "./FrmMyContact.css";
 import PageApi from "./PageApi";
 
@@ -35,7 +36,6 @@ type AllMessageDetail = {
 };
 
 export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmMyContactTypeState>{
-    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
     constructor(props: FrmMyContactTypeProps) {
         super(props);
         this.state = {
@@ -144,7 +144,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let name = this.state.searchType[i];
             let num = i;
             list.push(<li key={num} className={`${i == this.state.searchTypeIndex ? styles.selectContact : ''} ${styles.contactLiItem} ${styles.contactLiItemCenter} ${i == this.state.searchType.length - 1 ? styles.paddingBottom : ''}`} onClick={this.handleClickGroup.bind(this, num)}>
-                <div className={styles.contactImage} style={{'backgroundColor': this.colorArr[colorIndex]}}>{name.substring(name.length - 2)}</div>
+                <div className={styles.contactImage} style={{'backgroundColor': imageColorArr[colorIndex]}}>{name.substring(name.length - 2)}</div>
                 <div>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
@@ -182,7 +182,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let num = i;
             if (name == '系统消息') continue;
             list.push(<li key={num} className={`${messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} ${styles.contactLiItem}`} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
-                <div className={styles.contactImage} style={{'backgroundColor': this.colorArr[colorIndex]}}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
+                <div className={styles.contactImage} style={{'backgroundColor': imageColorArr[colorIndex]}}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                 <div className={styles.alignItem}>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
@@ -257,7 +257,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 let userCode = ds.getString('user_code_');
                 let text = ds.getString('corp_name_');
                 list.push(<li key={userCode}>
-                    <div className={`${styles.contactImage} ${userCode == '' ? styles.hover : ''}`} style={{'backgroundColor': this.colorArr[colorIndex]}} onClick={this.toModify.bind(this, ds.current)}>{name.substring(name.length - 2)}</div>
+                    <div className={`${styles.contactImage} ${userCode == '' ? styles.hover : ''}`} style={{'backgroundColor': imageColorArr[colorIndex]}} onClick={this.toModify.bind(this, ds.current)}>{name.substring(name.length - 2)}</div>
                     <div className={styles.alignItem}>
                         <div className={styles.contactTitle}>
                             <span>{name}</span>

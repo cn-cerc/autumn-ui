@@ -71,7 +71,7 @@ export default class DialogApi {
         return ds;
     }
 
-    static async getServiceByCenter(url: string, params?: any): Promise<DataSet> {
+    static async getServiceByCenter(url: string, params?: any, byService: boolean = true): Promise<DataSet> {
         let sid = DialogApi.getToken();
         if (!sid) {
             let error = new DataSet();
@@ -82,7 +82,7 @@ export default class DialogApi {
         let service = new QueryService({ sid });
         let userCenter = await DialogApi.getUserCenter();
         service.setService(url);
-        service.setHost(`${userCenter}/services/`);
+        service.setHost(`${userCenter}/${byService ? 'services/' : ''}`);
         let keyArr = params ? Object.keys(params) : [];
         if (keyArr.length > 0) {
             keyArr.forEach((param) => {
@@ -110,7 +110,7 @@ export default class DialogApi {
         return ds;
     }
 
-    static async getDataOutByCenter(url: string, params: DataRow, timeout: number = 15): Promise<DataSet> {
+    static async getDataOutByCenter(url: string, params: DataRow, timeout: number = 15, byService: boolean = true): Promise<DataSet> {
         let sid = DialogApi.getToken();
         if (!sid) {
             let error = new DataSet();
@@ -120,7 +120,7 @@ export default class DialogApi {
         }
         let service = new QueryService({ sid });
         let userCenter = await DialogApi.getUserCenter();
-        service.setHost(`${userCenter}/services/`);
+        service.setHost(`${userCenter}/${byService ? 'services/' : ''}`);
         service.setService(url);
         service.dataIn.head.copyValues(params.current);
         // e为请求失败时抛出的异常，类型为DataSet

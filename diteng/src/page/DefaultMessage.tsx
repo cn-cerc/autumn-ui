@@ -18,6 +18,6 @@ export default class DefaultMessage extends Message<DefaultMessageTypeProps,Defa
     getMessage(): JSX.Element {
         let row = new DataRow();
         row.copyValues(this.props.row);
-        return <div className={styles.defaultMessage} dangerouslySetInnerHTML={{__html: row.getString('Content_')}}></div>
+        return <div className={styles.defaultMessage} dangerouslySetInnerHTML={{__html: row.getString('Content_') ? row.getString('Content_') : row.getString('Subject_')}}></div>
     }
 }

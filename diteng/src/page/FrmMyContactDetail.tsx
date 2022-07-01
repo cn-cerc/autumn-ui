@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
+import { imageColorArr } from "./FrmMessage";
 import styles from "./FrmMyContact.css";
 import PageApi from "./PageApi";
 
@@ -18,7 +19,6 @@ type FrmMyContactTypeState = {
 }
 
 export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmMyContactTypeState>{
-    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
     constructor(props: FrmMyContactTypeProps) {
         super(props);
         this.state = {
@@ -66,7 +66,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let userCode = ds.getString('user_code_');
             let text = ds.getString('corp_name_');
             list.push(<li key={userCode} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name, ds.getString('UID_'))}>
-                <div className={styles.contactImage} style={{ 'backgroundColor': this.colorArr[colorIndex] }}>{name.substring(name.length - 2)}</div>
+                <div className={styles.contactImage} style={{ 'backgroundColor': imageColorArr[colorIndex] }}>{name.substring(name.length - 2)}</div>
                 <div className={styles.alignItem}>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
