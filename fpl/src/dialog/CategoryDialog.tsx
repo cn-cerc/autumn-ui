@@ -1,5 +1,5 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
@@ -47,6 +47,7 @@ export default class CategoryDialog extends BaseDialog<CategoryProps, StaffTypeS
                     <DBEdit dataField="name_" dataName="类别名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                    <ColumnIt/>
                     <Column code="name_" name="类别名称" width="50"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
