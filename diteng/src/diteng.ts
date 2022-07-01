@@ -76,6 +76,7 @@ import FrmMessage from "./page/FrmMessage";
 import FrmMessageDetails from "./page/FrmMessageDetails";
 import FrmMyContact from "./page/FrmMyContact";
 import FrmMyContactDetail from "./page/FrmMyContactDetail";
+import TOrd from "./page/TOrd";
 
 export default {
     //地藤专用
@@ -167,4 +168,5 @@ export default {
     //地藤通讯录
     FrmMyContact,
     FrmMyContactDetail,
+    TOrd
 }

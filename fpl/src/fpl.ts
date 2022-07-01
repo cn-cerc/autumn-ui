@@ -19,7 +19,6 @@ import FrmTaurusMC from "./page/FrmTaurusMC";
 import TStockMC from "./page/TStockMC";
 import FrmTaurusMC1 from "./page/FrmTaurusMC1";
 import FrmTaurusMC2 from "./page/FrmTaurusMC2";
-import TOrd from "./page/TOrd";
 import TPurMC from "./page/TPurMC";
 import FrmSpectaculars1 from "./page/FrmSpectaculars1";
 import FrmSpectaculars3 from "./page/FrmSpectaculars3";
@@ -57,7 +56,6 @@ export default {
     FrmContractManageMC2,
     TPurMC,
     FrmSpectaculars2,
-    TOrd,
     FrmTaurusMC1,
     FrmTaurusMC2,
     FrmSpectaculars1,
