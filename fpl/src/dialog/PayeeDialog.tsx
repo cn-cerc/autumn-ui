@@ -1,5 +1,5 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
@@ -47,6 +47,7 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
                     <DBEdit dataName="收款人姓名" dataField="payee_name_" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
+                    <ColumnIt/>
                     <Column name='收款人编号'  code='payee_no_' width='40'></Column>
                     <Column name='收款人姓名'  code='payee_name_' width='40'></Column>
                     <Column name='操作'  code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
