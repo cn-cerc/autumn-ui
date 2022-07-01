@@ -5,7 +5,9 @@ import * as echarts from "echarts";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
-    introduction: string
+    introduction: string,
+    jsonMonth: string,
+    jsonYear: string
 }
 
 type FrmTaurusMCTypeState = {
@@ -98,7 +100,40 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>趋势图</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                        <div className={styles.FrmTaurusMCLine}>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>在线订货单</p>
+                                <span>358</span>
+                            </div>
+                        </div>
                     </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
@@ -116,7 +151,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     componentDidMount(): void {
-        this.initLineChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
@@ -193,30 +227,82 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         while (ds.fetch()) {
             dataArr.push(ds.getDouble('Value_'))
         }
+        let m = this.props.jsonMonth;
+        let y = this.props.jsonYear;
         let option = {
+            color: ['#0caff0', '#e5323e'],
+            legend: {
+                data: ['本月(元)', '年度(元)']
+            },
             tooltip: {
-                trigger: 'item'
+                trigger: 'axis',
+                backgroundColor: 'rgba(0,0,0,0)',
+                textStyle: {
+                    color: 'red',
+                    fontSize: 11
+                },
+                position: [10, 5]
             },
             grid: {
-                top: 40,
-                left: 0,
-                bottom: 0,
-                right: 20,
-                containLabel: true,
+                x: '10px',
+                x2: '10px',
+                y2: '25px',
+                borderWidth: 0
             },
-            xAxis: {
+            calculable: false,
+            xAxis: [{
+                splitLine: {
+                    show: false
+                },
                 type: 'category',
-                data: ['销售订单', '销售单', '退货单']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    data: dataArr,
-                    type: 'bar',
+                axisTick: {
+                    show: false
+                },
+                data: ['接单', '销售', '退货', '收款']
+            }],
+            yAxis: [{
+                splitLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                },
+                type: 'value',
+                axisLabel: {
+                    formatter: function () {
+                        return "";
+                    }
                 }
-            ]
+            }],
+            series: [{
+                name: '本月(元)',
+                type: 'bar',
+                barWidth: 30,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            formatter: function () {
+                                return "";
+                            }
+                        }
+                    }
+                },
+                data: m
+            }, {
+                name: '年度(元)',
+                type: 'bar',
+                barWidth: 30,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            formatter: function () {
+                                return "";
+                            }
+                        }
+                    }
+                },
+                data: y
+            }]
         }
         //@ts-ignore
         myChart.setOption(option);
