@@ -1,5 +1,5 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
@@ -42,6 +42,7 @@ export default class MaintainVehicleDialog extends BaseDialog<BaseDialogPropsTyp
                     <DBEdit dataField="plate_number_" dataName="车牌号" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                    <ColumnIt/>
                     <Column code="ShortName_" name="客户名称" width="50"></Column>
                     <Column code="sales_name_" name="业务员" width="50"></Column>
                     <Column code="plate_number_" name="车牌号码" width="50"></Column>

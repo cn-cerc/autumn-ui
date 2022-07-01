@@ -183,7 +183,7 @@ export default class DialogApi {
 
     /** 获取商品大类 */
     static getClass1() {
-        return DialogApi.getService('TAppPartClass.GetNameList');
+        return DialogApi.getServiceByCenter('TAppPartClass.GetNameList');
     }
 
     /** 获取客户类别 */

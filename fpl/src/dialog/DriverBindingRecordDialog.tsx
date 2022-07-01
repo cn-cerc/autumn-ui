@@ -1,11 +1,12 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
 
 type DriverBindingRecordProps = {
     carNo: string,
+    objCorpNo: string
 } & Partial<BaseDialogPropsType>
 
 
@@ -19,6 +20,7 @@ export default class DriverBindingRecordDialog extends BaseDialog<DriverBindingR
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue('car_no_', this.props.carNo);
+        dataIn.setValue('obj_corp_no_', this.props.objCorpNo);
         this.state = {
             ...this.state,
             dataIn,
@@ -48,6 +50,7 @@ export default class DriverBindingRecordDialog extends BaseDialog<DriverBindingR
                     <DBEdit dataField="name_" dataName="司机名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                    <ColumnIt/>
                     <Column code="driver_no_" name="司机编号" width="50"></Column>
                     <Column code="name_" name="司机名称" width="50"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
