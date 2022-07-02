@@ -57,4 +57,9 @@ export default class PageApi {
         return DialogApi.getDataOut(serviceCode, params);
     }
 
+    /** 消息举报 */
+    static messageReport(params: DataRow) {
+        return DialogApi.getDataOutByCenter('SvrMessageReport.reportMessage', params);
+    }
+
 }

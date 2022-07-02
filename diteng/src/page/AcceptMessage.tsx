@@ -1,6 +1,6 @@
 import { DataRow, DBEdit } from "autumn-ui";
 import React from "react";
-import Message, { messageTypeProps } from "./Message";
+import Message, { messageTypeProps, messageTypeState } from "./Message";
 import styles from "./Message.css";
 import PageApi from "./PageApi";
 
@@ -12,7 +12,7 @@ type TypeState = {
     status: number,
     remark: string,
     errorMessage: string
-}
+} & messageTypeState
 enum MessageStatus {
     未接受, 已接受, 已拒绝
 }
