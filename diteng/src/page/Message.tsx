@@ -1,6 +1,8 @@
 import { DataRow } from "autumn-ui";
 import React from "react";
+import { showMsg } from "../tool/Summer";
 import styles from "./Message.css"
+import PageApi from "./PageApi";
 
 export type messageTypeState = {
     showReport?: boolean
@@ -37,7 +39,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
                 </div>
             </div>
             <div className={styles.message}>
-                <div className={styles.messageBox} onTouchStart={this.handleTouchStart.bind(this)} onTouchEnd={this.handleClear.bind(this)} onTouchMove={this.handleClear.bind(this)} onMouseDown={this.handleTouchStart.bind(this)} onMouseMove={this.handleClear.bind(this)} onMouseUp={this.handleClear.bind(this)}>
+                <div className={this.state.showReport ? styles.reportLine : ''} onTouchStart={this.handleTouchStart.bind(this)} onTouchEnd={this.handleClear.bind(this)} onMouseDown={this.handleTouchStart.bind(this)} onMouseUp={this.handleClear.bind(this)}>
                     {this.getMessage()}
                 </div>
                 {this.props.siteR ? this.getReadMsg() : ''}
@@ -50,10 +52,10 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
         if (this.state.showReport)
             return <div className={styles.toastBox}>
                 <div className={styles.toast}>
-                    <p>是否举报该条消息</p>
+                    <p>是否对该条消息进行举报！</p>
                     <div>
-                        <button>取消</button>
-                        <button>确定</button>
+                        <span onClick={() => this.setState({ showReport: false })}>取消</span>
+                        <span onClick={this.handleReport.bind(this)}>确定</span>
                     </div>
                 </div>
             </div>
@@ -71,6 +73,18 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
     handleClear() {
         clearTimeout(this.touchEvent);
         this.touchEvent = null;
+    }
+
+    //举报消息
+    async handleReport() {
+        let dataOut = await PageApi.messageReport(new DataRow().setValue('uid', this.props.row.getString('UID_')));
+        if (dataOut.state <= 0)
+            showMsg(dataOut.message);
+        else
+            showMsg('已对该条消息进行举报，请耐心等待系统的处理。');
+        this.setState({
+            showReport: false
+        })
     }
 
     //标记是否已读
