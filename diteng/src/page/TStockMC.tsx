@@ -6,15 +6,15 @@ import * as echarts from "echarts";
 type TStockMCTypeProps = {
     dataJson: string,
     introduction: string,
-    jsonMonth: string,
-    jsonYear: string
+    echartsJson1: string,
+    amount1: number,
+    echartsJson2: string,
+    amount2: number
 }
 
 type TStockMCTypeState = {
-    pieData1: DataSet,
-    pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string
+    introduction: string,
 }
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
@@ -23,16 +23,13 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
     constructor(props: TStockMCTypeProps) {
         super(props);
         let lineRow = new DataRow();
-        let pieData1 = new DataSet();
-
-        let pieData2 = new DataSet();
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            pieData1,
-            pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction
+            introduction: this.props.introduction,
         }
+        console.log(this.props.amount2)
+        console.log(this.props.echartsJson1)
     }
 
     render(): React.ReactNode {
@@ -123,11 +120,11 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                     </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.mcTitle}>年度销售汇总分析</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.mcTitle}>年度退货汇总分析</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
@@ -137,90 +134,22 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
     }
 
     componentDidMount(): void {
-        // this.initLineChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    // initLineChart() {
-    //     let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
-    //     let myChart = echarts.init(lineChart);
-    //     let ds = new DataSet();
-    //     ds.appendDataSet(this.state.lineData);
-    //     ds.first();
-    //     let xArr = [];
-    //     let sData = [];
-    //     while (ds.fetch()) {
-    //         xArr.push(ds.getString('XName_'));
-    //         sData.push(ds.getDouble('Value_'));
-    //     }
-    //     let option = {
-    //         xAxis: {
-    //             type: 'category',
-    //             data: xArr,
-    //             axisLabel: {
-    //                 color: '#333333'
-    //             },
-    //             axisLine: {
-    //                 lineStyle: {
-    //                     color: '#333333'
-    //                 }
-    //             }
-    //         },
-    //         yAxis: {
-    //             type: 'value',
-    //             axisLabel: {
-    //                 color: '#333333'
-    //             }
-    //         },
-    //         lengend: {},
-    //         tooltip: {},
-    //         grid: {
-    //             top: 10,
-    //             left: 0,
-    //             bottom: 0,
-    //             right: 10,
-    //             containLabel: true,
-    //         },
-    //         series: [
-    //             {
-    //                 data: sData,
-    //                 type: 'line',
-    //                 itemStyle: {
-    //                     color: MCChartColors[0]
-    //                 },
-    //                 lineStyle: {
-    //                     color: MCChartColors[0]
-    //                 },
-    //                 label: {
-    //                     show: true,
-    //                     position: 'top'
-    //                 },
-    //             }
-    //         ]
-    //     };
 
-    //     //@ts-ignore
-    //     myChart.setOption(option);
-    // }
 
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push(ds.getDouble('Value_'))
-        }
-        let m = this.props.jsonMonth;
-        let y = this.props.jsonYear;
+        var barGap = '5%';
+        var barWidth = 30;
         let option = {
-            color: ['#0caff0', '#e5323e'],
+            color: ['#0caff0'],
             legend: {
-                data: ['本月(元)', '年度(元)']
+                data: ['销售金额(元)']
             },
             tooltip: {
                 trigger: 'axis',
@@ -229,15 +158,18 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                     color: 'red',
                     fontSize: 11
                 },
-                position: [10, 5]
+                position: [10, 5],
+                formatter: (params: any) => {
+                    return "销售金额(元):" + params[0].value + "<br>" + "销售总额(元):" + this.props.amount1;
+                }
             },
+            calculable: false,
             grid: {
                 x: '10px',
                 x2: '10px',
-                y2: '25px',
+                y2: '35px',
                 borderWidth: 0
             },
-            calculable: false,
             xAxis: [{
                 splitLine: {
                     show: false
@@ -246,7 +178,13 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 axisTick: {
                     show: false
                 },
-                data: ['接单', '销售', '退货', '收款']
+                axisLabel: { // 调整x轴的lable
+                    textStyle: {
+                        fontSize: '11'
+                    }
+                },
+                data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12']
             }],
             yAxis: [{
                 splitLine: {
@@ -263,9 +201,9 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 }
             }],
             series: [{
-                name: '本月(元)',
+                name: '销售金额(元)',
                 type: 'bar',
-                barWidth: 30,
+                barWidth: barWidth,
                 itemStyle: {
                     normal: {
                         label: {
@@ -275,23 +213,10 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                         }
                     }
                 },
-                data: m
-            }, {
-                name: '年度(元)',
-                type: 'bar',
-                barWidth: 30,
-                itemStyle: {
-                    normal: {
-                        label: {
-                            formatter: function () {
-                                return "";
-                            }
-                        }
-                    }
-                },
-                data: y
+                barGap: barGap,
+                data: this.props.echartsJson1
             }]
-        }
+        };
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -299,38 +224,79 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push(ds.getDouble('Value_'))
-        }
+        var barGap = '5%';
+        var barWidth = 30;
         let option = {
+            color: ['#0caff0'],
+            legend: {
+                data: ['退货金额(元)']
+            },
             tooltip: {
-                trigger: 'item'
-            },
-            grid: {
-                top: 40,
-                left: 0,
-                bottom: 0,
-                right: 20,
-                containLabel: true,
-            },
-            xAxis: {
-                type: 'category',
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    data: dataArr,
-                    type: 'bar',
+                trigger: 'axis',
+                backgroundColor: 'rgba(0,0,0,0)',
+                textStyle: {
+                    color: 'red',
+                    fontSize: 11
+                },
+                position: [10, 5],
+                formatter: (params: any) => {
+                    return "退货金额(元):" + params[0].value + "<br>" + "退货总额(元):" + this.props.amount2;
                 }
-            ]
-        }
+            },
+            calculable: false,
+            grid: {
+                x: '10px',
+                x2: '10px',
+                y2: '35px',
+                borderWidth: 0
+            },
+            xAxis: [{
+                splitLine: {
+                    show: false
+                },
+                type: 'category',
+                axisTick: {
+                    show: false
+                },
+                axisLabel: { // 调整x轴的lable
+                    textStyle: {
+                        fontSize: '11'
+                    }
+                },
+                data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12']
+            }],
+            yAxis: [{
+                splitLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                },
+                type: 'value',
+                axisLabel: {
+                    formatter: function () {
+                        return "";
+                    }
+                }
+            }],
+            series: [{
+                name: '退货金额(元)',
+                type: 'bar',
+                barWidth: barWidth,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            formatter: function () {
+                                return "";
+                            }
+                        }
+                    }
+                },
+                barGap: barGap,
+                data: this.props.echartsJson2
+            }]
+        };
         //@ts-ignore
         myChart.setOption(option);
     }

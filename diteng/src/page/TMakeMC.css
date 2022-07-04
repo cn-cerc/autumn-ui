@@ -1,3 +1,9 @@
+.MCtext {
+    position: absolute;
+    color: #999;
+    font-size: 14px;
+}
+
 .mcIntroduction {
     background-color: #fff;
     border-radius: .28rem;
@@ -60,6 +66,7 @@
 }
 
 .mcTrendChart {
+    margin-top: 16px;
     height: 0;
     flex: 1;
     display: flex;
@@ -67,42 +74,14 @@
 }
 
 .mcPieChart {
-    margin-top: 16px;
     height: 0;
     flex: 1;
     display: flex;
 }
 
-
 .FrmTaurusMCLine {
-    padding: 0px 44px 0 44px;
+    padding: 16px 16px 0 16px;
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.boxConten {
-    width: 25%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-
-.boxConten>p {
-    font-size: 14px;
-    font-weight: 400;
-    color: #666666;
-}
-
-.boxConten>span {
-    width: 100%;
-    font-size: 22px;
-    font-weight: bold;
-    color: #333333;
-    margin-top: 20px;
 }
 
 .register {
@@ -238,8 +217,8 @@
 }
 
 .stock3 {
-    left: 212px;
-    top: 20px;
+    left: 55px;
+    top: 104px;
 }
 
 .stock4 {
@@ -248,13 +227,13 @@
 }
 
 .stock5 {
-    left: 112px;
-    top: 120px;
+    left: 55px;
+    top: 180px;
 }
 
 .stock6 {
-    left: 212px;
-    top: 120px;
+    left: 76px;
+    top: 216px;
 }
 
 .stock7 {
@@ -282,6 +261,25 @@
     top: 320px;
 }
 
+.stock9Box{
+    position: absolute;
+    width: 6em;
+    height: 140px;
+    left: 212px;
+    top: 174px; 
+}
+
+.stock9_1{
+    top:0;
+    left:0;
+}
+
+.stock9_2{
+    bottom:0;
+    left:0;
+}
+
+
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -293,10 +291,6 @@
         display: flex;
         flex-direction: column;
         overflow: auto;
-    }
-
-    .mcPieChart {
-        margin-top: 10px;
     }
 }
 
@@ -342,29 +336,29 @@
         margin: auto;
     }
 
-    .mcTrendChart {
+    .mcTrendChart,
+    .mcPieBox2 {
         margin-top: 16px;
     }
 
     .FrmTaurusMCLine {
-        height: 172px;
+        height: 220px;
         flex: auto;
     }
 
     .mcPieChart {
-        margin-top: 12px;
         flex-wrap: wrap;
+        flex: auto;
     }
 
-    .mcPieBox1 {
+    .mcPieBox1,
+    .mcPieBox2 {
         width: 100%;
         flex: auto;
     }
 
     .mcPieBox2 {
-        width: 100%;
-        flex: auto;
-        margin: 12px 0 0 0;
+        margin-left: 0;
     }
 
     .FrmTaurusMCPie1,

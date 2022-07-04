@@ -60,49 +60,23 @@
 }
 
 .mcTrendChart {
-    height: 0;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.mcPieChart {
     margin-top: 16px;
     height: 0;
     flex: 1;
     display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
-
-.FrmTaurusMCLine {
-    padding: 0px 44px 0 44px;
+.mcPieChart {
+    height: 0;
     flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
 }
 
-.boxConten {
-    width: 25%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-}
-
-.boxConten>p {
-    font-size: 14px;
-    font-weight: 400;
-    color: #666666;
-}
-
-.boxConten>span {
-    width: 100%;
-    font-size: 22px;
-    font-weight: bold;
-    color: #333333;
-    margin-top: 20px;
+.FrmTaurusMCLine {
+    padding: 16px 16px 0 16px;
+    flex: 1;
 }
 
 .register {
@@ -228,58 +202,71 @@
 }
 
 .stock1 {
-    left: 4px;
-    top: 20px;
+    left: 60px;
+    top: 15px;
 }
 
 .stock2 {
-    left: 112px;
-    top: 20px;
+    left: 160px;
+    top: 15px;
 }
 
 .stock3 {
-    left: 212px;
-    top: 20px;
+    left: 60px;
+    top: 100px;
 }
 
 .stock4 {
-    left: 4px;
-    top: 120px;
+    left: 160px;
+    top: 100px;
 }
 
 .stock5 {
-    left: 112px;
-    top: 120px;
+    left: 60px;
+    top: 185px;
 }
 
 .stock6 {
-    left: 212px;
-    top: 120px;
+    left: 160px;
+    top: 185px;
 }
 
 .stock7 {
-    left: 4px;
-    top: 220px;
+    left: 60px;
+    top: 270px;
 }
 
 .stock8 {
-    left: 112px;
-    top: 220px;
+    left: 160px;
+    top: 270px;
 }
 
 .stock9 {
-    left: 212px;
-    top: 220px;
+    left: 60px;
+    top: 355px;
 }
 
-.stock10 {
-    left: 4px;
-    top: 320px;
+
+.btnBox {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 72px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00A653;
+    box-sizing: border-box;
+    color:#00A653;
+    border-radius: 4px;
 }
 
-.stock11 {
-    left: 112px;
-    top: 320px;
+.btn_arrow {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    margin-left:2px;
 }
 
 @media screen and (min-width: 768px) {
@@ -293,10 +280,6 @@
         display: flex;
         flex-direction: column;
         overflow: auto;
-    }
-
-    .mcPieChart {
-        margin-top: 10px;
     }
 }
 
@@ -342,29 +325,29 @@
         margin: auto;
     }
 
-    .mcTrendChart {
+    .mcTrendChart,
+    .mcPieBox2 {
         margin-top: 16px;
     }
 
     .FrmTaurusMCLine {
-        height: 172px;
+        height: 220px;
         flex: auto;
     }
 
     .mcPieChart {
-        margin-top: 12px;
         flex-wrap: wrap;
+        flex: auto;
     }
 
-    .mcPieBox1 {
+    .mcPieBox1,
+    .mcPieBox2 {
         width: 100%;
         flex: auto;
     }
 
     .mcPieBox2 {
-        width: 100%;
-        flex: auto;
-        margin: 12px 0 0 0;
+        margin-left: 0;
     }
 
     .FrmTaurusMCPie1,
