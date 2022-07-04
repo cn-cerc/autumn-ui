@@ -1,5 +1,5 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
@@ -48,6 +48,7 @@ export default class NumberPlateDialog extends BaseDialog<NumberPlateProps, Staf
                     <DBEdit dataField="car_num_" dataName="车牌号" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                    <ColumnIt/>
                     <Column code="car_num_" name="车牌号" width="50"></Column>
                     <Column code="approved_load_" name="核定载重" width="50"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{

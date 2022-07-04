@@ -1,5 +1,5 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
@@ -46,6 +46,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                     <DBEdit dataField="contract_no_" dataName="合同编号" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                    <ColumnIt/>
                     <Column code="contract_no_" name="合同编号" width="100"></Column>
                     <Column code="party_a_name_" name="甲方公司" width="100"></Column>
                     <Column code="party_b_name_" name="乙方公司" width="100"></Column>

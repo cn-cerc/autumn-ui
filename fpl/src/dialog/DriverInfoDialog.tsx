@@ -1,5 +1,5 @@
 import React from "react";
-import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column } from "autumn-ui";
+import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBGrid, Column, ColumnIt } from "autumn-ui";
 import FplDialogApi from "./FplDialogApi";
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
@@ -48,8 +48,9 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
                     <DBEdit dataField="name_" dataName="司机名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <Column code="driver_no_" name="司机编号" width="50"></Column>
+                    <ColumnIt/>
                     <Column code="name_" name="司机名称" width="50"></Column>
+                    <Column code="phone_num_" name="联系方式" width="50"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
@@ -62,8 +63,10 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+        let input3 = document.getElementById(inputIds[2]) as HTMLInputElement;
         input1.value = dataRow.getString('driver_no_');
         input2.value = dataRow.getString('name_');
+        input3.value = dataRow.getString('phone_num_');
         this.handleSelect();
     }
 }
