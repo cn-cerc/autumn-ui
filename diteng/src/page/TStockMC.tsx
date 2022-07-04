@@ -5,12 +5,14 @@ import * as echarts from "echarts";
 
 type TStockMCTypeProps = {
     dataJson: string,
-    introduction: string
+    introduction: string,
+    jsonMonth: string,
+    jsonYear: string
 }
 
 type TStockMCTypeState = {
-    lineData: DataSet,
-    barData: DataSet,
+    pieData1: DataSet,
+    pieData2: DataSet,
     dataJson: DataRow,
     introduction: string
 }
@@ -20,27 +22,14 @@ export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc84
 export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCTypeState> {
     constructor(props: TStockMCTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 327).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 295).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 218).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 232).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 371).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 316).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 336).setValue('XName_', '周日');
-        let barData = new DataSet();
-        barData.append().setValue('Value_', 28).setValue('Name_', '周一');
-        barData.append().setValue('Value_', 15).setValue('Name_', '周二');
-        barData.append().setValue('Value_', 12).setValue('Name_', '周三');
-        barData.append().setValue('Value_', 8).setValue('Name_', '周四');
-        barData.append().setValue('Value_', 10).setValue('Name_', '周五');
-        barData.append().setValue('Value_', 14).setValue('Name_', '周六');
-        barData.append().setValue('Value_', 12).setValue('Name_', '周日');
+        let pieData1 = new DataSet();
+
+        let pieData2 = new DataSet();
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
-            barData,
+            pieData1,
+            pieData2,
             dataJson: dataJson,
             introduction: this.props.introduction
         }
@@ -96,12 +85,51 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（开发中）</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                        <div className={styles.mcTitle}>数据概览</div>
+                        <div className={styles.FrmTaurusMCLine}>
+                            <div className={styles.boxConten}>
+                                <p>商品库存</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>生产领料单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>完工入库单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>库别调拨单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>商品拆装单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>库存盘点单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>库存报损单</p>
+                                <span>358</span>
+                            </div>
+                            <div className={styles.boxConten}>
+                                <p>备货单</p>
+                                <span>358</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className={styles.mcBarChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
-                        <div className={styles.FrmTaurusMCBar}></div>
+                    <div className={styles.mcPieChart}>
+                        <div className={styles.mcPieBox1}>
+                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.FrmTaurusMCPie1}></div>
+                        </div>
+                        <div className={styles.mcPieBox2}>
+                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.FrmTaurusMCPie2}></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,96 +137,189 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
     }
 
     componentDidMount(): void {
-        this.initLineChart();
-        this.initBarChart();
+        // this.initLineChart();
+        this.initPieChart1();
+        this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
-        let myChart = echarts.init(lineChart);
+    // initLineChart() {
+    //     let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
+    //     let myChart = echarts.init(lineChart);
+    //     let ds = new DataSet();
+    //     ds.appendDataSet(this.state.lineData);
+    //     ds.first();
+    //     let xArr = [];
+    //     let sData = [];
+    //     while (ds.fetch()) {
+    //         xArr.push(ds.getString('XName_'));
+    //         sData.push(ds.getDouble('Value_'));
+    //     }
+    //     let option = {
+    //         xAxis: {
+    //             type: 'category',
+    //             data: xArr,
+    //             axisLabel: {
+    //                 color: '#333333'
+    //             },
+    //             axisLine: {
+    //                 lineStyle: {
+    //                     color: '#333333'
+    //                 }
+    //             }
+    //         },
+    //         yAxis: {
+    //             type: 'value',
+    //             axisLabel: {
+    //                 color: '#333333'
+    //             }
+    //         },
+    //         lengend: {},
+    //         tooltip: {},
+    //         grid: {
+    //             top: 10,
+    //             left: 0,
+    //             bottom: 0,
+    //             right: 10,
+    //             containLabel: true,
+    //         },
+    //         series: [
+    //             {
+    //                 data: sData,
+    //                 type: 'line',
+    //                 itemStyle: {
+    //                     color: MCChartColors[0]
+    //                 },
+    //                 lineStyle: {
+    //                     color: MCChartColors[0]
+    //                 },
+    //                 label: {
+    //                     show: true,
+    //                     position: 'top'
+    //                 },
+    //             }
+    //         ]
+    //     };
+
+    //     //@ts-ignore
+    //     myChart.setOption(option);
+    // }
+
+    initPieChart1() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
+        let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
+        ds.appendDataSet(this.state.pieData1);
         ds.first();
-        let xArr = [];
-        let sData = [];
+        let dataArr = [];
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            dataArr.push(ds.getDouble('Value_'))
         }
+        let m = this.props.jsonMonth;
+        let y = this.props.jsonYear;
         let option = {
-            xAxis: {
-                type: 'category',
-                data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
+            color: ['#0caff0', '#e5323e'],
+            legend: {
+                data: ['本月(元)', '年度(元)']
             },
-            yAxis: {
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor: 'rgba(0,0,0,0)',
+                textStyle: {
+                    color: 'red',
+                    fontSize: 11
+                },
+                position: [10, 5]
+            },
+            grid: {
+                x: '10px',
+                x2: '10px',
+                y2: '25px',
+                borderWidth: 0
+            },
+            calculable: false,
+            xAxis: [{
+                splitLine: {
+                    show: false
+                },
+                type: 'category',
+                axisTick: {
+                    show: false
+                },
+                data: ['接单', '销售', '退货', '收款']
+            }],
+            yAxis: [{
+                splitLine: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                },
                 type: 'value',
                 axisLabel: {
-                    color: '#333333'
+                    formatter: function () {
+                        return "";
+                    }
                 }
-            },
-            lengend: {},
-            tooltip: {},
-            grid: {
-                top: 10,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
-            },
-            series: [
-                {
-                    data: sData,
-                    type: 'line',
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                }
-            ]
-        };
-
+            }],
+            series: [{
+                name: '本月(元)',
+                type: 'bar',
+                barWidth: 30,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            formatter: function () {
+                                return "";
+                            }
+                        }
+                    }
+                },
+                data: m
+            }, {
+                name: '年度(元)',
+                type: 'bar',
+                barWidth: 30,
+                itemStyle: {
+                    normal: {
+                        label: {
+                            formatter: function () {
+                                return "";
+                            }
+                        }
+                    }
+                },
+                data: y
+            }]
+        }
         //@ts-ignore
         myChart.setOption(option);
     }
 
-    initBarChart() {
-        let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
-        let myChart = echarts.init(barChart);
+    initPieChart2() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
+        let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.barData);
+        ds.appendDataSet(this.state.pieData2);
         ds.first();
-        let dataArr = [],
-            nameArr = [];
+        let dataArr = [];
         while (ds.fetch()) {
-            nameArr.push(ds.getString('Name_'));
-            dataArr.push(ds.getDouble('Value_'));
+            dataArr.push(ds.getDouble('Value_'))
         }
         let option = {
+            tooltip: {
+                trigger: 'item'
+            },
             grid: {
-                top: 10,
+                top: 40,
                 left: 0,
                 bottom: 0,
-                right: 10,
+                right: 20,
                 containLabel: true,
             },
             xAxis: {
                 type: 'category',
-                data: nameArr
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
             },
             yAxis: {
                 type: 'value'
@@ -206,11 +327,10 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
             series: [
                 {
                     data: dataArr,
-                    type: 'bar'
+                    type: 'bar',
                 }
             ]
-        };
-
+        }
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -229,7 +349,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                         [105, 340],
                         [78, 340],
                     ]
-                }, 
+                },
                 {
                     coords: [ //进货单 往下 进货退回单
                         [50, 79],
