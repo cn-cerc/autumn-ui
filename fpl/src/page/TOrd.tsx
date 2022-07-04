@@ -1,14 +1,14 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./hrMC.css";
+import styles from "./TOrd.css";
 import * as echarts from "echarts";
 
-type TPurMCTypeProps = {
+type FrmTaurusMCTypeProps = {
     dataJson: string,
-    introduction: string
+    introduction: string,
 }
 
-type TPurMCTypeState = {
+type FrmTaurusMCTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
@@ -18,8 +18,8 @@ type TPurMCTypeState = {
 
 export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
-export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeState> {
-    constructor(props: TPurMCTypeProps) {
+export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
+    constructor(props: FrmTaurusMCTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -31,13 +31,15 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '广东省');
+        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
+        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
+        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
+        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
         let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '女生');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '男生');
+        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
+        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
+        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
+        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
@@ -60,47 +62,50 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '部门资料')}>
-                                <span>部门资料</span>
+                            <div className={`${this.state.dataJson.getBoolean('客户资料_Dis') ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '客户资料')}>
+                                <span>客户资料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`员工管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '员工管理')}>
-                                <span>员工管理</span>
+                            <div className={`${this.state.dataJson.getBoolean('信用额度_Dis') ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '信用额度')}>
+                                <span>信用额度</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '合同管理')}>
-                                <span>合同管理</span>
+                            <div className={`${this.state.dataJson.getBoolean('客户报价_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '客户报价')}>
+                                <span>客户报价</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`考勤管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '考勤管理')}>
-                                <span>考勤管理</span>
+                            <div className={`${this.state.dataJson.getBoolean('销售计划_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销售计划')}>
+                                <span>销售计划</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出差考勤_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '出差考勤')}>
-                                <span>出差考勤</span>
+                            <div className={`${this.state.dataJson.getBoolean('销售订单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '销售订单')}>
+                                <span>销售订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`薪资管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '薪资管理')}>
-                                <span>薪资管理</span>
+                            <div className={`${this.state.dataJson.getBoolean('线上订单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '线上订单')}>
+                                <span>线上订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`薪资标准_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '薪资标准')}>
-                                <span>薪资标准</span>
+                            <div className={`${this.state.dataJson.getBoolean('销售单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '销售单')}>
+                                <span>销售单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`部门成本_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '部门成本')}>
-                                <span>部门成本</span>
+                            <div className={`${this.state.dataJson.getBoolean('出货退回单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '出货退回单')}>
+                                <span>出货退回单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean('应收账款_Dis') ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应收账款')}>
+                                <span>应收账款</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
+                    <div className={styles.mcTrendChart}>
+                        <div className={styles.mcTitle}>趋势图（开发中）</div>
+                        <div className={styles.FrmTaurusMCLine}></div>
+                    </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>趋势图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>趋势图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
-                    </div>
-                    <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
             </div>
@@ -157,7 +162,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             series: [
                 {
                     data: sData,
-                    type: 'bar',
+                    type: 'line',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -189,45 +194,38 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             })
         }
         let option = {
+            // title: {
+            //     text: '本周货运吨数占比',
+            //     left: 'center',
+            //     textStyle: {
+            //         fontSize: 14
+            //     },
+            //     top: '16'
+            // },
             tooltip: {
                 trigger: 'item'
-            },
-            legend: {
-                top: 25,
-                right: 10,
-                orient:'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
             },
             grid: {
                 top: 40,
                 left: 0,
                 bottom: 0,
                 right: 20,
-                containLabel: false,
+                containLabel: true,
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
+                    name: '本周货运吨数占比',
                     type: 'pie',
-                    center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '20',
+                            fontSize: '24',
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {
-                        show: false
-                    },
+                    labelLine: {},
                     data: dataArr
                 }
             ]
@@ -253,35 +251,20 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             tooltip: {
                 trigger: 'item'
             },
-            legend: {
-                top: 25,
-                right: 10,
-                orient:'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-            },
             series: [
                 {
-                    // name: '本周货运车辆占比',
+                    name: '本周货运车辆占比',
                     type: 'pie',
-                    center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '20',
+                            fontSize: '24',
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {
-                        show: false
-                    },
+                    labelLine: {},
                     data: dataArr
                 }
             ]
@@ -298,47 +281,46 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             nodes,
             linesData: [
                 {
-                    coords: [ //部门资料 往下线条
-                        [111, 75],
-                        [111, 105],
+                    coords: [
+                        [130, 35],
+                        [200, 35],
                     ]
-                },
-                {
-                    coords: [ //员工管理 往下线条
-                        [111, 160],
-                        [111, 185],
+                }, {
+                    coords: [
+                        [110, 75],
+                        [110, 105],
                     ]
-                },
-                {
-                    coords: [ //合同管理 往左线条
+                }, {
+                    coords: [
                         [198, 125],
-                        [133, 125],
+                        [165, 125],
+                        [165, 207]
                     ]
                 }, {
-                    coords: [ //出差考勤 往左线条
+                    coords: [
                         [198, 207],
-                        [133, 207]
+                        [130, 207]
                     ]
                 }, {
-                    coords: [ //考勤管理 往下线条
-                        [111, 244],
-                        [111, 275]
+                    coords: [
+                        [110, 244],
+                        [110, 275]
                     ]
                 }, {
-                    coords: [ //薪资管理 往下线条
-                        [111, 330],
-                        [111, 360]
+                    coords: [
+                        [110, 330],
+                        [110, 360]
                     ]
                 }, {
-                    coords: [ //薪资标准 往左线条
-                        [200, 293],
-                        [133, 293]
+                    coords: [
+                        [130, 293],
+                        [200, 293]
                     ]
                 }, {
-                    coords: [ //部门成本 往左下线条
+                    coords: [
                         [219, 330],
                         [219, 375],
-                        [140, 375]
+                        [130, 375]
                     ]
                 }
             ]
@@ -351,7 +333,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 max: 328,
                 show: false,
                 type: 'value',
-                position: 'top',
+                position: 'top'
             },
             yAxis: {
                 min: 0,
@@ -360,7 +342,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 },
                 show: false,
                 type: 'value',
-                inverse: true,
+                inverse: true
             },
             grid: {
                 left: 0,
@@ -389,6 +371,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     width: 2,
                     color: '#ccc',
                     curveness: 0.3
+
                 },
                 effect: {
                     show: true,
@@ -398,7 +381,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     color: '#ccc',
                     symbolSize: 6
                 },
-                data: charts.linesData,
+                data: charts.linesData
             }]
         };
         //@ts-ignore

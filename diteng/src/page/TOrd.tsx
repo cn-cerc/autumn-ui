@@ -66,8 +66,8 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                             <div className={`${this.state.linkRow.getBoolean('出货退回单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '出货退回单')}>
                                 <span>出货退回单</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('应帐回收_Dis') ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应帐回收')}>
-                                <span>应帐回收</span>
+                            <div className={`${this.state.linkRow.getBoolean('应收账款_Dis') ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应收账款')}>
+                                <span>应收账款</span>
                             </div>
                         </div>
                     </div>

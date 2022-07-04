@@ -31,13 +31,11 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '广东省');
+        pieData1.append().setValue('Value_', 10).setValue('Name_', '已完成');
+        pieData1.append().setValue('Value_', 20).setValue('Name_', '已结案');
         let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '女生');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '男生');
+        pieData2.append().setValue('Value_', 11).setValue('Name_', '已发货');
+        pieData2.append().setValue('Value_', 13).setValue('Name_', '未发货');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
@@ -203,38 +201,45 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             })
         }
         let option = {
-            // title: {
-            //     text: '本周货运吨数占比',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     },
-            //     top: '16'
-            // },
             tooltip: {
                 trigger: 'item'
+            },
+            legend: {
+                top: 25,
+                right: 10,
+                orient:'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
             },
             grid: {
                 top: 40,
                 left: 0,
                 bottom: 0,
                 right: 20,
-                containLabel: true,
+                containLabel: false,
             },
             series: [
                 {
-                    name: '本周货运吨数占比',
+                    // name: '本周货运吨数占比',
                     type: 'pie',
+                    center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '24',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {},
+                    labelLine: {
+                        show: false
+                    },
                     data: dataArr
                 }
             ]
@@ -260,20 +265,35 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: 25,
+                right: 10,
+                orient:'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+            },
             series: [
                 {
-                    name: '本周货运车辆占比',
+                    // name: '本周货运车辆占比',
                     type: 'pie',
+                    center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '24',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {},
+                    labelLine: {
+                        show: false
+                    },
                     data: dataArr
                 }
             ]
