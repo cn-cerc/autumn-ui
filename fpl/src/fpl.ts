@@ -76,7 +76,7 @@ export default {
     FrmMaintenanceSparepart,
     FrmMaintenanceBook,
     hrMC,
-    TOrd
+    TOrd,
     FrmDriverReceive,
     FrmDriverArrangeCarDetail,
 }
