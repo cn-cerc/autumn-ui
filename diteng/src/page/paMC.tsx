@@ -1,6 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./TRetailMC.css";
+import styles from "./paMC.css";
 import * as echarts from "echarts";
 
 type TPurMCTypeProps = {
@@ -62,29 +62,38 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`会员类别_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '会员类别')}>
-                                <span>会员类别</span>
+                            <div className={`${this.state.dataJson.getBoolean(`资产请购单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '资产请购单')}>
+                                <span>资产请购单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会员_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '会员')}>
-                                <span>会员</span>
+                            <div className={`${this.state.dataJson.getBoolean(`资产采购单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '资产采购单')}>
+                                <span>资产采购单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '零售登记')}>
-                                <span>零售登记</span>
+                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '会计凭证')}>
+                                <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '零售单')}>
-                                <span>零售单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`资产进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '资产进货单')}>
+                                <span>资产进货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售退货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '零售退货单')}>
-                                <span>零售退货单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`摊提明细_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '摊提明细')}>
+                                <span>摊提明细</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收银管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '收银管理')}>
-                                <span>收银管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`领用单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '领用单')}>
+                                <span>领用单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售统计_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '销售统计')}>
-                                <span>销售统计</span>
+                            <div className={`${this.state.dataJson.getBoolean(`固定资产_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '固定资产')}>
+                                <span>固定资产</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`换班交接_Dis`) ? styles.other_disable : styles.other} ${styles.stock9}`} onClick={this.linkTo.bind(this, '换班交接')}>
-                                <span>换班交接</span>
+                            <div className={`${this.state.dataJson.getBoolean(`维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '维修单')}>
+                                <span>维修单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`还库单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock13}`} onClick={this.linkTo.bind(this, '还库单')}>
+                                <span>还库单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '报废单')}>
+                                <span>报废单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`售卖单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '售卖单')}>
+                                <span>售卖单</span>
                             </div>
                         </div>
                     </div>
@@ -134,7 +143,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         let option = {
             xAxis: {
                 type: 'category',
-                data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -150,23 +159,12 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     color: '#333333'
                 }
             },
-            legend: {
-                data: ['售出', '退货'],
-                show: true,
-                right: 40,
-                top: 30,
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-                formatter: '{name}:' + 12
-            },
             tooltip: {},
             grid: {
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: 130,
+                right: 230,
                 containLabel: true,
             },
             series: [
@@ -179,21 +177,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     },
                     lineStyle: {
                         color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                },
-                {
-                    data: sData,
-                    type: 'bar',
-                    name: '退货',
-                    itemStyle: {
-                        color: MCChartColors[1]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[1]
                     },
                     label: {
                         show: true,
@@ -329,38 +312,74 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             nodes,
             linesData: [
                 {
-                    coords: [ //会员类别 往右线条
-                        [133, 35],
-                        [198, 35],
+                    coords: [ //资产请购单 往下线条
+                        [168, 75],
+                        [168, 108]
                     ]
                 },
                 {
-                    coords: [ //零售登记 往下线条
-                        [111, 160],
-                        [111, 185],
+                    coords: [ //资产采购单 往下线条
+                        [168, 160],
+                        [168, 189]
                     ]
                 },
                 {
-                    coords: [ //零售退货单 往左线条
-                        [198, 207],
-                        [133, 207]
+                    coords: [ //资产进货单 往右上线条
+                        [193, 199],
+                        [240, 163]
                     ]
-                }, {
-                    coords: [ //零售单 往下线条
-                        [111, 244],
-                        [111, 275]
+                },
+                {
+                    coords: [ //资产进货单 往下线条
+                        [168, 247],
+                        [168, 271]
                     ]
-                }, {
-                    coords: [ //收银管理 往下线条
-                        [111, 330],
-                        [111, 360]
+                },
+                {
+                    coords: [ //摊提明细 往上线条
+                        [278, 189],
+                        [278, 160]
                     ]
-                }, {
-                    coords: [ //零售退货单 往下线条
-                        [219, 244],
-                        [219, 275]
+                },
+                {
+                    coords: [ //领用单 往下线条
+                        [50, 328],
+                        [50, 349]
                     ]
-                }
+                },
+                {
+                    coords: [ //固定资产 往左线条
+                        [143, 290],
+                        [75, 290]
+                    ]
+                },
+                {
+                    coords: [ //固定资产 往右线条
+                        [190, 290],
+                        [256, 290]
+                    ]
+                },
+                {
+                    coords: [ //固定资产 往下线条
+                        [168, 328],
+                        [168, 349]
+                    ]
+                },
+                {
+                    coords: [ //固定资产 往右上线条
+                        [220, 290],
+                        [220, 210],
+                        [256, 210],
+                    ]
+                },
+                {
+                    coords: [ //固定资产 往右下线条
+                        [220, 290],
+                        [220, 369],
+                        [256, 369],
+                    ]
+                },
+                
             ]
         }
 

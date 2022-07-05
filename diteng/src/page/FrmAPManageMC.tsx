@@ -1,6 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./TRetailMC.css";
+import styles from "./FrmAPManageMC.css";
 import * as echarts from "echarts";
 
 type TPurMCTypeProps = {
@@ -62,29 +62,29 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`会员类别_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '会员类别')}>
-                                <span>会员类别</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收调整单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收调整单')}>
+                                <span>应收调整单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会员_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '会员')}>
-                                <span>会员</span>
+                            <div className={`${this.state.dataJson.getBoolean(`销货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销货单')}>
+                                <span>销货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '零售登记')}>
-                                <span>零售登记</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应收结账单')}>
+                                <span>应收结账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '零售单')}>
-                                <span>零售单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '请款单')}>
+                                <span>请款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售退货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '零售退货单')}>
-                                <span>零售退货单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应收账款')}>
+                                <span>应收账款</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收银管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '收银管理')}>
-                                <span>收银管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '收款单')}>
+                                <span>收款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售统计_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '销售统计')}>
-                                <span>销售统计</span>
+                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '会计凭证')}>
+                                <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`换班交接_Dis`) ? styles.other_disable : styles.other} ${styles.stock9}`} onClick={this.linkTo.bind(this, '换班交接')}>
-                                <span>换班交接</span>
+                            <div className={`${this.state.dataJson.getBoolean(`银行存款_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '银行存款')}>
+                                <span>银行存款</span>
                             </div>
                         </div>
                     </div>
@@ -103,9 +103,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>比例图（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow}/>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -134,7 +131,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         let option = {
             xAxis: {
                 type: 'category',
-                data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -150,23 +147,12 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     color: '#333333'
                 }
             },
-            legend: {
-                data: ['售出', '退货'],
-                show: true,
-                right: 40,
-                top: 30,
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-                formatter: '{name}:' + 12
-            },
             tooltip: {},
             grid: {
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: 130,
+                right: 230,
                 containLabel: true,
             },
             series: [
@@ -179,21 +165,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     },
                     lineStyle: {
                         color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                },
-                {
-                    data: sData,
-                    type: 'bar',
-                    name: '退货',
-                    itemStyle: {
-                        color: MCChartColors[1]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[1]
                     },
                     label: {
                         show: true,
@@ -329,38 +300,55 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             nodes,
             linesData: [
                 {
-                    coords: [ //会员类别 往右线条
-                        [133, 35],
-                        [198, 35],
+                    coords: [ //应收调整单 往下线条
+                        [168, 75],
+                        [168, 108]
                     ]
                 },
                 {
-                    coords: [ //零售登记 往下线条
-                        [111, 160],
-                        [111, 185],
+                    coords: [ //销货单 往右线条
+                        [73, 123],
+                        [150, 123],
                     ]
                 },
                 {
-                    coords: [ //零售退货单 往左线条
-                        [198, 207],
-                        [133, 207]
+                    coords: [ //应收结账单 往右下线条
+                        [190, 123],
+                        [279, 123],
+                        [279, 271]
                     ]
-                }, {
-                    coords: [ //零售单 往下线条
-                        [111, 244],
-                        [111, 275]
+                },
+                {
+                    coords: [ //应收结账单 往下线条
+                        [168, 160],
+                        [168, 189]
                     ]
-                }, {
-                    coords: [ //收银管理 往下线条
-                        [111, 330],
-                        [111, 360]
+                },
+                {
+                    coords: [ //应收结账单 往左下线条
+                        [168, 174],
+                        [50, 174],
+                        [50, 189]
                     ]
-                }, {
-                    coords: [ //零售退货单 往下线条
-                        [219, 244],
-                        [219, 275]
+                },
+                {
+                    coords: [ //应收账款 往下线条
+                        [50, 247],
+                        [50, 271]
                     ]
-                }
+                },
+                {
+                    coords: [ //收款单 往右线条
+                        [73, 290],
+                        [256, 290]
+                    ]
+                },
+                {
+                    coords: [ //收款单 往下线条
+                        [50, 328],
+                        [50, 349]
+                    ]
+                },
             ]
         }
 

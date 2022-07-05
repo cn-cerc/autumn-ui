@@ -1,3 +1,9 @@
+.MCtext {
+    position: absolute;
+    color: #999;
+    font-size: 14px;
+}
+
 .mcIntroduction {
     background-color: #fff;
     border-radius: .28rem;
@@ -201,48 +207,76 @@
 }
 
 .stock1 {
-    left: 60px;
-    top: 15px;
+    left: 4px;
+    top: 20px;
 }
 
 .stock2 {
-    left: 160px;
-    top: 15px;
+    left: 112px;
+    top: 20px;
 }
 
 .stock3 {
-    left: 60px;
-    top: 100px;
+    left: 55px;
+    top: 104px;
 }
 
 .stock4 {
-    left: 160px;
-    top: 100px;
+    left: 4px;
+    top: 120px;
 }
 
 .stock5 {
-    left: 60px;
-    top: 185px;
+    left: 55px;
+    top: 180px;
 }
 
 .stock6 {
-    left: 160px;
-    top: 185px;
+    left: 76px;
+    top: 216px;
 }
 
 .stock7 {
-    left: 60px;
-    top: 270px;
+    left: 4px;
+    top: 220px;
 }
 
 .stock8 {
-    left: 160px;
-    top: 270px;
+    left: 112px;
+    top: 220px;
 }
 
 .stock9 {
-    left: 60px;
-    top: 355px;
+    left: 212px;
+    top: 220px;
+}
+
+.stock10 {
+    left: 4px;
+    top: 320px;
+}
+
+.stock11 {
+    left: 112px;
+    top: 320px;
+}
+
+.stock9Box {
+    position: absolute;
+    width: 6em;
+    height: 140px;
+    left: 212px;
+    top: 174px;
+}
+
+.stock9_1 {
+    top: 0;
+    left: 0;
+}
+
+.stock9_2 {
+    bottom: 0;
+    left: 0;
 }
 
 
@@ -295,7 +329,6 @@
 
     .mcFlowChartBox {
         width: 100%;
-        margin-bottom: 12px;
     }
 
     .mcCharts {
@@ -305,7 +338,7 @@
 
     .mcTrendChart,
     .mcPieBox2 {
-        margin-top: 12px;
+        margin-top: 16px;
     }
 
     .FrmTaurusMCLine {
@@ -315,7 +348,7 @@
 
     .mcPieChart {
         flex-wrap: wrap;
-        flex: 1;
+        flex: auto;
     }
 
     .mcPieBox1,

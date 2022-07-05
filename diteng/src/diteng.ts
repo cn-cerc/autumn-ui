@@ -82,6 +82,12 @@ import TPurMC from "./page/TPurMC";
 import hrMC from "./page/hrMC";
 import TRetailMC from "./page/TRetailMC";
 import TMakeMC from "./page/TMakeMC";
+import paMC from "./page/paMC";
+import FrmARManageMC from "./page/FrmARManageMC";
+import FrmAPManageMC from "./page/FrmAPManageMC";
+import TAccMC from "./page/TAccMC";
+import custTLinkMC from "./page/custTLinkMC";
+import firmTLinkMC from "./page/firmTLinkMC";
 
 export default {
     //地藤专用
@@ -179,5 +185,11 @@ export default {
     TPurMC,
     hrMC,
     TRetailMC,
-    TMakeMC
+    TMakeMC,
+    paMC,
+    FrmARManageMC,
+    FrmAPManageMC,
+    TAccMC,
+    custTLinkMC,
+    firmTLinkMC
 }

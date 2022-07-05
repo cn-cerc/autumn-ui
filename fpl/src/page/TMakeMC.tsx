@@ -1,6 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./TRetailMC.css";
+import styles from "./TMakeMC.css";
 import * as echarts from "echarts";
 
 type TPurMCTypeProps = {
@@ -31,15 +31,11 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
+        pieData1.append().setValue('Value_', 10).setValue('Name_', '已完成');
+        pieData1.append().setValue('Value_', 20).setValue('Name_', '已结案');
         let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
+        pieData2.append().setValue('Value_', 11).setValue('Name_', '已发货');
+        pieData2.append().setValue('Value_', 13).setValue('Name_', '未发货');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
@@ -62,29 +58,43 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`会员类别_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '会员类别')}>
-                                <span>会员类别</span>
+                            <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '销售订单')}>
+                                <span>销售订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会员_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '会员')}>
-                                <span>会员</span>
+                            <div className={`${this.state.dataJson.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '部门资料')}>
+                                <span>部门资料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '零售登记')}>
-                                <span>零售登记</span>
+                            <div className={`${this.state.dataJson.getBoolean(`生产订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
+                                <span>生产订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '零售单')}>
-                                <span>零售单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`派工单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '派工单')}>
+                                <span>派工单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零售退货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '零售退货单')}>
-                                <span>零售退货单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`生产日报表_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '生产日报表')}>
+                                <span>生产日报表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收银管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '收银管理')}>
-                                <span>收银管理</span>
+                            <div className={styles.stock9Box}>
+                                <div className={`${this.state.dataJson.getBoolean(`生产报工单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9_1}`} onClick={this.linkTo.bind(this, '生产报工单')}>
+                                    <span>生产报工单</span>
+                                </div>
+                                <div className={`${this.state.dataJson.getBoolean(`制程转移单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9_2}`} onClick={this.linkTo.bind(this, '制程转移单')}>
+                                    <span>制程转移单</span>
+                                </div>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售统计_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '销售统计')}>
-                                <span>销售统计</span>
+                            <div className={`${this.state.dataJson.getBoolean(`生产领料_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '生产领料')}>
+                                <span>生产领料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`换班交接_Dis`) ? styles.other_disable : styles.other} ${styles.stock9}`} onClick={this.linkTo.bind(this, '换班交接')}>
-                                <span>换班交接</span>
+                            <div className={`${this.state.dataJson.getBoolean(`完工入库_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '完工入库')}>
+                                <span>完工入库</span>
+                            </div>
+                            <div className={`${styles.MCtext} ${styles.stock3}`}>
+                                <span>排产作业</span>
+                            </div>
+                            <div className={`${styles.MCtext} ${styles.stock5}`}>
+                                <span>派工作业</span>
+                            </div>
+                            <div className={`${styles.MCtext} ${styles.stock6}`}>
+                                <span>派工作业</span>
                             </div>
                         </div>
                     </div>
@@ -103,9 +113,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>比例图（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow}/>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -113,13 +120,13 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
     }
 
     componentDidMount(): void {
-        this.initBarChart();
+        this.initLineChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initBarChart() {
+    initLineChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
@@ -134,7 +141,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         let option = {
             xAxis: {
                 type: 'category',
-                data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                data: xArr,
                 axisLabel: {
                     color: '#333333'
                 },
@@ -150,50 +157,24 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     color: '#333333'
                 }
             },
-            legend: {
-                data: ['售出', '退货'],
-                show: true,
-                right: 40,
-                top: 30,
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-                formatter: '{name}:' + 12
-            },
+            lengend: {},
             tooltip: {},
             grid: {
-                top: 15,
+                top: 10,
                 left: 0,
                 bottom: 0,
-                right: 130,
+                right: 10,
                 containLabel: true,
             },
             series: [
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
                     lineStyle: {
                         color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                },
-                {
-                    data: sData,
-                    type: 'bar',
-                    name: '退货',
-                    itemStyle: {
-                        color: MCChartColors[1]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[1]
                     },
                     label: {
                         show: true,
@@ -329,38 +310,61 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             nodes,
             linesData: [
                 {
-                    coords: [ //会员类别 往右线条
-                        [133, 35],
-                        [198, 35],
+                    coords: [ //销售订单 往下
+                        [50, 79],
+                        [50, 120],
                     ]
                 },
                 {
-                    coords: [ //零售登记 往下线条
-                        [111, 160],
-                        [111, 185],
+                    coords: [ //销售订单 往下
+                        [50, 179],
+                        [50, 220],
                     ]
                 },
                 {
-                    coords: [ //零售退货单 往左线条
-                        [198, 207],
-                        [133, 207]
+                    coords: [ //派工单 往右
+                        [78, 242],
+                        [150, 242],
                     ]
                 }, {
-                    coords: [ //零售单 往下线条
-                        [111, 244],
-                        [111, 275]
+                    coords: [ //生产日报表 往右
+                        [183, 242],
+                        [215, 242],
                     ]
-                }, {
-                    coords: [ //收银管理 往下线条
-                        [111, 330],
-                        [111, 360]
+                },
+                {
+                    coords: [
+                        [215, 242],
+                        [215, 195],
+                        [252, 195],
                     ]
-                }, {
-                    coords: [ //零售退货单 往下线条
-                        [219, 244],
-                        [219, 275]
+                },
+                {
+                    coords: [
+                        [215, 242],
+                        [215, 280],
+                        [252, 280],
                     ]
-                }
+                },
+                {
+                    coords: [
+                        [276, 320],
+                        [276, 338],
+                        [183, 338],
+                    ]
+                },
+                {
+                    coords: [ //派工单 往下
+                        [50, 280],
+                        [50, 320],
+                    ]
+                },
+                {
+                    coords: [ //生产日报表 往下
+                        [169, 280],
+                        [169, 320],
+                    ]
+                },
             ]
         }
 

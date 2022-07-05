@@ -295,6 +295,7 @@
 
     .mcFlowChartBox {
         width: 100%;
+        margin-bottom: 12px;
     }
 
     .mcCharts {
@@ -304,7 +305,7 @@
 
     .mcTrendChart,
     .mcPieBox2 {
-        margin-top: 16px;
+        margin-top: 12px;
     }
 
     .FrmTaurusMCLine {
@@ -314,7 +315,7 @@
 
     .mcPieChart {
         flex-wrap: wrap;
-        flex: auto;
+        flex: 1;
     }
 
     .mcPieBox1,

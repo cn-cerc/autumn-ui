@@ -36,6 +36,16 @@ import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
 import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
 import hrMC from "./page/hrMC";
 import TOrd from "./page/TOrd";
+import TMakeMC from "./page/TMakeMC";
+import paMC from "./page/paMC";
+import FrmARManageMC from "./page/FrmARManageMC";
+import FrmAPManageMC from "./page/FrmAPManageMC";
+import FrmARManageMC1 from "./page/FrmARManageMC1";
+import FrmAPManageMC1 from "./page/FrmAPManageMC1";
+import TAccMC from "./page/TAccMC";
+import custTLinkMC from "./page/custTLinkMC";
+import firmTLinkMC from "./page/firmTLinkMC";
+import TFrmStockTotalMC from "./page/TFrmStockTotalMC";
 
 export default {
     ...diteng,
@@ -74,5 +84,15 @@ export default {
     FrmMaintenanceSparepart,
     FrmMaintenanceBook,
     hrMC,
-    TOrd
+    TOrd,
+    TMakeMC,
+    paMC,
+    FrmARManageMC,
+    FrmARManageMC1,
+    FrmAPManageMC,
+    FrmAPManageMC1,
+    TAccMC,
+    custTLinkMC,
+    firmTLinkMC,
+    TFrmStockTotalMC
 }
