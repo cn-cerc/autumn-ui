@@ -34,6 +34,8 @@ import FrmMaintenanceAR from "./page/FrmMaintenanceAR";
 import FrmMaintenanceCus from "./page/FrmMaintenanceCus";
 import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
 import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
+import hrMC from "./page/hrMC";
+import TOrd from "./page/TOrd";
 import FrmDriverReceive from "./page/FrmDriverReceive";
 import FrmDriverArrangeCarDetail from "./page/FrmDriverArrangeCarDetail";
 
@@ -73,6 +75,8 @@ export default {
     FrmMaintenanceCus,
     FrmMaintenanceSparepart,
     FrmMaintenanceBook,
+    hrMC,
+    TOrd
     FrmDriverReceive,
     FrmDriverArrangeCarDetail,
 }
