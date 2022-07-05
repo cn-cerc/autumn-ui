@@ -1,6 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./hrMC.css";
+import styles from "./FrmAPManageMC1.css";
 import * as echarts from "echarts";
 
 type TPurMCTypeProps = {
@@ -31,13 +31,15 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '广东省');
+        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
         let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '女生');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '男生');
+        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
+        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
+        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
+        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
@@ -60,29 +62,29 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '部门资料')}>
-                                <span>部门资料</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收调整单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收调整单')}>
+                                <span>应收调整单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`员工管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '员工管理')}>
-                                <span>员工管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`销货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销货单')}>
+                                <span>销货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '合同管理')}>
-                                <span>合同管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应收结账单')}>
+                                <span>应收结账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`考勤管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '考勤管理')}>
-                                <span>考勤管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '请款单')}>
+                                <span>请款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出差考勤_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '出差考勤')}>
-                                <span>出差考勤</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应收账款')}>
+                                <span>应收账款</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`薪资管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '薪资管理')}>
-                                <span>薪资管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '收款单')}>
+                                <span>收款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`薪资标准_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '薪资标准')}>
-                                <span>薪资标准</span>
+                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '会计凭证')}>
+                                <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`部门成本_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '部门成本')}>
-                                <span>部门成本</span>
+                            <div className={`${this.state.dataJson.getBoolean(`银行存款_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '银行存款')}>
+                                <span>银行存款</span>
                             </div>
                         </div>
                     </div>
@@ -108,13 +110,13 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
     }
 
     componentDidMount(): void {
-        this.initLineChart();
+        this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
+    initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
@@ -129,7 +131,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         let option = {
             xAxis: {
                 type: 'category',
-                data: xArr,
+                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -145,19 +147,19 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     color: '#333333'
                 }
             },
-            lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
+                top: 15,
                 left: 0,
                 bottom: 0,
-                right: 10,
+                right: 230,
                 containLabel: true,
             },
             series: [
                 {
                     data: sData,
                     type: 'bar',
+                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -298,49 +300,55 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             nodes,
             linesData: [
                 {
-                    coords: [ //部门资料 往下线条
-                        [111, 75],
-                        [111, 105],
+                    coords: [ //应收调整单 往下线条
+                        [168, 75],
+                        [168, 108]
                     ]
                 },
                 {
-                    coords: [ //员工管理 往下线条
-                        [111, 160],
-                        [111, 185],
+                    coords: [ //销货单 往右线条
+                        [73, 123],
+                        [150, 123],
                     ]
                 },
                 {
-                    coords: [ //合同管理 往左线条
-                        [198, 125],
-                        [133, 125],
+                    coords: [ //应收结账单 往右下线条
+                        [190, 123],
+                        [279, 123],
+                        [279, 271]
                     ]
-                }, {
-                    coords: [ //出差考勤 往左线条
-                        [198, 207],
-                        [133, 207]
+                },
+                {
+                    coords: [ //应收结账单 往下线条
+                        [168, 160],
+                        [168, 189]
                     ]
-                }, {
-                    coords: [ //考勤管理 往下线条
-                        [111, 244],
-                        [111, 275]
+                },
+                {
+                    coords: [ //应收结账单 往左下线条
+                        [168, 174],
+                        [50, 174],
+                        [50, 189]
                     ]
-                }, {
-                    coords: [ //薪资管理 往下线条
-                        [111, 330],
-                        [111, 360]
+                },
+                {
+                    coords: [ //应收账款 往下线条
+                        [50, 247],
+                        [50, 271]
                     ]
-                }, {
-                    coords: [ //薪资标准 往左线条
-                        [200, 293],
-                        [133, 293]
+                },
+                {
+                    coords: [ //收款单 往右线条
+                        [73, 290],
+                        [256, 290]
                     ]
-                }, {
-                    coords: [ //部门成本 往左下线条
-                        [219, 330],
-                        [219, 375],
-                        [140, 375]
+                },
+                {
+                    coords: [ //收款单 往下线条
+                        [50, 328],
+                        [50, 349]
                     ]
-                }
+                },
             ]
         }
 

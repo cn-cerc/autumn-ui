@@ -65,6 +65,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .mcPieChart {
@@ -201,50 +202,79 @@
 }
 
 .stock1 {
-    left: 60px;
-    top: 15px;
+    left: 4px;
+    top: 16px;
 }
 
 .stock2 {
-    left: 160px;
-    top: 15px;
+    left: 112px;
+    top: 16px;
 }
 
 .stock3 {
-    left: 60px;
-    top: 100px;
+    left: 212px;
+    top: 16px;
 }
 
 .stock4 {
-    left: 160px;
-    top: 100px;
+    left: 4px;
+    top: 102px;
 }
 
 .stock5 {
-    left: 60px;
-    top: 185px;
+    left: 112px;
+    top: 102px;
 }
 
 .stock6 {
-    left: 160px;
-    top: 185px;
+    left: 212px;
+    top: 102px;
 }
 
 .stock7 {
-    left: 60px;
-    top: 270px;
+    left: 4px;
+    top: 188px;
 }
 
 .stock8 {
-    left: 160px;
-    top: 270px;
+    left: 112px;
+    top: 188px;
 }
 
 .stock9 {
-    left: 60px;
-    top: 355px;
+    left: 212px;
+    top: 188px;
 }
 
+.stock10 {
+    left: 4px;
+    top: 269px;
+}
+
+.stock11 {
+    left: 112px;
+    top: 269px;
+}
+
+.stock12 {
+    left: 212px;
+    top: 269px;
+}
+
+.stock13 {
+    left: 4px;
+    top: 350px;
+}
+
+.stock14 {
+    left: 112px;
+    top: 350px;
+}
+
+.stock15 {
+    left: 212px;
+    top: 350px;
+}
 
 @media screen and (min-width: 768px) {
     .mc {
