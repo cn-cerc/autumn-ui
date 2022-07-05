@@ -144,6 +144,14 @@
     }
 }
 
+.noGrid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    color: #999;
+}
+
 @media screen and (min-width: 768px) {
     .flowBox {
         padding: 0 22px 24px 22px;
@@ -228,14 +236,9 @@
         align-items: center;
         width: 0;
         flex: 1;
-        margin-right: 1rem;
         overflow: hidden;
         font-weight: bold;
         overflow: hidden;
-    }
-
-    .orderTop>div>span {
-        flex-shrink: 0;
     }
 
     .orderTop>div>img {
@@ -255,6 +258,16 @@
         display: flex;
     }
 
+    .orderCenter>div {
+        width: 0;
+        flex: 1;
+    }
+
+    .orderCenter>img {
+        width: 4.5rem;
+        margin-left: 1rem;
+    }
+
     .orderInfo {
         display: flex;
         flex-direction: column;
@@ -264,6 +277,11 @@
 
     .orderInfo>span {
         overflow: hidden;
+    }
+
+    .orderInfo>span>i {
+        color: #999999;
+        padding-right: .625rem;
     }
 
     .orderInfo>span:nth-child(n+2) {
@@ -293,5 +311,30 @@
         box-sizing: content-box;
         height: 1em;
         line-height: 1em;
+    }
+
+    .orderBottom>button.received {
+        position: relative;
+        background-color: #fff;
+        color: #999999;
+    }
+
+    .orderBottom>button.received::before {
+        content: '';
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        border: 1px solid #999999;
+        border-radius: .25rem;
+    }
+
+    .orderList>li.noOrder {
+        text-align: center;
+        padding: 1rem;
+        height: 8rem;
+        color: #999;
+        background-color: transparent;
     }
 }
