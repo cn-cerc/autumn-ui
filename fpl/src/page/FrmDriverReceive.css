@@ -1,0 +1,297 @@
+.contents {
+    display: flex;
+    color: #333;
+    line-height: 1em;
+}
+
+.chartsBox {
+    width: 344px;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.chartsBox>p {
+    padding: 16px;
+    font-weight: bold;
+}
+
+.flowBox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flowBox>li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.flowBox>li:hover {
+    color: #0283f7;
+}
+
+.flowBox>li>img {
+    width: 2.625rem;
+}
+
+.flowBox>li.line {
+    width: 2.25rem;
+    border-top: 1px dashed #ccc;
+    height: 0;
+    position: relative;
+    top: 20px;
+}
+
+.flowBox>li>span {
+    padding-top: .5rem;
+    position: absolute;
+    top: 2.625rem;
+    white-space: nowrap;
+    line-height: 1em;
+}
+
+.info {
+    padding-left: 16px;
+    width: 0;
+    flex: 1;
+}
+
+.info>p {
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.info>ul {
+    padding-top: 16px;
+    display: flex;
+}
+
+.info>ul>li {
+    background-color: #fff;
+    width: 0;
+    flex: 1;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.info>ul>li:nth-child(n+2) {
+    margin-left: 16px;
+}
+
+.info>ul>li>p {
+    font-weight: bold;
+}
+
+.info>ul>li>div {
+    margin-top: 8px;
+    display: flex;
+    align-items: flex-end;
+    height: 22px;
+}
+
+.info>ul>li>div>span:first-child {
+    font-weight: bold;
+    font-size: 22px;
+    margin-right: 8px;
+    line-height: 18px;
+}
+
+.grid {
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    margin-top: 16px;
+    border-radius: 4px;
+    line-height: 1em;
+}
+
+.gridTitle {
+    background-color: #e8e6e6;
+    padding: 16px;
+    font-weight: bold;
+}
+
+.dbgrid[role='dbgrid'] {
+    margin-top: 0;
+    border-radius: 0;
+}
+
+.opera {
+    color: #0283f7;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1366px) {
+    .info {
+        padding-left: 10px;
+    }
+
+    .info>ul {
+        padding-top: 10px;
+        display: flex;
+    }
+
+    .info>ul>li:nth-child(n+2) {
+        margin-left: 10px;
+    }
+
+    .grid {
+        margin-top: 10px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .flowBox {
+        padding: 0 22px 24px 22px;
+    }
+
+    .dbgrid[role="dbgrid"] table th {
+        border: 0;
+        background-color: #fff;
+        color: #999999;
+        text-align: left;
+        padding: 0 .5rem;
+    }
+
+    .dbgrid[role="dbgrid"] table tr {
+        background-color: #fff;
+        cursor: auto;
+    }
+
+    .dbgrid[role="dbgrid"] table tr td {
+        border: 0;
+        border-top: 1px solid #eeeeee;
+        cursor: auto;
+    }
+
+    .dbgrid[role="dbgrid"] table tr td .opera {
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .flowBox {
+        padding: 1.25rem 1.25rem 2.625rem;
+        background-color: #fff;
+        margin: .75rem .75rem 0;
+        border-radius: .25rem;
+    }
+
+    .orderTypeList {
+        margin: 1.25rem .75rem;
+        display: flex;
+        justify-content: space-around;
+        font-size: 14px;
+        color: #333333;
+        line-height: 1em;
+    }
+
+    .orderTypeList .orderActive {
+        color: #0473EA;
+        font-weight: bold;
+        font-size: 16px;
+        position: relative;
+    }
+
+    .orderTypeList .orderActive::after {
+        content: '';
+        position: absolute;
+        top: 20px;
+        width: 1.25rem;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 2px;
+        background-color: #0473EA;
+    }
+
+    .orderList>li {
+        margin: 0 .75rem .75rem;
+        padding: 1rem .75rem;
+        background-color: #fff;
+        border-radius: .25rem;
+        line-height: 1em;
+    }
+
+    .orderTop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .orderTop>div {
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        width: 0;
+        flex: 1;
+        margin-right: 1rem;
+        overflow: hidden;
+        font-weight: bold;
+        overflow: hidden;
+    }
+
+    .orderTop>div>span {
+        flex-shrink: 0;
+    }
+
+    .orderTop>div>img {
+        width: 1rem;
+        margin: 0 .375rem;
+    }
+
+    .orderTop>span {
+        color: #999;
+    }
+
+    .orderCenter {
+        margin: .625rem 0;
+        background-color: #FAFAFA;
+        border-radius: .125rem;
+        padding: .75rem 1rem;
+        display: flex;
+    }
+
+    .orderInfo {
+        display: flex;
+        flex-direction: column;
+        width: 0;
+        flex: 1;
+    }
+
+    .orderInfo>span {
+        overflow: hidden;
+    }
+
+    .orderInfo>span:nth-child(n+2) {
+        padding-top: .5rem;
+    }
+
+    .orderBottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .freight {
+        color: #E65C5C;
+    }
+
+    .freight>span {
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+
+    .orderBottom>button {
+        padding: .5rem .875rem;
+        border-radius: .25rem;
+        background-color: #00A653;
+        color: #fff;
+        box-sizing: content-box;
+        height: 1em;
+        line-height: 1em;
+    }
+}
