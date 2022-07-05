@@ -261,22 +261,22 @@
     top: 320px;
 }
 
-.stock9Box{
+.stock9Box {
     position: absolute;
     width: 6em;
     height: 140px;
     left: 212px;
-    top: 174px; 
+    top: 174px;
 }
 
-.stock9_1{
-    top:0;
-    left:0;
+.stock9_1 {
+    top: 0;
+    left: 0;
 }
 
-.stock9_2{
-    bottom:0;
-    left:0;
+.stock9_2 {
+    bottom: 0;
+    left: 0;
 }
 
 

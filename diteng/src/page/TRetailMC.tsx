@@ -134,7 +134,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
         let option = {
             xAxis: {
                 type: 'category',
-                data: [1,2,3,4,5,6,7,8,9,10,11,12],
+                data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -153,9 +153,9 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             legend: {
                 data: ['售出', '退货'],
                 show: true,
-                right:40,
-                top:30,
-                orient:'vertical',
+                right: 40,
+                top: 30,
+                orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
@@ -173,7 +173,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 {
                     data: sData,
                     type: 'bar',
-                    name:'售出',
+                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -188,7 +188,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 {
                     data: sData,
                     type: 'bar',
-                    name:'退货',
+                    name: '退货',
                     itemStyle: {
                         color: MCChartColors[1]
                     },
@@ -226,7 +226,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             legend: {
                 top: 25,
                 right: 10,
-                orient:'vertical',
+                orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
@@ -287,7 +287,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             legend: {
                 top: 25,
                 right: 10,
-                orient:'vertical',
+                orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',

@@ -195,7 +195,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             legend: {
                 top: 25,
                 right: 10,
-                orient:'vertical',
+                orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
@@ -256,7 +256,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             legend: {
                 top: 25,
                 right: 10,
-                orient:'vertical',
+                orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
