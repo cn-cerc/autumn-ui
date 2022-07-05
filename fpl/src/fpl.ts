@@ -36,6 +36,9 @@ import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
 import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
 import hrMC from "./page/hrMC";
 import TOrd from "./page/TOrd";
+import FrmDriverReceive from "./page/FrmDriverReceive";
+import FrmDriverArrangeCarDetail from "./page/FrmDriverArrangeCarDetail";
+import FrmWagonAccountBook from "./page/FrmWagonAccountBook";
 import TMakeMC from "./page/TMakeMC";
 import paMC from "./page/paMC";
 import FrmARManageMC from "./page/FrmARManageMC";
@@ -85,6 +88,9 @@ export default {
     FrmMaintenanceBook,
     hrMC,
     TOrd,
+    FrmDriverReceive,
+    FrmDriverArrangeCarDetail,
+    FrmWagonAccountBook,
     TMakeMC,
     paMC,
     FrmARManageMC,

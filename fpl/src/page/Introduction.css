@@ -1,0 +1,25 @@
+.mcIntroduction {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 16px;
+    line-height: 1em;
+    color: #333;
+}
+
+.mcIntroduction>p {
+    line-height: 24px;
+    padding-top: 5px;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1366px) {
+    .mcIntroduction {
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mcIntroduction {
+        display: none;
+    }
+}
