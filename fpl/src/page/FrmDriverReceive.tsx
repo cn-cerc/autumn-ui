@@ -139,7 +139,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     getDBGrid() {
         if (this.state.isInit) {
-            let jsx = <div className={styles.noGrid}>暂无未接单的订单，前往<a href=''>接单大厅</a></div>;
+            let jsx = <div className={styles.noGrid}>暂无未接单的订单，前往<a href='FrmCarGrab'>抢单大厅</a></div>;
             if (this.state.notData.size > 0)
                 jsx = <React.Fragment>
                     <div className={styles.gridTitle}>您存在未接运单——{this.state.notData.size}单，请尽快接单</div>
@@ -195,26 +195,29 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
     getToast() {
         if (!this.state.isInit)
             return
-        let jsx = <p>暂无接单，快去抢单大厅看看吧~！<a style={{ 'marginLeft': '12px' }} href=''>立即查看</a></p>
+        let jsx = <p>暂无接单，快去抢单大厅看看吧~！<a style={{ 'marginLeft': '12px' }} href='FrmCarGrab'>立即查看</a></p>
         if (this.state.receivedData.size > 0) {
             let nearTime;
+            let nearHref = '';
             let lastTime;
             this.state.receivedData.first();
             let time = new Date().getTime();
             for (let i = 0; i < this.state.receivedData.records.length; i++) {
                 let time_ = new Date(this.state.receivedData.records[i].getString('receiving_time_')).getTime();
                 let _time = new Date(this.state.receivedData.records[this.state.receivedData.records.length - i - 1].getString('receiving_time_')).getTime();
-                if (time_ > time && !nearTime)
+                if (time_ > time && !nearTime) {
                     nearTime = time_;
+                    nearHref = `FrmDriverArrangeCar.detail?cargoNo=${this.state.receivedData.records[i].getString('cargo_no_')}&tbNo=${this.state.receivedData.records[i].getString('tb_no_')}&dcorpno=${this.state.receivedData.records[i].getString('d_corp_no_')}&it=${this.state.receivedData.records[i].getDouble('it_')}`;
+                }
                 if (_time <= time && !lastTime)
                     lastTime = _time
                 if (nearTime && lastTime)
                     break;
             }
             if (nearTime) {
-                jsx = <p style={{ 'color': '#E65C5C' }}>您距离下一单发货时间还有{Math.ceil((nearTime - time) / 3600000)}个小时！<a style={{ 'marginLeft': '12px' }} href=''>立即查看</a></p>
+                jsx = <p style={{ 'color': '#E65C5C' }}>您距离下一单发货时间还有{Math.ceil((nearTime - time) / 3600000)}个小时！<a style={{ 'marginLeft': '12px' }} href={nearHref}>立即查看</a></p>
             } else if (Math.floor((time - lastTime) / 86400000) >= 5)
-                jsx = <p>您已经{Math.floor((time - lastTime) / 86400000)}天没有接单了，快来抢单大厅看看吧！<a style={{ 'marginLeft': '12px' }} href=''>立即查看</a></p>
+                jsx = <p>您已经{Math.floor((time - lastTime) / 86400000)}天没有接单了，快来抢单大厅看看吧！<a style={{ 'marginLeft': '12px' }} href='FrmCarGrab'>立即查看</a></p>
         }
         return jsx;
     }
@@ -223,7 +226,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         let time_ = new Date(row.getString('receiving_time_')).getTime();
         if (!hasNextOrder && isReceived && !hasNextOrder && time_ > time) {
             hasNextOrder = true;
-            return <li key={this.state.notData.recNo}>
+            return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderMsg}>
                     <img src='images/icon/error.png' />
                     <span>您距离下一单发货时间还有{Math.ceil((time_ - time) / 3600000)}个小时</span>
