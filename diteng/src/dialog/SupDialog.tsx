@@ -81,14 +81,14 @@ export default class SupDialog extends BaseDialog<BaseDialogPropsType, SupTypeSt
         if(this.props.onSelect) {
             let row = new DataRow();
             row.setValue(inputIds[0], dataRow.getValue("Code_"));
-            row.setValue(inputIds[1], dataRow.getValue("Name_"));
+            row.setValue(inputIds[1], dataRow.getValue("ShortName_"));
             this.props.onSelect(row);
             this.handleClose();
         } else {
             let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
             input1.value = dataRow.getValue("Code_");
             let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-            if(input2) input2.value = dataRow.getValue("Name_");
+            if(input2) input2.value = dataRow.getValue("ShortName_");
             this.handleSelect();
         }
         
