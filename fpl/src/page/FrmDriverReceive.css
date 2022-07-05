@@ -56,17 +56,20 @@
     padding-left: 16px;
     width: 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .info>p {
     padding: 16px;
     background-color: #fff;
     border-radius: 4px;
+    margin-bottom: 16px;
 }
 
 .info>ul {
-    padding-top: 16px;
     display: flex;
+    flex: 1;
 }
 
 .info>ul>li {
@@ -130,9 +133,8 @@
         padding-left: 10px;
     }
 
-    .info>ul {
-        padding-top: 10px;
-        display: flex;
+    .info>p {
+        margin-bottom: 10px;
     }
 
     .info>ul>li:nth-child(n+2) {
@@ -154,7 +156,7 @@
 
 @media screen and (min-width: 768px) {
     .flowBox {
-        padding: 0 22px 24px 22px;
+        padding: 0 22px 40px 22px;
     }
 
     .dbgrid[role="dbgrid"] table th {

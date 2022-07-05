@@ -38,6 +38,7 @@ import hrMC from "./page/hrMC";
 import TOrd from "./page/TOrd";
 import FrmDriverReceive from "./page/FrmDriverReceive";
 import FrmDriverArrangeCarDetail from "./page/FrmDriverArrangeCarDetail";
+import FrmWagonAccountBook from "./page/FrmWagonAccountBook";
 
 export default {
     ...diteng,
@@ -79,4 +80,5 @@ export default {
     TOrd,
     FrmDriverReceive,
     FrmDriverArrangeCarDetail,
+    FrmWagonAccountBook,
 }

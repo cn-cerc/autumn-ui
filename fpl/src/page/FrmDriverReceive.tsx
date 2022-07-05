@@ -238,7 +238,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
             </li>
         } else {
-            return <li key={this.state.notData.recNo}>
+            return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
                         <span>{row.getString('depart_')}</span>
@@ -256,7 +256,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
-                    {isReceived ? <button className={styles.received}>已接单</button> : <button onClick={this.handleSelect.bind(this, row)}>立即接单</button>}
+                    {isReceived ? <button className={styles.received}>已接单</button> : <button>立即接单</button>}
                 </div>
             </li>
         }
