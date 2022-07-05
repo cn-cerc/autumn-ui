@@ -36,6 +36,8 @@ import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
 import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
 import hrMC from "./page/hrMC";
 import TOrd from "./page/TOrd";
+import FrmDriverReceive from "./page/FrmDriverReceive";
+import FrmDriverArrangeCarDetail from "./page/FrmDriverArrangeCarDetail";
 
 export default {
     ...diteng,
@@ -74,5 +76,7 @@ export default {
     FrmMaintenanceSparepart,
     FrmMaintenanceBook,
     hrMC,
-    TOrd
+    TOrd,
+    FrmDriverReceive,
+    FrmDriverArrangeCarDetail,
 }
