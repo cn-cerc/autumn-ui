@@ -148,7 +148,7 @@
 }
 
 .primeval {
-    background: url("../image/primeval.png") top center no-repeat;
+    background: url("../image/primeval_disable.png") top center no-repeat;
     padding-top: 40px;
     background-size: 40px 40px;
     position: absolute;
@@ -196,7 +196,7 @@
 }
 
 .primeval:hover {
-    background-image: url("../image/primeval_hover.png");
+    background-image: url("../image/primeval_disable.png");
 }
 
 .mcTitle {
