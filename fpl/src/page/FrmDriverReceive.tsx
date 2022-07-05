@@ -172,33 +172,15 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         else
             ds.appendDataSet(this.state.receivedData)
         ds.first();
+        let hasNextOrder = false;
+        let time = new Date().getTime();
         while (ds.fetch()) {
             let isReceived = true;
             if (ds.getString('confirm_status_') == '0')
                 isReceived = false;
-            list.push(<li key={this.state.notData.recNo}>
-                <div className={styles.orderTop}>
-                    <div>
-                        <span>{ds.getString('depart_')}</span>
-                        <img src='images/order/transportation.png'></img>
-                        <span>{ds.getString('destination_')}</span>
-                    </div>
-                </div>
-                <div className={styles.orderCenter}>
-                    <div className={styles.orderInfo}>
-                        <span><i>发货明细</i>{ds.getString('code_')}</span>
-                        <span><i>发货时间</i>{ds.getString('send_date_time_')}</span>
-                        <span><i>到货时间</i>{ds.getString('arrive_date_time_')}</span>
-                    </div>
-                    {isReceived ? this.getOrderState(ds.current) : ''}
-                </div>
-                <div className={styles.orderBottom}>
-                    <div className={styles.freight}>￥<span>{ds.getString('amount_')}</span></div>
-                    {isReceived ? <button className={styles.received}>已接单</button> : <button onClick={this.handleSelect.bind(this, ds.current)}>立即接单</button>}
-                </div>
-            </li>)
+            list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
         }
-        if(!list.length) {
+        if (!list.length) {
             list.push(<li className={styles.noOrder}>暂无订单</li>)
         }
         return <ul className={styles.orderList}>{list}</ul>
@@ -222,7 +204,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             for (let i = 0; i < this.state.receivedData.records.length; i++) {
                 let time_ = new Date(this.state.receivedData.records[i].getString('receiving_time_')).getTime();
                 let _time = new Date(this.state.receivedData.records[this.state.receivedData.records.length - i - 1].getString('receiving_time_')).getTime();
-                console.log(new Date(this.state.receivedData.records[i].getString('receiving_time_')))
                 if (time_ > time && !nearTime)
                     nearTime = time_;
                 if (_time <= time && !lastTime)
@@ -236,6 +217,49 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 jsx = <p>您已经{Math.floor((time - lastTime) / 86400000)}天没有接单了，快来抢单大厅看看吧！<a style={{ 'marginLeft': '12px' }} href=''>立即查看</a></p>
         }
         return jsx;
+    }
+
+    getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number) {
+        let time_ = new Date(row.getString('receiving_time_')).getTime();
+        if (!hasNextOrder && isReceived && !hasNextOrder && time_ > time) {
+            hasNextOrder = true;
+            return <li key={this.state.notData.recNo}>
+                <div className={styles.orderMsg}>
+                    <img src='images/icon/error.png' />
+                    <span>您距离下一单发货时间还有{Math.ceil((time_ - time) / 3600000)}个小时</span>
+                </div>
+                <div className={styles.orderDetail}>
+                    <div>
+                        <span>{row.getString('depart_')}</span>
+                        <img src='images/order/transportation.png'></img>
+                        <span>{row.getString('destination_')}</span>
+                    </div>
+                    <button onClick={this.handleSelect.bind(this, row)}>查看详情</button>
+                </div>
+            </li>
+        } else {
+            return <li key={this.state.notData.recNo}>
+                <div className={styles.orderTop}>
+                    <div>
+                        <span>{row.getString('depart_')}</span>
+                        <img src='images/order/transportation.png'></img>
+                        <span>{row.getString('destination_')}</span>
+                    </div>
+                </div>
+                <div className={styles.orderCenter}>
+                    <div className={styles.orderInfo}>
+                        <span><i>发货明细</i>{row.getString('code_')}</span>
+                        <span><i>发货时间</i>{row.getString('send_date_time_')}</span>
+                        <span><i>到货时间</i>{row.getString('arrive_date_time_')}</span>
+                    </div>
+                    {isReceived ? this.getOrderState(row) : ''}
+                </div>
+                <div className={styles.orderBottom}>
+                    <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
+                    {isReceived ? <button className={styles.received}>已接单</button> : <button onClick={this.handleSelect.bind(this, row)}>立即接单</button>}
+                </div>
+            </li>
+        }
     }
 
     // 接单

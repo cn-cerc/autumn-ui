@@ -241,6 +241,10 @@
         overflow: hidden;
     }
 
+    .orderTop>div>span {
+        flex-shrink: 0;
+    }
+
     .orderTop>div>img {
         width: 1rem;
         margin: 0 .375rem;
@@ -336,5 +340,57 @@
         height: 8rem;
         color: #999;
         background-color: transparent;
+    }
+
+    .orderMsg {
+        background-color: #FDF3F3;
+        padding: .5rem .625rem;
+        border-radius: .25rem;
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: .625rem;
+    }
+
+    .orderMsg>img {
+        width: .875rem;
+        margin-right: .325rem;
+    }
+
+    .orderMsg>span {
+        width: 0;
+        flex: 1;
+        color: #E65C5C;
+        font-size: 14px;
+    }
+
+    .orderDetail {
+        display: flex;
+        align-items: center;
+    }
+
+    .orderDetail>div {
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        width: 0;
+        flex: 1;
+        overflow: hidden;
+        font-weight: bold;
+        overflow: hidden;
+        margin-right: 1rem;
+    }
+
+    .orderDetail>div>span {
+        flex-shrink: 0;
+    }
+
+    .orderDetail>button {
+        padding: .5rem .875rem;
+        border-radius: .25rem;
+        background-color: #00A653;
+        color: #fff;
+        box-sizing: content-box;
+        height: 1em;
+        line-height: 1em;
     }
 }
