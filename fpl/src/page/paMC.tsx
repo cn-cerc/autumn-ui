@@ -106,9 +106,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                         <div className={styles.mcPieBox2}>
                             <div className={styles.mcTitle}>比例图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
-                            <div className={styles.btnBox}>
-                                本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow}/>
-                            </div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
@@ -166,7 +163,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: 230,
+                right: '20%',
                 containLabel: true,
             },
             series: [
