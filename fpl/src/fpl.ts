@@ -49,6 +49,8 @@ import TAccMC from "./page/TAccMC";
 import custTLinkMC from "./page/custTLinkMC";
 import firmTLinkMC from "./page/firmTLinkMC";
 import TFrmStockTotalMC from "./page/TFrmStockTotalMC";
+import itMC from "./page/itMC";
+import myMC from "./page/myMC";
 
 export default {
     ...diteng,
@@ -100,5 +102,7 @@ export default {
     TAccMC,
     custTLinkMC,
     firmTLinkMC,
-    TFrmStockTotalMC
+    TFrmStockTotalMC,
+    itMC,
+    myMC
 }
