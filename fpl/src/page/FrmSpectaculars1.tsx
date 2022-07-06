@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./FrmSpectaculars1.css";
 import * as echarts from "echarts";
+import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars1TypeProps = {
 }
@@ -13,8 +14,6 @@ type FrmSpectaculars1TypeState = {
     pieData3: DataSet,
     pieData4: DataSet,
 }
-
-export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
     constructor(props: FrmSpectaculars1TypeProps) {

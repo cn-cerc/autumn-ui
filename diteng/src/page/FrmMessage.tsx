@@ -126,6 +126,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 初始化页面数据加载
     async initData() {
         let messageDataList = await this.getContactFirstData();
+        if (messageDataList.length == 0) { return }
         let currentUserId = messageDataList[0].fromUser;
         if (this.props.toUser) {
             currentUserId = this.props.toUser
@@ -159,7 +160,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 第一次获取联系人列表数据
     async getContactFirstData() {
         let dataOut = await PageApi.getContactList();
-        if (dataOut.size > 1) {
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
+        if (dataOut.state > 1) {
             dataOut.setSort('LatestDate_ DESC');
         }
         dataOut.first();
@@ -195,7 +199,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async getContactData() {
         let messageDataList = this.state.messageDataList;
         let dataOut = await PageApi.getContactList();
-        if (dataOut.size > 1) {
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
+        if (dataOut.state > 1) {
             dataOut.setSort('LatestDate_ DESC');
         }
         dataOut.first();
@@ -294,6 +301,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date_);
         let dataOut = await PageApi.getMessageDetails(row);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         let ds = new DataSet();
         ds.appendDataSet(messageData.data);
         dataOut.first();
@@ -322,6 +332,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date);
         let dataOut = await PageApi.getMessageDetails(row);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         return dataOut;
     }
 
@@ -651,6 +664,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         row.setValue('UserCode_', messageData.fromUser)
         let dataOut = await PageApi.getUserRemark(row);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         let ds = new DataSet();
         ds.appendDataSet(dataOut);
         ds.first();
@@ -719,6 +735,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             let row = new DataRow();
             row.setValue('FromUser_', messageData.fromUser);
             contactInfo = await PageApi.fromDetail(row);
+            if (this.closeServerFun(contactInfo.state)) {
+                return;
+            }
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
@@ -728,5 +747,12 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     //展示创建群组
     showCreateGroup() {
         DialogDOM.render(React.createElement(CreateGroupDialog));
+    }
+    //当前登录用户信息失效时关闭定时请求
+    closeServerFun(state: number) {
+        if (state <= 0) {
+            this.removeTimer();
+            return true;
+        }
     }
 }

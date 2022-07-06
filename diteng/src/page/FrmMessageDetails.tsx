@@ -30,7 +30,7 @@ type FrmMessageDetailsTypeState = {
     messageText: string,
     quicReplyList: Array<{ text: string, uid: string }>,
     leaveBottom: number,
-    timing: number
+    timing: number,
 }
 
 export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeProps, FrmMessageDetailsTypeState> {
@@ -46,7 +46,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             remarkText_: '',
             date: this.props.date,
             lastDate: this.props.date,
-            leaveBottom: 0
+            leaveBottom: 0,
         }
     }
 
@@ -102,6 +102,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let row = new DataRow();
         row.setValue('UserCode_', this.props.fromUser)
         let dataOut = await PageApi.getUserRemark(row);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         let ds = new DataSet();
         ds.appendDataSet(dataOut);
         ds.first();
@@ -121,6 +124,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             let row = new DataRow();
             row.setValue('FromUser_', this.props.fromUser);
             contactInfo = await PageApi.fromDetail(row);
+            if (this.closeServerFun(contactInfo.state)) {
+                return;
+            }
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
@@ -154,6 +160,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         row.setValue('FromUser_', this.props.fromUser).setValue('Date_', this.state.lastDate);
         let messageData = new DataSet();
         let ds = await PageApi.getMessageDetails(row);
+        if (this.closeServerFun(ds.state)) {
+            return;
+        }
         messageData.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
@@ -177,6 +186,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         row.setValue('FromUser_', this.props.fromUser).setValue('Date_', date);
         let messageData = new DataSet();
         let ds = await PageApi.getMessageDetails(row);
+        if (this.closeServerFun(ds.state)) {
+            return;
+        }
         messageData.appendDataSet(this.state.messageData);
         ds.first();
         while (ds.fetch()) {
@@ -387,6 +399,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         let row = new DataRow();
         row.setValue('FromUser_', this.props.userCode).setValue('Date_', date);
         let dataOut = await PageApi.getMessageDetails(row);
+        if (this.closeServerFun(dataOut.state)) {
+            return;
+        }
         return dataOut;
     }
 
@@ -403,5 +418,18 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             this.getFirstMessageDate();
             this.getUserInfo();
         }, this.state.timing * 1000)
+    }
+
+    // 关闭定时请求数据进程
+    removeTimer() {
+        clearInterval(this.timer);
+    }
+
+    //当前登录用户信息失效时关闭定时请求
+    closeServerFun(state: number) {
+        if (state <= 0) {
+            this.removeTimer();
+            return true;
+        }
     }
 }

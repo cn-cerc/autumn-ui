@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./FrmContractManageMC1.css";
 import * as echarts from "echarts";
+import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmContractManageMCTypeProps = {
     dataJson: string,
@@ -15,7 +16,6 @@ type FrmContractManageMCTypeState = {
     introduction: string
 }
 //合同管理(庆丰物流)
-export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
     constructor(props: FrmContractManageMCTypeProps) {

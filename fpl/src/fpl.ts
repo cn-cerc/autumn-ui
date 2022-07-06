@@ -5,6 +5,7 @@ import "autumn-ui/assets/autumn-ui.css";
 import CargoCodeTypeDialog from "./dialog/CargoCodeTypeDialog";
 import CategoryDialog from "./dialog/CategoryDialog";
 import CeshiDialog from "./dialog/CeshiDialog";
+import CodeRecordDialog from "./dialog/CodeRecordDialog";
 import ContractDialog from "./dialog/ContractDialog";
 import DriverBindingRecordDialog from "./dialog/DriverBindingRecordDialog";
 import DriverInfoDialog from "./dialog/DriverInfoDialog";
@@ -13,28 +14,43 @@ import MaintainVehicleDialog from "./dialog/MaintainVehicleDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
-import FrmContractManageMC from "./page/FrmContractManageMC";
-import FrmSpectaculars2 from "./page/FrmSpectaculars2";
-import FrmTaurusMC from "./page/FrmTaurusMC";
-import TStockMC from "./page/TStockMC";
-import FrmTaurusMC1 from "./page/FrmTaurusMC1";
-import FrmTaurusMC2 from "./page/FrmTaurusMC2";
-import TOrd from "./page/TOrd";
-import CodeRecordDialog from "./dialog/CodeRecordDialog";
-import TPurMC from "./page/TPurMC";
-import FrmSpectaculars1 from "./page/FrmSpectaculars1";
-import FrmSpectaculars3 from "./page/FrmSpectaculars3";
+import custTLinkMC from "./page/custTLinkMC";
+import firmTLinkMC from "./page/firmTLinkMC";
+import FrmAPManageMC from "./page/FrmAPManageMC";
+import FrmAPManageMC1 from "./page/FrmAPManageMC1";
+import FrmARManageMC from "./page/FrmARManageMC";
+import FrmARManageMC1 from "./page/FrmARManageMC1";
 import FrmCarManagerMC from "./page/FrmCarManagerMC";
+import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
+import FrmContractManageMC from "./page/FrmContractManageMC";
 import FrmContractManageMC1 from "./page/FrmContractManageMC1";
 import FrmContractManageMC2 from "./page/FrmContractManageMC2";
-import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
-import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
+import FrmDriverArrangeCarDetail from "./page/FrmDriverArrangeCarDetail";
+import FrmDriverReceive from "./page/FrmDriverReceive";
 import FrmInvoiceManage from "./page/FrmInvoiceManage";
-import FrmMaintenanceCar from "./page/FrmMaintenanceCar";
+import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
 import FrmMaintenanceAR from "./page/FrmMaintenanceAR";
+import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
+import FrmMaintenanceCar from "./page/FrmMaintenanceCar";
 import FrmMaintenanceCus from "./page/FrmMaintenanceCus";
 import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
-import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
+import FrmSpectaculars1 from "./page/FrmSpectaculars1";
+import FrmSpectaculars2 from "./page/FrmSpectaculars2";
+import FrmSpectaculars3 from "./page/FrmSpectaculars3";
+import FrmTaurusMC from "./page/FrmTaurusMC";
+import FrmTaurusMC1 from "./page/FrmTaurusMC1";
+import FrmTaurusMC2 from "./page/FrmTaurusMC2";
+import FrmWagonAccountBook from "./page/FrmWagonAccountBook";
+import hrMC from "./page/hrMC";
+import paMC from "./page/paMC";
+import TAccMC from "./page/TAccMC";
+import TFrmStockTotalMC from "./page/TFrmStockTotalMC";
+import itMC from "./page/itMC";
+import myMC from "./page/myMC";
+import TMakeMC from "./page/TMakeMC";
+import TOrd from "./page/TOrd";
+import TPurMC from "./page/TPurMC";
+import TStockMC from "./page/TStockMC";
 
 export default {
     ...diteng,
@@ -59,7 +75,6 @@ export default {
     FrmContractManageMC2,
     TPurMC,
     FrmSpectaculars2,
-    TOrd,
     FrmTaurusMC1,
     FrmTaurusMC2,
     FrmSpectaculars1,
@@ -72,5 +87,22 @@ export default {
     FrmMaintenanceAR,
     FrmMaintenanceCus,
     FrmMaintenanceSparepart,
-    FrmMaintenanceBook
+    FrmMaintenanceBook,
+    hrMC,
+    TOrd,
+    FrmDriverReceive,
+    FrmDriverArrangeCarDetail,
+    FrmWagonAccountBook,
+    TMakeMC,
+    paMC,
+    FrmARManageMC,
+    FrmARManageMC1,
+    FrmAPManageMC,
+    FrmAPManageMC1,
+    TAccMC,
+    custTLinkMC,
+    firmTLinkMC,
+    TFrmStockTotalMC,
+    itMC,
+    myMC
 }

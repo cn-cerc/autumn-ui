@@ -1,6 +1,6 @@
 import { DataRow } from "autumn-ui";
 import React from "react";
-import Message, { messageTypeProps } from "./Message";
+import Message, { messageTypeProps, messageTypeState } from "./Message";
 import styles from "./Message.css";
 
 type DefaultMessageTypeProps = {
@@ -8,10 +8,10 @@ type DefaultMessageTypeProps = {
 
 type DefaultMessageTypeState = {
 
-}
+} & messageTypeState
 
 /** 默认文本消息 */
-export default class DefaultMessage extends Message<DefaultMessageTypeProps,DefaultMessageTypeState> {
+export default class DefaultMessage extends Message<DefaultMessageTypeProps, DefaultMessageTypeState> {
     constructor(props: DefaultMessageTypeProps) {
         super(props);
     }

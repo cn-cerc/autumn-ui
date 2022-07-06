@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./FrmTaurusMC2.css";
 import * as echarts from "echarts";
+import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
@@ -15,8 +16,6 @@ type FrmTaurusMCTypeState = {
     linkRow: DataRow,
     introduction: string
 }
-
-export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
     constructor(props: FrmTaurusMCTypeProps) {

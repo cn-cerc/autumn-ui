@@ -70,6 +70,11 @@ export default class PageApi {
         return DialogApi.getDataOut(serviceCode, params);
     }
 
+    /** 消息举报 */
+    static messageReport(params: DataRow) {
+        return DialogApi.getDataOutByCenter('SvrMessageReport.reportMessage', params);
+    }
+
     /** 创建群聊 */
     static createGroup(params: DataRow) {
         return DialogApi.getDataOutByCenter('SvrMessages.createGroup', params);

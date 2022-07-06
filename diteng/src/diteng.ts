@@ -76,6 +76,9 @@ import FrmMessage from "./page/FrmMessage";
 import FrmMessageDetails from "./page/FrmMessageDetails";
 import FrmMyContact from "./page/FrmMyContact";
 import FrmMyContactDetail from "./page/FrmMyContactDetail";
+import TOrd from "./page/TOrd";
+import TStockMC from "./page/TStockMC";
+import TPurMC from "./page/TPurMC";
 
 export default {
     //地藤专用
@@ -167,4 +170,8 @@ export default {
     //地藤通讯录
     FrmMyContact,
     FrmMyContactDetail,
+    TOrd,
+    //MC控制台
+    TStockMC,
+    TPurMC,
 }

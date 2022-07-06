@@ -1,0 +1,113 @@
+.mcIntroduction {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.mcIntroduction>p {
+    line-height: 24px;
+    padding-top: 5px;
+}
+
+.mcMain {
+    flex: 1;
+    display: flex;
+    padding-bottom: 16px;
+}
+
+.mcFlowChartBox {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px 0;
+}
+
+.mcFlowChartBox {
+    width: 344px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcFlowChartMain {
+    height: 0;
+    flex: 1;
+    position: relative;
+}
+
+.mcFlowBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.stockBox {
+    position: absolute;
+}
+
+.stockBox1{
+
+}
+
+.stockBox > div{
+    width: 42px;
+    height:42px;
+    margin: 0 auto 8px;
+}
+
+.mcCharts {
+    width: 0;
+    flex: 1;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.headTitle {
+    padding: 0 16px;
+}
+
+.mcTitle {
+    font-weight: bold;
+}
+
+@media screen and (min-width: 768px) {
+    .mc {
+        font-size: 14px;
+        color: #333;
+        line-height: 1em;
+        font-weight: 400;
+        height: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .mcIntroduction {
+        display: none;
+    }
+
+    .mcMain {
+        flex-wrap: wrap;
+    }
+
+    .mcFlowChartBox {
+        height: 410px;
+    }
+
+    .mcFlowChartBox {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .mcCharts {
+        width: 100%;
+        margin: auto;
+    }
+
+}

@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./TStockMC.css";
 import * as echarts from "echarts";
+import { MCChartColors } from "./FrmTaurusMC";
 
 type TStockMCTypeProps = {
     dataJson: string,
@@ -14,8 +15,6 @@ type TStockMCTypeState = {
     dataJson: DataRow,
     introduction: string
 }
-
-export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCTypeState> {
     constructor(props: TStockMCTypeProps) {
@@ -229,7 +228,14 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                         [105, 340],
                         [78, 340],
                     ]
-                }, {
+                }, 
+                {
+                    coords: [ //进货单 往下 进货退回单
+                        [50, 79],
+                        [50, 120],
+                    ]
+                },
+                {
                     coords: [ //商品品牌设置 往右 商品资料登记
                         [183, 40],
                         [256, 40],

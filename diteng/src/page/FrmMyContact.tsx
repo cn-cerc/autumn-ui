@@ -15,7 +15,7 @@ type FrmMyContactTypeState = {
     messageDataList: messageDetail[],
     AllMessageDetail: AllMessageDetail[],
     currentUserId: string,
-    AllContactList: DataSet
+    AllContactList: DataSet,
 }
 
 type messageDetail = {
@@ -104,6 +104,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     // 初始化页面数据加载
     async initData() {
         let messageDataList = await this.getContactFirstData();
+        if (messageDataList.length == 0) { return }
         let currentUserId = messageDataList[0].fromUser;
         this.setState({
             messageDataList,
@@ -113,7 +114,9 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     // 第一次获取联系人列表数据
     async getContactFirstData() {
         let dataOut = await PageApi.getContactList();
-        dataOut.setSort('LatestDate_ DESC');
+        if (dataOut.state > 1) {
+            dataOut.setSort('LatestDate_ DESC');
+        }
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         while (dataOut.fetch()) {
@@ -165,7 +168,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 <div className={styles.title}>所有联系人</div>
             </li>
             {list}
-            <li  className={styles.titleBox}>
+            <li className={styles.titleBox}>
                 <div className={styles.title}>最近联系人</div>
             </li>
             {this.getNearestContactList()}
@@ -190,7 +193,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                     {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
                 </div>
             </li>);
-            colorIndex = this.loopIndex(colorIndex);
+
         }
         return list
     }
@@ -270,7 +273,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 </li>);
                 colorIndex = this.loopIndex(colorIndex);
             }
-            if(!list.length) {
+            if (!list.length) {
                 list.push(<li className={styles.noContact} key='noContact'>暂无当前分类的联系人...</li>)
             }
             return <ul className={styles.AllContactList} onScroll={(e) => {
@@ -281,15 +284,15 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         }
     }
 
-    // 跳转至联系人详情页面
-    toModify(row: DataRow) {
-        if(!row.getBoolean('user_code_')) {
-            location.href = `FrmMyContact.modify?uid=${row.getString('UID_')}`;
-        }
-    }
-
     handleClickToAdd() {
         location.href = `./FrmMyContact.append`
+    }
+
+    // 跳转至联系人详情页面
+    toModify(row: DataRow) {
+        if (!row.getBoolean('user_code_')) {
+            location.href = `FrmMyContact.modify?uid=${row.getString('UID_')}`;
+        }
     }
 
     // 设置右边区域滚动到底部

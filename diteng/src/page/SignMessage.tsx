@@ -1,6 +1,6 @@
 import { DataRow } from "autumn-ui";
 import React from "react";
-import Message, { messageTypeProps } from "./Message";
+import Message, { messageTypeProps, messageTypeState } from "./Message";
 import styles from "./Message.css";
 
 type SignMessageTypeProps = {
@@ -9,7 +9,7 @@ type SignMessageTypeProps = {
 
 type SignMessageTypeState = {
 
-}
+} & messageTypeState
 
 export default class SignMessage extends Message<SignMessageTypeProps, SignMessageTypeState> {
     constructor(props: SignMessageTypeProps) {

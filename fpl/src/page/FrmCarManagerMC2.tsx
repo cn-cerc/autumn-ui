@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./FrmCarManagerMC2.css";
 import * as echarts from "echarts";
+import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmCarManagerMC1TypeProps = {
     dataJson: string,
@@ -15,7 +16,6 @@ type FrmCarManagerMC1TypeState = {
     introduction: string
 }
 //车辆管理控制台 货主
-export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class FrmCarManagerMC1 extends WebControl<FrmCarManagerMC1TypeProps, FrmCarManagerMC1TypeState> {
     constructor(props: FrmCarManagerMC1TypeProps) {
