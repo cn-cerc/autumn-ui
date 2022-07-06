@@ -1,7 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./TFrmStockTotalMC.css";
-import * as echarts from "echarts";
 import moduleMenu from "./UIModuleMenu";
 
 type TFrmStockTotalMCTypeProps = {
@@ -13,10 +12,8 @@ type TFrmStockTotalMCTypeState = {
     dataJson: DataRow,
     introduction: string,
     data: DataSet,
-    title:string
+    title: string
 }
-
-export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypeProps, TFrmStockTotalMCTypeState> {
     constructor(props: TFrmStockTotalMCTypeProps) {
@@ -32,7 +29,7 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
             .append().setValue('img_', 'images/MCimg/financialManagement/pjzj.png').setValue('name_', '票据资金')
             .append().setValue('img_', 'images/MCimg/financialManagement/kjzz.png').setValue('name_', '会计总账');
         this.state = {
-            title:'常用功能',
+            title: '常用功能',
             data: data,
             dataJson: dataJson,
             introduction: this.props.introduction
@@ -52,9 +49,9 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
                     <div className={styles.mcFlowChartMain}>
                         {
                             React.createElement(moduleMenu, {
-                                title:this.state.title,
+                                title: this.state.title,
                                 data: this.state.data,
-                                dataJson:this.state.dataJson
+                                dataJson: this.state.dataJson
                             })
                         }
                     </div>

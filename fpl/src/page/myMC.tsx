@@ -1,7 +1,8 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
-import React from "react";
-import styles from "./myMC.css";
 import * as echarts from "echarts";
+import React from "react";
+import { MCChartColors } from "./FrmTaurusMC";
+import styles from "./myMC.css";
 import moduleMenu from "./UIModuleMenu";
 
 type myMCTypeProps = {
@@ -18,8 +19,6 @@ type myMCTypeState = {
     pieData1: DataSet
     pieData2: DataSet,
 }
-
-export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
     constructor(props: myMCTypeProps) {
