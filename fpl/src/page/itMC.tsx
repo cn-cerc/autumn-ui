@@ -59,7 +59,6 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
             pieData2,
         }
 
-
     }
 
     render(): React.ReactNode {

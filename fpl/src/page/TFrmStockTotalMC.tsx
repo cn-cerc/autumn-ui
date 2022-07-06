@@ -35,7 +35,6 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
             introduction: this.props.introduction
         }
 
-
     }
 
     render(): React.ReactNode {

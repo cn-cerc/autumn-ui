@@ -62,7 +62,6 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
             pieData2,
         }
 
-
     }
 
     render(): React.ReactNode {

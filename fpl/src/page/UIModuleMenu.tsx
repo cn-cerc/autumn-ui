@@ -21,7 +21,6 @@ export default class UIModuleMenu extends WebControl<UIModuleMenuTypeProps, UIMo
         this.state = {
             dataJson: this.props.dataJson,
         }
-        console.log(this.props.data)
     }
 
     render(): React.ReactNode {
