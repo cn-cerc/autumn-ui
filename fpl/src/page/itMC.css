@@ -16,7 +16,8 @@
     padding-bottom: 16px;
 }
 
-.mcFlowChartBox {
+.mcFlowChartBox,
+.mcTrendChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px 0;
@@ -65,12 +66,78 @@
     flex-direction: column;
 }
 
+.mcTrendChart {
+    margin-top: 16px;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left:16px;
+    padding-right: 16px;
+}
+
+.mcPieChart {
+    height: 0;
+    flex: 1;
+    display: flex;
+}
+
+.FrmTaurusMCLine {
+    padding: 16px 16px 0 16px;
+    flex: 1;
+}
+
+
 .headTitle {
     padding: 0 16px;
 }
 
 .mcTitle {
     font-weight: bold;
+}
+
+.mcPieBox1,
+.mcPieBox2 {
+    position: relative;
+    width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: .28rem;
+}
+
+.mcPieBox2 {
+    margin-left: 16px;
+}
+
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2 {
+    flex: 1;
+}
+
+.btnBox {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 72px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00A653;
+    box-sizing: border-box;
+    color: #00A653;
+    border-radius: 4px;
+}
+
+.btn_arrow {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    margin-left: 2px;
 }
 
 @media screen and (min-width: 768px) {
@@ -102,7 +169,7 @@
 
     .mcFlowChartBox {
         width: 100%;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
     }
 
     .mcCharts {
@@ -110,4 +177,33 @@
         margin: auto;
     }
 
+    .mcTrendChart,
+    .mcPieBox2 {
+        margin-top: 16px;
+    }
+
+    .FrmTaurusMCLine {
+        height: 220px;
+        flex: auto;
+    }
+    .mcPieChart {
+        flex-wrap: wrap;
+        flex: 1;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2 {
+        width: 100%;
+        flex: auto;
+    }
+
+    .mcPieBox2 {
+        margin-left: 0;
+    }
+
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2 {
+        height: 220px;
+        flex: auto;
+    }
 }

@@ -329,6 +329,7 @@
 
     .mcFlowChartBox {
         width: 100%;
+        margin-bottom: 16px;
     }
 
     .mcCharts {
@@ -348,7 +349,7 @@
 
     .mcPieChart {
         flex-wrap: wrap;
-        flex: auto;
+        flex: 1;
     }
 
     .mcPieBox1,

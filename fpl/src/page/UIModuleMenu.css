@@ -79,6 +79,7 @@
 .stockContent>ul>li>div {
     width: 42px;
     height: 42px;
+    cursor: pointer;
 }
 
 .stockContent>ul>li>span {
@@ -89,6 +90,30 @@
     text-align: center;
 }
 
+.titleContent{
+    position: sticky;
+    padding: 0 16px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.menuBox{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
 @media screen and (min-width: 768px) {}
 
-@media screen and (max-width: 767px) {}
+@media screen and (max-width: 767px) {
+
+    .stockContent{
+        width: 344px;
+        margin: auto;
+    }
+
+    .stockContent>ul>li>span{
+        height: 24px;
+    }
+}
