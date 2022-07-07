@@ -51,6 +51,7 @@ import TMakeMC from "./page/TMakeMC";
 import TOrd from "./page/TOrd";
 import TPurMC from "./page/TPurMC";
 import TStockMC from "./page/TStockMC";
+import FrmAuthManageMC from "./page/FrmAuthManageMC";
 
 export default {
     ...diteng,
@@ -104,5 +105,6 @@ export default {
     firmTLinkMC,
     TFrmStockTotalMC,
     itMC,
-    myMC
+    myMC,
+    FrmAuthManageMC
 }

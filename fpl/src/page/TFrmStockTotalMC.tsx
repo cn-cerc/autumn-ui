@@ -36,7 +36,7 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
             </div>
             <div className={styles.mcMain}>
                 <div className={styles.bgColor}>
-                    <UImoduleMenu dataSet={this.state.data}></UImoduleMenu>
+                    <UImoduleMenu dataSet={this.state.data} title={this.state.title}></UImoduleMenu>
                 </div>
                 <div className={styles.mcCharts}>
 
