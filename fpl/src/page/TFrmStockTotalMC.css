@@ -47,8 +47,10 @@
     position: absolute;
 }
 
-.stockBox1{
-
+.bgColor{
+    background-color: #fff;
+    border-radius: 4px;
+    width: 344px;
 }
 
 .stockBox > div{

@@ -4,20 +4,26 @@ import Introduction from "./Introduction";
 import styles from "./FrmWagonAccountBook.css";
 import { MCChartColors } from "./FrmTaurusMC";
 import * as echarts from "echarts";
+import UIModuleMenu from "./UIModuleMenu";
 
 type FrmWagonAccountBookTypeProps = {
     introduction: string,
+    dataJson: string
 }
 
 type FrmWagonAccountBookTypeState = {
-    data: DataSet
+    data: DataSet,
+    moduleData: DataSet
 }
 
 export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookTypeProps, FrmWagonAccountBookTypeState> {
     constructor(props: FrmWagonAccountBookTypeProps) {
         super(props);
+        let moduleData = new DataSet();
+        moduleData.setJson(this.props.dataJson);
         this.state = {
-            data: new DataSet()
+            data: new DataSet(),
+            moduleData
         }
     }
 
@@ -25,7 +31,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         return <React.Fragment>
             <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.main}>
-                <div className={styles.menuModule}></div>
+                {this.isPhone ? '' : this.getModule()}
                 <div className={styles.content}>
                     <ul>
                         <li>
@@ -34,6 +40,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                                 <span>2099.00</span>
                                 <span>元</span>
                             </div>
+                            {this.isPhone ? <button>提现</button> : ''}
                         </li>
                         <li>
                             <p>支出</p>
@@ -71,6 +78,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                             </div>
                         </li>
                     </ul>
+                    {this.isPhone ? this.getModule() : ''}
                     <div className={styles.charts}>
                         <div className={styles.chartsTitle}>
                             <p>运单支出情况（开发中）</p>
@@ -95,22 +103,6 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         data.append().setValue('own', 25).setValue('reimburse', 178);
         data.append().setValue('own', 0).setValue('reimburse', 0);
         data.append().setValue('own', 0).setValue('reimburse', 0);
-        data.append().setValue('own', 0).setValue('reimburse', 0);
-        data.append().setValue('own', 22).setValue('reimburse', 230);
-        data.append().setValue('own', 24).setValue('reimburse', 224);
-        data.append().setValue('own', 18).setValue('reimburse', 141);
-        data.append().setValue('own', 0).setValue('reimburse', 0);
-        data.append().setValue('own', 0).setValue('reimburse', 0);
-        data.append().setValue('own', 0).setValue('reimburse', 0);
-        data.append().setValue('own', 24).setValue('reimburse', 251);
-        data.append().setValue('own', 24).setValue('reimburse', 302);
-        data.append().setValue('own', 19).setValue('reimburse', 120);
-        data.append().setValue('own', 24).setValue('reimburse', 180);
-        data.append().setValue('own', 0).setValue('reimburse', 0);
-        data.append().setValue('own', 0).setValue('reimburse', 0);
-        data.append().setValue('own', 28).setValue('reimburse', 255);
-        data.append().setValue('own', 16).setValue('reimburse', 180);
-        data.append().setValue('own', 19).setValue('reimburse', 200);
         this.setState({
             data
         }, () => {
@@ -118,15 +110,17 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         })
     }
 
+    getModule() {
+        return <div className={styles.menuModule}>
+            <UIModuleMenu dataSet={this.state.moduleData} title='常用功能'></UIModuleMenu>
+        </div>
+    }
+
     initChart() {
         let peiChart = document.querySelector(`.${styles.chart}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let date = new Date();
-        let monthDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-        let xArr: string[] = [];
-        for (let i = 0; i < monthDay; i++) {
-            xArr.push(`${i+1}号`)
-        }
+        let xArr: string[] = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
         let allData = [];
         let ownData = [];
         let reimburseData = [];
@@ -171,6 +165,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                     data: ownData,
                     type: 'bar',
                     stack: 'Ad',
+                    barWidth: 40,
                     itemStyle: {
                         color: MCChartColors[1]
                     },
