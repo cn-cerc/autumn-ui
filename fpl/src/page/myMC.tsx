@@ -96,9 +96,6 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>在线时间（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow} />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -190,8 +187,8 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -251,8 +248,8 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,

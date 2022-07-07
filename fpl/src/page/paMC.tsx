@@ -111,9 +111,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>比例图（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow}/>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -206,8 +203,8 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -267,8 +264,8 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,

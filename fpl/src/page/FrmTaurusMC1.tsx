@@ -98,10 +98,6 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                    <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
-                    </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>比例图</div>
@@ -112,19 +108,23 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
+                    <div className={styles.mcTrendChart}>
+                        <div className={styles.mcTitle}>趋势图</div>
+                        <div className={styles.FrmTaurusMCLine}></div>
+                    </div>
                 </div>
             </div>
         </div>
     }
 
     componentDidMount(): void {
-        this.initLineChart();
+        this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
+    initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
@@ -139,7 +139,7 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
         let option = {
             xAxis: {
                 type: 'category',
-                data: xArr,
+                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -155,19 +155,19 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                     color: '#333333'
                 }
             },
-            lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
+                top: 15,
                 left: 0,
                 bottom: 0,
-                right: 10,
+                right: '20%',
                 containLabel: true,
             },
             series: [
                 {
                     data: sData,
-                    type: 'line',
+                    type: 'bar',
+                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -202,27 +202,42 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: '25%',
+                left: '65%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+            },
             grid: {
                 top: 40,
                 left: 0,
                 bottom: 0,
                 right: 20,
-                containLabel: true,
+                containLabel: false,
             },
             series: [
                 {
-                    name: '本周货运吨数占比',
+                    // name: '本周货运吨数占比',
                     type: 'pie',
+                    center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '24',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {},
+                    labelLine: {
+                        show: false
+                    },
                     data: dataArr
                 }
             ]
@@ -248,17 +263,36 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             tooltip: {
                 trigger: 'item'
             },
-            xAxis: {
-                type: 'category',
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            },
-            yAxis: {
-                type: 'value'
+            legend: {
+                top: '25%',
+                left: '65%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
             },
             series: [
                 {
-                    data: dataArr,
-                    type: 'bar',
+                    // name: '本周货运车辆占比',
+                    type: 'pie',
+                    center: ['30%', '50%'],
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '20',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: dataArr
                 }
             ]
         }

@@ -169,8 +169,8 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -230,8 +230,8 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
