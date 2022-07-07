@@ -45,10 +45,10 @@ export default class FrmWagonManage extends WebControl<FrmWagonManageTypeProps, 
                     </p>
                 </div>
                 <ul className={styles.orderTypeList}>
-                    <li className={this.state.orderType == 0 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 0 })}>全部订单</li>
-                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>限价订单</li>
-                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>竞价订单</li>
-                    <li className={this.state.orderType == 3 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>报价订单</li>
+                    <li className={this.state.orderType == 0 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 0 })}>全部</li>
+                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>限价</li>
+                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>竞价</li>
+                    <li className={this.state.orderType == 3 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>报价</li>
                 </ul>
                 {this.getOrderList()}
             </React.Fragment>

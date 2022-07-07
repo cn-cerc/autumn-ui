@@ -113,4 +113,5 @@ export default {
     FrmWagonHome,
     Frm4PLCusManage,
     FrmWagonManage
+    
 }
