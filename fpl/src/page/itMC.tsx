@@ -58,7 +58,6 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
             pieData1,
             pieData2,
         }
-
     }
 
     render(): React.ReactNode {
@@ -93,9 +92,6 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>部门人数统计（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow} />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -144,7 +140,7 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: 230,
+                right: '20%',
                 containLabel: true,
             },
             series: [
@@ -187,8 +183,8 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -248,8 +244,8 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,

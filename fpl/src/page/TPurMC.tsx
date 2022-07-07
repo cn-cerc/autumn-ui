@@ -193,14 +193,6 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
             })
         }
         let option = {
-            // title: {
-            //     text: '本周货运吨数占比',
-            //     left: 'center',
-            //     textStyle: {
-            //         fontSize: 14
-            //     },
-            //     top: '16'
-            // },
             tooltip: {
                 trigger: 'item'
             },
