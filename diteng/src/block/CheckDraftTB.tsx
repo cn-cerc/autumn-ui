@@ -1,5 +1,6 @@
 import React from "react";
 import { QueryService } from "autumn-ui";
+import StaticPath from "../StaticPath";
 
 type propsType = {
     token: string;
@@ -35,7 +36,7 @@ export default class CheckDraftTB extends React.Component<propsType, stateType> 
     render() {
         return (
             <React.Fragment>
-                <img src="./images/webdefault/icon_cgdj.png" />
+                <img src={StaticPath.getImage('images/webdefault/icon_cgdj.png')} />
                 <div>
                     <span>草稿单据</span>
                     <span onClick={this.onClick} className="unread">

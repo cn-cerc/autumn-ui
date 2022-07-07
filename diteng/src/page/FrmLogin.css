@@ -496,7 +496,7 @@ a {
         height: 100%;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/crow-down1.png');
+        background: url('https://cdn.diteng.site/resources/images/crow-down1.png');
         background-size: 1.3125rem 1.3125rem;
         background-repeat: no-repeat;
         background-position: center;
@@ -505,7 +505,7 @@ a {
 
     .showList {
         font-size: 1rem;
-        background-image: url('https://www.diteng.site/public/images/crow-up1.png') !important;
+        background-image: url('https://cdn.diteng.site/resources/images/crow-up1.png') !important;
         background-size: 1.3125rem 1.3125rem;
         background-repeat: no-repeat;
         background-position: center;
@@ -597,7 +597,7 @@ a {
         height: 3.25rem;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/remove.png');
+        background: url('https://cdn.diteng.site/resources/images/remove.png');
         background-size: .8rem .8rem;
         background-repeat: no-repeat;
         background-position: center;
@@ -1003,14 +1003,14 @@ a {
         height: 2.375rem;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/crow-down1.png');
+        background: url('https://cdn.diteng.site/resources/images/crow-down1.png');
         background-size: .85rem .85rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .showList {
-        background: url('https://www.diteng.site/public/images/crow-up1.png');
+        background: url('https://cdn.diteng.site/resources/images/crow-up1.png');
         background-size: .85rem .85rem;
         background-repeat: no-repeat;
         background-position: center;
@@ -1079,14 +1079,14 @@ a {
         height: 2rem;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/remove.png');
+        background: url('https://cdn.diteng.site/resources/images/remove.png');
         background-size: 0.8em 0.8em;
         background-repeat: no-repeat;
         background-position: 80% center;
     }
 
     .passWord:before {
-        background: url('https://www.diteng.site/public/images/pwd2.png');
+        background: url('https://cdn.diteng.site/resources/images/pwd2.png');
         background-size: auto 1.13rem;
         background-repeat: no-repeat;
         background-position: center;
@@ -1097,7 +1097,7 @@ a {
     }
 
     .verify:before {
-        background: url('https://www.diteng.site/public/images/verify.png');
+        background: url('https://cdn.diteng.site/resources/images/verify.png');
         background-size: auto 1.13rem;
         background-repeat: no-repeat;
         background-position: center;

@@ -1,12 +1,13 @@
 //@ts-nocheck
 import React from "react";
+import StaticPath from "../StaticPath";
 import styles from "./AgreementPolicy.css";
 
 function PrivacyRight() {
     return (
         <div className={styles.main}>
             <div className={styles.header}>
-                <img src="images/left-crow.png" id="back" onClick={() => window.history.go(-1)} />
+                <img src={StaticPath.getImage('images/left-crow.png')} id="back" onClick={() => window.history.go(-1)} />
                 <span><i>地藤</i></span>
             </div>
             <div className={styles.isNode}><h1><span>隐私协议</span></h1>

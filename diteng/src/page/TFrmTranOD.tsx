@@ -5,6 +5,7 @@ import DitengCommon from "../DitengCommon";
 import Datetime from "../tool/Datetime";
 import { AuiMath, Loading, showMsg } from "../tool/Summer";
 import { ClientStorage, Excel } from "../tool/Utils";
+import StaticPath from "../StaticPath";
 
 type TFrmTranODTypeProps = {
     token: string,
@@ -263,18 +264,25 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
     }
 
     getIcon(num: number) {
+        let icon = '';
         switch (num) {
             case 0:
-                return 'images/draftStatus.png';
+                icon = 'images/draftStatus.png';
+                break;
             case 1:
-                return 'images/sureStatus.png';
+                icon = 'images/sureStatus.png';
+                break;
             case -1:
-                return 'images/cancelStatus.png';
+                icon = 'images/cancelStatus.png';
+                break;
             case 2:
-                return 'images/checkIng.png';
+                icon = 'images/checkIng.png';
+                break;
             default:
-                return '';
+                icon = '';
+                break;
         }
+        return StaticPath.getImage(icon);
     }
 
     getStock(num: number) {

@@ -1,6 +1,7 @@
 import React from "react";
 import { WebControl } from "autumn-ui";
 import styles from "./ErrorPage.css";
+import StaticPath from "../StaticPath";
 
 type errorTypeProps = {
     msg: string,
@@ -35,7 +36,7 @@ export default class ErrorPage extends WebControl<errorTypeProps> {
                 <div className={styles.contanier} style={{ "fontSize": "14px" }}>
                     <div className={styles.errpage}>
                         <ul>
-                            <li><img src='images/bulb.png' /></li>
+                            <li><img src={StaticPath.getImage('images/bulb.png')} /></li>
                             <li>
                                 <h3>非常抱歉，您此项请求无法处理</h3>
                                 <p style={{ "margin": "0px", "textAlign": "center" }}>请您确认您的操作是否有误，或将下述异常讯息记下来：</p>
@@ -52,7 +53,7 @@ export default class ErrorPage extends WebControl<errorTypeProps> {
                 <div className={styles.contanier}>
                     <div className={styles.errpage}>
                         <ul>
-                            <li><img src='images/bulb.png' /></li>
+                            <li><img src={StaticPath.getImage('images/bulb.png')} /></li>
                             <li style={{ "marginTop": "2rem" }}>
                                 <h2>{this.props.error_hint}</h2>
                                 <p style={{ "margin": "0" }}>请您确认您的操作是否有误，或将下述异常讯息记下来：</p>

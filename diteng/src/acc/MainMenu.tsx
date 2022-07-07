@@ -1,6 +1,7 @@
 import React, { MouseEventHandler } from "react";
 import { DataSet } from "autumn-ui";
 import styles from './MainMenu.css';
+import StaticPath from "../StaticPath";
 
 type propsType = {}
 
@@ -80,7 +81,7 @@ export default class MainMenu extends React.Component<propsType, stateType> {
                 continue;
             let menuCode = item.getString('code');
             let menuName = item.getString('name');
-            let menuIcon = `https://www.diteng.site/public/images/module/${menuCode}.png`;
+            let menuIcon = StaticPath.getImage(`images/module/${menuCode}.png`);
             items.push(
                 <li key={i++} className={styles.menuItem} role={menuCode}>
                     <img src={menuIcon} />

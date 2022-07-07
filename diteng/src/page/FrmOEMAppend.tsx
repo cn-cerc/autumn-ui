@@ -4,6 +4,7 @@ import { showMsg } from "../tool/Summer";
 import { DataRow, DataSet, Column, SearchPanel, DBEdit, DBGrid, ColumnIt, DBDrop } from "autumn-ui";
 import DialogApi from "../dialog/DialogApi";
 import ProductClassDialog from "../dialog/ProductClassDialog";
+import ImageConfig from "../ImageConfig";
 
 type FrmOEMAppendTypeProps = {
     showPartImage: boolean,
@@ -124,7 +125,7 @@ export default class FrmOEMAppend extends React.Component<FrmOEMAppendTypeProps,
                     let html = [];
                     let readmeUrl = row.getString('ReadmeUrl_');
                     if (readmeUrl != "") {
-                        html.push(<a href={`javascript:openIE("${readmeUrl}")`}><img src='https://www.diteng.site/public/images/taobao.png' /></a>)
+                        html.push(<a href={`javascript:openIE("${readmeUrl}")`}><img src={ImageConfig.TAOBAO} /></a>)
                     }
                     let href = `TFrmTranSP.productDetail?partCode${row.getString('Code_')}&tb=BC&cusCode=${this.props.cusCode}`
                     let desc = row.getString('Desc_');
