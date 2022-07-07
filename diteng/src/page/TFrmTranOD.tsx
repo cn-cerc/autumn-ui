@@ -5,7 +5,7 @@ import DitengCommon from "../DitengCommon";
 import Datetime from "../tool/Datetime";
 import { AuiMath, Loading, showMsg } from "../tool/Summer";
 import { ClientStorage, Excel } from "../tool/Utils";
-import StaticPath from "../StaticPath";
+import StaticFile from "../StaticFile";
 
 type TFrmTranODTypeProps = {
     token: string,
@@ -282,7 +282,7 @@ export default class TFrmTranOD extends React.Component<TFrmTranODTypeProps, TFr
                 icon = '';
                 break;
         }
-        return StaticPath.getImage(icon);
+        return StaticFile.getImage(icon);
     }
 
     getStock(num: number) {

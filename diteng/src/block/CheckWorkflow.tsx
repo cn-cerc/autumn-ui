@@ -1,6 +1,6 @@
 import React from "react";
 import { QueryService } from "autumn-ui";
-import StaticPath from "../StaticPath";
+import StaticFile from "../StaticFile";
 
 type propsType = {
     token: string;
@@ -37,7 +37,7 @@ export default class CheckWorkflow extends React.Component<propsType, stateType>
     render() {
         return (
             <React.Fragment>
-                <img src={StaticPath.getImage('images/webdefault/icon_dqdj.png')} />
+                <img src={StaticFile.getImage('images/webdefault/icon_dqdj.png')} />
                 <div>
                     <span>待签单据</span>
                     <span onClick={this.onClick} className="unread">

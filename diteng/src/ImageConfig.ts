@@ -1,5 +1,5 @@
-import StaticPath from "./StaticPath";
+import StaticFile from "./StaticFile";
 
 export default class ImageConfig {
-    static TAOBAO: string = StaticPath.getImage('images/taobao.png');
+    static TAOBAO: string = 'images/taobao.png';
 }

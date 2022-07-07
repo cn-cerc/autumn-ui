@@ -6,7 +6,7 @@ import Datetime from "../tool/Datetime";
 import { AuiMath, showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./RapidInput.css";
-import StaticPath from "../StaticPath";
+import StaticFile from "../StaticFile";
 
 type RapidInputTypeProps = {
     objCode: string,
@@ -199,8 +199,8 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
     getOperate(): JSX.Element {
         let url = location.origin;
         return <div className={styles.operates}>
-            <img src={StaticPath.getImage(`images/icon/${this.state.isFullScreen ? 'cancelFullScreen' : 'fullScreen'}.png`)} onClick={this.changeFullScreen.bind(this)} style={{ 'width': this.state.isFullScreen ? '1.25em' : '.85em' }}></img>
-            <img src={StaticPath.getImage('images/icon/close.png')} onClick={this.handleClose.bind(this)} style={{ 'width': '1rem', 'marginLeft': '.5rem' }} />
+            <img src={StaticFile.getImage(`images/icon/${this.state.isFullScreen ? 'cancelFullScreen' : 'fullScreen'}.png`)} onClick={this.changeFullScreen.bind(this)} style={{ 'width': this.state.isFullScreen ? '1.25em' : '.85em' }}></img>
+            <img src={StaticFile.getImage('images/icon/close.png')} onClick={this.handleClose.bind(this)} style={{ 'width': '1rem', 'marginLeft': '.5rem' }} />
         </div>
     }
 
@@ -377,7 +377,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 }}></Column>
                 <Column name='备注' code='Remark_' width='14' textAlign='center' allowCheck={true}></Column>
                 <Column name='操作' code='opera' width='5' textAlign='center' customText={(row: DataRow) => {
-                    return <img src={StaticPath.getImage('js/rapidInput/image/delete.png')} onClick={this.removeShop.bind(this, row)} />
+                    return <img src={StaticFile.getImage('js/rapidInput/image/delete.png')} onClick={this.removeShop.bind(this, row)} />
                 }}></Column>
             </DBGrid>
         } else {
