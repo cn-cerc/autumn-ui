@@ -1,4 +1,4 @@
-.main { 
+.main {
     display: flex;
     line-height: 1em;
     color: #333333;
@@ -125,11 +125,47 @@
     }
 
     .content>ul>li {
-        width: calc((100% - 1.5rem)/3);
         background-color: #fff;
         border-radius: .25rem;
         margin-bottom: .75rem;
         margin-left: .75rem;
         padding: 1rem;
+        position: relative;
+    }
+
+    .content>ul>li:nth-child(2) {
+        margin-left: 0;
+    }
+
+    .content>ul>li:nth-child(1) {
+        width: 100%;
+    }
+
+    .content>ul>li:nth-child(2),
+    .content>ul>li:nth-child(3) {
+        width: calc(50% - .75rem / 2);
+    }
+
+    .content>ul>li:nth-child(4),
+    .content>ul>li:nth-child(5),
+    .content>ul>li:nth-child(6) {
+        width: calc(33.3% - 1.5rem / 3);
+        margin-bottom: 0;
+    }
+
+    .btn_tixian {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .charts{
+        margin:.75rem .75rem;
+    }
+
+    .chart{
+        height:220px;
+        flex: auto;
     }
 }

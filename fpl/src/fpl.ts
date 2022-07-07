@@ -52,6 +52,9 @@ import TOrd from "./page/TOrd";
 import TPurMC from "./page/TPurMC";
 import TStockMC from "./page/TStockMC";
 import FrmAuthManageMC from "./page/FrmAuthManageMC";
+import FrmWagonHome from "./page/FrmWagonHome";
+import Frm4PLCusManage from "./page/Frm4PLCusManage";
+import FrmWagonManage from "./page/FrmWagonManage";
 
 export default {
     ...diteng,
@@ -106,5 +109,8 @@ export default {
     TFrmStockTotalMC,
     itMC,
     myMC,
-    FrmAuthManageMC
+    FrmAuthManageMC,
+    FrmWagonHome,
+    Frm4PLCusManage,
+    FrmWagonManage
 }
