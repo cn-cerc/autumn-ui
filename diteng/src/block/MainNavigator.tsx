@@ -2,6 +2,7 @@ import React, { isValidElement } from "react";
 import { MenuItem } from "autumn-ui";
 import styles from './MainNavigator.css';
 import MainSearch from "./MainSearch";
+import StaticFile from "../StaticFile";
 
 export default class MainNavigator extends React.Component {
 
@@ -11,7 +12,7 @@ export default class MainNavigator extends React.Component {
         return (
             <div className={styles.mainNavigator}>
                 <div className={styles.navigatorLeft}>
-                    <img src={`https://www.diteng.site/public/images/public/dt_logo.png`} />
+                    <img src={StaticFile.getImage('images/public/dt_logo.png')} />
                     <span>欢迎使用地藤管家</span>
                 </div>
                 <div className={styles.navigatorCenter}>
@@ -24,11 +25,11 @@ export default class MainNavigator extends React.Component {
                 </div>
                 <div className={styles.navigatorRight}>
                     <div className={styles.corpInfo}>
-                        <img src={`https://www.diteng.site/public/images/public/chooseAccount.png`} />
+                        <img src={StaticFile.getImage('images/public/chooseAccount.png')} />
                         深圳市渔具有限公司
                     </div>
                     <div className={styles.userInfo}>
-                        <img src={`https://www.diteng.site/public/images/userIcon.png`} />
+                        <img src={StaticFile.getImage('images/userIcon.png')} />
                         91100101-张三
                     </div>
                 </div>
