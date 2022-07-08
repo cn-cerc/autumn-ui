@@ -25,13 +25,22 @@ type LoginTypeState = {
     currentIndex: number,
     isFirefox: boolean,
     iconHover: 0 | 1 | 2 | 3,
-    protocol: boolean
+    protocol: boolean,
+    apiURL: string
 }
 
 var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     constructor(props: LoginTypeProps) {
+
+        //微信登陆
+        let apiURL = "https://open.weixin.qq.com/connect/qrconnect?";
+        apiURL += 'appid=wxfe39d62642ef5a46&';
+        apiURL += 'redirect_uri=' + encodeURIComponent(window.location.origin + '/forms/FrmWeChatLogin') + '&';
+        apiURL += "response_type=code&scope=snsapi_login&";
+        apiURL += "state=" + Date.now() + "" + Math.ceil(Math.random() * 1000);
+
         super(props);
         let client = new ClientStorage('ErpKey');
         let accountData = new DataSet();
@@ -56,7 +65,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             currentIndex: 0,
             isFirefox,
             iconHover: this.isPhone ? 0 : 1,
-            protocol
+            protocol,
+            apiURL,
         }
     }
     render() {
@@ -565,7 +575,17 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 <Loading></Loading>
             </div>
         } else {
-            return <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
+            return <div>
+                <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
+                <div className={styles.wx_login}>
+                    <a href={this.state.apiURL} className={styles.wechar_login}>
+                        <span>微信登陆</span>
+                    </a>
+                    <a className={styles.login_dis}>
+                        <span>扫码登录</span>
+                    </a>
+                </div>
+            </div>
         }
     }
 
