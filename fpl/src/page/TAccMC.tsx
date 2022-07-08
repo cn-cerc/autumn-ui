@@ -166,7 +166,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: '20%',
+                right: 10,
                 containLabel: true,
             },
             series: [
