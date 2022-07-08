@@ -30,7 +30,6 @@ export default class AdPlayerMC extends React.Component<PropsType, stateType> {
     async init() {
         let dataJson = new DataSet()
         dataJson.setJson(this.props.json);
-        console.log(dataJson);
         let number = dataJson.getHead().getNumber("play_interval_")
         if (number == 0) {
             number = 5000
@@ -61,7 +60,6 @@ export default class AdPlayerMC extends React.Component<PropsType, stateType> {
     }
 
     getImg() {
-        console.log(this.state.data.eof, "11");
         if (this.state.data.size <= 0) {
             return <div className={styles.slideShowDiv}>
                 <div><img src="images/advert/advert.png" alt="" /></div>
