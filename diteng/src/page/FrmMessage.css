@@ -39,6 +39,10 @@
     text-overflow: ellipsis;
     color: #333;
     font-weight: 400;
+    padding-right: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .contactTitle>span:nth-child(2) {

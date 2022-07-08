@@ -199,47 +199,4 @@ class AuiMath {
     }
 }
 
-function savePicture() {
-    if (window.ApiCloud.isApiCloud()) {
-        api.screenCapture({
-            region: '#qrCode>canvas'
-        }, function (ret, err) {
-            api.saveMediaToAlbum({
-                path: ret.savePath
-            }, function (ret, err) {
-                if (ret && ret.status) {
-                    api.alert({
-                        msg: '保存成功'
-                    });
-
-                } else {
-                    api.alert({
-                        msg: '保存失败'
-                    });
-                }
-            });
-        });
-    } else {
-        let canvasBox = document.createElement('canvas');
-        let _canvas = document.querySelector('#qrCode>canvas');
-        let w = parseInt(window.getComputedStyle(_canvas).width);
-        let h = parseInt(window.getComputedStyle(_canvas).height);
-        canvasBox.width = w * 2;
-        canvasBox.height = h * 2;
-        canvasBox.style.width = w + 'px';
-        canvasBox.style.height = h + 'px';
-        let context = canvasBox.getContext('2d');
-        context.scale(2, 2);
-        html2canvas(document.querySelector('#qrCode>canvas'), { canvas: canvasBox }).then(function (canvas) {
-            let download = document.createElement('a');
-            download.href = canvas.toDataURL();
-            download.download = 'picture';
-            download.click();
-        })
-    }
-}
-
-
-
-
 export { Loading, showMsg, AuiMath }

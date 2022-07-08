@@ -39,6 +39,7 @@ type messageDetail = {
     data: DataSet,
     latestDate: string,
     latestMessage: string,
+    cropName: string,
     date: string,
     fromBottom: number,
     fromUser: string,
@@ -73,6 +74,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 name: '',
                 unReadNum: 0,
                 messageText: '',
+                cropName: '',
                 remarkText_: '',        //默认备注字段，用来判断备注是否有修改
                 remarkText: '',     //备注字段
             }],     //消息列表DataSet
@@ -186,6 +188,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 fromUser: dataOut.getString('FromUser_'),
                 name: dataOut.getString('Name_'),
                 unReadNum,
+                cropName: dataOut.getString('FromCorp_'),
                 messageText: '',
                 remarkText: '',
                 remarkText_: ''
@@ -238,6 +241,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     fromUser: messageDataList[num].fromUser,
                     name: messageDataList[num].name,
                     unReadNum,
+                    cropName: messageDataList[num].cropName,
                     messageText: messageDataList[num].messageText,
                     remarkText: messageDataList[num].remarkText,
                     remarkText_: messageDataList[num].remarkText_
@@ -256,6 +260,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     fromBottom: 0,
                     fromUser: dataOut.getString('FromUser_'),
                     name: dataOut.getString('Name_'),
+                    cropName: dataOut.getString('FromCorp_'),
                     unReadNum,
                     messageText: '',
                     remarkText: '',
@@ -346,6 +351,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             for (let i = 0; i < this.state.messageDataList.length; i++) {
                 let messageData = this.state.messageDataList[i];
                 let name = messageData.name || '系统消息';
+                let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
                     date = new Date(messageData.latestDate);
@@ -367,7 +373,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
                         <div className={styles.contactTitle}>
-                            <span>{name}</span>
+                            <span>{name}{cropName ? `@${cropName}` : ''}</span>
                             <span>{timeText}</span>
                         </div>
                         {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
