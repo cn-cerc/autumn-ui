@@ -40,7 +40,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                                 <span>2099.00</span>
                                 <span>元</span>
                             </div>
-                            {this.isPhone ? <button>提现</button> : ''}
+                            {this.isPhone ? <button className={styles.btn_tixian}>提现</button> : ''}
                         </li>
                         <li>
                             <p>支出</p>

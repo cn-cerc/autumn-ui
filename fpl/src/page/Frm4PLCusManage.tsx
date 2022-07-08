@@ -1,31 +1,27 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./TFrmStockTotalMC.css";
+import styles from "./Frm4PLCusManage.css";
 import * as echarts from "echarts";
-import UImoduleMenu from "./UIModuleMenu";
+import { MCChartColors } from "./FrmTaurusMC";
 
-type TFrmStockTotalMCTypeProps = {
+type Frm4PLCusManageypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type TFrmStockTotalMCTypeState = {
-    introduction: string,
-    data: DataSet,
-    title: string,
+type Frm4PLCusManageypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
+    dataJson: DataRow,
+    introduction: string
 }
 
-export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypeProps, TFrmStockTotalMCTypeState> {
-    constructor(props: TFrmStockTotalMCTypeProps) {
+export default class Frm4PLCusManage extends WebControl<Frm4PLCusManageypeProps, Frm4PLCusManageypeState> {
+    constructor(props: Frm4PLCusManageypeProps) {
         super(props);
-        let lineRow = new DataRow();
-        let data = new DataSet();
-        data.setJson(this.props.dataJson);
         let lineData = new DataSet();
+        let lineRow = new DataRow();
         lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
         lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
         lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
@@ -41,15 +37,14 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
         let pieData2 = new DataSet();
         pieData2.append().setValue('Value_', 11).setValue('Name_', '女生');
         pieData2.append().setValue('Value_', 13).setValue('Name_', '男生');
+        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            title: '常用功能',
-            data: data,
-            introduction: this.props.introduction,
             lineData,
             pieData1,
             pieData2,
+            dataJson: dataJson,
+            introduction: this.props.introduction
         }
-
     }
 
     render(): React.ReactNode {
@@ -59,8 +54,37 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
                 <p>{this.state.introduction}</p>
             </div>
             <div className={styles.mcMain}>
-                <div className={styles.bgColor}>
-                    <UImoduleMenu dataSet={this.state.data} title={this.state.title}></UImoduleMenu>
+                <div className={styles.mcFlowChartBox}>
+                    <div className={styles.mcTitle}>流程图</div>
+                    <div className={styles.mcFlowChartMain}>
+                        <div className={styles.mcFlowChart}></div>
+                        <div className={styles.mcFlowBox}>
+                            <div className={`${this.state.dataJson.getBoolean(`客户列表_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '客户列表')}>
+                                <span>客户列表</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`收款人信息审核_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '收款人信息审核')}>
+                                <span>收款人信息审核</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '合同登记')}>
+                                <span>合同登记</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '充值管理')}>
+                                <span>充值管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`派车单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '派车单管理')}>
+                                <span>派车单管理</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`审核发票申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '审核发票申请')}>
+                                <span>审核发票申请</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`上传发票照片_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '上传发票照片')}>
+                                <span>上传发票照片</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`寄出发票_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '寄出发票')}>
+                                <span>寄出发票</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
@@ -86,6 +110,7 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
         this.initLineChart();
         this.initPieChart1();
         this.initPieChart2();
+        this.initFlowChart();
     }
 
     initLineChart() {
@@ -262,5 +287,121 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
         }
         //@ts-ignore
         myChart.setOption(option);
+    }
+
+    initFlowChart() {
+        let flowChart = document.querySelector(`.${styles.mcFlowChart}`) as HTMLDivElement;
+        let myChart = echarts.init(flowChart);
+        let nodes: any[] = [];
+        let charts = {
+            nodes,
+            linesData: [
+                {
+                    coords: [ //客户列表 往下线条
+                        [111, 75],
+                        [111, 105],
+                    ]
+                },
+                {
+                    coords: [ //客户列表 往右线条
+                        [133, 35],
+                        [198, 35],
+                    ]
+                },
+                {
+                    coords: [ //合同登记 往下线条
+                        [111, 159],
+                        [111, 189]
+                    ]
+                },
+                {
+                    coords: [ //合同登记 往右线条
+                        [133, 120],
+                        [198, 120],
+                    ]
+                }, {
+                    coords: [ //派车单管理 往右线条
+                        [133, 207],
+                        [198, 207],
+                    ]
+                }, {
+                    coords: [ //审核发票申请 往下线条
+                        [219, 244],
+                        [219, 275]
+                    ]
+                }, {
+                    coords: [ //上传发票照片 往下线条
+                        [219, 330],
+                        [219, 360]
+                    ]
+                }
+            ]
+        }
+
+        let option = {
+            backgroundColor: "",
+            xAxis: {
+                min: 0,
+                max: 328,
+                show: false,
+                type: 'value',
+                position: 'top',
+            },
+            yAxis: {
+                min: 0,
+                max: function (val: number) {
+                    return flowChart.offsetHeight
+                },
+                show: false,
+                type: 'value',
+                inverse: true,
+            },
+            grid: {
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0
+            },
+            series: [{
+                type: 'graph',
+                coordinateSystem: 'cartesian2d',
+                label: {
+                    show: true,
+                    position: 'bottom',
+                    color: '#fff',
+                    formatter: function (item: any) {
+                        return item.data.nodeName
+                    }
+                },
+                data: charts.nodes,
+            }, {
+                type: 'lines',
+                polyline: true,
+                coordinateSystem: 'cartesian2d',
+                lineStyle: {
+                    type: 'line',
+                    width: 2,
+                    color: '#ccc',
+                    curveness: 0.3
+                },
+                effect: {
+                    show: true,
+                    trailLength: 0,
+                    constantSpeed: 10,
+                    symbol: 'arrow',
+                    color: '#ccc',
+                    symbolSize: 6
+                },
+                data: charts.linesData,
+            }]
+        };
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    linkTo(name: string) {
+        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataJson.getString(`${name}_URL`);
+        }
     }
 }
