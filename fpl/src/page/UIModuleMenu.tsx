@@ -35,7 +35,7 @@ export default class UIModuleMenu extends WebControl<UIModuleMenuTypeProps, UIMo
             ds.first();
             let index = 1;
             while (ds.fetch()) {
-                list.push(<li className={`${styles.stockBox}`} onClick={this.linkTo.bind(this, ds.current)} key={ds.getString('Name_')}>
+                list.push(<li onClick={this.linkTo.bind(this, ds.current)} key={ds.getString('Name_')}>
                     <div>
                         <img src={ds.getString('Image_')} alt="" />
                     </div>
