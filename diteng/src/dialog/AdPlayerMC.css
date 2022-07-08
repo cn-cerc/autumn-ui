@@ -43,3 +43,9 @@
     font-size: 20px;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .slideShow {
+        min-height: 200px;
+    }
+}
