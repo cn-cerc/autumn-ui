@@ -48,8 +48,10 @@
     position: absolute;
 }
 
-.stockBox1{
-
+.bgColor{
+    background-color: #fff;
+    border-radius: 4px;
+    width: 344px;
 }
 
 .stockBox > div{
@@ -163,6 +165,13 @@
         flex-wrap: wrap;
     }
 
+    .bgColor{
+        width:100%;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        min-height: 270px;
+    }
+
     .mcFlowChartBox {
         height: 410px;
     }
@@ -206,4 +215,6 @@
         height: 220px;
         flex: auto;
     }
+
+
 }

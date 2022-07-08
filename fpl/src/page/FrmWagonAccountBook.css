@@ -1,6 +1,4 @@
 .main {
-    height: 0;
-    flex: 1;
     display: flex;
     line-height: 1em;
     color: #333333;
@@ -11,14 +9,10 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-left: 16px;
 }
 
 .menuModule {
-    width: 344px;
-    height: 100%;
     background-color: #fff;
-    border-radius: 4px;
 }
 
 .content>ul {
@@ -27,12 +21,7 @@
 }
 
 .content>ul>li {
-    width: calc((100% - 32px)/3);
     background-color: #fff;
-    border-radius: 4px;
-    margin-bottom: 16px;
-    margin-left: 16px;
-    padding: 16px;
 }
 
 .content>ul>li:nth-child(3n+1) {
@@ -88,6 +77,31 @@
     flex: 1;
 }
 
+@media screen and (min-width: 768px) {
+    .main {
+        height: 0;
+        flex: 1;
+    }
+
+    .content {
+        margin-left: 16px;
+    }
+
+    .menuModule {
+        width: 344px;
+        height: 100%;
+        border-radius: 4px;
+    }
+
+    .content>ul>li {
+        width: calc((100% - 32px)/3);
+        border-radius: 4px;
+        margin-bottom: 16px;
+        margin-left: 16px;
+        padding: 16px;
+    }
+}
+
 @media screen and (min-width: 1200px) and (max-width: 1366px) {
     .content {
         margin-left: 10px;
@@ -97,5 +111,61 @@
         width: calc((100% - 20px)/3);
         margin-bottom: 10px;
         margin-left: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .content>ul {
+        margin: .75rem .75rem 0;
+    }
+
+    .menuModule {
+        margin: .75rem .75rem 0;
+        border-radius: .25rem;
+    }
+
+    .content>ul>li {
+        background-color: #fff;
+        border-radius: .25rem;
+        margin-bottom: .75rem;
+        margin-left: .75rem;
+        padding: 1rem;
+        position: relative;
+    }
+
+    .content>ul>li:nth-child(2) {
+        margin-left: 0;
+    }
+
+    .content>ul>li:nth-child(1) {
+        width: 100%;
+    }
+
+    .content>ul>li:nth-child(2),
+    .content>ul>li:nth-child(3) {
+        width: calc(50% - .75rem / 2);
+    }
+
+    .content>ul>li:nth-child(4),
+    .content>ul>li:nth-child(5),
+    .content>ul>li:nth-child(6) {
+        width: calc(33.3% - 1.5rem / 3);
+        margin-bottom: 0;
+    }
+
+    .btn_tixian {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .charts{
+        margin:.75rem .75rem;
+    }
+
+    .chart{
+        height:220px;
+        flex: auto;
     }
 }
