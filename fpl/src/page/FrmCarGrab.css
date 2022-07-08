@@ -91,6 +91,9 @@
     margin-right: 8px;
     line-height: 18px;
 }
+.info>ul>li>div>span:last-child{
+    color:#666;
+}
 
 .grid {
     height: 0;
@@ -198,7 +201,7 @@
         content: '';
         position: absolute;
         top: 20px;
-        width: 1.25rem;
+        width: 1.5rem;
         left: 50%;
         transform: translateX(-50%);
         height: 2px;

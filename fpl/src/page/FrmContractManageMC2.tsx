@@ -1,6 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./FrmContractManageMC1.css";
+import styles from "./FrmContractManageMC2.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 

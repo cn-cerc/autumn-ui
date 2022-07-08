@@ -71,26 +71,29 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                             <div className={`${this.state.linkRow.getBoolean('车队与司机登记_Dis') ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车队与司机登记')}>
                                 <span>车队与司机登记</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('货单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock4}`} onClick={this.linkTo.bind(this, '货单登记')}>
+                            <div className={`${this.state.linkRow.getBoolean('货单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '货单登记')}>
                                 <span>货单登记</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('自行派车运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '自行派车运单登记')}>
+                            <div className={`${this.state.linkRow.getBoolean('货单管理_Dis') ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '货单管理')}>
+                                <span>货单管理</span>
+                            </div>
+                            <div className={`${this.state.linkRow.getBoolean('自行派车运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车运单登记')}>
                                 <span>自行派车运单登记</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
+                            <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
                                 <span>委托第三方物流运输</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('网络货运平台撮合_Dis') ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '网络货运平台撮合')}>
+                            <div className={`${this.state.linkRow.getBoolean('网络货运平台撮合_Dis') ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '网络货运平台撮合')}>
                                 <span>网络货运平台撮合</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('司机端_Dis') ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '司机端')}>
+                            <div className={`${this.state.linkRow.getBoolean('司机端_Dis') ? styles.other_disable : styles.other} ${styles.stock14}`} onClick={this.linkTo.bind(this, '司机端')}>
                                 <span>司机端</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                    <div className={styles.mcPieChart}>
+                <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>比例图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
@@ -101,7 +104,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（开发中）</div>
+                        <div className={styles.mcTitle}>比例图（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -301,53 +304,60 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             linesData: [
                 {
                     coords: [
-                        [78, 40],
-                        [143, 40],
+                        [75, 35],
+                        [143, 35],
                     ]
                 }, {
                     coords: [
-                        [183, 40],
-                        [248, 40],
+                        [190, 35],
+                        [256, 35],
+                    ]
+                },
+                {
+                    coords: [
+                        [168, 160],
+                        [168, 189],
+                    ]
+                },
+                {
+                    coords: [
+                        [168, 247],
+                        [168, 271],
+                    ]
+                },
+                {
+                    coords: [
+                        [168, 247],
+                        [168, 261],
+                        [50, 261],
+                        [50, 271],
                     ]
                 }, {
                     coords: [
-                        [163, 180],
-                        [163, 200],
-                        [163, 220],
-                    ]
-                }, {
-                    coords: [
-                        [163, 180],
-                        [163, 200],
-                        [59, 200],
-                        [59, 220],
-                    ]
-                }, {
-                    coords: [
-                        [163, 180],
-                        [163, 200],
-                        [269, 200],
-                        [269, 220],
+                        [168, 247],
+                        [168, 261],
+                        [278, 261],
+                        [278, 271],
                     ]
                 },
                 {
                     coords: [ //自行派车运单登记 往右下线条
-                        [60, 293],
-                        [60, 307],
-                        [164, 307]
+                        [50, 328],
+                        [50, 347],
+                        [168, 347]
                     ]
                 },
                 {
                     coords: [ //网络货运平台撮合 往左下线条
-                        [268, 293],
-                        [268, 307],
-                        [164, 307],
+                        [278, 328],
+                        [278, 347],
+                        [168, 347],
                     ]
                 },
                 {
                     coords: [
-                        [163, 292],
-                        [163, 320],
+                        [168, 328],
+                        [168, 356],
                     ]
                 },
             ]
