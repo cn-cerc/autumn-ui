@@ -66,7 +66,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             isFirefox,
             iconHover: this.isPhone ? 0 : 1,
             protocol,
-            apiURL: apiURL
+            apiURL,
         }
     }
     render() {
