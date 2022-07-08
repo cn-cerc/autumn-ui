@@ -92,10 +92,6 @@ export default class FrmTaurusMC extends WebControl<FrmInvoiceManageTypeProps, F
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                    <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（开发中）</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
-                    </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>比例图（开发中）</div>
@@ -105,6 +101,10 @@ export default class FrmTaurusMC extends WebControl<FrmInvoiceManageTypeProps, F
                             <div className={styles.mcTitle}>比例图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
+                    </div>
+                    <div className={styles.mcTrendChart}>
+                        <div className={styles.mcTitle}>趋势图（开发中）</div>
+                        <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
             </div>
@@ -196,27 +196,42 @@ export default class FrmTaurusMC extends WebControl<FrmInvoiceManageTypeProps, F
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: '25%',
+                left: '65%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+            },
             grid: {
                 top: 40,
                 left: 0,
                 bottom: 0,
                 right: 20,
-                containLabel: true,
+                containLabel: false,
             },
             series: [
                 {
-                    name: '本周货运吨数占比',
+                    // name: '本周货运吨数占比',
                     type: 'pie',
+                    center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '24',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {},
+                    labelLine: {
+                        show: false
+                    },
                     data: dataArr
                 }
             ]
@@ -242,20 +257,35 @@ export default class FrmTaurusMC extends WebControl<FrmInvoiceManageTypeProps, F
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: '25%',
+                left: '65%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+            },
             series: [
                 {
-                    name: '本周货运车辆占比',
+                    // name: '本周货运车辆占比',
                     type: 'pie',
+                    center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '24',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {},
+                    labelLine: {
+                        show: false
+                    },
                     data: dataArr
                 }
             ]

@@ -68,9 +68,6 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>操作日志（开发中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
-                            <div className={styles.btnBox}>
-                                本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow} />
-                            </div>
                         </div>
                         <div className={styles.mcPieBox2}>
                             <div className={styles.mcTitle}>今日处理工作（开发中）</div>
@@ -80,9 +77,6 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>在线时间（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow} />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -131,7 +125,7 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: 230,
+                right: '20%',
                 containLabel: true,
             },
             series: [
@@ -174,8 +168,8 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -235,8 +229,8 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,

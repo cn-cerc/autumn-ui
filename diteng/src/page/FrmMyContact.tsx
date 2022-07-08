@@ -1,5 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
+import StaticFile from "../StaticFile";
 import styles from "./FrmMyContact.css";
 import PageApi from "./PageApi";
 
@@ -151,7 +152,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 <div>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
-                        {this.isPhone ? <span><img src="images/icon/arrow-right.png" /></span> : ''}
+                        {this.isPhone ? <span><img src={StaticFile.getImage('images/icon/arrow-right.png')} /></span> : ''}
                     </div>
                 </div>
             </li>);
@@ -186,7 +187,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             if (name == '系统消息') continue;
             list.push(<li key={num} className={styles.selectContact} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
                 <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
-                <div>
+                <div className={styles.alignItem}>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
                     </div>

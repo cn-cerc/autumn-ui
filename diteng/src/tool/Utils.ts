@@ -108,6 +108,25 @@ export class ClientStorage {
     }
 }
 
+export class SessionStorage {
+    private section: string;
+    constructor(section: string) {
+        this.section = section;
+    }
+
+    set(key: string, value: any): void {
+        sessionStorage.setItem(this.section + '_' + key, value);
+    }
+
+    get(key: string, def?: any): any {
+        return sessionStorage.getItem(this.section + '_' + key) || def;
+    }
+
+    remove(key: string): void {
+        sessionStorage.removeItem(this.section + '_' + key);
+    }
+}
+
 
 // //引入xlsx
 // /**

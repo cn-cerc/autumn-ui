@@ -11,11 +11,11 @@ type FrmContractManageMCTypeProps = {
 
 type FrmContractManageMCTypeState = {
     lineData: DataSet,
-    barData: DataSet,
+    pieData1: DataSet
+    pieData2: DataSet,
     dataJson: DataRow,
     introduction: string
 }
-
 //合同管理(中智运)
 
 export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
@@ -23,25 +23,28 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 271).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 235).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 248).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 268).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 335).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 301).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 356).setValue('XName_', '周日');
-        let barData = new DataSet();
-        barData.append().setValue('Value_', 19).setValue('Name_', '周一');
-        barData.append().setValue('Value_', 16).setValue('Name_', '周二');
-        barData.append().setValue('Value_', 12).setValue('Name_', '周三');
-        barData.append().setValue('Value_', 8).setValue('Name_', '周四');
-        barData.append().setValue('Value_', 10).setValue('Name_', '周五');
-        barData.append().setValue('Value_', 11).setValue('Name_', '周六');
-        barData.append().setValue('Value_', 12).setValue('Name_', '周日');
+        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
+        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
+        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
+        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
+        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
+        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
+        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
+        let pieData1 = new DataSet();
+        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
+        let pieData2 = new DataSet();
+        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
+        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
+        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
+        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
-            barData,
+            pieData1,
+            pieData2,
             dataJson: dataJson,
             introduction: this.props.introduction
         }
@@ -84,9 +87,15 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                    <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（开发中）</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                    <div className={styles.mcPieChart}>
+                        <div className={styles.mcPieBox1}>
+                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.FrmTaurusMCPie1}></div>
+                        </div>
+                        <div className={styles.mcPieBox2}>
+                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.FrmTaurusMCPie2}></div>
+                        </div>
                     </div>
                     <div className={styles.mcBarChart}>
                         <div className={styles.mcTitle}>比例图（开发中）</div>
@@ -98,77 +107,17 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
     }
 
     componentDidMount(): void {
-        this.initLineChart();
         this.initBarChart();
+        this.initPieChart1();
+        this.initPieChart2();
         this.initFlowChart();
-    }
-
-    initLineChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
-        let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
-        let xArr = [];
-        let sData = [];
-        while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
-        }
-        let option = {
-            xAxis: {
-                type: 'category',
-                data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
-            },
-            yAxis: {
-                type: 'value',
-                axisLabel: {
-                    color: '#333333'
-                }
-            },
-            lengend: {},
-            tooltip: {},
-            grid: {
-                top: 10,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
-            },
-            series: [
-                {
-                    data: sData,
-                    type: 'line',
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                }
-            ]
-        };
-        //@ts-ignore
-        myChart.setOption(option);
     }
 
     initBarChart() {
         let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.barData);
+        ds.appendDataSet(this.state.lineData);
         ds.first();
         let dataArr = [],
             nameArr = [];
@@ -198,6 +147,121 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 }
             ]
         };
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    initPieChart1() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
+        let myChart = echarts.init(peiChart);
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.pieData1);
+        ds.first();
+        let dataArr = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('Name_'),
+                value: ds.getDouble('Value_')
+            })
+        }
+        let option = {
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: '25%',
+                left: '65%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+            },
+            grid: {
+                top: 40,
+                left: 0,
+                bottom: 0,
+                right: 20,
+                containLabel: false,
+            },
+            series: [
+                {
+                    // name: '本周货运吨数占比',
+                    type: 'pie',
+                    center: ['30%', '50%'],
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '20',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: dataArr
+                }
+            ]
+        }
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    initPieChart2() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
+        let myChart = echarts.init(peiChart);
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.pieData2);
+        ds.first();
+        let dataArr = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('Name_'),
+                value: ds.getDouble('Value_')
+            })
+        }
+        let option = {
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: '25%',
+                left: '65%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+            },
+            series: [
+                {
+                    // name: '本周货运车辆占比',
+                    type: 'pie',
+                    center: ['30%', '50%'],
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '20',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: dataArr
+                }
+            ]
+        }
         //@ts-ignore
         myChart.setOption(option);
     }
