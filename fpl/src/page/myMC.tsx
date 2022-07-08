@@ -3,7 +3,7 @@ import * as echarts from "echarts";
 import React from "react";
 import { MCChartColors } from "./FrmTaurusMC";
 import styles from "./myMC.css";
-import moduleMenu from "./UIModuleMenu";
+import UIModuleMenu from "./UIModuleMenu";
 
 type myMCTypeProps = {
     dataJson: string,
@@ -11,7 +11,6 @@ type myMCTypeProps = {
 }
 
 type myMCTypeState = {
-    dataJson: DataRow,
     introduction: string,
     data: DataSet,
     title: string,
@@ -23,17 +22,8 @@ type myMCTypeState = {
 export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
     constructor(props: myMCTypeProps) {
         super(props);
-        let lineRow = new DataRow();
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         let data = new DataSet();
-        data.append().setValue('img_', 'images/MCimg/myManagement/ggmm.png').setValue('name_', '更改密码')
-            .append().setValue('img_', 'images/MCimg/myManagement/sszl.png').setValue('name_', '设置资料')
-            .append().setValue('img_', 'images/MCimg/myManagement/ssxh.png').setValue('name_', '设置喜好')
-            .append().setValue('img_', 'images/MCimg/myManagement/dqdj.png').setValue('name_', '代签单据')
-            .append().setValue('img_', 'images/MCimg/myManagement/cgdj.png').setValue('name_', '草稿单据')
-            .append().setValue('img_', 'images/MCimg/myManagement/szdy.png').setValue('name_', '设置打印')
-            .append().setValue('img_', 'images/MCimg/myManagement/yjsz.png').setValue('name_', '预警设置')
-            .append().setValue('img_', 'images/MCimg/myManagement/xxgl.png').setValue('name_', '消息管理');
+        data.setJson(this.props.dataJson);
         let lineData = new DataSet();
         lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
         lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
@@ -55,7 +45,6 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
         this.state = {
             title: '常用功能',
             data: data,
-            dataJson: dataJson,
             introduction: this.props.introduction,
             lineData,
             pieData1,
@@ -71,25 +60,14 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 <p>{this.state.introduction}</p>
             </div>
             <div className={styles.mcMain}>
-                <div className={styles.mcFlowChartBox}>
-                    <div className={styles.mcFlowChartMain}>
-                        {
-                            React.createElement(moduleMenu, {
-                                title: this.state.title,
-                                data: this.state.data,
-                                dataJson: this.state.dataJson
-                            })
-                        }
-                    </div>
+                <div className={styles.bgColor}>
+                    <UIModuleMenu dataSet={this.state.data} title={this.state.title}></UIModuleMenu>
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>操作日志（开发中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
-                            <div className={styles.btnBox}>
-                                本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow} />
-                            </div>
                         </div>
                         <div className={styles.mcPieBox2}>
                             <div className={styles.mcTitle}>今日处理工作（开发中）</div>
@@ -99,9 +77,6 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>在线时间（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow} />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -150,7 +125,7 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: 230,
+                right: '20%',
                 containLabel: true,
             },
             series: [
@@ -193,8 +168,8 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -254,8 +229,8 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,

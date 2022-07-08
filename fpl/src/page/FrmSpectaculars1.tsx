@@ -57,7 +57,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>运作数据中心</p>
+                <p>营运数据中心</p>
             </div>
             <div className={styles.mcMain}>
                 <ul className={styles.top_list}>

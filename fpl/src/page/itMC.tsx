@@ -3,7 +3,7 @@ import * as echarts from "echarts";
 import React from "react";
 import { MCChartColors } from "./FrmTaurusMC";
 import styles from "./itMC.css";
-import moduleMenu from "./UIModuleMenu";
+import UIModuleMenu from "./UIModuleMenu";
 
 type itMCTypeProps = {
     dataJson: string,
@@ -11,7 +11,6 @@ type itMCTypeProps = {
 }
 
 type itMCTypeState = {
-    dataJson: DataRow,
     introduction: string,
     data: DataSet,
     title: string,
@@ -23,14 +22,8 @@ type itMCTypeState = {
 export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
     constructor(props: itMCTypeProps) {
         super(props);
-        let lineRow = new DataRow();
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         let data = new DataSet();
-        data.append().setValue('img_', 'images/MCimg/itManagement/xtcs.png').setValue('name_', '系统参数')
-            .append().setValue('img_', 'images/MCimg/itManagement/zhqx.png').setValue('name_', '账号权限')
-            .append().setValue('img_', 'images/MCimg/itManagement/djcs.png').setValue('name_', '单据参数')
-            .append().setValue('img_', 'images/MCimg/itManagement/yhcs.png').setValue('name_', '用户参数')
-            .append().setValue('img_', 'images/MCimg/itManagement/bmzl.png').setValue('name_', '部门资料');
+        data.setJson(this.props.dataJson);
         let lineData = new DataSet();
         lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
         lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
@@ -52,13 +45,11 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
         this.state = {
             title: '常用功能',
             data: data,
-            dataJson: dataJson,
             introduction: this.props.introduction,
             lineData,
             pieData1,
             pieData2,
         }
-
     }
 
     render(): React.ReactNode {
@@ -68,16 +59,8 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 <p>{this.state.introduction}</p>
             </div>
             <div className={styles.mcMain}>
-                <div className={styles.mcFlowChartBox}>
-                    <div className={styles.mcFlowChartMain}>
-                        {
-                            React.createElement(moduleMenu, {
-                                title: this.state.title,
-                                data: this.state.data,
-                                dataJson: this.state.dataJson
-                            })
-                        }
-                    </div>
+                <div className={styles.bgColor}>
+                    <UIModuleMenu dataSet={this.state.data} title={this.state.title}></UIModuleMenu>
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
@@ -93,9 +76,6 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>部门人数统计（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow} />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -144,7 +124,7 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: 230,
+                right: '20%',
                 containLabel: true,
             },
             series: [
@@ -187,8 +167,8 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -248,8 +228,8 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 trigger: 'item'
             },
             legend: {
-                top: 25,
-                right: 10,
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,

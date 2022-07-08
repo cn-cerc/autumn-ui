@@ -1,5 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
+import StaticFile from "../StaticFile";
 import { imageColorArr } from "./FrmMessage";
 import styles from "./FrmMyContact.css";
 import PageApi from "./PageApi";
@@ -151,7 +152,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 <div>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
-                        {this.isPhone ? <span><img src="images/icon/arrow-right.png" /></span> : ''}
+                        {this.isPhone ? <span><img src={StaticFile.getImage('images/icon/arrow-right.png')} /></span> : ''}
                     </div>
                 </div>
             </li>);

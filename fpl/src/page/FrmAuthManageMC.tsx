@@ -1,15 +1,15 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./custTLinkMC.css";
+import styles from "./FrmAuthManageMC.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type custTLinkMCTypeProps = {
+type FrmAuthManageMCTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type custTLinkMCTypeState = {
+type FrmAuthManageMCTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
@@ -17,8 +17,8 @@ type custTLinkMCTypeState = {
     introduction: string
 }
 
-export default class FrmTaurusMC extends WebControl<custTLinkMCTypeProps, custTLinkMCTypeState> {
-    constructor(props: custTLinkMCTypeProps) {
+export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
+    constructor(props: FrmAuthManageMCTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -30,15 +30,15 @@ export default class FrmTaurusMC extends WebControl<custTLinkMCTypeProps, custTL
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
+        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
         let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
+        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
+        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
+        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
+        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
@@ -61,23 +61,26 @@ export default class FrmTaurusMC extends WebControl<custTLinkMCTypeProps, custTL
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`审核客户接入_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '审核客户接入')}>
-                                <span>审核客户接入</span>
+                            <div className={`${this.state.dataJson.getBoolean(`企业认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '企业认证')}>
+                                <span>企业认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`连接客户申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '连接客户申请')}>
-                                <span>连接客户申请</span>
+                            <div className={`${this.state.dataJson.getBoolean(`认证中心_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '认证中心')}>
+                                <span>认证中心</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`下游互联管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '下游互联管理')}>
-                                <span>下游互联管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`车辆认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车辆认证')}>
+                                <span>车辆认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存与销售统计_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '库存与销售统计')}>
-                                <span>库存与销售统计</span>
+                            <div className={`${this.state.dataJson.getBoolean(`企业审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock4}`} onClick={this.linkTo.bind(this, '企业审核')}>
+                                <span>企业审核</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`接入权限设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '接入权限设置')}>
-                                <span>接入权限设置</span>
+                            <div className={`${this.state.dataJson.getBoolean(`司机认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '司机认证')}>
+                                <span>司机认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`线上订单确认_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '线上订单确认')}>
-                                <span>线上订单确认</span>
+                            <div className={`${this.state.dataJson.getBoolean(`车辆审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock6}`} onClick={this.linkTo.bind(this, '车辆审核')}>
+                                <span>车辆审核</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`司机审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '司机审核')}>
+                                <span>司机审核</span>
                             </div>
                         </div>
                     </div>
@@ -91,17 +94,11 @@ export default class FrmTaurusMC extends WebControl<custTLinkMCTypeProps, custTL
                         <div className={styles.mcPieBox2}>
                             <div className={styles.mcTitle}>比例图（开发中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
-                            <div className={styles.btnBox}>
-                                本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow}/>
-                            </div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>比例图（开发中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
-                        <div className={styles.btnBox}>
-                            本月 <img src="images/barArrow.png" alt="" className={styles.btn_arrow}/>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -299,31 +296,37 @@ export default class FrmTaurusMC extends WebControl<custTLinkMCTypeProps, custTL
             nodes,
             linesData: [
                 {
-                    coords: [ //审核客户接入 往下线条
+                    coords: [ //企业认证 往下线条
+                        [50, 75],
+                        [50, 108]
+                    ]
+                },
+                {
+                    coords: [ //企业认证 往右线条
+                        [73, 35],
+                        [150, 35],
+                    ]
+                },
+                {
+                    coords: [ //认证中心 往右线条
+                        [190, 35],
+                        [256, 35],
+                    ]
+                },
+                {
+                    coords: [ //认证中心 往下线条
                         [168, 75],
                         [168, 108]
                     ]
                 },
                 {
-                    coords: [ //连接客户申请 往右线条
-                        [73, 123],
-                        [150, 123],
+                    coords: [ //车辆认证 往下线条
+                        [279, 75],
+                        [279, 108]
                     ]
                 },
                 {
-                    coords: [ //库存与销售统计 往右线条
-                        [190, 123],
-                        [256, 123],
-                    ]
-                },
-                {
-                    coords: [ //连接客户申请 往下线条
-                        [50, 160],
-                        [50, 189]
-                    ]
-                },
-                {
-                    coords: [ //下游互联管理 往下线条
+                    coords: [ //司机认证 往下线条
                         [168, 160],
                         [168, 189]
                     ]

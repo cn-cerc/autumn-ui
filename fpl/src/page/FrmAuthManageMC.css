@@ -147,14 +147,33 @@
     text-align: center;
 }
 
+.primeval {
+    background: url("../image/primeval_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.primeval_disable{
+    background: url("../image/primeval_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
 .register>span,
 .receipt>span,
 .control>span,
 .other>span,
+.primeval>span,
 .register_disable>span,
 .receipt_disable>span,
 .control_disable>span,
-.other_disable>span {
+.other_disable>span,
+.primeval_disable>span {
     width: 6em;
     text-align: center;
     display: block;
@@ -177,6 +196,10 @@
     background-image: url("../image/other_hover.png");
 }
 
+.primeval:hover {
+    background-image: url("../image/primeval_disable.png");
+}
+
 .mcTitle {
     font-weight: bold;
 }
@@ -193,7 +216,6 @@
 }
 
 .mcPieBox2 {
-    position: relative;
     margin-left: 16px;
 }
 
@@ -277,28 +299,6 @@
     top: 350px;
 }
 
-.btnBox {
-    position: absolute;
-    right: 16px;
-    top: 16px;
-    width: 72px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #00A653;
-    box-sizing: border-box;
-    color: #00A653;
-    border-radius: 4px;
-}
-
-.btn_arrow {
-    position: relative;
-    width: 14px;
-    height: 14px;
-    margin-left: 2px;
-}
-
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -319,6 +319,7 @@
     }
 
     .mcMain {
+        margin:0.75rem;
         flex-wrap: wrap;
     }
 
@@ -330,10 +331,12 @@
     .receipt>span,
     .control>span,
     .other>span,
+    .primeval>span,
     .register_disable>span,
     .receipt_disable>span,
     .control_disable>span,
-    .other_disable>span {
+    .other_disable>span,
+    .primeval_disable>span {
         font-size: 14px;
         line-height: 1.2;
         margin-top: 5px;
@@ -342,7 +345,8 @@
     .register,
     .receipt,
     .control,
-    .other {
+    .other,
+    .primeval {
         padding-top: 35px;
     }
 

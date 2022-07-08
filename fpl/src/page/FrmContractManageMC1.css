@@ -17,7 +17,7 @@
 }
 
 .mcFlowChartBox,
-.mcTrendChart,
+/* .mcTrendChart, */
 .mcBarChart {
     background-color: #fff;
     border-radius: .28rem;
@@ -60,15 +60,7 @@
     flex-direction: column;
 }
 
-.mcTrendChart {
-    height: 0;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
 .mcPieChart {
-    margin-top: 16px;
     height: 0;
     flex: 1;
     display: flex;
@@ -82,7 +74,7 @@
     flex-direction: column;
 }
 
-.FrmTaurusMCLine,
+/* .FrmTaurusMCLine, */
 .FrmTaurusMCBar {
     padding: 16px 16px 0 16px;
     flex: 1;
@@ -205,12 +197,17 @@
     margin-left: 16px;
 }
 
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2 {
+    flex: 1;
+}
+
 .FrmTaurusMCBar {
     flex: 1;
 }
 
 .stock1 {
-    left: 4px;
+    left: 20px;
     top: 20px;
 }
 
@@ -219,28 +216,13 @@
     top: 20px;
 }
 
-.stock3 {
-    left: 212px;
-    top: 20px;
-}
-
-.stock4 {
-    left: 4px;
-    top: 120px;
-}
-
 .stock5 {
     left: 112px;
     top: 120px;
 }
 
-.stock6 {
-    left: 212px;
-    top: 120px;
-}
-
 .stock7 {
-    left: 4px;
+    left: 20px;
     top: 220px;
 }
 
@@ -249,18 +231,13 @@
     top: 220px;
 }
 
-.stock9 {
-    left: 212px;
-    top: 220px;
-}
-
-.stock10 {
-    left: 4px;
+.stock11 {
+    left: 112px;
     top: 320px;
 }
 
-.stock11 {
-    left: 112px;
+.stock12 {
+    left: 210px;
     top: 320px;
 }
 
@@ -284,6 +261,7 @@
     }
 
     .mcMain {
+        margin:0.75rem;
         flex-wrap: wrap;
     }
 
@@ -313,6 +291,7 @@
 
     .mcFlowChartBox {
         width: 100%;
+        margin-bottom: 16px;
     }
 
     .mcCharts {
@@ -320,12 +299,33 @@
         margin: auto;
     }
 
-    .mcTrendChart {
+    .mcTrendChart,
+    .mcPieBox2 {
         margin-top: 16px;
     }
 
-    .FrmTaurusMCLine,
     .FrmTaurusMCBar {
+        height: 220px;
+        flex: auto;
+    }
+
+    .mcPieChart {
+        flex-wrap: wrap;
+        flex: 1;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2 {
+        width: 100%;
+        flex: auto;
+    }
+
+    .mcPieBox2 {
+        margin-left: 0;
+    }
+
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2 {
         height: 220px;
         flex: auto;
     }

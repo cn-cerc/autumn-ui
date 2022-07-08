@@ -14,26 +14,13 @@
     flex: 1;
     display: flex;
     padding-bottom: 16px;
+    line-height: 1em;
 }
 
-.mcFlowChartBox,
 .mcTrendChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px 0;
-}
-
-.mcFlowChartBox {
-    width: 344px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.mcFlowChartMain {
-    height: 0;
-    flex: 1;
-    position: relative;
 }
 
 .mcFlowBox {
@@ -48,8 +35,10 @@
     position: absolute;
 }
 
-.stockBox1{
-
+.bgColor{
+    background-color: #fff;
+    border-radius: 4px;
+    width: 344px;
 }
 
 .stockBox > div{
@@ -160,16 +149,15 @@
     }
 
     .mcMain {
+        margin:0.75rem;
         flex-wrap: wrap;
     }
 
-    .mcFlowChartBox {
-        height: 410px;
-    }
-
-    .mcFlowChartBox {
-        width: 100%;
+    .bgColor{
+        width:100%;
         margin-bottom: 16px;
+        padding-bottom: 16px;
+        min-height: 270px;
     }
 
     .mcCharts {
@@ -206,4 +194,6 @@
         height: 220px;
         flex: auto;
     }
+
+
 }

@@ -65,7 +65,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    position: relative;
 }
 
 .mcPieChart {
@@ -147,33 +146,14 @@
     text-align: center;
 }
 
-.primeval {
-    background: url("../image/primeval_disable.png") top center no-repeat;
-    padding-top: 40px;
-    background-size: 40px 40px;
-    position: absolute;
-    text-align: center;
-    cursor: pointer;
-}
-
-.primeval_disable{
-    background: url("../image/primeval_disable.png") top center no-repeat;
-    padding-top: 40px;
-    background-size: 40px 40px;
-    position: absolute;
-    text-align: center;
-}
-
 .register>span,
 .receipt>span,
 .control>span,
 .other>span,
-.primeval>span,
 .register_disable>span,
 .receipt_disable>span,
 .control_disable>span,
-.other_disable>span,
-.primeval_disable>span {
+.other_disable>span {
     width: 6em;
     text-align: center;
     display: block;
@@ -194,10 +174,6 @@
 
 .other:hover {
     background-image: url("../image/other_hover.png");
-}
-
-.primeval:hover {
-    background-image: url("../image/primeval_disable.png");
 }
 
 .mcTitle {
@@ -225,79 +201,55 @@
 }
 
 .stock1 {
-    left: 4px;
-    top: 16px;
+    left: 60px;
+    top: 15px;
 }
 
 .stock2 {
-    left: 112px;
-    top: 16px;
+    left: 160px;
+    top: 15px;
 }
 
 .stock3 {
-    left: 212px;
-    top: 16px;
+    left: 60px;
+    top: 100px;
 }
 
 .stock4 {
-    left: 4px;
-    top: 102px;
+    left: 160px;
+    top: 100px;
 }
 
 .stock5 {
-    left: 112px;
-    top: 102px;
+    left: 60px;
+    top: 185px;
 }
 
 .stock6 {
-    left: 212px;
-    top: 102px;
+    left: 160px;
+    top: 185px;
 }
 
 .stock7 {
-    left: 4px;
-    top: 188px;
+    left: 60px;
+    top: 270px;
 }
 
 .stock8 {
-    left: 112px;
-    top: 188px;
+    left: 160px;
+    top: 270px;
 }
 
 .stock9 {
-    left: 212px;
-    top: 188px;
+    left: 60px;
+    top: 355px;
 }
 
 .stock10 {
-    left: 4px;
-    top: 269px;
+    left: 160px;
+    top: 355px;
 }
 
-.stock11 {
-    left: 112px;
-    top: 269px;
-}
-
-.stock12 {
-    left: 212px;
-    top: 269px;
-}
-
-.stock13 {
-    left: 4px;
-    top: 350px;
-}
-
-.stock14 {
-    left: 112px;
-    top: 350px;
-}
-
-.stock15 {
-    left: 212px;
-    top: 350px;
-}
 
 @media screen and (min-width: 768px) {
     .mc {
@@ -331,12 +283,10 @@
     .receipt>span,
     .control>span,
     .other>span,
-    .primeval>span,
     .register_disable>span,
     .receipt_disable>span,
     .control_disable>span,
-    .other_disable>span,
-    .primeval_disable>span {
+    .other_disable>span {
         font-size: 14px;
         line-height: 1.2;
         margin-top: 5px;
@@ -345,14 +295,13 @@
     .register,
     .receipt,
     .control,
-    .other,
-    .primeval {
+    .other {
         padding-top: 35px;
     }
 
     .mcFlowChartBox {
         width: 100%;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
     }
 
     .mcCharts {
@@ -362,7 +311,7 @@
 
     .mcTrendChart,
     .mcPieBox2 {
-        margin-top: 16px;
+        margin-top: 12px;
     }
 
     .FrmTaurusMCLine {

@@ -1,6 +1,7 @@
 import { DataRow, DataSet, DBEdit, Loading, QueryService, WebControl } from "autumn-ui";
 import Fingerprint2 from "fingerprintjs2";
 import React from "react";
+import StaticFile from "../StaticFile";
 import { showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./FrmLogin.css";
@@ -64,18 +65,18 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 <React.Fragment>
                     <form method="post" className={styles.mainBox} onSubmit={this.onSubmit.bind(this)}>
                         <div className={`${styles.inputGroup} ${styles.userName} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
-                            <img src={this.state.iconHover == 1 ? 'images/login/account_hover.png' : 'images/login/account.png'} />
+                            <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
                             <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                             {this.getSelectBtn()}
                             {this.getChooseList()}
                         </div>
                         <div className={`${styles.inputGroup} ${styles.passWord} ${showVerify ? '' : styles.noBottomMargin} ${this.state.iconHover == 2 ? styles.inputHover : ''}`}>
-                            <img src={this.state.iconHover == 2 ? 'images/login/password_hover.png' : 'images/login/password.png'} />
+                            <img src={this.state.iconHover == 2 ? StaticFile.getImage('images/login/password_hover.png') : StaticFile.getImage('images/login/password.png')} />
                             <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} placeholder='登录密码' onFocus={this.setIconHover.bind(this, 2)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                         </div>
                         {this.getVerify()}
                         <div className={styles.operationLogin}>
-                            <img src={this.state.savePwd ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeSvaePwd.bind(this)}></img>
+                            <img src={this.state.savePwd ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeSvaePwd.bind(this)}></img>
                             <input type="checkbox" id="savePwd" checked={this.state.savePwd} onChange={this.changeAutoLogin.bind(this)} /><label htmlFor="savePwd">自动登录</label>
                             <a href="FrmForgetPassword">找回密码?</a>
                         </div>
@@ -83,7 +84,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         <section className={styles.customService}>
                             <div className={styles.protocolBox}>
                                 <div className={styles.protocol}>
-                                    <img src={this.state.protocol ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeProtocol.bind(this)}></img>
+                                    <img src={this.state.protocol ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeProtocol.bind(this)}></img>
                                     <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
                                     <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
                                 </div>
@@ -102,18 +103,18 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
-                                <img src={this.state.iconHover == 1 ? 'images/login/account_hover.png' : 'images/login/account.png'} />
+                                <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
                                 <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                                 {this.getSelectBtn()}
                                 {this.getChooseList()}
                             </p>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 2 ? styles.inputHover : ''}`}>
-                                <img src={this.state.iconHover == 2 ? 'images/login/password_hover.png' : 'images/login/password.png'} />
+                                <img src={this.state.iconHover == 2 ? StaticFile.getImage('images/login/password_hover.png') : StaticFile.getImage('images/login/password.png')} />
                                 {this.getPasswordInput()}
                             </p>
                             {this.getVerify()}
                             <p className={styles.remember}>
-                                <img src={this.state.savePwd ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeSvaePwd.bind(this)}></img>
+                                <img src={this.state.savePwd ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeSvaePwd.bind(this)}></img>
                                 <input id="savePwd" type="checkbox" checked={this.state.savePwd} onChange={this.changeSvaePwd.bind(this)} />
                                 <label htmlFor="savePwd">记住密码（私人电脑可选择此项）</label>
                             </p>
@@ -541,7 +542,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             if (this.isPhone) {
                 return (
                     <div className={`${styles.inputGroup} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
-                        <img src={this.state.iconHover == 3 ? 'images/login/verify_hover.png' : 'images/login/verify.png'} />
+                        <img src={this.state.iconHover == 3 ? StaticFile.getImage('images/login/verify_hover.png') : StaticFile.getImage('images/login/verify.png')} />
                         <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                         <div onClick={this.sendCode.bind(this)} className={`${this.state.hasSendCode ? styles.sendCoded : styles.sendCode}`}>发送验证码</div>
                     </div>
@@ -549,7 +550,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             } else {
                 return (
                     <p className={`${styles.keyInput} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
-                        <img src={this.state.iconHover == 3 ? 'images/login/verify_hover.png' : 'images/login/verify.png'} />
+                        <img src={this.state.iconHover == 3 ? StaticFile.getImage('images/login/verify_hover.png') : StaticFile.getImage('images/login/verify.png')} />
                         <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                         <div onClick={this.sendCode.bind(this)} className={`${this.state.hasSendCode ? styles.sendCoded : styles.sendCode}`}>发送验证码</div>
                     </p>
@@ -708,9 +709,9 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         super(props);
         let isPhoneWeb = false;
         //@ts-ignore
-        if (this.isPhone && !window.ApiCloud.isApiCloud()) {
-            isPhoneWeb = true;
-        }
+        // if (this.isPhone && !window.ApiCloud.isApiCloud()) {
+        //     isPhoneWeb = true;
+        // }
         let client = new ClientStorage('ErpKey');
         let dataIn = new DataRow();
         dataIn.setValue('languageId', this.props.language);
@@ -737,23 +738,13 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             return (
                 <React.Fragment>
                     <div className={styles.logoBox}>
-                        <img src="images/login/logo_phone.png" />
+                        <img src={StaticFile.getImage('images/login/logo_phone.png')} />
                         <h3>您好！欢迎登录地藤管家！</h3>
                     </div>
                     <Login dataRow={this.state.dataIn} loginMsg={this.state.message} language={this.props.language || ''} lowVersion={this.props.lowVersion} key={new Date().getTime()} />
-                    {/* <section className={styles.customService}>
-                        <div className={styles.protocolBox}>
-                            <div className={styles.protocol}>
-                                <img src={this.state.protocol ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={this.changeProtocol.bind(this)}></img>
-                                <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
-                                <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
-                            </div>
-                        </div>
-                        <h3><a href="TFrmContact">如有疑问请联系客服中心{`>>`}</a></h3>
-                    </section> */}
                     <div className={styles.upt}>
                         <div>
-                            <img className={styles.backImg} src="images/forgetPwd/关闭.png" />
+                            <img className={styles.backImg} src={StaticFile.getImage('images/forgetPwd/关闭.png')} />
                             <span className={styles.forgetPassword}>密码错误</span>
                             <div className={styles.content}></div>
                             <div className={styles.option}>
@@ -769,11 +760,11 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             return (
                 <React.Fragment>
                     <div className={styles.loginMain}>
-                        <img src="images/login/login_bg.png" />
+                        <img src={StaticFile.getImage('images/login/login_bg.png')} />
                         <div className={styles.loginFormBox}>
                             <div className={styles.loginLeft}>
                                 <div className={styles.loginLogo}>
-                                    <img src="images/login/logo.png" alt="地藤管家" />
+                                    <img src={StaticFile.getImage('images/login/logo.png')} alt="地藤管家" />
                                     <span>地藤管家</span>
                                 </div>
                                 <div className={styles.loginLeftText}>地藤，您随身携带的大管家</div>

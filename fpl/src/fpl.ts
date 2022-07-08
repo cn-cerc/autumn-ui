@@ -14,12 +14,14 @@ import MaintainVehicleDialog from "./dialog/MaintainVehicleDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
-import custTLinkMC from "./page/custTLinkMC";
-import firmTLinkMC from "./page/firmTLinkMC";
+import FrmLinkCus from "./page/FrmLinkCus";
+import Frm4PLCusManage from "./page/Frm4PLCusManage";
 import FrmAPManageMC from "./page/FrmAPManageMC";
 import FrmAPManageMC1 from "./page/FrmAPManageMC1";
 import FrmARManageMC from "./page/FrmARManageMC";
 import FrmARManageMC1 from "./page/FrmARManageMC1";
+import FrmAuthManageMC from "./page/FrmAuthManageMC";
+import FrmCarGrab from "./page/FrmCarGrab";
 import FrmCarManagerMC from "./page/FrmCarManagerMC";
 import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
 import FrmContractManageMC from "./page/FrmContractManageMC";
@@ -29,6 +31,7 @@ import FrmDriverArrangeCarDetail from "./page/FrmDriverArrangeCarDetail";
 import FrmDriverReceive from "./page/FrmDriverReceive";
 import FrmInvoiceManage from "./page/FrmInvoiceManage";
 import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
+import FrmLinkSup from "./page/FrmLinkSup";
 import FrmMaintenanceAR from "./page/FrmMaintenanceAR";
 import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
 import FrmMaintenanceCar from "./page/FrmMaintenanceCar";
@@ -41,12 +44,13 @@ import FrmTaurusMC from "./page/FrmTaurusMC";
 import FrmTaurusMC1 from "./page/FrmTaurusMC1";
 import FrmTaurusMC2 from "./page/FrmTaurusMC2";
 import FrmWagonAccountBook from "./page/FrmWagonAccountBook";
+import FrmWagonHome from "./page/FrmWagonHome";
 import hrMC from "./page/hrMC";
+import itMC from "./page/itMC";
+import myMC from "./page/myMC";
 import paMC from "./page/paMC";
 import TAccMC from "./page/TAccMC";
 import TFrmStockTotalMC from "./page/TFrmStockTotalMC";
-import itMC from "./page/itMC";
-import myMC from "./page/myMC";
 import TMakeMC from "./page/TMakeMC";
 import TOrd from "./page/TOrd";
 import TPurMC from "./page/TPurMC";
@@ -100,9 +104,13 @@ export default {
     FrmAPManageMC,
     FrmAPManageMC1,
     TAccMC,
-    custTLinkMC,
-    firmTLinkMC,
+    FrmLinkCus,
+    FrmLinkSup,
     TFrmStockTotalMC,
     itMC,
-    myMC
+    myMC,
+    FrmAuthManageMC,
+    FrmWagonHome,
+    Frm4PLCusManage,
+    FrmCarGrab,
 }

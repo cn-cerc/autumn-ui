@@ -11,6 +11,7 @@ import { timing } from "./FrmMessage";
 import SubscribeMessage from "./SubscribeMessage";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
+import AcceptMessage from "./AcceptMessage";
 import ImageMessage from "./ImageMessage";
 
 type FrmMessageDetailsTypeProps = {
@@ -249,6 +250,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     break;
                 case 'MVSubscribe':
                     messageName = SubscribeMessage;
+                    break;
+                case 'MVAcceptMessage':
+                    messageName = AcceptMessage;
                     break;
                 // 图片类消息
                 case 'MVImage':

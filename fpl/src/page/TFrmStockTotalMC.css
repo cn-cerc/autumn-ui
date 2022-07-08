@@ -14,25 +14,13 @@
     flex: 1;
     display: flex;
     padding-bottom: 16px;
+    line-height: 1em;
 }
 
-.mcFlowChartBox {
+.mcTrendChart {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px 0;
-}
-
-.mcFlowChartBox {
-    width: 344px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.mcFlowChartMain {
-    height: 0;
-    flex: 1;
-    position: relative;
 }
 
 .mcFlowBox {
@@ -47,8 +35,10 @@
     position: absolute;
 }
 
-.stockBox1{
-
+.bgColor{
+    background-color: #fff;
+    border-radius: 4px;
+    width: 344px;
 }
 
 .stockBox > div{
@@ -65,12 +55,56 @@
     flex-direction: column;
 }
 
+.mcTrendChart {
+    margin-top: 16px;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left:16px;
+    padding-right: 16px;
+}
+
+.mcPieChart {
+    height: 0;
+    flex: 1;
+    display: flex;
+}
+
+.FrmTaurusMCLine {
+    padding: 16px 16px 0 16px;
+    flex: 1;
+}
+
+
 .headTitle {
     padding: 0 16px;
 }
 
 .mcTitle {
     font-weight: bold;
+}
+
+.mcPieBox1,
+.mcPieBox2 {
+    position: relative;
+    width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: .28rem;
+}
+
+.mcPieBox2 {
+    margin-left: 16px;
+}
+
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2 {
+    flex: 1;
 }
 
 @media screen and (min-width: 768px) {
@@ -93,21 +127,50 @@
     }
 
     .mcMain {
+        margin:0.75rem;
         flex-wrap: wrap;
     }
 
-    .mcFlowChartBox {
-        height: 410px;
-    }
-
-    .mcFlowChartBox {
-        width: 100%;
-        margin-bottom: 12px;
+    .bgColor{
+        width:100%;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        min-height: 270px;
     }
 
     .mcCharts {
         width: 100%;
         margin: auto;
+    }
+
+    .mcTrendChart,
+    .mcPieBox2 {
+        margin-top: 16px;
+    }
+
+    .FrmTaurusMCLine {
+        height: 220px;
+        flex: auto;
+    }
+    .mcPieChart {
+        flex-wrap: wrap;
+        flex: 1;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2 {
+        width: 100%;
+        flex: auto;
+    }
+
+    .mcPieBox2 {
+        margin-left: 0;
+    }
+
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2 {
+        height: 220px;
+        flex: auto;
     }
 
 }
