@@ -1319,3 +1319,27 @@ a {
         padding-bottom: 4.3125rem;
     }
 }
+
+.wx_login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 16px;
+}
+
+.wechar_login {
+    font-size: 14px;
+    color: #666666;
+    cursor: pointer;
+}
+
+.wechar_login:hover {
+    color: #009933;
+}
+
+.login_dis {
+    margin-left: 16px;
+    font-size: 14px;
+    color: #999999;
+    cursor:not-allowed
+}
