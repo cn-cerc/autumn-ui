@@ -3,6 +3,7 @@ import React from "react";
 import CreateGroupDialog from "../dialog/CreateGroupDialog";
 import DialogDOM from "../dialog/DialogDOM";
 import ImageConfig from "../ImageConfig";
+import StaticFile from "../StaticFile";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
 import AcceptMessage from "./AcceptMessage";
@@ -396,7 +397,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 <div className={styles.messageTitle}>
                     <span>{messageData.name}</span>
                     <div title='创建群组' onClick={this.showCreateGroup.bind(this)}>
-                        <img src={ImageConfig.ICON_CREATE} />
+                        <img src={StaticFile.getImage(ImageConfig.ICON_CREATE)} />
                         <span>创建群组</span>
                     </div>
                 </div>

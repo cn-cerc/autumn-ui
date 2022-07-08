@@ -91,10 +91,6 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         }
     }
 
-    componentWillUnmount(): void {
-
-    }
-
     render(): React.ReactNode {
         return <div className={styles.main}>
             {this.getContactListDOM()}
@@ -186,7 +182,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let num = i;
             if (name == '系统消息') continue;
             list.push(<li key={num} className={`${messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} ${styles.contactLiItem}`} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
-                <div className={styles.contactImage} style={{'backgroundColor': imageColorArr[colorIndex]}}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
+                <div className={styles.contactImage} style={{'backgroundColor': imageColorArr[colorIndex % 7]}}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                 <div className={styles.alignItem}>
                     <div className={styles.contactTitle}>
                         <span>{name}</span>
@@ -194,7 +190,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                     {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
                 </div>
             </li>);
-
+            colorIndex = this.loopIndex(colorIndex);
         }
         return list
     }
