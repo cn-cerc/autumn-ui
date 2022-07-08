@@ -3,7 +3,9 @@ export default class StaticFile {
         let staticPath = '';
         try {
             //@ts-ignore
-            staticPath = window.Application.staticPath
+            if (window.Application.staticPath)
+                //@ts-ignore
+                staticPath = window.Application.staticPath
         } catch {
             staticPath = '';
         }

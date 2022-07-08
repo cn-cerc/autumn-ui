@@ -11,6 +11,7 @@ import { timing } from "./FrmMessage";
 import SubscribeMessage from "./SubscribeMessage";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
+import AcceptMessage from "./AcceptMessage";
 
 type FrmMessageDetailsTypeProps = {
     fromUser: string,
@@ -248,6 +249,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     break;
                 case 'MVSubscribe':
                     messageName = SubscribeMessage;
+                    break;
+                case 'MVAcceptMessage':
+                    messageName = AcceptMessage;
                     break;
                 default:
                     messageName = DefaultMessage;

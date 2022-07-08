@@ -21,7 +21,6 @@ enum MessageStatus {
 export default class AcceptMessage extends Message<TypeProps, TypeState> {
     constructor(props: TypeProps) {
         super(props);
-        console.log(props.row.getString('Content_'))
         this.state = {
             messageData: new DataRow().setJson(props.row.getString('Content_')),
             status: props.row.getNumber('Status_'),
