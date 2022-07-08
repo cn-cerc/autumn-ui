@@ -1,4 +1,3 @@
-
 .stockContent {
     width: 100%;
     height: 100%;
@@ -31,27 +30,29 @@
     text-align: center;
 }
 
-.titleContent{
+.titleContent {
     position: sticky;
     padding: 16px 16px 0;
     font-weight: bold;
     font-size: 14px;
 }
 
-.menuBox{
+.menuBox {
     width: 100%;
     height: 100%;
 }
+
 @media screen and (min-width: 768px) {}
 
 @media screen and (max-width: 767px) {
 
-    .stockContent{
+    .stockContent {
         width: 344px;
         margin: auto;
+        padding-bottom: 1rem;
     }
 
-    .stockContent>ul>li>span{
+    /* .stockContent>ul>li>span{
         height: 24px;
-    }
+    } */
 }

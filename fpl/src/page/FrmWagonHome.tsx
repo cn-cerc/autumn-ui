@@ -26,9 +26,9 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 活动公告 · <span>20条</span>
-                                {this.isPhone ?<p className={styles.rightBtn}>
+                                {this.isPhone ? <p className={styles.rightBtn}>
                                     查看更多 <img src="images/arrow_right.png" alt="" />
-                                </p>:''}
+                                </p> : ''}
                             </header>
                             <ul>
                                 <li className={styles.item}>
@@ -58,9 +58,9 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 操作指引 · <span>11条</span>
-                                {this.isPhone ?<p className={styles.rightBtn}>
+                                {this.isPhone ? <p className={styles.rightBtn}>
                                     查看更多 <img src="images/arrow_right.png" alt="" />
-                                </p>:''}
+                                </p> : ''}
                             </header>
                             <ul>
                                 <li className={styles.item}>
@@ -92,9 +92,9 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 商品优惠 · <span>11条</span>
-                                {this.isPhone ?<p className={styles.rightBtn}>
+                                {this.isPhone ? <p className={styles.rightBtn}>
                                     查看更多 <img src="images/arrow_right.png" alt="" />
-                                </p>:''}
+                                </p> : ''}
                             </header>
                             <ul>
                                 <li className={styles.item}>
@@ -159,9 +159,9 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 服务优惠 · <span>10条</span>
-                                {this.isPhone ?<p className={styles.rightBtn}>
+                                {this.isPhone ? <p className={styles.rightBtn}>
                                     查看更多 <img src="images/arrow_right.png" alt="" />
-                                </p>:''}
+                                </p> : ''}
                             </header>
                             <ul>
                                 <li className={styles.item}>

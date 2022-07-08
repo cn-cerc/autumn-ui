@@ -1,15 +1,15 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./custTLinkMC.css";
+import styles from "./FrmLinkCus.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type custTLinkMCTypeProps = {
+type FrmLinkCusTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type custTLinkMCTypeState = {
+type FrmLinkCusTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
@@ -17,8 +17,8 @@ type custTLinkMCTypeState = {
     introduction: string
 }
 
-export default class FrmTaurusMC extends WebControl<custTLinkMCTypeProps, custTLinkMCTypeState> {
-    constructor(props: custTLinkMCTypeProps) {
+export default class FrmLinkCus extends WebControl<FrmLinkCusTypeProps, FrmLinkCusTypeState> {
+    constructor(props: FrmLinkCusTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();

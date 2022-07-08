@@ -65,7 +65,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    position: relative;
 }
 
 .mcPieChart {
@@ -193,7 +192,6 @@
 }
 
 .mcPieBox2 {
-    position: relative;
     margin-left: 16px;
 }
 
@@ -319,6 +317,7 @@
     }
 
     .mcMain {
+        margin:0.75rem;
         flex-wrap: wrap;
     }
 

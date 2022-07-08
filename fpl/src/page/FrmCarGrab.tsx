@@ -1,21 +1,21 @@
 import { Column, DataRow, DataSet, DBGrid, WebControl } from "autumn-ui";
 import React from "react";
+import styles from "./FrmCarGrab.css";
 import Introduction from "./Introduction";
-import styles from "./FrmWagonManage.css";
-import FplPageApi from "./FplPageApi";
 
-type FrmWagonManageTypeProps = {
+type FrmCarGrabTypeProps = {
     introduction: string,
 }
 
-type FrmWagonManageTypeState = {
+type FrmCarGrabTypeState = {
     orderType: number,
     isInit: boolean,
-    data: DataSet
+    data: DataSet,
+    tips: boolean
 }
 
-export default class FrmWagonManage extends WebControl<FrmWagonManageTypeProps, FrmWagonManageTypeState> {
-    constructor(props: FrmWagonManageTypeProps) {
+export default class FrmCarGrab extends WebControl<FrmCarGrabTypeProps, FrmCarGrabTypeState> {
+    constructor(props: FrmCarGrabTypeProps) {
         super(props);
         let data = new DataSet();
         data.append().setValue('send_date_time_', '2022-07-07')
@@ -27,23 +27,24 @@ export default class FrmWagonManage extends WebControl<FrmWagonManageTypeProps, 
         this.state = {
             orderType: 0,       //接单状态，0为全部订单，1为限价订单，2为竞价订单 3为报价订单
             isInit: false,
-            data: data
+            data: data,
+            tips: true
         }
     }
 
     render(): React.ReactNode {
         if (this.isPhone) {
             return <React.Fragment>
-                <div className={styles.qdmsBox}>
+                {this.state.tips ? <div className={styles.qdmsBox}>
                     <div>
-                        抢单模式 <span>不再提醒</span>
+                        抢单模式 <span onClick={this.closeTipsFUn.bind(this)}>不再提示</span>
                     </div>
                     <p>
                         限价：报价不允许超过限价，报名星级等级高者得
                         报价：各自进行报价，由货主自行挑选决定中选者
                         竞价：各自进行报价，系统自动选中最低报价司机
                     </p>
-                </div>
+                </div> : ''}
                 <ul className={styles.orderTypeList}>
                     <li className={this.state.orderType == 0 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 0 })}>全部</li>
                     <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>限价</li>
@@ -113,11 +114,11 @@ export default class FrmWagonManage extends WebControl<FrmWagonManageTypeProps, 
                 <DBGrid dataSet={this.state.data} className={styles.dbgrid}>
                     <Column code='send_date_time_' width='20' name='发货时间'></Column>
                     <Column code='arrive_date_time_' width='20' name='到货时间'></Column>
-                    <Column code='depart_' width='14' name='起始点'></Column>
-                    <Column code='destination_' width='14' name='目的地'></Column>
-                    <Column code='code_' width='14' name='货物'></Column>
-                    <Column code='amount_' width='14' name='运费'></Column>
-                    <Column code='Opera_' width='20' name='操作' customText={(row: DataRow) => {
+                    <Column code='depart_' width='15' name='起始点'></Column>
+                    <Column code='destination_' width='15' name='目的地'></Column>
+                    <Column code='code_' width='15' name='货物'></Column>
+                    <Column code='amount_' width='15' name='运费'></Column>
+                    <Column code='Opera_' width='12' name='操作' customText={(row: DataRow) => {
                         return <span className={styles.opera} onClick={this.handleSelect.bind(this, row)}>立即报名</span>
                     }}></Column>
                 </DBGrid>
@@ -133,6 +134,7 @@ export default class FrmWagonManage extends WebControl<FrmWagonManageTypeProps, 
         let ds = this.state.data;
         let hasNextOrder = false;
         let time = new Date().getTime();
+        ds.first();
         while (ds.fetch()) {
             let isReceived = true;
             list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
@@ -141,7 +143,6 @@ export default class FrmWagonManage extends WebControl<FrmWagonManageTypeProps, 
     }
 
     getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number) {
-
         let skin_stetus = styles.xj;
         switch (this.state.orderType) {
             case 2:
@@ -181,5 +182,11 @@ export default class FrmWagonManage extends WebControl<FrmWagonManageTypeProps, 
     // 报名
     handleSelect(row: DataRow) {
 
+    }
+
+    closeTipsFUn() {
+        this.setState({
+            tips: false
+        })
     }
 }
