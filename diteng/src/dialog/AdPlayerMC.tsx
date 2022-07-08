@@ -69,11 +69,11 @@ export default class AdPlayerMC extends React.Component<PropsType, stateType> {
             let row = this.state.data.records[this.state.index];
             let type = row.getNumber('media_nature_');
             if (type == 1) {
-                let content: any = row.getString('content_')
+                let content = row.getString('content_')
                 let pic = row.getString('pic_')
                 return <div className={styles.slideDiv}>
                     <img src={pic} />
-                    <div>{content}</div>
+                    <div dangerouslySetInnerHTML={{ __html: content }}></div>
                 </div>
             } else if (type == 0) {
                 let text = row.getString('content_');
