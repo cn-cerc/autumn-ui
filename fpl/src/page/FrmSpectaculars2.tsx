@@ -25,10 +25,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         lineData.append().setValue('Value_', 35).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
+        pieData1.append().setValue('Value_', 10).setValue('Name_', '轻量');
+        pieData1.append().setValue('Value_', 20).setValue('Name_', '小型');
+        pieData1.append().setValue('Value_', 30).setValue('Name_', '中型');
+        pieData1.append().setValue('Value_', 15).setValue('Name_', '大型');
         let pieData2 = new DataSet();
         pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
@@ -52,7 +52,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         <div>
                             <div className={styles.topTitle}>交易金额</div>
                             <div className={styles.topInfo}>
-                                666.66 <span>万元</span>
+                                534.24 <span>万元</span>
                             </div>
                         </div>
                         <div>
@@ -63,7 +63,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         <div>
                             <div className={styles.topTitle}>运行时间</div>
                             <div className={styles.topInfo}>
-                                687466 <span>小时</span>
+                                687 <span>小时</span>
                             </div>
                         </div>
                         <div>
@@ -78,15 +78,15 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                             <div className={styles.leftScrollList}>
                                 <div className={styles.leftScrollListItem}>
                                     <img src="images/MCimg/1.png" alt="" />
-                                    事故通报A
+                                    道路交通安全知识小课堂
                                 </div>
                                 <div className={styles.leftScrollListItem}>
                                     <img src="images/MCimg/1.png" alt="" />
-                                    事故通报A
+                                    这些交通安全知识要知道
                                 </div>
                                 <div className={styles.leftScrollListItem}>
                                     <img src="images/MCimg/1.png" alt="" />
-                                    事故通报A
+                                    道路安全交通小常识
                                 </div>
                             </div>
                         </div>
@@ -123,6 +123,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
+                            <div className={styles.mcTitle}>本周异常情况</div>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>
@@ -137,31 +138,31 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                                 <ul className={styles.srcollListMain}>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        07-11 08.36 <span className={styles.colorSkin}>湘AH6344</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        07-11 10:56 <span className={styles.colorSkin}>粤AK3316</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        07-11 11:22 <span className={styles.colorSkin}>粤BW22C6</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        07-11 11:54 <span className={styles.colorSkin}>桂A32X31</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        07-11 14:10 <span className={styles.colorSkin}>闽B346D5</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        07-11 16:41 <span className={styles.colorSkin}>赣B33C24</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        07-11 18:30 <span className={styles.colorSkin}>粤AC6666</span> 行驶超速
                                     </li>
                                 </ul>
                             </div>
@@ -221,24 +222,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             },
             series: [
                 {
-                    data: sData,
-                    type: 'line',
-                    smooth: 0.6,
-                    symbol: 'none',
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0],
-                        width: 5
-                    },
-                    label: {
-                        // show: true,
-                        position: 'top'
-                    },
-                },
-                {
-                    data: [58, 310, 221, 30, 281, 290, 29],
+                    data: [58, 140, 121, 130, 181, 190, 129],
                     type: 'line',
                     smooth: 0.6,
                     symbol: 'none',
@@ -247,7 +231,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     },
                     lineStyle: {
                         color: MCChartColors[1],
-                        width: 5
+                        width: 2
                     },
                     label: {
                         // show: true,
@@ -302,18 +286,22 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             },
             legend: legend,
             grid: {
-                top: 40,
+                top: '20%',
                 left: 5,
                 bottom: 5,
-                right: 50,
+                right: '20%',
                 containLabel: true,
+            },
+            title: {
+                subtext: '数量（辆）',
+                left: 'left',
             },
             series: [
                 {
                     name: '本周货运吨数占比',
                     type: 'pie',
                     radius: ['40%', '70%'],
-                    center: ['30%', '50%'],
+                    center: ['40%', '60%'],
                     avoidLabelOverlap: false,
                     emphasis: {
                         label: {
@@ -322,10 +310,22 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                             fontWeight: 'bold'
                         }
                     },
-                    labelLine: {
-                        length: 5,
-                        length2: 5,
-                        maxSurfaceAngle: 80
+                    
+                    // labelLine: {
+                    //     length: 5,
+                    //     length2: 5,
+                    //     maxSurfaceAngle: 80
+                    // },
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                position: 'inner',
+                                formatter: '{c}'
+                                ,color:'#000'
+                            }
+                        },
+                       
                     },
                     data: dataArr
                 }
@@ -360,6 +360,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     pointer: {
                         show: false
                     },
+                    color: ['#63DAAB'],
                     progress: {
                         show: true,
                         overlap: false,
@@ -367,7 +368,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         clip: false,
                         itemStyle: {
                             borderWidth: 1,
-                            borderColor: '#464646'
+                            borderColor: '#63DAAB'
                         }
                     },
                     axisLine: {
@@ -430,6 +431,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     pointer: {
                         show: false
                     },
+                    color: ['#E6806C'],
                     progress: {
                         show: true,
                         overlap: false,
@@ -437,7 +439,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         clip: false,
                         itemStyle: {
                             borderWidth: 1,
-                            borderColor: '#464646'
+                            borderColor: '#E6806C'
                         }
                     },
                     axisLine: {

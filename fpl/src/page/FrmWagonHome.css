@@ -73,7 +73,7 @@
     font-weight: bold;
     display: flex;
     flex-direction: column;
-    padding-top: 2px;
+    padding: 6px 0;
 }
 
 .mainText>div {
@@ -85,11 +85,11 @@
 }
 
 .mainText>p {
-    margin-top: 12px;
+    margin-top: 6px;
     color: #999;
     font-size: 12px;
     font-weight: 400;
-    line-height: 14px;
+    line-height: 12px;
 }
 
 .imgBox {
