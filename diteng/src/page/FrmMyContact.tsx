@@ -185,7 +185,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let name = messageData.name || '系统消息';
             let num = i;
             if (name == '系统消息') continue;
-            list.push(<li key={num} className={styles.selectContact} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
+            list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : styles.contactLiItem} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
                 <div className={styles.contactImage}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                 <div className={styles.alignItem}>
                     <div className={styles.contactTitle}>
