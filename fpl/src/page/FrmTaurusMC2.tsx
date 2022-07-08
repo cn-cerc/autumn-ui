@@ -157,7 +157,7 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                 top: 15,
                 left: 0,
                 bottom: 0,
-                right: '20%',
+                right: 10,
                 containLabel: true,
             },
             series: [
