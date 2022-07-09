@@ -100,7 +100,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                                     <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
                                 </div>
                             </div>
-                            <h3><a href="TFrmContact">如有疑问请联系客服中心{`>>`}</a></h3>
+                            <h3><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
                         </section>
                         {this.getMessageDOM()}
                     </form>
@@ -832,7 +832,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <div className={styles.mainText}>
                             <img src={StaticFile.getImage('images/logoMenu.png')} />
                             <div className={styles.appDescription}>
-                                <span>地藤云平台</span>
+                                <span>地藤管家</span>
                                 <span>地藤，您随身携带的大管家</span>
                             </div>
                             <a href="install" className={styles.install}>下载</a>
