@@ -14,6 +14,47 @@ import MaintainVehicleDialog from "./dialog/MaintainVehicleDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
+import FrmLinkCus from "./page/FrmLinkCus";
+import Frm4PLCusManage from "./page/Frm4PLCusManage";
+import FrmAPManageMC from "./page/FrmAPManageMC";
+import FrmAPManageMC1 from "./page/FrmAPManageMC1";
+import FrmARManageMC from "./page/FrmARManageMC";
+import FrmARManageMC1 from "./page/FrmARManageMC1";
+import FrmAuthManageMC from "./page/FrmAuthManageMC";
+import FrmCarGrab from "./page/FrmCarGrab";
+import FrmCarManagerMC from "./page/FrmCarManagerMC";
+import FrmCarManagerMC2 from "./page/FrmCarManagerMC2";
+import FrmContractManageMC from "./page/FrmContractManageMC";
+import FrmContractManageMC1 from "./page/FrmContractManageMC1";
+import FrmContractManageMC2 from "./page/FrmContractManageMC2";
+import FrmDriverArrangeCarDetail from "./page/FrmDriverArrangeCarDetail";
+import FrmDriverReceive from "./page/FrmDriverReceive";
+import FrmInvoiceManage from "./page/FrmInvoiceManage";
+import FrmInvoiceManage1 from "./page/FrmInvoiceManage1";
+import FrmLinkSup from "./page/FrmLinkSup";
+import FrmMaintenanceAR from "./page/FrmMaintenanceAR";
+import FrmMaintenanceBook from "./page/FrmMaintenanceBook";
+import FrmMaintenanceCar from "./page/FrmMaintenanceCar";
+import FrmMaintenanceCus from "./page/FrmMaintenanceCus";
+import FrmMaintenanceSparepart from "./page/FrmMaintenanceSparepart";
+import FrmSpectaculars1 from "./page/FrmSpectaculars1";
+import FrmSpectaculars2 from "./page/FrmSpectaculars2";
+import FrmSpectaculars3 from "./page/FrmSpectaculars3";
+import FrmTaurusMC from "./page/FrmTaurusMC";
+import FrmTaurusMC1 from "./page/FrmTaurusMC1";
+import FrmTaurusMC2 from "./page/FrmTaurusMC2";
+import FrmWagonAccountBook from "./page/FrmWagonAccountBook";
+import FrmWagonHome from "./page/FrmWagonHome";
+import hrMC from "./page/hrMC";
+import itMC from "./page/itMC";
+import myMC from "./page/myMC";
+import paMC from "./page/paMC";
+import TAccMC from "./page/TAccMC";
+import TFrmStockTotalMC from "./page/TFrmStockTotalMC";
+import TMakeMC from "./page/TMakeMC";
+import TOrd from "./page/TOrd";
+import TPurMC from "./page/TPurMC";
+import TStockMC from "./page/TStockMC";
 
 export default {
     ...diteng,
@@ -29,5 +70,47 @@ export default {
     showSiteDialog,
     MaintainVehicleDialog,
     CodeRecordDialog,
-    CargoCodeTypeDialog
+    CargoCodeTypeDialog,
+    //MC控制台
+    FrmTaurusMC,
+    TStockMC,
+    FrmContractManageMC,
+    FrmContractManageMC1,
+    FrmContractManageMC2,
+    TPurMC,
+    FrmSpectaculars2,
+    FrmTaurusMC1,
+    FrmTaurusMC2,
+    FrmSpectaculars1,
+    FrmSpectaculars3,
+    FrmInvoiceManage,
+    FrmInvoiceManage1,
+    FrmCarManagerMC,
+    FrmCarManagerMC2,
+    FrmMaintenanceCar,
+    FrmMaintenanceAR,
+    FrmMaintenanceCus,
+    FrmMaintenanceSparepart,
+    FrmMaintenanceBook,
+    hrMC,
+    TOrd,
+    FrmDriverReceive,
+    FrmDriverArrangeCarDetail,
+    FrmWagonAccountBook,
+    TMakeMC,
+    paMC,
+    FrmARManageMC,
+    FrmARManageMC1,
+    FrmAPManageMC,
+    FrmAPManageMC1,
+    TAccMC,
+    FrmLinkCus,
+    FrmLinkSup,
+    TFrmStockTotalMC,
+    itMC,
+    myMC,
+    FrmAuthManageMC,
+    FrmWagonHome,
+    Frm4PLCusManage,
+    FrmCarGrab,
 }

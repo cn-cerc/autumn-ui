@@ -73,9 +73,6 @@
 }
 
 @media only screen and (max-width: 1000px) and (min-width: 767px) {
-    body {
-        min-width: auto;
-    }
     article[role="document"] {
         min-width: auto;
         padding-left: 0;

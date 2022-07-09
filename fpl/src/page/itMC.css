@@ -1,0 +1,199 @@
+.mcIntroduction {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.mcIntroduction>p {
+    line-height: 24px;
+    padding-top: 5px;
+}
+
+.mcMain {
+    flex: 1;
+    display: flex;
+    padding-bottom: 16px;
+    line-height: 1em;
+}
+
+.mcTrendChart {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px 0;
+}
+
+.mcFlowBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.stockBox {
+    position: absolute;
+}
+
+.bgColor{
+    background-color: #fff;
+    border-radius: 4px;
+    width: 344px;
+}
+
+.stockBox > div{
+    width: 42px;
+    height:42px;
+    margin: 0 auto 8px;
+}
+
+.mcCharts {
+    width: 0;
+    flex: 1;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcTrendChart {
+    margin-top: 16px;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left:16px;
+    padding-right: 16px;
+}
+
+.mcPieChart {
+    height: 0;
+    flex: 1;
+    display: flex;
+}
+
+.FrmTaurusMCLine {
+    padding: 16px 16px 0 16px;
+    flex: 1;
+}
+
+
+.headTitle {
+    padding: 0 16px;
+}
+
+.mcTitle {
+    font-weight: bold;
+}
+
+.mcPieBox1,
+.mcPieBox2 {
+    position: relative;
+    width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: .28rem;
+}
+
+.mcPieBox2 {
+    margin-left: 16px;
+}
+
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2 {
+    flex: 1;
+}
+
+.btnBox {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 72px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00A653;
+    box-sizing: border-box;
+    color: #00A653;
+    border-radius: 4px;
+}
+
+.btn_arrow {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    margin-left: 2px;
+}
+
+@media screen and (min-width: 768px) {
+    .mc {
+        font-size: 14px;
+        color: #333;
+        line-height: 1em;
+        font-weight: 400;
+        height: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .mcIntroduction {
+        display: none;
+    }
+
+    .mcMain {
+        margin:0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .bgColor{
+        width:100%;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        min-height: 270px;
+    }
+
+    .mcCharts {
+        width: 100%;
+        margin: auto;
+    }
+
+    .mcTrendChart,
+    .mcPieBox2 {
+        margin-top: 16px;
+    }
+
+    .FrmTaurusMCLine {
+        height: 220px;
+        flex: auto;
+    }
+    .mcPieChart {
+        flex-wrap: wrap;
+        flex: 1;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2 {
+        width: 100%;
+        flex: auto;
+    }
+
+    .mcPieBox2 {
+        margin-left: 0;
+    }
+
+    .FrmTaurusMCPie1,
+    .FrmTaurusMCPie2 {
+        height: 220px;
+        flex: auto;
+    }
+
+
+}

@@ -24,7 +24,7 @@ div[id='app'] {
     position: absolute;
     right: 0;
     left: 0;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
 }
 
@@ -35,11 +35,14 @@ div[id='app'] {
 
 .errpage>ul {
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .errpage>ul>li:first-child img {
     max-width: 100%;
-    width: 12em;
+    width: 13rem;
 }
 
 .errpage>ul>li:last-child img {
@@ -63,6 +66,14 @@ div[id='app'] {
     margin: 0 0.5em;
 }
 
+.message {
+    background-color: #F7F7F7;
+    border-radius: 4px;
+    padding: 12px 32px;
+    color: #FF4343;
+    margin: 16px 0;
+}
+
 .errpage>ul>li:last-child a span {
     padding-left: 5px;
 }
@@ -72,5 +83,24 @@ div[id='app'] {
         width: 100vw;
         height: calc(100vh - 2.59rem);
         position: relative;
+    }
+
+    .message {
+        margin: .5rem 1rem;
+        padding: .5rem 1rem;
+    }
+
+    .errpage a {
+        width: 5rem;
+        padding: .125rem 0;
+        border-radius: 1em;
+        color: #ffffff;
+        background: #007BD9;
+        margin: 1rem .5rem;
+        display: inline-block;
+    }
+
+    .errpage>ul>li:first-child img {
+        margin-left: 1.5rem;
     }
 }

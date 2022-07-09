@@ -1,16 +1,17 @@
-import React from "react";
-import styles from "./FrmLogin.css";
-import { showMsg } from "../tool/Summer";
+import { DataRow, DataSet, DBEdit, Loading, QueryService, WebControl } from "autumn-ui";
 import Fingerprint2 from "fingerprintjs2";
+import React from "react";
+import ImageConfig from "../ImageConfig";
+import StaticFile from "../StaticFile";
+import { showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
-import { DataRow, DataSet, WebControl, DBEdit, QueryService, Loading } from "autumn-ui";
+import styles from "./FrmLogin.css";
 
 type LoginTypeProps = {
     dataRow: DataRow,
     loginMsg?: string,
     language?: string,
-    lowVersion?: boolean,
-    verify?: () => boolean
+    lowVersion?: boolean
 }
 
 type LoginTypeState = {
@@ -23,13 +24,24 @@ type LoginTypeState = {
     showLoad: boolean,
     timer: any,
     currentIndex: number,
-    isFirefox: boolean
+    isFirefox: boolean,
+    iconHover: 0 | 1 | 2 | 3,
+    protocol: boolean,
+    apiURL: string
 }
 
 var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     constructor(props: LoginTypeProps) {
+
+        //微信登陆
+        let apiURL = "https://open.weixin.qq.com/connect/qrconnect?";
+        apiURL += 'appid=wxfe39d62642ef5a46&';
+        apiURL += 'redirect_uri=' + encodeURIComponent(window.location.origin + '/forms/FrmWeChatLogin') + '&';
+        apiURL += "response_type=code&scope=snsapi_login&";
+        apiURL += "state=" + Date.now() + "" + Math.ceil(Math.random() * 1000);
+
         super(props);
         let client = new ClientStorage('ErpKey');
         let accountData = new DataSet();
@@ -41,6 +53,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         this.props.dataRow.setValue('_password', _password);
         if (isFirefox)
             this.props.dataRow.setValue
+        let protocol = client.get("protocol") == 'true' ? true : false;
         this.state = {
             showAccountList: false,
             accountData,
@@ -51,7 +64,10 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             timer: null,
             message: this.props.loginMsg || '',
             currentIndex: 0,
-            isFirefox
+            isFirefox,
+            iconHover: this.isPhone ? 0 : 1,
+            protocol,
+            apiURL,
         }
     }
     render() {
@@ -59,21 +75,34 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return (
                 <React.Fragment>
                     <form method="post" className={styles.mainBox} onSubmit={this.onSubmit.bind(this)}>
-                        <div className={`${styles.inputGroup} ${styles.userName}`}>
-                            <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)}></DBEdit>
-                            <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
+                        <div className={`${styles.inputGroup} ${styles.userName} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
+                            <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
+                            <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                            {this.getSelectBtn()}
                             {this.getChooseList()}
                         </div>
-                        <div className={`${styles.inputGroup} ${styles.passWord}`}>
-                            <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} placeholder='登录密码'></DBEdit>
+                        <div className={`${styles.inputGroup} ${styles.passWord} ${showVerify ? '' : styles.noBottomMargin} ${this.state.iconHover == 2 ? styles.inputHover : ''}`}>
+                            <img src={this.state.iconHover == 2 ? StaticFile.getImage('images/login/password_hover.png') : StaticFile.getImage('images/login/password.png')} />
+                            <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} placeholder='登录密码' onFocus={this.setIconHover.bind(this, 2)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                         </div>
                         {this.getVerify()}
                         <div className={styles.operationLogin}>
+                            <img src={this.state.savePwd ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeSvaePwd.bind(this)}></img>
                             <input type="checkbox" id="savePwd" checked={this.state.savePwd} onChange={this.changeAutoLogin.bind(this)} /><label htmlFor="savePwd">自动登录</label>
-                            <a href="FrmForgetPassword" style={{ "float": "right", "color": "red" }}>找回密码</a>
+                            <a href="FrmForgetPassword">找回密码?</a>
                         </div>
-                        <div id="loginMsg" className={styles.loginMsg} style={{ "color": "red", "textAlign": "center", "paddingBottom": ".5em" }}>{this.getMessage()}</div>
                         <button className={styles.btnSubmit} onClick={this.onSubmit.bind(this)}>登录</button>
+                        <section className={styles.customService}>
+                            <div className={styles.protocolBox}>
+                                <div className={styles.protocol}>
+                                    <img src={this.state.protocol ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeProtocol.bind(this)}></img>
+                                    <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
+                                    <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
+                                </div>
+                            </div>
+                            <h3><a href="TFrmContact">如有疑问请联系客服中心{`>>`}</a></h3>
+                        </section>
+                        {this.getMessageDOM()}
                     </form>
                     {this.getLoad()}
                 </React.Fragment>
@@ -81,21 +110,22 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         } else {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
-                    <div className={styles.formTitle}>地藤登录页</div>
-                    <div className={styles.contentRight}>
+                    <div className={styles.formTitle}>系统登录</div>
+                    <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
-                            <p className={styles.keyInput}>
-                                <img src="images/login/account.png" />
-                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)}></DBEdit>
-                                <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
+                            <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
+                                <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
+                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                                {this.getSelectBtn()}
                                 {this.getChooseList()}
                             </p>
-                            <p className={styles.keyInput}>
-                                <img src="images/login/password.png" />
+                            <p className={`${styles.keyInput} ${this.state.iconHover == 2 ? styles.inputHover : ''}`}>
+                                <img src={this.state.iconHover == 2 ? StaticFile.getImage('images/login/password_hover.png') : StaticFile.getImage('images/login/password.png')} />
                                 {this.getPasswordInput()}
                             </p>
                             {this.getVerify()}
                             <p className={styles.remember}>
+                                <img src={this.state.savePwd ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeSvaePwd.bind(this)}></img>
                                 <input id="savePwd" type="checkbox" checked={this.state.savePwd} onChange={this.changeSvaePwd.bind(this)} />
                                 <label htmlFor="savePwd">记住密码（私人电脑可选择此项）</label>
                             </p>
@@ -109,13 +139,38 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <a href="FrmForgetPassword" className={styles.afterRight}>找回密码</a>
                             <a href="TFrmContact" className={styles.afterRight}>客服中心</a>
                             <a href="TFrmHardware" className={styles.afterRight}>硬件配置</a>
-                            <a href="https://www.mimrc.com">公司介绍</a>
+                            <a href="install" className={styles.afterInstall}>软件下载</a>
                         </div>
-                        <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
+                        {this.getMessageDOM()}
                     </div>
                 </form>
             )
         }
+    }
+
+    changeProtocol = (sender: any) => {
+        let protocol = !this.state.protocol;
+        this.state.client.set('protocol', protocol);
+        this.setState({
+            protocol,
+        })
+    }
+
+    getSelectBtn() {
+        if (this.state.accountData.size > 1)
+            return <span className={this.state.showAccountList ? `${styles.chooseUser} ${styles.showList}` : styles.chooseUser} onClick={this.chooseUser.bind(this)}></span>
+    }
+
+    setIconHover(num: 1 | 2 | 3) {
+        this.setState({
+            iconHover: num
+        })
+    }
+
+    inputBlur() {
+        this.setState({
+            iconHover: 0
+        })
     }
 
     getCompletePassword(password: string) {
@@ -128,9 +183,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     getPasswordInput() {
         if (this.state.isFirefox) {
-            return <DBEdit dataField='_password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' className={styles.passwordInput} onChanged={this.fireFoxChange.bind(this)} onKeyDown={this.fireFoxKeyDown.bind(this)}></DBEdit>
+            return <DBEdit dataField='_password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' className={`${styles.passwordInput} ${styles.passInput}`} onChanged={this.fireFoxChange.bind(this)} onKeyDown={this.fireFoxKeyDown.bind(this)} onFocus={this.setIconHover.bind(this, 2)} onBlur={this.inputBlur.bind(this)}></DBEdit>
         } else {
-            return <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' onKeyDown={this.passWordKeyDown.bind(this)}></DBEdit>
+            return <DBEdit dataField='password' type='password' dataRow={this.props.dataRow} autoComplete="new-password" placeholder='登录密码' onKeyDown={this.passWordKeyDown.bind(this)} className={styles.passInput} onFocus={this.setIconHover.bind(this, 2)} onBlur={this.inputBlur.bind(this)}></DBEdit>
         }
     }
 
@@ -304,7 +359,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
         // @ts-ignore
         setAppliedTitleStatus(false);
-        $("body").css('height', $(document).height());
+        // $("body").css('height', $(document).height());
         // @ts-ignore
         window.addPhoneKeyBoardListener(function () {
             // $(document).scrollTop($('.logo').outerHeight() - 20);
@@ -347,7 +402,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             }
         }
 
-        if (this.state.client.get('autoLogin') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password') && this.isPhone) {
+        if (this.state.client.get('savePwd') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password') && this.isPhone) {
             this.onSubmit();
         }
     }
@@ -388,11 +443,22 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
     }
 
+    getMessageDOM() {
+        if (this.props.lowVersion || this.state.message) {
+            return <div id="loginMsg" className={styles.loginMsg}>{this.getMessage()}</div>
+        }
+    }
+
     getMessage() {
         if (this.props.lowVersion) {
             return <a href='FrmBrowserRecommend' target='_blank' style={{ 'color': '#ff4545' }}>你的浏览器版本太低，请使用推荐的浏览器</a>
-        } else
-            return <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>;;
+        } else {
+            return <React.Fragment>
+                <span>!</span>
+                <span dangerouslySetInnerHTML={{ __html: this.state.message }}></span>
+            </React.Fragment>
+        }
+
     }
 
     changeUserCode = (sender: any) => {
@@ -486,17 +552,18 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         if (showVerify) {
             if (this.isPhone) {
                 return (
-                    <div className={`${styles.inputGroup} ${styles.verify}`}>
-                        <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码'></DBEdit>
-                        <div onClick={this.sendCode.bind(this)} className={styles.sendCode}>发送验证码</div>
+                    <div className={`${styles.inputGroup} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
+                        <img src={this.state.iconHover == 3 ? StaticFile.getImage('images/login/verify_hover.png') : StaticFile.getImage('images/login/verify.png')} />
+                        <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                        <div onClick={this.sendCode.bind(this)} className={`${this.state.hasSendCode ? styles.sendCoded : styles.sendCode}`}>发送验证码</div>
                     </div>
                 )
             } else {
                 return (
-                    <p className={`${styles.keyInput} ${styles.verify}`}>
-                        <img src="images/verify.png" />
-                        <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码'></DBEdit>
-                        <div onClick={this.sendCode.bind(this)} className={styles.sendCode}>发送验证码</div>
+                    <p className={`${styles.keyInput} ${styles.verify} ${this.state.iconHover == 3 ? styles.inputHover : ''}`}>
+                        <img src={this.state.iconHover == 3 ? StaticFile.getImage('images/login/verify_hover.png') : StaticFile.getImage('images/login/verify.png')} />
+                        <DBEdit dataField='verifyCode_' dataRow={this.props.dataRow} placeholder='验证码' onFocus={this.setIconHover.bind(this, 3)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                        <div onClick={this.sendCode.bind(this)} className={`${this.state.hasSendCode ? styles.sendCoded : styles.sendCode}`}>发送验证码</div>
                     </p>
                 )
             }
@@ -509,7 +576,17 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 <Loading></Loading>
             </div>
         } else {
-            return <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>进入系统</button>
+            return <div>
+                <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
+                <div className={styles.wx_login}>
+                    <a href={this.state.apiURL} className={styles.wechar_login}>
+                        <span>微信登陆</span>
+                    </a>
+                    <a className={styles.login_dis}>
+                        <span>扫码登录</span>
+                    </a>
+                </div>
+            </div>
         }
     }
 
@@ -554,8 +631,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             sender.preventDefault();
         if (this.state.showLoad)
             return;
-        if (this.props.verify && !this.props.verify())
+        if (!this.state.protocol && this.isPhone) {
+            this.setState({
+                message: '请先同意用户协议和隐私协议',
+                showLoad: false
+            })
             return;
+        }
         if (!this.props.dataRow.getString('userCode') || !this.props.dataRow.getString('password')) {
             this.setState({
                 message: '请输入正确的帐号和密码',
@@ -635,14 +717,14 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 type FrmLoginTypeProps = {
     language?: string,
     lowVersion?: boolean,
-    loginCenter: string
+    loginCenter: string,
+    loginMsg?: string
 }
 
 type FrmLoginTypeState = {
     dataIn: DataRow,
     client: any,
     message: string,
-    protocol: boolean,
     isPhoneWeb: boolean
 }
 
@@ -659,22 +741,16 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         dataIn.setValue('languageId', this.props.language);
         dataIn.setValue('userCode', client.get('Account1') || '');
         dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') || '' : '');
-        let protocol = client.get("protocol") == 'true' ? true : false;
         this.state = {
             client,
             dataIn,
-            protocol,
-            message: '',
+            message: this.props.loginMsg || '',
             isPhoneWeb
         }
     }
 
     render() {
-        if (!this.state.isPhoneWeb) {
-            return <div className={styles.page}><div className={styles.main}>{this.getPage()}</div></div>
-        } else {
-            return <React.Fragment></React.Fragment>
-        }
+        return <div className={styles.page}><div className={styles.main}>{this.getPage()}</div></div>
     }
 
     getPage() {
@@ -682,23 +758,13 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             return (
                 <React.Fragment>
                     <div className={styles.logoBox}>
-                        <img src="images/login/login_phone_logo.png" />
-                        <h3>地藤管家</h3>
+                        <img src={StaticFile.getImage('images/login/logo_phone.png')} />
+                        <h3>您好！欢迎登录地藤管家！</h3>
                     </div>
-                    <Login dataRow={this.state.dataIn} loginMsg={this.state.message} language={this.props.language || ''} lowVersion={this.props.lowVersion} verify={this.verify.bind(this)} key={new Date().getTime()} />
-                    <section className={styles.customService}>
-                        <div className={styles.protocolBox}>
-                            <div className={styles.protocol}>
-                                <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
-                                <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
-                            </div>
-                        </div>
-                        <h3>如有疑问请联系 <a href="TFrmContact" style={{ "color": "#FF9000" }}>客服中心</a></h3>
-                    </section>
-
+                    <Login dataRow={this.state.dataIn} loginMsg={this.state.message} language={this.props.language || ''} lowVersion={this.props.lowVersion} key={new Date().getTime()} />
                     <div className={styles.upt}>
                         <div>
-                            <img className={styles.backImg} src="images/forgetPwd/关闭.png" />
+                            <img className={styles.backImg} src={StaticFile.getImage('images/forgetPwd/关闭.png')} />
                             <span className={styles.forgetPassword}>密码错误</span>
                             <div className={styles.content}></div>
                             <div className={styles.option}>
@@ -707,40 +773,43 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                             </div>
                         </div>
                     </div>
+                    {this.getInstall()}
                 </React.Fragment>
             )
         } else {
-            const iFrame = '<div><script id="ebsgovicon" src="https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&amp;width=112&amp;height=40&amp;type=2" type="text/javascript"></script></div>'
+            const iFrame = '<div><script id="ebsgovicon" src="https://szcert.ebs.org.cn/govicons.js?id=ef20c85d-fe69-45d2-b75a-96d47073a89d&amp;width=118&amp;height=48&amp;type=2" type="text/javascript"></script></div>'
             return (
                 <React.Fragment>
-                    <div className="header">
-                        <div className={styles.headLogin}>
-                            <img src="images/welcome/logo.png" />
-                            <a href="install">下载应用</a>
-                        </div>
-                    </div>
                     <div className={styles.loginMain}>
-                        <img src="images/login/background.png" />
+                        <img src={StaticFile.getImage('images/login/login_bg.png')} />
                         <div className={styles.loginFormBox}>
-                            <div className={styles.loginTitle}>地藤管家 您随身携带的大管家</div>
-                            <div className="login_right">
-                                <div className={styles.loginTitle}>欢迎使用地藤管家</div>
+                            <div className={styles.loginLeft}>
+                                <div className={styles.loginLogo}>
+                                    <img src={StaticFile.getImage('images/login/logo.png')} alt="地藤管家" />
+                                    <span>地藤管家</span>
+                                </div>
+                                <div className={styles.loginLeftText}>地藤，您随身携带的大管家</div>
+                            </div>
+                            <div className={styles.loginRight}>
+                                <div className={styles.loginTitle}>您好！欢迎登录地藤管家！</div>
                                 <Login dataRow={this.state.dataIn} loginMsg={this.state.message} lowVersion={this.props.lowVersion} language={this.props.language || ''} />
                             </div>
                         </div>
                     </div>
                     <footer className={styles.status} style={{ 'clear': 'both', 'textAlign': 'center' }}>
-                        <div className={styles.footRight}>
-                            &copy;
-                            <a href="http://www.mimrc.com">
-                                <small>深圳市华软资讯科技有限公司</small>
-                            </a>
-                            <div style={{ 'padding': '0.5em' }}>
-                                <small><a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a></small>
-                            </div>
+                        <div className={styles.otherLinks}>
+                            <a href="https://mimrc.com/" target="_black">华软首页</a>
+                            <a href="https://www.diaoyou.site/" target="_black">钓友汇商城</a>
+                            <a href="https://mimrc.com/page/erp.html" target="_black">绩效ERP</a>
+                            <a href="https://mimrc.com/page/customer.html" target="_black">客户服务</a>
+                            <a href="https://mimrc.com/page/contact.html" target="_black">联系我们</a>
                         </div>
                         <div className="electronicFlag">
                             <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
+                        </div>
+                        <div className={styles.copyRight}>
+                            <a href="http://www.mimrc.com">©深圳市华软资讯科技有限公司</a>
+                            <a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a>
                         </div>
                     </footer>
                 </React.Fragment>
@@ -748,22 +817,30 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         }
     }
 
-    verify(): boolean {
-        if (!this.state.protocol && this.isPhone) {
-            this.setState({
-                message: '请先同意用户协议和隐私协议'
-            })
-            return false;
-        } else
-            return true;
-    }
-
-    changeProtocol = (sender: any) => {
-        let protocol = !this.state.protocol;
-        this.state.client.set('protocol', protocol);
-        this.setState({
-            protocol,
-        })
+    getInstall() {
+        if (this.state.isPhoneWeb) {
+            return <div className={styles.mengceng}>
+                <div className={styles.mengcengContent}>
+                    <div className={styles.contentHeader}>
+                        <div>打开方式</div>
+                        <div className={styles.useBrowser}>
+                            <span onClick={() => this.setState({ isPhoneWeb: false })}>继续使用浏览器</span>
+                            <img src={StaticFile.getImage(ImageConfig.ICON_RIGHT)} />
+                        </div>
+                    </div>
+                    <div className={styles.contentMain}>
+                        <div className={styles.mainText}>
+                            <img src={StaticFile.getImage('images/logoMenu.png')} />
+                            <div className={styles.appDescription}>
+                                <span>地藤云平台</span>
+                                <span>地藤，您随身携带的大管家</span>
+                            </div>
+                            <a href="install" className={styles.install}>下载</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     }
 
     componentDidMount(): void {
@@ -774,10 +851,15 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             location.href = head + location.pathname + location.search;
             return;
         }
-        if (this.state.isPhoneWeb)
-            window.location.href = 'install?device=phone';
+
         if (!this.isPhone) {
             try {
+                let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
+                let iWindow = iframe.contentWindow;
+                iWindow.onload = function () {
+                    iWindow.document.body.setAttribute('style', 'margin: 0; padding: 0;height: 40px; overflow: hidden;');
+                    iframe.style.visibility = 'inherit';
+                }
                 if (location.href.indexOf('www.diteng.site') > -1) {
                     let iframe = document.querySelector(`.${styles.iframe}`) as HTMLIFrameElement;
                     let iWindow = iframe.contentWindow;
