@@ -272,55 +272,20 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             })
         }
         let lineOption = {
-            // 标题
-            title: [
-                {
-                    text: '废钢采购年度对比动态',
-                    textStyle: {
-                        color: '#fff',
-                        fontSize: 22,
-                        fontWeight: 500
-                    },
-                    top: 20,
-                    left: 'center'
-                }
-            ],
-            color: lineColir,
-            textStyle: {
-                color: '#fff'
-            },
-            // 图例
-            legend: {
-                textStyle: {
-                    color: '#fff'
-                },
-                top: 60
-            },
-            tooltip: {},
-            // 内容区域位置
-            grid: {
-                left: 40,
-                right: 40,
-                bottom: 40,
-                top: 100,
-                containLabel: true
-            },
             xAxis: {
-                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-                axisLine: {
-                    lineStyle: {
-                        color: '#fff'
-                    }
-                },
-                axisLabel: {
-                    fontSize: 18
-                }
+              type: 'category',
+              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             },
             yAxis: {
-                show: false
+              type: 'value'
             },
-            series: lineSeries
-        }
+            series: [
+              {
+                data: [150, 230, 224, 218, 135, 147, 260],
+                type: 'line'
+              }
+            ]
+          }
         this.initLineChart(lineOption)
         this.initBarChart(dynamicDataArr)
         this.setState({

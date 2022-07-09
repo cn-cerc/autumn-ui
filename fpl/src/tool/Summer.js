@@ -204,4 +204,23 @@ class AuiMath {
     }
 }
 
-export {Loading, showMsg, AuiMath}
+// 拨打手机号
+function callPhoneNumber(mobile) {
+    if (window.ApiCloud.isApiCloud()) {
+        window.ApiCloud.callPhoneNumber(mobile);
+    } else {
+        var browser = new ClientProxy();
+        if (!browser.active) {
+            alert("仅支持安卓系统!");
+            return;
+        }
+        browser.req = {
+            "phoneNumber": mobile
+        };
+        if (!browser.send("callPhoneNumber")) {
+            alert(browser.getMessage());
+        }
+    }
+}
+
+export {Loading, showMsg, AuiMath, callPhoneNumber}

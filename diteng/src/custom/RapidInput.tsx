@@ -6,6 +6,7 @@ import Datetime from "../tool/Datetime";
 import { AuiMath, showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./RapidInput.css";
+import StaticFile from "../StaticFile";
 
 type RapidInputTypeProps = {
     objCode: string,
@@ -198,8 +199,8 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
     getOperate(): JSX.Element {
         let url = location.origin;
         return <div className={styles.operates}>
-            <img src={`${url}/public/images/icon/${this.state.isFullScreen ? 'cancelFullScreen' : 'fullScreen'}.png`} onClick={this.changeFullScreen.bind(this)} style={{ 'width': this.state.isFullScreen ? '1.25em' : '.85em' }}></img>
-            <img src={`${url}/public/images/icon/close.png`} onClick={this.handleClose.bind(this)} style={{ 'width': '1rem', 'marginLeft': '.5rem' }} />
+            <img src={StaticFile.getImage(`images/icon/${this.state.isFullScreen ? 'cancelFullScreen' : 'fullScreen'}.png`)} onClick={this.changeFullScreen.bind(this)} style={{ 'width': this.state.isFullScreen ? '1.25em' : '.85em' }}></img>
+            <img src={StaticFile.getImage('images/icon/close.png')} onClick={this.handleClose.bind(this)} style={{ 'width': '1rem', 'marginLeft': '.5rem' }} />
         </div>
     }
 
@@ -376,7 +377,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 }}></Column>
                 <Column name='备注' code='Remark_' width='14' textAlign='center' allowCheck={true}></Column>
                 <Column name='操作' code='opera' width='5' textAlign='center' customText={(row: DataRow) => {
-                    return <img src='https://www.diteng.site/public/js/rapidInput/image/delete.png' onClick={this.removeShop.bind(this, row)} />
+                    return <img src={StaticFile.getImage('js/rapidInput/image/delete.png')} onClick={this.removeShop.bind(this, row)} />
                 }}></Column>
             </DBGrid>
         } else {
@@ -427,9 +428,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             let recNo = row.dataSet.recNo;
             this.setState({
                 currentShop: recNo,
+                currentShoped: 0,
                 data
             }, () => {
                 this._currentShop = recNo;
+                this._currentShoped = 0;
             });
         } else {
             this.initEnterData(row, isFree, row.dataSet.recNo);
@@ -454,9 +457,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             enterData,
             showEnterInput: true,
             isInput: false,
+            currentShoped: 0,
             currentShop: recNo ? recNo : this.state.currentShop,
         }, () => {
-            this._currentShop = recNo ? recNo : this.state.currentShop
+            this._currentShop = recNo ? recNo : this.state.currentShop;
+            this._currentShoped = 0;
         })
     }
 
@@ -505,9 +510,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             dataSet.setValue('Free_', isFree);
             dataSet.setValue('Remark_', row.getString('Remark_'));
         }
+        this._currentShoped = 0;
         this.setState({
             showEnterInput: false,
             isInput: false,
+            currentShoped: 0,
             data
         })
     }
@@ -604,7 +611,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                             <span onClick={this.enterPropAddShop.bind(this)}>确定(<span style={{ 'textDecoration': 'underline' }}>Y</span>)</span>
                         </div>
                         <div className={styles.maskBtn}>
-                            <span onClick={() => this.setState({ showEnterInput: false })}>取消(<span style={{ 'textDecoration': 'underline' }}>N</span>)</span>
+                            <span onClick={() => this.setState({ showEnterInput: false, currentShoped: 0 })}>取消(<span style={{ 'textDecoration': 'underline' }}>N</span>)</span>
                         </div>
                     </div>
                 </div>
@@ -649,6 +656,8 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             defaultLines: this.state.copyLines,
             showLineProps: false,
             isInput: false
+        }, () => {
+            this.initGridHeight();
         })
     }
 
@@ -1066,7 +1075,10 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         else
             this.setState({
                 showEnterInput: false,
+                currentShoped: 0,
                 isInput: false
+            }, () => {
+                this._currentShoped = 0;
             });
     }
 

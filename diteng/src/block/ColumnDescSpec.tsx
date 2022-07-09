@@ -2,6 +2,7 @@ import React from "react";
 import { Column, ColumnType } from "autumn-ui";
 import DitengCommon from "../DitengCommon";
 import ImageConfig from "../ImageConfig";
+import StaticFile from "../StaticFile";
 
 export class ColumnDescSpec extends Column {
     static defaultProps = {
@@ -26,7 +27,7 @@ export class ColumnDescSpec extends Column {
         // 定义网上商城图标
         let readmeUrl = dataRow.getString(readmeField);
         if (readmeUrl) {
-            html.push(<a href={readmeUrl}><img src={ImageConfig.TAOBAO} /></a>);
+            html.push(<a href={readmeUrl}><img src={StaticFile.getImage(ImageConfig.TAOBAO)} /></a>);
         }
 
         // 构建品名规格

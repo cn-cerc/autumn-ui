@@ -1,0 +1,58 @@
+.stockContent {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.stockContent>ul {
+    position: relative;
+}
+
+.stockContent>ul>li {
+    display: inline-block;
+    padding: 0 0 21px;
+    margin: 0 22px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.stockContent>ul>li>div {
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+}
+
+.stockContent>ul>li>span {
+    position: absolute;
+    width: 6em;
+    bottom: 0;
+    left: -50%;
+    text-align: center;
+}
+
+.titleContent {
+    position: sticky;
+    padding: 16px 16px 0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.menuBox {
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (min-width: 768px) {}
+
+@media screen and (max-width: 767px) {
+
+    .stockContent {
+        width: 344px;
+        margin: auto;
+        padding-bottom: 1rem;
+    }
+
+    /* .stockContent>ul>li>span{
+        height: 24px;
+    } */
+}
