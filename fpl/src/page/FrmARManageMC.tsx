@@ -73,8 +73,8 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                             <div className={`${this.state.dataJson.getBoolean(`应付对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '应付对账单')}>
                                 <span>应付对账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应收账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应收账款')}>
-                                <span>应收账款</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应付账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应付账款')}>
+                                <span>应付账款</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`付款(申请)单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '付款(申请)单')}>
                                 <span>付款(申请)单</span>
