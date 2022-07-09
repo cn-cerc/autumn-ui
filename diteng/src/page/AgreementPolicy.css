@@ -74,3 +74,20 @@
     font-size: 1.25rem;
     font-style: normal;
 }
+
+.main .tableBox {
+    overflow: auto;
+}
+
+.main table {
+    border-collapse: collapse;
+    border-color: inherit;
+    text-indent: 0;
+}
+
+.main table td {
+    --tw-border-opacity: 1;
+    border: 1px solid rgb(224, 224, 224);
+    padding: .25rem .5rem;
+    white-space: nowrap;
+}

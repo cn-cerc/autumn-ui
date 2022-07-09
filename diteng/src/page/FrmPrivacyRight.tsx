@@ -128,7 +128,7 @@ function PrivacyRight() {
                     </table>
                 </div>
                 <p>iOS:</p>
-                <div class="responsive-table">
+                <div className={styles.tableBox}>
                     <table>
                         <thead>
                             <tr>
@@ -192,7 +192,7 @@ function PrivacyRight() {
                 </ul>
                 <p><span>2.6、第三方 SDK 接入服务所需开通的权限。我们的产品和服务可能包括第三方的产品和服务，以及第三方网站的链接。当您使用这些产品或服务时，也可能收集您的信息。</span></p>
                 <p><span>独立的第三方通过SDK获取您的个人信息的情况：</span></p>
-                <div>
+                <div className={styles.tableBox}>
                     <table>
                         <thead>
                             <tr>
