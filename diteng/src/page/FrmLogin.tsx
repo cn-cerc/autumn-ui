@@ -830,7 +830,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <div className={styles.mainText}>
                             <img src={StaticFile.getImage('images/logoMenu.png')} />
                             <div className={styles.appDescription}>
-                                <span>地藤云平台</span>
+                                <span>地藤管家</span>
                                 <span>地藤，您随身携带的大管家</span>
                             </div>
                             <a href="install" className={styles.install}>下载</a>
