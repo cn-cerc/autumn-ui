@@ -598,7 +598,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         ds1.setValue("password", '');
                     this.state.client.set("Accounts", ds1.json);
                 }
-                let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
+                let href = location.protocol + '//' + location.host + '/' + dataOut.head.getString('startPage')
+                    + '?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId')
+                    + '&device=' + this.state.client.get('device');
                 this.state.client.set('Account1', this.props.dataRow.getString('userCode'));
                 this.state.client.set('password', this.props.dataRow.getString('password'));
                 location.href = href;
