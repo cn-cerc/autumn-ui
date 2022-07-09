@@ -100,7 +100,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                                     <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
                                 </div>
                             </div>
-                            <h3><a href="TFrmContact">如有疑问请联系客服中心{`>>`}</a></h3>
+                            <h3><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
                         </section>
                         {this.getMessageDOM()}
                     </form>
