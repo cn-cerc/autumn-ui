@@ -440,7 +440,7 @@ export default class MarqueDialog extends BaseDialog<MarqueDialogTypeProps, Marq
                 if (result.url) {
                     window.location = result.url;
                 } else {
-                    document.querySelector('.header-center-right').innerHTML = result.menu;
+                    document.querySelector('[role=shopNums]').innerHTML = result.menu;
                     let shopNums = document.querySelector('[role=shopNums]');
                     shopNums.innerHTML = result.num;
                     shopNums.className = 'shopNums';

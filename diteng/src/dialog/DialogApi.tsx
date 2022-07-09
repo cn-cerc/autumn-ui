@@ -14,14 +14,20 @@ export default class DialogApi {
         // 发起请求时获取的最新sid
         let newSid = window.localStorage.getItem('ErpKey_sid');
         if (!newSid) {
-            showMsg('当前用户登录状态丢失，请刷新页面重新登录。')
-            return '';
+            if (location.search.length) {
+                let paramsArr = location.search.split('?')[1].split('&');
+                let sid = paramsArr.find(i => i.split('=')[0] == 'sid').split("=")[1]
+                window.localStorage.setItem('ErpKey_sid', sid);
+                return sid;
+            } else {
+                showMsg('当前用户登录状态丢失，请刷新页面重新登录。')
+                return '';
+            }
         }
         if (newSid == initSid)
             return initSid;
         else {
-            showMsg('当前用户信息错误，请刷新页面。');
-            return '';
+            location.reload();
         }
     }
 

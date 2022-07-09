@@ -1,0 +1,650 @@
+.contactList>li {
+    display: flex;
+    align-items: center;
+}
+
+.contactList>li:nth-child(n+2) {
+    cursor: pointer;
+}
+
+.contactList>li:nth-child(n+2):hover {
+    background-color: #e8e6e6;
+}
+
+.contactImage {
+    text-align: center;
+    background-color: #0089FF;
+    color: #fff;
+    border-radius: 50%;
+}
+
+.contactImage+div {
+    width: 0;
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contactTitle {
+    display: flex;
+    align-items: center;
+}
+
+.contactTitle>span:first-child {
+    width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+    font-weight: 400;
+}
+
+.contactTitle>span:nth-child(2) {
+    color: #999999;
+}
+
+.contactTitle+div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #b7b7b7;
+}
+
+.messageBox {
+    width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-left: 1px solid #d6d6d6;
+}
+
+.messageTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #d6d6d6;
+    color: #000000;
+}
+
+.messageList {
+    height: 0;
+    flex: 1;
+    overflow: auto;
+    background-color: #ffffff;
+}
+
+.replyBox {
+    border-top: 1px solid #d6d6d6;
+    margin-bottom: 0 !important;
+}
+
+.replyBox>textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    color: #000000;
+    outline: none;
+}
+
+.replyBox>textarea::placeholder {
+    color: #ccc;
+}
+
+.replyBox>div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.replyBox>div>button {
+    border: 0;
+    outline: none;
+    text-align: center;
+    box-sizing: content-box;
+    background-color: #07c160;
+    color: #fff;
+}
+
+.replyBox>div>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9e9e9;
+    color: #07c160;
+}
+
+.nav {
+    width: 224px;
+    display: flex;
+    flex-direction: column;
+    background-color: #e8e6e6;
+    border-left: 1px solid #d6d6d6;
+    position: relative;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+    line-height: 1em;
+}
+
+.title>span:first-child {
+    font-weight: bold;
+}
+
+.title>span:nth-child(2) {
+    cursor: pointer;
+}
+
+.suerInfoBox {
+    margin: 16px 12px;
+    border-radius: .28rem;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #F3F3F3;
+}
+
+.suerInfoBox ul,
+.quicReply ul {
+    padding-top: 12px;
+}
+
+.userInfoItem {
+    line-height: 16px;
+    padding: 4px 0;
+    font-weight: 400;
+    color: #333333;
+}
+
+.quicReplyItem {
+    line-height: 16px;
+    padding: 4px 0;
+    font-weight: 400;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.quicReplyItem>span:first-child {
+    width: 0;
+    flex: 1;
+}
+
+.quicReplyItem>span:nth-child(2) {
+    color: #c73232;
+}
+
+.remarkBox {
+    margin-top: 6px;
+}
+
+.remarkBox>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    line-height: 24px;
+}
+
+.infoButton {
+    border-radius: 5px;
+    background-color: #0089ff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+}
+
+.disEvents {
+    border-radius: 5px;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.replyBox>div>button.disEvents {
+    background-color: #cfcdcd;
+    color: #666;
+}
+
+.remarkBox>textarea {
+    width: 100%;
+    height: 96px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px;
+    margin-top: 16px;
+}
+
+.quicReply {
+    overflow: auto;
+    margin: 0 12px 16px 12px;
+    border-radius: .28rem;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: #F3F3F3;
+}
+
+.quicReplyNew {
+    line-height: 24px;
+    font-weight: 400;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.quicReplyNew>textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ccc;
+    outline: none;
+    resize: none;
+    background-color: transparent;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px;
+    margin-top: 16px;
+}
+
+.quicReplyNew>span {
+    cursor: pointer;
+
+}
+
+.msgTime {
+    text-align: center;
+    color: #999;
+    font-size: 0.8rem;
+    line-height: 0.8rem;
+    margin: 10px 0 20px;
+}
+
+.historicalRecordsBox {
+    text-align: center;
+}
+
+.historicalRecordsBtn {
+    text-align: center;
+    width: 42px;
+    height: 26px;
+    border-radius: 4px;
+    line-height: 26px;
+    border: 1px solid #EBEBEB;
+    color: #666;
+    font-size: 12px;
+    padding: 2px 5px;
+    background: #f2f2f2;
+    cursor: pointer;
+}
+
+.noHistory {
+    font-size: 14px;
+    color: #999;
+}
+
+.msgTypeStatusBox {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ebebeb;
+    z-index: 10;
+    padding: 0!important;
+}
+
+.msgTypeStatusBox span {
+    cursor: pointer;
+    font-size: 14px;
+    height: 100%;
+    line-height: 50px;
+}
+
+.msgTypeStute {
+    color: #429A60;
+    position: relative;
+}
+
+.msgTypeStute::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 2px solid #429A60;
+}
+
+
+.delQuicReplyItemBtn,
+.addQuicReplyItemBtn {
+    width: 38px;
+    color: #ffffff;
+    font-size: 12px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delQuicReplyItemBtn {
+    background-color: #f95d5d;
+
+}
+
+.addQuicReplyItemBtn {
+    background-color: #009307;
+}
+
+.quicReplyItemIpt {
+    width: 95% !important;
+}
+
+.editUlSkin p {
+    flex: 1;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none !important;
+}
+
+.delete {
+    cursor: pointer;
+}
+
+.contactList>li.noMessage {
+    justify-content: center;
+    color: #ccc;
+    cursor: auto;
+    padding: 1rem;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.contactList>li.noMessage:hover {
+    background-color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+    .main {
+        height: 0;
+        flex: 1;
+        display: flex;
+        line-height: 1em;
+    }
+
+    .contactList {
+        width: 360px;
+        background-color: #fff;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .contactList>li {
+        padding: 12px;
+    }
+
+    .selectContact {
+        background-color: #e8e6e6;
+    }
+
+    .contactImage {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        margin-right: 10px;
+        font-size: 14px;
+
+    }
+
+    .UnReadNum {
+        position: absolute;
+        bottom: -2px;
+        right: 0;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        background-color: #ed6d79;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .contactTitle {
+        line-height: 14px;
+    }
+
+    .contactTitle>span:first-child {
+        font-size: 14px;
+        line-height: 14px;
+    }
+
+    .contactTitle>span:nth-child(2) {
+        font-size: .75rem;
+    }
+
+    .contactTitle+div {
+        font-size: 12px;
+        line-height: 12px;
+        padding-top: 6px;
+        padding-right: 20px;
+    }
+
+    .messageTitle {
+        height: 56px;
+        padding-left: 24px;
+        font-size: 18px;
+    }
+
+    .messageList {
+        padding: 6px 0;
+    }
+
+    .messageList>li {
+        padding: 8px 16px;
+    }
+
+    .replyBox {
+        padding: 24px 32px 0 32px;
+        border-radius: 0 !important;
+    }
+
+    .replyBox>textarea {
+        height: 48px;
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    .replyBox>div {
+        padding: 12px 0;
+    }
+
+    .replyBox>div>button {
+        width: 64px;
+        height: 20px;
+        line-height: 20px;
+    }
+
+    .messageRight {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .main,
+    .contactList {
+        min-height: 100%;
+    }
+
+    .contactList>li:nth-child(n+2) {
+        position: relative;
+    }
+
+    .msgTypeStatusBox+li {
+        margin-top: .5rem;
+    }
+
+    .contactList>li:nth-child(n+2) {
+        padding: .5rem 1rem .5rem 1rem;
+    }
+
+    .contactList {
+        background-color: #fff;
+    }
+
+    .contactListPadding {
+        padding-bottom: .5rem;
+    }
+
+    .contactImage {
+        width: 2.75rem;
+        height: 2.75rem;
+        line-height: 2.75rem;
+        margin-right: .5rem;
+        font-size: 14px;
+    }
+
+    .contactImage+div {
+        position: relative;
+    }
+
+    .UnReadNum {
+        position: absolute;
+        bottom: -2px;
+        right: 0;
+        border-radius: 50%;
+        width: 1rem;
+        height: 1rem;
+        background-color: #ed6d79;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+    }
+
+    .contactTitle>span:first-child {
+        font-size: 14px;
+        line-height: 14px;
+    }
+
+    .contactTitle {
+        line-height: 14px;
+    }
+
+    .contactTitle>span:nth-child(2) {
+        font-size: 12px;
+    }
+
+    .contactTitle+div {
+        font-size: 12px;
+        line-height: 12px;
+        padding-top: .5rem;
+        padding-right: 1.25rem;
+    }
+
+    .messageTitle {
+        height: 3.5rem;
+        padding-left: 1.5rem;
+        font-size: 1.125rem;
+    }
+
+    .messageList {
+        padding: 0.375rem 0;
+    }
+
+    .messageList>li {
+        padding: 0.375rem 1rem .5rem;
+    }
+
+    .replyBox {
+        height: 2.75rem;
+        display: flex;
+        align-items: center;
+        background-color: #F3F3F3 !important;
+        padding: 0.5rem 0.5625rem 0.5rem;
+    }
+
+    .replyBox>textarea {
+        width: 0;
+        flex: 1;
+        height: 1.875rem;
+        font-size: 14px;
+        line-height: 1.875rem;
+        background-color: #fff;
+        border-radius: 4px;
+        padding-left: 0.3125rem;
+        margin-right: 1rem;
+    }
+
+    .replyBox>div>button {
+        height: 2rem;
+        line-height: 2rem;
+        font-size: 14px;
+        border-radius: .25rem;
+    }
+
+    .details {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+    }
+
+    .details>ul {
+        height: 0;
+        flex: 1;
+        overflow: auto;
+    }
+
+    .quicReplyBtn {
+        min-width: 1.75rem !important;
+        width: 1.875rem !important;
+        margin-right: 0.625rem;
+        border-radius: 50% !important;
+    }
+
+    .quicReplyBox {
+        position: relative;
+        width: 0;
+    }
+
+    .quicReplyBox>ul {
+        position: fixed;
+        left: 50%;
+        bottom: 3.125rem;
+        width: 17.5rem;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgb(200 200 200 / 80%);
+        font-size: 0.75rem;
+        transform: translate(-50%, 0);
+    }
+
+}

@@ -41,11 +41,10 @@ export default class AdvertContentDialog extends BaseDialog<BaseDialogPropsType,
                     <DBEdit dataField="name_" dataName="广告名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <Column code="advert_no_" name="广告编号" width="50"></Column>
                     <Column code="advert_name_" name="广告名称" width="50"></Column>
                     <Column code="summary_" name="摘要内容" width="50"></Column>
                     <Column code="remark_" name="备注" width="50"></Column>
-                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
+                    <Column code="opera" name="操作" width="30" textAlign='center' customText={(row: DataRow)=>{
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>

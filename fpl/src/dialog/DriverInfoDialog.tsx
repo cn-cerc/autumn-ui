@@ -65,8 +65,10 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         let input3 = document.getElementById(inputIds[2]) as HTMLInputElement;
         input1.value = dataRow.getString('driver_no_');
-        input2.value = dataRow.getString('name_');
-        input3.value = dataRow.getString('phone_num_');
+        if (input2)
+            input2.value = dataRow.getString('name_');
+        if (input3)
+            input3.value = dataRow.getString('phone_num_');
         this.handleSelect();
     }
 }

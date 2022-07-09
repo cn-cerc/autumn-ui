@@ -33,8 +33,7 @@ aside,
 footer,
 figure,
 figcaption,
-menu,
-button {
+menu {
     margin: 0;
     padding: 0;
 }
@@ -52,16 +51,39 @@ a {
 .main {
     height: 100%;
     background-color: #fff;
-    font-size: 1rem;
-    line-height: 1rem;
+    line-height: 16px;
 }
 
 .loginMsg {
-    margin: 0 3em;
+    margin-top: 16px;
+    line-height: 1.5em;
+    color: #333;
+    min-height: 40px;
+    padding: 9.5px 16px;
+    display: flex;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #FDF5E8;
+    border-radius: 6px;
+    border: 1px solid #F8DDC0;
 }
 
-.loginMsg>a {
+.loginMsg>span:first-child {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 50%;
+    background-color: #FFA533;
     color: #fff;
+    flex-shrink: 0;
+    text-align: center;
+    margin-top: 2.5px;
+}
+
+.loginMsg>span:nth-child(2) {
+    padding-left: 8px;
+    text-align: left;
+    display: block;
 }
 
 .electronicFlag img {
@@ -71,16 +93,17 @@ a {
 }
 
 .iframe {
-    height: 40px;
+    width: 118px;
+    height: 48px;
     border: none;
     overflow: hidden;
-    margin-left: 1rem;
+    margin-left: 1.5rem;
     visibility: hidden;
 }
 
 .pcLoad {
     width: 100%;
-    background: linear-gradient(270deg, #3272F4, #509DFF);
+    background-color: #008738;
     color: #fff;
     border: none;
     outline: none;
@@ -93,8 +116,18 @@ a {
     align-items: center;
 }
 
+.passInput {
+    width: 0;
+    flex: 1;
+}
+
 .passwordInput input {
     ime-mode: disabled;
+}
+
+.inputHover {
+    border-color: rgb(55, 206, 190) !important;
+    box-shadow: 0 0 .24rem .24rem rgba(156, 238, 230, 0.3);
 }
 
 @media screen and (min-width: 768px) {
@@ -104,8 +137,14 @@ a {
         font-family: '微软雅黑';
     }
 
-    .main {
+    .page {
         min-width: 1024px;
+    }
+
+    .main {
+        min-width: 1360px;
+        display: flex;
+        flex-direction: column;
     }
 
     div[id='loginPage'] {
@@ -120,7 +159,8 @@ a {
     .loginMain {
         text-align: center;
         overflow: auto;
-        height: calc(100% - 13.125rem);
+        height: 0;
+        flex: 1;
         overflow: hidden;
         position: relative;
         display: flex;
@@ -128,7 +168,7 @@ a {
         justify-content: center;
         position: relative;
         overflow: hidden;
-        min-height: 40rem;
+        min-height: 45rem;
     }
 
     .loginMain>img {
@@ -136,8 +176,8 @@ a {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 120rem;
-        height: 50rem;
+        max-width: 1920px;
+        object-fit: contain;
     }
 
     .footRight {
@@ -185,37 +225,101 @@ a {
     .loginFormBox {
         display: flex;
         justify-content: space-between;
-        width: 75rem;
+        width: 1300px;
         position: relative;
         z-index: 10;
+        height: 100%;
+        padding: 5rem 0 5.625rem 0;
+        box-sizing: border-box;
+    }
+
+    .loginLeft {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .loginLogo {
+        display: flex;
+        align-items: center;
+        font-size: 32px;
+        font-weight: bold;
+        color: #22AC38;
+    }
+
+    .loginLogo>img {
+        width: 2.625rem;
+    }
+
+    .loginLogo>span {
+        margin-left: 1rem;
+    }
+
+    .loginLeftText {
+        font-size: 28px;
+        font-weight: 400;
+        color: #333;
+        line-height: 28px;
+        margin-top: 2.5rem;
+    }
+
+    .loginLeft>a {
+        width: 16rem;
+        height: 3.5rem;
+        font-size: 1.375rem;
+        color: #000000;
+        font-weight: 400;
+        line-height: 3.375rem;
+        box-sizing: border-box;
+        border: 1px solid #cccccc;
+        border-radius: .25rem;
+        margin-top: 1rem;
+        background-color: #fff;
     }
 
     .loginTitle {
-        font-weight: bold;
-        font-size: 1.75rem;
+        font-weight: 300;
+        font-size: 24px;
+        color: #333333;
+        line-height: 24px;
+    }
+
+    .loginRight {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .uiForm {
-        display: inline-block;
         background-color: #fff;
         box-shadow: 0 .25rem 1.25rem 0 rgba(35, 35, 35, 0.17);
-        width: 28.625rem;
+        width: 32.75rem;
         border-radius: 1.25rem;
-        margin-top: 2.25rem;
-        padding: 2.25rem 0;
+        margin-top: 1.75rem;
+        padding: 3rem 0 3rem 0;
+        box-sizing: border-box;
+        position: relative;
     }
 
     .formTitle {
         text-align: center;
         color: #333333;
-        font-weight: bold;
-        font-size: 1.5rem;
-        line-height: 1.5rem;
-        height: 3rem;
+        font-weight: 500;
+        font-size: 28px;
+        line-height: 28px;
     }
 
     .contentRight {
-        padding: 0 3.125rem;
+        padding: 0 16px 48px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .userMessage {
+        padding-top: 36px;
+        margin: 0 42px;
+        width: calc(100% - 84px);
     }
 
     .userMessage .keyInput {
@@ -225,71 +329,123 @@ a {
         display: flex;
         align-items: center;
         font-size: 1rem;
-        height: 3.2rem;
-        line-height: 3.2rem;
-        margin-top: 2rem;
-        padding-left: 2.23em;
+        height: 3.75rem;
+        line-height: 3.75rem;
+        margin-top: 24px;
+        padding-left: 1.5rem;
         border-radius: .5rem;
+        box-sizing: border-box;
     }
 
-    .userMessage p img {
-        vertical-align: middle;
-        width: 1.125rem;
+    .formInput {
+        width: 0;
+        flex: 1;
     }
-    .userMessage p>img+span {
+
+    .userMessage p.keyInput>img {
+        vertical-align: middle;
+        width: 1rem;
+    }
+
+    .userMessage p.keyInput>img+span {
         padding-bottom: 0;
         margin-right: 0;
     }
-    .userMessage p input[type="text"], .userMessage p input[type="password"] {
+
+    .userMessage p input[type="text"],
+    .userMessage p input[type="password"] {
         border: none;
         outline: 0;
         vertical-align: middle;
-        font-size: 1rem;
+        font-size: 14px;
         color: #333;
-        padding-left: .6em;
+        padding-left: 1rem;
+        width: 100%;
     }
-    .userMessage p input[type="text"]::-webkit-input-placeholder, .userMessage p input[type="password"]::-webkit-input-placeholder {
-        color: #999;
+
+    .userMessage p input[type="text"]::-webkit-input-placeholder,
+    .userMessage p input[type="text"]:-moz-placeholder,
+    .userMessage p input[type="text"]::moz-placeholder,
+    .userMessage p input[type="password"]::-webkit-input-placeholder,
+    .userMessage p input[type="password"]:-moz-placeholder,
+    .userMessage p input[type="password"]::moz-placeholder {
+        font-size: 14px;
+        font-weight: 300;
+        color: #ccc;
     }
-    .userMessage p input[type="text"]::-moz-placeholder, .userMessage p input[type="password"]::-moz-placeholder {
-        color: #999;
+
+    .userMessage p input[type="text"]::-moz-placeholder,
+    .userMessage p input[type="text"]:-moz-placeholder,
+    .userMessage p input[type="text"]::moz-placeholder,
+    .userMessage p input[type="password"]::-moz-placeholder,
+    .userMessage p input[type="password"]:-moz-placeholder,
+    .userMessage p input[type="password"]::moz-placeholder {
+        font-size: 14px;
+        font-weight: 300;
+        color: #ccc;
     }
-    .userMessage p input[type="text"]:-moz-placeholder, .userMessage p input[type="password"]:-moz-placeholder {
-        color: #999;
+
+    .userMessage p input[type="text"]:-moz-placeholder,
+    .userMessage p input[type="password"]:-moz-placeholder {
+        font-size: 14px;
+        font-weight: 300;
+        color: #ccc;
     }
-    .userMessage p input[type="text"]:-ms-input-placeholder, .userMessage p input[type="password"]:-ms-input-placeholder {
-        color: #999;
+
+    .userMessage p input[type="text"]:-ms-input-placeholder,
+    .userMessage p input[type="password"]:-ms-input-placeholder {
+        font-size: 14px;
+        font-weight: 300;
+        color: #ccc;
     }
 
     .remember {
         padding-left: .25rem !important;
         margin-top: 0 !important;
-        color: #666666 !important;
+        color: #ADACAC !important;
         border-bottom: 0 !important;
-        height: 3.875rem;
-        line-height: 3.875rem;
         text-align: left;
+        padding-top: 24px;
+        display: flex;
+        align-items: center;
+        font-size: .875rem;
+    }
+
+    .remember>input {
+        width: 1rem;
+        height: 1rem;
+        display: none;
+    }
+
+    .remember>img {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .remember>label {
+        margin-left: .5rem;
     }
 
     .userStatus {
-        margin-top: 1rem;
+        padding-top: 32px;
+        margin: 0 42px;
+        width: calc(100% - 84px);
     }
 
     .userStatus button {
         width: 100%;
-        background: linear-gradient(270deg, #3272F4, #509DFF);
+        background-color: #008738;
         color: #fff;
-        ;
         border: none;
         outline: none;
         height: 3.5rem;
         line-height: 3.5rem;
         border-radius: .5rem;
-        font-size: 1.25rem;
+        font-size: 20px;
     }
 
     .userStatus button:hover {
-        border: none;
+        background-color: #009933;
     }
 
     p[role="pc"] {
@@ -309,36 +465,47 @@ a {
     .bottom {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        margin-top: 1.41rem;
+        justify-content: space-around;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #F8F8F8;
+        height: 3rem;
+        border-bottom-left-radius: .5rem;
+        border-bottom-right-radius: .5rem;
     }
 
     .bottom a {
-        color: #666;
+        color: #0169AB;
         position: relative;
     }
 
     .bottom .afterRight:after {
         position: absolute;
         content: "";
-        height: .625rem;
+        height: 1rem;
         width: .065rem;
         background-color: #ccc;
         top: 50%;
         transform: translateY(-50%);
-        right: -1.25rem;
+        right: -2.25rem;
+    }
+
+    .bottom .afterInstall {
+        color: #3CB44E;
     }
 
     .chooseUser {
         font-size: 1rem;
         display: inline-block;
         position: absolute;
-        width: 3em;
-        height: 3em;
+        width: 3rem;
+        height: 100%;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/crow-down1.png');
-        background-size: 1.2em 1.2em;
+        background: url('https://cdn.diteng.site/resources/images/crow-down1.png');
+        background-size: 1.3125rem 1.3125rem;
         background-repeat: no-repeat;
         background-position: center;
         display: inline-block;
@@ -346,27 +513,28 @@ a {
 
     .showList {
         font-size: 1rem;
-        background-image: url('https://www.diteng.site/public/images/crow-up1.png') !important;
-        background-size: 1.2em 1.2em;
+        background-image: url('https://cdn.diteng.site/resources/images/crow-up1.png') !important;
+        background-size: 1.3125rem 1.3125rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .userList {
-        right: -.065rem;
-        height: 10em;
+        max-height: 160px;
         position: absolute;
-        top: 2.85rem;
-        left: -.065rem;
+        top: 3.25rem;
+        left: -.035rem;
+        width: 25.5rem;
         background: white;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         z-index: 22;
-        padding: 0 1em;
         filter: grayscale(50%);
         border: .065rem solid #cccccc;
         border-top: 0;
         overflow: auto;
+        border-bottom-left-radius: .5rem;
+        border-bottom-right-radius: .5rem;
     }
 
     .userList::-webkit-scrollbar {
@@ -400,39 +568,47 @@ a {
     .userList li {
         position: relative;
         width: 100%;
-        height: 3em;
-        line-height: 3em;
+        height: 3.25rem;
+        line-height: 3.25rem;
         list-style: none;
-        border-bottom: .02rem solid #e6e6e6;
+        padding-left: 1.5rem;
+        padding-right: .84375rem;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .userList li:after {
+        content: "";
+        position: absolute;
+        left: 1.5rem;
+        right: .84375rem;
+        bottom: 0;
+        height: 1px;
+        background-color: #e6e6e6;
     }
 
     .userList li span {
         display: inline-block;
-        width: 80%;
-        height: 3em;
-        line-height: 3em;
+        width: 100%;
+        height: 3.25rem;
+        line-height: 3.25rem;
         color: black;
-    }
-
-    .userList li:last-child {
-        border: 0;
-    }
-
-    .userList li:first-child {
-        border-bottom: .065rem solid #e6e6e6;
+        padding-left: 2.5rem;
+        font-size: 14px;
+        box-sizing: border-box;
     }
 
     .userList li .remove {
         position: absolute;
         display: inline-block;
-        width: 3em;
-        height: 3em;
+        width: 3rem;
+        height: 3.25rem;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/remove.png');
-        background-size: 0.8em 0.8em;
+        background: url('https://cdn.diteng.site/resources/images/remove.png');
+        background-size: .8rem .8rem;
         background-repeat: no-repeat;
-        background-position: 80% center;
+        background-position: center;
     }
 
     .showList img {
@@ -451,6 +627,14 @@ a {
         cursor: pointer;
         text-align: right;
         padding-right: .69rem;
+        color: #0169AB;
+    }
+
+    .sendCoded {
+        color: #999;
+        cursor: pointer;
+        text-align: right;
+        padding-right: .69rem;
     }
 
     .verify>span {
@@ -460,9 +644,8 @@ a {
 
     .status {
         width: 100%;
-        min-height: 5.625rem;
         background: #ffffff;
-        padding: 1.25rem 0;
+        padding: 20px 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -470,285 +653,215 @@ a {
         position: relative;
         z-index: 100;
         overflow: hidden;
+        font-size: 14px;
     }
 
     .status div {
         padding: 0 !important;
     }
 
-    .loginMsg {
-        margin-top: .91rem;
-        line-height: 1.45em;
-        color: #ff4545;
+    .status>div:last-child {
+        margin-left: 1.5rem;
+    }
+
+    .status a {
+        color: #464444;
+    }
+
+    .otherLinks {
+        display: flex;
+        align-items: center;
+    }
+
+    .otherLinks a {
+        margin: 0 .875rem;
+        position: relative;
+    }
+
+    .otherLinks a:hover {
+        color: #0169ab;
+    }
+
+    .otherLinks>a:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        height: .75rem;
+        right: -.875rem;
+        width: 1px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ccc;
+    }
+
+    .otherLinks>a:last-child {
+        margin-right: 0;
     }
 }
 
-@media screen and (max-width: 1600px) and (min-width: 1400px) {
-    .headLogin {
-        height: 7.285rem;
-    }
-
-    .headLogin img {
-        width: 12.87rem;
-    }
-
-    .headLogin a {
-        width: 8.5rem;
-        height: 3.155rem;
-        line-height: 3.155rem;
-        font-size: 1.14rem;
-    }
-
+@media screen and (max-width: 1500px) and (min-width: 768px) {
     .loginMain {
-        height: calc(100% - 11.155rem);
-        min-height: 36rem;
+        min-height: auto;
     }
 
     .loginMain>img {
-        width: 114.285rem;
-        height: 47.6rem;
-    }
-
-    .loginTitle {
-        font-size: 1.72rem;
-    }
-
-    .uiForm {
-        width: 27.8rem;
-        margin-top: 2.43rem;
-        padding: 2.43rem 0;
-    }
-
-    .title {
-        font-size: 1.43rem;
-        line-height: 1.43rem;
-    }
-
-    .contentRight {
-        padding: 0 3rem;
-    }
-
-    .userMessage .keyInput {
-        height: 3.4rem;
-        line-height: 3.4rem;
-        margin-top: 2.18rem;
-        padding-left: 2.17em;
-        border-radius: .485rem;
-    }
-
-    .userList {
-        height: 9.7em;
-        top: 2.9rem;
-    }
-
-    .status {
-        min-height: 5.46rem;
-    }
-
-    .remember {
-        height: 3.76rem;
-        line-height: 3.76rem;
-    }
-
-    .userStatus button {
-        height: 3.4rem;
-        line-height: 3.4rem;
-        font-size: 1.14rem;
-    }
-
-    .bottom {
-        margin-top: 1.37rem;
-    }
-
-    .loginFormBox>.loginTitle {
-        padding-left: 2.285em;
-    }
-
-    .bottom .afterRight:after {
-        right: -1rem;
-    }
-}
-
-@media screen and (max-width: 1399px) and (min-width: 1200px) {
-    .headLogin {
-        height: 5.97rem;
-    }
-
-    .headLogin img {
-        width: 11.36rem;
-    }
-
-    .headLogin a {
-        width: 7.5rem;
-        height: 2.79rem;
-        line-height: 2.79rem;
-        font-size: 1.14rem;
-    }
-
-    .loginMain {
-        height: calc(100% - 11.84rem);
-        min-height: 32rem;
-    }
-
-    .loginMain>img {
-        width: 100rem;
-        height: 42.855rem;
-    }
-
-    .loginTitle {
-        font-size: 1.71rem;
-    }
-
-    .uiForm {
-        width: 25.68rem;
-        margin-top: 1.7rem;
-        padding: 1.7rem 0;
-    }
-
-    .title {
-        font-size: 1.43rem;
-        line-height: 1.43rem;
-    }
-
-    .contentRight {
-        padding: 0 2.67rem;
-    }
-
-    .userMessage .keyInput {
-        height: 3rem;
-        line-height: 3rem;
-        margin-top: 1.7rem;
-        padding-left: 1.92rem;
-        border-radius: .43rem;
-    }
-
-    .userList {
-        height: 8.57em;
-        top: 2.57rem;
-    }
-
-    .status {
-        min-height: 4.87rem;
-    }
-
-    .remember {
-        height: 3.07rem;
-        line-height: 3.07rem;
-    }
-
-    .userStatus button {
-        height: 3rem;
-        line-height: 3rem;
-        font-size: 1.14rem;
-    }
-
-    .bottom {
-        margin-top: .64rem;
+        max-width: 1360px;
+        top: 45%;
     }
 
     .loginFormBox {
-        padding: 0 2.285em;
+        width: 966px;
+        padding: 48px 0 64px 0;
     }
 
-    .userStatus {
-        margin-top: .57rem;
+    .loginLogo {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #22AC38;
     }
 
-    .bottom .afterRight:after {
-        right: -.85rem;
-    }
-}
-
-@media screen and (max-width: 1199px) {
-    .headLogin {
-        height: 5.97rem;
-        width: 64.85rem;
+    .loginLogo>img {
+        width: 30px;
     }
 
-    .headLogin img {
-        width: 11.36rem;
+    .loginLogo>span {
+        margin-left: .75rem;
     }
 
-    .headLogin a {
-        width: 7.5rem;
-        height: 2.79rem;
-        line-height: 2.79rem;
-        font-size: 1.14rem;
+    .loginLeftText {
+        font-size: 22px;
+        line-height: 22px;
+        margin-top: 24px;
     }
 
-    .loginMain {
-        height: calc(100% - 10.84rem);
-        min-height: 30rem;
+    .loginLeft>a {
+        width: 182px;
+        height: 42px;
+        font-size: 16px;
+        line-height: 40px;
+        margin-top: 12px;
     }
 
-    .loginMain>img {
-        width: 100rem;
-        height: 42.855rem;
+    .loginRight {
+        justify-content: center;
     }
 
     .loginTitle {
-        font-size: 1.71rem;
+        font-size: 16px;
+        line-height: 16px;
     }
 
     .uiForm {
-        width: 25.68rem;
-        margin-top: 1.7rem;
-        padding: 1.7rem 0;
+        width: 388px;
+        border-radius: 1rem;
+        margin-top: 18px;
+        padding: 32px 0 34px 0;
     }
 
-    .title {
-        font-size: 1.43rem;
-        line-height: 1.43rem;
+    .formTitle {
+        font-size: 24px;
+        line-height: 24px;
     }
 
-    .contentRight {
-        padding: 0 2.675rem;
-    }
-
-    .userMessage .keyInput {
-        height: 3rem;
-        line-height: 3rem;
-        margin-top: 1.7rem;
-        padding-left: 1.92rem;
-        border-radius: .43rem;
-    }
-
-    .userList {
-        height: 8.57em;
-        top: 2.57rem;
-    }
-
-    .status {
-        min-height: 4.87rem;
+    .contentRightMsg {
+        padding-bottom: 16px;
     }
 
     .remember {
-        height: 3.07rem;
-        line-height: 3.07rem;
-    }
-
-    .userStatus button {
-        height: 3rem;
-        line-height: 3rem;
-        font-size: 1.14rem;
-    }
-
-    .bottom {
-        margin-top: .64rem;
-    }
-
-    .loginFormBox {
-        padding: 0 2.285em;
+        padding-top: 16px;
     }
 
     .userStatus {
-        margin-top: .57rem;
+        padding-top: 20px;
+        margin: 0 32px;
+        width: calc(100% - 64px);
+    }
+
+    .userMessage {
+        padding-top: 8px;
+        margin: 0 32px;
+        width: calc(100% - 64px);
+    }
+
+    .userMessage .keyInput {
+        font-size: 14px;
+        height: 44px;
+        line-height: 44px;
+        margin-top: 12px;
+    }
+
+    .userMessage p img {
+        width: 1rem;
+    }
+
+    .userList {
+        top: 37px;
+        left: -0.035rem;
+        width: 292px;
+    }
+
+    .userList li {
+        position: relative;
+        width: 100%;
+        height: 44px;
+        line-height: 44px;
+        list-style: none;
+        padding-left: 1.5rem;
+        padding-right: .84375rem;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .userList li:after {
+        content: "";
+        position: absolute;
+        left: 1.5rem;
+        right: .84375rem;
+        bottom: 0;
+        height: 1px;
+        background-color: #e6e6e6;
+    }
+
+    .userStatus button {
+        height: 44px;
+        line-height: 44px;
+        border-radius: .5rem;
+        font-size: 16px;
+    }
+
+    .pcLoad {
+        height: 44px;
+        line-height: 44px;
+        border-radius: .5rem;
+        font-size: 16px;
+    }
+
+    .userList li span {
+        height: 44px;
+        line-height: 44px;
+        padding-left: 2rem;
+    }
+
+    .status {
+        min-height: auto;
+        padding: 16px 0;
+        font-size: 12px;
+    }
+
+    .bottom {
+        height: 34px;
+        font-size: 14px;
     }
 
     .bottom .afterRight:after {
-        right: -.65rem;
+        right: -1.25rem;
     }
 }
+
+@media screen and (max-width: 1399px) and (min-width: 1200px) {}
+
+@media screen and (max-width: 1199px) {}
 
 @media screen and (max-width: 767px) {
     .main {
@@ -781,7 +894,6 @@ a {
     }
 
     html {
-        color: #333333;
         font-size: 16px;
     }
 
@@ -801,49 +913,67 @@ a {
 
     :-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 14px;
     }
 
     ::-moz-placeholder {
         /* Mozilla Firefox 19+ */
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 14px;
     }
 
     input:-ms-input-placeholder {
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 14px;
     }
 
     input::-webkit-input-placeholder {
-        color: #999999 !important;
+        color: #D5D5D5 !important;
+        font-size: 14px;
     }
 
     .mainBox {
         background-color: #fff;
         border-radius: 1.88rem 1.88rem 0 0;
+        padding: 0 1rem;
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .inputGroup {
-        max-width: 20.2em;
-        width: 80%;
-        height: 2.8em;
-        line-height: 2.8em;
-        margin: 0 auto 1.8em;
-        border-radius: 3px;
-        padding-left: 3.2em;
+        width: calc(100% - 2rem);
+        height: 2.375rem;
+        line-height: 2.375rem;
+        margin: 0 1rem 1.5rem;
+        padding: 0 1rem;
+        border-radius: 4px;
         box-sizing: border-box;
         position: relative;
-        background: #F7F7F7;
+        border: 1px solid #ccc;
+        padding-left: 2.625rem;
+        display: flex;
+    }
+
+    .noBottomMargin {
+        margin-bottom: 0;
     }
 
     .inputGroup>span:first-of-type {
         padding-bottom: 0;
         margin-right: 0;
         display: inline-block;
+        flex: 1;
     }
 
     .inputGroup>span:first-of-type>input {
         border: none;
         outline: none;
+        height: 2.25rem;
+        line-height: 2.25rem;
+        vertical-align: top;
     }
 
     .inputGroup>span:first-of-type>input:hover {
@@ -855,7 +985,7 @@ a {
         outline: none;
         border: none;
         background: transparent;
-        font-size: 1rem;
+        font-size: 14px;
         padding: 0;
     }
 
@@ -863,54 +993,49 @@ a {
         border: none !important;
     }
 
-    .inputGroup:before {
-        display: inline-block;
+    .inputGroup>img {
         position: absolute;
-        width: 2.8em;
-        height: 2.8em;
-        top: 0;
-        left: 0;
-        content: "";
-    }
-
-    .userName:before {
-        background: url('https://www.diteng.site/public/images/name2.png');
-        background-size: auto 1.13rem;
-        background-repeat: no-repeat;
-        background-position: center;
+        top: 50%;
+        left: .75rem;
+        transform: translateY(-50%);
+        width: 1.125rem;
+        vertical-align: middle;
     }
 
     .chooseUser {
         display: inline-block;
         position: absolute;
-        width: 2.8em;
-        height: 2.8em;
+        width: 2.375rem;
+        height: 2.375rem;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/crow-down1.png');
-        background-size: 1.2em 1.2em;
+        background: url('https://cdn.diteng.site/resources/images/crow-down1.png');
+        background-size: .85rem .85rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .showList {
-        background: url('https://www.diteng.site/public/images/crow-up1.png');
-        background-size: 1.2em 1.2em;
+        background: url('https://cdn.diteng.site/resources/images/crow-up1.png');
+        background-size: .85rem .85rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .userList {
-        max-width: 20.2em;
-        width: 100%;
-        height: 10em;
+        width: calc(100% + 2px);
+        max-height: 10em;
         position: absolute;
-        top: 2.7em;
-        left: 0;
-        background: #F7F7F7;
+        top: calc(2.375rem - 4px);
+        left: -1px;
+        background: #fff;
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
         z-index: 22;
+        border: 1px solid #ccc;
+        border-top: 0;
         padding: 0 1em;
         overflow-y: auto;
         filter: grayscale(50%);
@@ -933,8 +1058,8 @@ a {
     .userList li {
         position: relative;
         width: 100%;
-        height: 2.8em;
-        line-height: 2.8em;
+        height: 2.25rem;
+        line-height: 2.25rem;
         list-style: none;
         border-bottom: 1px solid #e6e6e6;
     }
@@ -942,8 +1067,6 @@ a {
     .userList li span {
         display: inline-block;
         width: 80%;
-        height: 2.8em;
-        line-height: 2.8em;
         color: black;
     }
 
@@ -958,39 +1081,62 @@ a {
     .userList li .remove {
         position: absolute;
         display: inline-block;
-        width: 2.8em;
-        height: 2.8em;
+        width: 2rem;
+        height: 2rem;
         top: 0;
         right: 0;
-        background: url('https://www.diteng.site/public/images/remove.png');
+        background: url('https://cdn.diteng.site/resources/images/remove.png');
         background-size: 0.8em 0.8em;
         background-repeat: no-repeat;
         background-position: 80% center;
     }
 
     .passWord:before {
-        background: url('https://www.diteng.site/public/images/pwd2.png');
+        background: url('https://cdn.diteng.site/resources/images/pwd2.png');
         background-size: auto 1.13rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
+    .verify {
+        margin-bottom: 0;
+    }
+
     .verify:before {
-        background: url('https://www.diteng.site/public/images/verify.png');
+        background: url('https://cdn.diteng.site/resources/images/verify.png');
         background-size: auto 1.13rem;
         background-repeat: no-repeat;
         background-position: center;
     }
 
     .operationLogin {
-        max-width: 20.2em;
-        width: 80%;
-        margin: 0 auto 2.5em;
+        width: calc(100% - 2rem);
+        margin: 0 auto;
+        padding-top: .5rem;
         text-align: left;
+        font-size: 12px;
+        line-height: 1.125rem;
+        font-weight: 400;
+    }
+
+    .operationLogin>input {
+        display: none;
+    }
+
+    .operationLogin>img {
+        width: 1.125rem;
+        height: 1.125rem;
+        vertical-align: top;
     }
 
     .operationLogin>label {
-        padding-left: .32rem;
+        padding-left: .5rem;
+        color: #ADACAC;
+    }
+
+    .operationLogin>a {
+        float: right;
+        color: #0169AB;
     }
 
     .protocolBox {
@@ -998,21 +1144,43 @@ a {
     }
 
     .protocol {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         color: #999;
+        height: 1.125rem;
+        line-height: 1.125rem;
+    }
+
+    .protocol>img {
+        width: 1rem;
+        height: 1rem;
+        vertical-align: top;
+    }
+
+    .protocol>input {
+        display: none;
     }
 
     .protocol>label {
-        padding-left: .32rem;
+        padding-left: .5rem;
+        display: inline-block;
+        vertical-align: top;
     }
 
     .sendCode {
         position: absolute;
         right: 0.5rem;
         background-color: transparent;
-        color: black;
+        color: #0169AB;
+        font-size: .85rem;
+        top: 50%;
+        transform: translateY(-50%);
+        top: 50%;
+    }
+
+    .sendCoded {
+        position: absolute;
+        right: 0.5rem;
+        background-color: transparent;
+        color: #999;
         font-size: .85rem;
         top: 50%;
         transform: translateY(-50%);
@@ -1020,41 +1188,60 @@ a {
     }
 
     .btnSubmit {
-        max-width: 17.6em;
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
         display: block;
-        width: 78%;
-        height: 2.7em;
-        line-height: 2.7em;
-        margin: 0 auto 2em;
-        background-image: linear-gradient(0deg, #258FFC, #4697FF);
+        height: 2.25rem;
+        line-height: 2.25rem;
+        margin: 0 auto;
+        background-color: #008738;
         text-align: center;
-        font-size: 17px;
+        font-size: 1rem;
         color: #fff !important;
         outline: none;
         border: none;
-        border-radius: 2.7em;
+        border-radius: 3px;
+        margin-top: 1.5rem;
+    }
+
+    .btnSubmit:hover {
+        background-color: #009933;
     }
 
     .customService {
-        width: 100%;
+        width: calc(100% - 2rem);
+        margin: 0 auto;
         position: relative;
-        bottom: 0;
-        left: 0;
-        text-align: center;
+        padding-top: .75rem;
+    }
+
+    .customService>div {
+        /* margin: 0 2rem; */
+        text-align: left;
+        font-size: 12px;
+        line-height: 12px;
+        font-weight: 400;
     }
 
     .customService h3 {
-        padding: 1em 0;
-        color: #333;
-        font-weight: normal;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2.875rem;
+        background-color: #ECEDF1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .customService a {
-        color: #FF9000;
+    .customService h3>a {
+        color: #0169AB;
+        font-size: .75rem;
     }
 
     .customService .protocol a {
-        color: #333;
+        color: #0169AB;
     }
 
     .upt {
@@ -1122,17 +1309,135 @@ a {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 13.44rem;
+        padding-top: 6rem;
     }
 
     .logoBox>img {
-        width: 5.94rem;
+        width: 3.375rem;
     }
 
     .logoBox>h3 {
-        font-size: 1.36rem;
-        font-weight: bold;
-        padding-top: .49rem;
-        margin: 1em 0;
+        padding-top: 1rem;
+        font-size: 18px;
+        line-height: 18px;
+        color: #333333;
+        font-weight: 300;
+        padding-bottom: 4.3125rem;
     }
+
+    .mengceng {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, .4);
+        z-index: 2001;
+    }
+
+    .mengcengContent {
+        background-color: #fff;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-top-left-radius: .5rem;
+        border-top-right-radius: .5rem;
+    }
+
+    .contentHeader {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem;
+        line-height: 2.5rem;
+        border-bottom: 0.07rem solid #e4e4e4;
+    }
+
+    .contentHeader>div:first-child {
+        font-size: 14px;
+        color: #333;
+    }
+
+    .useBrowser {
+        position: relative;
+        color: #999;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+    }
+
+    .useBrowser>img {
+        width: .375rem;
+        margin-left: .25rem;
+    }
+
+    .contentMain {
+        padding: 1rem;
+    }
+
+    .mainText {
+        display: flex;
+        align-items: center;
+    }
+
+    .mainText>img {
+        width: 3rem;
+    }
+
+    .appDescription {
+        width: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-left: 1rem;
+    }
+
+    .appDescription>span:first-child {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .appDescription>span:nth-child(2) {
+        padding-top: .5rem;
+        color: #666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+    }
+
+    .mainText>a {
+        background-color: #008738;
+        height: 1.75rem;
+        padding: 0 1rem;
+        color: #fff;
+        border-radius: .28rem;
+        line-height: 1.75rem;
+        cursor: pointer;
+        font-size: 14px;
+    }
+}
+
+.wx_login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 16px;
+}
+
+.wechar_login {
+    font-size: 14px;
+    color: #666666;
+    cursor: pointer;
+}
+
+.wechar_login:hover {
+    color: #009933;
+}
+
+.login_dis {
+    margin-left: 16px;
+    font-size: 14px;
+    color: #999999;
+    cursor: not-allowed
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { QueryService } from "autumn-ui";
+import StaticFile from "../StaticFile";
 
 type propsType = {
     token: string;
@@ -35,10 +36,13 @@ export default class CheckDraftTB extends React.Component<propsType, stateType> 
     render() {
         return (
             <React.Fragment>
-                <span>草稿单据</span>
-                <span onClick={this.onClick} className="unread">
-                    {this.state.value}
-                </span>
+                <img src={StaticFile.getImage('images/webdefault/icon_cgdj.png')} />
+                <div>
+                    <span>草稿单据</span>
+                    <span onClick={this.onClick} className="unread">
+                        {this.state.value}
+                    </span>
+                </div>
             </React.Fragment>
         )
     }
