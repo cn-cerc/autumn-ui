@@ -1,6 +1,7 @@
 //引入autumn-ui样式文件
 import "autumn-ui/assets/autumn-ui.css";
 
+import { QueryService, RemoteService, DataSet, DataRow } from "autumn-ui";
 import CheckDraftTB from "./block/CheckDraftTB";
 import CheckReport from "./block/CheckReport";
 import CheckWorkflow from "./block/CheckWorkflow";
@@ -87,6 +88,11 @@ export default {
     TSchProductInOutAnalysis,
     TFrmTranOD,
     TFrmProProcess,
+    //框架
+    QueryService, 
+    RemoteService, 
+    DataSet, 
+    DataRow,
     //首页检测
     CheckDraftTB,
     CheckWorkflow,
