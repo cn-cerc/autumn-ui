@@ -74,7 +74,7 @@ function PrivacyRight() {
                 </p>
                 <p><span>产品业务功能收集使用您的信息逐项列举如下表所示：</span></p>
                 <p><span>Android:</span></p>
-                <div>
+                <div className={styles.tableBox}>
                     <table>
                         <thead>
                             <tr>
@@ -250,7 +250,7 @@ function PrivacyRight() {
                             <tr>
                                 <td>极光 PUSH</td>
                                 <td>推送信息</td>
-                                <td>网络访问权限、改变网络连接状态、访问GSM网络信息、写入外部存储卡、读取手机状态及身份、查看wlan连接</td>
+                                <td>设备信息、网络信息与位置信息、APP 安装列表信息</td>
                                 <td>设备识别信息</td>
                                 <td>IMEI</td>
                                 <td>是</td>

@@ -85,6 +85,10 @@
     text-indent: 0;
 }
 
+.main table th {
+    white-space: nowrap;
+}
+
 .main table td {
     --tw-border-opacity: 1;
     border: 1px solid rgb(224, 224, 224);
