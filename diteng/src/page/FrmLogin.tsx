@@ -578,14 +578,15 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         } else {
             return <div>
                 <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
-                <div className={styles.wx_login}>
+                {/* 后续微信登录功能完善之后开放 */}
+                {/* <div className={styles.wx_login}>
                     <a href={this.state.apiURL} className={styles.wechar_login}>
-                        <span>微信登陆</span>
+                        <span>微信登录</span>
                     </a>
                     <a className={styles.login_dis}>
                         <span>扫码登录</span>
                     </a>
-                </div>
+                </div> */}
             </div>
         }
     }
