@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./FrmSpectaculars2.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import StaticFile from "@diteng/StaticFile";
 
 type FrmSpectaculars2TypeProps = {
 }
@@ -13,7 +14,7 @@ type FrmSpectaculars2TypeState = {
     pieData2: DataSet,
 }
 
-export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypeProps, FrmSpectaculars2TypeState> {
+export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypeProps, FrmSpectaculars2TypeState> {
     constructor(props: FrmSpectaculars2TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -44,33 +45,40 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>安全监控中心</p>
+                <p>
+                    <span>安全监控中心</span>
+                    <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
+                </p>
+                <div>
+                    <ul className={styles.top_list}>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/3.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>交易金额</div>
+                                <div className={styles.topInfo}>
+                                    534.24 <span>万元</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/2.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>运行时间</div>
+                                <div className={styles.topInfo}>
+                                    687 <span>小时</span>
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div className={styles.mcMain}>
-                <ul className={styles.top_list}>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>交易金额</div>
-                            <div className={styles.topInfo}>
-                                534.24 <span>万元</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/3.png" alt="" />
-                        </div>
-                    </li>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>运行时间</div>
-                            <div className={styles.topInfo}>
-                                687 <span>小时</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/2.png" alt="" />
-                        </div>
-                    </li>
-                </ul>
+
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -310,7 +318,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                             fontWeight: 'bold'
                         }
                     },
-                    
+
                     // labelLine: {
                     //     length: 5,
                     //     length2: 5,
@@ -322,10 +330,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                                 show: true,
                                 position: 'inner',
                                 formatter: '{c}'
-                                ,color:'#000'
+                                , color: '#000'
                             }
                         },
-                       
+
                     },
                     data: dataArr
                 }
