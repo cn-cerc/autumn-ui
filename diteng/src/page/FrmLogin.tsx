@@ -32,6 +32,14 @@ var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     constructor(props: LoginTypeProps) {
+
+        //微信登陆
+        let apiURL = "https://open.weixin.qq.com/connect/qrconnect?";
+        apiURL += 'appid=wxfe39d62642ef5a46&';
+        apiURL += 'redirect_uri=' + encodeURIComponent(window.location.origin + '/forms/FrmWeChatLogin') + '&';
+        apiURL += "response_type=code&scope=snsapi_login&";
+        apiURL += "state=" + Date.now() + "" + Math.ceil(Math.random() * 1000);
+
         super(props);
         let client = new ClientStorage('ErpKey');
         let accountData = new DataSet();
@@ -659,7 +667,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         ds1.setValue("password", '');
                     this.state.client.set("Accounts", ds1.json);
                 }
-                let href = location.protocol + '//' + location.host + '/public/WebDefault?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId') + '&device=' + this.state.client.get('device');
+                let href = location.protocol + '//' + location.host + '/' + dataOut.head.getString('startPage')
+                    + '?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId')
+                    + '&device=' + this.state.client.get('device');
                 this.state.client.set('Account1', this.props.dataRow.getString('userCode'));
                 this.state.client.set('password', this.props.dataRow.getString('password'));
                 location.href = href;
@@ -694,7 +704,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 type FrmLoginTypeProps = {
     language?: string,
     lowVersion?: boolean,
-    loginCenter: string
+    loginCenter: string,
+    loginMsg?: string
 }
 
 type FrmLoginTypeState = {
@@ -726,11 +737,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     render() {
-        if (!this.state.isPhoneWeb) {
-            return <div className={styles.page}><div className={styles.main}>{this.getPage()}</div></div>
-        } else {
-            return <React.Fragment></React.Fragment>
-        }
+        return <div className={styles.page}><div className={styles.main}>{this.getPage()}</div></div>
     }
 
     getPage() {
@@ -753,6 +760,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                             </div>
                         </div>
                     </div>
+                    {this.getInstall()}
                 </React.Fragment>
             )
         } else {
