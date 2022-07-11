@@ -57,44 +57,50 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>营运数据中心</p>
+                <p>
+                    <span>营运数据中心</span>
+                    <img src="images/MCimg/title_line.png" alt="" />
+                </p>
+                <div>
+                    <ul className={styles.top_list}>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/6.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>车辆数</div>
+                                <div className={styles.topInfo}>
+                                    11042 <span>辆</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/5.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>今日里程</div>
+                                <div className={styles.topInfo}>
+                                    46 <span>万公里</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/4.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>司机数</div>
+                                <div className={styles.topInfo}>
+                                    13045 <span>名</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div className={styles.mcMain}>
-                <ul className={styles.top_list}>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>车辆数</div>
-                            <div className={styles.topInfo}>
-                                571 <span>辆</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/6.png" alt="" />
-                        </div>
-                    </li>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>今日里程</div>
-                            <div className={styles.topInfo}>
-                                46 <span>万公里</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/5.png" alt="" />
-                        </div>
-                    </li>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>司机数</div>
-                            <div className={styles.topInfo}>
-                                457 <span>名</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/4.png" alt="" />
-                        </div>
-                    </li>
-                </ul>
+
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -168,7 +174,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let xArr = [];
-        let sData = [['周一',10],['周二',14],['周三',12],['周四',2],['周五',10],['周六',2],['周日',6],];
+        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6],];
         let option = {
             xAxis: {
                 type: 'category',
@@ -296,7 +302,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     pointer: {
                         show: false
                     },
-                    color:['#63DAAB'],
+                    color: ['#63DAAB'],
                     progress: {
                         show: true,
                         overlap: false,
@@ -367,7 +373,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     pointer: {
                         show: false
                     },
-                    color:['#578DF9'],
+                    color: ['#578DF9'],
                     progress: {
                         show: true,
                         overlap: false,
@@ -438,7 +444,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     pointer: {
                         show: false
                     },
-                    color:['#E6806C'],
+                    color: ['#E6806C'],
                     progress: {
                         show: true,
                         overlap: false,

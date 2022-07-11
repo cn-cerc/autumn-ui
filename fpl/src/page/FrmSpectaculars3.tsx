@@ -13,7 +13,7 @@ type FrmSpectaculars3TypeState = {
     pieData2: DataSet,
 }
 
-export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypeProps, FrmSpectaculars3TypeState> {
+export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypeProps, FrmSpectaculars3TypeState> {
     constructor(props: FrmSpectaculars3TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -44,44 +44,50 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>数据总览</p>
+                <p>
+                    <span>数据总览</span>
+                    <img src="images/MCimg/title_line.png" alt="" />
+                </p>
+                <div>
+                    <ul className={styles.top_list}>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/6.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>交易金额</div>
+                                <div className={styles.topInfo}>
+                                    626.65 <span>万元</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/5.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>运单数</div>
+                                <div className={styles.topInfo}>
+                                    746 <span>单</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/4.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>总里程</div>
+                                <div className={styles.topInfo}>
+                                    576.66 <span>万公里</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div className={styles.mcMain}>
-                <ul className={styles.top_list}>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>交易金额</div>
-                            <div className={styles.topInfo}>
-                                626.65 <span>万元</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/6.png" alt="" />
-                        </div>
-                    </li>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>运单数</div>
-                            <div className={styles.topInfo}>
-                                746 <span>单</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/5.png" alt="" />
-                        </div>
-                    </li>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>总里程</div>
-                            <div className={styles.topInfo}>
-                                576.66 <span>万公里</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/4.png" alt="" />
-                        </div>
-                    </li>
-                </ul>
+
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -376,10 +382,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                     ['铁矿', 43.3, 85.8, 85.8,],
                 ]
             },
-            xAxis: { type: 'category'},
+            xAxis: { type: 'category' },
             yAxis: {},
             grid: [{ top: 25, left: 30, right: 10, bottom: 20 }],
-            series: [{ type: 'bar'},{ type: 'bar'},{ type: 'bar'}]
+            series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
         };
 
         //@ts-ignore
