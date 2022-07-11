@@ -5,7 +5,7 @@ export default class StaticFile {
             //@ts-ignore
             if (window.Application.staticPath)
                 //@ts-ignore
-                staticPath = window.Application.staticPath
+                staticPath = window.Application.staticPath + '/';
         } catch {
             staticPath = '';
         }

@@ -100,7 +100,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                                     <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
                                 </div>
                             </div>
-                            <h3><a href="TFrmContact">如有疑问请联系客服中心{`>>`}</a></h3>
+                            <h3><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
                         </section>
                         {this.getMessageDOM()}
                     </form>
@@ -578,14 +578,15 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         } else {
             return <div>
                 <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
-                <div className={styles.wx_login}>
+                {/* 后续微信登录功能完善之后开放 */}
+                {/* <div className={styles.wx_login}>
                     <a href={this.state.apiURL} className={styles.wechar_login}>
-                        <span>微信登陆</span>
+                        <span>微信登录</span>
                     </a>
                     <a className={styles.login_dis}>
                         <span>扫码登录</span>
                     </a>
-                </div>
+                </div> */}
             </div>
         }
     }
@@ -832,7 +833,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <div className={styles.mainText}>
                             <img src={StaticFile.getImage('images/logoMenu.png')} />
                             <div className={styles.appDescription}>
-                                <span>地藤云平台</span>
+                                <span>地藤管家</span>
                                 <span>地藤，您随身携带的大管家</span>
                             </div>
                             <a href="install" className={styles.install}>下载</a>
