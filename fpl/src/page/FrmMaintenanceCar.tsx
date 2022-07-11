@@ -67,8 +67,8 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                             <div className={`${this.state.dataJson.getBoolean(`新增车辆_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '新增车辆')}>
                                 <span>新增车辆</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`扫一扫_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '扫一扫')}>
-                                <span>扫一扫</span>
+                            <div className={`${this.state.dataJson.getBoolean(`扫一扫_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.mainFooterScan.bind(this)}>
+                                <span>扫一xx扫</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`新增维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '新增维修单')}>
                                 <span>新增维修单</span>
@@ -318,5 +318,11 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataJson.getString(`${name}_URL`);
         }
+    }
+
+    mainFooterScan() {
+        // 调用apiCloud扫一扫功能
+        //@ts-ignore
+        mainFooterScan();
     }
 }
