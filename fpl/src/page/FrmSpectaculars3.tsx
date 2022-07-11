@@ -52,7 +52,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         <div>
                             <div className={styles.topTitle}>交易金额</div>
                             <div className={styles.topInfo}>
-                                666.66 <span>万元</span>
+                                626.65 <span>万元</span>
                             </div>
                         </div>
                         <div>
@@ -63,7 +63,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         <div>
                             <div className={styles.topTitle}>运单数</div>
                             <div className={styles.topInfo}>
-                                687466 <span>单</span>
+                                746 <span>单</span>
                             </div>
                         </div>
                         <div>
@@ -74,7 +74,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         <div>
                             <div className={styles.topTitle}>总里程</div>
                             <div className={styles.topInfo}>
-                                8576.66 <span>万公里</span>
+                                576.66 <span>万公里</span>
                             </div>
                         </div>
                         <div>
@@ -93,7 +93,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>停车数</div>
-                                        <div>120</div>
+                                        <div>150</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
@@ -102,7 +102,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>司机数</div>
-                                        <div>120</div>
+                                        <div>108</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
@@ -111,7 +111,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>异常率</div>
-                                        <div>20%</div>
+                                        <div>12%</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
@@ -120,7 +120,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>回款率</div>
-                                        <div>20%</div>
+                                        <div>89%</div>
                                     </div>
                                 </div>
                             </div>
@@ -141,6 +141,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
+                            <div className={styles.mcTitle}>交易金额</div>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>
@@ -176,7 +177,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         let lineChart = document.querySelector(`.${styles.mcLink1}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let xArr = [];
-        let sData = [[2000, 200], [2008, 180], [2013, 250], [2022, 291]];
+        let sData = [['周一', 200], ['周二', 180], ['周三', 250], ['周四', 291], ['周五', 270], ['周六', 146], ['周日', 128]];
         let option = {
             xAxis: {
                 type: 'category',
@@ -200,7 +201,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                     data: sData,
                     type: 'line',
                     smooth: true,
-                    symbol: 'none',
+                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -209,6 +210,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         width: 1
                     },
                     areaStyle: {},
+                    label: {
+                        show: true
+                    }
                 },
             ]
         };
@@ -261,7 +265,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                     data: sData,
                     type: 'line',
                     smooth: 0.6,
-                    symbol: 'none',
+                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -270,15 +274,15 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         width: 5
                     },
                     label: {
-                        // show: true,
+                        show: true,
                         position: 'top'
                     },
                 },
                 {
-                    data: [58, 310, 221, 30, 281, 290, 29],
+                    data: [158, 310, 221, 30, 281, 290, 129],
                     type: 'line',
                     smooth: 0.6,
-                    symbol: 'none',
+                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[1]
                     },
@@ -287,7 +291,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         width: 5
                     },
                     label: {
-                        // show: true,
+                        show: true,
                         position: 'top'
                     },
                 }
@@ -300,9 +304,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
     initPieChart1() {
         let legend = {
             type: 'plain',
-            bottom: 15,
+            bottom: '35%',
             orient: 'vertical',
-            right: 0,
+            right: '20%',
             itemWidth: 10,
             itemHeight: 10,
             itemGap: 2,
@@ -312,9 +316,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         if (this.isPhone) {
             legend = {
                 type: 'plain',
-                bottom: 45,
+                bottom: '35%',
                 orient: 'vertical',
-                right: 0,
+                right: '20%',
                 itemWidth: 10,
                 itemHeight: 10,
                 itemGap: 4,
@@ -350,11 +354,8 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         show: false
                     },
                     data: [
-                        { value: 1048, name: 'Search Engine' },
-                        { value: 735, name: 'Direct' },
-                        { value: 580, name: 'Email' },
-                        { value: 484, name: 'Union Ads' },
-                        { value: 300, name: 'Video Ads' }
+                        { value: 1048, name: '已成交' },
+                        { value: 735, name: '未成交' },
                     ]
                 }
             ]
@@ -371,28 +372,26 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
             tooltip: {},
             dataset: {
                 source: [
-                    ['product', '2015', '2016'],
-                    ['Matcha Latte', 43.3, 85.8,],
-                    ['Milk Tea', 83.1, 73.4],
-                    ['Cheese Cocoa', 86.4, 65.2],
-                    ['Walnut Brownie', 72.4, 53.9]
+                    ['product', '钢铁', '废钢', '合金'],
+                    ['铁矿', 43.3, 85.8, 85.8,],
                 ]
             },
-            xAxis: { type: 'category' },
+            xAxis: { type: 'category'},
             yAxis: {},
-            grid: [{ top: 25, left: 40, right: 10, bottom: 30 }],
-            series: [{ type: 'bar' }, { type: 'bar' }]
+            grid: [{ top: 25, left: 30, right: 10, bottom: 20 }],
+            series: [{ type: 'bar'},{ type: 'bar'},{ type: 'bar'}]
         };
 
         //@ts-ignore
         myChart.setOption(option);
     }
+
     initPieChart2() {
         let legend = {
             type: 'plain',
-            bottom: 15,
+            bottom: '5%',
             orient: 'vertical',
-            right: 0,
+            right: '20%',
             itemWidth: 10,
             itemHeight: 10,
             itemGap: 2,
@@ -402,9 +401,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         if (this.isPhone) {
             legend = {
                 type: 'plain',
-                bottom: 45,
+                bottom: '25%',
                 orient: 'vertical',
-                right: 0,
+                right: '20%',
                 itemWidth: 10,
                 itemHeight: 10,
                 itemGap: 4,
@@ -440,11 +439,11 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
                         show: false
                     },
                     data: [
-                        { value: 1048, name: 'Search Engine' },
-                        { value: 735, name: 'Direct' },
-                        { value: 580, name: 'Email' },
-                        { value: 484, name: 'Union Ads' },
-                        { value: 300, name: 'Video Ads' }
+                        { value: 750, name: '广东省' },
+                        { value: 1048, name: '福建省' },
+                        { value: 580, name: '山东省' },
+                        { value: 484, name: '山西省' },
+                        { value: 300, name: '浙江省' }
                     ]
                 }
             ]
@@ -460,14 +459,14 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars3TypePro
         let option = {
             grid: [{
                 left: 10,
-                top: 15,
+                top: 12,
                 right: 5,
-                bottom: 10,
+                bottom: 5,
                 containLabel: true,
             }],
             xAxis: {
                 type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
             },
             yAxis: {
                 type: 'value'

@@ -954,6 +954,7 @@ a {
         position: relative;
         border: 1px solid #ccc;
         padding-left: 2.625rem;
+        display: flex;
     }
 
     .noBottomMargin {
@@ -964,6 +965,7 @@ a {
         padding-bottom: 0;
         margin-right: 0;
         display: inline-block;
+        flex: 1;
     }
 
     .inputGroup>span:first-of-type>input {
