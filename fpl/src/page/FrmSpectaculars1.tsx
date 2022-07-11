@@ -42,9 +42,9 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let pieData4 = new DataSet();
-        pieData4.append().setValue('Value_', 11).setValue('Name_', '18~35');
-        pieData4.append().setValue('Value_', 13).setValue('Name_', '18~35');
-        pieData4.append().setValue('Value_', 18).setValue('Name_', '18~35');
+        pieData4.append().setValue('Value_', 11).setValue('Name_', '18~30');
+        pieData4.append().setValue('Value_', 50).setValue('Name_', '31~50');
+        pieData4.append().setValue('Value_', 13).setValue('Name_', '50~65');
         this.state = {
             lineData,
             pieData1,
@@ -57,44 +57,50 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>营运数据中心</p>
+                <p>
+                    <span>营运数据中心</span>
+                    <img src="images/MCimg/title_line.png" alt="" />
+                </p>
+                <div>
+                    <ul className={styles.top_list}>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/6.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>车辆数</div>
+                                <div className={styles.topInfo}>
+                                    11042 <span>辆</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/5.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>今日里程</div>
+                                <div className={styles.topInfo}>
+                                    46 <span>万公里</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li className={styles.li_3}>
+                            <div>
+                                <img src="images/MCimg/4.png" alt="" />
+                            </div>
+                            <div>
+                                <div className={styles.topTitle}>司机数</div>
+                                <div className={styles.topInfo}>
+                                    13045 <span>名</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div className={styles.mcMain}>
-                <ul className={styles.top_list}>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>车辆数</div>
-                            <div className={styles.topInfo}>
-                                666 <span>辆</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/6.png" alt="" />
-                        </div>
-                    </li>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>今日里程</div>
-                            <div className={styles.topInfo}>
-                                687466 <span>万公里</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/5.png" alt="" />
-                        </div>
-                    </li>
-                    <li className={styles.li_3}>
-                        <div>
-                            <div className={styles.topTitle}>司机数</div>
-                            <div className={styles.topInfo}>
-                                857666 <span>名</span>
-                            </div>
-                        </div>
-                        <div>
-                            <img src="images/MCimg/4.png" alt="" />
-                        </div>
-                    </li>
-                </ul>
+
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -117,6 +123,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
+                            <div className={styles.mcTitle}>派车单</div>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>
@@ -135,15 +142,15 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                                 <ul className={styles.srcollListMain}>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        06-25 11:26 <span className={styles.colorSkin}>粤BFC888</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        05-06 09:53 <span className={styles.colorSkin}>闽ALB001</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 14:56 <span className={styles.colorSkin}>粤AW22C6</span> 行驶超速
+                                        04-12 20:39 <span className={styles.colorSkin}>浙AW22C6</span> 行驶超速
                                     </li>
                                 </ul>
                             </div>
@@ -167,7 +174,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let xArr = [];
-        let sData = [[2000, 200], [2008, 180], [2013, 250], [2022, 291]];
+        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6],];
         let option = {
             xAxis: {
                 type: 'category',
@@ -191,7 +198,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     data: sData,
                     type: 'line',
                     smooth: true,
-                    symbol: 'none',
+                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -241,7 +248,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
             lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
+                top: 15,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -252,7 +259,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     data: sData,
                     type: 'line',
                     smooth: 0.6,
-                    symbol: 'none',
+                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -261,27 +268,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         width: 5
                     },
                     label: {
-                        // show: true,
+                        show: true,
                         position: 'top'
                     },
                 },
-                {
-                    data: [58, 310, 221, 30, 281, 290, 29],
-                    type: 'line',
-                    smooth: 0.6,
-                    symbol: 'none',
-                    itemStyle: {
-                        color: MCChartColors[1]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[1],
-                        width: 5
-                    },
-                    label: {
-                        // show: true,
-                        position: 'top'
-                    },
-                }
             ]
         };
 
@@ -312,6 +302,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     pointer: {
                         show: false
                     },
+                    color: ['#63DAAB'],
                     progress: {
                         show: true,
                         overlap: false,
@@ -319,12 +310,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         clip: false,
                         itemStyle: {
                             borderWidth: 1,
-                            borderColor: '#464646'
+                            borderColor: '#63DAAB'
                         }
                     },
                     axisLine: {
                         lineStyle: {
-                            width: 4
+                            width: 6
                         }
                     },
                     splitLine: {
@@ -382,6 +373,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     pointer: {
                         show: false
                     },
+                    color: ['#578DF9'],
                     progress: {
                         show: true,
                         overlap: false,
@@ -389,12 +381,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         clip: false,
                         itemStyle: {
                             borderWidth: 1,
-                            borderColor: '#464646'
+                            borderColor: '#578DF9'
                         }
                     },
                     axisLine: {
                         lineStyle: {
-                            width: 4
+                            width: 6
                         }
                     },
                     splitLine: {
@@ -452,6 +444,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     pointer: {
                         show: false
                     },
+                    color: ['#E6806C'],
                     progress: {
                         show: true,
                         overlap: false,
@@ -459,12 +452,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         clip: false,
                         itemStyle: {
                             borderWidth: 1,
-                            borderColor: '#464646'
+                            borderColor: '#E6806C'
                         }
                     },
                     axisLine: {
                         lineStyle: {
-                            width: 4
+                            width: 6
                         }
                     },
                     splitLine: {

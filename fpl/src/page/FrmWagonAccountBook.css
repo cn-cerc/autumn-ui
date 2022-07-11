@@ -2,6 +2,7 @@
     display: flex;
     line-height: 1em;
     color: #333333;
+
 }
 
 .content {
@@ -81,6 +82,7 @@
     .main {
         height: 0;
         flex: 1;
+        padding-bottom: 16px;
     }
 
     .content {
