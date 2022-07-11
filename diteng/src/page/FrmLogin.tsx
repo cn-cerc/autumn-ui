@@ -1,6 +1,7 @@
 import { DataRow, DataSet, DBEdit, Loading, QueryService, WebControl } from "autumn-ui";
 import Fingerprint2 from "fingerprintjs2";
 import React from "react";
+import ImageConfig from "../ImageConfig";
 import StaticFile from "../StaticFile";
 import { showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
@@ -25,7 +26,8 @@ type LoginTypeState = {
     currentIndex: number,
     isFirefox: boolean,
     iconHover: 0 | 1 | 2 | 3,
-    protocol: boolean
+    protocol: boolean,
+    apiURL: string
 }
 
 var showVerify: boolean = false;
@@ -64,7 +66,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             currentIndex: 0,
             isFirefox,
             iconHover: this.isPhone ? 0 : 1,
-            protocol
+            protocol,
+            apiURL,
         }
     }
     render() {
@@ -573,7 +576,17 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 <Loading></Loading>
             </div>
         } else {
-            return <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
+            return <div>
+                <button onClick={this.onSubmit.bind(this)} style={{ 'cursor': 'pointer' }}>登录</button>
+                <div className={styles.wx_login}>
+                    <a href={this.state.apiURL} className={styles.wechar_login}>
+                        <span>微信登陆</span>
+                    </a>
+                    <a className={styles.login_dis}>
+                        <span>扫码登录</span>
+                    </a>
+                </div>
+            </div>
         }
     }
 
@@ -720,9 +733,9 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         super(props);
         let isPhoneWeb = false;
         //@ts-ignore
-        // if (this.isPhone && !window.ApiCloud.isApiCloud()) {
-        //     isPhoneWeb = true;
-        // }
+        if (this.isPhone && !window.ApiCloud.isApiCloud()) {
+            isPhoneWeb = true;
+        }
         let client = new ClientStorage('ErpKey');
         let dataIn = new DataRow();
         dataIn.setValue('languageId', this.props.language);
@@ -731,7 +744,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         this.state = {
             client,
             dataIn,
-            message: '',
+            message: this.props.loginMsg || '',
             isPhoneWeb
         }
     }
@@ -798,24 +811,39 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                             <a href="http://www.mimrc.com">©深圳市华软资讯科技有限公司</a>
                             <a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a>
                         </div>
-                        {/* <div className={styles.footRight}>
-                            &copy;
-                            <a href="http://www.mimrc.com">
-                                <small>深圳市华软资讯科技有限公司</small>
-                            </a>
-                            <div style={{ 'padding': '0.5em' }}>
-                                <small><a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a></small>
-                            </div>
-                        </div> */}
-
                     </footer>
                 </React.Fragment>
             )
         }
     }
 
+    getInstall() {
+        if (this.state.isPhoneWeb) {
+            return <div className={styles.mengceng}>
+                <div className={styles.mengcengContent}>
+                    <div className={styles.contentHeader}>
+                        <div>打开方式</div>
+                        <div className={styles.useBrowser}>
+                            <span onClick={() => this.setState({ isPhoneWeb: false })}>继续使用浏览器</span>
+                            <img src={StaticFile.getImage(ImageConfig.ICON_RIGHT)} />
+                        </div>
+                    </div>
+                    <div className={styles.contentMain}>
+                        <div className={styles.mainText}>
+                            <img src={StaticFile.getImage('images/logoMenu.png')} />
+                            <div className={styles.appDescription}>
+                                <span>地藤云平台</span>
+                                <span>地藤，您随身携带的大管家</span>
+                            </div>
+                            <a href="install" className={styles.install}>下载</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
     componentDidMount(): void {
-        // showMsg("123")
         let head = this.props.loginCenter;
         if (!head || head.indexOf(location.origin) > -1)
             head = location.origin;
@@ -823,8 +851,6 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
             location.href = head + location.pathname + location.search;
             return;
         }
-        if (this.state.isPhoneWeb)
-            window.location.href = 'install?device=phone';
 
         if (!this.isPhone) {
             try {
