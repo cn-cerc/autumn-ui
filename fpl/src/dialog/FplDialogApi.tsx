@@ -216,4 +216,9 @@ export default class FplDialogApi {
     static getCargoCodeTypeRecord(params: DataRow) {
         return FplDialogApi.getDataOut('SvrCodeRecord.queryCodeTypeList', params);
     }
+
+    /** 获取客户所有地址 */
+    static getCustomerAddress(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrCargoOrder.queryCustomerAddress', params);
+    }
 }
