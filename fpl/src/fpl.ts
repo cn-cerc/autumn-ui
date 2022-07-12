@@ -55,6 +55,8 @@ import TMakeMC from "./page/TMakeMC";
 import TOrd from "./page/TOrd";
 import TPurMC from "./page/TPurMC";
 import TStockMC from "./page/TStockMC";
+import DialogCustomerAddress from "./dialog/CustomerAddressDialog";
+import CustomerAddressDialog from "./dialog/CustomerAddressDialog";
 
 export default {
     ...diteng,
@@ -71,6 +73,7 @@ export default {
     MaintainVehicleDialog,
     CodeRecordDialog,
     CargoCodeTypeDialog,
+    CustomerAddressDialog,
     //MC控制台
     FrmTaurusMC,
     TStockMC,

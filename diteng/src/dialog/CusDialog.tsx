@@ -5,6 +5,7 @@ import DialogApi from "./DialogApi";
 
 type CusTypeProps = {
     title: string;
+    addresseId: string;
 } & Partial<BaseDialogPropsType>
 
 type CusTypeState = {
@@ -174,6 +175,26 @@ export default class CusDialog extends BaseDialog<CusTypeProps, CusTypeState> {
         if (inputIds.length > 1) {
             let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
             input2.value = row.getValue('ShortName_');
+        }
+        let addresseIds = this.props.addresseId.split(",");
+        if (addresseIds.length == 4) {
+            //省市县区value
+            let addressInput = document.getElementById(addresseIds[0]) as HTMLInputElement;
+            //省市县区name
+            let addressNameInput = document.getElementById(addresseIds[0] + "_name") as HTMLInputElement;
+            //联系人名
+            let contactInput = document.getElementById(addresseIds[1]) as HTMLInputElement;
+            //手机号
+            let mobileInput = document.getElementById(addresseIds[2]) as HTMLInputElement;
+            //详细地址
+            let addressDetailInput = document.getElementById(addresseIds[3]) as HTMLInputElement;
+            let address = (row.getString('Area1_') || '未知') + '/' + (row.getString('Area2_') || '未知') + '/' + (row.getString('Area3_') || '未知');
+            addressInput.value = address;
+            addressNameInput.value = address;
+            contactInput.value = row.getString('Contact_');
+            mobileInput.value = row.getString('Mobile_');
+            addressDetailInput.value = row.getString('Area4_') + row.getString('Area5_');
+
         }
         this.handleSelect();
     }
