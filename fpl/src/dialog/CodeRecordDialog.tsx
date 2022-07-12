@@ -77,6 +77,7 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let code = document.getElementById("code_") as HTMLInputElement;
         let total = document.getElementById("total_") as HTMLInputElement;
         let unitPrice = document.getElementById("unit_price_") as HTMLInputElement;
+        let mainUnit = document.getElementById("main_unit_") as HTMLInputElement;
         let deputyUnit = document.getElementById("deputy_unit_") as HTMLInputElement;
         let deputyUnitPrice = document.getElementById("deputy_unit_price_") as HTMLInputElement;
         let conversionValue = document.getElementById("conversion_value_") as HTMLInputElement;
@@ -91,6 +92,7 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
         conversionValue.value = dataRow.getString('conversion_value_');
         cargoLossRate.value = dataRow.getString('cargo_loss_rate_');
+        mainUnit.value=dataRow.getValue("main_unit_");
         //切换单位
         $("#main_unit_").change();
         this.handleSelect();
