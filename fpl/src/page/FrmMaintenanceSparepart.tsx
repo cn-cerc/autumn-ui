@@ -3,6 +3,8 @@ import React from "react";
 import styles from "./FrmMaintenanceSparepart.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import FplPageApi from "./FplPageApi";
+import Introduction from "./Introduction";
 
 type FrmMaintenanceSparepartTypeProps = {
     dataJson: string,
@@ -10,11 +12,12 @@ type FrmMaintenanceSparepartTypeProps = {
 }
 
 type FrmMaintenanceSparepartTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet,
-    pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string
+    introduction: string,
+    topFiveBrand: DataSet,
+    topFiveMountings: DataSet,
+    topFiveClassifyMountings: DataSet,
+    nowExistMountings: DataSet
 }
 
 export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSparepartTypeProps, FrmMaintenanceSparepartTypeState> {
@@ -23,38 +26,20 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         let lineData = new DataSet();
         let dataJson = new DataRow();
         dataJson.setJson(this.props.dataJson);
-        lineData.append().setValue('Value_', 300).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 285).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 220).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 360).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 28).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 12).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 8).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 12).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '重型卡车');
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction
+            introduction: this.props.introduction,
+            topFiveBrand: new DataSet(),
+            topFiveMountings: new DataSet(),
+            topFiveClassifyMountings: new DataSet(),
+            nowExistMountings: new DataSet(),
+
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -92,23 +77,23 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                <div className={styles.mcPieChart}>
+                    <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>品牌数据</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>零配件使用统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcPieChart1}>
                         <div className={styles.mcPieBox3}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>配件分类统计</div>
                             <div className={styles.FrmTaurusMCPie3}></div>
                         </div>
                         <div className={styles.mcPieBox4}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>当前零配件存在统计</div>
                             <div className={styles.FrmTaurusMCPie4}></div>
                         </div>
                     </div>
@@ -117,7 +102,23 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let topFiveBrand = new DataSet();
+        topFiveBrand = await FplPageApi.getPartByBrandReport();
+        let topFiveMountings = new DataSet();
+        topFiveMountings = await FplPageApi.getPartToUse();
+        let topFiveClassifyMountings = new DataSet();
+        topFiveClassifyMountings = await FplPageApi.getPartByClass1Report();
+        let nowExistMountings = new DataSet();
+        nowExistMountings = await FplPageApi.getPartReport();
+
+
+        this.setState({
+            topFiveBrand,
+            topFiveMountings,
+            topFiveClassifyMountings,
+            nowExistMountings
+        })
         this.initPieChart1();
         this.initPieChart2();
         this.initPieChart3();
@@ -125,18 +126,20 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         this.initFlowChart();
     }
 
-   
+    componentDidMount(): void {
+        this.init();
+    }
+
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        let ds: DataSet = this.state.topFiveBrand;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('Brand_'),
+                value: ds.getDouble('brand_count_')
             })
         }
         let option = {
@@ -150,6 +153,12 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -160,7 +169,6 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -169,6 +177,7 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -190,14 +199,13 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        let ds: DataSet = this.state.topFiveMountings;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('desc_'),
+                value: ds.getDouble('use_count_')
             })
         }
         let option = {
@@ -211,10 +219,15 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -223,6 +236,7 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -240,18 +254,18 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         //@ts-ignore
         myChart.setOption(option);
     }
-    
+
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.topFiveClassifyMountings;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('Class1_'),
+                value: ds.getDouble('class_count_')
             })
         }
         let option = {
@@ -265,6 +279,12 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -275,7 +295,6 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -284,6 +303,7 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -306,12 +326,12 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie4}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.nowExistMountings;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
+                name: ds.getString('part_count_'),
                 value: ds.getDouble('Value_')
             })
         }
@@ -326,10 +346,15 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                // formatter: (name: any) => {
+                //     let singleData = dataArr.filter(function (item: any) {
+                //         return item.name == name
+                //     })
+                //     return name + ' : ' + singleData[0].value;
+                // },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -338,6 +363,7 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,

@@ -1,28 +1,25 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
-import React from "react";
-import styles from "./FrmMaintenanceCar.css";
 import * as echarts from "echarts";
+import React from "react";
+import styles from "./FrmCustomerService.css";
 import { MCChartColors } from "./FrmTaurusMC";
 import Introduction from "./Introduction";
-import FplPageApi from "./FplPageApi";
 
-type FrmMaintenanceCarTypeProps = {
+type FrmCustomerServiceTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmMaintenanceCarTypeState = {
+type FrmCustomerServiceTypeState = {
     lineData: DataSet,
     pieData1: DataSet,
     pieData2: DataSet,
     dataJson: DataRow,
     introduction: string,
-    vehicleState: DataSet,
 }
-//车辆管理控制台 一汽建州修理厂
 
-export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeProps, FrmMaintenanceCarTypeState> {
-    constructor(props: FrmMaintenanceCarTypeProps) {
+export default class FrmCustomerService extends WebControl<FrmCustomerServiceTypeProps, FrmCustomerServiceTypeState> {
+    constructor(props: FrmCustomerServiceTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -50,7 +47,6 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
             pieData2,
             dataJson: dataJson,
             introduction: this.props.introduction,
-            vehicleState: new DataSet(),
         }
     }
 
@@ -63,29 +59,17 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`客户管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '客户管理')}>
-                                <span>客户管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '部门资料')}>
+                                <span>部门资料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '车辆管理')}>
-                                <span>车辆管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`员工管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '员工管理')}>
+                                <span>员工管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`新增车辆_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '新增车辆')}>
-                                <span>新增车辆</span>
+                            <div className={`${this.state.dataJson.getBoolean(`客服人员设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '客服人员设置')}>
+                                <span>客服人员设置</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`扫一扫_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '扫一扫')}>
-                                <span>扫一扫</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`新增维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '新增维修单')}>
-                                <span>新增维修单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零配件管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '零配件管理')}>
-                                <span>零配件管理</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`维修单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修单管理')}>
-                                <span>维修单管理</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`月结收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '月结收款单')}>
-                                <span>月结收款单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`客服列表_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '客服列表')}>
+                                <span>客服列表</span>
                             </div>
                         </div>
                     </div>
@@ -93,16 +77,16 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>车辆状态统计</div>
+                            <div className={styles.mcTitle}>区域统计(开发中)</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>车队与车辆类型</div>
+                            <div className={styles.mcTitle}>男女统计(开发中)</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>车队与车辆汇总</div>
+                        <div className={styles.mcTitle}>部门人数统计(开发中)</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -111,12 +95,6 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
     }
 
     async init() {
-        let vehicleState = new DataSet();
-        vehicleState = await FplPageApi.getMoreThanOneWeekReport();
-
-        this.setState({
-            vehicleState
-        })
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
@@ -131,13 +109,15 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.vehicleState;
+        ds.appendDataSet(this.state.pieData2);
         ds.first();
-        let dataArr: any = [
-            {name:'在途中',value:ds.getDouble('empty_car_sum_')},
-            {name:'空车',value:ds.getDouble('carry_sum_')},
-            {name:'待发货',value:ds.getDouble('to_be_shipped_sum_')},
-        ];
+        let dataArr = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('Name_'),
+                value: ds.getDouble('Value_')
+            })
+        }
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -149,12 +129,6 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
-                formatter: (name: any) => {
-                    let singleData = dataArr.filter(function (item: any) {
-                        return item.name == name
-                    })
-                    return name + ' : ' + singleData[0].value;
-                },
             },
             grid: {
                 top: 40,
@@ -292,42 +266,21 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
             nodes,
             linesData: [
                 {
-                    coords: [ //客户管理 往下线条
+                    coords: [ //部门资料 往下线条
                         [169, 80],
                         [169, 130]
                     ]
                 },
                 {
-                    coords: [ //车辆管理 往下线条 
+                    coords: [ //员工管理 往下线条 
                         [169, 180],
                         [169, 220]
                     ]
                 },
                 {
-                    coords: [ //新增车辆 往左线条
-                        [256, 140],
-                        [190, 140]
-                    ]
-                },
-                {
-                    coords: [ //扫一扫 往右线条
-                        [78, 242],
-                        [143, 242]
-                    ]
-                }, {
-                    coords: [ //零配件管理 往左线条
-                        [256, 242],
-                        [190, 242]
-                    ]
-                }, {
-                    coords: [ //新增维修单 往下线条
-                        [169, 290],
+                    coords: [ //客服人员设置 往下线条
+                        [169, 281],
                         [169, 323]
-                    ]
-                }, {
-                    coords: [ //维修单管理 往右线条
-                        [190, 340],
-                        [256, 340]
                     ]
                 }
             ]

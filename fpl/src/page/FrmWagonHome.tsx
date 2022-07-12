@@ -38,9 +38,6 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                                         </div>
                                         <p>2022-07-05 12:53·庆丰物流</p>
                                     </div>
-                                    <div className={styles.imgBox}>
-                                        <img src="images/MCimg/sjzj_1.png" alt="" />
-                                    </div>
                                 </li>
                                 <li className={styles.item}>
                                     <div className={styles.mainText}>

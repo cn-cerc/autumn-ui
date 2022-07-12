@@ -128,6 +128,10 @@
     color: #0283f7;
 }
 
+.links_skin {
+    cursor: pointer;
+}
+
 @media screen and (min-width: 1200px) and (max-width: 1366px) {
     .info {
         padding-left: 10px;

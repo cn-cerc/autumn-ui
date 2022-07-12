@@ -31,7 +31,7 @@
 }
 
 .mcIntroduction>p {
-    height: 50px;
+    height: 52px;
     font-size: 16px;
     font-weight: bold;
     color: #333333;
@@ -39,17 +39,18 @@
     position: relative;
 }
 
-.mcIntroduction>p>span{
+.mcIntroduction>p>span {
     position: absolute;
     bottom: 12px;
-    left:50%;
+    left: 50%;
     transform: translateX(-50%);
 }
 
-.mcIntroduction>p >img{
+.mcIntroduction>p>img {
     position: absolute;
     bottom: 0;
     width: 100%;
+    height:20px;
     left: 0;
 }
 
@@ -78,17 +79,18 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left:48px;
-    border-right:1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 48px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
     margin-top: 12px;
 }
 
 .li_3:last-child {
     margin-right: 0;
-    border:none;
+    border: none;
 }
-.li_3>div{
-    margin-right:12px;
+
+.li_3>div {
+    margin-right: 12px;
 }
 
 .topTitle {
@@ -155,14 +157,15 @@
 
 .centerBox1 {
     margin-bottom: 10px;
-    height: calc(100% - 32.3% - 10px);
+    height: calc(100% - 33% - 10px);
 }
 
 .mcMap {
     position: relative;
     height: 100%;
 }
-.mcMap>img{
+
+.mcMap>img {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -240,6 +243,32 @@
     margin-bottom: 10px;
     padding: 0;
     height: 125px;
+}
+
+.btn_toggle_pc,
+.btn_toggle_kanban {
+    position: absolute;
+    right: 1rem;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.btn_toggle_pc {
+    background: url("../image/pc.png") top center no-repeat;
+}
+
+.btn_toggle_pc:hover {
+    background: url("../image/pc_hover.png") top center no-repeat;
+}
+
+.btn_toggle_kanban {
+    background: url("../image/kanban.png") top center no-repeat;
+}
+
+.btn_toggle_kanban:hover {
+    background: url("../image/kanban_hover.png") top center no-repeat;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1366px) {

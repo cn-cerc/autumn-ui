@@ -57,6 +57,7 @@ import TPurMC from "./page/TPurMC";
 import TStockMC from "./page/TStockMC";
 import DialogCustomerAddress from "./dialog/CustomerAddressDialog";
 import CustomerAddressDialog from "./dialog/CustomerAddressDialog";
+import FrmCustomerService from "./page/FrmCustomerService";
 
 export default {
     ...diteng,
@@ -116,4 +117,5 @@ export default {
     FrmWagonHome,
     Frm4PLCusManage,
     FrmCarGrab,
+    FrmCustomerService,
 }

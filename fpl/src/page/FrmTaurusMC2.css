@@ -34,6 +34,8 @@
     height: 0;
     flex: 1;
     position: relative;
+    width: 300px;
+    margin: auto;
 }
 
 .mcFlowChart {
@@ -152,7 +154,7 @@
 .receipt_disable>span,
 .control_disable>span,
 .other_disable>span {
-    width: 5em;
+    width: 6em;
     text-align: center;
     display: block;
 }
@@ -198,53 +200,78 @@
 }
 
 .stock1 {
-    left: 23px;
-    top: 15px;
+    left: 4px;
+    top: 16px;
 }
 
 .stock2 {
-    left: 128px;
-    top: 15px;
+    left: 112px;
+    top: 16px;
 }
 
 .stock3 {
-    left: 233px;
-    top: 15px;
+    left: 212px;
+    top: 16px;
 }
 
 .stock4 {
-    left: 23px;
-    top: 100px;
+    left: 4px;
+    top: 102px;
 }
 
 .stock5 {
-    left: 233px;
-    top: 100px;
+    left: 112px;
+    top: 102px;
 }
 
 .stock6 {
-    left: 128px;
-    top: 170px;
+    left: 212px;
+    top: 102px;
 }
 
 .stock7 {
-    left: 23px;
-    top: 260px;
+    left: 4px;
+    top: 188px;
 }
 
 .stock8 {
-    left: 128px;
-    top: 260px;
+    left: 112px;
+    top: 188px;
 }
 
 .stock9 {
-    left: 233px;
-    top: 260px;
+    left: 212px;
+    top: 188px;
 }
 
 .stock10 {
-    left: 128px;
-    top: 355px;
+    left: 4px;
+    top: 269px;
+}
+
+.stock11 {
+    left: 112px;
+    top: 269px;
+}
+
+.stock12 {
+    left: 212px;
+    top: 269px;
+}
+
+.stock13 {
+    left: 4px;
+    top: 356px;
+}
+
+.stock14 {
+    left: 112px;
+    top: 356px;
+}
+
+.stock15 {
+    left: 212px;
+    top: 356px;
 }
 
 @media screen and (min-width: 768px) {

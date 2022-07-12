@@ -3,6 +3,8 @@ import React from "react";
 import styles from "./FrmMaintenanceBook.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import FplPageApi from "./FplPageApi";
+import Introduction from "./Introduction";
 
 type FrmMaintenanceBookTypeProps = {
     dataJson: string,
@@ -14,7 +16,11 @@ type FrmMaintenanceBookTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string
+    introduction: string,
+    topFiveAmountReport: DataSet,
+    settlementType: DataSet,
+    cusRepairingVehicle: DataSet,
+    cusOneMonthReport: DataSet,
 }
 
 export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTypeProps, FrmMaintenanceBookTypeState> {
@@ -45,16 +51,17 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction
+            introduction: this.props.introduction,
+            topFiveAmountReport: new DataSet(),
+            settlementType: new DataSet(),
+            cusRepairingVehicle: new DataSet(),
+            cusOneMonthReport: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -111,7 +118,23 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let settlementType = new DataSet();
+        settlementType = await FplPageApi.getStatisticsByMonth();
+        let topFiveAmountReport = new DataSet();
+        topFiveAmountReport = await FplPageApi.getCusByAmountReport();
+        let cusRepairingVehicle = new DataSet();
+        cusRepairingVehicle = await FplPageApi.getCusByCodeToCountReport();
+        let cusOneMonthReport = new DataSet();
+        cusOneMonthReport = await FplPageApi.getMoreThanOneMonthReport();
+
+        this.setState({
+            settlementType,
+            topFiveAmountReport,
+            cusRepairingVehicle,
+            cusOneMonthReport
+        })
+
         this.initPieChart1();
         this.initPieChart2();
         this.initPieChart3();
@@ -119,13 +142,17 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         this.initFlowChart();
     }
 
+    componentDidMount(): void {
+        this.init();
+    }
+
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.settlementType;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('Name_'),
@@ -143,6 +170,12 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -153,7 +186,6 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -162,6 +194,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -184,13 +217,13 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.cusRepairingVehicle;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('ShortName_'),
+                value: ds.getDouble('maint_count_')
             })
         }
         let option = {
@@ -204,10 +237,15 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -216,6 +254,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -233,14 +272,13 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         //@ts-ignore
         myChart.setOption(option);
     }
-    
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.topFiveAmountReport;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('Name_'),
@@ -258,6 +296,12 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -268,7 +312,6 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -277,6 +320,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -299,12 +343,12 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie4}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.cusOneMonthReport;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
+                name: ds.getString('ShortName_'),
                 value: ds.getDouble('Value_')
             })
         }
@@ -319,10 +363,15 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                // formatter: (name: any) => {
+                //     let singleData = dataArr.filter(function (item: any) {
+                //         return item.name == name
+                //     })
+                //     return name + ' : ' + singleData[0].value;
+                // },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -331,6 +380,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,

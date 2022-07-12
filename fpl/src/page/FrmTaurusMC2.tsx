@@ -3,6 +3,8 @@ import React from "react";
 import styles from "./FrmTaurusMC2.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import FplPageApi from "./FplPageApi";
+import Introduction from "./Introduction";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
@@ -14,7 +16,8 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     linkRow: DataRow,
-    introduction: string
+    introduction: string,
+    vehicleState: DataSet
 }
 
 export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
@@ -45,16 +48,14 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             pieData1,
             pieData2,
             linkRow,
-            introduction: this.props.introduction
+            introduction: this.props.introduction,
+            vehicleState: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+           <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -73,22 +74,22 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                             <div className={`${this.state.linkRow.getBoolean('货主线上委托_Dis') ? styles.register_disable : styles.register} ${styles.stock4}`} onClick={this.linkTo.bind(this, '货主线上委托')}>
                                 <span>货主线上委托</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('货主线下委托_Dis') ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '货主线下委托')}>
+                            <div className={`${this.state.linkRow.getBoolean('货主线下委托_Dis') ? styles.register_disable : styles.register} ${styles.stock6}`} onClick={this.linkTo.bind(this, '货主线下委托')}>
                                 <span>货主线下委托</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('货单管理_Dis') ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '货单管理')}>
+                            <div className={`${this.state.linkRow.getBoolean('货单管理_Dis') ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '货单管理')}>
                                 <span>货单管理</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('自行派车运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock7}`} onClick={this.linkTo.bind(this, '自行派车运单登记')}>
+                            <div className={`${this.state.linkRow.getBoolean('自行派车运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车运单登记')}>
                                 <span>自行派车运单登记</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
+                            <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
                                 <span>委托第三方物流运输</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('网络货运平台撮合_Dis') ? styles.other_disable : styles.other} ${styles.stock9}`} onClick={this.linkTo.bind(this, '网络货运平台撮合')}>
+                            <div className={`${this.state.linkRow.getBoolean('网络货运平台撮合_Dis') ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '网络货运平台撮合')}>
                                 <span>网络货运平台撮合</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('司机端_Dis') ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '司机端')}>
+                            <div className={`${this.state.linkRow.getBoolean('司机端_Dis') ? styles.other_disable : styles.other} ${styles.stock14}`} onClick={this.linkTo.bind(this, '司机端')}>
                                 <span>司机端</span>
                             </div>
                         </div>
@@ -97,16 +98,16 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.mcTitle}>车辆状态统计</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.mcTitle}>货单统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图</div>
+                        <div className={styles.mcTitle}>货运车辆统计</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -114,11 +115,21 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let vehicleState = new DataSet();
+        vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+
+        this.setState({
+            vehicleState
+        })
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
+    }
+
+    componentDidMount(): void {
+        this.init();
     }
 
     initBarChart() {
@@ -186,15 +197,13 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.vehicleState;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
+            { name: '空车', value: ds.getDouble('carry_sum_') },
+            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -206,6 +215,12 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -216,7 +231,6 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -225,6 +239,7 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -270,7 +285,6 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -279,6 +293,7 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -306,62 +321,62 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             linesData: [
                 {
                     coords: [
-                        [78, 40],
-                        [143, 40],
+                        [75, 35],
+                        [143, 35],
                     ]
                 }, {
                     coords: [
-                        [183, 40],
-                        [248, 40],
+                        [190, 35],
+                        [256, 35],
                     ]
                 }, {
                     coords: [
-                        [58, 175],
-                        [58, 190],
-                        [145, 190]
+                        [50, 160],
+                        [50, 208],
+                        [143, 208]
                     ]
                 }, {
                     coords: [
-                        [268, 175],
-                        [268, 190],
-                        [183, 190]
+                        [278, 160],
+                        [278, 208],
+                        [190, 208]
                     ]
                 }, {
                     coords: [
-                        [164, 226],
-                        [164, 265]
+                        [168, 242],
+                        [168, 271]
                     ]
                 }, {
                     coords: [
-                        [164, 245],
-                        [60, 245],
-                        [60, 265]
+                        [168, 250],
+                        [50, 250],
+                        [50, 271]
                     ]
                 }, {
                     coords: [
-                        [164, 245],
-                        [268, 245],
-                        [268, 265]
+                        [168, 250],
+                        [278, 250],
+                        [278, 271]
                     ]
                 },
                 {
                     coords: [ //自行派车运单登记 往右下线条
-                        [60, 333],
-                        [60, 343],
-                        [164, 343]
+                        [50, 333],
+                        [50, 346],
+                        [168, 346]
                     ]
                 },
                 {
                     coords: [ //网络货运平台撮合 往左下线条
-                        [268, 333],
-                        [268, 343],
-                        [164, 343],
+                        [278, 333],
+                        [278, 346],
+                        [168, 346],
                     ]
                 },
                 {
                     coords: [
-                        [164, 335],
-                        [164, 360]
+                        [168, 335],
+                        [168, 360]
                     ]
                 }
             ]

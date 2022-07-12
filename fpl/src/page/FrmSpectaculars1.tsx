@@ -13,6 +13,7 @@ type FrmSpectaculars1TypeState = {
     pieData2: DataSet,
     pieData3: DataSet,
     pieData4: DataSet,
+    toggle: number
 }
 
 export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -45,12 +46,14 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         pieData4.append().setValue('Value_', 11).setValue('Name_', '18~30');
         pieData4.append().setValue('Value_', 50).setValue('Name_', '31~50');
         pieData4.append().setValue('Value_', 13).setValue('Name_', '50~65');
+        let toggle = location.search.split('=')[1] == 'pc' ? 1 : 2;
         this.state = {
             lineData,
             pieData1,
             pieData2,
             pieData3,
-            pieData4
+            pieData4,
+            toggle
         }
     }
 
@@ -60,6 +63,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                 <p>
                     <span>营运数据中心</span>
                     <img src="images/MCimg/title_line.png" alt="" />
+                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_pc : styles.btn_toggle_kanban}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
                 <div>
                     <ul className={styles.top_list}>
@@ -146,11 +150,15 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        05-06 09:53 <span className={styles.colorSkin}>闽ALB001</span> 行驶超速
+                                        05-06 09:53 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 20:39 <span className={styles.colorSkin}>浙AW22C6</span> 行驶超速
+                                        04-12 20:39 <span className={styles.colorSkin}>浙AWC226</span> 行驶超速
+                                    </li>
+                                    <li>
+                                        <i className={styles.rSkin}></i>
+                                        06-25 11:26 <span className={styles.colorSkin}>赣CHQ813</span> 行驶超速
                                     </li>
                                 </ul>
                             </div>
@@ -541,5 +549,19 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
 
         //@ts-ignore
         myChart.setOption(option);
+    }
+
+    toggleFun() {
+        if (this.state.toggle == 1) {
+            location.href = `${location.origin}${location.pathname}?device=kanban`;
+            this.setState({
+                toggle: 2
+            })
+        } else {
+            location.href = `${location.origin}${location.pathname}?device=pc`;
+            this.setState({
+                toggle: 1
+            })
+        }
     }
 }

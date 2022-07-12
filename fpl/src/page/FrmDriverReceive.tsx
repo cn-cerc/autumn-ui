@@ -57,21 +57,27 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <ul>
                             <li>
                                 <p>全部订单</p>
-                                <div>
+                                <div className={styles.links_skin} onClick={()=>{
+                                    location.href = `FrmDriverArrangeCar`;
+                                }}>
                                     <span>{this.state.orderData.size}</span>
                                     <span>单</span>
                                 </div>
                             </li>
                             <li>
                                 <p>未接订单</p>
-                                <div>
+                                <div className={styles.links_skin} onClick={()=>{
+                                    location.href = `FrmDriverArrangeCar.list`;
+                                }}>
                                     <span>{this.state.notData.size}</span>
                                     <span>单</span>
                                 </div>
                             </li>
                             <li>
                                 <p>已接订单</p>
-                                <div>
+                                <div className={styles.links_skin} onClick={()=>{
+                                    location.href = `#`;
+                                }}>
                                     <span>{this.state.receivedData.size}</span>
                                     <span>单</span>
                                 </div>
@@ -149,6 +155,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <Column code='depart_' width='20' name='起始点'></Column>
                         <Column code='destination_' width='20' name='目的地'></Column>
                         <Column code='code_' width='20' name='货物'></Column>
+                        <Column code='num_' width='20' name='数量'></Column>
                         <Column code='amount_' width='20' name='运费'></Column>
                         <Column code='Opera_' width='8' name='操作' customText={(row: DataRow) => {
                             return <span className={styles.opera} onClick={this.handleSelect.bind(this, row)}>接单</span>

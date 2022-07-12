@@ -3,6 +3,8 @@ import React from "react";
 import styles from "./FrmMaintenanceAR.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import FplPageApi from "./FplPageApi";
+import Introduction from "./Introduction";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
@@ -10,54 +12,30 @@ type FrmTaurusMCTypeProps = {
 }
 
 type FrmTaurusMCTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet,
-    pieData2: DataSet,
     linkRow: DataRow,
-    introduction: string
+    introduction: string,
+    settlementStatus: DataSet,
+    monthlyPaymentData: DataSet,
+    yearRepairBill: DataSet,
 }
 
 export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
     constructor(props: FrmTaurusMCTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let linkRow = new DataRow();
         linkRow.setJson(this.props.dataJson);
-        lineData.append().setValue('Value_', 150).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 250).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 180).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 190).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 250).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 200).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 19).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '1');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '2');
-        pieData2.append().setValue('Value_', 19).setValue('Name_', '3');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '4');
-        pieData2.append().setValue('Value_', 35).setValue('Name_', '5');
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '6');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '7');
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             linkRow,
-            introduction: this.props.introduction
+            introduction: this.props.introduction,
+            settlementStatus: new DataSet(),
+            monthlyPaymentData: new DataSet(),
+            yearRepairBill: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -103,16 +81,16 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.mcTitle}>结算状态</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图</div>
+                            <div className={styles.mcTitle}>月结款数据</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图</div>
+                        <div className={styles.mcTitle}>维修单统计</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -120,29 +98,44 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let settlementStatus = new DataSet();
+        settlementStatus = await FplPageApi.getAccountReport();
+        let monthlyPaymentData = new DataSet();
+        monthlyPaymentData = await FplPageApi.getMaintainByMonth();
+        let yearRepairBill = new DataSet();
+        yearRepairBill = await FplPageApi.getMaintainByMonthsReport();
+
+        this.setState({
+            settlementStatus,
+            monthlyPaymentData,
+            yearRepairBill,
+        });
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
+    componentDidMount(): void {
+        this.init();
+    }
+
     initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
+        let xArr = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
+        ds = this.state.yearRepairBill;
+        let sData: any = [];
         ds.first();
-        let xArr = [];
-        let sData = [];
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            sData.push(ds.getDouble('repair_order_total_'));
         }
         let option = {
             xAxis: {
                 type: 'category',
-                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
+                data: xArr,
                 axisLabel: {
                     color: '#333333'
                 },
@@ -160,7 +153,7 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
             },
             tooltip: {},
             grid: {
-                top: 15,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -170,7 +163,6 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -192,15 +184,14 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.settlementStatus;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr = [{ name: '待接收', value: ds.getDouble('to_be_received_total_') },
+        { name: '已清款', value: ds.getDouble('requested_total') },
+        { name: '付款中', value: ds.getDouble('paying_total_') },
+        { name: '已付款', value: ds.getDouble('paid_total_') }
+        ];
+
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -212,6 +203,12 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -222,7 +219,6 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -231,6 +227,7 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -253,15 +250,11 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.monthlyPaymentData;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr = [{ name: '已生成', value: ds.getDouble('paid_total_') },
+        { name: '未生成', value: ds.getDouble('no_paid_total_') }
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -273,10 +266,15 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -285,6 +283,7 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,

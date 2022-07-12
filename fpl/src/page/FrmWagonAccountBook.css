@@ -23,6 +23,7 @@
 
 .content>ul>li {
     background-color: #fff;
+    position: relative;
 }
 
 .content>ul>li:nth-child(3n+1) {
@@ -76,6 +77,16 @@
 .chart {
     height: 0;
     flex: 1;
+}
+
+.btn_tixian{
+    position: absolute;
+    right: 16px;
+    bottom: 16px;   
+}
+
+.links_skin{
+    cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {

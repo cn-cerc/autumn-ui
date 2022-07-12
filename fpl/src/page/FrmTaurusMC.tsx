@@ -2,6 +2,8 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./FrmTaurusMC.css";
 import * as echarts from "echarts";
+import FplPageApi from "./FplPageApi";
+import Introduction from "./Introduction";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
@@ -13,7 +15,8 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     linkRow: DataRow,
-    introduction: string
+    introduction: string,
+    vehicleState: DataSet
 }
 
 export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9']
@@ -46,16 +49,14 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             pieData1,
             pieData2,
             linkRow,
-            introduction: this.props.introduction
+            introduction: this.props.introduction,
+            vehicleState: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -93,18 +94,18 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                <div className={styles.mcPieChart}>
+                    <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>车辆状态统计</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>货单统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
+                        <div className={styles.mcTitle}>货运车辆统计</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -112,11 +113,21 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let vehicleState = new DataSet();
+        vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+
+        this.setState({
+            vehicleState
+        })
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
+    }
+
+    componentDidMount(): void {
+        this.init();
     }
 
     initBarChart() {
@@ -184,15 +195,13 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.vehicleState;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
+            { name: '空车', value: ds.getDouble('carry_sum_') },
+            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -204,6 +213,12 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -214,7 +229,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -223,6 +237,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -268,7 +283,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -277,6 +291,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,

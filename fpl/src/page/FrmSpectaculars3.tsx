@@ -11,6 +11,7 @@ type FrmSpectaculars3TypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
+    toggle: number
 }
 
 export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypeProps, FrmSpectaculars3TypeState> {
@@ -34,10 +35,12 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
+        let toggle = location.search.split('=')[1] == 'pc' ? 1 : 2;
         this.state = {
             lineData,
             pieData1,
             pieData2,
+            toggle,
         }
     }
 
@@ -47,6 +50,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                 <p>
                     <span>数据总览</span>
                     <img src="images/MCimg/title_line.png" alt="" />
+                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_pc : styles.btn_toggle_kanban}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
                 <div>
                     <ul className={styles.top_list}>
@@ -487,5 +491,19 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
         //@ts-ignore
         myChart.setOption(option);
+    }
+
+    toggleFun() {
+        if (this.state.toggle == 1) {
+            location.href = `${location.origin}${location.pathname}?device=kanban`;
+            this.setState({
+                toggle: 2
+            })
+        } else {
+            location.href = `${location.origin}${location.pathname}?device=pc`;
+            this.setState({
+                toggle: 1
+            })
+        }
     }
 }

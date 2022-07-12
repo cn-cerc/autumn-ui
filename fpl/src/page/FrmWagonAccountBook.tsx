@@ -8,12 +8,14 @@ import UIModuleMenu from "./UIModuleMenu";
 
 type FrmWagonAccountBookTypeProps = {
     introduction: string,
-    dataJson: string
+    dataJson: string,
+    btnArr: string,
 }
 
 type FrmWagonAccountBookTypeState = {
     data: DataSet,
-    moduleData: DataSet
+    moduleData: DataSet,
+    btnUrl: DataRow,
 }
 
 export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookTypeProps, FrmWagonAccountBookTypeState> {
@@ -21,9 +23,12 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         super(props);
         let moduleData = new DataSet();
         moduleData.setJson(this.props.dataJson);
+        let btnUrl = new DataRow();
+        btnUrl.setJson(this.props.btnArr);
         this.state = {
             data: new DataSet(),
-            moduleData
+            moduleData,
+            btnUrl,
         }
     }
 
@@ -36,22 +41,22 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                     <ul>
                         <li>
                             <p>钱包余额</p>
-                            <div>
+                            <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '钱包余额')}>
                                 <span>2099.00</span>
                                 <span>元</span>
                             </div>
-                            {this.isPhone ? <button className={styles.btn_tixian}>提现</button> : ''}
+                            <button className={styles.btn_tixian} onClick={this.gotoFun.bind(this, '提现')}>提现</button>
                         </li>
                         <li>
                             <p>支出</p>
-                            <div>
+                            <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '支出')}>
                                 <span>2099.00</span>
                                 <span>元</span>
                             </div>
                         </li>
                         <li>
                             <p>收入</p>
-                            <div>
+                            <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '收入')}>
                                 <span>2099.00</span>
                                 <span>元</span>
                             </div>
@@ -91,6 +96,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
     }
 
     componentDidMount(): void {
+        console.log(this.state.btnUrl)
         this.init();
     }
 
@@ -188,5 +194,9 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         };
         //@ts-ignore
         myChart.setOption(option);
+    }
+
+    gotoFun(name: string) {
+        location.href = this.state.btnUrl.getString(`${name}_URL`);
     }
 }
