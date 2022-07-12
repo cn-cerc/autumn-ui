@@ -76,6 +76,7 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         let code = document.getElementById("code_") as HTMLInputElement;
         let total = document.getElementById("total_") as HTMLInputElement;
+        let mainUnit = document.getElementById("main_unit_") as HTMLInputElement;
         let unitPrice = document.getElementById("unit_price_") as HTMLInputElement;
         let deputyUnit = document.getElementById("deputy_unit_") as HTMLInputElement;
         let deputyUnitPrice = document.getElementById("deputy_unit_price_") as HTMLInputElement;
@@ -86,6 +87,7 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         input2.value = dataRow.getString('code_');
         code.value = dataRow.getString('code_');
         total.value = dataRow.getString('total_');
+        mainUnit.value=dataRow.getValue("main_unit_");
         unitPrice.value = dataRow.getString('unit_price_');
         deputyUnit.value = dataRow.getString('deputy_unit_');
         deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
