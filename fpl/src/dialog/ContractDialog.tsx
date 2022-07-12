@@ -43,11 +43,11 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
         return (
             <div role="content" className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataField="contract_no_" dataName="合同名称" autoFocus></DBEdit>
+                    <DBEdit dataField="contract_type_name_" dataName="合同名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt/>
-                    <Column code="contract_no_" name="合同名称" width="100"></Column>
+                    <Column code="contract_type_name_" name="合同名称" width="100"></Column>
                     <Column code="party_a_name_" name="甲方公司" width="100"></Column>
                     <Column code="party_b_name_" name="乙方公司" width="100"></Column>
                     <Column code="contract_amount_" name="合同金额" width="50"></Column>
