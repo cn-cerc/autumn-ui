@@ -125,9 +125,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             let row = new DataRow();
             row.setValue('FromUser_', this.props.fromUser);
             contactInfo = await PageApi.fromDetail(row);
-            if (this.closeServerFun(contactInfo.state)) {
-                return;
-            }
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
