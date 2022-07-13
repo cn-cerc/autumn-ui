@@ -361,9 +361,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     timeText = `${hour}:${minut}`;
                 }
                 let num = i;
-                let unread = 0;
+                let unread =  messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
                 if (!this.state.msgTypeStuteFlag) {
-                    unread = messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
                     if (unread == 0) {
                         continue;
                     }
