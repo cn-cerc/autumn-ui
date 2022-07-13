@@ -22,7 +22,6 @@ type FrmMaintenanceCusTypeState = {
 export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeProps, FrmMaintenanceCusTypeState> {
     constructor(props: FrmMaintenanceCusTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let dataJson = new DataRow();
         dataJson.setJson(this.props.dataJson);
         this.state = {
@@ -105,7 +104,7 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
 
     async init() {
         let settlementType = new DataSet();
-        settlementType = await FplPageApi.getStatisticsByMonth();
+        settlementType = await FplPageApi.getCusByMonthReport();
         let topFiveAmountReport = new DataSet();
         topFiveAmountReport = await FplPageApi.getCusByAmountReport();
         let cusRepairingVehicle = new DataSet();
@@ -137,13 +136,11 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         let ds = new DataSet();
         ds = this.state.settlementType;
         ds.first();
-        let dataArr: any = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '月结', value: ds.getDouble('monthly_total_') },
+            { name: '现结', value: ds.getDouble('cash_total_') }
+        ];
+        
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -196,6 +193,10 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
@@ -208,7 +209,7 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('ShortName_'),
-                value: ds.getDouble('maint_count_')
+                value: ds.getDouble('maint_total_')
             })
         }
         let option = {
@@ -256,7 +257,12 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
+
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
@@ -266,8 +272,8 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('ShortName_'),
+                value: ds.getDouble('amount_total_')
             })
         }
         let option = {
@@ -322,6 +328,10 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart4() {
@@ -334,7 +344,6 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('ShortName_'),
-                value: ds.getDouble('Value_')
             })
         }
         let option = {
@@ -348,12 +357,6 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
-                // formatter: (name: any) => {
-                //     let singleData = dataArr.filter(function (item: any) {
-                //         return item.name == name
-                //     })
-                //     return name + ' : ' + singleData[0].value;
-                // },
             },
             series: [
                 {
@@ -382,6 +385,10 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {

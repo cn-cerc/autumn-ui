@@ -184,10 +184,11 @@ export default class FrmMaintenanceAR extends WebControl<FrmMaintenanceARTypePro
         let ds = new DataSet();
         ds = this.state.settlementStatus;
         ds.first();
-        let dataArr = [{ name: '待接收', value: ds.getDouble('to_be_received_total_') },
-        { name: '已清款', value: ds.getDouble('requested_total') },
-        { name: '付款中', value: ds.getDouble('paying_total_') },
-        { name: '已付款', value: ds.getDouble('paid_total_') }
+        let dataArr = [
+            { name: '待接收', value: ds.getDouble('to_be_received_total_') },
+            { name: '已清款', value: ds.getDouble('requested_total') },
+            { name: '付款中', value: ds.getDouble('paying_total_') },
+            { name: '已付款', value: ds.getDouble('paid_total_') }
         ];
 
         let option = {
@@ -242,6 +243,10 @@ export default class FrmMaintenanceAR extends WebControl<FrmMaintenanceARTypePro
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
@@ -250,8 +255,9 @@ export default class FrmMaintenanceAR extends WebControl<FrmMaintenanceARTypePro
         let ds = new DataSet();
         ds = this.state.monthlyPaymentData;
         ds.first();
-        let dataArr = [{ name: '已生成', value: ds.getDouble('paid_total_') },
-        { name: '未生成', value: ds.getDouble('no_paid_total_') }
+        let dataArr = [
+            { name: '已生成', value: ds.getDouble('paid_total_') },
+            { name: '未生成', value: ds.getDouble('no_paid_total_') }
         ];
         let option = {
             tooltip: {
@@ -298,6 +304,10 @@ export default class FrmMaintenanceAR extends WebControl<FrmMaintenanceARTypePro
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {

@@ -11,11 +11,10 @@ type FrmTaurusMCTypeProps = {
 }
 
 type FrmTaurusMCTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet,
-    pieData2: DataSet,
     linkRow: DataRow,
-    vehicleState: DataSet
+    vehicleState: DataSet,
+    invoiceStatistics: DataSet,
+    waybillDtatistics: DataSet,
 }
 
 export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9']
@@ -23,32 +22,13 @@ export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E680
 export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
     constructor(props: FrmTaurusMCTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let linkRow = new DataRow();
         linkRow.setJson(this.props.dataJson);
-        lineData.append().setValue('Value_', 300).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 285).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 220).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 360).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 28).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 12).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 8).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 12).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '重型卡车');
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             linkRow,
             vehicleState: new DataSet(),
+            invoiceStatistics: new DataSet(),
+            waybillDtatistics: new DataSet(),
         }
     }
 
@@ -114,9 +94,15 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     async init() {
         let vehicleState = new DataSet();
         vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+        let invoiceStatistics = new DataSet();
+        invoiceStatistics = await FplPageApi.queryCargoReport();
+        let waybillDtatistics = new DataSet();
+        waybillDtatistics = await FplPageApi.getWaybillDtatistics();
 
         this.setState({
-            vehicleState
+            vehicleState,
+            invoiceStatistics,
+            waybillDtatistics
         })
         this.initBarChart();
         this.initPieChart1();
@@ -132,18 +118,26 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
+        ds = this.state.waybillDtatistics;
         ds.first();
-        let xArr = [];
-        let sData = [];
-        while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
-        }
+        let xArr = [
+            '未发货',
+            '已发货',
+            '已卸货',
+            '审核中',
+            '已结案'
+        ];
+        let sData = [
+            ds.getDouble('notYetShipped'),
+            ds.getDouble('hasBeenShipped'),
+            ds.getDouble('cargoUnloaded'),
+            ds.getDouble('checkPending'),
+            ds.getDouble('caseClosed'),
+        ];
         let option = {
             xAxis: {
                 type: 'category',
-                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
+                data: xArr,
                 axisLabel: {
                     color: '#333333'
                 },
@@ -161,7 +155,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             },
             tooltip: {},
             grid: {
-                top: 15,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -171,10 +165,10 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
-                        color: MCChartColors[0]
+                        color: MCChartColors[0],
                     },
+                    barWidth: 60,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -258,15 +252,15 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.invoiceStatistics;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            // {name:'总货单数',value:ds.getDouble('sum')},
+            { name: '未开始', value: ds.getDouble('status1') },
+            { name: '执行中', value: ds.getDouble('status2') },
+            { name: '完成', value: ds.getDouble('status3') }
+        ];
+
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -278,6 +272,12 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
@@ -285,16 +285,18 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
+                    zLevel: 1,
                     label: {
                         show: false,
-                        position: 'center'
+                        position: 'center',
+                        backgroudColor: '#fff',
                     },
                     color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
                             fontSize: '20',
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
                         }
                     },
                     labelLine: {
@@ -434,6 +436,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 data: charts.linesData
             }]
         };
+
         //@ts-ignore
         myChart.setOption(option);
     }

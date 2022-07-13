@@ -4,6 +4,7 @@ import styles from "./FrmCarManagerMC.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 import Introduction from "./Introduction";
+import FplPageApi from "./FplPageApi";
 
 type FrmCarManagerMCTypeProps = {
     dataJson: string,
@@ -15,6 +16,9 @@ type FrmCarManagerMCTypeState = {
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
+    vehicleState: DataSet,
+    fleetVehicleType: DataSet,
+    fleetVehiclesSummary: DataSet,
 }
 //车辆管理控制台 货主
 
@@ -46,6 +50,9 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
             pieData1,
             pieData2,
             dataJson: dataJson,
+            vehicleState: new DataSet(),
+            fleetVehicleType: new DataSet(),
+            fleetVehiclesSummary: new DataSet(),
         }
     }
 
@@ -91,16 +98,16 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>车辆状态统计</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>车队与车辆类型（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>比例图（对接中）</div>
+                        <div className={styles.mcTitle}>车队与车辆汇总（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -108,26 +115,41 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let vehicleState = new DataSet();
+        vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+        //未对接API 
+        // let fleetVehicleType = new DataSet();
+        // fleetVehicleType = await FplPageApi.getMoreThanOneWeekReport();
+        // let fleetVehiclesSummary = new DataSet();
+        // fleetVehiclesSummary = await FplPageApi.getMoreThanOneWeekReport();
+        this.setState({
+            vehicleState,
+            // fleetVehicleType,
+            // fleetVehiclesSummary
+        })
+
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
+    componentDidMount(): void {
+        this.init();
+    }
+
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.vehicleState;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
+            { name: '空车', value: ds.getDouble('carry_sum_') },
+            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -139,6 +161,12 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -157,6 +185,7 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -173,12 +202,17 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
+        // ds = this.state.fleetVehicleType;
         ds.appendDataSet(this.state.pieData2);
         ds.first();
         let dataArr = [];
@@ -210,6 +244,7 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -232,6 +267,7 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
         let barChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
         let ds = new DataSet();
+        // ds = this.state.fleetVehiclesSummary;
         ds.appendDataSet(this.state.lineData);
         ds.first();
         let dataArr = [],
@@ -242,7 +278,7 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
         }
         let option = {
             grid: {
-                top: 10,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -258,7 +294,18 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
             series: [
                 {
                     data: dataArr,
-                    type: 'bar'
+                    type: 'bar',
+                    itemStyle: {
+                        color: MCChartColors[0],
+                    },
+                    barWidth: 60,
+                    lineStyle: {
+                        color: MCChartColors[0]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
                 }
             ]
         };
