@@ -133,15 +133,13 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.vehicleState;
         ds.first();
-        let dataArr: any = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
+            { name: '空车', value: ds.getDouble('carry_sum_') },
+            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -194,6 +192,10 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {

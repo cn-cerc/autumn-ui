@@ -168,7 +168,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth:60,
+                    barWidth: 60,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -436,6 +436,9 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 data: charts.linesData
             }]
         };
+
+        //@ts-ignore
+        myChart.setOption(option);
     }
 
     linkTo(name: string) {

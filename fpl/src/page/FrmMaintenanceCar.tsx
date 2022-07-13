@@ -17,6 +17,8 @@ type FrmMaintenanceCarTypeState = {
     pieData2: DataSet,
     dataJson: DataRow,
     vehicleState: DataSet,
+    fleetVehicleType: DataSet,
+    fleetVehiclesSummary: DataSet,
 }
 //车辆管理控制台 一汽建州修理厂
 
@@ -49,6 +51,8 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
             pieData2,
             dataJson: dataJson,
             vehicleState: new DataSet(),
+            fleetVehicleType: new DataSet(),
+            fleetVehiclesSummary: new DataSet(),
         }
     }
 
@@ -111,9 +115,16 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
     async init() {
         let vehicleState = new DataSet();
         vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+        // let fleetVehicleType = new DataSet();
+        // fleetVehicleType = await FplPageApi.getMoreThanOneWeekReport();
+        // let fleetVehiclesSummary = new DataSet();
+        // fleetVehiclesSummary = await FplPageApi.getMoreThanOneWeekReport();
+
 
         this.setState({
-            vehicleState
+            vehicleState,
+            // fleetVehicleType,
+            // fleetVehiclesSummary
         })
 
         this.initBarChart();
@@ -199,6 +210,7 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
+        // ds = this.state.fleetVehicleType;
         ds.appendDataSet(this.state.pieData2);
         ds.first();
         let dataArr = [];
@@ -257,7 +269,8 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         let barChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
+        // ds = this.state.fleetVehiclesSummary;
+        // ds.appendDataSet(this.state.lineData);
         ds.first();
         let dataArr = [],
             nameArr = [];

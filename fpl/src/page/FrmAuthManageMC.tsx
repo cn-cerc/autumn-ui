@@ -12,9 +12,6 @@ type FrmAuthManageMCTypeProps = {
 }
 
 type FrmAuthManageMCTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataJson: DataRow,
     DriverStatistics: DataSet,
     CorpStatistics: DataSet,
@@ -24,30 +21,9 @@ type FrmAuthManageMCTypeState = {
 export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
     constructor(props: FrmAuthManageMCTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
             DriverStatistics: new DataSet(),
             CorpStatistics: new DataSet(),
@@ -163,9 +139,8 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                     color: '#333333'
                 }
             },
-            tooltip: {},
             grid: {
-                top: 15,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -264,8 +239,8 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         ds = this.state.DriverStatistics;
         ds.first();
         let dataArr: any = [
-            { name: '未审核', value: ds.getString('未审核') },
-            { name: '已审核', value: ds.getString('已审核') },
+            { name: '未审核', value: ds.getDouble('未审核') },
+            { name: '已审核', value: ds.getDouble('已审核') },
         ];
         let option = {
             tooltip: {
