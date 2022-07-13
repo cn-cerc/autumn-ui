@@ -39,8 +39,8 @@ export default class FplPageApi {
     }
 
     /** 客户/维修 档案管理=> 客户总数量、月结客户、现金结算（按月） */
-    static getStatisticsByMonth() {
-        return FplDialogApi.getService(SvrMaintainCusInfo + '.getStatisticsByMonth');
+    static getCusByMonthReport() {
+        return FplDialogApi.getService(SvrMaintainCusInfo + '.getCusByMonthReport');
     }
     /** 客户/维修 档案管理=> 本月维修金额最多客户（前五） */
     static getCusByAmountReport() {
@@ -81,7 +81,7 @@ export default class FplPageApi {
         return FplDialogApi.getService('SvrContract.contractStats');
     }
 
-    
+
     /** 车队与车辆管理/货运管理=> 在途中车辆、空车、待发货 */
     static getMoreThanOneWeekReport() {
         return FplDialogApi.getService('SvrPCarRegistration.getMoreThanOneWeekReport');

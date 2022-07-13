@@ -132,9 +132,9 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         ds = this.state.vehicleState;
         ds.first();
         let dataArr: any = [
-            {name:'在途中',value:ds.getDouble('empty_car_sum_')},
-            {name:'空车',value:ds.getDouble('carry_sum_')},
-            {name:'待发货',value:ds.getDouble('to_be_shipped_sum_')},
+            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
+            { name: '空车', value: ds.getDouble('carry_sum_') },
+            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
         ];
         let option = {
             tooltip: {

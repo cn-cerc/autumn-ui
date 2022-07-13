@@ -295,16 +295,18 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
                     avoidLabelOverlap: false,
+                    zLevel: 1,
                     label: {
                         show: false,
-                        position: 'center'
+                        position: 'center',
+                        backgroudColor: '#fff',
                     },
                     color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
                             fontSize: '20',
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
                         }
                     },
                     labelLine: {
@@ -444,8 +446,6 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 data: charts.linesData
             }]
         };
-        //@ts-ignore
-        myChart.setOption(option);
     }
 
     linkTo(name: string) {
