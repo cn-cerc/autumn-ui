@@ -14,14 +14,11 @@
 }
 
 .content {
-    width: 680px;
-    height: 540px;
     background-color: #fff;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border-radius: 2px;
     display: flex;
     flex-direction: column;
 }
@@ -49,27 +46,19 @@
     display: flex;
 }
 
-.contactList, .right {
-    width: 0;
+.contactList {
     flex: 1;
-    height: 100%;
     overflow: auto;
     position: relative;
-}
-
-.contactList {
-    border-right: 1px solid #d6d6d6;
 }
 
 .contactList>li:first-child {
     padding: 12px 20px 12px;
     position: sticky;
-    top: 0;
     background-color: #fff;
 }
 
 .contactList li {
-    padding: 12px;
     display: flex;
     line-height: 1em;
     cursor: pointer;
@@ -117,38 +106,7 @@
 .right {
     display: flex;
     flex-direction: column;
-    height: 100%;
     font-size: 14px;
-}
-
-.choseBox {
-    padding: 16px;
-    height: 0;
-    flex: 1;
-    overflow: auto;
-    border-bottom: 1px solid #d6d6d6;
-    display: flex;
-    flex-direction: column;
-}
-
-.choseBox>div {
-    line-height: 1em;
-}
-
-.choseBox ul {
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 16px;
-}
-
-.choseBox ul li {
-    margin-right: 8px;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    background-color: #efefef;
-    line-height: 16px;
 }
 
 .btnsBox {
@@ -178,6 +136,7 @@
 .btns button {
     padding: 10px 16px;
     height: auto;
+    line-height: 1em;
 }
 
 .btns button:nth-child(1) {
@@ -199,4 +158,96 @@
     font-size: 14px;
     line-height: 14px;
     justify-content: center;
+}
+
+@media screen and (min-width: 768px) {
+    .content {
+        width: 680px;
+        height: 540px;
+        border-radius: 2px;
+    }
+
+    .contactList {
+        border-right: 1px solid #d6d6d6;
+    }
+    
+    .right {
+        width: 0;
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+        position: relative;
+    }
+
+    .right {
+        height: 100%;
+    }
+
+    .contactList>li:first-child {
+        top: 0;
+    }
+
+    .contactList {
+        width: 0;
+        height: 100%;
+    }
+
+    .contactList li {
+        padding: 12px;
+    }
+
+    .choseBox {
+        padding: 16px;
+        height: 0;
+        flex: 1;
+        overflow: auto;
+        border-bottom: 1px solid #d6d6d6;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .choseBox>div {
+        line-height: 1em;
+    }
+    
+    .choseBox ul {
+        display: flex;
+        flex-wrap: wrap;
+        padding-top: 16px;
+    }
+    
+    .choseBox ul li {
+        margin-right: 8px;
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        background-color: #efefef;
+        line-height: 16px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .content {
+        width: 100%;
+        height: 100%;
+    }
+
+    .mainBox {
+        flex-direction: column;
+    }
+
+    .contactList {
+        width: 100%;
+        height: 0;
+        border-bottom: 1px solid #d6d6d6;
+    }
+
+    .contactList>li:first-child {
+        top: -1px;
+    }
+
+    .contactList li {
+        padding: .5rem 1rem .5rem 1rem;
+    }
 }

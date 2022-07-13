@@ -112,17 +112,17 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             document.querySelectorAll('.quickReply').forEach((dom) => {
                 dom.addEventListener('click', this.quicReplySend.bind(this))
             })
-            document.addEventListener('click', () => {
-                this.setState({
-                    opeartes: {
-                        showOperate: false,
-                        index: -1,
-                        x: 0,
-                        y: 0
-                    }
-                })
-            })
         }
+        document.addEventListener('click', () => {
+            this.setState({
+                opeartes: {
+                    showOperate: false,
+                    index: -1,
+                    x: 0,
+                    y: 0
+                }
+            })
+        })
     }
 
     changeRemark() {
@@ -423,6 +423,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         e.preventDefault();
         let header: HTMLHeadElement = document.querySelector('header.page-header');
         let y = e.clientY - header.offsetHeight;
+        let height = this.isPhone ? 106 :  76;
+        if(e.clientY + height > document.body.offsetHeight)
+            y = y - height;
         console.log(num)
         this.setState({
             opeartes: {
@@ -543,6 +546,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     getOperateBox() {
         if (this.state.opeartes.showOperate)
             return <ul className={styles.opearteBox} style={{ 'top': `${this.state.opeartes.y}px`, 'left': `${this.state.opeartes.x}px` }}>
+                {this.isPhone ? <li onClick={() => this.setState({ showCreate: true })}>创建群组</li> : ''}
                 <li onClick={this.cleanUnread.bind(this)}>清除未读</li>
                 <li onClick={this.refresh.bind(this)}>刷新</li>
             </ul>
@@ -595,8 +599,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 点击联系人触发的事件
     async handleClick(date: string, id: string) {
-        if (this.state.currentUserId == id)
-            return;
         this.removeTimer();
         let messageData = this.getMessageDataByCode(id);
         if (!this.isPhone) {

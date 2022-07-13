@@ -110,15 +110,17 @@ export default class CreateGroupDialog extends WebControl<CreateGroupDialogTypeP
 
     // 获取选中联系人结构
     getChoseBox() {
-        let list = this.state.userDataArr.map((row, index) => {
-            return <li key={`chose${index}`}>
-                <div>{row.getString('name_')}</div>
-            </li>
-        })
-        return <div className={styles.choseBox}>
-            <div>已选择</div>
-            <ul className={styles.choseList}>{list}</ul>
-        </div>
+        if(!this.isPhone) {
+            let list = this.state.userDataArr.map((row, index) => {
+                return <li key={`chose${index}`}>
+                    <div>{row.getString('name_')}</div>
+                </li>
+            })
+            return <div className={styles.choseBox}>
+                <div>已选择</div>
+                <ul className={styles.choseList}>{list}</ul>
+            </div>
+        }
     }
 
     // 获取群名称以及操作按钮
