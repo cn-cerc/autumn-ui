@@ -118,6 +118,7 @@ export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps
     async init() {
         let vehicleState = new DataSet();
         vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+        //未对接API 
         // let fleetVehicleType = new DataSet();
         // fleetVehicleType = await FplPageApi.getMoreThanOneWeekReport();
         // let fleetVehiclesSummary = new DataSet();
