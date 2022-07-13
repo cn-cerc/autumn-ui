@@ -1,4 +1,4 @@
-import { DataRow } from "autumn-ui";
+import { DataRow, WebControl } from "autumn-ui";
 import React from "react";
 import { showMsg } from "../tool/Summer";
 import styles from "./Message.css"
@@ -20,7 +20,7 @@ export type messageTypeProps = {
     reloadMessage?: Function
 }
 
-export default abstract class Message<T extends messageTypeProps = messageTypeProps, S extends messageTypeState = messageTypeState> extends React.Component<T, S> {
+export default abstract class Message<T extends messageTypeProps = messageTypeProps, S extends messageTypeState = messageTypeState> extends WebControl<T, S> {
     state = {
         showReport: false
     } as S
