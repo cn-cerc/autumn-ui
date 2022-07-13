@@ -673,6 +673,15 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let ds = await PageApi.replyImageMessage(formData);
         if (ds.state > 0) {
             this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            messageData.messageText = '';
+            messageData.fromBottom = 0;
+            let messageDataList = await this.getContactData();
+            this.setState({
+                messageDataList,
+                currentUserId: messageData.fromUser
+            }, () => {
+                this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            })
         } else
             showMsg(ds.message);
     }
