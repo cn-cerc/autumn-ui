@@ -39,6 +39,10 @@
     text-overflow: ellipsis;
     color: #333;
     font-weight: 400;
+    padding-right: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .contactTitle>span:nth-child(2) {
@@ -69,6 +73,17 @@
     color: #000000;
 }
 
+.messageTitle>div {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.messageTitle>div>span {
+    padding-left: 1rem;
+}
+
 .messageList {
     height: 0;
     flex: 1;
@@ -91,6 +106,20 @@
 
 .replyBox>textarea::placeholder {
     color: #ccc;
+}
+
+.replyBox>.statusBar {
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 0 1rem 0;
+}
+
+.statu img {
+    cursor: pointer;
+}
+
+.statu>input {
+    display: none;
 }
 
 .replyBox>div {
@@ -455,8 +484,12 @@
 
     .messageTitle {
         height: 56px;
-        padding-left: 24px;
+        padding: 0 24px 0 16px;
         font-size: 18px;
+    }
+
+    .messageTitle>div>img {
+        height: 20px;
     }
 
     .messageList {
@@ -468,7 +501,7 @@
     }
 
     .replyBox {
-        padding: 24px 32px 0 32px;
+        padding: 24px 24px 0 24px;
         border-radius: 0 !important;
     }
 

@@ -12,6 +12,7 @@ import SubscribeMessage from "./SubscribeMessage";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
 import AcceptMessage from "./AcceptMessage";
+import ImageMessage from "./ImageMessage";
 
 type FrmMessageDetailsTypeProps = {
     fromUser: string,
@@ -223,7 +224,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         ds.first();
         while (ds.fetch()) {
             let siteR = false, systemMsg = false, msgStatus = ds.getString('Status_');
-            let name = this.props.name;
+            let name = ds.getString('Name_') || this.props.name;
             if (ds.getString('FromUser_') == this.props.userCode) {
                 siteR = true;
                 name = this.props.userName;
@@ -252,6 +253,10 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     break;
                 case 'MVAcceptMessage':
                     messageName = AcceptMessage;
+                    break;
+                // 图片类消息
+                case 'MVImage':
+                    messageName = ImageMessage;
                     break;
                 default:
                     messageName = DefaultMessage;
