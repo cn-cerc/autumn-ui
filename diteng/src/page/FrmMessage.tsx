@@ -1,7 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
 import CreateGroupDialog from "../dialog/CreateGroupDialog";
-import DialogDOM from "../dialog/DialogDOM";
 import ImageConfig from "../ImageConfig";
 import StaticFile from "../StaticFile";
 import { showMsg } from "../tool/Summer";
@@ -32,7 +31,9 @@ type FrmMessageTypeState = {
     showMessage: boolean,
     quicReplyList: Array<{ text: string, uid: string }>
     msgTypeStuteFlag: boolean,
-    uploadImage: Blob | ''
+    uploadImage: Blob | '',
+    opeartes: opeartes,
+    showCreate: boolean
 }
 
 type messageDetail = {
@@ -49,6 +50,13 @@ type messageDetail = {
     remarkText: string,
     remarkText_: string
 };
+
+type opeartes = {
+    showOperate: boolean,
+    index: number,
+    x: number,
+    y: number
+}
 
 export const timing = 5;
 export const imageColorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
@@ -82,7 +90,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             showMessage,        //是否展示消息列表
             quicReplyList: [],   //保存获取的快捷回复list
             msgTypeStuteFlag: true,      //切换所有消息和未读消息
-            uploadImage: ''
+            uploadImage: '',
+            opeartes: {
+                showOperate: false,
+                index: -1,
+                x: 0,
+                y: 0
+            },
+            showCreate: false
         }
     }
 
@@ -96,6 +111,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             saveBtn.addEventListener('click', this.setUserRemarkFun.bind(this));
             document.querySelectorAll('.quickReply').forEach((dom) => {
                 dom.addEventListener('click', this.quicReplySend.bind(this))
+            })
+            document.addEventListener('click', () => {
+                this.setState({
+                    opeartes: {
+                        showOperate: false,
+                        index: -1,
+                        x: 0,
+                        y: 0
+                    }
+                })
             })
         }
     }
@@ -120,9 +145,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     render(): React.ReactNode {
         return <div className={styles.main}>
-            {/* {this.getUserInfoDOM()} */}
             {this.getContactList()}
             {this.getMessageBox()}
+            {this.getCreateBox()}
+            {this.getOperateBox()}
         </div>
     }
 
@@ -368,7 +394,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                         continue;
                     }
                 }
-                list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
+                list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)} onContextMenuCapture={this.handleContextMenuCapture.bind(this, num)}>
                     <div className={styles.contactImage} style={{ 'backgroundColor': imageColorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
@@ -391,8 +417,22 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 </li>
                 {list}
             </ul>
-
         }
+    }
+
+    handleContextMenuCapture(num: number, e: any) {
+        e.preventDefault();
+        let header: HTMLHeadElement = document.querySelector('header.page-header');
+        let y = e.clientY - header.offsetHeight;
+        console.log(num)
+        this.setState({
+            opeartes: {
+                showOperate: true,
+                index: num,
+                x: e.clientX,
+                y
+            }
+        })
     }
 
     // 获取消息详情JSX结构
@@ -402,7 +442,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             return <div className={styles.messageBox}>
                 <div className={styles.messageTitle}>
                     <span>{messageData.name}</span>
-                    <div title='创建群组' onClick={this.showCreateGroup.bind(this)}>
+                    <div title='创建群组' onClick={() => this.setState({ showCreate: true })}>
                         <img src={StaticFile.getImage(ImageConfig.ICON_CREATE)} />
                         <span>创建群组</span>
                     </div>
@@ -500,6 +540,29 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             </form>
     }
 
+    // 获取操作弹窗
+    getOperateBox() {
+        if (this.state.opeartes.showOperate)
+            return <ul className={styles.opearteBox} style={{ 'top': `${this.state.opeartes.y}px`, 'left': `${this.state.opeartes.x}px` }}>
+                <li onClick={this.cleanUnread.bind(this)}>清除未读</li>
+                <li onClick={this.refresh.bind(this)}>刷新</li>
+            </ul>
+    }
+
+    // 移除会话
+    async cleanUnread() {
+        let dataOut = await PageApi.cleanUnread(new DataRow().setValue('FromUser_', this.state.messageDataList[this.state.opeartes.index].fromUser));
+        if (dataOut.state > 0)
+            this.updateData();
+        else
+            showMsg(dataOut.message);
+    }
+
+    //
+    refresh() {
+        location.href = 'FrmMyMessage.refresh'
+    }
+
     reloadMessage() {
         this.getMessageData(this.state.currentUserId, Utils.getNowDate())
     }
@@ -533,10 +596,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 点击联系人触发的事件
     async handleClick(date: string, id: string) {
+        if (this.state.currentUserId == id)
+            return;
+        this.removeTimer();
         let messageData = this.getMessageDataByCode(id);
         if (!this.isPhone) {
             await this.getMessageData(id, date);
             this.getUserInfo();
+            this.startTimer();
         } else {
             this.setState({
                 currentUserId: id
@@ -549,16 +616,20 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 开始定时请求数据进程
     startTimer() {
-        this.timer = setInterval(async () => {
-            let messageDataList = await this.getContactData();
-            this.setState({
-                messageDataList,
-            }, () => {
-                if (!this.isPhone) {
-                    this.getMessageData(this.state.currentUserId);
-                }
-            })
+        this.timer = setInterval(() => {
+            this.updateData()
         }, this.state.timing * 1000)
+    }
+
+    async updateData() {
+        let messageDataList = await this.getContactData();
+        this.setState({
+            messageDataList,
+        }, () => {
+            if (!this.isPhone) {
+                this.getMessageData(this.state.currentUserId);
+            }
+        })
     }
 
     // 关闭定时请求数据进程
@@ -737,19 +808,18 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             let row = new DataRow();
             row.setValue('FromUser_', messageData.fromUser);
             contactInfo = await PageApi.fromDetail(row);
-            if (this.closeServerFun(contactInfo.state)) {
-                return;
-            }
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
         return contactInfo;
     }
 
-    //展示创建群组
-    showCreateGroup() {
-        DialogDOM.render(React.createElement(CreateGroupDialog));
+    getCreateBox() {
+        if (this.state.showCreate) {
+            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })}></CreateGroupDialog>
+        }
     }
+
     //当前登录用户信息失效时关闭定时请求
     closeServerFun(state: number) {
         if (state <= 0) {

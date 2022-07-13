@@ -75,6 +75,11 @@ export default class PageApi {
         return DialogApi.getDataOutByCenter('SvrMessageReport.reportMessage', params);
     }
 
+    /** 清除某人未读消息 */
+    static cleanUnread(params: DataRow) {
+        return DialogApi.getDataOut('SvrMessages.cleanUnread', params)
+    }
+
     /** 创建群聊 */
     static createGroup(params: DataRow) {
         return DialogApi.getDataOutByCenter('SvrMessages.createGroup', params);

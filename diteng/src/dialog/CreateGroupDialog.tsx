@@ -8,7 +8,7 @@ import { showMsg } from "../tool/Summer";
 import styles from "./CreateGroupDialog.css";
 
 type CreateGroupDialogTypeProps = {
-
+    onClose: Function
 }
 
 type CreateGroupDialogTypeState = {
@@ -69,9 +69,7 @@ export default class CreateGroupDialog extends WebControl<CreateGroupDialogTypeP
 
     // 关闭窗口事件
     handleClose() {
-        let box = document.getElementById('dialogBox');
-        ReactDOM.unmountComponentAtNode(box);
-        if (box) box.remove();
+        this.props.onClose();
     }
 
     getContactList() {

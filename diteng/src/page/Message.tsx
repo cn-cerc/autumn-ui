@@ -34,7 +34,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
             <div className={styles.personBox}>
                 <div className={styles.imageBox}>{this.props.name == '系统消息' ? '系统' : this.props.name.substring(this.props.name.length - 2)}</div>
                 <div className={styles.person}>
-                    <div>{this.props.name}</div>
+                    <div>{this.props.name}{this.props.row.getBoolean('FromCorp_') ? `@${this.props.row.getString('FromCorp_')}` : ''}</div>
                     <div style={{ 'paddingTop': '6px' }}>{this.props.time}</div>
                 </div>
             </div>
