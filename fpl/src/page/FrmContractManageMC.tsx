@@ -112,10 +112,10 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
     async init() {
         let auditedRechargeRecord = new DataSet();
         auditedRechargeRecord = await FplPageApi.voucherStats();
+        let contractAmount = new DataSet();
+        contractAmount = await FplPageApi.contractStats();
         let acceptedContract = new DataSet();
         acceptedContract = await FplPageApi.contractApplyStats();
-        let contractAmount = new DataSet();
-        contractAmount = await FplPageApi.contractApplyStats();
 
         this.setState({
             contractAmount,
@@ -133,14 +133,13 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         this.init();
     }
 
-
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         ds = this.state.auditedRechargeRecord;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('status_name_'),
@@ -158,6 +157,12 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -201,7 +206,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         let ds = new DataSet();
         ds = this.state.acceptedContract;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('contract_type_name_'),
@@ -219,6 +224,12 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {

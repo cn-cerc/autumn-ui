@@ -4,6 +4,7 @@ import styles from "./FrmContractManageMC1.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 import Introduction from "./Introduction";
+import FplPageApi from "./FplPageApi";
 
 type FrmContractManageMC1TypeProps = {
     dataJson: string,
@@ -15,6 +16,9 @@ type FrmContractManageMC1TypeState = {
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
+    contractAmount: DataSet,
+    auditedRechargeRecord: DataSet,
+    acceptedContract: DataSet,
 }
 //合同管理(庆丰物流)
 
@@ -46,12 +50,15 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
             pieData1,
             pieData2,
             dataJson: dataJson,
+            contractAmount: new DataSet(),
+            auditedRechargeRecord: new DataSet(),
+            acceptedContract: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-           <Introduction introduction={this.props.introduction}></Introduction>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -100,12 +107,18 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
     }
 
     async init() {
-        // let vehicleState = new DataSet();
-        // vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+        let auditedRechargeRecord = new DataSet();
+        auditedRechargeRecord = await FplPageApi.voucherStats();
+        let contractAmount = new DataSet();
+        contractAmount = await FplPageApi.contractStats();
+        let acceptedContract = new DataSet();
+        acceptedContract = await FplPageApi.contractApplyStats();
 
-        // this.setState({
-        //     vehicleState
-        // })
+        this.setState({
+            contractAmount,
+            auditedRechargeRecord,
+            acceptedContract
+        })
 
         this.initBarChart();
         this.initPieChart1();
@@ -121,13 +134,13 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.auditedRechargeRecord;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('status_name_'),
+                value: ds.getDouble('sum')
             })
         }
         let option = {
@@ -141,6 +154,12 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -182,13 +201,13 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.acceptedContract;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('contract_type_name_'),
+                value: ds.getDouble('sum')
             })
         }
         let option = {
@@ -202,6 +221,12 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
@@ -236,13 +261,13 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
         let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
+        ds = this.state.contractAmount;
         ds.first();
         let dataArr = [],
             nameArr = [];
         while (ds.fetch()) {
-            nameArr.push(ds.getString('Name_'));
-            dataArr.push(ds.getDouble('Value_'));
+            nameArr.push(ds.getString('contract_type_name_'));
+            dataArr.push(ds.getDouble('sum'));
         }
         let option = {
             grid: {

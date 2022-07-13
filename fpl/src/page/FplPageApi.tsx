@@ -81,10 +81,6 @@ export default class FplPageApi {
         return FplDialogApi.getService('SvrPCarRegistration.getMoreThanOneWeekReport');
     }
 
-    /** 合同管理=> 获取合同数量统计 */
-    static contractStats() {
-        return FplDialogApi.getService('SvrContract.contractStats');
-    }
     /** 合同管理=> 获取审核充值记录统计 */
     static voucherStats() {
         return FplDialogApi.getService('SvrVoucher.voucherStats');
@@ -92,6 +88,10 @@ export default class FplPageApi {
     /** 合同管理=> 获取待接收合同数量统计 */
     static contractApplyStats() {
         return FplDialogApi.getService('SvrContract.contractApplyStats');
+    }
+     /** 合同管理=> 获取合同数量统计 */
+     static contractStats() {
+        return FplDialogApi.getService('SvrContract.contractStats');
     }
 
     /** 货运管理=> 货单统计 */
