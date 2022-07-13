@@ -15,7 +15,8 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     linkRow: DataRow,
-    vehicleState: DataSet
+    vehicleState: DataSet,
+    invoiceStatistics: DataSet,
 }
 
 export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9']
@@ -49,6 +50,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             pieData2,
             linkRow,
             vehicleState: new DataSet(),
+            invoiceStatistics: new DataSet(),
         }
     }
 
@@ -114,9 +116,11 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     async init() {
         let vehicleState = new DataSet();
         vehicleState = await FplPageApi.getMoreThanOneWeekReport();
-
+        let invoiceStatistics = new DataSet();
+        invoiceStatistics = await FplPageApi.queryCargoReport();
         this.setState({
-            vehicleState
+            vehicleState,
+            invoiceStatistics
         })
         this.initBarChart();
         this.initPieChart1();
@@ -258,7 +262,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.invoiceStatistics;
         ds.first();
         let dataArr = [];
         while (ds.fetch()) {

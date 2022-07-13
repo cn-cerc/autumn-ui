@@ -4,6 +4,7 @@ import styles from "./FrmContractManageMC.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 import Introduction from "./Introduction";
+import FplPageApi from "./FplPageApi";
 
 type FrmContractManageMCTypeProps = {
     dataJson: string,
@@ -15,6 +16,9 @@ type FrmContractManageMCTypeState = {
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
+    contractAmount: DataSet,
+    auditedRechargeRecord: DataSet,
+    acceptedContract: DataSet,
 }
 //合同管理(中智运)
 
@@ -46,6 +50,9 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
             pieData1,
             pieData2,
             dataJson: dataJson,
+            contractAmount: new DataSet(),
+            auditedRechargeRecord: new DataSet(),
+            acceptedContract: new DataSet(),
         }
     }
 
@@ -85,16 +92,16 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>待审核充值记录</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>待接受合同</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcBarChart}>
-                        <div className={styles.mcTitle}>比例图（对接中）</div>
+                        <div className={styles.mcTitle}>合同合计</div>
                         <div className={styles.FrmTaurusMCBar}></div>
                     </div>
                 </div>
@@ -102,62 +109,42 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let auditedRechargeRecord = new DataSet();
+        auditedRechargeRecord = await FplPageApi.voucherStats();
+        let acceptedContract = new DataSet();
+        acceptedContract = await FplPageApi.contractApplyStats();
+        let contractAmount = new DataSet();
+        contractAmount = await FplPageApi.contractApplyStats();
+
+        this.setState({
+            contractAmount,
+            auditedRechargeRecord,
+            acceptedContract
+        })
+
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initBarChart() {
-        let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
-        let myChart = echarts.init(barChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
-        let dataArr = [],
-            nameArr = [];
-        while (ds.fetch()) {
-            nameArr.push(ds.getString('Name_'));
-            dataArr.push(ds.getDouble('Value_'));
-        }
-        let option = {
-            grid: {
-                top: 10,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
-            },
-            xAxis: {
-                type: 'category',
-                data: nameArr
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    data: dataArr,
-                    type: 'bar'
-                }
-            ]
-        };
-        //@ts-ignore
-        myChart.setOption(option);
+    componentDidMount(): void {
+        this.init();
     }
+
 
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.auditedRechargeRecord;
         ds.first();
         let dataArr = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('status_name_'),
+                value: ds.getDouble('sum')
             })
         }
         let option = {
@@ -189,6 +176,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -211,13 +199,13 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.acceptedContract;
         ds.first();
         let dataArr = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('contract_type_name_'),
+                value: ds.getDouble('sum')
             })
         }
         let option = {
@@ -242,6 +230,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -256,6 +245,44 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 }
             ]
         }
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    initBarChart() {
+        let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
+        let myChart = echarts.init(barChart);
+        let ds = new DataSet();
+        ds = this.state.contractAmount;
+        ds.first();
+        let dataArr = [],
+            nameArr = [];
+        while (ds.fetch()) {
+            nameArr.push(ds.getString('contract_type_name_'));
+            dataArr.push(ds.getDouble('sum'));
+        }
+        let option = {
+            grid: {
+                top: 10,
+                left: 0,
+                bottom: 0,
+                right: 10,
+                containLabel: true,
+            },
+            xAxis: {
+                type: 'category',
+                data: nameArr
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: dataArr,
+                    type: 'bar'
+                }
+            ]
+        };
         //@ts-ignore
         myChart.setOption(option);
     }

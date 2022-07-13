@@ -82,16 +82,16 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>待审核充值记录</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>待接受合同</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcBarChart}>
-                        <div className={styles.mcTitle}>比例图（对接中）</div>
+                        <div className={styles.mcTitle}>合同合计</div>
                         <div className={styles.FrmTaurusMCBar}></div>
                     </div>
                 </div>
@@ -99,11 +99,22 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        // let vehicleState = new DataSet();
+        // vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+
+        // this.setState({
+        //     vehicleState
+        // })
+
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
+    }
+
+    componentDidMount(): void {
+        this.init();
     }
 
     initPieChart1() {
@@ -148,6 +159,7 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -201,6 +213,7 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
