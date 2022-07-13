@@ -1,11 +1,16 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
+import CreateGroupDialog from "../dialog/CreateGroupDialog";
+import DialogDOM from "../dialog/DialogDOM";
+import ImageConfig from "../ImageConfig";
+import StaticFile from "../StaticFile";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
 import AcceptMessage from "./AcceptMessage";
 import DefaultMessage from "./DefaultMessage";
 import ExportMessage from "./ExportMessage";
 import styles from "./FrmMessage.css";
+import ImageMessage from "./ImageMessage";
 import NoticeMessage from "./NoticeMessage";
 import PageApi from "./PageApi";
 import SignMessage from "./SignMessage";
@@ -26,13 +31,15 @@ type FrmMessageTypeState = {
     currentUserId: string,
     showMessage: boolean,
     quicReplyList: Array<{ text: string, uid: string }>
-    msgTypeStuteFlag: boolean
+    msgTypeStuteFlag: boolean,
+    uploadImage: Blob | ''
 }
 
 type messageDetail = {
     data: DataSet,
     latestDate: string,
     latestMessage: string,
+    cropName: string,
     date: string,
     fromBottom: number,
     fromUser: string,
@@ -44,9 +51,10 @@ type messageDetail = {
 };
 
 export const timing = 5;
+export const imageColorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
-    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
+    private mousedownTime: number = 0;
     private timer: any = null;
     constructor(props: FrmMessageTypeProps) {
         super(props);
@@ -66,6 +74,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 name: '',
                 unReadNum: 0,
                 messageText: '',
+                cropName: '',
                 remarkText_: '',        //默认备注字段，用来判断备注是否有修改
                 remarkText: '',     //备注字段
             }],     //消息列表DataSet
@@ -73,6 +82,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             showMessage,        //是否展示消息列表
             quicReplyList: [],   //保存获取的快捷回复list
             msgTypeStuteFlag: true,      //切换所有消息和未读消息
+            uploadImage: ''
         }
     }
 
@@ -162,7 +172,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         let allUnReadNum = 0;
-        console.log(dataOut)
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
@@ -179,6 +188,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 fromUser: dataOut.getString('FromUser_'),
                 name: dataOut.getString('Name_'),
                 unReadNum,
+                cropName: dataOut.getString('FromCorp_'),
                 messageText: '',
                 remarkText: '',
                 remarkText_: ''
@@ -231,6 +241,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     fromUser: messageDataList[num].fromUser,
                     name: messageDataList[num].name,
                     unReadNum,
+                    cropName: messageDataList[num].cropName,
                     messageText: messageDataList[num].messageText,
                     remarkText: messageDataList[num].remarkText,
                     remarkText_: messageDataList[num].remarkText_
@@ -249,6 +260,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     fromBottom: 0,
                     fromUser: dataOut.getString('FromUser_'),
                     name: dataOut.getString('Name_'),
+                    cropName: dataOut.getString('FromCorp_'),
                     unReadNum,
                     messageText: '',
                     remarkText: '',
@@ -339,6 +351,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             for (let i = 0; i < this.state.messageDataList.length; i++) {
                 let messageData = this.state.messageDataList[i];
                 let name = messageData.name || '系统消息';
+                let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
                     date = new Date(messageData.latestDate);
@@ -356,11 +369,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     }
                 }
                 list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
-                    <div className={styles.contactImage} style={{ 'backgroundColor': this.colorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
+                    <div className={styles.contactImage} style={{ 'backgroundColor': imageColorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
                         <div className={styles.contactTitle}>
-                            <span>{name}</span>
+                            <span>{name}{cropName ? `@${cropName}` : ''}</span>
                             <span>{timeText}</span>
                         </div>
                         {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
@@ -389,6 +402,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             return <div className={styles.messageBox}>
                 <div className={styles.messageTitle}>
                     <span>{messageData.name}</span>
+                    <div title='创建群组' onClick={this.showCreateGroup.bind(this)}>
+                        <img src={StaticFile.getImage(ImageConfig.ICON_CREATE)} />
+                        <span>创建群组</span>
+                    </div>
                 </div>
                 {this.getMessageList()}
                 {this.getForm(messageData)}
@@ -408,7 +425,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         ds.first();
         while (ds.fetch()) {
             let siteR = false, systemMsg = false, msgStatus = ds.getString('Status_');
-            let name = messageData.name;
+            let name = ds.getString('Name_') || messageData.name;
             if (ds.getString('FromUser_') == this.props.userCode) { //判定是否是自己发出的消息
                 siteR = true;
                 name = this.props.userName;
@@ -437,6 +454,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 case 'MVAcceptMessage':
                     messageName = AcceptMessage;
                     break;
+                // 图片类消息
+                case 'MVImage':
+                    messageName = ImageMessage;
+                    break;
                 default:
                     messageName = DefaultMessage;
                     break;
@@ -461,6 +482,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     getForm(messageData: messageDetail) {
         if (messageData.fromUser)
             return <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
+                <div className={styles.statusBar}>
+                    <div className={styles.statu}>
+                        <label htmlFor='uploadImage'>
+                            <img src={ImageConfig.ICON_UPLOADIMAGE} title='上传图片'></img>
+                        </label>
+                        <input type='file' id='uploadImage' accept="image/png" value='' onChange={(e) => this.handleUploadImage(e)} />
+                    </div>
+                </div>
                 <textarea value={decodeURIComponent(messageData.messageText)} onChange={(e) => {
                     messageData.messageText = encodeURIComponent(e.target.value);
                     this.setState(this.state)
@@ -540,7 +569,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // form表单键盘事件监听
     handleKeyDown(e: any) {
         let keyCode: number = e.keyCode;
-        if (keyCode == 13) {
+        if (keyCode == 13 && !e.ctrlKey) {
             e.preventDefault();
             this.handleSubmit(e);
         }
@@ -563,6 +592,19 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }, () => {
             this.getMessageData(messageData.fromUser, Utils.getNowDate());
         })
+    }
+
+    // 回复图片消息
+    async handleUploadImage(e: any) {
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
+        let formData = new FormData();
+        formData.set('file', e.target.files[0]);
+        formData.set('ToUser_', messageData.fromUser);
+        let ds = await PageApi.replyImageMessage(formData);
+        if (ds.state > 0) {
+            this.getMessageData(messageData.fromUser, Utils.getNowDate());
+        } else
+            showMsg(ds.message);
     }
 
     // 设置聊天区域滚动到底部
@@ -702,6 +744,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
         return contactInfo;
+    }
+
+    //展示创建群组
+    showCreateGroup() {
+        DialogDOM.render(React.createElement(CreateGroupDialog));
     }
     //当前登录用户信息失效时关闭定时请求
     closeServerFun(state: number) {
