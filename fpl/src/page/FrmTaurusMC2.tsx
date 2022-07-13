@@ -16,7 +16,6 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     linkRow: DataRow,
-    introduction: string,
     vehicleState: DataSet
 }
 
@@ -48,7 +47,6 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             pieData1,
             pieData2,
             linkRow,
-            introduction: this.props.introduction,
             vehicleState: new DataSet(),
         }
     }

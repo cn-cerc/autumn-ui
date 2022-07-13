@@ -6,27 +6,25 @@ import { MCChartColors } from "./FrmTaurusMC";
 import FplPageApi from "./FplPageApi";
 import Introduction from "./Introduction";
 
-type FrmTaurusMCTypeProps = {
+type FrmMaintenanceARTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmTaurusMCTypeState = {
+type FrmMaintenanceARTypeState = {
     linkRow: DataRow,
-    introduction: string,
     settlementStatus: DataSet,
     monthlyPaymentData: DataSet,
     yearRepairBill: DataSet,
 }
 
-export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
-    constructor(props: FrmTaurusMCTypeProps) {
+export default class FrmMaintenanceAR extends WebControl<FrmMaintenanceARTypeProps, FrmMaintenanceARTypeState> {
+    constructor(props: FrmMaintenanceARTypeProps) {
         super(props);
         let linkRow = new DataRow();
         linkRow.setJson(this.props.dataJson);
         this.state = {
             linkRow,
-            introduction: this.props.introduction,
             settlementStatus: new DataSet(),
             monthlyPaymentData: new DataSet(),
             yearRepairBill: new DataSet(),

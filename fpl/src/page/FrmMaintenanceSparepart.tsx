@@ -13,7 +13,6 @@ type FrmMaintenanceSparepartTypeProps = {
 
 type FrmMaintenanceSparepartTypeState = {
     dataJson: DataRow,
-    introduction: string,
     topFiveBrand: DataSet,
     topFiveMountings: DataSet,
     topFiveClassifyMountings: DataSet,
@@ -28,7 +27,6 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         dataJson.setJson(this.props.dataJson);
         this.state = {
             dataJson: dataJson,
-            introduction: this.props.introduction,
             topFiveBrand: new DataSet(),
             topFiveMountings: new DataSet(),
             topFiveClassifyMountings: new DataSet(),

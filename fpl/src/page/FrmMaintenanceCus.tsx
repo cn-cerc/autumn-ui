@@ -13,7 +13,6 @@ type FrmMaintenanceCusTypeProps = {
 
 type FrmMaintenanceCusTypeState = {
     dataJson: DataRow,
-    introduction: string,
     topFiveAmountReport: DataSet,
     settlementType: DataSet,
     cusRepairingVehicle: DataSet,
@@ -28,7 +27,6 @@ export default class FrmMaintenanceCus extends WebControl<FrmMaintenanceCusTypeP
         dataJson.setJson(this.props.dataJson);
         this.state = {
             dataJson: dataJson,
-            introduction: this.props.introduction,
             topFiveAmountReport: new DataSet(),
             settlementType: new DataSet(),
             cusRepairingVehicle: new DataSet(),

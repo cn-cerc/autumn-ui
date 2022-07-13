@@ -40,18 +40,18 @@
     position: relative;
 }
 
-.mcIntroduction>p>span{
+.mcIntroduction>p>span {
     position: absolute;
     bottom: 12px;
-    left:50%;
+    left: 50%;
     transform: translateX(-50%);
 }
 
-.mcIntroduction>p >img{
+.mcIntroduction>p>img {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height:20px;
+    height: 20px;
     left: 0;
 }
 
@@ -80,17 +80,18 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left:48px;
-    border-right:1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 48px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
     margin-top: 12px;
 }
 
 .li_3:last-child {
     margin-right: 0;
-    border:none;
+    border: none;
 }
-.li_3>div{
-    margin-right:12px;
+
+.li_3>div {
+    margin-right: 12px;
 }
 
 .topTitle {
@@ -135,10 +136,9 @@
 .centerBox2 {
     margin-bottom: 10px;
     box-sizing: border-box;
-    flex: 1;
     display: flex;
     flex-direction: column;
-    height: 32.3%;
+    height: 33.3%;
 }
 
 .leftBox3,
@@ -167,7 +167,7 @@
 
 .centerBox1 {
     margin-bottom: 10px;
-    height: calc(100% - 32.6% - 10px);
+    height: calc(100% - 33.3% + 10px);
 }
 
 .mcMap {
@@ -176,8 +176,8 @@
 }
 
 .mcMap>img {
-    width: 100%;
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -306,6 +306,10 @@
 
 .btn_toggle_kanban:hover {
     background: url("../image/kanban_hover.png") top center no-repeat;
+}
+
+.mcMainNoPB {
+    padding-bottom: 0;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1366px) {

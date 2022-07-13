@@ -15,7 +15,6 @@ type FrmCustomerServiceTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string,
 }
 
 export default class FrmCustomerService extends WebControl<FrmCustomerServiceTypeProps, FrmCustomerServiceTypeState> {
@@ -46,7 +45,6 @@ export default class FrmCustomerService extends WebControl<FrmCustomerServiceTyp
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction,
         }
     }
 
@@ -77,16 +75,16 @@ export default class FrmCustomerService extends WebControl<FrmCustomerServiceTyp
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>区域统计(开发中)</div>
+                            <div className={styles.mcTitle}>区域统计(对接中)</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>男女统计(开发中)</div>
+                            <div className={styles.mcTitle}>男女统计(对接中)</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>部门人数统计(开发中)</div>
+                        <div className={styles.mcTitle}>部门人数统计(对接中)</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>

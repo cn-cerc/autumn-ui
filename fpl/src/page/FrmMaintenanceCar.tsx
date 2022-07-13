@@ -16,7 +16,6 @@ type FrmMaintenanceCarTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string,
     vehicleState: DataSet,
 }
 //车辆管理控制台 一汽建州修理厂
@@ -49,7 +48,6 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction,
             vehicleState: new DataSet(),
         }
     }

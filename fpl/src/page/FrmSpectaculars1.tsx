@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./FrmSpectaculars1.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import StaticFile from "@diteng/StaticFile";
 
 type FrmSpectaculars1TypeProps = {
 }
@@ -16,7 +17,7 @@ type FrmSpectaculars1TypeState = {
     toggle: number
 }
 
-export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
+export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
     constructor(props: FrmSpectaculars1TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -46,7 +47,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
         pieData4.append().setValue('Value_', 11).setValue('Name_', '18~30');
         pieData4.append().setValue('Value_', 50).setValue('Name_', '31~50');
         pieData4.append().setValue('Value_', 13).setValue('Name_', '50~65');
-        let toggle = location.search.split('=')[1] == 'pc' ? 1 : 2;
+        let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             lineData,
             pieData1,
@@ -62,14 +63,14 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
             <div className={styles.mcIntroduction}>
                 <p>
                     <span>营运数据中心</span>
-                    <img src="images/MCimg/title_line.png" alt="" />
-                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_pc : styles.btn_toggle_kanban}`} onClick={this.toggleFun.bind(this)}></a>
+                    <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
+                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
                 <div>
                     <ul className={styles.top_list}>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/6.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/6.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
@@ -80,7 +81,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         </li>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/5.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/5.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>今日里程</div>
@@ -91,7 +92,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                         </li>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/4.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/4.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>司机数</div>
@@ -103,8 +104,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     </ul>
                 </div>
             </div>
-            <div className={styles.mcMain}>
-
+            <div className={`${styles.mcMain} ${this.state.toggle == 1 ? '' : styles.mcMainNoPB}`}>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -123,7 +123,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
                             <div className={styles.mcMap}>
-                                <img src="images/MCimg/map.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
@@ -530,6 +530,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
                     radius: ['50%', '70%'],
                     center: ['50%', '50%'],
                     avoidLabelOverlap: false,
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -552,15 +553,15 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars1TypePro
     }
 
     toggleFun() {
-        if (this.state.toggle == 1) {
-            location.href = `${location.origin}${location.pathname}?device=kanban`;
-            this.setState({
-                toggle: 2
-            })
-        } else {
+        if (this.state.toggle == 2) {
             location.href = `${location.origin}${location.pathname}?device=pc`;
             this.setState({
                 toggle: 1
+            })
+        } else {
+            location.href = `${location.origin}${location.pathname}?device=kanban`;
+            this.setState({
+                toggle: 2
             })
         }
     }

@@ -1,3 +1,4 @@
+import StaticFile from "@diteng/StaticFile";
 import { WebControl } from "autumn-ui";
 import React from "react";
 import styles from "./FrmWagonHome.css";
@@ -27,7 +28,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                             <header>
                                 活动公告 · <span>20条</span>
                                <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
-                                    查看更多 <img src="images/arrow_right.png" alt="" />
+                                    查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>
                             </header>
                             <ul>
@@ -56,7 +57,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                             <header>
                                 操作指引 · <span>11条</span>
                                 <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
-                                    查看更多 <img src="images/arrow_right.png" alt="" />
+                                    查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>
                             </header>
                             <ul>
@@ -90,7 +91,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                             <header>
                                 商品优惠 · <span>11条</span>
                                 <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
-                                    查看更多 <img src="images/arrow_right.png" alt="" />
+                                    查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>
                             </header>
                             <ul>
@@ -157,7 +158,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                             <header>
                                 服务优惠 · <span>10条</span>
                                 <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
-                                    查看更多 <img src="images/arrow_right.png" alt="" />
+                                    查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>
                             </header>
                             <ul>

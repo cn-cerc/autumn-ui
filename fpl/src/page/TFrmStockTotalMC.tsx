@@ -4,6 +4,7 @@ import { MCChartColors } from "./FrmTaurusMC";
 import styles from "./TFrmStockTotalMC.css";
 import * as echarts from "echarts";
 import UImoduleMenu from "./UIModuleMenu";
+import Introduction from "./Introduction";
 
 type TFrmStockTotalMCTypeProps = {
     dataJson: string,
@@ -11,7 +12,6 @@ type TFrmStockTotalMCTypeProps = {
 }
 
 type TFrmStockTotalMCTypeState = {
-    introduction: string,
     data: DataSet,
     title: string,
     lineData: DataSet,
@@ -44,7 +44,6 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
         this.state = {
             title: '常用功能',
             data: data,
-            introduction: this.props.introduction,
             lineData,
             pieData1,
             pieData2,
@@ -54,10 +53,7 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.bgColor}>
                     <UImoduleMenu dataSet={this.state.data} title={this.state.title}></UImoduleMenu>
@@ -65,16 +61,16 @@ export default class TFrmStockTotalMC extends WebControl<TFrmStockTotalMCTypePro
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
+                        <div className={styles.mcTitle}>比例图（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>

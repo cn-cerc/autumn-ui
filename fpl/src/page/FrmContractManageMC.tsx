@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./FrmContractManageMC.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import Introduction from "./Introduction";
 
 type FrmContractManageMCTypeProps = {
     dataJson: string,
@@ -14,7 +15,6 @@ type FrmContractManageMCTypeState = {
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string
 }
 //合同管理(中智运)
 
@@ -46,16 +46,12 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -89,16 +85,16 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcBarChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
+                        <div className={styles.mcTitle}>比例图（对接中）</div>
                         <div className={styles.FrmTaurusMCBar}></div>
                     </div>
                 </div>
@@ -185,7 +181,6 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -239,7 +234,6 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],

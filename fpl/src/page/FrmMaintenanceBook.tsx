@@ -16,7 +16,6 @@ type FrmMaintenanceBookTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string,
     topFiveAmountReport: DataSet,
     settlementType: DataSet,
     cusRepairingVehicle: DataSet,
@@ -51,7 +50,6 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction,
             topFiveAmountReport: new DataSet(),
             settlementType: new DataSet(),
             cusRepairingVehicle: new DataSet(),
@@ -95,21 +93,21 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcPieChart1}>
                         <div className={styles.mcPieBox3}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie3}></div>
                         </div>
                         <div className={styles.mcPieBox4}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>比例图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie4}></div>
                         </div>
                     </div>

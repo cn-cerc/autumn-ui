@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./TOrd.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import Introduction from "./Introduction";
 
 type FrmTaurusMCTypeProps = {
     dataJson: string,
@@ -14,7 +15,6 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string
 }
 
 export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
@@ -45,16 +45,12 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -93,16 +89,16 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（开发中）</div>
+                        <div className={styles.mcTitle}>趋势图（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>趋势图（开发中）</div>
+                            <div className={styles.mcTitle}>趋势图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>趋势图（开发中）</div>
+                            <div className={styles.mcTitle}>趋势图（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>

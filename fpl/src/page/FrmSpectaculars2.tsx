@@ -15,7 +15,7 @@ type FrmSpectaculars2TypeState = {
     toggle: number
 }
 
-export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypeProps, FrmSpectaculars2TypeState> {
+export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypeProps, FrmSpectaculars2TypeState> {
     constructor(props: FrmSpectaculars2TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -36,7 +36,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let toggle = location.search.split('=')[1] == 'pc' ? 1 : 2;
+        let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             lineData,
             pieData1,
@@ -51,13 +51,13 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
                 <p>
                     <span>安全监控中心</span>
                     <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
-                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_pc : styles.btn_toggle_kanban}`} onClick={this.toggleFun.bind(this)}></a>
+                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
                 <div>
                     <ul className={styles.top_list}>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/3.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/3.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>交易金额</div>
@@ -68,7 +68,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
                         </li>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/2.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/2.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>运行时间</div>
@@ -81,23 +81,22 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
                     </ul>
                 </div>
             </div>
-            <div className={styles.mcMain}>
-
+            <div className={`${styles.mcMain} ${this.state.toggle == 1 ? '' : styles.mcMainNoPB}`}>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
                             <div className={styles.mcTitle}>安全学习</div>
                             <div className={styles.leftScrollList}>
                                 <div className={styles.leftScrollListItem}>
-                                    <img src="images/MCimg/1.png" alt="" />
+                                    <img src={StaticFile.getImage('images/MCimg/1.png')} alt="" />
                                     道路交通安全知识小课堂
                                 </div>
                                 <div className={styles.leftScrollListItem}>
-                                    <img src="images/MCimg/1.png" alt="" />
+                                    <img src={StaticFile.getImage('images/MCimg/1.png')} alt="" />
                                     这些交通安全知识要知道
                                 </div>
                                 <div className={styles.leftScrollListItem}>
-                                    <img src="images/MCimg/1.png" alt="" />
+                                    <img src={StaticFile.getImage('images/MCimg/1.png')} alt="" />
                                     道路安全交通小常识
                                 </div>
                             </div>
@@ -116,19 +115,21 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
                             <div className={styles.mcMap}>
                                 <ul>
                                     <li className={styles.imgItem}>
-                                        <img src="images/MCimg/bg-1.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-1.png')} alt="" />
                                         <p className={styles.imgBottomText}> <span>2022/06/20 00:00:00</span> <span>前</span></p>
                                     </li>
                                     <li className={styles.imgItem}>
-                                        <img src="images/MCimg/bg-2.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-2.png')} alt="" />
                                         <p className={styles.imgBottomText}> <span>后</span> <span></span></p>
                                     </li>
+                                </ul>
+                                <ul>
                                     <li className={styles.imgItem}>
-                                        <img src="images/MCimg/bg-3.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-3.png')} alt="" />
                                         <p className={styles.imgBottomText}> <span></span> <span>左</span></p>
                                     </li>
                                     <li className={styles.imgItem}>
-                                        <img src="images/MCimg/bg-4.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-4.png')} alt="" />
                                         <p className={styles.imgBottomText}> <span>右</span> <span></span></p>
                                     </li>
                                 </ul>
@@ -259,27 +260,13 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
 
     initPieChart1() {
         let legend = {
+            top: '25%',
+            left: '65%',
             orient: 'vertical',
-            top: 0,
-            right: 0,
-            itemWidth: 10,
-            itemHeight: 10,
-            itemGap: 2,
-            fontSize: 8,
-            icon: 'circle'
+            itemWidth: 8,
+            itemHeight: 8,
+            icon: 'circle',
         };
-        if (this.isPhone) {
-            legend = {
-                orient: 'vertical',
-                top: 30,
-                right: 0,
-                itemWidth: 10,
-                itemHeight: 10,
-                itemGap: 2,
-                fontSize: 8,
-                icon: 'circle'
-            }
-        }
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
@@ -310,10 +297,9 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
             },
             series: [
                 {
-                    name: '本周货运吨数占比',
                     type: 'pie',
-                    radius: ['40%', '70%'],
-                    center: ['40%', '60%'],
+                    radius: ['55%', '75%'],
+                    center: ['35%', '50%'],
                     avoidLabelOverlap: false,
                     emphasis: {
                         label: {
@@ -322,12 +308,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
                             fontWeight: 'bold'
                         }
                     },
-
-                    // labelLine: {
-                    //     length: 5,
-                    //     length2: 5,
-                    //     maxSurfaceAngle: 80
-                    // },
+                    color: MCChartColors,
                     itemStyle: {
                         normal: {
                             label: {
@@ -492,15 +473,15 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars2TypePro
     }
 
     toggleFun() {
-        if (this.state.toggle == 1) {
-            location.href = `${location.origin}${location.pathname}?device=kanban`;
-            this.setState({
-                toggle: 2
-            })
-        } else {
+        if (this.state.toggle == 2) {
             location.href = `${location.origin}${location.pathname}?device=pc`;
             this.setState({
                 toggle: 1
+            })
+        } else {
+            location.href = `${location.origin}${location.pathname}?device=kanban`;
+            this.setState({
+                toggle: 2
             })
         }
     }
