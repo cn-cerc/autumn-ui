@@ -288,9 +288,9 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         //@ts-ignore
         myChart.setOption(option);
 
-        // myChart.on('click', function (params: any) {
-        //     alert(params.name);
-        // })
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {
