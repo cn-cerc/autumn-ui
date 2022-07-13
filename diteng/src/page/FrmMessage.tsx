@@ -486,7 +486,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                         <label htmlFor='uploadImage'>
                             <img src={ImageConfig.ICON_UPLOADIMAGE} title='上传图片'></img>
                         </label>
-                        <input type='file' id='uploadImage' accept="image/png" value='' onChange={(e) => this.handleUploadImage(e)} />
+                        <input type='file' id='uploadImage' accept="image/*" value='' onChange={(e) => this.handleUploadImage(e)} />
                     </div>
                 </div>
                 <textarea value={decodeURIComponent(messageData.messageText)} onChange={(e) => {
