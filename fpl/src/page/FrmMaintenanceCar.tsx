@@ -99,12 +99,12 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>车队与车辆类型</div>
+                            <div className={styles.mcTitle}>车队与车辆类型（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>车队与车辆汇总</div>
+                        <div className={styles.mcTitle}>车队与车辆汇总（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
