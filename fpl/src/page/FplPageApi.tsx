@@ -76,11 +76,10 @@ export default class FplPageApi {
     static contractApplyStats() {
         return FplDialogApi.getService('SvrContract.contractApplyStats');
     }
-     /** 合同管理=> 获取合同数量统计 */
-     static contractStats() {
+    /** 合同管理=> 获取合同数量统计 */
+    static contractStats() {
         return FplDialogApi.getService('SvrContract.contractStats');
     }
-
 
     /** 车队与车辆管理/货运管理=> 在途中车辆、空车、待发货 */
     static getMoreThanOneWeekReport() {
@@ -90,6 +89,21 @@ export default class FplPageApi {
     static queryCargoReport() {
         return FplDialogApi.getService('SvrCargoOrder.queryCargoReport');
     }
+    /** 货运管理=> 运单数据统计  */
+    static getWaybillDtatistics() {
+        return FplDialogApi.getService('SvrArrangeCar.queryDataStat');
+    }
 
-
+    /** 认证中心=> 司机认证数量前五的客户(企业) */
+    static queryCorpStatistics() {
+        return FplDialogApi.getService('SvrDriverDetalis.queryCorpStatistics');
+    }
+    /** 认证中心=> 司机人数统计（未审核、已审核） */
+    static queryDriverStatistics() {
+        return FplDialogApi.getService('SvrDriverDetalis.queryDriverStatistics');
+    }
+    /** 认证中心=> 收款人数据统计 */
+    static queryDataStat() {
+        return FplDialogApi.getService('SvrPayeeRegister.queryDataStat');
+    }
 }

@@ -115,6 +115,7 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         this.setState({
             vehicleState
         })
+
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
@@ -188,6 +189,10 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
@@ -242,6 +247,10 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initBarChart() {
@@ -258,7 +267,7 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         }
         let option = {
             grid: {
-                top: 10,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -274,12 +283,25 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
             series: [
                 {
                     data: dataArr,
-                    type: 'bar'
+                    type: 'bar',
+                    itemStyle: {
+                        color: MCChartColors[0],
+                    },
+                    barWidth: 60,
+                    lineStyle: {
+                        color: MCChartColors[0]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
                 }
             ]
         };
         //@ts-ignore
         myChart.setOption(option);
+
+
     }
 
     initFlowChart() {
