@@ -270,7 +270,7 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         let myChart = echarts.init(barChart);
         let ds = new DataSet();
         // ds = this.state.fleetVehiclesSummary;
-        // ds.appendDataSet(this.state.lineData);
+        ds.appendDataSet(this.state.lineData);
         ds.first();
         let dataArr = [],
             nameArr = [];

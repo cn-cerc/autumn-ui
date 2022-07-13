@@ -85,7 +85,7 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>货运车辆统计（对接中）</div>
+                        <div className={styles.mcTitle}>货运车辆统计</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
