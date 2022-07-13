@@ -105,7 +105,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>货运车辆统计</div>
+                        <div className={styles.mcTitle}>货运车辆统计（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -264,13 +264,13 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
         let ds = new DataSet();
         ds = this.state.invoiceStatistics;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            // {name:'总货单数',value:ds.getDouble('sum')},
+            { name: '未开始', value: ds.getDouble('status1') },
+            { name: '执行中', value: ds.getDouble('status2') },
+            { name: '完成', value: ds.getDouble('status3') }
+        ];
+
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -282,6 +282,12 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {

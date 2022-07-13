@@ -16,7 +16,8 @@ type FrmTaurusMCTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     linkRow: DataRow,
-    vehicleState: DataSet
+    vehicleState: DataSet,
+    invoiceStatistics: DataSet,
 }
 
 export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
@@ -51,6 +52,7 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
             pieData2,
             linkRow,
             vehicleState: new DataSet(),
+            invoiceStatistics: new DataSet(),
         }
     }
 
@@ -108,7 +110,7 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>货运车辆统计</div>
+                        <div className={styles.mcTitle}>货运车辆统计（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -119,9 +121,11 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
     async init() {
         let vehicleState = new DataSet();
         vehicleState = await FplPageApi.getMoreThanOneWeekReport();
-
+        let invoiceStatistics = new DataSet();
+        invoiceStatistics = await FplPageApi.queryCargoReport();
         this.setState({
-            vehicleState
+            vehicleState,
+            invoiceStatistics
         })
         this.initBarChart();
         this.initPieChart1();
@@ -263,15 +267,15 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.invoiceStatistics;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            // {name:'总货单数',value:ds.getDouble('sum')},
+            { name: '未开始', value: ds.getDouble('status1') },
+            { name: '执行中', value: ds.getDouble('status2') },
+            { name: '完成', value: ds.getDouble('status3') }
+        ];
+
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -283,6 +287,12 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {

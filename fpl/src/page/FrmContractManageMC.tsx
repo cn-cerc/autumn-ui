@@ -12,9 +12,6 @@ type FrmContractManageMCTypeProps = {
 }
 
 type FrmContractManageMCTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataJson: DataRow,
     contractAmount: DataSet,
     auditedRechargeRecord: DataSet,
@@ -25,30 +22,9 @@ type FrmContractManageMCTypeState = {
 export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
     constructor(props: FrmContractManageMCTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
             contractAmount: new DataSet(),
             auditedRechargeRecord: new DataSet(),
