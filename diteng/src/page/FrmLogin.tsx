@@ -92,6 +92,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <a href="FrmForgetPassword">找回密码?</a>
                         </div>
                         <button className={styles.btnSubmit} onClick={this.onSubmit.bind(this)}>登录</button>
+                        <button type="button" onClick={this.onKeyLogin.bind(this)} style={{'width': '100%', 'marginTop': '1rem'}}>本机号码一键登录</button>
                         <section className={styles.customService}>
                             <div className={styles.protocolBox}>
                                 <div className={styles.protocol}>
@@ -146,6 +147,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 </form>
             )
         }
+    }
+
+    onKeyLogin() {
+        //@ts-ignore
+        api.execScript({
+            script: "oneKeyLogin();"
+        })
     }
 
     changeProtocol = (sender: any) => {
