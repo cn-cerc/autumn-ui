@@ -361,7 +361,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     timeText = `${hour}:${minut}`;
                 }
                 let num = i;
-                let unread =  messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
+                let unread = messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
                 if (!this.state.msgTypeStuteFlag) {
                     if (unread == 0) {
                         continue;
@@ -732,13 +732,15 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async fromDetailFun() {
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let contactInfo = new DataSet();
-        if (messageData.fromUser) {
+        if (messageData.fromUser && !messageData.fromUser.startsWith('g_')) {
             let row = new DataRow();
             row.setValue('FromUser_', messageData.fromUser);
             contactInfo = await PageApi.fromDetail(row);
             if (this.closeServerFun(contactInfo.state)) {
                 return;
             }
+        } else if (messageData.fromUser.startsWith('g_')) {
+            contactInfo.append().setValue('RoleName_', '群聊').setValue('Mobile_', '暂无');
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
