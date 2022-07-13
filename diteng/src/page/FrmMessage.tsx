@@ -387,9 +387,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     timeText = `${hour}:${minut}`;
                 }
                 let num = i;
-                let unread = 0;
+                let unread = messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
                 if (!this.state.msgTypeStuteFlag) {
-                    unread = messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
                     if (unread == 0) {
                         continue;
                     }
@@ -527,7 +526,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                         <label htmlFor='uploadImage'>
                             <img src={ImageConfig.ICON_UPLOADIMAGE} title='上传图片'></img>
                         </label>
-                        <input type='file' id='uploadImage' accept="image/png" value='' onChange={(e) => this.handleUploadImage(e)} />
+                        <input type='file' id='uploadImage' accept="image/*" value='' onChange={(e) => this.handleUploadImage(e)} />
                     </div>
                 </div>
                 <textarea value={decodeURIComponent(messageData.messageText)} onChange={(e) => {
@@ -804,7 +803,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async fromDetailFun() {
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let contactInfo = new DataSet();
-        if (messageData.fromUser) {
+        if (messageData.fromUser && !messageData.fromUser.startsWith('g_')) {
             let row = new DataRow();
             row.setValue('FromUser_', messageData.fromUser);
             contactInfo = await PageApi.fromDetail(row);
