@@ -12,47 +12,23 @@ type FrmMaintenanceCarTypeProps = {
 }
 
 type FrmMaintenanceCarTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet,
-    pieData2: DataSet,
     dataJson: DataRow,
     vehicleState: DataSet,
-    fleetVehicleType: DataSet,
-    fleetVehiclesSummary: DataSet,
+    fleetVehicleType: DataRow,
+    fleetVehiclesSummary: DataRow,
 }
 //车辆管理控制台 一汽建州修理厂
 
 export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeProps, FrmMaintenanceCarTypeState> {
     constructor(props: FrmMaintenanceCarTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
             vehicleState: new DataSet(),
-            fleetVehicleType: new DataSet(),
-            fleetVehiclesSummary: new DataSet(),
+            fleetVehicleType: new DataRow(),
+            fleetVehiclesSummary: new DataRow(),
         }
     }
 
@@ -99,12 +75,12 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>车队与车辆类型（对接中）</div>
+                            <div className={styles.mcTitle}>车队与车辆类型</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>车队与车辆汇总（对接中）</div>
+                        <div className={styles.mcTitle}>车队与车辆汇总</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -115,17 +91,17 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
     async init() {
         let vehicleState = new DataSet();
         vehicleState = await FplPageApi.getMoreThanOneWeekReport();
-        //未对接API 
-        // let fleetVehicleType = new DataSet();
-        // fleetVehicleType = await FplPageApi.getMoreThanOneWeekReport();
-        // let fleetVehiclesSummary = new DataSet();
-        // fleetVehiclesSummary = await FplPageApi.getMoreThanOneWeekReport();
-
+        let dataRow = await FplPageApi.getFleetCarCountReport();
+        let fleetVehicleType = new DataRow();
+        fleetVehicleType.copyValues(dataRow.head);
+        let dataRow1 = await FplPageApi.getFleetDrivrCarPayeeReport();
+        let fleetVehiclesSummary = new DataRow();
+        fleetVehiclesSummary.copyValues(dataRow1.head);
 
         this.setState({
             vehicleState,
-            // fleetVehicleType,
-            // fleetVehiclesSummary
+            fleetVehicleType,
+            fleetVehiclesSummary
         })
 
         this.initBarChart();
@@ -207,20 +183,18 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         })
     }
 
+
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        // ds = this.state.fleetVehicleType;
-        ds.appendDataSet(this.state.pieData2);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let ds = new DataRow();
+        ds = this.state.fleetVehicleType;
+        let dataArr: any = [
+            { name: '自营车队', value: ds.getDouble('selfFleetCount') },
+            { name: '托管车队', value: ds.getDouble('trusteeshipFleetCount') },
+            { name: '自营车辆', value: ds.getDouble('selfCarCount') },
+            { name: '托管车辆', value: ds.getDouble('trusteeshipCarCount') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -232,6 +206,12 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
@@ -260,25 +240,15 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
-
-        myChart.on('click', function (params: any) {
-            alert(params.name);
-        })
     }
 
     initBarChart() {
         let barChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
-        let ds = new DataSet();
-        // ds = this.state.fleetVehiclesSummary;
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
-        let dataArr = [],
-            nameArr = [];
-        while (ds.fetch()) {
-            nameArr.push(ds.getString('Name_'));
-            dataArr.push(ds.getDouble('Value_'));
-        }
+        let ds = new DataRow();
+        ds = this.state.fleetVehiclesSummary;
+        let nameArr = ['车队数量', '司机总数量', '车辆总数量 ', '收款人总数量 '],
+            dataArr = [ds.getDouble('fleetCount'), ds.getDouble('driverCount'), ds.getDouble('carCount'), ds.getDouble('payeeCount')];
         let option = {
             grid: {
                 top: 25,
@@ -314,8 +284,6 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         };
         //@ts-ignore
         myChart.setOption(option);
-
-
     }
 
     initFlowChart() {
