@@ -77,7 +77,7 @@ export default class PageApi {
 
     /** 清除某人未读消息 */
     static cleanUnread(params: DataRow) {
-        return DialogApi.getDataOut('SvrMessages.cleanUnread', params)
+        return DialogApi.getDataOutByCenter('SvrMessages.cleanUnread', params)
     }
 
     /** 创建群聊 */
