@@ -423,8 +423,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         e.preventDefault();
         let header: HTMLHeadElement = document.querySelector('header.page-header');
         let y = e.clientY - header.offsetHeight;
-        let height = this.isPhone ? 106 :  76;
-        if(e.clientY + height > document.body.offsetHeight)
+        let height = this.isPhone ? 106 : 76;
+        if (e.clientY + height > document.body.offsetHeight)
             y = y - height;
         console.log(num)
         this.setState({
@@ -444,10 +444,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             return <div className={styles.messageBox}>
                 <div className={styles.messageTitle}>
                     <span>{messageData.name}</span>
-                    <div title='创建群组' onClick={() => this.setState({ showCreate: true })}>
+                    {!this.isSystemOrGroup(messageData.fromUser) ? <div title='创建群组' onClick={() => this.setState({ showCreate: true })}>
                         <img src={StaticFile.getImage(ImageConfig.ICON_CREATE)} />
                         <span>创建群组</span>
-                    </div>
+                    </div> : ''}
                 </div>
                 {this.getMessageList()}
                 {this.getForm(messageData)}
@@ -527,7 +527,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 <div className={styles.statusBar}>
                     <div className={styles.statu}>
                         <label htmlFor='uploadImage'>
-                            <img src={ImageConfig.ICON_UPLOADIMAGE} title='上传图片'></img>
+                            <img src={StaticFile.getImage(ImageConfig.ICON_UPLOADIMAGE)} title='上传图片'></img>
                         </label>
                         <input type='file' id='uploadImage' accept="image/*" value='' onChange={(e) => this.handleUploadImage(e)} />
                     </div>
@@ -546,10 +546,15 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     getOperateBox() {
         if (this.state.opeartes.showOperate)
             return <ul className={styles.opearteBox} style={{ 'top': `${this.state.opeartes.y}px`, 'left': `${this.state.opeartes.x}px` }}>
-                {this.isPhone ? <li onClick={() => this.setState({ showCreate: true })}>创建群组</li> : ''}
+                {this.isPhone && !this.isSystemOrGroup(this.state.messageDataList[this.state.opeartes.index].fromUser) ? <li onClick={() => this.setState({ showCreate: true })}>创建群组</li> : ''}
                 <li onClick={this.cleanUnread.bind(this)}>清除未读</li>
                 <li onClick={this.refresh.bind(this)}>刷新</li>
             </ul>
+    }
+
+    // 根据formUser判断是否为群组或者系统消息
+    isSystemOrGroup(formUser: string) {
+        return !formUser || formUser.startsWith('g_');
     }
 
     // 移除会话
@@ -814,7 +819,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async fromDetailFun() {
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let contactInfo = new DataSet();
-        if (messageData.fromUser && !messageData.fromUser.startsWith('g_')) {
+        if (!this.isSystemOrGroup(messageData.fromUser)) {
             let row = new DataRow();
             row.setValue('FromUser_', messageData.fromUser);
             contactInfo = await PageApi.fromDetail(row);

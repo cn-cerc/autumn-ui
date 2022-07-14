@@ -1,5 +1,6 @@
 import { DataRow } from "autumn-ui";
 import React from "react";
+import { isJSON } from "../tool/Utils";
 import Message, { messageTypeProps } from "./Message";
 import styles from "./Message.css";
 
@@ -11,8 +12,10 @@ export default class ImageMessage extends Message<messageTypeProps> {
     getMessage(): JSX.Element {
         let row = new DataRow();
         row.copyValues(this.props.row);
-        let obj = JSON.parse(row.getString('Content_'));
-        return <div className={styles.imageMessage}><img src={obj?.url} style={this.getImageStyle(obj?.width, obj?.height)}/></div>
+        let content = row.getString('Content_');
+        let isJson = isJSON(content);
+        let obj =  isJson ? JSON.parse(content) : null;
+        return <div className={styles.imageMessage}><img src={isJson ? obj?.url : obj} style={this.getImageStyle(obj?.width, obj?.height)}/></div>
     }
 
     getImageStyle(width: number, height: number) {

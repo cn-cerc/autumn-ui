@@ -3,6 +3,10 @@
     align-items: center;
 }
 
+.contactList table {
+    width: 100%;
+}
+
 .contactList>li:nth-child(n+2) {
     cursor: pointer;
 }
@@ -335,7 +339,7 @@
     background-color: #fff;
     border-bottom: 1px solid #ebebeb;
     z-index: 10;
-    padding: 0!important;
+    padding: 0 !important;
 }
 
 .msgTypeStatusBox span {
@@ -422,7 +426,7 @@
     padding: .5rem 0;
     box-shadow: 0px 0px .325rem .25rem #cbc5c5;
     z-index: 106;
-    line-height: 1em;
+    min-width: 8rem;
 }
 
 .opearteBox>li {
@@ -520,7 +524,7 @@
     }
 
     .replyBox {
-        padding: 24px 24px 0 24px;
+        padding: 16px 24px 0 24px;
         border-radius: 0 !important;
     }
 
@@ -545,11 +549,15 @@
         flex-direction: column;
         align-items: flex-end;
     }
+
+    .opearteBox {
+        line-height: 1em;
+    }
 }
 
 @media screen and (max-width: 767px) {
 
-    .main {    
+    .main {
         position: relative;
     }
 
@@ -664,6 +672,7 @@
         line-height: 2rem;
         font-size: 14px;
         border-radius: .25rem;
+        box-sizing: border-box;
     }
 
     .details {
@@ -701,6 +710,10 @@
         box-shadow: 0 0 5px rgb(200 200 200 / 80%);
         font-size: 0.75rem;
         transform: translate(-50%, 0);
+    }
+
+    .opearteBox {
+        line-height: 1.5em;
     }
 
 }
