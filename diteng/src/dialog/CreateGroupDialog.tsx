@@ -8,7 +8,8 @@ import { showMsg } from "../tool/Summer";
 import styles from "./CreateGroupDialog.css";
 
 type CreateGroupDialogTypeProps = {
-    onClose: Function
+    onClose: Function,
+    success?: Function
 }
 
 type CreateGroupDialogTypeState = {
@@ -169,6 +170,8 @@ export default class CreateGroupDialog extends WebControl<CreateGroupDialogTypeP
             if(ds.state <= 0) {
                 showMsg(ds.message)
             } else {
+                if(this.props.success)
+                    this.props.success(ds);
                 showMsg(`"${this.state.groupName}"群组创建成功。`);
                 this.handleClose();
             }

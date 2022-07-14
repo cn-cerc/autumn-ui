@@ -564,7 +564,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async cleanUnread() {
         let dataOut = await PageApi.cleanUnread(new DataRow().setValue('FromUser_', this.state.messageDataList[this.state.opeartes.index].fromUser));
         if (dataOut.state > 0)
-            this.updateData();
+            this.updateDataRTL();
         else
             showMsg(dataOut.message);
     }
@@ -626,17 +626,28 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // 开始定时请求数据进程
     startTimer() {
         this.timer = setInterval(() => {
-            this.updateData()
+            this.updateDataRTL()
         }, this.state.timing * 1000)
     }
 
-    async updateData() {
+    async updateDataRTL() {
         if (!this.isPhone) {
             await this.getMessageData(this.state.currentUserId);
         }
         let messageDataList = await this.getContactData();
         this.setState({
             messageDataList,
+        })
+    }
+
+    async updateDataLTR() {
+        let messageDataList = await this.getContactData();
+        this.setState({
+            messageDataList,
+        }, ()=>{
+            if (!this.isPhone) {
+                this.getMessageData(this.state.currentUserId);
+            }
         })
     }
 
@@ -833,7 +844,13 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     getCreateBox() {
         if (this.state.showCreate) {
-            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })}></CreateGroupDialog>
+            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })} success={(ds: DataSet)=>{
+                this.setState({
+                    currentUserId: ds.head.getString('gid')
+                }, ()=>{
+                    this.updateDataLTR();
+                })
+            }}></CreateGroupDialog>
         }
     }
 
