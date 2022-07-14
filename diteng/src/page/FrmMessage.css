@@ -664,7 +664,7 @@
         background-color: #fff;
         border-radius: 4px;
         padding-left: 0.3125rem;
-        margin-right: 1rem;
+        margin-right: .75rem;
     }
 
     .replyBox>div>button {
@@ -714,6 +714,18 @@
 
     .opearteBox {
         line-height: 1.5em;
+    }
+
+    .uploadImage {
+        margin-right: .75rem;
+    }
+
+    .uploadImage>input {
+        display: none;
+    }
+
+    .uploadImage>img {
+        height: 1.25rem;
     }
 
 }

@@ -180,7 +180,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let messageData = this.state.messageDataList[i];
             let name = messageData.name || '系统消息';
             let num = i;
-            if (name == '系统消息') continue;
+            if (name == '系统消息' || messageData.fromUser.startsWith('g_')) continue;
             list.push(<li key={num} className={`${messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} ${styles.contactLiItem}`} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser, name)}>
                 <div className={styles.contactImage} style={{'backgroundColor': imageColorArr[colorIndex % 7]}}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                 <div className={styles.alignItem}>

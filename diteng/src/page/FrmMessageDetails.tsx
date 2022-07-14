@@ -13,6 +13,8 @@ import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
 import AcceptMessage from "./AcceptMessage";
 import ImageMessage from "./ImageMessage";
+import StaticFile from "../StaticFile";
+import ImageConfig from "../ImageConfig";
 
 type FrmMessageDetailsTypeProps = {
     fromUser: string,
@@ -30,7 +32,7 @@ type FrmMessageDetailsTypeState = {
     remarkText_: string,
     messageText: string,
     quicReplyList: Array<{ text: string, uid: string }>,
-    leaveBottom: number,
+    formBottom: number,
     timing: number,
 }
 
@@ -47,7 +49,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             remarkText_: '',
             date: this.props.date,
             lastDate: this.props.date,
-            leaveBottom: 0,
+            formBottom: 0,
         }
     }
 
@@ -283,6 +285,12 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                         messageText: encodeURIComponent(e.target.value),
                     })
                 }} placeholder='请输入消息...'></textarea>
+                <div className={styles.uploadImage}>
+                    <label htmlFor='uploadImage'>
+                        <img src={StaticFile.getImage(ImageConfig.ICON_UPLOADIMAGE)} title='上传图片'></img>
+                    </label>
+                    <input type='file' id='uploadImage' accept="image/*" value='' onChange={(e) => this.handleUploadImage(e)} />
+                </div>
                 <div>
                     <button className={this.state.messageText != '' ? '' : styles.disEvents}>发送</button>
                 </div>
@@ -321,7 +329,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     // 设置聊天区域滚动到底部
     initMessageScroll() {
         let el = document.getElementsByClassName(styles.messageList)[0] as HTMLDivElement;
-        el.scrollTop = el.scrollHeight - this.state.leaveBottom;
+        el.scrollTop = el.scrollHeight - this.state.formBottom;
     }
 
     async quicReplySend(e: any) {
@@ -410,7 +418,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     scrollEventFun(e: any) {
         let el = e.target as HTMLDivElement;
         this.setState({
-            leaveBottom: el.scrollHeight - el.scrollTop
+            formBottom: el.scrollHeight - el.scrollTop
         })
     }
 
@@ -432,5 +440,22 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             this.removeTimer();
             return true;
         }
+    }
+
+    // 回复图片消息
+    async handleUploadImage(e: any) {
+        let formData = new FormData();
+        formData.set('file', e.target.files[0]);
+        formData.set('ToUser_', this.props.fromUser);
+        let ds = await PageApi.replyImageMessage(formData);
+        if (ds.state > 0) {
+            this.setState({
+                messageText: '',
+                formBottom: 0
+            }, () => {
+                this.getMessageData(Utils.getNowDate());
+            })
+        } else
+            showMsg(ds.message);
     }
 }
