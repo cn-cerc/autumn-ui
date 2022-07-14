@@ -504,7 +504,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     messageName = DefaultMessage;
                     break;
             }
-            list.push(<li key={ds.recNo}>
+            list.push(<li key={ds.getString('UID_')}>
                 {React.createElement(messageName, {
                     row: ds.current,
                     name,
@@ -518,7 +518,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }
         return <ul className={styles.messageList} onScroll={(e) => {
             this.scrollEventFun(e);
-        }} key={messageData.data.json}>{list}</ul>
+        }}>{list}</ul>
     }
 
     getForm(messageData: messageDetail) {
