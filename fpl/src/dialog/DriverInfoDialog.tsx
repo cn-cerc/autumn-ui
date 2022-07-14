@@ -19,7 +19,7 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue('dept_code_', this.props.deptCode);
-        dataIn.setValue("loadTotal",100);
+        dataIn.setValue("maxRecord",100);
         this.state = {
             ...this.state,
             dataIn,
@@ -48,7 +48,7 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
             <div role="content" className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="name_" dataName="司机名称" autoFocus></DBEdit>
-                    <DBEdit dataField="loadTotal" dataName="载入笔数"></DBEdit>
+                    <DBEdit dataField="maxRecord" dataName="载入笔数"></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt/>
