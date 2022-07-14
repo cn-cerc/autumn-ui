@@ -14,8 +14,8 @@ export default class ImageMessage extends Message<messageTypeProps> {
         row.copyValues(this.props.row);
         let content = row.getString('Content_');
         let isJson = isJSON(content);
-        let obj =  isJson ? JSON.parse(content) : null;
-        return <div className={styles.imageMessage}><img src={isJson ? obj?.url : obj} style={this.getImageStyle(obj?.width, obj?.height)}/></div>
+        let obj = isJson ? JSON.parse(content) : null;
+        return <div className={styles.imageMessage}><img className="messageImage" data-original={isJson ? obj?.originalUrl || '' : obj} src={isJson ? obj?.url : obj} style={this.getImageStyle(obj?.width, obj?.height)} /></div>
     }
 
     getImageStyle(width: number, height: number) {
@@ -23,18 +23,18 @@ export default class ImageMessage extends Message<messageTypeProps> {
             width: '',
             height: ''
         }
-        if(this.isPhone) {
+        if (this.isPhone) {
             let remCoefficient = document.body.clientWidth / 360 * 16;
             style.height = `${height / remCoefficient}rem`;
             style.width = `${width / remCoefficient}rem`;
-            if(width > (width / remCoefficient)) {
+            if (width > (width / remCoefficient)) {
                 style.height = `${height / width * this.imagesHeight}rem`;
                 style.width = `${this.imagesHeight}rem`;
             }
         } else {
             style.height = `${height}px`;
             style.width = `${width}px`;
-            if(width > this.imagesHeight) {
+            if (width > this.imagesHeight) {
                 style.height = `${height / width * this.imagesHeight}px`;
                 style.width = `${this.imagesHeight}px`;
             }
