@@ -303,3 +303,15 @@ export class Excel {
         return dataList;
     }
 }
+
+export function isJSON(str: string) {
+    try {
+        let obj = JSON.parse(str);
+        if (typeof obj == 'object')
+            return true;
+        else
+            return false;
+    } catch (e) {
+        return false;
+    }
+}
