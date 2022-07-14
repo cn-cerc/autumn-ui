@@ -422,16 +422,19 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     handleContextMenuCapture(num: number, e: any) {
         e.preventDefault();
         let header: HTMLHeadElement = document.querySelector('header.page-header');
+        let x = e.clientX;
         let y = e.clientY - header.offsetHeight;
         let height = this.isPhone ? 106 : 76;
         if (e.clientY + height > document.body.offsetHeight)
             y = y - height;
-        console.log(num)
+        let width = 128;
+        if (e.clientX + width > document.body.offsetWidth)
+            x = document.body.offsetWidth - width;
         this.setState({
             opeartes: {
                 showOperate: true,
                 index: num,
-                x: e.clientX,
+                x,
                 y
             }
         })
@@ -628,13 +631,12 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     async updateData() {
+        if (!this.isPhone) {
+            await this.getMessageData(this.state.currentUserId);
+        }
         let messageDataList = await this.getContactData();
         this.setState({
             messageDataList,
-        }, () => {
-            if (!this.isPhone) {
-                this.getMessageData(this.state.currentUserId);
-            }
         })
     }
 
