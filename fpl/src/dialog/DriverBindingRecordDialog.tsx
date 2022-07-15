@@ -65,8 +65,13 @@ export default class DriverBindingRecordDialog extends BaseDialog<DriverBindingR
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+        let input3 = document.getElementById("after_user_code_") as HTMLInputElement;
+
         input1.value = dataRow.getString('driver_no_');
         input2.value = dataRow.getString('name_');
+        if(input3){
+            input3.value=dataRow.getString('driver_user_code_');
+        }
         this.handleSelect();
     }
 }
