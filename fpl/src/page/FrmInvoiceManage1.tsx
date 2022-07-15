@@ -15,6 +15,9 @@ type FrmInvoiceManage1TypeState = {
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
+    invoiceStatusData: DataSet,
+    invoiceReviewStatus: DataSet,
+    applicationInvoiceData: DataSet,
 }
 
 export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeProps, FrmInvoiceManage1TypeState> {
@@ -45,6 +48,9 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
             pieData1,
             pieData2,
             dataJson: dataJson,
+            invoiceStatusData: new DataSet(),
+            invoiceReviewStatus: new DataSet(),
+            applicationInvoiceData: new DataSet(),
         }
     }
 
@@ -66,11 +72,11 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                             <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '充值管理')}>
                                 <span>充值管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`货单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '货单管理')}>
-                                <span>货单管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`物流订单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
+                                <span>物流订单管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '运单管理')}>
-                                <span>运单管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`物流运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '物流运单管理')}>
+                                <span>物流运单管理</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`发票管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '发票管理')}>
                                 <span>发票管理</span>
@@ -112,14 +118,25 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
         </div>
     }
 
-    componentDidMount(): void {
-        this.initLineChart();
+    async init() {
+        // let invoiceStatusData = new DataSet();
+        // invoiceStatusData = await FplPageApi.contractApplyStats();
+        // let invoiceReviewStatus = new DataSet();
+        // invoiceReviewStatus = await FplPageApi.contractApplyStats();
+        // let applicationInvoiceData = new DataSet();
+        // applicationInvoiceData = await FplPageApi.contractApplyStats();
+
+        this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
+    componentDidMount(): void {
+        this.init()
+    }
+
+    initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
@@ -134,7 +151,7 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
         let option = {
             xAxis: {
                 type: 'category',
-                data: xArr,
+                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -150,10 +167,9 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                     color: '#333333'
                 }
             },
-            lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
+                top: 15,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -162,7 +178,8 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
             series: [
                 {
                     data: sData,
-                    type: 'line',
+                    type: 'bar',
+                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -315,19 +332,19 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                     ]
                 },
                 {
-                    coords: [ //货单管理往右线条
+                    coords: [ //物流订单管理往右线条
                         [135, 137],
                         [210, 137]
                     ]
                 },
                 {
-                    coords: [ //货单管理往下线条
+                    coords: [ //物流订单管理往下线条
                         [111, 175],
                         [111, 220]
                     ]
                 },
                 {
-                    coords: [ //运单管理往下线条
+                    coords: [ //物流运单管理往下线条
                         [234, 175],
                         [234, 220]
                     ]

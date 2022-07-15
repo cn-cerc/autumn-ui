@@ -50,14 +50,14 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                             <div className={`${this.state.linkRow.getBoolean('车队与司机登记_Dis') ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车队与司机登记')}>
                                 <span>车队与司机登记</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('货单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '货单登记')}>
-                                <span>货单登记</span>
+                            <div className={`${this.state.linkRow.getBoolean('物流订单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '物流订单登记')}>
+                                <span>物流订单登记</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('货单管理_Dis') ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '货单管理')}>
-                                <span>货单管理</span>
+                            <div className={`${this.state.linkRow.getBoolean('物流订单管理_Dis') ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
+                                <span>物流订单管理</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('自行派车运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车运单登记')}>
-                                <span>自行派车运单登记</span>
+                            <div className={`${this.state.linkRow.getBoolean('自行派车物流运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车物流运单登记')}>
+                                <span>自行派车物流运单登记</span>
                             </div>
                             <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
                                 <span>委托第三方物流运输</span>
@@ -78,7 +78,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>货单统计</div>
+                            <div className={styles.mcTitle}>物流订单统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>

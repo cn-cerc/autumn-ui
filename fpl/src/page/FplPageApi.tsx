@@ -18,7 +18,12 @@ export default class FplPageApi {
 
     /** 获取未接货单详情 */
     static getCargoOrderDetail(params: DataRow) {
-        return FplDialogApi.getDataOut('SvrCargoOrder.downloadPhone', params);
+        return FplDialogApi.getDataOut('SvrDriverArrangeCar.downloadForPhone', params);
+    }
+
+    /** 确认接单 */
+    static ConfirmOrder(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrDriverArrangeCar.downloadForPhone', params);
     }
 
     /** 零配件管理=> 品牌数量（前五名） */
@@ -81,6 +86,14 @@ export default class FplPageApi {
         return FplDialogApi.getService('SvrContract.contractStats');
     }
 
+    /**  车队与车辆管理=> 车辆状态统计 */
+    static getFleetDrivrCarPayeeReport() {
+        return FplDialogApi.getService('SvrPCarRegistration.getFleetDrivrCarPayeeReport');
+    }
+    /** 车队与车辆管理=> 车队与车辆类型 */
+    static getFleetCarCountReport() {
+        return FplDialogApi.getService('SvrPCarRegistration.getFleetCarCountReport');
+    }
     /** 车队与车辆管理/货运管理=> 在途中车辆、空车、待发货 */
     static getMoreThanOneWeekReport() {
         return FplDialogApi.getService('SvrPCarRegistration.getMoreThanOneWeekReport');

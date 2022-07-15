@@ -25,10 +25,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         linkRow.setJson(this.props.chartsJson);
         this.state = {
             linkRow,
-            notData: new DataSet(),       //未接订单DataSet
+            notData: new DataSet(),       //未接物流订单DataSet
             orderType: 0,       //接单状态，0为全部，1为未接单，2为已接单
-            orderData: new DataSet(),       //所有订单DataSet
-            receivedData: new DataSet(),       //已接订单DataSet
+            orderData: new DataSet(),       //所有物流订单DataSet
+            receivedData: new DataSet(),       //已接物流订单DataSet
             isInit: false
         }
     }
@@ -56,7 +56,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         {this.getToast()}
                         <ul>
                             <li>
-                                <p>全部订单</p>
+                                <p>全部物流订单</p>
                                 <div className={styles.links_skin} onClick={()=>{
                                     location.href = `FrmDriverArrangeCar`;
                                 }}>
@@ -65,7 +65,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                                 </div>
                             </li>
                             <li>
-                                <p>未接订单</p>
+                                <p>未接物流订单</p>
                                 <div className={styles.links_skin} onClick={()=>{
                                     location.href = `FrmDriverArrangeCar.list`;
                                 }}>
@@ -74,7 +74,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                                 </div>
                             </li>
                             <li>
-                                <p>已接订单</p>
+                                <p>已接物流订单</p>
                                 <div className={styles.links_skin} onClick={()=>{
                                     location.href = `#`;
                                 }}>
@@ -145,10 +145,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     getDBGrid() {
         if (this.state.isInit) {
-            let jsx = <div className={styles.noGrid}>暂无未接单的订单，前往<a href='FrmCarGrab'>抢单大厅</a></div>;
+            let jsx = <div className={styles.noGrid}>暂无未接单的物流订单，前往<a href='FrmCarGrab'>抢单大厅</a></div>;
             if (this.state.notData.size > 0)
                 jsx = <React.Fragment>
-                    <div className={styles.gridTitle}>您存在未接运单——{this.state.notData.size}单，请尽快接单</div>
+                    <div className={styles.gridTitle}>您存在未接物流运单——{this.state.notData.size}单，请尽快接单</div>
                     <DBGrid dataSet={this.state.notData} className={styles.dbgrid}>
                         <Column code='send_date_time_' width='20' name='发货时间'></Column>
                         <Column code='arrive_date_time_' width='20' name='到货时间'></Column>
@@ -188,7 +188,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
         }
         if (!list.length) {
-            list.push(<li className={styles.noOrder}>暂无订单</li>)
+            list.push(<li className={styles.noOrder}>暂无物流订单</li>)
         }
         return <ul className={styles.orderList} key={this.state.orderType}>{list}</ul>
     }
