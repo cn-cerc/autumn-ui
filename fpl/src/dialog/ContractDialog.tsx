@@ -74,7 +74,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
         let input6 = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
 
         input1.value = dataRow.getString('contract_no_');
-        input2.value = dataRow.getString('contract_no_');
+        input2.value = dataRow.getString('contract_type_name_');
         input3.value = dataRow.getString('remaining_amount_');
         input4.value = dataRow.getString('cargo_unit_price_');
         input5.value = dataRow.getString('arrangecar_unit_price_');
