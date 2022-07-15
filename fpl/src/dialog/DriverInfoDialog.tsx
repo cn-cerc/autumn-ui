@@ -19,7 +19,7 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue('dept_code_', this.props.deptCode);
-        dataIn.setValue("maxRecord",100);
+        dataIn.setValue("maxRecord", 100);
         this.state = {
             ...this.state,
             dataIn,
@@ -51,10 +51,10 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
                     <DBEdit dataField="maxRecord" dataName="载入笔数"></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt/>
+                    <ColumnIt />
                     <Column code="name_" name="司机名称" width="50"></Column>
                     <Column code="phone_num_" name="联系方式" width="50"></Column>
-                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
+                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
