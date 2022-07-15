@@ -61,7 +61,10 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
             </React.Fragment>
             remark = <DBEdit dataField='remark' dataRow={this.state.messageData}></DBEdit>;
         } else {
-            opera = <span>{MessageStatus[this.state.messageData.getDouble('status')]}</span>
+            opera = <React.Fragment>
+                <a href={this.state.messageData.getString('detailUrl')}>详情</a>
+                <span style={{ 'marginLeft': '16px' }}>{MessageStatus[this.state.messageData.getDouble('status')]}</span>
+            </React.Fragment>
             remark = <span>{this.state.messageData.getString('remark')}</span>
         }
         return <div className={`${styles.signMessage, styles.defaultMessage}`}>

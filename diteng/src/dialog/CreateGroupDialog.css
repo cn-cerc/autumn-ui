@@ -1,0 +1,253 @@
+.main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;
+}
+
+.mengCeng {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    font-size: 16px;
+    line-height: 1em;
+    color: #999;
+    border-bottom: 1px solid #d6d6d6;
+    width: 100%;
+}
+
+.title>span:nth-child(2) {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.mainBox {
+    height: 0;
+    flex: 1;
+    display: flex;
+}
+
+.contactList {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+}
+
+.contactList>li:first-child {
+    padding: 12px 20px 12px;
+    position: sticky;
+    background-color: #fff;
+}
+
+.contactList li {
+    display: flex;
+    line-height: 1em;
+    cursor: pointer;
+    align-items: center;
+}
+
+.contactList .contactBox:hover {
+    background-color: #e8e6e6;
+}
+
+.contactList li img {
+    width: 1rem;
+    height: 1rem;
+    margin: 0 8px;
+}
+
+.contactList li .contactImage {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-right: 10px;
+    font-size: 14px;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+}
+
+.contactList li .contactInfo {
+    width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.contactList li .contactInfo>span:nth-child(2) {
+    font-size: 12px;
+    line-height: 12px;
+    padding-top: 6px;
+    padding-right: 20px;
+    color: #b7b7b7;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+.btnsBox {
+    padding: 16px;
+}
+
+.btnsBox>div {
+    display: flex;
+    align-items: center;
+}
+
+.btnsBox input {
+    width: 0;
+    flex: 1;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    outline: 0;
+    padding: 0 8px;
+}
+
+.btns {
+    margin-top: 16px;
+    justify-content: flex-end;
+}
+
+.btns button {
+    padding: 10px 16px;
+    height: auto;
+    line-height: 1em;
+}
+
+.btns button:nth-child(1) {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #000;
+    margin-right: 16px;
+}
+
+.diable {
+    background-color: #DCDCDC;
+    border: 1px solid #D0D0D0;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+.noContact {
+    color: #ccc;
+    font-size: 14px;
+    line-height: 14px;
+    justify-content: center;
+}
+
+@media screen and (min-width: 768px) {
+    .content {
+        width: 680px;
+        height: 540px;
+        border-radius: 2px;
+    }
+
+    .contactList {
+        border-right: 1px solid #d6d6d6;
+    }
+    
+    .right {
+        width: 0;
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+        position: relative;
+    }
+
+    .right {
+        height: 100%;
+    }
+
+    .contactList>li:first-child {
+        top: 0;
+    }
+
+    .contactList {
+        width: 0;
+        height: 100%;
+    }
+
+    .contactList li {
+        padding: 12px;
+    }
+
+    .choseBox {
+        padding: 16px;
+        height: 0;
+        flex: 1;
+        overflow: auto;
+        border-bottom: 1px solid #d6d6d6;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .choseBox>div {
+        line-height: 1em;
+    }
+    
+    .choseBox ul {
+        display: flex;
+        flex-wrap: wrap;
+        padding-top: 16px;
+    }
+    
+    .choseBox ul li {
+        margin-right: 8px;
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        background-color: #efefef;
+        line-height: 16px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .content {
+        width: 100%;
+        height: 100%;
+    }
+
+    .mainBox {
+        flex-direction: column;
+    }
+
+    .contactList {
+        width: 100%;
+        height: 0;
+        border-bottom: 1px solid #d6d6d6;
+    }
+
+    .contactList>li:first-child {
+        top: -1px;
+    }
+
+    .contactList li {
+        padding: .5rem 1rem .5rem 1rem;
+    }
+}
