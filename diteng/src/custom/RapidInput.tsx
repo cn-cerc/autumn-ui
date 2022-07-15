@@ -10,7 +10,8 @@ import StaticFile from "../StaticFile";
 
 type RapidInputTypeProps = {
     objCode: string,
-    tb: string
+    tb: string,
+    showFlag: Boolean
 } & Partial<BaseDialogPropsType>
 
 type executeInfo = {
@@ -1023,7 +1024,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         else
             this.customLoad('系统正在处理中,请稍后...');
         this.setState(this.state);
-        if ('BC' == this.props.tb || 'OD' == this.props.tb) {
+        if (this.props.showFlag) {
             this.isBodyExists();
         } else {
             this.handleSubmit(1);
