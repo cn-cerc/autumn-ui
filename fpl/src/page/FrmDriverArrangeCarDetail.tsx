@@ -90,6 +90,9 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                         <span>抵达时间</span>
                         <span>2022-07-04 12:00</span>
                     </div>
+                    {this.state.waybillState ? <div className={styles.waybillState}>
+                        <img src={this.state.waybillStateImg} alt="" />
+                    </div> : ''}
                 </div>
                 {this.waybillStateHtml()}
                 <div className={styles.orderDetails}>
@@ -262,7 +265,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         location.href = `FrmDriverArrangeCar.modifyConfirmStatus?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&it=${this.props.it}&confirmStatus=1&contractNo=${this.state.contractNo}&isRead=${this.state.isAgree}`;
     }
 
-    submitForm(){
+    submitForm() {
 
     }
 }
