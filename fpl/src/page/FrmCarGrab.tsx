@@ -25,7 +25,7 @@ export default class FrmCarGrab extends WebControl<FrmCarGrabTypeProps, FrmCarGr
             .setValue('code_', '原木')
             .setValue('amount_', '2202.00');
         this.state = {
-            orderType: 0,       //接单状态，0为全部物流订单，1为限价物流订单，2为竞价物流订单 3为报价物流订单
+            orderType: 0,       //接单状态，0为全部订单，1为限价订单，2为竞价订单 3为报价订单
             isInit: false,
             data: data,
             tips: true
@@ -60,28 +60,28 @@ export default class FrmCarGrab extends WebControl<FrmCarGrabTypeProps, FrmCarGr
                     <div className={styles.info}>
                         <ul>
                             <li>
-                                <p>全部物流</p>
+                                <p>全部订单</p>
                                 <div>
                                     <span>12</span>
                                     <span>单</span>
                                 </div>
                             </li>
                             <li>
-                                <p>限价物流订单</p>
+                                <p>限价订单</p>
                                 <div>
                                     <span>12</span>
                                     <span>单</span>
                                 </div>
                             </li>
                             <li>
-                                <p>竞价物流订单</p>
+                                <p>竞价订单</p>
                                 <div>
                                     <span>12</span>
                                     <span>单</span>
                                 </div>
                             </li>
                             <li>
-                                <p>报价物流订单</p>
+                                <p>报价订单</p>
                                 <div>
                                     <span>12</span>
                                     <span>单</span>
