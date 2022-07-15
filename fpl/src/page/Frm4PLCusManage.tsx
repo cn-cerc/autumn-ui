@@ -67,8 +67,8 @@ export default class Frm4PLCusManage extends WebControl<Frm4PLCusManageypeProps,
                             <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '充值管理')}>
                                 <span>充值管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`派车单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '派车单管理')}>
-                                <span>派车单管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`物流运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '物流运单管理')}>
+                                <span>物流运单管理</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`审核发票申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '审核发票申请')}>
                                 <span>审核发票申请</span>
@@ -316,7 +316,7 @@ export default class Frm4PLCusManage extends WebControl<Frm4PLCusManageypeProps,
                         [198, 120],
                     ]
                 }, {
-                    coords: [ //派车单管理 往右线条
+                    coords: [ //物流运单管理 往右线条
                         [133, 207],
                         [198, 207],
                     ]

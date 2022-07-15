@@ -60,7 +60,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 </div>
                 <div className={styles.orderDetails}>
                     <ul>
-                        <li className={this.state.showShopDetail ? '' : styles.orderActive} onClick={() => this.setState({ showShopDetail: false })}>运单详情</li>
+                        <li className={this.state.showShopDetail ? '' : styles.orderActive} onClick={() => this.setState({ showShopDetail: false })}>物流运单详情</li>
                         <li className={this.state.showShopDetail ? styles.orderActive : ''} onClick={() => this.setState({ showShopDetail: true })}>货物明细</li>
                     </ul>
                     {this.getOrderDetail()}
@@ -84,7 +84,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         driverRow.setValue('cargo_no_', this.props.cargoNo);
         driverRow.setValue('tb_no_', this.props.tbNo);
         driverRow.setValue('it_', this.props.it);
-        // 查询派车单信息
+        // 查询物流运单信息
         let driverData = await FplPageApi.getDriverArrangeCarDetail(driverRow);
         driverData.first();
         orderData.copyValues(driverData.current);

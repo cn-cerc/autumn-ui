@@ -86,7 +86,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                     {this.isPhone ? this.getModule() : ''}
                     <div className={styles.charts}>
                         <div className={styles.chartsTitle}>
-                            <p>运单支出情况（对接中）</p>
+                            <p>物流运单支出情况（对接中）</p>
                         </div>
                         <div className={styles.chart}></div>
                     </div>

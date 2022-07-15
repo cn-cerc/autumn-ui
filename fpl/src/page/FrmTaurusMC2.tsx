@@ -55,11 +55,11 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                             <div className={`${this.state.linkRow.getBoolean('货主线下委托_Dis') ? styles.register_disable : styles.register} ${styles.stock6}`} onClick={this.linkTo.bind(this, '货主线下委托')}>
                                 <span>货主线下委托</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('货单管理_Dis') ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '货单管理')}>
-                                <span>货单管理</span>
+                            <div className={`${this.state.linkRow.getBoolean('物流订单管理_Dis') ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
+                                <span>物流订单管理</span>
                             </div>
-                            <div className={`${this.state.linkRow.getBoolean('自行派车运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车运单登记')}>
-                                <span>自行派车运单登记</span>
+                            <div className={`${this.state.linkRow.getBoolean('自行派车物流运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车物流运单登记')}>
+                                <span>自行派车物流运单登记</span>
                             </div>
                             <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
                                 <span>委托第三方物流运输</span>
@@ -80,7 +80,7 @@ export default class FrmTaurusMC2 extends WebControl<FrmTaurusMCTypeProps, FrmTa
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>货单统计</div>
+                            <div className={styles.mcTitle}>物流订单统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>

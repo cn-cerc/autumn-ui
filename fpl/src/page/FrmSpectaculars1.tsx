@@ -127,7 +127,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
-                            <div className={styles.mcTitle}>派车单</div>
+                            <div className={styles.mcTitle}>物流运单</div>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>

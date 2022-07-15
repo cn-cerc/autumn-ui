@@ -4,6 +4,7 @@ import styles from "./FrmInvoiceManage.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 import Introduction from "./Introduction";
+import FplPageApi from "./FplPageApi";
 
 type FrmInvoiceManageTypeProps = {
     dataJson: string,
@@ -15,6 +16,9 @@ type FrmInvoiceManageTypeState = {
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
+    invoiceStatusData: DataSet,
+    invoiceReviewStatus: DataSet,
+    applicationInvoiceData: DataSet,
 }
 
 export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypeProps, FrmInvoiceManageTypeState> {
@@ -45,6 +49,9 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
             pieData1,
             pieData2,
             dataJson: dataJson,
+            invoiceStatusData: new DataSet(),
+            invoiceReviewStatus: new DataSet(),
+            applicationInvoiceData: new DataSet(),
         }
     }
 
@@ -107,14 +114,25 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
         </div>
     }
 
-    componentDidMount(): void {
-        this.initLineChart();
+    async init() {
+        // let invoiceStatusData = new DataSet();
+        // invoiceStatusData = await FplPageApi.contractApplyStats();
+        // let invoiceReviewStatus = new DataSet();
+        // invoiceReviewStatus = await FplPageApi.contractApplyStats();
+        // let applicationInvoiceData = new DataSet();
+        // applicationInvoiceData = await FplPageApi.contractApplyStats();
+
+        this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
+    componentDidMount(): void {
+        this.init()
+    }
+
+    initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
@@ -129,7 +147,7 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
         let option = {
             xAxis: {
                 type: 'category',
-                data: xArr,
+                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -145,10 +163,9 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
                     color: '#333333'
                 }
             },
-            lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
+                top: 15,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -157,7 +174,7 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
             series: [
                 {
                     data: sData,
-                    type: 'line',
+                    type: 'bar',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -209,7 +226,6 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -218,6 +234,7 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -263,7 +280,6 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -272,6 +288,7 @@ export default class FrmInvoiceManage extends WebControl<FrmInvoiceManageTypePro
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,

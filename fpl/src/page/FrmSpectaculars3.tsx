@@ -71,7 +71,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                                 <img src={StaticFile.getImage('images/MCimg/5.png')} alt="" />
                             </div>
                             <div>
-                                <div className={styles.topTitle}>运单数</div>
+                                <div className={styles.topTitle}>物流运单数</div>
                                 <div className={styles.topInfo}>
                                     746 <span>单</span>
                                 </div>
@@ -161,11 +161,11 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.rightSiteEchat1BoxPie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
-                            <div className={styles.mcTitle}>运单量</div>
+                            <div className={styles.mcTitle}>物流运单量</div>
                             <div className={styles.mcBar2}></div>
                         </div>
                         <div className={styles.rightBox3}>
-                            <div className={styles.mcTitle}>运单重量</div>
+                            <div className={styles.mcTitle}>物流运单重量</div>
                             <div className={styles.mcLink1}></div>
                         </div>
                     </div>
