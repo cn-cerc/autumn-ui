@@ -1046,7 +1046,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 this.handleSubmit(1);
             } else {
                 this.setState({
-                    msg: data.message,
+                    productsMsg: data.message,
                     openFlag: true
                 })
             }
