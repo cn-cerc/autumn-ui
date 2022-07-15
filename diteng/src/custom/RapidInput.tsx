@@ -42,6 +42,11 @@ type RapidInputTypeStates = {
     treeIcons: treeIcons,
     isInput: boolean, // 用于键盘事件监听时与输入框输入时区别开来
     timer: any, // 用于执行自动查询的定时器
+    openFlag: boolean,
+    msg: string,
+    endIndex: number,
+    num: number,
+    items: Array<object>
 } & Partial<BaseDialogStateType>
 
 export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInputTypeStates> {
@@ -115,7 +120,12 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 expendIcon: 'iconExpend',
                 shrinkIcon: 'iconShrink',
             },
-            timer: null
+            timer: null,
+            openFlag: false,
+            msg: '',
+            endIndex: 0,
+            num: 0,
+            items: []
         }
         this.setTitle('商品快速录入');
     }
@@ -192,7 +202,9 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 </div>
                 {this.getLineProps()}
                 {this.getEnterInputProps()}
+                {this.state.openFlag ? this.openWindow() : ''}
             </div>
+
         )
     }
 
@@ -1021,12 +1033,14 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
     }
 
     handleSubmit(num: number) {
-        let items = [];
+        let items: any = [];
+        let partCodes = [];
         let startIndex = (num - 1) * 20;
         let endIndex = num * 20;
         if (this.state.data.records.length < endIndex)
             endIndex = this.state.data.records.length;
         for (let i = startIndex; i < endIndex; i++) {
+            partCodes.push(this.state.data.records[i].getString('Code_'));
             items.push({
                 partCode: this.state.data.records[i].getString('Code_'),
                 remark: this.state.data.records[i].getString('Remark_'),
@@ -1035,30 +1049,33 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 spare: this.state.data.records[i].getBoolean('Free_')
             })
         }
-        fetch(`TWebShopping.addDetail?tb=${this.props.tb}&rapidInput=${encodeURIComponent(JSON.stringify(items))}`).then(response => response.json()).then((data: any) => {
-            if (data.ok) {
-                if (endIndex < this.state.data.size)
-                    this.handleSubmit(++num);
-                else {
-                    showMsg(data.msg);
-                    this.setLoad(false);
-                    this.handleClose();
-                    if (/#$/.test(window.location.href)) {
-                        window.location.href = window.location.href.replace('#', '');
-                    } else {
-                        window.location.href = window.location.href;
-                    }
+        if ('BC' == this.props.tb || 'OD' == this.props.tb) {
+
+            fetch(`TFrmTranBC.isBodyExists?products=${partCodes}&flag=true`).then(response => response.json()).then((data: any) => {
+                if (data.result) {
+                    this.setState({
+                        endIndex: endIndex,
+                        num: num,
+                        items: items
+                    }, () => {
+                        this.addDetail();
+                    })
+                } else {
+                    this.setState({
+                        msg: data.message,
+                        openFlag: true
+                    })
                 }
-            } else {
-                showMsg(data.msg);
-                let ds = new DataSet();
-                ds.appendDataSet(this.state.data);
-                for (let i = 0; i < (num - 1) * 20; i++) {
-                    this.removeShop(ds.records[i]);
-                }
-                this.setLoad(false);
-            }
-        })
+            })
+        } else {
+            this.setState({
+                endIndex: endIndex,
+                num: num,
+                items: items
+            }, () => {
+                this.addDetail();
+            })
+        }
     }
 
     treeDbClick(data: any[]) {
@@ -1133,5 +1150,54 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         let row: DataRow = this.state.data.records[this.state.currentShoped - 1];
         row.setValue('Num_', num);
         this.setState(this.state)
+    }
+
+    addDetail() {
+        this.setState({
+            openFlag: false
+        })
+        fetch(`TWebShopping.addDetail?tb=${this.props.tb}&rapidInput=${encodeURIComponent(JSON.stringify(this.state.items))}`).then(response => response.json()).then((data: any) => {
+            if (data.ok) {
+                if (this.state.endIndex < this.state.data.size)
+                    this.handleSubmit(++this.state.num);
+                else {
+                    showMsg(data.msg);
+                    this.setLoad(false);
+                    this.handleClose();
+                    if (/#$/.test(window.location.href)) {
+                        window.location.href = window.location.href.replace('#', '');
+                    } else {
+                        window.location.href = window.location.href;
+                    }
+                }
+            } else {
+                showMsg(data.msg);
+                let ds = new DataSet();
+                ds.appendDataSet(this.state.data);
+                for (let i = 0; i < (this.state.num - 1) * 20; i++) {
+                    this.removeShop(ds.records[i]);
+                }
+                this.setLoad(false);
+            }
+        })
+    }
+
+    openWindow() {
+        return <div className={styles.alertShadow}>
+            <div className={styles.alertBox}>
+                <div>
+                    <h1 className={styles.alertTitle}>操作提示</h1>
+                    <p className={styles.alertCon} dangerouslySetInnerHTML={{ __html: this.state.msg }}></p>
+                    <ul>
+                        <li className={styles.alertCancel} style={{ 'width': '50%', 'borderRight': '1px solid rgb(230, 230, 230)' }} onClick={(e) => {
+                            this.setState({
+                                openFlag: false
+                            })
+                        }}>取消</li>
+                        <li className={styles.alertConfirm} style={{ 'width': '50%' }} onClick={this.addDetail.bind(this)}>确认</li>
+                    </ul>
+                </div>
+            </div>
+        </div>;
     }
 }
