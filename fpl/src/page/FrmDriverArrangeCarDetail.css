@@ -120,12 +120,28 @@
     height: 72px;
 }
 
-.wabillStateBox {
+.wabillStateBox,
+.accessoryBox {
     margin: 0.75rem;
     background-color: #fff;
     border-radius: 0.25rem;
     padding: 1rem 0.75rem;
     line-height: 1em;
+}
+
+.orderBtns1 {
+    justify-content: space-between;
+}
+
+.orderBtns1>button {
+    width: calc(50% - 6px);
+}
+
+.orderBtns1>button:first-child {
+    color: #00A653;
+    background-color: #fff;
+    border: 1px solid #00A653;
+    box-sizing: border-box;
 }
 
 .wabillStateItem {
@@ -138,7 +154,12 @@
     border: none;
     outline: none;
     text-align: right;
-    padding: 0 5px;
+    padding: 0 0.25rem 0 1rem;
+    flex: 1;
+}
+
+.wabillStateItem>input:focus {
+    border: none;
 }
 
 .wabillStateItem>input.disInp {
@@ -210,4 +231,67 @@
     height: 2.375rem;
     border-radius: .25rem;
     background-color: #00A653;
+}
+
+.accessoryBox {
+    display: flex;
+    align-items: center;
+
+}
+
+.accessoryBox>div:first-child {
+    width: 7.5rem;
+    height: 5.625rem;
+    margin-right: 0.75rem;
+    position: relative;
+    border-radius: 4px;
+}
+
+.accessoryBox>div:first-child>img {
+    width: 7.5rem;
+    height: 5.625rem;
+    border-radius: 4px;
+}
+
+.accessoryBox>div:last-child>h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.accessoryBox>div:last-child>p {
+    color: #999;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.accessoryBox>div:last-child>p:last-child {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.accessoryBox>div:last-child>p>span {
+    margin-left: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.accessoryBox>div:last-child>p>span>img {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.upImgBtn {
+    position: absolute;
+    left: -1px;
+    bottom: 0;
+    padding: 0.125rem;
+    background-color: #fff;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px 4px 0px 4px;
 }
