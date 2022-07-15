@@ -67,7 +67,19 @@ module.exports = {
 						}
 					}
 				]
-			}
+			},
+			{
+                test: /\.(jpg|png|gif)$/,
+                generator: {
+                    filename: 'imgs/[name][ext][query]'
+                }
+            },
+			{
+                test: /\.(woff|woff2|ttf)$/,
+                generator: {
+                    filename: 'iconfont/[name][ext][query]'
+                }
+            }
 		]
 	},
 	resolve: { // new add +

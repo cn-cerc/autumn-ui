@@ -6,27 +6,25 @@ import { MCChartColors } from "./FrmTaurusMC";
 import FplPageApi from "./FplPageApi";
 import Introduction from "./Introduction";
 
-type FrmTaurusMCTypeProps = {
+type FrmMaintenanceARTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmTaurusMCTypeState = {
+type FrmMaintenanceARTypeState = {
     linkRow: DataRow,
-    introduction: string,
     settlementStatus: DataSet,
     monthlyPaymentData: DataSet,
     yearRepairBill: DataSet,
 }
 
-export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
-    constructor(props: FrmTaurusMCTypeProps) {
+export default class FrmMaintenanceAR extends WebControl<FrmMaintenanceARTypeProps, FrmMaintenanceARTypeState> {
+    constructor(props: FrmMaintenanceARTypeProps) {
         super(props);
         let linkRow = new DataRow();
         linkRow.setJson(this.props.dataJson);
         this.state = {
             linkRow,
-            introduction: this.props.introduction,
             settlementStatus: new DataSet(),
             monthlyPaymentData: new DataSet(),
             yearRepairBill: new DataSet(),
@@ -186,10 +184,11 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
         let ds = new DataSet();
         ds = this.state.settlementStatus;
         ds.first();
-        let dataArr = [{ name: '待接收', value: ds.getDouble('to_be_received_total_') },
-        { name: '已清款', value: ds.getDouble('requested_total') },
-        { name: '付款中', value: ds.getDouble('paying_total_') },
-        { name: '已付款', value: ds.getDouble('paid_total_') }
+        let dataArr = [
+            { name: '待接收', value: ds.getDouble('to_be_received_total_') },
+            { name: '已清款', value: ds.getDouble('requested_total') },
+            { name: '付款中', value: ds.getDouble('paying_total_') },
+            { name: '已付款', value: ds.getDouble('paid_total_') }
         ];
 
         let option = {
@@ -244,6 +243,10 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
@@ -252,8 +255,9 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
         let ds = new DataSet();
         ds = this.state.monthlyPaymentData;
         ds.first();
-        let dataArr = [{ name: '已生成', value: ds.getDouble('paid_total_') },
-        { name: '未生成', value: ds.getDouble('no_paid_total_') }
+        let dataArr = [
+            { name: '已生成', value: ds.getDouble('paid_total_') },
+            { name: '未生成', value: ds.getDouble('no_paid_total_') }
         ];
         let option = {
             tooltip: {
@@ -300,6 +304,10 @@ export default class FrmMaintenanceAR extends WebControl<FrmTaurusMCTypeProps, F
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {

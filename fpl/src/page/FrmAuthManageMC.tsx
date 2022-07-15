@@ -3,6 +3,8 @@ import React from "react";
 import styles from "./FrmAuthManageMC.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import Introduction from "./Introduction";
+import FplPageApi from "./FplPageApi";
 
 type FrmAuthManageMCTypeProps = {
     dataJson: string,
@@ -10,51 +12,28 @@ type FrmAuthManageMCTypeProps = {
 }
 
 type FrmAuthManageMCTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string
+    DriverStatistics: DataSet,
+    CorpStatistics: DataSet,
+    payeeStatistics: DataSet,
 }
 
-export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
+export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
     constructor(props: FrmAuthManageMCTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction
+            DriverStatistics: new DataSet(),
+            CorpStatistics: new DataSet(),
+            payeeStatistics: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -88,16 +67,16 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>收款人统计</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>司机人数统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
+                        <div className={styles.mcTitle}>司机认证前五统计</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -105,29 +84,46 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let DriverStatistics = new DataSet();
+        DriverStatistics = await FplPageApi.queryDriverStatistics();
+        let CorpStatistics = new DataSet();
+        CorpStatistics = await FplPageApi.queryCorpStatistics();
+        let payeeStatistics = new DataSet();
+        payeeStatistics = await FplPageApi.queryDataStat();
+
+        this.setState({
+            DriverStatistics,
+            CorpStatistics,
+            payeeStatistics
+        })
+
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
+    componentDidMount(): void {
+        this.init();
+    }
+
     initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
+        ds = this.state.CorpStatistics;
         ds.first();
         let xArr = [];
         let sData = [];
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            xArr.push(ds.getString('corp_no_'));
+            sData.push(ds.getDouble('num'));
         }
         let option = {
             xAxis: {
                 type: 'category',
-                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
+                data: xArr,
                 axisLabel: {
                     color: '#333333'
                 },
@@ -143,9 +139,8 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
                     color: '#333333'
                 }
             },
-            tooltip: {},
             grid: {
-                top: 15,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -155,10 +150,10 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
-                        color: MCChartColors[0]
+                        color: MCChartColors[0],
                     },
+                    barWidth: 60,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -177,15 +172,12 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.payeeStatistics;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '已登记', value: ds.getDouble('registered') },
+            { name: '已认证', value: ds.getDouble('certified') }
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -197,6 +189,12 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -207,7 +205,6 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -216,6 +213,7 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -238,15 +236,12 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.DriverStatistics;
         ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '未审核', value: ds.getDouble('未审核') },
+            { name: '已审核', value: ds.getDouble('已审核') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -258,10 +253,15 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -270,6 +270,7 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -286,6 +287,10 @@ export default class FrmAuthManage extends WebControl<FrmAuthManageMCTypeProps, 
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {

@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./FrmSpectaculars3.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import StaticFile from "@diteng/StaticFile";
 
 type FrmSpectaculars3TypeProps = {
 }
@@ -35,7 +36,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let toggle = location.search.split('=')[1] == 'pc' ? 1 : 2;
+        let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             lineData,
             pieData1,
@@ -49,14 +50,14 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             <div className={styles.mcIntroduction}>
                 <p>
                     <span>数据总览</span>
-                    <img src="images/MCimg/title_line.png" alt="" />
-                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_pc : styles.btn_toggle_kanban}`} onClick={this.toggleFun.bind(this)}></a>
+                    <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
+                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
                 <div>
                     <ul className={styles.top_list}>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/6.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/6.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>交易金额</div>
@@ -67,7 +68,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                         </li>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/5.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/5.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>运单数</div>
@@ -78,7 +79,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                         </li>
                         <li className={styles.li_3}>
                             <div>
-                                <img src="images/MCimg/4.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/4.png')} alt="" />
                             </div>
                             <div>
                                 <div className={styles.topTitle}>总里程</div>
@@ -90,8 +91,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     </ul>
                 </div>
             </div>
-            <div className={styles.mcMain}>
-
+            <div className={`${styles.mcMain} ${this.state.toggle == 1 ? '' : styles.mcMainNoPB}`}>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -99,7 +99,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.FrmSpectaculars3LeftTop1}>
                                 <div className={styles.leftTop1Item}>
                                     <div>
-                                        <img src="images/MCimg/7.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/7.png')} alt="" />
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>停车数</div>
@@ -108,7 +108,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                                 </div>
                                 <div className={styles.leftTop1Item}>
                                     <div>
-                                        <img src="images/MCimg/8.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/8.png')} alt="" />
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>司机数</div>
@@ -117,7 +117,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                                 </div>
                                 <div className={styles.leftTop1Item}>
                                     <div>
-                                        <img src="images/MCimg/9.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/9.png')} alt="" />
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>异常率</div>
@@ -126,7 +126,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                                 </div>
                                 <div className={styles.leftTop1Item}>
                                     <div>
-                                        <img src="images/MCimg/10.png" alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/10.png')} alt="" />
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>回款率</div>
@@ -147,7 +147,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
                             <div className={styles.mcMap}>
-                                <img src="images/MCimg/map.png" alt="" />
+                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
@@ -313,29 +313,13 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     }
     initPieChart1() {
         let legend = {
-            type: 'plain',
-            bottom: '35%',
+            top: '25%',
+            left: '65%',
             orient: 'vertical',
-            right: '20%',
-            itemWidth: 10,
-            itemHeight: 10,
-            itemGap: 2,
-            fontSize: 8,
-            icon: 'circle'
+            itemWidth: 8,
+            itemHeight: 8,
+            icon: 'circle',
         };
-        if (this.isPhone) {
-            legend = {
-                type: 'plain',
-                bottom: '35%',
-                orient: 'vertical',
-                right: '20%',
-                itemWidth: 10,
-                itemHeight: 10,
-                itemGap: 4,
-                fontSize: 8,
-                icon: 'circle'
-            }
-        }
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let option = {
@@ -347,12 +331,13 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                 {
                     type: 'pie',
                     radius: ['55%', '75%'],
-                    center: ['25%', '50%'],
+                    center: ['35%', '50%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -389,6 +374,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             xAxis: { type: 'category' },
             yAxis: {},
             grid: [{ top: 25, left: 30, right: 10, bottom: 20 }],
+            color: MCChartColors,
             series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
         };
 
@@ -398,29 +384,13 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
     initPieChart2() {
         let legend = {
-            type: 'plain',
-            bottom: '5%',
+            top: '25%',
+            left: '65%',
             orient: 'vertical',
-            right: '20%',
-            itemWidth: 10,
-            itemHeight: 10,
-            itemGap: 2,
-            fontSize: 8,
-            icon: 'circle'
+            itemWidth: 8,
+            itemHeight: 8,
+            icon: 'circle',
         };
-        if (this.isPhone) {
-            legend = {
-                type: 'plain',
-                bottom: '25%',
-                orient: 'vertical',
-                right: '20%',
-                itemWidth: 10,
-                itemHeight: 10,
-                itemGap: 4,
-                fontSize: 8,
-                icon: 'circle'
-            }
-        }
         let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let option = {
@@ -432,12 +402,13 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                 {
                     type: 'pie',
                     radius: ['55%', '75%'],
-                    center: ['25%', '50%'],
+                    center: ['35%', '50%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -494,15 +465,15 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     }
 
     toggleFun() {
-        if (this.state.toggle == 1) {
-            location.href = `${location.origin}${location.pathname}?device=kanban`;
-            this.setState({
-                toggle: 2
-            })
-        } else {
+        if (this.state.toggle == 2) {
             location.href = `${location.origin}${location.pathname}?device=pc`;
             this.setState({
                 toggle: 1
+            })
+        } else {
+            location.href = `${location.origin}${location.pathname}?device=kanban`;
+            this.setState({
+                toggle: 2
             })
         }
     }

@@ -16,7 +16,6 @@ type FrmMaintenanceBookTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string,
     topFiveAmountReport: DataSet,
     settlementType: DataSet,
     cusRepairingVehicle: DataSet,
@@ -51,7 +50,6 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction,
             topFiveAmountReport: new DataSet(),
             settlementType: new DataSet(),
             cusRepairingVehicle: new DataSet(),
@@ -95,21 +93,21 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>结算类型</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>客户维修车辆统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcPieChart1}>
                         <div className={styles.mcPieBox3}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>客户维修金额统计</div>
                             <div className={styles.FrmTaurusMCPie3}></div>
                         </div>
                         <div className={styles.mcPieBox4}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>近一月未维修客户</div>
                             <div className={styles.FrmTaurusMCPie4}></div>
                         </div>
                     </div>
@@ -120,7 +118,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
 
     async init() {
         let settlementType = new DataSet();
-        settlementType = await FplPageApi.getStatisticsByMonth();
+        settlementType = await FplPageApi.getCusByMonthReport();
         let topFiveAmountReport = new DataSet();
         topFiveAmountReport = await FplPageApi.getCusByAmountReport();
         let cusRepairingVehicle = new DataSet();
@@ -152,13 +150,11 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         let ds = new DataSet();
         ds = this.state.settlementType;
         ds.first();
-        let dataArr: any = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        let dataArr: any = [
+            { name: '月结', value: ds.getDouble('monthly_total_') },
+            { name: '现结', value: ds.getDouble('cash_total_') }
+        ];
+
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -211,6 +207,10 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
@@ -271,7 +271,12 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
+
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
@@ -281,8 +286,8 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('ShortName_'),
+                value: ds.getDouble('amount_total_')
             })
         }
         let option = {
@@ -337,6 +342,10 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart4() {
@@ -349,7 +358,6 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('ShortName_'),
-                value: ds.getDouble('Value_')
             })
         }
         let option = {
@@ -363,12 +371,6 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
-                // formatter: (name: any) => {
-                //     let singleData = dataArr.filter(function (item: any) {
-                //         return item.name == name
-                //     })
-                //     return name + ' : ' + singleData[0].value;
-                // },
             },
             series: [
                 {
@@ -397,6 +399,10 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {

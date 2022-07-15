@@ -1,11 +1,15 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
+import CreateGroupDialog from "../dialog/CreateGroupDialog";
+import ImageConfig from "../ImageConfig";
+import StaticFile from "../StaticFile";
 import { showMsg } from "../tool/Summer";
 import Utils from "../tool/Utils";
 import AcceptMessage from "./AcceptMessage";
 import DefaultMessage from "./DefaultMessage";
 import ExportMessage from "./ExportMessage";
 import styles from "./FrmMessage.css";
+import ImageMessage from "./ImageMessage";
 import NoticeMessage from "./NoticeMessage";
 import PageApi from "./PageApi";
 import SignMessage from "./SignMessage";
@@ -26,13 +30,17 @@ type FrmMessageTypeState = {
     currentUserId: string,
     showMessage: boolean,
     quicReplyList: Array<{ text: string, uid: string }>
-    msgTypeStuteFlag: boolean
+    msgTypeStuteFlag: boolean,
+    uploadImage: Blob | '',
+    opeartes: opeartes,
+    showCreate: boolean
 }
 
 type messageDetail = {
     data: DataSet,
     latestDate: string,
     latestMessage: string,
+    cropName: string,
     date: string,
     fromBottom: number,
     fromUser: string,
@@ -43,10 +51,18 @@ type messageDetail = {
     remarkText_: string
 };
 
+type opeartes = {
+    showOperate: boolean,
+    index: number,
+    x: number,
+    y: number
+}
+
 export const timing = 5;
+export const imageColorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
-    private colorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
+    private mousedownTime: number = 0;
     private timer: any = null;
     constructor(props: FrmMessageTypeProps) {
         super(props);
@@ -66,6 +82,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 name: '',
                 unReadNum: 0,
                 messageText: '',
+                cropName: '',
                 remarkText_: '',        //默认备注字段，用来判断备注是否有修改
                 remarkText: '',     //备注字段
             }],     //消息列表DataSet
@@ -73,6 +90,14 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             showMessage,        //是否展示消息列表
             quicReplyList: [],   //保存获取的快捷回复list
             msgTypeStuteFlag: true,      //切换所有消息和未读消息
+            uploadImage: '',
+            opeartes: {
+                showOperate: false,
+                index: -1,
+                x: 0,
+                y: 0
+            },
+            showCreate: false
         }
     }
 
@@ -88,6 +113,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 dom.addEventListener('click', this.quicReplySend.bind(this))
             })
         }
+        document.addEventListener('click', () => {
+            this.setState({
+                opeartes: {
+                    showOperate: false,
+                    index: -1,
+                    x: 0,
+                    y: 0
+                }
+            })
+        })
     }
 
     changeRemark() {
@@ -110,9 +145,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     render(): React.ReactNode {
         return <div className={styles.main}>
-            {/* {this.getUserInfoDOM()} */}
             {this.getContactList()}
             {this.getMessageBox()}
+            {this.getCreateBox()}
+            {this.getOperateBox()}
         </div>
     }
 
@@ -162,7 +198,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         dataOut.first();
         let messageDataList: messageDetail[] = [];
         let allUnReadNum = 0;
-        console.log(dataOut)
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
             let date_ = new Date(latestDate);
@@ -179,6 +214,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 fromUser: dataOut.getString('FromUser_'),
                 name: dataOut.getString('Name_'),
                 unReadNum,
+                cropName: dataOut.getString('FromCorp_'),
                 messageText: '',
                 remarkText: '',
                 remarkText_: ''
@@ -231,6 +267,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     fromUser: messageDataList[num].fromUser,
                     name: messageDataList[num].name,
                     unReadNum,
+                    cropName: messageDataList[num].cropName,
                     messageText: messageDataList[num].messageText,
                     remarkText: messageDataList[num].remarkText,
                     remarkText_: messageDataList[num].remarkText_
@@ -249,6 +286,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     fromBottom: 0,
                     fromUser: dataOut.getString('FromUser_'),
                     name: dataOut.getString('Name_'),
+                    cropName: dataOut.getString('FromCorp_'),
                     unReadNum,
                     messageText: '',
                     remarkText: '',
@@ -339,6 +377,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             for (let i = 0; i < this.state.messageDataList.length; i++) {
                 let messageData = this.state.messageDataList[i];
                 let name = messageData.name || '系统消息';
+                let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
                     date = new Date(messageData.latestDate);
@@ -348,19 +387,18 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     timeText = `${hour}:${minut}`;
                 }
                 let num = i;
-                let unread = 0;
+                let unread = messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
                 if (!this.state.msgTypeStuteFlag) {
-                    unread = messageData.unReadNum > 99 ? 99 : messageData.unReadNum;
                     if (unread == 0) {
                         continue;
                     }
                 }
-                list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)}>
-                    <div className={styles.contactImage} style={{ 'backgroundColor': this.colorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
+                list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)} onContextMenuCapture={this.handleContextMenuCapture.bind(this, num)}>
+                    <div className={styles.contactImage} style={{ 'backgroundColor': imageColorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
                         <div className={styles.contactTitle}>
-                            <span>{name}</span>
+                            <span>{name}{cropName ? `@${cropName}` : ''}</span>
                             <span>{timeText}</span>
                         </div>
                         {messageData.latestMessage ? <div>{messageData.latestMessage}</div> : ''}
@@ -378,8 +416,28 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 </li>
                 {list}
             </ul>
-
         }
+    }
+
+    handleContextMenuCapture(num: number, e: any) {
+        e.preventDefault();
+        let header: HTMLHeadElement = document.querySelector('header.page-header');
+        let x = e.clientX;
+        let y = e.clientY - header.offsetHeight;
+        let height = this.isPhone ? 106 : 76;
+        if (e.clientY + height > document.body.offsetHeight)
+            y = y - height;
+        let width = 128;
+        if (e.clientX + width > document.body.offsetWidth)
+            x = document.body.offsetWidth - width;
+        this.setState({
+            opeartes: {
+                showOperate: true,
+                index: num,
+                x,
+                y
+            }
+        })
     }
 
     // 获取消息详情JSX结构
@@ -389,6 +447,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             return <div className={styles.messageBox}>
                 <div className={styles.messageTitle}>
                     <span>{messageData.name}</span>
+                    {!this.isSystemOrGroup(messageData.fromUser) ? <div title='创建群组' onClick={() => this.setState({ showCreate: true })}>
+                        <img src={StaticFile.getImage(ImageConfig.ICON_CREATE)} />
+                        <span>创建群组</span>
+                    </div> : ''}
                 </div>
                 {this.getMessageList()}
                 {this.getForm(messageData)}
@@ -408,7 +470,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         ds.first();
         while (ds.fetch()) {
             let siteR = false, systemMsg = false, msgStatus = ds.getString('Status_');
-            let name = messageData.name;
+            let name = ds.getString('Name_') || messageData.name;
             if (ds.getString('FromUser_') == this.props.userCode) { //判定是否是自己发出的消息
                 siteR = true;
                 name = this.props.userName;
@@ -437,11 +499,15 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 case 'MVAcceptMessage':
                     messageName = AcceptMessage;
                     break;
+                // 图片类消息
+                case 'MVImage':
+                    messageName = ImageMessage;
+                    break;
                 default:
                     messageName = DefaultMessage;
                     break;
             }
-            list.push(<li key={ds.recNo}>
+            list.push(<li key={ds.getString('UID_')}>
                 {React.createElement(messageName, {
                     row: ds.current,
                     name,
@@ -455,12 +521,20 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }
         return <ul className={styles.messageList} onScroll={(e) => {
             this.scrollEventFun(e);
-        }} key={messageData.data.json}>{list}</ul>
+        }}>{list}</ul>
     }
 
     getForm(messageData: messageDetail) {
         if (messageData.fromUser)
             return <form className={styles.replyBox} onSubmit={(e) => this.handleSubmit(e)} onKeyDown={(e) => this.handleKeyDown(e)}>
+                <div className={styles.statusBar}>
+                    <div className={styles.statu}>
+                        <label htmlFor='uploadImage'>
+                            <img src={StaticFile.getImage(ImageConfig.ICON_UPLOADIMAGE)} title='上传图片'></img>
+                        </label>
+                        <input type='file' id='uploadImage' accept="image/*" value='' onChange={(e) => this.handleUploadImage(e)} />
+                    </div>
+                </div>
                 <textarea value={decodeURIComponent(messageData.messageText)} onChange={(e) => {
                     messageData.messageText = encodeURIComponent(e.target.value);
                     this.setState(this.state)
@@ -469,6 +543,35 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     <button className={messageData.messageText != '' ? '' : styles.disEvents}>发送(S)</button>
                 </div>
             </form>
+    }
+
+    // 获取操作弹窗
+    getOperateBox() {
+        if (this.state.opeartes.showOperate)
+            return <ul className={styles.opearteBox} style={{ 'top': `${this.state.opeartes.y}px`, 'left': `${this.state.opeartes.x}px` }}>
+                {this.isPhone && !this.isSystemOrGroup(this.state.messageDataList[this.state.opeartes.index].fromUser) ? <li onClick={() => this.setState({ showCreate: true })}>创建群组</li> : ''}
+                <li onClick={this.cleanUnread.bind(this)}>清除未读</li>
+                <li onClick={this.refresh.bind(this)}>刷新</li>
+            </ul>
+    }
+
+    // 根据formUser判断是否为群组或者系统消息
+    isSystemOrGroup(formUser: string) {
+        return !formUser || formUser.startsWith('g_');
+    }
+
+    // 移除会话
+    async cleanUnread() {
+        let dataOut = await PageApi.cleanUnread(new DataRow().setValue('FromUser_', this.state.messageDataList[this.state.opeartes.index].fromUser));
+        if (dataOut.state > 0)
+            this.updateDataRTL();
+        else
+            showMsg(dataOut.message);
+    }
+
+    //
+    refresh() {
+        location.href = 'FrmMyMessage.refresh'
     }
 
     reloadMessage() {
@@ -504,10 +607,12 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 点击联系人触发的事件
     async handleClick(date: string, id: string) {
+        this.removeTimer();
         let messageData = this.getMessageDataByCode(id);
         if (!this.isPhone) {
             await this.getMessageData(id, date);
             this.getUserInfo();
+            this.startTimer();
         } else {
             this.setState({
                 currentUserId: id
@@ -520,16 +625,30 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     // 开始定时请求数据进程
     startTimer() {
-        this.timer = setInterval(async () => {
-            let messageDataList = await this.getContactData();
-            this.setState({
-                messageDataList,
-            }, () => {
-                if (!this.isPhone) {
-                    this.getMessageData(this.state.currentUserId);
-                }
-            })
+        this.timer = setInterval(() => {
+            this.updateDataRTL()
         }, this.state.timing * 1000)
+    }
+
+    async updateDataRTL() {
+        if (!this.isPhone) {
+            await this.getMessageData(this.state.currentUserId);
+        }
+        let messageDataList = await this.getContactData();
+        this.setState({
+            messageDataList,
+        })
+    }
+
+    async updateDataLTR() {
+        let messageDataList = await this.getContactData();
+        this.setState({
+            messageDataList,
+        }, ()=>{
+            if (!this.isPhone) {
+                this.getMessageData(this.state.currentUserId);
+            }
+        })
     }
 
     // 关闭定时请求数据进程
@@ -540,7 +659,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     // form表单键盘事件监听
     handleKeyDown(e: any) {
         let keyCode: number = e.keyCode;
-        if (keyCode == 13) {
+        if (keyCode == 13 && !e.ctrlKey) {
             e.preventDefault();
             this.handleSubmit(e);
         }
@@ -563,6 +682,28 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         }, () => {
             this.getMessageData(messageData.fromUser, Utils.getNowDate());
         })
+    }
+
+    // 回复图片消息
+    async handleUploadImage(e: any) {
+        let messageData = this.getMessageDataByCode(this.state.currentUserId);
+        let formData = new FormData();
+        formData.set('file', e.target.files[0]);
+        formData.set('ToUser_', messageData.fromUser);
+        let ds = await PageApi.replyImageMessage(formData);
+        if (ds.state > 0) {
+            this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            messageData.messageText = '';
+            messageData.fromBottom = 0;
+            let messageDataList = await this.getContactData();
+            this.setState({
+                messageDataList,
+                currentUserId: messageData.fromUser
+            }, () => {
+                this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            })
+        } else
+            showMsg(ds.message);
     }
 
     // 设置聊天区域滚动到底部
@@ -691,18 +832,28 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     async fromDetailFun() {
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let contactInfo = new DataSet();
-        if (messageData.fromUser) {
+        if (!this.isSystemOrGroup(messageData.fromUser)) {
             let row = new DataRow();
             row.setValue('FromUser_', messageData.fromUser);
             contactInfo = await PageApi.fromDetail(row);
-            if (this.closeServerFun(contactInfo.state)) {
-                return;
-            }
         } else {
             contactInfo.append().setValue('RoleName_', '系统').setValue('Mobile_', '暂无');
         }
         return contactInfo;
     }
+
+    getCreateBox() {
+        if (this.state.showCreate) {
+            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })} success={(ds: DataSet)=>{
+                this.setState({
+                    currentUserId: ds.head.getString('gid')
+                }, ()=>{
+                    this.updateDataLTR();
+                })
+            }}></CreateGroupDialog>
+        }
+    }
+
     //当前登录用户信息失效时关闭定时请求
     closeServerFun(state: number) {
         if (state <= 0) {

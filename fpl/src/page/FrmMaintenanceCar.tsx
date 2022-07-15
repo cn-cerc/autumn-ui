@@ -16,8 +16,9 @@ type FrmMaintenanceCarTypeState = {
     pieData1: DataSet,
     pieData2: DataSet,
     dataJson: DataRow,
-    introduction: string,
     vehicleState: DataSet,
+    fleetVehicleType: DataSet,
+    fleetVehiclesSummary: DataSet,
 }
 //车辆管理控制台 一汽建州修理厂
 
@@ -49,8 +50,9 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
             pieData1,
             pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction,
             vehicleState: new DataSet(),
+            fleetVehicleType: new DataSet(),
+            fleetVehiclesSummary: new DataSet(),
         }
     }
 
@@ -97,12 +99,12 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>车队与车辆类型</div>
+                            <div className={styles.mcTitle}>车队与车辆类型（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>车队与车辆汇总</div>
+                        <div className={styles.mcTitle}>车队与车辆汇总（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -113,10 +115,19 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
     async init() {
         let vehicleState = new DataSet();
         vehicleState = await FplPageApi.getMoreThanOneWeekReport();
+        //未对接API 
+        // let fleetVehicleType = new DataSet();
+        // fleetVehicleType = await FplPageApi.getMoreThanOneWeekReport();
+        // let fleetVehiclesSummary = new DataSet();
+        // fleetVehiclesSummary = await FplPageApi.getMoreThanOneWeekReport();
+
 
         this.setState({
-            vehicleState
+            vehicleState,
+            // fleetVehicleType,
+            // fleetVehiclesSummary
         })
+
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
@@ -134,9 +145,9 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         ds = this.state.vehicleState;
         ds.first();
         let dataArr: any = [
-            {name:'在途中',value:ds.getDouble('empty_car_sum_')},
-            {name:'空车',value:ds.getDouble('carry_sum_')},
-            {name:'待发货',value:ds.getDouble('to_be_shipped_sum_')},
+            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
+            { name: '空车', value: ds.getDouble('carry_sum_') },
+            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
         ];
         let option = {
             tooltip: {
@@ -190,12 +201,17 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
+        // ds = this.state.fleetVehicleType;
         ds.appendDataSet(this.state.pieData2);
         ds.first();
         let dataArr = [];
@@ -244,12 +260,17 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initBarChart() {
         let barChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
         let ds = new DataSet();
+        // ds = this.state.fleetVehiclesSummary;
         ds.appendDataSet(this.state.lineData);
         ds.first();
         let dataArr = [],
@@ -260,7 +281,7 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
         }
         let option = {
             grid: {
-                top: 10,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -276,12 +297,25 @@ export default class FrmMaintenanceCar extends WebControl<FrmMaintenanceCarTypeP
             series: [
                 {
                     data: dataArr,
-                    type: 'bar'
+                    type: 'bar',
+                    itemStyle: {
+                        color: MCChartColors[0],
+                    },
+                    barWidth: 60,
+                    lineStyle: {
+                        color: MCChartColors[0]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
                 }
             ]
         };
         //@ts-ignore
         myChart.setOption(option);
+
+
     }
 
     initFlowChart() {

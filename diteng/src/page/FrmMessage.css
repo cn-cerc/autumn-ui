@@ -3,6 +3,10 @@
     align-items: center;
 }
 
+.contactList table {
+    width: 100%;
+}
+
 .contactList>li:nth-child(n+2) {
     cursor: pointer;
 }
@@ -39,6 +43,10 @@
     text-overflow: ellipsis;
     color: #333;
     font-weight: 400;
+    padding-right: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .contactTitle>span:nth-child(2) {
@@ -69,6 +77,17 @@
     color: #000000;
 }
 
+.messageTitle>div {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.messageTitle>div>span {
+    padding-left: 1rem;
+}
+
 .messageList {
     height: 0;
     flex: 1;
@@ -91,6 +110,20 @@
 
 .replyBox>textarea::placeholder {
     color: #ccc;
+}
+
+.replyBox>.statusBar {
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 0 1rem 0;
+}
+
+.statu img {
+    cursor: pointer;
+}
+
+.statu>input {
+    display: none;
 }
 
 .replyBox>div {
@@ -306,7 +339,7 @@
     background-color: #fff;
     border-bottom: 1px solid #ebebeb;
     z-index: 10;
-    padding: 0!important;
+    padding: 0 !important;
 }
 
 .msgTypeStatusBox span {
@@ -386,6 +419,25 @@
     background-color: #fff;
 }
 
+.opearteBox {
+    position: absolute;
+    background-color: #fff;
+    border-radius: .125rem;
+    padding: .5rem 0;
+    box-shadow: 0px 0px .325rem .25rem #cbc5c5;
+    z-index: 106;
+    min-width: 128px;
+}
+
+.opearteBox>li {
+    padding: .5rem 1rem;
+    cursor: pointer;
+}
+
+.opearteBox>li:hover {
+    background-color: #e8e6e6;
+}
+
 @media screen and (min-width: 768px) {
     .main {
         height: 0;
@@ -455,8 +507,12 @@
 
     .messageTitle {
         height: 56px;
-        padding-left: 24px;
+        padding: 0 24px 0 16px;
         font-size: 18px;
+    }
+
+    .messageTitle>div>img {
+        height: 20px;
     }
 
     .messageList {
@@ -468,7 +524,7 @@
     }
 
     .replyBox {
-        padding: 24px 32px 0 32px;
+        padding: 16px 24px 0 24px;
         border-radius: 0 !important;
     }
 
@@ -493,9 +549,17 @@
         flex-direction: column;
         align-items: flex-end;
     }
+
+    .opearteBox {
+        line-height: 1em;
+    }
 }
 
 @media screen and (max-width: 767px) {
+
+    .main {
+        position: relative;
+    }
 
     .main,
     .contactList {
@@ -600,7 +664,7 @@
         background-color: #fff;
         border-radius: 4px;
         padding-left: 0.3125rem;
-        margin-right: 1rem;
+        margin-right: .75rem;
     }
 
     .replyBox>div>button {
@@ -608,6 +672,7 @@
         line-height: 2rem;
         font-size: 14px;
         border-radius: .25rem;
+        box-sizing: border-box;
     }
 
     .details {
@@ -645,6 +710,22 @@
         box-shadow: 0 0 5px rgb(200 200 200 / 80%);
         font-size: 0.75rem;
         transform: translate(-50%, 0);
+    }
+
+    .opearteBox {
+        line-height: 1.5em;
+    }
+
+    .uploadImage {
+        margin-right: .75rem;
+    }
+
+    .uploadImage>input {
+        display: none;
+    }
+
+    .uploadImage>img {
+        height: 1.25rem;
     }
 
 }

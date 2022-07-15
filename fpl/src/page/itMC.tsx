@@ -2,6 +2,7 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
 import { MCChartColors } from "./FrmTaurusMC";
+import Introduction from "./Introduction";
 import styles from "./itMC.css";
 import UIModuleMenu from "./UIModuleMenu";
 
@@ -11,7 +12,6 @@ type itMCTypeProps = {
 }
 
 type itMCTypeState = {
-    introduction: string,
     data: DataSet,
     title: string,
     lineData: DataSet,
@@ -45,7 +45,6 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
         this.state = {
             title: '常用功能',
             data: data,
-            introduction: this.props.introduction,
             lineData,
             pieData1,
             pieData2,
@@ -54,10 +53,7 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.bgColor}>
                     <UIModuleMenu dataSet={this.state.data} title={this.state.title}></UIModuleMenu>
@@ -65,16 +61,16 @@ export default class itMC extends WebControl<itMCTypeProps, itMCTypeState> {
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>用户角色统计（开发中）</div>
+                            <div className={styles.mcTitle}>用户角色统计（对接中）</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>日志(每日警告)（开发中）</div>
+                            <div className={styles.mcTitle}>日志(每日警告)（对接中）</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>部门人数统计（开发中）</div>
+                        <div className={styles.mcTitle}>部门人数统计（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>

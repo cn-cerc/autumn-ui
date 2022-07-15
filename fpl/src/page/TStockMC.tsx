@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./TStockMC.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import Introduction from "./Introduction";
 
 type TStockMCTypeProps = {
     dataJson: string,
@@ -13,7 +14,6 @@ type TStockMCTypeState = {
     lineData: DataSet,
     barData: DataSet,
     dataJson: DataRow,
-    introduction: string
 }
 
 export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCTypeState> {
@@ -41,16 +41,12 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
             lineData,
             barData,
             dataJson: dataJson,
-            introduction: this.props.introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -95,11 +91,11 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（开发中）</div>
+                        <div className={styles.mcTitle}>趋势图（对接中）</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                     <div className={styles.mcBarChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
+                        <div className={styles.mcTitle}>比例图（对接中）</div>
                         <div className={styles.FrmTaurusMCBar}></div>
                     </div>
                 </div>

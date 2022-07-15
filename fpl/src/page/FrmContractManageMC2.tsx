@@ -3,59 +3,38 @@ import React from "react";
 import styles from "./FrmContractManageMC2.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import Introduction from "./Introduction";
+import FplPageApi from "./FplPageApi";
 
-type FrmContractManageMCTypeProps = {
+type FrmContractManageMC2TypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmContractManageMCTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
+type FrmContractManageMC2TypeState = {
     dataJson: DataRow,
-    introduction: string
+    contractAmount: DataSet,
+    auditedRechargeRecord: DataSet,
+    acceptedContract: DataSet,
 }
 //合同管理(水泥厂)
 
-export default class FrmContractManageMC extends WebControl<FrmContractManageMCTypeProps, FrmContractManageMCTypeState> {
-    constructor(props: FrmContractManageMCTypeProps) {
+export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC2TypeProps, FrmContractManageMC2TypeState> {
+    constructor(props: FrmContractManageMC2TypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
-            introduction: this.props.introduction
+            contractAmount: new DataSet(),
+            auditedRechargeRecord: new DataSet(),
+            acceptedContract: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.state.introduction}</p>
-            </div>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -86,16 +65,16 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>待审核充值记录</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（开发中）</div>
+                            <div className={styles.mcTitle}>待接受合同</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcBarChart}>
-                        <div className={styles.mcTitle}>比例图（开发中）</div>
+                        <div className={styles.mcTitle}>合同合计</div>
                         <div className={styles.FrmTaurusMCBar}></div>
                     </div>
                 </div>
@@ -103,24 +82,41 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
+        let auditedRechargeRecord = new DataSet();
+        auditedRechargeRecord = await FplPageApi.voucherStats();
+        let contractAmount = new DataSet();
+        contractAmount = await FplPageApi.contractStats();
+        let acceptedContract = new DataSet();
+        acceptedContract = await FplPageApi.contractApplyStats();
+
+        this.setState({
+            contractAmount,
+            auditedRechargeRecord,
+            acceptedContract
+        })
+
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
+    componentDidMount(): void {
+        this.init();
+    }
+
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
+        ds = this.state.auditedRechargeRecord;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('status_name_'),
+                value: ds.getDouble('sum')
             })
         }
         let option = {
@@ -134,6 +130,12 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -144,7 +146,6 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -153,6 +154,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -175,13 +177,13 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
+        ds = this.state.acceptedContract;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('contract_type_name_'),
+                value: ds.getDouble('sum')
             })
         }
         let option = {
@@ -195,10 +197,15 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -207,6 +214,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -229,13 +237,13 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
+        ds = this.state.contractAmount;
         ds.first();
         let dataArr = [],
             nameArr = [];
         while (ds.fetch()) {
-            nameArr.push(ds.getString('Name_'));
-            dataArr.push(ds.getDouble('Value_'));
+            nameArr.push(ds.getString('contract_type_name_'));
+            dataArr.push(ds.getDouble('sum'));
         }
         let option = {
             grid: {
@@ -262,6 +270,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         //@ts-ignore
         myChart.setOption(option);
     }
+
 
     initFlowChart() {
         let flowChart = document.querySelector(`.${styles.mcFlowChart}`) as HTMLDivElement;

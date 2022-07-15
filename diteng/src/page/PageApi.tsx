@@ -1,4 +1,4 @@
-import { DataRow } from "autumn-ui";
+import { DataRow, DataSet } from "autumn-ui";
 import DialogApi from "../dialog/DialogApi";
 
 export default class PageApi {
@@ -15,6 +15,19 @@ export default class PageApi {
     /** 回复消息 */
     static replyMessage(params: DataRow) {
         return DialogApi.getDataOutByCenter('SvrMessages.sendTo', params);
+    }
+
+    /** 回复图片消息 */
+    static replyImageMessage(params: FormData) {
+        return fetch(`FrmMyMessage.sendImg?sid=${DialogApi.getToken()}`, {
+            method: 'POST', body: params,
+        }).then(function (response) {
+            return response.json();
+        }).then((json) => {
+            let dataOut = new DataSet();
+            dataOut.setJson(JSON.stringify(json));
+            return dataOut.getPromise();
+        })
     }
 
     /** 获取用户备注 */
@@ -60,6 +73,16 @@ export default class PageApi {
     /** 消息举报 */
     static messageReport(params: DataRow) {
         return DialogApi.getDataOutByCenter('SvrMessageReport.reportMessage', params);
+    }
+
+    /** 清除某人未读消息 */
+    static cleanUnread(params: DataRow) {
+        return DialogApi.getDataOutByCenter('SvrMessages.cleanUnread', params)
+    }
+
+    /** 创建群聊 */
+    static createGroup(params: DataRow) {
+        return DialogApi.getDataOutByCenter('SvrMessages.createGroup', params);
     }
 
 }

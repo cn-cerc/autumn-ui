@@ -13,7 +13,6 @@ type FrmMaintenanceSparepartTypeProps = {
 
 type FrmMaintenanceSparepartTypeState = {
     dataJson: DataRow,
-    introduction: string,
     topFiveBrand: DataSet,
     topFiveMountings: DataSet,
     topFiveClassifyMountings: DataSet,
@@ -28,7 +27,6 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         dataJson.setJson(this.props.dataJson);
         this.state = {
             dataJson: dataJson,
-            introduction: this.props.introduction,
             topFiveBrand: new DataSet(),
             topFiveMountings: new DataSet(),
             topFiveClassifyMountings: new DataSet(),
@@ -139,7 +137,7 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('Brand_'),
-                value: ds.getDouble('brand_count_')
+                value: ds.getDouble('brand_total_')
             })
         }
         let option = {
@@ -194,6 +192,10 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
@@ -205,7 +207,7 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('desc_'),
-                value: ds.getDouble('use_count_')
+                value: ds.getDouble('use_total_')
             })
         }
         let option = {
@@ -253,6 +255,10 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart3() {
@@ -265,7 +271,7 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('Class1_'),
-                value: ds.getDouble('class_count_')
+                value: ds.getDouble('class_total_')
             })
         }
         let option = {
@@ -320,6 +326,10 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart4() {
@@ -331,8 +341,8 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('part_count_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString(''),
+                value: ds.getDouble('part_total_')
             })
         }
         let option = {
@@ -346,12 +356,12 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
-                // formatter: (name: any) => {
-                //     let singleData = dataArr.filter(function (item: any) {
-                //         return item.name == name
-                //     })
-                //     return name + ' : ' + singleData[0].value;
-                // },
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
@@ -380,6 +390,10 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {

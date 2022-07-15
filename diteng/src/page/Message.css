@@ -179,3 +179,13 @@
     border: 1px solid red;
     border-radius: 4px;
 }
+
+.imageMessage {
+    border: 1px solid #f1ecec;
+    border-radius: 4px;
+    max-width: 600px;
+}
+
+.imageMessage {
+    margin: 0 16px;
+}

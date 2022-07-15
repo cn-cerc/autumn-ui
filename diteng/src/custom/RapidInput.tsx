@@ -10,7 +10,8 @@ import StaticFile from "../StaticFile";
 
 type RapidInputTypeProps = {
     objCode: string,
-    tb: string
+    tb: string,
+    showFlag: Boolean
 } & Partial<BaseDialogPropsType>
 
 type executeInfo = {
@@ -42,6 +43,8 @@ type RapidInputTypeStates = {
     treeIcons: treeIcons,
     isInput: boolean, // 用于键盘事件监听时与输入框输入时区别开来
     timer: any, // 用于执行自动查询的定时器
+    openFlag: boolean,
+    productsMsg: string
 } & Partial<BaseDialogStateType>
 
 export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInputTypeStates> {
@@ -115,7 +118,9 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 expendIcon: 'iconExpend',
                 shrinkIcon: 'iconShrink',
             },
-            timer: null
+            timer: null,
+            openFlag: false,
+            productsMsg: ''
         }
         this.setTitle('商品快速录入');
     }
@@ -192,7 +197,9 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 </div>
                 {this.getLineProps()}
                 {this.getEnterInputProps()}
+                {this.state.openFlag ? this.openWindow() : ''}
             </div>
+
         )
     }
 
@@ -1017,10 +1024,39 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         else
             this.customLoad('系统正在处理中,请稍后...');
         this.setState(this.state);
-        this.handleSubmit(1);
+        if (this.props.showFlag) {
+            this.isBodyExists();
+        } else {
+            this.handleSubmit(1);
+        }
+    }
+
+    isBodyExists() {
+        let items = [];
+        for (let i = 0; i < this.state.data.records.length; i++) {
+            items.push(this.state.data.records[i].getString('Code_'));
+        }
+        let products = items.join(",");
+        let url = 'TFrmTranBC.isBodyExists';
+        if ('OD' == this.props.tb) {
+            url = 'TFrmTranOD.isBodyExists';
+        }
+        fetch(`${url}?products=${encodeURIComponent(products)}&flag=true`).then(response => response.json()).then((data: any) => {
+            if (data.result) {
+                this.handleSubmit(1);
+            } else {
+                this.setState({
+                    productsMsg: data.message,
+                    openFlag: true
+                })
+            }
+        })
     }
 
     handleSubmit(num: number) {
+        this.setState({
+            openFlag: false
+        })
         let items = [];
         let startIndex = (num - 1) * 20;
         let endIndex = num * 20;
@@ -1133,5 +1169,25 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         let row: DataRow = this.state.data.records[this.state.currentShoped - 1];
         row.setValue('Num_', num);
         this.setState(this.state)
+    }
+
+    openWindow() {
+        return <div className={styles.alertShadow}>
+            <div className={styles.alertBox}>
+                <div>
+                    <h1 className={styles.alertTitle}>操作提示</h1>
+                    <p className={styles.alertCon} dangerouslySetInnerHTML={{ __html: this.state.productsMsg }}></p>
+                    <ul>
+                        <li className={styles.alertCancel} style={{ 'width': '50%', 'borderRight': '1px solid rgb(230, 230, 230)' }} onClick={(e) => {
+                            this.setLoad(false);
+                            this.setState({
+                                openFlag: false
+                            });
+                        }}>取消</li>
+                        <li className={styles.alertConfirm} style={{ 'width': '50%' }} onClick={this.handleSubmit.bind(this, 1)}>确认</li>
+                    </ul>
+                </div>
+            </div>
+        </div>;
     }
 }
