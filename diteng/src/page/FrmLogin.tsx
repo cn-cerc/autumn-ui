@@ -92,13 +92,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <a href="FrmForgetPassword">找回密码?</a>
                         </div>
                         <button className={styles.btnSubmit} onClick={this.onSubmit.bind(this)}>登录</button>
-                        <button type="button" onClick={this.onKeyLogin.bind(this)} style={{'width': '100%', 'marginTop': '1rem'}}>本机号码一键登录</button>
+                        {this.getOneKeyLoginBtn()}
                         <section className={styles.customService}>
                             <div className={styles.protocolBox}>
                                 <div className={styles.protocol}>
                                     <img src={this.state.protocol ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeProtocol.bind(this)}></img>
                                     <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
-                                    <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
+                                    <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault&device=phone">《用户协议》</a>和<a href="privacy-right?back=WebDefault&device=phone">《隐私协议》</a></label>
                                 </div>
                             </div>
                             <h3><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
@@ -149,11 +149,95 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }
     }
 
-    onKeyLogin() {
+    getOneKeyLoginBtn() {
         //@ts-ignore
-        api.execScript({
-            script: "oneKeyLogin();"
-        })
+        if (this.isPhone && window.ApiCloud.isApiCloud()) {
+            return <button type="button" onClick={this.onKeyLogin.bind(this)} className={styles.btnSubmit} style={{ 'marginTop': '.75rem' }}>本机号码一键登录</button>
+        }
+    }
+
+    onKeyLogin() {
+        if (!this.state.protocol && this.isPhone) {
+            this.setState({
+                message: '请先同意用户协议和隐私协议',
+                showLoad: false
+            })
+            return;
+        }
+        //@ts-ignore
+        try {
+            //@ts-ignore
+            var aliPhoneAuth = api.require('aliPhoneAuth');
+            var params = {
+                timeout: 5000,
+                navHidden: "true",
+                logBtnTextColor: "#ffffff",
+                privacyColor: "#e75555",
+                privacyOne: ["《用户协议》", "https://www.diteng.site/forms/user-agreement?back=WebDefault&device=phone"],
+                privacyTwo: ["《隐私政策》", "https://www.diteng.site/forms/privacy-right?back=WebDefault&device=phone"],
+                privacyTip: "请阅读并同意协议"
+            }
+            aliPhoneAuth.oneKeyLogin(params, (ret: any, err: any) => {
+                if (ret.code == '600000') {//获取token成功
+                    this.setState({
+                        showLoad: true
+                    })
+                    let service = new QueryService(this.props);
+                    service.setService('SvrUserLogin.getToken');
+                    this.props.dataRow.setValue('loginType', 'oneKeyLogin');
+                    this.props.dataRow.setValue('userCode', "***********");
+                    this.props.dataRow.setValue('password', ret.token);
+                    service.dataIn.head.copyValues(this.props.dataRow.current);
+                    service.open().then((dataOut) => {
+                        let href = location.protocol + '//' + location.host + '/' + dataOut.head.getString('startPage')
+                            + '?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId')
+                            + '&device=phone';
+                        localStorage.setItem('ErpKey_Account1', dataOut.head.getString('mobile'));
+                        localStorage.setItem('ErpKey_password', dataOut.head.getString('token'));
+                        localStorage.setItem('ErpKey_loginType', "mobile");
+                        location.href = href;
+                        aliPhoneAuth.quitLoginPage();//关闭一键登录页面
+                    }).catch((dataOut) => {
+                        aliPhoneAuth.quitLoginPage();//关闭一键登录页面
+                        this.setState({ showLoad: false })
+                        if (dataOut.head.getValue('status') == -8) {
+                            this.props.dataRow.setValue('verifyCode', '??????');
+                            showVerify = true
+                            this.setState({
+                                message: ''
+                            })
+                        } else {
+                            this.setState({
+                                message: dataOut.message
+                            })
+                        }
+                    });
+                } else if (ret.code == '600007') {
+                    let msg = '未检测到SIM卡，请检查SIM卡后重试';
+                    aliPhoneAuth.quitLoginPage();
+                    showMsg(msg);
+                } else if (ret.code == '600008') {
+                    let msg = '请开启网络后重试';
+                    aliPhoneAuth.quitLoginPage();
+                    showMsg(msg);
+                } else if (ret.code == '700000') {
+                    aliPhoneAuth.quitLoginPage();
+                } else if (ret.code != '600001') {
+                    let msg = '一键登录失败，建议切换到其他登录方式';
+                    aliPhoneAuth.quitLoginPage();
+                    showMsg(msg);
+                }
+                this.setState({
+                    message: ''
+                })
+            });
+        } catch (err) {
+            aliPhoneAuth.quitLoginPage();
+            this.setState({
+                showLoad: false,
+                message: ''
+            })
+        }
     }
 
     changeProtocol = (sender: any) => {
@@ -669,16 +753,19 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         this.setState({ showLoad: true, message: '' })
         // let dataOut = new DataSet();
         try {
+            if (this.props.dataRow.getString('userCode') != this.state.client.get('Account1') || this.props.dataRow.getString('password') != this.state.client.get('password')) {
+                this.state.client.set('loginType', '');
+            }
             let service = new QueryService(this.props);
             service.setService('SvrUserLogin.getToken');
-            service.dataIn.head.copyValues(this.props.dataRow.current)
-            // dataOut = QueryService.await this.getService();
+            this.props.dataRow.setValue('loginType', this.state.client.get('loginType') || '');
+            service.dataIn.head.copyValues(this.props.dataRow.current);
             service.open().then((dataOut) => {
                 let ds1 = new DataSet();
                 if (this.state.client.get('Accounts'))
                     ds1.setJson(this.state.client.get('Accounts'))
                 let account = this.props.dataRow.getString('userCode');
-                if (account) {
+                if (account && this.state.client.get('loginType') != 'mobile') {
                     if (!ds1.locate("account", account)) {
                         ds1.append();
                         ds1.setValue("account", account);
@@ -750,6 +837,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         dataIn.setValue('languageId', this.props.language);
         dataIn.setValue('userCode', client.get('Account1') || '');
         dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') || '' : '');
+        dataIn.setValue('loginType', client.get('loginType') || '');
         this.state = {
             client,
             dataIn,
@@ -844,7 +932,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                                 <span>地藤管家</span>
                                 <span>地藤，您随身携带的大管家</span>
                             </div>
-                            <a href="install" className={styles.install}>下载</a>
+                            <a href="install?device=phone" className={styles.install}>下载</a>
                         </div>
                     </div>
                 </div>
