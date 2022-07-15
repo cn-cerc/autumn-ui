@@ -43,10 +43,7 @@ type RapidInputTypeStates = {
     isInput: boolean, // 用于键盘事件监听时与输入框输入时区别开来
     timer: any, // 用于执行自动查询的定时器
     openFlag: boolean,
-    productsMsg: string,
-    endIndex: number,
-    num: number,
-    items: Array<object>
+    productsMsg: string
 } & Partial<BaseDialogStateType>
 
 export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInputTypeStates> {
@@ -122,10 +119,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             },
             timer: null,
             openFlag: false,
-            productsMsg: '',
-            endIndex: 0,
-            num: 0,
-            items: []
+            productsMsg: ''
         }
         this.setTitle('商品快速录入');
     }
@@ -1061,7 +1055,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         this.setState({
             openFlag: false
         })
-        let items: any = [];
+        let items = [];
         let startIndex = (num - 1) * 20;
         let endIndex = num * 20;
         if (this.state.data.records.length < endIndex)
@@ -1093,7 +1087,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
                 showMsg(data.msg);
                 let ds = new DataSet();
                 ds.appendDataSet(this.state.data);
-                for (let i = 0; i < (this.state.num - 1) * 20; i++) {
+                for (let i = 0; i < (num - 1) * 20; i++) {
                     this.removeShop(ds.records[i]);
                 }
                 this.setLoad(false);
