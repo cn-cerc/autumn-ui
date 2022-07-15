@@ -43,7 +43,7 @@ type RapidInputTypeStates = {
     isInput: boolean, // 用于键盘事件监听时与输入框输入时区别开来
     timer: any, // 用于执行自动查询的定时器
     openFlag: boolean,
-    msg: string,
+    productsMsg: string,
     endIndex: number,
     num: number,
     items: Array<object>
@@ -122,7 +122,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             },
             timer: null,
             openFlag: false,
-            msg: '',
+            productsMsg: '',
             endIndex: 0,
             num: 0,
             items: []
@@ -1176,7 +1176,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
             <div className={styles.alertBox}>
                 <div>
                     <h1 className={styles.alertTitle}>操作提示</h1>
-                    <p className={styles.alertCon} dangerouslySetInnerHTML={{ __html: this.state.msg }}></p>
+                    <p className={styles.alertCon} dangerouslySetInnerHTML={{ __html: this.state.productsMsg }}></p>
                     <ul>
                         <li className={styles.alertCancel} style={{ 'width': '50%', 'borderRight': '1px solid rgb(230, 230, 230)' }} onClick={(e) => {
                             this.setLoad(false);
