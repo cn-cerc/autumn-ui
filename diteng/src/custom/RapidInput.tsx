@@ -10,7 +10,8 @@ import StaticFile from "../StaticFile";
 
 type RapidInputTypeProps = {
     objCode: string,
-    tb: string
+    tb: string,
+    showFlag: Boolean
 } & Partial<BaseDialogPropsType>
 
 type executeInfo = {
@@ -1023,7 +1024,7 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         else
             this.customLoad('系统正在处理中,请稍后...');
         this.setState(this.state);
-        if ('BC' == this.props.tb || 'OD' == this.props.tb) {
+        if (this.props.showFlag) {
             this.isBodyExists();
         } else {
             this.handleSubmit(1);
@@ -1031,15 +1032,16 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
     }
 
     isBodyExists() {
-        let partCodes = [];
+        let items = [];
         for (let i = 0; i < this.state.data.records.length; i++) {
-            partCodes.push(this.state.data.records[i].getString('Code_'));
+            items.push(this.state.data.records[i].getString('Code_'));
         }
+        let products = items.join(",");
         let url = 'TFrmTranBC.isBodyExists';
         if ('OD' == this.props.tb) {
             url = 'TFrmTranOD.isBodyExists';
         }
-        fetch(`${url}?products=${partCodes}&flag=true`).then(response => response.json()).then((data: any) => {
+        fetch(`${url}?products=${encodeURIComponent(products)}&flag=true`).then(response => response.json()).then((data: any) => {
             if (data.result) {
                 this.handleSubmit(1);
             } else {
