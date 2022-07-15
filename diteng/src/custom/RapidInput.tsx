@@ -1041,7 +1041,11 @@ export default class RapidInput extends BaseDialog<RapidInputTypeProps, RapidInp
         for (let i = 0; i < this.state.data.records.length; i++) {
             partCodes.push(this.state.data.records[i].getString('Code_'));
         }
-        fetch(`TFrmTranBC.isBodyExists?products=${partCodes}&flag=true`).then(response => response.json()).then((data: any) => {
+        let url = 'TFrmTranBC.isBodyExists';
+        if ('OD' == this.props.tb) {
+            url = 'TFrmTranOD.isBodyExists';
+        }
+        fetch(`${url}?products=${partCodes}&flag=true`).then(response => response.json()).then((data: any) => {
             if (data.result) {
                 this.handleSubmit(1);
             } else {
