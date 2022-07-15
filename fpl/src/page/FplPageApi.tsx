@@ -18,7 +18,12 @@ export default class FplPageApi {
 
     /** 获取未接货单详情 */
     static getCargoOrderDetail(params: DataRow) {
-        return FplDialogApi.getDataOut('SvrCargoOrder.downloadPhone', params);
+        return FplDialogApi.getDataOut('SvrDriverArrangeCar.downloadForPhone', params);
+    }
+
+    /** 确认接单 */
+    static ConfirmOrder(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrDriverArrangeCar.downloadForPhone', params);
     }
 
     /** 零配件管理=> 品牌数量（前五名） */

@@ -8,22 +8,55 @@ type FrmDriverArrangeCarTypeProps = {
     cargoNo: string,
     tbNo: string,
     it: string,
-    dcorpno: string
+    dcorpno: string,
+
+    waybillState: number,
 }
 
 type FrmDriverArrangeCarTypeState = {
     showShopDetail: boolean,
     isAgree: boolean,
-    orderData: DataRow
+    orderData: DataRow,
+    contractNo: string,
+    waybillState: number,
+    waybillStateImg: string,
+    CargoPoundsSingle: number,
+    btnText: string
 }
 
 export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriverArrangeCarTypeProps, FrmDriverArrangeCarTypeState> {
     constructor(props: FrmDriverArrangeCarTypeProps) {
         super(props);
+        let waybillStateImg = '';
+        let btnText = '确认接单';
+        let num = 1;
+        switch (num) {
+            case 1:
+                waybillStateImg = 'images/MCimg/driver/wfh.png';
+                btnText = '确认发货';
+                break;
+            case 2:
+                waybillStateImg = 'images/MCimg/driver/yfh.png';
+                btnText = '确认卸货';
+                break;
+            case 3:
+                waybillStateImg = 'images/MCimg/driver/yxh.png';
+                btnText = '提交审核';
+                break;
+            case 4:
+                waybillStateImg = 'images/MCimg/driver/dsh.png';
+                btnText = '资料有误回撤';
+                break;
+        }
         this.state = {
             showShopDetail: false,
             isAgree: false,
-            orderData: new DataRow
+            orderData: new DataRow,
+            contractNo: '',
+            waybillState: 1,  // 运单状态 1.未发货 2.已发货 3.已卸货 4.待审核
+            waybillStateImg,
+            CargoPoundsSingle: 0,
+            btnText
         }
     }
 
@@ -49,15 +82,16 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                             <img src='images/icon/call.png' onClick={() => callPhoneNumber('18112345678')}></img>
                         </li>
                     </ul>
-                    <div className={styles.infoLine}>
+                    <div className={this.state.waybillState ? styles.timeInfoState : styles.infoLine}>
                         <span>发车时间</span>
                         <span>2022-07-04 12:00</span>
                     </div>
-                    <div className={styles.infoLine}>
+                    <div className={this.state.waybillState ? styles.timeInfoState : styles.infoLine}>
                         <span>抵达时间</span>
                         <span>2022-07-04 12:00</span>
                     </div>
                 </div>
+                {this.waybillStateHtml()}
                 <div className={styles.orderDetails}>
                     <ul>
                         <li className={this.state.showShopDetail ? '' : styles.orderActive} onClick={() => this.setState({ showShopDetail: false })}>物流运单详情</li>
@@ -65,11 +99,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                     </ul>
                     {this.getOrderDetail()}
                 </div>
-                <div className={styles.orderBtns}>
-                    <img src={this.state.isAgree ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={() => this.setState({ isAgree: !this.state.isAgree })} />
-                    <div><span onClick={() => this.setState({ isAgree: !this.state.isAgree })}>我已阅读</span><a href='FrmDriverArrangeCar.carriage'>《承运协议》</a></div>
-                    <button onClick={this.handleSelect.bind(this)}>确认接单</button>
-                </div>
+                {this.footerBoxHtml()}
             </div>
         </React.Fragment>
     }
@@ -88,11 +118,8 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         let driverData = await FplPageApi.getDriverArrangeCarDetail(driverRow);
         driverData.first();
         orderData.copyValues(driverData.current);
-        let cargoRow = new DataRow();
-        cargoRow.setValue('cargo_no_', this.props.cargoNo);
-        cargoRow.setValue('d_corp_no_', this.props.dcorpno);
         // 查询货单信息
-        let cargoData = await FplPageApi.getCargoOrderDetail(cargoRow);
+        let cargoData = await FplPageApi.getCargoOrderDetail(driverRow);
         cargoData.first();
         // 组装信息
         orderData.setValue("code_", cargoData.getValue("code_"));
@@ -109,7 +136,8 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         orderData.setValue("homework_type_", cargoData.getValue("homework_type_"));
         console.log(orderData)
         this.setState({
-            orderData
+            orderData,
+            contractNo: cargoData.getString("contract_no_")
         })
     }
 
@@ -179,13 +207,62 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         }
     }
 
+    waybillStateHtml() {
+        console.log(111)
+        if (this.state.waybillState) { return }
+        let list = [];
+        if (this.state.waybillState > 1) {
+            list.push(<div className={styles.wabillStateBox}>
+                <div className={styles.wabillStateItem}>
+                    <span>卸货码表</span>
+                    <input type="text" placeholder="请在此输入" />
+                </div>
+                <hr />
+                <div className={styles.wabillStateItem}>
+                    <span>卸货磅单</span>
+                    <input type="text" placeholder="请在此输入" />
+                </div>
+            </div>)
+        }
+        list.push(<div className={styles.wabillStateBox}>
+            <div className={styles.wabillStateItem}>
+                <span>装货码表</span>
+                <input type="text" placeholder="请在此输入" />
+            </div>
+            <hr />
+            <div className={styles.wabillStateItem}>
+                <span>装货磅单</span>
+                <input type="text" placeholder="请在此输入" />
+            </div>
+        </div>)
+
+        return list;
+    }
+
+    footerBoxHtml() {
+        if (!this.state.waybillState) {
+            return <div className={styles.orderBtns}><img src={this.state.isAgree ? 'images/icon/checkbox_checked.png' : 'images/icon/checkbox.png'} onClick={() => this.setState({ isAgree: !this.state.isAgree })} />
+                <div><span onClick={() => this.setState({ isAgree: !this.state.isAgree })}>我已阅读</span><a href='FrmDriverArrangeCar.carriage'>《承运协议》</a></div>
+                <button onClick={this.handleSelect.bind(this)}>确认接单</button>
+            </div>
+        } else {
+            return <div className={styles.orderBtns}>
+                <button>附件列表</button>
+                <button onClick={this.submitForm.bind(this)}>{this.state.btnText}</button>
+            </div>
+        }
+    }
+
     //确认接单
-    handleSelect() {
-        if(!this.state.isAgree) {
+    async handleSelect() {
+        if (!this.state.isAgree) {
             showMsg('接单前请先勾选《承运协议》');
             return;
         }
-        let row = new DataRow();
-        //TODO精修的时候调整
+        location.href = `FrmDriverArrangeCar.modifyConfirmStatus?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&it=${this.props.it}&confirmStatus=1&contractNo=${this.state.contractNo}&isRead=${this.state.isAgree}`;
+    }
+
+    submitForm(){
+
     }
 }

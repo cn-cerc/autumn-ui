@@ -9,6 +9,7 @@
     margin: .75rem .75rem 0;
     padding: 1rem .75rem;
     line-height: 1em;
+    position: relative;
 }
 
 .siteBox {
@@ -89,18 +90,65 @@
     width: 2rem;
 }
 
+.timeInfoState {
+    padding-top: 1rem;
+}
+
 .infoLine {
     padding-top: 1rem;
     display: flex;
     justify-content: space-between;
 }
 
-.infoLine>span:first-of-type {
+.infoLine>span:first-of-type,
+.timeInfoState>span:first-of-type {
     width: 0;
     flex: 1;
     padding-right: 1rem;
     overflow: hidden;
     color: #999999;
+}
+
+.waybillState {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.waybillState>img {
+    width: 72px;
+    height: 72px;
+}
+
+.wabillStateBox {
+    margin: 0.75rem;
+    background-color: #fff;
+    border-radius: 0.25rem;
+    padding: 1rem 0.75rem;
+    line-height: 1em;
+}
+
+.wabillStateItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wabillStateItem>input {
+    border: none;
+    outline: none;
+    text-align: right;
+    padding: 0 5px;
+}
+
+.wabillStateItem>input.disInp {
+    pointer-events: none;
+}
+
+.wabillStateBox>hr {
+    background: #00000010;
+    height: 1px;
+    border: none;
 }
 
 .orderDetails {
