@@ -234,24 +234,30 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             let mvClass = ds.getString('MVClass_'); //消息类别
             temp = new Date(ds.getString('AppDate_')).getTime();
             let messageName;
+            let uid = ds.getString('UID_');
+            let key = uid;
             switch (mvClass) {
                 case 'MVNotice':
                     messageName = NoticeMessage;
+                    key = `${uid}-${ds.getDouble('Final_')}`
                     break;
                 case 'MVTask':
                     messageName = TaskMessage;
+                    key = `${uid}-${ds.getString('Content_')}`
                     break;
                 case 'MVWorkflow':
                     messageName = SignMessage;
                     break;
                 case 'MVExport':
                     messageName = ExportMessage;
+                    key = `${uid}-${ds.getDouble('Process_')}`
                     break;
                 case 'MVSubscribe':
                     messageName = SubscribeMessage;
                     break;
                 case 'MVAcceptMessage':
                     messageName = AcceptMessage;
+                    key = `${uid}-${ds.getString('Content_')}`;
                     break;
                 // 图片类消息
                 case 'MVImage':
@@ -261,7 +267,7 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     messageName = DefaultMessage;
                     break;
             }
-            list.push(<li key={ds.recNo}>
+            list.push(<li key={uid}>
                 {React.createElement(messageName, {
                     row: ds.current,
                     name,
