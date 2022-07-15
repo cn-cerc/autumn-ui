@@ -182,6 +182,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     this.setState({
                         showLoad: true
                     })
+                    aliPhoneAuth.quitLoginPage();//关闭一键登录页面
                     let service = new QueryService(this.props);
                     service.setService('SvrUserLogin.getToken');
                     this.props.dataRow.setValue('loginType', 'oneKeyLogin');
@@ -196,9 +197,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         localStorage.setItem('ErpKey_password', dataOut.head.getString('token'));
                         localStorage.setItem('ErpKey_loginType', "mobile");
                         location.href = href;
-                        aliPhoneAuth.quitLoginPage();//关闭一键登录页面
                     }).catch((dataOut) => {
-                        aliPhoneAuth.quitLoginPage();//关闭一键登录页面
                         this.setState({ showLoad: false })
                         if (dataOut.head.getValue('status') == -8) {
                             this.props.dataRow.setValue('verifyCode', '??????');
@@ -217,13 +216,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     aliPhoneAuth.quitLoginPage();
                     showMsg(msg);
                 } else if (ret.code == '600008') {
-                    let msg = '请开启网络后重试';
+                    let msg = '请开启移动网络后重试';
                     aliPhoneAuth.quitLoginPage();
                     showMsg(msg);
                 } else if (ret.code == '700000') {
                     aliPhoneAuth.quitLoginPage();
                 } else if (ret.code != '600001') {
-                    let msg = '一键登录失败，建议切换到其他登录方式';
+                    let msg = '登录失败，请检查移动网络后重试或使用其他登录方式';
                     aliPhoneAuth.quitLoginPage();
                     showMsg(msg);
                 }
