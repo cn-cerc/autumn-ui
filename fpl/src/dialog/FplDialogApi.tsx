@@ -221,4 +221,9 @@ export default class FplDialogApi {
     static getCustomerAddress(params: DataRow) {
         return FplDialogApi.getDataOut('SvrCargoOrder.queryCustomerAddress', params);
     }
+
+    /** 获取网络货运类厂商 */
+    static getSupNetCorp(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrSupInfoStandard.search', params);
+    }
 }
