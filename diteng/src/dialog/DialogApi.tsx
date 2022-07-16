@@ -82,7 +82,8 @@ export default class DialogApi {
         let service = new QueryService({ sid });
         let userCenter = await DialogApi.getUserCenter();
         service.setService(url);
-        service.setHost(`${userCenter}/services/`);
+        service.setHost(userCenter);
+        service.setPath('/services');
         let keyArr = params ? Object.keys(params) : [];
         if (keyArr.length > 0) {
             keyArr.forEach((param) => {
@@ -120,7 +121,8 @@ export default class DialogApi {
         }
         let service = new QueryService({ sid });
         let userCenter = await DialogApi.getUserCenter();
-        service.setHost(`${userCenter}/services/`);
+        service.setHost(userCenter);
+        service.setPath('/services');
         service.setService(url);
         service.dataIn.head.copyValues(params.current);
         // e为请求失败时抛出的异常，类型为DataSet
@@ -154,8 +156,9 @@ export default class DialogApi {
         }
         let service = new QueryService({ sid });
         let userCenter = await DialogApi.getUserCenter();
-        service.setHost(`${userCenter}/services/`);
+        service.setHost(userCenter);
         service.setService(url);
+        service.setPath('/services');
         service.dataIn.appendDataSet(params);
         // e为请求失败时抛出的异常，类型为DataSet
         let ds: DataSet = await service.open().catch(e => e);
