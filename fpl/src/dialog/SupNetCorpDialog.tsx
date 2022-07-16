@@ -1,6 +1,6 @@
 import React from "react";
 import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBDrop, DBCheckbox, DBGrid, Column } from "autumn-ui";
-import styles from "./StaffDialog.css";
+import styles from "./SupNetCorpDialog.css";
 import "../tool/Summer.css";
 import FplDialogApi from "./FplDialogApi";
 
