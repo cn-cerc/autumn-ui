@@ -54,7 +54,6 @@ export default class FplDialogApi {
         }
         let service = new QueryService({ sid });
         service.setService(url);
-        service.setHost(`/services-fpl/`);
         let keyArr = params ? Object.keys(params) : [];
         if (keyArr.length > 0) {
             keyArr.forEach((param) => {
@@ -77,7 +76,8 @@ export default class FplDialogApi {
         let service = new QueryService({ sid });
         let userCenter = await FplDialogApi.getUserCenter();
         service.setService(url);
-        service.setHost(`${userCenter}/services/`);
+        service.setHost(userCenter);
+        service.setPath('/services');
         let keyArr = params ? Object.keys(params) : [];
         if (keyArr.length > 0) {
             keyArr.forEach((param) => {
@@ -99,7 +99,6 @@ export default class FplDialogApi {
         }
         let service = new QueryService({ sid });
         service.setService(url);
-        service.setHost(`/services-fpl/`);
         service.dataIn.head.copyValues(params.current);
         // e为请求失败时抛出的异常，类型为DataSet
         let ds: DataSet = await service.open(timeout).catch(e => e);
@@ -116,8 +115,9 @@ export default class FplDialogApi {
         }
         let service = new QueryService({ sid });
         let userCenter = await FplDialogApi.getUserCenter();
-        service.setHost(`${userCenter}/services/`);
         service.setService(url);
+        service.setHost(userCenter);
+        service.setPath('/services');
         service.dataIn.head.copyValues(params.current);
         // e为请求失败时抛出的异常，类型为DataSet
         let ds: DataSet = await service.open(timeout).catch(e => e);
@@ -134,7 +134,6 @@ export default class FplDialogApi {
         }
         let service = new QueryService({ sid });
         service.setService(url);
-        service.setHost(`/services-fpl/`);
         service.dataIn.appendDataSet(params);
         // e为请求失败时抛出的异常，类型为DataSet
         let ds: DataSet = await service.open().catch(e => e);
@@ -151,8 +150,9 @@ export default class FplDialogApi {
         }
         let service = new QueryService({ sid });
         let userCenter = await FplDialogApi.getUserCenter();
-        service.setHost(`${userCenter}/services/`);
         service.setService(url);
+        service.setHost(userCenter);
+        service.setPath('/services');
         service.dataIn.appendDataSet(params);
         // e为请求失败时抛出的异常，类型为DataSet
         let ds: DataSet = await service.open().catch(e => e);
