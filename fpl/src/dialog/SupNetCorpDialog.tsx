@@ -42,7 +42,7 @@ export default class SupNetCorpDialog extends BaseDialog<BaseDialogPropsType, Su
         return (
             <div role="content" className={styles.main}>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
-                    <Column code="ShortName_" name="厂商简称" width="40"></Column>
+                    <Column code="Name_" name="厂商全称" width="40"></Column>
                     <Column code="SupType_" name="厂商分类" width="20" customText={this.initSupType.bind(this)}></Column>
                     <Column code="Contact_" name="联系方式" width="35" customText={(row: DataRow) => {
                         return <span>{row.getValue("Contact_")},{row.getValue("Tel1_")}</span>
@@ -71,14 +71,14 @@ export default class SupNetCorpDialog extends BaseDialog<BaseDialogPropsType, Su
         if(this.props.onSelect) {
             let row = new DataRow();
             row.setValue(inputIds[0], dataRow.getValue("Code_"));
-            row.setValue(inputIds[1], dataRow.getValue("ShortName_"));
+            row.setValue(inputIds[1], dataRow.getValue("Name_"));
             this.props.onSelect(row);
             this.handleClose();
         } else {
             let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
             input1.value = dataRow.getValue("Code_");
             let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-            if(input2) input2.value = dataRow.getValue("ShortName_");
+            if(input2) input2.value = dataRow.getValue("Name_");
             this.handleSelect();
         }
         
