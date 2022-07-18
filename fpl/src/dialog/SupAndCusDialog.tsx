@@ -1,28 +1,34 @@
 import React from "react";
 import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBDrop, DBCheckbox, DBGrid, Column } from "autumn-ui";
-import styles from "./SupNetCorpDialog.css";
+import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
 import FplDialogApi from "./FplDialogApi";
 
 type SupTypeState = {
     dataIn: DataRow,
     dataSet: DataSet,
-    typeList: Map<string, string>
+    options: Map<string, string>
 } & Partial<BaseDialogStateType>
 
-export default class SupNetCorpDialog extends BaseDialog<BaseDialogPropsType, SupTypeState> {
+export default class SupAndCusDialog extends BaseDialog<BaseDialogPropsType, SupTypeState> {
     constructor(props: BaseDialogStateType) {
         super(props);
         let dataSet = new DataSet();
         let dataIn = new DataRow();
+        dataIn.setValue('type', '-1');
+        let options = new Map();
+        options.set("厂商+客户", "-1");
+        options.set("厂商", "0");
+        options.set("客户", "1");
         this.state = {
             ...this.state,
             dataIn,
             dataSet,
+            options,
             width: '45rem',
             height: this.isPhone ? '25rem' : '30rem'
         }
-        this.setTitle("选择网络货运厂商")
+        this.setTitle("选择厂商或客户")
     }
 
     componentWillMount() {
@@ -31,7 +37,7 @@ export default class SupNetCorpDialog extends BaseDialog<BaseDialogPropsType, Su
 
     async init() {
         this.setLoad(true);
-        let dataSet = await FplDialogApi.getSupNetCorp(this.state.dataIn);
+        let dataSet = await FplDialogApi.getSupAndCus(this.state.dataIn);
         this.setLoad(false);
         this.setState({
             dataSet
@@ -41,9 +47,13 @@ export default class SupNetCorpDialog extends BaseDialog<BaseDialogPropsType, Su
     content() {
         return (
             <div role="content" className={styles.main}>
+                <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
+                    <DBDrop dataName='筛选类型' dataField='type' options={this.state.options}></DBDrop>
+                    <DBEdit dataField="Name_" dataName="公司名称" autoFocus></DBEdit>
+                </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
-                    <Column code="Name_" name="厂商全称" width="40"></Column>
-                    <Column code="SupType_" name="厂商分类" width="20" customText={this.initSupType.bind(this)}></Column>
+                    <Column code="Name_" name="公司全称" width="40"></Column>
+                    <Column code="type_name" textAlign='center' name="类型" width="15"></Column>
                     <Column code="Contact_" name="联系方式" width="35" customText={(row: DataRow) => {
                         return <span>{row.getValue("Contact_")},{row.getValue("Tel1_")}</span>
                     }}></Column>
@@ -55,32 +65,12 @@ export default class SupNetCorpDialog extends BaseDialog<BaseDialogPropsType, Su
         )
     }
 
-    initSupType(dataRow: DataRow) {
-        let text = "";
-        if (dataRow.getValue("SupType_") == 0)
-            text = "普通厂商"
-        else
-            text = "协力厂商"
-        return (
-            <span>{text}</span>
-        )
-    }
-
     handleClick(dataRow: DataRow) {
         let inputIds = this.props.inputId.split(",");
-        if(this.props.onSelect) {
-            let row = new DataRow();
-            row.setValue(inputIds[0], dataRow.getValue("Code_"));
-            row.setValue(inputIds[1], dataRow.getValue("Name_"));
-            this.props.onSelect(row);
-            this.handleClose();
-        } else {
-            let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-            input1.value = dataRow.getValue("Code_");
-            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-            if(input2) input2.value = dataRow.getValue("Name_");
-            this.handleSelect();
-        }
-        
+        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+        input1.value = dataRow.getValue("Code_");
+        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+        if (input2) input2.value = dataRow.getValue("Name_");
+        this.handleSelect();
     }
 }
