@@ -121,7 +121,7 @@ export default class FplPageApi {
     }
 
     /** 修改派车单 */
-    static modify(params: DataRow) {
+    static DriverArrangeCarModify(params: DataRow) {
         return FplDialogApi.getDataOut('SvrDriverArrangeCar.modify', params);
     }
 
