@@ -59,6 +59,7 @@ import DialogCustomerAddress from "./dialog/CustomerAddressDialog";
 import CustomerAddressDialog from "./dialog/CustomerAddressDialog";
 import FrmCustomerService from "./page/FrmCustomerService";
 import SupNetCorpDialog from "./dialog/SupNetCorpDialog";
+import SupAndCusDialog from "./dialog/SupAndCusDialog";
 
 export default {
     ...diteng,
@@ -119,5 +120,6 @@ export default {
     Frm4PLCusManage,
     FrmCarGrab,
     FrmCustomerService,
-    SupNetCorpDialog
+    SupNetCorpDialog,
+    SupAndCusDialog
 }
