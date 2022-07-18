@@ -165,9 +165,9 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         attachmentList = await FplPageApi.queryAttachmentList(attachmentRow);
         let btnFlag = false;
         attachmentList.first();
-        // if (attachmentList.getDouble("sum_")) {
-        //     btnFlag = true;
-        // }
+        if (attachmentList.getDouble("sum_") > 0) {
+            btnFlag = true;
+        }
 
         this.setState({
             orderData,
@@ -253,7 +253,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             list.push(<div className={styles.wabillStateBox}>
                 <div className={styles.wabillStateItem}>
                     <span>卸货码表</span>
-                    <input type="text" id="unload_code_table_" className={this.state.waybillState > 1 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.unload_code_table_)} onChange={(e) => {
+                    <input type="text" id="unload_code_table_" className={this.state.waybillState > 3 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.unload_code_table_)} onChange={(e) => {
                         this.setState({
                             unload_code_table_: encodeURIComponent(e.target.value)
                         })
@@ -262,7 +262,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <hr />
                 <div className={styles.wabillStateItem}>
                     <span>卸货磅单</span>
-                    <input type="text" id="unload_pound_list_" className={this.state.waybillState > 1 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.unload_pound_list_)} onChange={(e) => {
+                    <input type="text" id="unload_pound_list_" className={this.state.waybillState > 3 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.unload_pound_list_)} onChange={(e) => {
                         this.setState({
                             unload_pound_list_: encodeURIComponent(e.target.value)
                         })
@@ -273,7 +273,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         list.push(<div className={styles.wabillStateBox}>
             <div className={styles.wabillStateItem}>
                 <span>装货码表</span>
-                <input type="text" id="upload_code_table_" className={this.state.waybillState > 0 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.upload_code_table_)} onChange={(e) => {
+                <input type="text" id="upload_code_table_" className={this.state.waybillState > 3 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.upload_code_table_)} onChange={(e) => {
                     this.setState({
                         upload_code_table_: encodeURIComponent(e.target.value)
                     })
@@ -282,7 +282,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             <hr />
             <div className={styles.wabillStateItem}>
                 <span>装货磅单</span>
-                <input type="text" id="upload_pound_list_" className={this.state.waybillState > 0 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.upload_pound_list_)} onChange={(e) => {
+                <input type="text" id="upload_pound_list_" className={this.state.waybillState > 3 ? styles.disInp : ''} placeholder="请在此输入" value={decodeURIComponent(this.state.upload_pound_list_)} onChange={(e) => {
                     this.setState({
                         upload_pound_list_: encodeURIComponent(e.target.value)
                     })
