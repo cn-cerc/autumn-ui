@@ -1,6 +1,6 @@
 import React from "react";
 import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType, SearchPanel, DBEdit, DBDrop, DBCheckbox, DBGrid, Column } from "autumn-ui";
-import styles from "./SupAndCusDialog.css";
+import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
 import FplDialogApi from "./FplDialogApi";
 
@@ -15,11 +15,15 @@ export default class SupAndCusDialog extends BaseDialog<BaseDialogPropsType, Sup
         super(props);
         let dataSet = new DataSet();
         let dataIn = new DataRow();
+        let options = new Map();
+        options.set("厂商+客户", "-1");
+        options.set("厂商", "0");
+        options.set("客户", "1");
         this.state = {
             ...this.state,
             dataIn,
             dataSet,
-            options: new Map(),
+            options,
             width: '45rem',
             height: this.isPhone ? '25rem' : '30rem'
         }
@@ -33,14 +37,9 @@ export default class SupAndCusDialog extends BaseDialog<BaseDialogPropsType, Sup
 
     async init() {
         this.setLoad(true);
-        let options = new Map();
-        options.set("厂商+客户", "-1");
-        options.set("厂商", "0");
-        options.set("客户", "1");
         let dataSet = await FplDialogApi.getSupAndCus(this.state.dataIn);
         this.setLoad(false);
         this.setState({
-            options,
             dataSet
         })
     }
@@ -68,19 +67,10 @@ export default class SupAndCusDialog extends BaseDialog<BaseDialogPropsType, Sup
 
     handleClick(dataRow: DataRow) {
         let inputIds = this.props.inputId.split(",");
-        if (this.props.onSelect) {
-            let row = new DataRow();
-            row.setValue(inputIds[0], dataRow.getValue("Code_"));
-            row.setValue(inputIds[1], dataRow.getValue("Name_"));
-            this.props.onSelect(row);
-            this.handleClose();
-        } else {
-            let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-            input1.value = dataRow.getValue("Code_");
-            let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-            if (input2) input2.value = dataRow.getValue("Name_");
-            this.handleSelect();
-        }
-
+        let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
+        input1.value = dataRow.getValue("Code_");
+        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
+        if (input2) input2.value = dataRow.getValue("Name_");
+        this.handleSelect();
     }
 }

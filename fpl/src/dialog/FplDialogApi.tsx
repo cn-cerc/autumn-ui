@@ -227,7 +227,7 @@ export default class FplDialogApi {
         return FplDialogApi.getDataOut('SvrSupInfoStandard.search', params);
     }
 
-    /** 获取网络货运类厂商 */
+    /** 获取厂商+客户 */
     static getSupAndCus(params: DataRow) {
         return FplDialogApi.getDataOut('SvrSupInfoStandard.searchSupAndCus', params);
     }
