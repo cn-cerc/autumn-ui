@@ -119,4 +119,14 @@ export default class FplPageApi {
     static queryDataStat() {
         return FplDialogApi.getService('SvrPayeeRegister.queryDataStat');
     }
+
+    /** 修改派车单 */
+    static DriverArrangeCarModify(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrDriverArrangeCar.modify', params);
+    }
+
+    /** 查询当前状态是否已上传附件 */
+    static queryAttachmentList(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrEnclosure.count', params);
+    }
 }
