@@ -77,7 +77,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     <form method="post" className={styles.mainBox} onSubmit={this.onSubmit.bind(this)}>
                         <div className={`${styles.inputGroup} ${styles.userName} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
                             <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
-                            <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                            <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或4PL帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                             {this.getSelectBtn()}
                             {this.getChooseList()}
                         </div>
@@ -115,7 +115,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         <div className={styles.userMessage}>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
                                 <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
-                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或4PL帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                                 {this.getSelectBtn()}
                                 {this.getChooseList()}
                             </p>
@@ -760,7 +760,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                 <React.Fragment>
                     <div className={styles.logoBox}>
                         <img src={StaticFile.getImage('images/login/logo_phone.png')} />
-                        <h3>您好！欢迎登录地藤管家！</h3>
+                        <h3>您好！欢迎登录4PL管家！</h3>
                     </div>
                     <Login dataRow={this.state.dataIn} loginMsg={this.state.message} language={this.props.language || ''} lowVersion={this.props.lowVersion} key={new Date().getTime()} />
                     <div className={styles.upt}>
@@ -786,13 +786,13 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <div className={styles.loginFormBox}>
                             <div className={styles.loginLeft}>
                                 <div className={styles.loginLogo}>
-                                    <img src={StaticFile.getImage('images/login/logo.png')} alt="地藤管家" />
-                                    <span>地藤管家</span>
+                                    <img src={StaticFile.getImage('images/login/logo.png')} alt="4PL管家" />
+                                    <span>4PL管家</span>
                                 </div>
-                                <div className={styles.loginLeftText}>地藤，您随身携带的大管家</div>
+                                <div className={styles.loginLeftText}>4PL管家，您随身携带的大管家</div>
                             </div>
                             <div className={styles.loginRight}>
-                                <div className={styles.loginTitle}>您好！欢迎登录地藤管家！</div>
+                                <div className={styles.loginTitle}>您好！欢迎登录4PL管家！</div>
                                 <Login dataRow={this.state.dataIn} loginMsg={this.state.message} lowVersion={this.props.lowVersion} language={this.props.language || ''} />
                             </div>
                         </div>
@@ -833,8 +833,8 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <div className={styles.mainText}>
                             <img src={StaticFile.getImage('images/logoMenu.png')} />
                             <div className={styles.appDescription}>
-                                <span>地藤管家</span>
-                                <span>地藤，您随身携带的大管家</span>
+                                <span>4PL管家</span>
+                                <span>4PL管家，您随身携带的大管家</span>
                             </div>
                             <a href="install" className={styles.install}>下载</a>
                         </div>
