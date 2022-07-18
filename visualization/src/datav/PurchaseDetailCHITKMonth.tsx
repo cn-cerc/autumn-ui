@@ -53,11 +53,11 @@ export default class PurchaseDetailCHITKMonth extends React.Component<FrmReportT
             let month = date.getMonth() + 1;
             let day = date.getDate()
             let arr = 1
-            let dg: any = (new Array(month)).fill(0);
-            let cg: any = (new Array(month)).fill(0);
-            let sh: any = (new Array(month)).fill(0);
-            let dc: any = (new Array(month)).fill(0);
-            let hs: any = (new Array(month)).fill(0);
+            let dg: any = new Array(month).fill(0);
+            let cg: any = new Array(month).fill(0);
+            let sh: any = new Array(month).fill(0);
+            let dc: any = new Array(month).fill(0);
+            let hs: any = new Array(month).fill(0);
             while (ks.fetch()) {
                 let DateDate = new Date(ks.getString('到货日期'))
                 let m = DateDate.getMonth() + 1;
