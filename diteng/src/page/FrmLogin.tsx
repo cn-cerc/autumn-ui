@@ -799,11 +799,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                     </div>
                     <footer className={styles.status} style={{ 'clear': 'both', 'textAlign': 'center' }}>
                         <div className={styles.otherLinks}>
-                            <a href="https://mimrc.com/" target="_black">华软首页</a>
-                            <a href="https://www.diaoyou.site/" target="_black">钓友汇商城</a>
-                            <a href="https://mimrc.com/page/erp.html" target="_black">绩效ERP</a>
-                            <a href="https://mimrc.com/page/customer.html" target="_black">客户服务</a>
-                            <a href="https://mimrc.com/page/contact.html" target="_black">联系我们</a>
+                            <a href=" http://47.114.104.179/" target="_black">公司首页</a>
                         </div>
                         <div className="electronicFlag">
                             <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
