@@ -789,7 +789,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                                     <img src={StaticFile.getImage('images/login/logo.png')} alt="4PL管家" />
                                     <span>4PL管家</span>
                                 </div>
-                                <div className={styles.loginLeftText}>4PL管家，您随身携带的大管家</div>
+                                <div className={styles.loginLeftText}>智慧赋能、协作共赢</div>
                             </div>
                             <div className={styles.loginRight}>
                                 <div className={styles.loginTitle}>您好！欢迎登录4PL管家！</div>
