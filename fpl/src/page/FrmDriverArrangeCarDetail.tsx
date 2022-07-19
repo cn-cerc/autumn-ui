@@ -267,7 +267,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             list.push(<div className={styles.wabillStateBox}>
                 <div className={styles.wabillStateItem}>
                     <span>卸货码表</span>
-                    <input type="text" className={ds > 3 ? styles.disInp : ''} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_code_table_'))} onChange={(e) => {
+                    <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_code_table_'))} onChange={(e) => {
                         dataRow.setValue('unload_code_table_', e.target.value);
                         this.setState(this.state, () => {
                             this.updateCodeMeter();
@@ -277,7 +277,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <hr />
                 <div className={styles.wabillStateItem}>
                     <span>卸货磅单</span>
-                    <input type="text" className={`${ds > 3 ? styles.disInp : ''} ${this.state.unload_pound_list_skin ? styles.unload_pound_list_skin : ''}`} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_pound_list_'))} onChange={(e) => {
+                    <input type="text" className={`${ds > 2 ? styles.disInp : ''} ${this.state.unload_pound_list_skin ? styles.unload_pound_list_skin : ''}`} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_pound_list_'))} onChange={(e) => {
                         dataRow.setValue('unload_pound_list_', e.target.value);
                         this.setState(this.state, () => {
                             this.updateCodeMeter();
@@ -289,7 +289,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         list.push(<div className={styles.wabillStateBox}>
             <div className={styles.wabillStateItem}>
                 <span>装货码表</span>
-                <input type="text" className={ds > 3 ? styles.disInp : ''} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_code_table_'))} onChange={(e) => {
+                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_code_table_'))} onChange={(e) => {
                     dataRow.setValue('upload_code_table_', e.target.value);
                     this.setState(this.state, () => {
                         this.updateCodeMeter();
@@ -299,7 +299,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             <hr />
             <div className={styles.wabillStateItem}>
                 <span>装货磅单</span>
-                <input type="text" className={ds > 3 ? styles.disInp : ''} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_pound_list_'))} onChange={(e) => {
+                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_pound_list_'))} onChange={(e) => {
                     dataRow.setValue('upload_pound_list_', e.target.value);
                     this.setState(this.state, () => {
                         this.updateCodeMeter();
@@ -359,6 +359,14 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
     //更新状态
     async submitForm() {
         if (!this.state.btnFlag) return;
+        if (this.state.waybillState >= 2) {
+            let upload = this.state.dataRow.getDouble('upload_code_table_');
+            let unload = this.state.dataRow.getDouble('unload_code_table_');
+            if (unload < upload) {
+                showMsg('码表数据异常，卸货码表必须大于装货码表');
+                return;
+            }
+        }
         let dataOut = await FplPageApi.DriverArrangeCarModify(this.state.dataRow);
         if (dataOut['_state'] == 0) {
             showMsg(dataOut['_message']);
@@ -370,6 +378,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 location.reload();
             }
         }
+
     }
 
     //获取参数
