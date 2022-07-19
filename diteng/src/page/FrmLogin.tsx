@@ -138,7 +138,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         <div className={styles.bottom}>
                             <a href="FrmForgetPassword" className={styles.afterRight}>找回密码</a>
                             <a href="TFrmContact" className={styles.afterRight}>客服中心</a>
-                            <a href="TFrmHardware" className={styles.afterRight}>硬件配置</a>
+                            {/* <a href="TFrmHardware" className={styles.afterRight}>硬件配置</a> */}
                             <a href="install" className={styles.afterInstall}>软件下载</a>
                         </div>
                         {this.getMessageDOM()}
