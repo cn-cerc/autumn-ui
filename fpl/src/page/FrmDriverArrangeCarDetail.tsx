@@ -172,7 +172,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         attachmentList = await FplPageApi.queryAttachmentList(attachmentRow);
         let btnFlag = false;
         attachmentList.first();
-        if (attachmentList.getDouble("sum_") > 0 || this.state.waybillState == 2) {
+        if (attachmentList.getDouble("sum_") > 0 || this.state.waybillState >= 2) {
             btnFlag = true;
         }
         this.state.dataRow.setValue('upload_code_table_', cargoData.getString("upload_code_table_"))
@@ -342,7 +342,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <button onClick={() => {
                     location.href = this.props.uploadUrl;
                 }}>{this.state.btnFlag ? '附件列表' : '上传附件'}</button>
-                <button className={this.state.btnFlag ? '' : styles.btnDefault_bg} onClick={this.state.waybillState == 2 ? this.confirm.bind(this) : 'this.submitForm.bind(this)'} >{this.state.btnText}</button>
+                <button className={this.state.btnFlag ? '' : styles.btnDefault_bg} onClick={this.state.waybillState == 2 ? this.confirm.bind(this) : this.submitForm.bind(this)} >{this.state.btnText}</button>
             </div>
         }
     }
@@ -406,6 +406,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             })
             return;
         }
+        this.submitForm();
     }
 
     //根据计算 更改卸货码表 背景色
