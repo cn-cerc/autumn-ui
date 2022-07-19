@@ -48,8 +48,8 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <ColumnIt/>
-                    <Column name='收款人编号'  code='payee_no_' width='40'></Column>
-                    <Column name='收款人姓名'  code='payee_name_' width='40'></Column>
+                    <Column name='收款人姓名'  code='payee_name_' width='20'></Column>
+                    <Column name='联系方式'  code='phone_number_' width='20'></Column>
                     <Column name='操作'  code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
                         return <span role='auiOpera' onClick={this.handleClick.bind(this,row)}>选择</span>
                     }}></Column>
