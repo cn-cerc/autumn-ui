@@ -129,4 +129,9 @@ export default class FplPageApi {
     static queryAttachmentList(params: DataRow) {
         return FplDialogApi.getDataOut('SvrEnclosure.count', params);
     }
+
+     /** 保存磅单码表数据 */
+     static updateCodeMeter(params: DataRow) {
+        return FplDialogApi.getDataOut('SvrDriverArrangeCar.updateCodeMeter', params);
+    }
 }
