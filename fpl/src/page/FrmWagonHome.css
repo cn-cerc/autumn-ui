@@ -121,6 +121,10 @@
     height: 14px;
 }
 
+.textCenter{
+    text-align: center;
+}
+
 @media screen and (min-width: 768px) {}
 
 @media screen and (min-width: 1200px) and (max-width: 1366px) {}
