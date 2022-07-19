@@ -267,14 +267,15 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
                     messageName = DefaultMessage;
                     break;
             }
-            list.push(<li key={uid}>
+            list.push(<li key={key}>
                 {React.createElement(messageName, {
                     row: ds.current,
                     name,
                     time: ds.getString('AppDate_'),
                     hideName: false,
                     siteR,
-                    msgStatus
+                    msgStatus,
+                    reloadMessage: this.reloadMessage.bind(this)
                 })}
             </li>)
         }
@@ -463,5 +464,9 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
             })
         } else
             showMsg(ds.message);
+    }
+
+    reloadMessage() {
+        this.getMessageData(Utils.getNowDate())
     }
 }

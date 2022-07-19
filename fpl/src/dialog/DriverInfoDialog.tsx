@@ -52,8 +52,8 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
                     <ColumnIt />
-                    <Column code="name_" name="司机名称" width="50"></Column>
-                    <Column code="phone_num_" name="联系方式" width="50"></Column>
+                    <Column code="name_" name="司机名称" width="20"></Column>
+                    <Column code="phone_num_" name="联系方式" width="20"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>

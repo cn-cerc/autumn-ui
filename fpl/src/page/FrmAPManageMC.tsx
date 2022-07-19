@@ -63,8 +63,8 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
                             <div className={`${this.state.dataJson.getBoolean(`销货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销货单')}>
                                 <span>销货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应收结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应收结账单')}>
-                                <span>应收结账单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                                <span>应收对账单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '请款单')}>
                                 <span>请款单</span>
@@ -307,20 +307,20 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
                     ]
                 },
                 {
-                    coords: [ //应收结账单 往右下线条
+                    coords: [ //应收对账单 往右下线条
                         [190, 123],
                         [279, 123],
                         [279, 271]
                     ]
                 },
                 {
-                    coords: [ //应收结账单 往下线条
+                    coords: [ //应收对账单 往下线条
                         [168, 160],
                         [168, 189]
                     ]
                 },
                 {
-                    coords: [ //应收结账单 往左下线条
+                    coords: [ //应收对账单 往左下线条
                         [168, 174],
                         [50, 174],
                         [50, 189]

@@ -27,7 +27,9 @@ type FrmDriverArrangeCarTypeState = {
     CargoPoundsSingle: number,
     btnText: string,
     dataRow: DataRow,
-    btnFlag: boolean
+    btnFlag: boolean,
+    unload_pound_list_skin: boolean,
+    openTipsFlag: boolean,
 }
 
 export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriverArrangeCarTypeProps, FrmDriverArrangeCarTypeState> {
@@ -63,6 +65,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         dataRow.setValue('tb_no_', this.props.tbNo).setValue('cargo_no_', this.props.cargoNo).setValue('it_', this.props.it)
             .setValue('upload_code_table_', '').setValue('upload_pound_list_', '')
             .setValue('unload_code_table_', '').setValue('unload_pound_list_', '')
+            .setValue('num_', '').setValue('cargo_loss_rate_', '')
             .setValue('longitude_', 115.693942).setValue('latitude_', 28.2882);//目前经纬度为静态
 
         this.state = {
@@ -76,6 +79,8 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             btnText,
             dataRow,        //保存更新状态所需的数据
             btnFlag: false,     //保存底部两个按钮的状态  附件列表 和 确认
+            unload_pound_list_skin: false,       //保存卸货磅单输入框的异样
+            openTipsFlag: false,
         }
     }
 
@@ -123,6 +128,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 </div>
                 {/* {this.accessoryBox()} */}
                 {this.footerBoxHtml()}
+                {this.openTips()}
             </div>
         </React.Fragment>
     }
@@ -166,13 +172,15 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         attachmentList = await FplPageApi.queryAttachmentList(attachmentRow);
         let btnFlag = false;
         attachmentList.first();
-        if (attachmentList.getDouble("sum_") > 0) {
+        if (attachmentList.getDouble("sum_") > 0 || this.state.waybillState >= 2) {
             btnFlag = true;
         }
         this.state.dataRow.setValue('upload_code_table_', cargoData.getString("upload_code_table_"))
             .setValue('upload_pound_list_', cargoData.getString("upload_pound_list_"))
             .setValue('unload_code_table_', cargoData.getString("unload_code_table_"))
-            .setValue('unload_pound_list_', cargoData.getString("unload_pound_list_"));
+            .setValue('unload_pound_list_', cargoData.getString("unload_pound_list_"))
+            .setValue('num_', cargoData.getString("num_"))
+            .setValue('cargo_loss_rate_', cargoData.getString("cargo_loss_rate_"));
 
         this.setState({
             ...this.state,
@@ -180,6 +188,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             contractNo: cargoData.getString("contract_no_"),
             btnFlag
         })
+        this.countCargoTotal();
     }
 
     getOrderDetail() {
@@ -234,6 +243,10 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                     <span>{orderData.getString('payee_name_')}</span>
                 </li>
                 <li className={styles.infoLine}>
+                    <span>到货详细地址</span>
+                    <span>{orderData.getString('receive_detail_')}</span>
+                </li>
+                <li className={styles.infoLine}>
                     <span>货物数量</span>
                     <span>{orderData.getString('weight_')}{orderData.getString('deputy_unit_')}</span>
                 </li>
@@ -258,17 +271,21 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             list.push(<div className={styles.wabillStateBox}>
                 <div className={styles.wabillStateItem}>
                     <span>卸货码表</span>
-                    <input type="text" className={ds > 3 ? styles.disInp : ''} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_code_table_'))} onChange={(e) => {
+                    <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_code_table_'))} onChange={(e) => {
                         dataRow.setValue('unload_code_table_', e.target.value);
-                        this.setState(this.state);
+                        this.setState(this.state, () => {
+                            this.updateCodeMeter();
+                        });
                     }} />
                 </div>
                 <hr />
                 <div className={styles.wabillStateItem}>
                     <span>卸货磅单</span>
-                    <input type="text" className={ds > 3 ? styles.disInp : ''} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_pound_list_'))} onChange={(e) => {
+                    <input type="text" className={`${ds > 2 ? styles.disInp : ''} ${this.state.unload_pound_list_skin ? styles.unload_pound_list_skin : ''}`} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_pound_list_'))} onChange={(e) => {
                         dataRow.setValue('unload_pound_list_', e.target.value);
-                        this.setState(this.state);
+                        this.setState(this.state, () => {
+                            this.updateCodeMeter();
+                        });
                     }} />
                 </div>
             </div>)
@@ -276,17 +293,21 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         list.push(<div className={styles.wabillStateBox}>
             <div className={styles.wabillStateItem}>
                 <span>装货码表</span>
-                <input type="text" className={ds > 3 ? styles.disInp : ''} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_code_table_'))} onChange={(e) => {
+                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_code_table_'))} onChange={(e) => {
                     dataRow.setValue('upload_code_table_', e.target.value);
-                    this.setState(this.state);
+                    this.setState(this.state, () => {
+                        this.updateCodeMeter();
+                    });
                 }} />
             </div>
             <hr />
             <div className={styles.wabillStateItem}>
                 <span>装货磅单</span>
-                <input type="text" className={ds > 3 ? styles.disInp : ''} placeholder={ds > 3 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_pound_list_'))} onChange={(e) => {
+                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_pound_list_'))} onChange={(e) => {
                     dataRow.setValue('upload_pound_list_', e.target.value);
-                    this.setState(this.state);
+                    this.setState(this.state, () => {
+                        this.updateCodeMeter();
+                    });
                 }} />
             </div>
         </div>)
@@ -325,7 +346,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <button onClick={() => {
                     location.href = this.props.uploadUrl;
                 }}>{this.state.btnFlag ? '附件列表' : '上传附件'}</button>
-                <button className={this.state.btnFlag ? '' : styles.btnDefault_bg} onClick={this.submitForm.bind(this)} >{this.state.btnText}</button>
+                <button className={this.state.btnFlag ? '' : styles.btnDefault_bg} onClick={this.state.waybillState == 2 ? this.confirm.bind(this) : this.submitForm.bind(this)} >{this.state.btnText}</button>
             </div>
         }
     }
@@ -342,13 +363,26 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
     //更新状态
     async submitForm() {
         if (!this.state.btnFlag) return;
+        if (this.state.waybillState >= 2) {
+            let upload = this.state.dataRow.getDouble('upload_code_table_');
+            let unload = this.state.dataRow.getDouble('unload_code_table_');
+            if (unload < upload) {
+                showMsg('码表数据异常，卸货码表必须大于装货码表');
+                return;
+            }
+        }
         let dataOut = await FplPageApi.DriverArrangeCarModify(this.state.dataRow);
         if (dataOut['_state'] == 0) {
             showMsg(dataOut['_message']);
-        }else{
+        } else {
             //状态更新完成后 刷新界面
-            location.reload();
+            if (this.state.waybillState > 2) {
+                location.href = `FrmDriverArrangeCar.revoke?tbNo=${this.props.tbNo}&cargoNo=${this.props.cargoNo}&it=${this.props.it}`;
+            } else {
+                location.reload();
+            }
         }
+
     }
 
     //获取参数
@@ -362,5 +396,68 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             }
         }
         return o[search];
+    }
+
+    async updateCodeMeter() {
+        let dataOut = await FplPageApi.updateCodeMeter(this.state.dataRow);
+        if (dataOut['_state'] != 1) {
+            showMsg(dataOut['_message']);
+        }
+    }
+
+    //提交审核方法
+    confirm() {
+        let upload = this.state.dataRow.getDouble('upload_pound_list_');
+        let unload = this.state.dataRow.getDouble('unload_pound_list_');
+        // 货损率*千分比*货物数量=允许货损率
+        let cargo = this.state.dataRow.getDouble('cargo_loss_rate_') * 0.001 * this.state.dataRow.getDouble('num_');
+        let cargoLoss = cargo.toFixed(2);
+        let cargoDamage = (upload - unload).toFixed(2);
+        if (cargoDamage > cargoLoss) {
+            this.setState({
+                openTipsFlag: true
+            })
+            return;
+        }
+        this.submitForm();
+    }
+
+    //根据计算 更改卸货码表 背景色
+    countCargoTotal() {
+        if (this.state.waybillState != 2) { return }
+        let upload = this.state.dataRow.getDouble('upload_pound_list_');
+        let unload = this.state.dataRow.getDouble('unload_pound_list_');
+        // 货损率*千分比*货物数量=允许货损率
+        let cargo = this.state.dataRow.getDouble('cargo_loss_rate_') * 0.001 * this.state.dataRow.getDouble('num_');
+        let cargoLoss = cargo.toFixed(2);
+        let cargoDamage = (upload - unload).toFixed(2);
+        if (cargoDamage > cargoLoss) {
+            this.setState({
+                unload_pound_list_skin: true
+            })
+        }
+    }
+    // 运单已超过货损率 提交审核时 提示
+    openTips() {
+        if (!this.state.openTipsFlag) { return }
+        return <div className={styles.alertShadow}>
+            <div className={styles.alertBox}><div>
+                <h1 className={styles.alertTitle}>温馨提示</h1>
+                <p className={styles.alertCon}>当前运单已超过货损率,是否提交审核</p>
+            </div>
+                <ul>
+                    <li className={styles.alertCancel} onClick={() => {
+                        this.setState({
+                            openTipsFlag: false
+                        })
+                    }}>取消</li>
+                    <li className={styles.alertConfirm} onClick={() => {
+                        this.submitForm(); this.setState({
+                            openTipsFlag: false
+                        })
+                    }}>确认</li>
+                </ul>
+            </div>
+        </div>
     }
 }
