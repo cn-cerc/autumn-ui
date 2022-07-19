@@ -243,6 +243,10 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                     <span>{orderData.getString('payee_name_')}</span>
                 </li>
                 <li className={styles.infoLine}>
+                    <span>到货详细地址</span>
+                    <span>{orderData.getString('receive_detail_')}</span>
+                </li>
+                <li className={styles.infoLine}>
                     <span>货物数量</span>
                     <span>{orderData.getString('weight_')}{orderData.getString('deputy_unit_')}</span>
                 </li>
