@@ -15,6 +15,7 @@ type FrmDriverArrangeCarTypeProps = {
     confirmStatus: boolean, //0.未接单 1.已接单
     deliveryStatus: string,
     waybillState: number,
+    isRead: boolean
 }
 
 type FrmDriverArrangeCarTypeState = {
@@ -72,7 +73,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         
         this.state = {
             showShopDetail: false,
-            isAgree: false,
+            isAgree: this.props.isRead || false,
             orderData: new DataRow,
             contractNo: '',
             waybillState,       // 运单状态 0.未发货 1.已发货 2.已卸货 3.待审核
@@ -83,7 +84,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             btnFlag: false,     //保存底部两个按钮的状态  附件列表 和 确认
             unload_pound_list_skin: false,       //保存卸货磅单输入框的异样
             openTipsFlag: false,
-            carriageUrl:`FrmDriverArrangeCar.detail?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&dcorpno=${this.props.dcorpno}&it=${this.props.it}`
+            carriageUrl:`FrmDriverArrangeCar.carriage?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&dCropNo=${this.props.dcorpno}&it=${this.props.it}`
         }
     }
 
