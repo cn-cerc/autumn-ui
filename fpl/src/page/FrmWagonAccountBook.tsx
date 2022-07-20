@@ -10,12 +10,14 @@ type FrmWagonAccountBookTypeProps = {
     introduction: string,
     dataJson: string,
     btnArr: string,
+    record: any
 }
 
 type FrmWagonAccountBookTypeState = {
     data: DataSet,
     moduleData: DataSet,
     btnUrl: DataRow,
+    record: DataRow,
 }
 
 export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookTypeProps, FrmWagonAccountBookTypeState> {
@@ -25,10 +27,15 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         moduleData.setJson(this.props.dataJson);
         let btnUrl = new DataRow();
         btnUrl.setJson(this.props.btnArr);
+        let record = new DataRow();
+        if (this.props.record != '') {
+            record.setJson(this.props.record);
+        }
         this.state = {
             data: new DataSet(),
             moduleData,
             btnUrl,
+            record,
         }
     }
 
@@ -42,7 +49,7 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                         <li>
                             <p>钱包余额</p>
                             <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '钱包余额')}>
-                                <span>2099.00</span>
+                                <span>{this.state.record.getDouble('total')}</span>
                                 <span>元</span>
                             </div>
                             <button className={styles.btn_tixian} onClick={this.gotoFun.bind(this, '提现')}>提现</button>
@@ -50,35 +57,35 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
                         <li>
                             <p>支出</p>
                             <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '支出')}>
-                                <span>2099.00</span>
+                                <span>{this.state.record.getDouble('expenditure')}</span>
                                 <span>元</span>
                             </div>
                         </li>
                         <li>
                             <p>收入</p>
                             <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '收入')}>
-                                <span>2099.00</span>
+                                <span>{this.state.record.getDouble('income')}</span>
                                 <span>元</span>
                             </div>
                         </li>
                         <li>
                             <p>未报销</p>
                             <div>
-                                <span>12</span>
+                                <span>0</span>
                                 <span>笔</span>
                             </div>
                         </li>
                         <li>
                             <p>报销进程</p>
                             <div>
-                                <span>50</span>
+                                <span>0</span>
                                 <span>笔</span>
                             </div>
                         </li>
                         <li>
                             <p>报销驳回</p>
                             <div>
-                                <span>12</span>
+                                <span>0</span>
                                 <span>笔</span>
                             </div>
                         </li>
@@ -96,7 +103,6 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
     }
 
     componentDidMount(): void {
-        console.log(this.state.btnUrl)
         this.init();
     }
 
