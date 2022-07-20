@@ -64,8 +64,8 @@ export default class Frm4PLCusManage extends WebControl<Frm4PLCusManageypeProps,
                             <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '合同登记')}>
                                 <span>合同登记</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '充值管理')}>
-                                <span>充值管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                                <span>应收对账单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`物流运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '物流运单管理')}>
                                 <span>物流运单管理</span>

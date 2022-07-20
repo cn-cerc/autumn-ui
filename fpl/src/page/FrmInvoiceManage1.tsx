@@ -47,8 +47,8 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                             <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '充值管理')}>
-                                <span>充值管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                                <span>应收对账单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`物流订单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
                                 <span>物流订单管理</span>
