@@ -63,10 +63,7 @@ export default class FrmARManageMC extends WebControl<FrmARManageMCTypeProps, Fr
                             <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '进货单')}>
                                 <span>进货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应付结账单')}>
-                                <span>应付结账单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '应付对账单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`应付对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应付对账单')}>
                                 <span>应付对账单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`应付账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应付账款')}>
@@ -315,13 +312,6 @@ export default class FrmARManageMC extends WebControl<FrmARManageMCTypeProps, Fr
                     coords: [ //应付结账单 往下线条
                         [168, 160],
                         [168, 189]
-                    ]
-                },
-                {
-                    coords: [ //应付结账单 往左下线条
-                        [168, 174],
-                        [50, 174],
-                        [50, 189]
                     ]
                 },
                 {
