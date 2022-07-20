@@ -22,12 +22,8 @@ export default class FrmDriverArrangeCar extends React.Component<FrmDriverArrang
 
     render(): React.ReactNode {
         return <React.Fragment>
-            {this.getOrderList()}
+            {this.state.dataJson.size ? this.getOrderList() : ''}
         </React.Fragment>
-    }
-
-    componentDidMount(): void {
-
     }
 
     getOrderList() {
@@ -35,10 +31,8 @@ export default class FrmDriverArrangeCar extends React.Component<FrmDriverArrang
         let ds = new DataSet();
         ds = this.state.dataJson;
         ds.first();
-        let hasNextOrder = false;
-        let time = new Date().getTime();
         while (ds.fetch()) {
-            list.push(this.getOrderDetail(hasNextOrder, ds.current, time))
+            list.push(this.getOrderDetail(ds.current))
         }
         return <ul className={styles.orderList} key={this.state.dataJson.getString('delivery_status_')}>{list}</ul>
     }
@@ -47,8 +41,8 @@ export default class FrmDriverArrangeCar extends React.Component<FrmDriverArrang
         location.href = `FrmDriverArrangeCar.detail?cargoNo=${row.getString('cargo_no_')}&tbNo=${row.getString('tb_no_')}&dcorpno=${row.getString('d_corp_no_')}&it=${row.getDouble('it_')}`;
     }
 
-    getOrderDetail(hasNextOrder: boolean, row: DataRow, time: number) {
-        return <li key={this.state.dataJson.getString('corp_no_')} onClick={this.handleSelect.bind(this, row)}>
+    getOrderDetail(row: DataRow) {
+        return <li key={row.getString('corp_no_')} onClick={this.handleSelect.bind(this, row)}>
             <div className={styles.orderTop}>
                 <div>
                     <span>{row.getString('depart_')}</span>
