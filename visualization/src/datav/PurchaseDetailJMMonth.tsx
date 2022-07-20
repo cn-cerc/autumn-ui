@@ -54,11 +54,10 @@ export default class PurchaseDetailJMMonth extends React.Component<FrmReportType
             let month = date.getMonth() + 1;
             let day = date.getDate();
             let arr = 1
-            let dg: any = [0, 0, 0, 0, 0, 0]
-            let sh: any = [0, 0, 0, 0, 0, 0]
-            let cg: any = [0, 0, 0, 0, 0, 0]
-            let dh: any = [0, 0, 0, 0, 0, 0]
-
+            let dg: any = new Array(month).fill(0);
+            let sh: any = new Array(month).fill(0);
+            let cg: any = new Array(month).fill(0);
+            let dh: any = new Array(month).fill(0);
             while (ks.fetch()) {
                 let DateDate = new Date(ks.getString('到货日期'))
                 let m = DateDate.getMonth() + 1;
