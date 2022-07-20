@@ -1,6 +1,5 @@
 import StaticFile from "@diteng/StaticFile";
 import { DataRow, DataSet } from "autumn-ui";
-import { getJSON } from "jquery";
 import React from "react";
 import { callPhoneNumber, showMsg } from "../tool/Summer";
 import FplPageApi from "./FplPageApi";
@@ -32,6 +31,7 @@ type FrmDriverArrangeCarTypeState = {
     btnFlag: boolean,
     unload_pound_list_skin: boolean,
     openTipsFlag: boolean,
+    uploadUrl: string,
 }
 
 export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriverArrangeCarTypeProps, FrmDriverArrangeCarTypeState> {
@@ -70,7 +70,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             .setValue('num_', '').setValue('cargo_loss_rate_', '')
             .setValue('longitude_', 115.693942).setValue('latitude_', 28.2882);//目前经纬度为静态
 
-        
+
         this.state = {
             showShopDetail: false,
             isAgree: this.props.isRead || false,
@@ -84,8 +84,10 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             btnFlag: false,     //保存底部两个按钮的状态  附件列表 和 确认
             unload_pound_list_skin: false,       //保存卸货磅单输入框的异样
             openTipsFlag: false,
-            carriageUrl:`FrmDriverArrangeCar.carriage?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&dCropNo=${this.props.dcorpno}&it=${this.props.it}`
+            carriageUrl: `FrmDriverArrangeCar.carriage?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&dCropNo=${this.props.dcorpno}&it=${this.props.it}`,
+            uploadUrl: this.props.uploadUrl.split('?')[0] + '?objCode=' + this.getParmasFun(this.props.uploadUrl, "objCode") + '&url=' + this.getParmasFun(this.props.uploadUrl, "url"),    //服务还未改好，前端先组装
         }
+        console.log(this.state.waybillState)
     }
 
     render(): React.ReactNode {
@@ -348,7 +350,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         } else {
             return <div className={`${styles.orderBtns} ${styles.orderBtns1}`}>
                 <button onClick={() => {
-                    location.href = this.props.uploadUrl;
+                    location.href = this.state.uploadUrl;
                 }}>{this.state.btnFlag ? '附件列表' : '上传附件'}</button>
                 <button className={this.state.btnFlag ? '' : styles.btnDefault_bg} onClick={this.state.waybillState == 2 ? this.confirm.bind(this) : this.submitForm.bind(this)} >{this.state.btnText}</button>
             </div>
@@ -386,7 +388,6 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 location.reload();
             }
         }
-
     }
 
     //获取参数
