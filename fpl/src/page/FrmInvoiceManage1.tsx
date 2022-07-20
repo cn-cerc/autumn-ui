@@ -4,6 +4,7 @@ import styles from "./FrmInvoiceManage1.css";
 import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
 import Introduction from "./Introduction";
+import FplPageApi from "./FplPageApi";
 
 type FrmInvoiceManage1TypeProps = {
     dataJson: string,
@@ -11,9 +12,6 @@ type FrmInvoiceManage1TypeProps = {
 }
 
 type FrmInvoiceManage1TypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataJson: DataRow,
     invoiceStatusData: DataSet,
     invoiceReviewStatus: DataSet,
@@ -23,30 +21,10 @@ type FrmInvoiceManage1TypeState = {
 export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeProps, FrmInvoiceManage1TypeState> {
     constructor(props: FrmInvoiceManage1TypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
+      
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
             invoiceStatusData: new DataSet(),
             invoiceReviewStatus: new DataSet(),
@@ -69,8 +47,8 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                             <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '充值管理')}>
-                                <span>充值管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                                <span>应收对账单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`物流订单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
                                 <span>物流订单管理</span>
@@ -101,16 +79,16 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>发票状态数据</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
+                            <div className={styles.mcTitle}>发票审核状态</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（对接中）</div>
+                        <div className={styles.mcTitle}>当周申请发票数据</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -119,13 +97,17 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
     }
 
     async init() {
-        // let invoiceStatusData = new DataSet();
-        // invoiceStatusData = await FplPageApi.contractApplyStats();
-        // let invoiceReviewStatus = new DataSet();
-        // invoiceReviewStatus = await FplPageApi.contractApplyStats();
-        // let applicationInvoiceData = new DataSet();
-        // applicationInvoiceData = await FplPageApi.contractApplyStats();
-
+        let invoiceStatusData = new DataSet();
+        invoiceStatusData = await FplPageApi.statisticalInvoice();
+        let invoiceReviewStatus = new DataSet();
+        invoiceReviewStatus = await FplPageApi.reviewStatusInvoice();
+        let applicationInvoiceData = new DataSet();
+        applicationInvoiceData = await FplPageApi.thisWeekDataInvoice();
+        this.setState({
+            invoiceStatusData,
+            invoiceReviewStatus,
+            applicationInvoiceData
+        })
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
@@ -140,18 +122,16 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
+        ds = this.state.applicationInvoiceData;
         let xArr = [];
         let sData = [];
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            sData.push(ds.getDouble('num'));
         }
         let option = {
             xAxis: {
                 type: 'category',
-                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周天'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -179,10 +159,10 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
-                        color: MCChartColors[0]
+                        color: MCChartColors[0],
                     },
+                    barWidth: 60,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -201,15 +181,12 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        ds = this.state.invoiceReviewStatus;
+        let dataArr = [
+            { name: '已接受', value: ds.getDouble('record_data_') },
+            { name: '已支付', value: ds.getDouble('pay_data_') },
+            { name: '申请中', value: ds.getDouble('no_pay_data_') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -221,6 +198,12 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             grid: {
                 top: 40,
@@ -231,7 +214,6 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -240,6 +222,7 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
@@ -262,15 +245,12 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
+        ds = this.state.invoiceStatusData;
+        let dataArr = [
+            { name: '已申请', value: ds.getDouble('apply_data_') },
+            { name: '已接收', value: ds.getDouble('receive_data_') },
+            { name: '已拒绝', value: ds.getDouble('refuse_data_') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -282,10 +262,15 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -294,6 +279,7 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                         show: false,
                         position: 'center'
                     },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,

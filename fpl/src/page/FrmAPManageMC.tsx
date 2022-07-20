@@ -60,14 +60,14 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
                             <div className={`${this.state.dataJson.getBoolean(`应收调整单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收调整单')}>
                                 <span>应收调整单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销货单')}>
-                                <span>销货单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销售订单')}>
+                                <span>销售订单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应收对账单')}>
                                 <span>应收对账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '请款单')}>
-                                <span>请款单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`收款(申请)单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '收款(申请)单')}>
+                                <span>收款(申请)单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`应收账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应收账款')}>
                                 <span>应收账款</span>

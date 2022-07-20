@@ -130,8 +130,21 @@ export default class FplPageApi {
         return FplDialogApi.getDataOut('SvrEnclosure.count', params);
     }
 
-     /** 保存磅单码表数据 */
-     static updateCodeMeter(params: DataRow) {
+    /** 保存磅单码表数据 */
+    static updateCodeMeter(params: DataRow) {
         return FplDialogApi.getDataOut('SvrDriverArrangeCar.updateCodeMeter', params);
+    }
+
+    /** 发票管理=> 发票申请数据统计 */
+    static statisticalInvoice() {
+        return FplDialogApi.getService('SvrPInvoiceApply.statistical');
+    }
+    /** 发票管理=> 发票管理数据统计 */
+    static reviewStatusInvoice() {
+        return FplDialogApi.getService('SvrPInvoiceRecord.statistical');
+    }
+    /** 发票管理=> 每周申请发票次数数据统计 */
+    static thisWeekDataInvoice() {
+        return FplDialogApi.getService('SvrPInvoiceApply.thisWeekData');
     }
 }

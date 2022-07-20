@@ -56,8 +56,8 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                             <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
-                                <span>充值管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应付对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '应付对账单')}>
+                                <span>应付对账单</span>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>待审核充值记录</div>
+                            <div className={styles.mcTitle}>合同类别(对接中)</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>

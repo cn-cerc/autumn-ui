@@ -56,11 +56,11 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                             <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`充值管理_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '充值管理')}>
-                                <span>充值管理</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                                <span>应收对账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`待接收充值_Dis`) ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '待接收充值')}>
-                                <span>待接收充值</span>
+                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '收款单')}>
+                                <span>收款单</span>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>待审核充值记录</div>
+                            <div className={styles.mcTitle}>合同类别(对接中)</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
@@ -312,7 +312,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     ]
                 },
                 {
-                    coords: [ //待充值往左线条
+                    coords: [ //收款单左线条
                         [248, 339],
                         [183, 339],
                     ]

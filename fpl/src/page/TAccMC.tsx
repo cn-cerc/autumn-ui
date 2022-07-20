@@ -50,7 +50,7 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-           <Introduction introduction={this.props.introduction}></Introduction>
+            <Introduction introduction={this.props.introduction}></Introduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -90,11 +90,11 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                             <div className={`${this.state.dataJson.getBoolean(`银行存款余额_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '银行存款余额')}>
                                 <span>银行存款余额</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '会计凭证')}>
-                                <span>会计凭证</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '应收对帐单')}>
+                                <span>应收对帐单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '应付结账单')}>
-                                <span>应付结账单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应付对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '应付对帐单')}>
+                                <span>应付对帐单</span>
                             </div>
                         </div>
                     </div>
@@ -366,16 +366,16 @@ export default class FrmTaurusMC extends WebControl<TPurMCTypeProps, TPurMCTypeS
                 },
                 {
                     coords: [ //应付结账单 往上线条
-                        [279, 338],
-                        [168, 338],
                         [168, 349],
+                        [168, 338],
+                        [279, 338],
                     ]
                 },
                 {
                     coords: [ //应付结账单 往上线条
-                        [168, 338],
-                        [50, 338],
                         [50, 349],
+                        [50, 338],
+                        [168, 338],
                     ]
                 },
             ]
