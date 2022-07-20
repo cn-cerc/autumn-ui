@@ -1,6 +1,5 @@
 import StaticFile from "@diteng/StaticFile";
 import { DataRow, DataSet } from "autumn-ui";
-import { getJSON } from "jquery";
 import React from "react";
 import { callPhoneNumber, showMsg } from "../tool/Summer";
 import FplPageApi from "./FplPageApi";
