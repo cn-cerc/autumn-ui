@@ -15,6 +15,7 @@ type FrmDriverArrangeCarTypeProps = {
     confirmStatus: boolean, //0.未接单 1.已接单
     deliveryStatus: string,
     waybillState: number,
+    isRead: boolean
 }
 
 type FrmDriverArrangeCarTypeState = {
@@ -24,6 +25,7 @@ type FrmDriverArrangeCarTypeState = {
     contractNo: string,
     waybillState: number,
     waybillStateImg: string,
+    carriageUrl?: string,
     CargoPoundsSingle: number,
     btnText: string,
     dataRow: DataRow,
@@ -68,9 +70,10 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             .setValue('num_', '').setValue('cargo_loss_rate_', '')
             .setValue('longitude_', 115.693942).setValue('latitude_', 28.2882);//目前经纬度为静态
 
+        
         this.state = {
             showShopDetail: false,
-            isAgree: false,
+            isAgree: this.props.isRead || false,
             orderData: new DataRow,
             contractNo: '',
             waybillState,       // 运单状态 0.未发货 1.已发货 2.已卸货 3.待审核
@@ -81,6 +84,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             btnFlag: false,     //保存底部两个按钮的状态  附件列表 和 确认
             unload_pound_list_skin: false,       //保存卸货磅单输入框的异样
             openTipsFlag: false,
+            carriageUrl:`FrmDriverArrangeCar.carriage?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&dCropNo=${this.props.dcorpno}&it=${this.props.it}`
         }
     }
 
@@ -338,7 +342,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         if (this.state.waybillState == 4) { return }
         if (!this.props.confirmStatus) {
             return <div className={styles.orderBtns}><img src={this.state.isAgree ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={() => this.setState({ isAgree: !this.state.isAgree })} />
-                <div><span onClick={() => this.setState({ isAgree: !this.state.isAgree })}>我已阅读</span><a href='FrmDriverArrangeCar.carriage'>《承运协议》</a></div>
+                <div><span onClick={() => this.setState({ isAgree: !this.state.isAgree })}>我已阅读</span><a href={this.state.carriageUrl}>《承运协议》</a></div>
                 <button onClick={this.handleSelect.bind(this)}>确认接单</button>
             </div>
         } else {
