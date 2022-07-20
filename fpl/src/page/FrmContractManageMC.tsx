@@ -56,6 +56,12 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                             <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                                <span>应收对账单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '收款单')}>
+                                <span>收款单</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -297,6 +303,18 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                     coords: [ //待接收合同往右线条
                         [78, 242],
                         [143, 242],
+                    ]
+                },
+                {
+                    coords: [ //合同管理往下线条
+                        [169, 280],
+                        [169, 323],
+                    ]
+                },
+                {
+                    coords: [ //收款单左线条
+                        [248, 339],
+                        [183, 339],
                     ]
                 },
             ]
