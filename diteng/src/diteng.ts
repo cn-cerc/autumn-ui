@@ -80,6 +80,7 @@ import FrmMyContactDetail from "./page/FrmMyContactDetail";
 import TOrd from "./page/TOrd";
 import TStockMC from "./page/TStockMC";
 import TPurMC from "./page/TPurMC";
+import FrmCashManage from "./page/FrmCashManage";
 
 export default {
     //地藤专用
@@ -180,4 +181,5 @@ export default {
     //MC控制台
     TStockMC,
     TPurMC,
+    FrmCashManage,
 }
