@@ -71,7 +71,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             .setValue('longitude_', 115.693942).setValue('latitude_', 28.2882);//目前经纬度为静态
 
 
-        let uploadUrl = waybillState < 3 ? this.props.uploadUrl + `&show=show` : `FrmEnclosure.viewEnclosure?objCode=${this.props.tbNo}`
+        let uploadUrl = waybillState < 3 ? this.props.uploadUrl + `&show=show` : `FrmEnclosure.viewEnclosure?objCode=${this.props.tbNo}`;
 
         this.state = {
             showShopDetail: false,
