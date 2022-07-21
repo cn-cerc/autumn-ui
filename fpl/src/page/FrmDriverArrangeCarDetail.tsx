@@ -71,6 +71,8 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             .setValue('longitude_', 115.693942).setValue('latitude_', 28.2882);//目前经纬度为静态
 
 
+        let uploadUrl = waybillState < 3 ? this.props.uploadUrl + `&show=show` : `FrmEnclosure.viewEnclosure?objCode=${this.props.tbNo}`
+
         this.state = {
             showShopDetail: false,
             isAgree: this.props.isRead || false,
@@ -85,7 +87,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             unload_pound_list_skin: false,       //保存卸货磅单输入框的异样
             openTipsFlag: false,
             carriageUrl: `FrmDriverArrangeCar.carriage?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&dCropNo=${this.props.dcorpno}&it=${this.props.it}`,
-            uploadUrl: this.props.uploadUrl,    //this.props.uploadUrl.split('?')[0] + '?objCode=' + this.getParmasFun(this.props.uploadUrl, "objCode") + '&url=' + this.getParmasFun(this.props.uploadUrl, "url"),    //服务还未改好，前端先组装
+            uploadUrl: uploadUrl,
         }
     }
 
@@ -131,7 +133,6 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                     </ul>
                     {this.getOrderDetail()}
                 </div>
-                {/* {this.accessoryBox()} */}
                 {this.footerBoxHtml()}
                 {this.openTips()}
             </div>
@@ -277,7 +278,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <div className={styles.wabillStateItem}>
                     <span>卸货码表</span>
                     <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_code_table_'))} onFocus={(e) => {
-                        dataRow.setValue('unload_code_table_', e.target.select());
+                        e.target.select();
                     }} onChange={(e) => {
                         dataRow.setValue('unload_code_table_', e.target.value);
                         this.setState(this.state, () => {
@@ -289,7 +290,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <div className={styles.wabillStateItem}>
                     <span>卸货磅单</span>
                     <input type="text" className={`${ds > 2 ? styles.disInp : ''} ${this.state.unload_pound_list_skin ? styles.unload_pound_list_skin : ''}`} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_pound_list_'))} onFocus={(e) => {
-                        dataRow.setValue('unload_pound_list_', e.target.select());
+                        e.target.select();
                     }} onChange={(e) => {
                         dataRow.setValue('unload_pound_list_', e.target.value);
                         this.setState(this.state, () => {
@@ -303,7 +304,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             <div className={styles.wabillStateItem}>
                 <span>装货码表</span>
                 <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_code_table_'))} onFocus={(e) => {
-                    dataRow.setValue('upload_code_table_', e.target.select());
+                    e.target.select();
                 }} onChange={(e) => {
                     dataRow.setValue('upload_code_table_', e.target.value);
                     this.setState(this.state, () => {
@@ -315,7 +316,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             <div className={styles.wabillStateItem}>
                 <span>装货磅单</span>
                 <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_pound_list_'))} onFocus={(e) => {
-                    dataRow.setValue('upload_pound_list_', e.target.select());
+                    e.target.select();
                 }} onChange={(e) => {
                     dataRow.setValue('upload_pound_list_', e.target.value);
                     this.setState(this.state, () => {
@@ -326,26 +327,6 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         </div>)
         return list;
     }
-
-    // accessoryBox() { //暂时没有这个服务
-    //     if (this.props.confirmStatus) {
-    //         return <div className={styles.accessoryBox}>
-    //             <div>
-    //                 <img src="images/MCimg/sjzj_1.png" alt="" />
-    //                 <span className={styles.upImgBtn} ><img src="images/order/upImg.png" alt="" /></span>
-    //             </div>
-    //             <div>
-    //                 <h3>装货回单.jpg</h3>
-    //                 <p>当前类型：{this.state.orderData.getString('carry_type_')}</p>
-    //                 <p>创建时间：{this.state.orderData.getString('create_time_').slice(0, -3)}</p>
-    //                 <p>
-    //                     <span><img src="images/order/edit.png" alt="" />修改</span>
-    //                     <span><img src="images/order/del.png" alt="" />删除</span>
-    //                 </p>
-    //             </div>
-    //         </div>
-    //     }
-    // }
 
     footerBoxHtml() {
         if (this.state.waybillState == 4) { return }
@@ -390,9 +371,11 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         } else {
             //状态更新完成后 刷新界面
             if (this.state.waybillState > 2) {
-                location.href = `FrmDriverArrangeCar.revoke?tbNo=${this.props.tbNo}&cargoNo=${this.props.cargoNo}&it=${this.props.it}`;
+                showMsg('物流运单回撤成功！');
+                setTimeout(() => { location.href = `FrmDriverArrangeCar.revoke?tbNo=${this.props.tbNo}&cargoNo=${this.props.cargoNo}&it=${this.props.it}`; }, 200)
             } else {
-                location.reload();
+                showMsg('操作成功');
+                setTimeout(() => { location.reload(); }, 200)
             }
         }
     }
@@ -436,7 +419,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
 
     //根据计算 更改卸货码表 背景色
     countCargoTotal() {
-        if (this.state.waybillState != 2) { return }
+        if (this.state.waybillState < 2) { return }
         let upload = this.state.dataRow.getDouble('upload_pound_list_');
         let unload = this.state.dataRow.getDouble('unload_pound_list_');
         // 货损率*千分比*货物数量=允许货损率
