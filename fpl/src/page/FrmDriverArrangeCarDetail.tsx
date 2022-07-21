@@ -131,7 +131,6 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                     </ul>
                     {this.getOrderDetail()}
                 </div>
-                {/* {this.accessoryBox()} */}
                 {this.footerBoxHtml()}
                 {this.openTips()}
             </div>
@@ -327,26 +326,6 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         return list;
     }
 
-    // accessoryBox() { //暂时没有这个服务
-    //     if (this.props.confirmStatus) {
-    //         return <div className={styles.accessoryBox}>
-    //             <div>
-    //                 <img src="images/MCimg/sjzj_1.png" alt="" />
-    //                 <span className={styles.upImgBtn} ><img src="images/order/upImg.png" alt="" /></span>
-    //             </div>
-    //             <div>
-    //                 <h3>装货回单.jpg</h3>
-    //                 <p>当前类型：{this.state.orderData.getString('carry_type_')}</p>
-    //                 <p>创建时间：{this.state.orderData.getString('create_time_').slice(0, -3)}</p>
-    //                 <p>
-    //                     <span><img src="images/order/edit.png" alt="" />修改</span>
-    //                     <span><img src="images/order/del.png" alt="" />删除</span>
-    //                 </p>
-    //             </div>
-    //         </div>
-    //     }
-    // }
-
     footerBoxHtml() {
         if (this.state.waybillState == 4) { return }
         if (!this.props.confirmStatus) {
@@ -390,9 +369,11 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         } else {
             //状态更新完成后 刷新界面
             if (this.state.waybillState > 2) {
-                location.href = `FrmDriverArrangeCar.revoke?tbNo=${this.props.tbNo}&cargoNo=${this.props.cargoNo}&it=${this.props.it}`;
+                showMsg('物流运单回撤成功！');
+                setTimeout(() => { location.href = `FrmDriverArrangeCar.revoke?tbNo=${this.props.tbNo}&cargoNo=${this.props.cargoNo}&it=${this.props.it}`; }, 200)
             } else {
-                location.reload();
+                showMsg('操作成功');
+                setTimeout(() => { location.reload(); }, 200)
             }
         }
     }
