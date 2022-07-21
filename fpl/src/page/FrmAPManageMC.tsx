@@ -57,28 +57,25 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`应收调整单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收调整单')}>
-                                <span>应收调整单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应付调整单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应付调整单')}>
+                                <span>应付调整单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销售订单')}>
-                                <span>销售订单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '进货单')}>
+                                <span>进货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应收对账单')}>
-                                <span>应收对账单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应付对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应付对账单')}>
+                                <span>应付对账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款(申请)单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '收款(申请)单')}>
-                                <span>收款(申请)单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应付账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应付账款')}>
+                                <span>应付账款</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应收账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应收账款')}>
-                                <span>应收账款</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '收款单')}>
-                                <span>收款单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`付款(申请)单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '付款(申请)单')}>
+                                <span>付款(申请)单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '会计凭证')}>
                                 <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`银行存款_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '银行存款')}>
+                            <div className={`${this.state.dataJson.getBoolean(`银行存款_Dis`) ? styles.other_disable : styles.other} ${styles.stock14}`} onClick={this.linkTo.bind(this, '银行存款')}>
                                 <span>银行存款</span>
                             </div>
                         </div>
@@ -206,7 +203,6 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -260,7 +256,6 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -295,55 +290,49 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
             nodes,
             linesData: [
                 {
-                    coords: [ //应收调整单 往下线条
+                    coords: [ //应付调整单 往下线条
                         [168, 75],
                         [168, 108]
                     ]
                 },
                 {
-                    coords: [ //销货单 往右线条
+                    coords: [ //进货单 往右线条
                         [73, 123],
                         [150, 123],
                     ]
                 },
                 {
-                    coords: [ //应收对账单 往右下线条
+                    coords: [ //应付结账单 往右下线条
                         [190, 123],
                         [279, 123],
                         [279, 271]
                     ]
                 },
                 {
-                    coords: [ //应收对账单 往下线条
+                    coords: [ //应付结账单 往下线条
                         [168, 160],
                         [168, 189]
                     ]
                 },
                 {
-                    coords: [ //应收对账单 往左下线条
-                        [168, 174],
-                        [50, 174],
-                        [50, 189]
-                    ]
-                },
-                {
                     coords: [ //应收账款 往下线条
-                        [50, 247],
-                        [50, 271]
+                        [168, 247],
+                        [168, 271]
                     ]
                 },
                 {
-                    coords: [ //收款单 往右线条
-                        [73, 290],
+                    coords: [ //付款(申请)单 往右线条
+                        [190, 290],
                         [256, 290]
                     ]
                 },
                 {
-                    coords: [ //收款单 往下线条
-                        [50, 328],
-                        [50, 349]
+                    coords: [ //付款(申请)单 往下线条
+                        [168, 328],
+                        [168, 349]
                     ]
                 },
+                
             ]
         }
 
