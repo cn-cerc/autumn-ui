@@ -85,9 +85,8 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             unload_pound_list_skin: false,       //保存卸货磅单输入框的异样
             openTipsFlag: false,
             carriageUrl: `FrmDriverArrangeCar.carriage?cargoNo=${this.props.cargoNo}&tbNo=${this.props.tbNo}&dCropNo=${this.props.dcorpno}&it=${this.props.it}`,
-            uploadUrl: this.props.uploadUrl.split('?')[0] + '?objCode=' + this.getParmasFun(this.props.uploadUrl, "objCode") + '&url=' + this.getParmasFun(this.props.uploadUrl, "url"),    //服务还未改好，前端先组装
+            uploadUrl: this.props.uploadUrl,    //this.props.uploadUrl.split('?')[0] + '?objCode=' + this.getParmasFun(this.props.uploadUrl, "objCode") + '&url=' + this.getParmasFun(this.props.uploadUrl, "url"),    //服务还未改好，前端先组装
         }
-        console.log(this.state.waybillState)
     }
 
     render(): React.ReactNode {
@@ -277,7 +276,9 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             list.push(<div className={styles.wabillStateBox}>
                 <div className={styles.wabillStateItem}>
                     <span>卸货码表</span>
-                    <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_code_table_'))} onChange={(e) => {
+                    <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_code_table_'))} onFocus={(e) => {
+                        dataRow.setValue('unload_code_table_', e.target.select());
+                    }} onChange={(e) => {
                         dataRow.setValue('unload_code_table_', e.target.value);
                         this.setState(this.state, () => {
                             this.updateCodeMeter();
@@ -287,7 +288,9 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <hr />
                 <div className={styles.wabillStateItem}>
                     <span>卸货磅单</span>
-                    <input type="text" className={`${ds > 2 ? styles.disInp : ''} ${this.state.unload_pound_list_skin ? styles.unload_pound_list_skin : ''}`} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_pound_list_'))} onChange={(e) => {
+                    <input type="text" className={`${ds > 2 ? styles.disInp : ''} ${this.state.unload_pound_list_skin ? styles.unload_pound_list_skin : ''}`} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('unload_pound_list_'))} onFocus={(e) => {
+                        dataRow.setValue('unload_pound_list_', e.target.select());
+                    }} onChange={(e) => {
                         dataRow.setValue('unload_pound_list_', e.target.value);
                         this.setState(this.state, () => {
                             this.updateCodeMeter();
@@ -299,7 +302,9 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         list.push(<div className={styles.wabillStateBox}>
             <div className={styles.wabillStateItem}>
                 <span>装货码表</span>
-                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_code_table_'))} onChange={(e) => {
+                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_code_table_'))} onFocus={(e) => {
+                    dataRow.setValue('upload_code_table_', e.target.select());
+                }} onChange={(e) => {
                     dataRow.setValue('upload_code_table_', e.target.value);
                     this.setState(this.state, () => {
                         this.updateCodeMeter();
@@ -309,7 +314,9 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
             <hr />
             <div className={styles.wabillStateItem}>
                 <span>装货磅单</span>
-                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_pound_list_'))} onChange={(e) => {
+                <input type="text" className={ds > 2 ? styles.disInp : ''} placeholder={ds > 2 ? '' : '请在此输入'} value={decodeURIComponent(dataRow.getString('upload_pound_list_'))} onFocus={(e) => {
+                    dataRow.setValue('upload_pound_list_', e.target.select());
+                }} onChange={(e) => {
                     dataRow.setValue('upload_pound_list_', e.target.value);
                     this.setState(this.state, () => {
                         this.updateCodeMeter();
