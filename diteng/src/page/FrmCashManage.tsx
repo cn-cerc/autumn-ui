@@ -1,9 +1,7 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
+import * as echarts from "echarts";
 import React from "react";
 import styles from "./FrmCashManage.css";
-import * as echarts from "echarts";
-import { MCChartColors } from "./FrmTaurusMC";
-import Introduction from "./Introduction";
 
 type FrmCashManageTypeProps = {
     dataJson: string,
@@ -16,6 +14,8 @@ type FrmCashManageTypeState = {
     pieData2: DataSet,
     dataJson: DataRow,
 }
+
+export const MCChartColors = ['#ee6666', '#fac858', '#91cc75', '#73c0de', '#fc8452', '#9a60b4', '#5470c6']
 
 export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, FrmCashManageTypeState> {
     constructor(props: FrmCashManageTypeProps) {
@@ -50,7 +50,10 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <Introduction introduction={this.props.introduction}></Introduction>
+            <div className={styles.mcIntroduction}>
+                <div className={styles.mcTitle}>简介</div>
+                <p>{this.props.introduction}</p>
+            </div>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
