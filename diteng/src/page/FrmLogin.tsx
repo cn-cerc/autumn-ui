@@ -789,7 +789,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                                     <img src={StaticFile.getImage('images/login/logo.png')} alt="4PL管家" />
                                     <span>4PL管家</span>
                                 </div>
-                                <div className={styles.loginLeftText}>智慧赋能、协作共赢</div>
+                                <div className={styles.loginLeftText}>智慧赋能&nbsp;&nbsp;协作共赢</div>
                             </div>
                             <div className={styles.loginRight}>
                                 <div className={styles.loginTitle}>您好！欢迎登录4PL管家！</div>
@@ -806,7 +806,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         </div>
                         <div className={styles.copyRight}>
                             <a href="http://www.mimrc.com">©恒凯昌（深圳）数字供应链有限公司</a>
-                            <a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a>
+                            <a href="http://beian.miit.gov.cn/">粤ICP备2022090580号-1</a>
                         </div>
                     </footer>
                 </React.Fragment>
