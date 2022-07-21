@@ -329,7 +329,13 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
     }
 
     footerBoxHtml() {
-        if (this.state.waybillState == 4) { return }
+        if (this.state.waybillState == 4) { 
+            return <div className={`${styles.orderBtns} ${styles.orderBtns1}`}>
+                <button style={{'width':'100%'}} onClick={() => {
+                    location.href = this.state.uploadUrl;
+                }}>附件列表 </button>
+            </div>
+        }
         if (!this.props.confirmStatus) {
             return <div className={styles.orderBtns}><img src={this.state.isAgree ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={() => this.setState({ isAgree: !this.state.isAgree })} />
                 <div><span onClick={() => this.setState({ isAgree: !this.state.isAgree })}>我已阅读</span><a href={this.state.carriageUrl}>《承运协议》</a></div>
