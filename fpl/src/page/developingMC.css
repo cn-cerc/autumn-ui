@@ -1,0 +1,40 @@
+.contentBox{
+    position: relative;
+    height:100%;
+}
+
+.main{
+    position: absolute;
+    top:30%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width:250px;
+}
+
+.imgBox{
+    width:208px;
+    margin: auto;
+    margin-top:10%;
+}
+.imgBox > img{
+    width:208px;
+    height:156px;
+}
+
+.imgBox > p{
+    margin-top:33px;
+    text-align: center;
+}
+
+.btnBox{
+    margin-top:55px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBox > button{
+    width: 114px;
+    height:40px;
+    border-radius: 30px;
+    background-color: #0283f7;
+}

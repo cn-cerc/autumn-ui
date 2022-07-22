@@ -17,6 +17,7 @@ import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
 import SupAndCusDialog from "./dialog/SupAndCusDialog";
 import SupNetCorpDialog from "./dialog/SupNetCorpDialog";
+import developingMC from "./page/developingMC";
 import Frm4PLCusManage from "./page/Frm4PLCusManage";
 import FrmAPManageMC from "./page/FrmAPManageMC";
 import FrmAPManageMC1 from "./page/FrmAPManageMC1";
@@ -123,4 +124,5 @@ export default {
     SupNetCorpDialog,
     SupAndCusDialog,
     FrmDriverArrangeCar,
+    developingMC,
 }

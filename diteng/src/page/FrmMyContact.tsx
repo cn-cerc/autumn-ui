@@ -211,7 +211,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             })
             this.initMessageScroll();
         } else {
-            location.href = `./FrmMyContact.AllDetails?searchType=${num}`
+            location.href = `./FrmMyContact.AllDetails?searchType=${encodeURIComponent(num)}`;
         }
     }
 
@@ -223,9 +223,9 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         })
         let messageData = this.getMessageDataByCode(id);
         if (!this.isPhone) {
-            location.href = `./FrmMyMessage?toUser=${id}&date=${date}&name=${name}`
+            location.href = `./FrmMyMessage?toUser=${encodeURIComponent(id)}&date=${encodeURIComponent(date)}&name=${encodeURIComponent(name)}`;
         } else {
-            location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&toUser=${messageData.fromUser}&date=${date}&name=${name}`
+            location.href = `./FrmMyMessage.details?$fromUser=${encodeURIComponent(messageData.fromUser)}&toUser=${encodeURIComponent(messageData.fromUser)}&date=${encodeURIComponent(date)}&name=${encodeURIComponent(name)}`;
         }
 
     }
@@ -288,7 +288,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     // 跳转至联系人详情页面
     toModify(row: DataRow) {
         if (!row.getBoolean('user_code_')) {
-            location.href = `FrmMyContact.modify?uid=${row.getString('UID_')}`;
+            location.href = `FrmMyContact.modify?uid=${encodeURIComponent(row.getString('UID_'))}`;
         }
     }
 

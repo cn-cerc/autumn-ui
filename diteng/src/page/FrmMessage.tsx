@@ -380,7 +380,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
-                    date = new Date(messageData.latestDate);
+                    date = new Date(messageData.latestDate.replaceAll('-','/'));
                     hour = date.getHours();
                     minut = date.getMinutes();
                     if (minut < 10) minut = '0' + minut;
@@ -469,10 +469,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         ds.appendDataSet(messageData.data);
         ds.first();
         while (ds.fetch()) {
-            let siteR = false, systemMsg = false, msgStatus = ds.getString('Status_');
+            let isSelf = false, systemMsg = false, msgStatus = ds.getString('Status_');
             let name = ds.getString('Name_') || messageData.name;
             if (ds.getString('FromUser_') == this.props.userCode) { //判定是否是自己发出的消息
-                siteR = true;
+                isSelf = true;
                 name = this.props.userName;
             }
             if (ds.getString('FromUser_') == '') { //目前FromUser_ 为空则判定为系统消息
@@ -518,7 +518,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     row: ds.current,
                     name,
                     hideName: false,
-                    siteR,
+                    isSelf,
                     time: ds.getString('AppDate_'),
                     msgStatus,
                     reloadMessage: this.reloadMessage.bind(this)
@@ -623,7 +623,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             this.setState({
                 currentUserId: id
             }, () => {
-                location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&date=${date}&name=${messageData.name}`
+                location.href = `./FrmMyMessage.details?fromUser=${encodeURIComponent(messageData.fromUser)}&date=${encodeURIComponent(date)}&name=${encodeURIComponent(messageData.name)}`;
             })
         }
 
