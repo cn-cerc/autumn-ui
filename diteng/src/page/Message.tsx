@@ -12,7 +12,7 @@ export type messageTypeProps = {
     row: DataRow;
     hideName?: boolean;
     name: string,
-    siteR?: boolean,
+    isSelf?: boolean,
     systemMsg?: boolean,
     msgStatus?: string,
     mvClass?: string
@@ -30,7 +30,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
     }
 
     render(): React.ReactNode {
-        return <div className={`${styles.main} ${this.props.siteR ? styles.msgRight : styles.msgLeft}`}>
+        return <div className={`${styles.main} ${this.props.isSelf ? styles.msgRight : styles.msgLeft}`}>
             <div className={styles.personBox}>
                 <div className={styles.imageBox}>{this.props.name == '系统消息' ? '系统' : this.props.name.substring(this.props.name.length - 2)}</div>
                 <div className={styles.person}>
@@ -42,7 +42,7 @@ export default abstract class Message<T extends messageTypeProps = messageTypePr
                 <div className={this.state.showReport ? styles.reportLine : ''} onTouchStart={this.handleTouchStart.bind(this)} onTouchEnd={this.handleClear.bind(this)} onMouseDown={this.handleTouchStart.bind(this)} onMouseUp={this.handleClear.bind(this)}>
                     {this.getMessage()}
                 </div>
-                {this.props.siteR ? this.getReadMsg() : ''}
+                {this.props.isSelf ? this.getReadMsg() : ''}
             </div>
             {this.getToastBox()}
         </div>

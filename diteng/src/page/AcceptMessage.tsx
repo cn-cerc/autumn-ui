@@ -56,8 +56,7 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
         if (this.state.messageData.getDouble('status') == 0) {
             opera = <React.Fragment>
                 <a href={this.state.messageData.getString('detailUrl')}>详情</a>
-                <button onClick={this.agreeFun.bind(this)}>接受</button>
-                <button onClick={this.rejected.bind(this)} hidden={!this.state.messageData.getBoolean('showRejected')}>拒绝</button>
+                {this.getButton()}
             </React.Fragment>
             remark = <DBEdit dataField='remark' dataRow={this.state.messageData}></DBEdit>;
         } else {
@@ -70,11 +69,19 @@ export default class AcceptMessage extends Message<TypeProps, TypeState> {
         return <div className={`${styles.signMessage, styles.defaultMessage}`}>
             <div dangerouslySetInnerHTML={{ __html: this.props.row.getString('Subject_') }}></div>
             <div dangerouslySetInnerHTML={{ __html: this.state.messageData.getString('content') }}></div>
-            <div>备注：{remark} </div>
+            {this.props.isSelf ? '' : <div>备注：{remark} </div>}
             {this.state.errorMessage ? <span style={{ color: 'red' }}>{this.state.errorMessage}</span> : ''}
             <div className={styles.specialMsg}>
                 {opera}
             </div>
         </div>
+    }
+
+    getButton() {
+        if (!this.props.isSelf)
+            return <React.Fragment>
+                <button onClick={this.agreeFun.bind(this)}>接受</button>
+                <button onClick={this.rejected.bind(this)} hidden={!this.state.messageData.getBoolean('showRejected')}>拒绝</button>
+            </React.Fragment>
     }
 }
