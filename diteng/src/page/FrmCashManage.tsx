@@ -175,7 +175,6 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -227,7 +226,6 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -281,7 +279,6 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],

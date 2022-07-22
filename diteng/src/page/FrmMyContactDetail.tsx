@@ -1,7 +1,5 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import { showMsg } from "../tool/Summer";
-import Utils from "../tool/Utils";
 import styles from "./FrmMyContact.css";
 import PageApi from "./PageApi";
 
@@ -77,7 +75,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             </li>);
             colorIndex = this.loopIndex(colorIndex);
         }
-        if(!list.length) {
+        if (!list.length) {
             list.push(<li className={styles.noContact} key='noContact'>暂无当前分类的联系人...</li>)
         }
         return <ul className={`${styles.AllContactList} ${list.length > 0 ? styles.contactDetailList : ''}`} onScroll={(e) => {
@@ -90,7 +88,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
     // 点击最近联系人触发的事件
     async handleClick(date: string, id: string, name: string) {
         if (id == '') return;
-        location.href = `./FrmMyMessage.details?fromUser=${id}&toUser=${id}&date=${date}&name=${name}`
+        location.href = `./FrmMyMessage.details?fromUser=${encodeURIComponent(id)}&toUser=${encodeURIComponent(id)}&date=${encodeURIComponent(date)}&name=${encodeURIComponent(name)}`;
 
     }
 
