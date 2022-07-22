@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.config.js",
     "main": "webpack --config webpack.main.config.js",
-    "fpl": "webpack --config webpack.fpl.config.js"
+    "fpl": "rm -rf dist && webpack --config webpack.fpl.config.js"
   },
   "author": "cn.cerc",
   "license": "ISC",
