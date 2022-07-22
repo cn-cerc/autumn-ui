@@ -6,6 +6,7 @@ import "../tool/Summer.css";
 
 type DriverInfoProps = {
     deptCode: string,
+    callBack?: Function,
 } & Partial<BaseDialogPropsType>
 
 
@@ -72,6 +73,8 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
             input2.value = dataRow.getString('name_');
         if (input3)
             input3.value = dataRow.getString('phone_num_');
+        if (this.props.callBack)
+            this.props.callBack();
         this.handleSelect();
     }
 }
