@@ -14,7 +14,8 @@ type FrmDriverArrangeCarTypeProps = {
     confirmStatus: boolean, //0.未接单 1.已接单
     deliveryStatus: string,
     waybillState: number,
-    isRead: boolean
+    isRead: boolean,
+    statusOff: boolean, //管控是否需要上传附加才能进行下一步操作
 }
 
 type FrmDriverArrangeCarTypeState = {
@@ -181,6 +182,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
         if (attachmentList.getDouble("sum_") > 0 || this.state.waybillState >= 2) {
             btnFlag = true;
         }
+
         this.state.dataRow.setValue('upload_code_table_', cargoData.getString("upload_code_table_"))
             .setValue('upload_pound_list_', cargoData.getString("upload_pound_list_"))
             .setValue('unload_code_table_', cargoData.getString("unload_code_table_"))
@@ -329,9 +331,9 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
     }
 
     footerBoxHtml() {
-        if (this.state.waybillState == 4) { 
+        if (this.state.waybillState == 4) {
             return <div className={`${styles.orderBtns} ${styles.orderBtns1}`}>
-                <button style={{'width':'100%'}} onClick={() => {
+                <button style={{ 'width': '100%' }} onClick={() => {
                     location.href = this.state.uploadUrl;
                 }}>附件列表 </button>
             </div>
@@ -342,11 +344,17 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                 <button onClick={this.handleSelect.bind(this)}>确认接单</button>
             </div>
         } else {
+            let _html;
+            if (this.props.statusOff) {
+                _html = <button className={this.state.btnFlag ? '' : styles.btnDefault_bg} onClick={this.state.waybillState == 2 ? this.confirm.bind(this) : this.submitForm.bind(this)} >{this.state.btnText}</button>
+            } else {
+                _html = <button className={''} onClick={this.state.waybillState == 2 ? this.confirm.bind(this) : this.submitForm.bind(this)} >{this.state.btnText}</button>
+            }
             return <div className={`${styles.orderBtns} ${styles.orderBtns1}`}>
                 <button onClick={() => {
                     location.href = this.state.uploadUrl;
                 }}>{this.state.btnFlag ? '附件列表' : '上传附件'}</button>
-                <button className={this.state.btnFlag ? '' : styles.btnDefault_bg} onClick={this.state.waybillState == 2 ? this.confirm.bind(this) : this.submitForm.bind(this)} >{this.state.btnText}</button>
+                {_html}
             </div>
         }
     }
@@ -362,7 +370,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
 
     //更新状态
     async submitForm() {
-        if (!this.state.btnFlag) return;
+        if (this.props.statusOff && !this.state.btnFlag) return;
         if (this.state.waybillState >= 2) {
             let upload = this.state.dataRow.getDouble('upload_code_table_');
             let unload = this.state.dataRow.getDouble('unload_code_table_');
