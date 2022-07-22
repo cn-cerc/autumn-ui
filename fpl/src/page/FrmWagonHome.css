@@ -2,14 +2,16 @@
     display: flex;
     line-height: 1em;
     color: #333333;
-    height: 0;
+    /* height: 0; */
     flex: 1;
+    flex-shrink: 0;
 }
 
 .content {
     width: 0;
     flex: 1;
     display: flex;
+    flex-shrink: 0;
 }
 
 .leftBox,
@@ -19,6 +21,7 @@
     flex-direction: column;
     margin-right: 10px;
     flex: 1;
+    flex-shrink: 0;
 }
 
 .rightBox {
@@ -27,9 +30,7 @@
 
 .items {
     margin-bottom: 10px;
-}
-
-.items {
+    flex-shrink: 0;
     background-color: #fff;
     border-radius: 4px;
     min-width: 346px;
@@ -60,6 +61,7 @@
 .item {
     display: flex;
     margin-bottom: 1rem;
+    flex-shrink: 0;
 }
 
 .item:last-child {
@@ -74,6 +76,7 @@
     display: flex;
     flex-direction: column;
     padding: 6px 0;
+    flex-shrink: 0;
 }
 
 .mainText>div {
@@ -114,6 +117,7 @@
     font-size: 14px;
     display: flex;
     font-weight: 400;
+    flex-shrink: 0;
 }
 
 .rightBtn>img {
@@ -121,7 +125,7 @@
     height: 14px;
 }
 
-.textCenter{
+.textCenter {
     text-align: center;
 }
 
@@ -133,12 +137,16 @@
 
     .content {
         flex-direction: column;
+        flex-shrink: 0;
     }
 
     .leftBox,
     .centerBox,
     .rightBox {
-        margin: 0 12px;
+        width: 100%;
+        flex-shrink: 0;
+        flex: auto;
+        height:auto;
     }
 
     .leftBox {
@@ -150,6 +158,7 @@
         height: 220px;
         overflow: hidden;
         flex: auto;
+        flex-shrink: 0;
     }
 
 

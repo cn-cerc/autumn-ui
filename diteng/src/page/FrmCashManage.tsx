@@ -60,46 +60,31 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`费用报销单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '费用报销单')}>
-                                <span>费用报销单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应收结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '应收结账单')}>
+                                <span>应收结账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`费用请购单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '费用请购单')}>
-                                <span>费用请购单</span>
+                            <div className={`${this.state.dataJson.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '请款单')}>
+                                <span>请款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`还库单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '还库单')}>
-                                <span>还库单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '会计凭证')}>
-                                <span>会计凭证</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`费用进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '费用进货单')}>
-                                <span>费用进货单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`领用单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '领用单')}>
-                                <span>领用单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`银行账户表_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '银行账户表')}>
-                                <span>银行账户表</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`器具资产_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '器具资产')}>
-                                <span>器具资产</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '报废单')}>
-                                <span>报废单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`付款(申请)单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '付款(申请)单')}>
-                                <span>付款(申请)单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`转账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '转账单')}>
-                                <span>转账单</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '收款单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '收款单')}>
                                 <span>收款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '会计凭证')}>
-                                <span>会计凭证</span>
+                            <div className={`${this.state.dataJson.getBoolean(`应付结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '应付结账单')}>
+                                <span>应付结账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '对账单')}>
+                            <div className={`${this.state.dataJson.getBoolean(`付款申请单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '付款申请单')}>
+                                <span>付款申请单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`付款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '付款单')}>
+                                <span>付款单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`转账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '转账单')}>
+                                <span>转账单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`银行账户表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '银行账户表')}>
+                                <span>银行账户表</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '对账单')}>
                                 <span>对账单</span>
                             </div>
                         </div>
@@ -175,7 +160,6 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -227,7 +211,6 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
             },
             series: [
                 {
-                    // name: '本周货运吨数占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -281,7 +264,6 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
             },
             series: [
                 {
-                    // name: '本周货运车辆占比',
                     type: 'pie',
                     center: ['30%', '50%'],
                     radius: ['40%', '70%'],
@@ -316,92 +298,39 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
             nodes,
             linesData: [
                 {
-                    coords: [ //费用报销单 往下线条
-                        [55, 75],
-                        [55, 108]
+                    coords: [ //应收结账单 往右线条
+                        [73, 38],
+                        [150, 38],
                     ]
                 },
                 {
-                    coords: [ //费用请购单 往下线条
-                        [168, 75],
-                        [168, 108]
+                    coords: [ //请款单 往右线条
+                        [190, 38],
+                        [256, 38],
                     ]
                 },
                 {
-                    coords: [ //还库单 往上线条
-                        [275, 108],
-                        [275, 75],
-                    ]
-                },
-                {
-                    coords: [ //费用进货单 往左线条
-                        [150, 123],
+                    coords: [ //应付结账单 往右线条
                         [73, 123],
+                        [150, 123],
                     ]
                 },
                 {
-                    coords: [ //费用进货单 往下线条
-                        [168, 160],
-                        [168, 189]
+                    coords: [ //付款申请单 往右线条
+                        [190, 123],
+                        [256, 123],
                     ]
                 },
                 {
-                    coords: [ //银行账户表 往左下线条
-                        [35, 210],
-                        [5, 210],
-                        [5, 409],
-                        [168, 409],
-                        [168, 402],
+                    coords: [ //转账单 往右线条
+                        [73, 210],
+                        [150, 210],
                     ]
                 },
                 {
-                    coords: [ //器具资产 往右上线条
-                        [200, 195],
-                        [245, 160],
-                    ]
-                },
-                {
-                    coords: [ //器具资产 往右线条
+                    coords: [ //银行账户表 往右线条
                         [190, 210],
                         [256, 210],
-                    ]
-                },
-                {
-                    coords: [ //付款(申请)单 往上线条
-                        [55, 271],
-                        [55, 245],
-                    ]
-                },
-                {
-                    coords: [ //转账单 往上线条
-                        [168, 271],
-                        [168, 255],
-                    ]
-                },
-                {
-                    coords: [ //收款单 往上线条
-                        [275, 271],
-                        [275, 255],
-                        [55, 255],
-                    ]
-                },
-                {
-                    coords: [ //付款(申请)单 往下线条
-                        [55, 325],
-                        [55, 350],
-                    ]
-                },
-                {
-                    coords: [ //转账单 往下线条
-                        [168, 325],
-                        [168, 338],
-                    ]
-                },
-                {
-                    coords: [ //收款单 往下线条
-                        [275, 325],
-                        [275, 338],
-                        [55, 338],
                     ]
                 },
             ]

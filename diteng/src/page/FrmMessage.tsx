@@ -380,7 +380,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
-                    date = new Date(messageData.latestDate);
+                    date = new Date(messageData.latestDate.replaceAll('-','/'));
                     hour = date.getHours();
                     minut = date.getMinutes();
                     if (minut < 10) minut = '0' + minut;
@@ -623,7 +623,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             this.setState({
                 currentUserId: id
             }, () => {
-                location.href = `./FrmMyMessage.details?fromUser=${messageData.fromUser}&date=${date}&name=${messageData.name}`
+                location.href = `./FrmMyMessage.details?fromUser=${encodeURIComponent(messageData.fromUser)}&date=${encodeURIComponent(date)}&name=${encodeURIComponent(messageData.name)}`;
             })
         }
 
