@@ -469,10 +469,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         ds.appendDataSet(messageData.data);
         ds.first();
         while (ds.fetch()) {
-            let siteR = false, systemMsg = false, msgStatus = ds.getString('Status_');
+            let isSelf = false, systemMsg = false, msgStatus = ds.getString('Status_');
             let name = ds.getString('Name_') || messageData.name;
             if (ds.getString('FromUser_') == this.props.userCode) { //判定是否是自己发出的消息
-                siteR = true;
+                isSelf = true;
                 name = this.props.userName;
             }
             if (ds.getString('FromUser_') == '') { //目前FromUser_ 为空则判定为系统消息
@@ -518,7 +518,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     row: ds.current,
                     name,
                     hideName: false,
-                    siteR,
+                    isSelf,
                     time: ds.getString('AppDate_'),
                     msgStatus,
                     reloadMessage: this.reloadMessage.bind(this)
