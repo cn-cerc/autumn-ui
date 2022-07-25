@@ -220,7 +220,7 @@ export default class FrmDriverArrangeCarDetail extends React.Component<FrmDriver
                     <span>{orderData.getString('code_')}</span>
                 </li>
                 <li className={styles.infoLine}>
-                    <span>货损率％</span>
+                    <span>货损率‰</span>
                     <span>{orderData.getString('cargo_loss_rate_')}</span>
                 </li>
             </ul>
