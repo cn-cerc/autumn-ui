@@ -56,7 +56,7 @@ export default class SupAndCusDialog extends BaseDialog<BaseDialogPropsType, Sup
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <Column code="Name_" name="公司全称" width="40" customText={(row: DataRow) => {
                         if (row.getBoolean('VineCorp_')) {
-                            return <span>{row.getString('Name_')}<img src={StaticFile.getImage(ImageConfig.ICON_LINK_BOTH)} width='22' height='16'/></span>
+                            return <span style={{'display':'block'}}>{row.getString('Name_')}<img src={StaticFile.getImage(ImageConfig.ICON_LINK_BOTH)} height='16'/></span>
                         } else {
                             return <span>{row.getString('Name_')}</span>;
                         }
