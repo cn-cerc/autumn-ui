@@ -14,7 +14,7 @@ type FrmContractManageMC2TypeProps = {
 type FrmContractManageMC2TypeState = {
     dataJson: DataRow,
     contractAmount: DataSet,
-    auditedRechargeRecord: DataSet,
+    contractTypeStats: DataSet,
     acceptedContract: DataSet,
 }
 //合同管理(水泥厂)
@@ -27,7 +27,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
         this.state = {
             dataJson: dataJson,
             contractAmount: new DataSet(),
-            auditedRechargeRecord: new DataSet(),
+            contractTypeStats: new DataSet(),
             acceptedContract: new DataSet(),
         }
     }
@@ -65,7 +65,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>合同类别(对接中)</div>
+                            <div className={styles.mcTitle}>合同类别</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
@@ -83,8 +83,8 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
     }
 
     async init() {
-        let auditedRechargeRecord = new DataSet();
-        auditedRechargeRecord = await FplPageApi.voucherStats();
+        let contractTypeStats = new DataSet();
+        contractTypeStats = await FplPageApi.contractTypeStats();
         let contractAmount = new DataSet();
         contractAmount = await FplPageApi.contractStats();
         let acceptedContract = new DataSet();
@@ -92,7 +92,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
 
         this.setState({
             contractAmount,
-            auditedRechargeRecord,
+            contractTypeStats,
             acceptedContract
         })
 
@@ -110,13 +110,13 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.auditedRechargeRecord;
+        ds = this.state.contractTypeStats;
         ds.first();
         let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('status_name_'),
-                value: ds.getDouble('sum')
+                name: ds.getString('contract_type_name_'),
+                value: ds.getDouble('num_')
             })
         }
         let option = {
@@ -263,7 +263,18 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
             series: [
                 {
                     data: dataArr,
-                    type: 'bar'
+                    type: 'bar',
+                    itemStyle: {
+                        color: MCChartColors[0],
+                    },
+                    barWidth: 60,
+                    lineStyle: {
+                        color: MCChartColors[0]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
                 }
             ]
         };
