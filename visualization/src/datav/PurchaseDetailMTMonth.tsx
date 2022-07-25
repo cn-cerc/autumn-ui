@@ -58,6 +58,7 @@ export default class PurchaseDetailMTMonth extends React.Component<FrmReportType
             let sh: any = new Array(month).fill(0);
             let cg: any = new Array(month).fill(0);
             let dh: any = new Array(month).fill(0);
+            console.log(ks)
             while (ks.fetch()) {
                 let DateDate = new Date(ks.getString('到货日期'))
                 let m = DateDate.getMonth() + 1;
@@ -65,10 +66,11 @@ export default class PurchaseDetailMTMonth extends React.Component<FrmReportType
                 if (ks.getString('种类') == '煤炭') {
                     if (month == m) {
                         if (day >= d) {
-                            dg[5] += ks.getDouble('到港数量')
-                            sh[5] += ks.getDouble('耗损数量')
-                            cg[5] += ks.getDouble('出港数量')
-                            dh[5] += ks.getDouble('到货数量')
+                            dg[m - 1] += ks.getDouble('到港数量')
+                            sh[m - 1] += ks.getDouble('耗损数量')
+                            cg[m - 1] += ks.getDouble('出港数量')
+                            dh[m - 1] += ks.getDouble('到货数量')
+
                         }
                     } else {
                         dg[m - 1] += ks.getDouble('到港数量')
@@ -93,6 +95,7 @@ export default class PurchaseDetailMTMonth extends React.Component<FrmReportType
                     setValue('采购合同', 'DA20220' + (arr2 + 1) + '01').
                     setValue('备注', '备注' + (arr2 + 1));
             }
+            console.log(cg)
         })
         for (let i = reportData.size; i < 11; i++) {
             reportData.append().setValue('月份', '').setValue('到港数量', '').setValue('出港数量', '').setValue('出港耗损数量', '').setValue('出港耗损比例', '').setValue('到厂数量', '').setValue('到厂耗损数量', '').setValue('到厂耗损比例', '').setValue('总耗损数量', '').setValue('总耗损比例', '').setValue('采购合同', '').setValue('备注', '');
