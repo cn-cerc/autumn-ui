@@ -539,22 +539,22 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let main3Data = [
                 {
                     name: 'A站',
-                    data: [0, 0, 0, 0, 0, 0],
+                    data: [0, 0, 0, 0, 0, 0, 0],
                     // areaStyle: { //折线图 面积效果
                 },
                 {
                     name: 'B站',
-                    data: [0, 0, 0, 0, 0, 0],
+                    data: [0, 0, 0, 0, 0, 0, 0],
                     // areaStyle: { //折线图 面积效果
                 },
                 {
                     name: 'C站',
-                    data: [0, 0, 0, 0, 0, 0],
+                    data: [0, 0, 0, 0, 0, 0, 0],
                     // areaStyle: { //折线图 面积效果
                 },
                 {
                     name: 'D站',
-                    data: [0, 0, 0, 0, 0, 0],
+                    data: [0, 0, 0, 0, 0, 0, 0],
                     // areaStyle: { //折线图 面积效果
                     //     opacity: 0.8,
                     //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -608,8 +608,11 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         this.monthSwitch(ftSheet, main3Data, 4);
                         break;
                     case 6:
+                        this.monthSwitch(ftSheet, main3Data, 5);
+                        break;
+                    case 7:
                         if (d >= day) {
-                            this.monthSwitch(ftSheet, main3Data, 5);
+                            this.monthSwitch(ftSheet, main3Data, 6);
                         }
                         break;
                 }
@@ -1231,7 +1234,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
 
             xAxis: {
                 type: 'category',
-                data: ['一月', '二月', '三月', '四月', '五月', '六月']
+                data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月']
             },
             yAxis: {
                 type: 'value',

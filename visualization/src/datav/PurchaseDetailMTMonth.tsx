@@ -65,10 +65,11 @@ export default class PurchaseDetailMTMonth extends React.Component<FrmReportType
                 if (ks.getString('种类') == '煤炭') {
                     if (month == m) {
                         if (day >= d) {
-                            dg[5] += ks.getDouble('到港数量')
-                            sh[5] += ks.getDouble('耗损数量')
-                            cg[5] += ks.getDouble('出港数量')
-                            dh[5] += ks.getDouble('到货数量')
+                            dg[m - 1] += ks.getDouble('到港数量')
+                            sh[m - 1] += ks.getDouble('耗损数量')
+                            cg[m - 1] += ks.getDouble('出港数量')
+                            dh[m - 1] += ks.getDouble('到货数量')
+
                         }
                     } else {
                         dg[m - 1] += ks.getDouble('到港数量')

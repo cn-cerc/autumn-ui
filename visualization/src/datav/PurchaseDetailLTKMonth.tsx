@@ -53,11 +53,11 @@ export default class PurchaseDetailLTKMonth extends React.Component<FrmReportTyp
             let month = date.getMonth() + 1;
             let day = date.getDate()
             let arr = 1
-            let dg: any = [0, 0, 0, 0, 0, 0]
-            let cg: any = [0, 0, 0, 0, 0, 0]
-            let sh: any = [0, 0, 0, 0, 0, 0]
-            let dc: any = [0, 0, 0, 0, 0, 0]
-            let hs: any = [0, 0, 0, 0, 0, 0]
+            let dg: any = new Array(month).fill(0);
+            let cg: any = new Array(month).fill(0);
+            let sh: any = new Array(month).fill(0);
+            let dc: any = new Array(month).fill(0);
+            let hs: any = new Array(month).fill(0);
 
             while (ks.fetch()) {
                 let DateDate = new Date(ks.getString('到货日期'))
@@ -66,11 +66,11 @@ export default class PurchaseDetailLTKMonth extends React.Component<FrmReportTyp
                 if (ks.getString('种类') == '菱铁矿') {
                     if (month == m) {
                         if (day >= d) {
-                            dg[5] += ks.getDouble('到港数量')
-                            sh[5] += ks.getDouble('耗损数量')
-                            cg[5] += ks.getDouble('出港数量')
-                            dc[5] += ks.getDouble('到货数量')
-                            hs[5] += ks.getDouble('耗损比例')
+                            dg[m - 1] += ks.getDouble('到港数量')
+                            sh[m - 1] += ks.getDouble('耗损数量')
+                            cg[m - 1] += ks.getDouble('出港数量')
+                            dc[m - 1] += ks.getDouble('到货数量')
+                            hs[m - 1] += ks.getDouble('耗损比例')
                         }
                     } else {
                         dg[m - 1] += ks.getDouble('到港数量')

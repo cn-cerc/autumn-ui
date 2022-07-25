@@ -29,17 +29,17 @@ export default class PurchaseDetailCHITKMonth extends React.Component<FrmReportT
         let reportHead = new DataRow();
         let reportData = new DataSet();
         reportHead.setValue('月份', { name: '月份', width: '15' }).
-        setValue('到港数量', { name: '到港数量(T)', width: '16' }).
-        setValue('出港数量', { name: '出港数量(T)', width: '16' }).
-        setValue('出港耗损数量', { name: '出港耗损数量(T)', width: '20' }).
-        setValue('出港耗损比例', { name: '出港耗损比例', width: '20' }).
-        setValue('到厂数量', { name: '到厂数量(T)', width: '16' }).
-        setValue('到厂耗损数量', { name: '到厂耗损数量(T)', width: '20' }).
-        setValue('到厂耗损比例', { name: '到厂耗损比例', width: '20' }).
-        setValue('总耗损数量', { name: '总耗损数量(T)', width: '18' }).
-        setValue('总耗损比例', { name: '总耗损比例', width: '18' }).
-        setValue('采购合同', { name: '采购合同', width: '18' }).
-        setValue('备注', { name: '备注', width: '16' });
+            setValue('到港数量', { name: '到港数量(T)', width: '16' }).
+            setValue('出港数量', { name: '出港数量(T)', width: '16' }).
+            setValue('出港耗损数量', { name: '出港耗损数量(T)', width: '20' }).
+            setValue('出港耗损比例', { name: '出港耗损比例', width: '20' }).
+            setValue('到厂数量', { name: '到厂数量(T)', width: '16' }).
+            setValue('到厂耗损数量', { name: '到厂耗损数量(T)', width: '20' }).
+            setValue('到厂耗损比例', { name: '到厂耗损比例', width: '20' }).
+            setValue('总耗损数量', { name: '总耗损数量(T)', width: '18' }).
+            setValue('总耗损比例', { name: '总耗损比例', width: '18' }).
+            setValue('采购合同', { name: '采购合同', width: '18' }).
+            setValue('备注', { name: '备注', width: '16' });
         await fetch('./铁矿石.xls', {
             method: 'get',
         }).then(function (response) {
@@ -65,11 +65,11 @@ export default class PurchaseDetailCHITKMonth extends React.Component<FrmReportT
                 if (ks.getString('种类') == '赤铁矿') {
                     if (month == m) {
                         if (day >= d) {
-                            dg[5] += ks.getDouble('到港数量')
-                            sh[5] += ks.getDouble('耗损数量')
-                            cg[5] += ks.getDouble('出港数量')
-                            dc[5] += ks.getDouble('到货数量')
-                            hs[5] += ks.getDouble('耗损比例')
+                            dg[m - 1] += ks.getDouble('到港数量')
+                            sh[m - 1] += ks.getDouble('耗损数量')
+                            cg[m - 1] += ks.getDouble('出港数量')
+                            dc[m - 1] += ks.getDouble('到货数量')
+                            hs[m - 1] += ks.getDouble('耗损比例')
                         }
                     } else {
                         dg[m - 1] += ks.getDouble('到港数量')
@@ -106,6 +106,6 @@ export default class PurchaseDetailCHITKMonth extends React.Component<FrmReportT
     }
 
     render(): React.ReactNode {
-        return <ReportDetail params={{index:1}} dataSet={this.state.reportData} hideIt={true} head={this.state.reportHead} title='赤铁矿月度入库数量（T）' key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='工业4.0-数字化供应链管理中心V1.0'></ReportDetail>
+        return <ReportDetail params={{ index: 1 }} dataSet={this.state.reportData} hideIt={true} head={this.state.reportHead} title='赤铁矿月度入库数量（T）' key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='工业4.0-数字化供应链管理中心V1.0'></ReportDetail>
     }
 }
