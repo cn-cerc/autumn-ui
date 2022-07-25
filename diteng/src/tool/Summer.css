@@ -5,6 +5,10 @@ div[role="content"] {
     flex-direction: column;
 }
 
+div[id='page'] {
+    display: contents;
+}
+
 [role="auiOpera"] {
     color: #0283f7;
     display: inline!important;
