@@ -7,6 +7,7 @@ import "../tool/Summer.css";
 type DriverInfoProps = {
     deptCode: string,
     callBack?: Function,
+    DriverStatus?: boolean,
 } & Partial<BaseDialogPropsType>
 
 
@@ -21,6 +22,7 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
         let dataIn = new DataRow();
         dataIn.setValue('dept_code_', this.props.deptCode);
         dataIn.setValue("maxRecord", 100);
+        dataIn.setValue("DriverStatus_", this.props.DriverStatus);
         this.state = {
             ...this.state,
             dataIn,
