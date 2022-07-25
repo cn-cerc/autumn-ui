@@ -3,6 +3,8 @@ import { DataRow, DataSet, BaseDialogStateType, BaseDialog, BaseDialogPropsType,
 import styles from "./DialogCommon.css";
 import "../tool/Summer.css";
 import FplDialogApi from "./FplDialogApi";
+import StaticFile from "@diteng/StaticFile";
+import ImageConfig from "@diteng/ImageConfig";
 
 type SupTypeState = {
     dataIn: DataRow,
@@ -52,7 +54,13 @@ export default class SupAndCusDialog extends BaseDialog<BaseDialogPropsType, Sup
                     <DBEdit dataField="Name_" dataName="公司名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
-                    <Column code="Name_" name="公司全称" width="40"></Column>
+                    <Column code="Name_" name="公司全称" width="40" customText={(row: DataRow) => {
+                        if (row.getBoolean('VineCorp_')) {
+                            return <span>{row.getString('Name_')}<img src={StaticFile.getImage(ImageConfig.ICON_LINK_BOTH)} width='22' height='16'/></span>
+                        } else {
+                            return <span>{row.getString('Name_')}</span>;
+                        }
+                    }}></Column>
                     <Column code="type_name" textAlign='center' name="类型" width="15"></Column>
                     <Column code="Contact_" name="联系方式" width="35" customText={(row: DataRow) => {
                         return <span>{row.getValue("Contact_")},{row.getValue("Tel1_")}</span>
