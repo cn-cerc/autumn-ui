@@ -7,4 +7,5 @@ export default class ImageConfig {
     static ICON_CHECKBOX: string = 'images/icon/checkbox.png';
     static ICON_CHECKBOX_CHECKED: string = 'images/icon/checkbox_checked.png';
     static ICON_UPLOADIMAGE: string = 'images/icon/uploadImage.png';
+    static ICON_LINK_BOTH: string = 'images/link-both.png';
 }

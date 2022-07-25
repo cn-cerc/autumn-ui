@@ -5,9 +5,6 @@
     flex-direction: column;
 }
 
-div[id='page'] {
-    display: contents;
-}
 .main tr[role='childRow'] {
     font-size: 0.9em;
     color: #6a6a6a;
