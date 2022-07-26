@@ -52,7 +52,7 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
                     <Column name='收款人姓名' code='payee_name_' width='20'></Column>
                     <Column name='联系方式' code='phone_number_' width='20'></Column>
                     <Column name='操作' code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role='auiOpera'>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>
@@ -65,9 +65,8 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         input1.value = dataRow.getString("payee_no_");
         input2.value = dataRow.getString("payee_name_");
-
         if (this.props.callBack)
-            this.props.callBack();
-        this.handleSelect();
+            this.props.callBack(dataRow);
+        this.handleClose();
     }
 }
