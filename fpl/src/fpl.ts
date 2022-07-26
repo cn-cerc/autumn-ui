@@ -13,6 +13,7 @@ import DriverInfoDialog from "./dialog/DriverInfoDialog";
 import FleetDialog from "./dialog/FleetDialog";
 import MaintainVehicleDialog from "./dialog/MaintainVehicleDialog";
 import NumberPlateDialog from "./dialog/NumberPlateDialog";
+import PayeeAmountDialog from "./dialog/PayeeAmountDialog";
 import PayeeDialog from "./dialog/PayeeDialog";
 import showSiteDialog from "./dialog/showSiteDialog";
 import SupAndCusDialog from "./dialog/SupAndCusDialog";
@@ -125,4 +126,5 @@ export default {
     SupAndCusDialog,
     FrmDriverArrangeCar,
     developingMC,
+    PayeeAmountDialog,
 }
