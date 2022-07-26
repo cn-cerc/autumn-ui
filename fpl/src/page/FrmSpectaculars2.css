@@ -346,6 +346,30 @@
         margin-right: 12px;
     }
 
+    .mcIntroduction {
+        height: auto;
+        background: transparent;
+    }
+
+    .mcIntroduction>p {
+        background-color: #fff;
+        height:62px;
+    }
+
+    .mcIntroduction>div {
+        background-color: #fff;
+        margin: 12px 12px 0 12px;
+        border-radius: 0.28rem;
+    }
+
+    .mcIntroduction>p>span {
+        bottom: 30px;
+    }
+
+    .mcIntroduction>p>img {
+        bottom: 5px;
+    }
+
     .top_list {
         align-items: stretch;
         flex-direction: column;
