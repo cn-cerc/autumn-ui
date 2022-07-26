@@ -343,21 +343,23 @@
 
     .mcIntroduction>p {
         background-color: #fff;
-        height:62px;
     }
 
     .mcIntroduction>div {
-        background-color: #fff;
-        margin: 12px 12px 0 12px;
-        border-radius: 0.28rem;
+        margin: 0 12px 0 12px;
     }
 
     .mcIntroduction>p>span {
-        bottom: 30px;
+        bottom: 20px;
     }
 
     .mcIntroduction>p>img {
         bottom: 5px;
+        height: 10px;
+    }
+
+    .mcIntroduction>p>a {
+        display: none;
     }
 
     .top_list {
@@ -366,10 +368,14 @@
     }
 
     .li_3 {
+        border-radius: 0.28rem;
+        background-color: #fff;
         flex: auto;
         margin-right: 0;
         height: 78px;
-        border:none;
+        border: none;
+        justify-content: flex-start;
+        padding: 0 16px;
     }
 
     .topTitle {
