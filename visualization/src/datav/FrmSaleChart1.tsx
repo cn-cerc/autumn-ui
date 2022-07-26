@@ -1,9 +1,19 @@
 import { Charts, FullScreenContainer } from '@jiaminghi/data-view-react';
 import { DataRow } from "autumn-ui";
 import React from "react";
-import { AuiMath } from '../tool/Summer';
+import { AuiMath, showPage } from '../tool/Summer';
 import { Excel, excelData } from "../tool/Utils";
+import FrmManufactureChart from './FrmManufactureChart';
+import FrmPurchaseChart from './FrmPurchaseChart';
 import styles from './FrmPurchaseChart.css';
+import FrmReport11 from './FrmReport11';
+import FrmReport12 from './FrmReport12';
+import FrmReport13 from './FrmReport13';
+import FrmReport15 from './FrmReport15';
+import FrmReport16 from './FrmReport16';
+import FrmReport17 from './FrmReport17';
+import FrmReport9 from './FrmReport9';
+import FrmSaleChart from './FrmSaleChart';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
@@ -39,31 +49,31 @@ export default class FrmSaleChart1 extends React.Component<PropsType, stateType>
             listTypeArr1: [{
                 name: '今日接单数量',
                 key: 'todayOrder',
-                href: 'javascript:aui.showPage("FrmReport9", "线材接单今日动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport9, "线材接单今日动态（T）", { index: 0 })
             }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
-                href: 'javascript:aui.showPage("FrmReport11", "线材本月接单动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport11, "线材本月接单动态（T）", { index: 0 })
             }, {
                 name: '本年接单数量',
                 key: 'yearOrder',
-                href: 'javascript:aui.showPage("FrmReport12", "线材本年接单动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport12, "线材本年接单动态（T）", { index: 0 })
             }, {
                 name: '今日出库数量',
                 key: 'todayOutStock',
-                href: 'javascript:aui.showPage("FrmReport13", "线材今日出库动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport13, "线材今日出库动态（T）", { index: 0 })
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
-                href: 'javascript:aui.showPage("FrmReport15", "线材本月出库动态（4月）", { index: 0 })'
+                href: ()=>showPage(FrmReport15, "线材本月出库动态（4月）", { index: 0 })
             }, {
                 name: '本年出库数量',
                 key: 'yearOutStock',
-                href: 'javascript:aui.showPage("FrmReport16", "线材本年出货动态（2022年）", { index: 0 })'
+                href: ()=>showPage(FrmReport16, "线材本年出货动态（2022年）", { index: 0 })
             }, {
                 name: '当前未出库数',
                 key: 'onOutStock',
-                href: 'javascript:aui.showPage("FrmReport17", "线材未出货订单与库存动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport17, "线材未出货订单与库存动态（T）", { index: 0 })
             }, {
                 name: '当前库存数量',
                 key: 'inStock',
@@ -71,31 +81,31 @@ export default class FrmSaleChart1 extends React.Component<PropsType, stateType>
             listTypeArr2: [{
                 name: '今日接单数量',
                 key: 'todayOrder',
-                href: 'javascript:aui.showPage("FrmReport9", "卷材接单今日动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport9, "卷材接单今日动态（T）", { index: 1 })
             }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
-                href: 'javascript:aui.showPage("FrmReport11", "卷材本月接单动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport11, "卷材本月接单动态（T）", { index: 1 })
             }, {
                 name: '本年接单数量',
                 key: 'yearOrder',
-                href: 'javascript:aui.showPage("FrmReport12", "卷材本年接单动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport12, "卷材本年接单动态（T）", { index: 1 })
             }, {
                 name: '今日出库数量',
                 key: 'todayOutStock',
-                href: 'javascript:aui.showPage("FrmReport13", "卷材今日出库动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport13, "卷材今日出库动态（T）", { index: 1 })
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
-                href: 'javascript:aui.showPage("FrmReport15", "卷材本月出库动态（4月）", { index: 1 })'
+                href: ()=>showPage(FrmReport15, "卷材本月出库动态（4月）", { index: 1 })
             }, {
                 name: '本年出库数量',
                 key: 'yearOutStock',
-                href: 'javascript:aui.showPage("FrmReport16", "卷材本年出货动态（2022年）", { index: 1 })'
+                href: ()=>showPage(FrmReport16, "卷材本年出货动态（2022年）", { index: 1 })
             }, {
                 name: '当前未出库数',
                 key: 'onOutStock',
-                href: 'javascript:aui.showPage("FrmReport17", "卷材未出货订单与库存动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport17, "卷材未出货订单与库存动态（T）", { index: 1 })
             }, {
                 name: '当前库存数量',
                 key: 'inStock',
@@ -103,31 +113,31 @@ export default class FrmSaleChart1 extends React.Component<PropsType, stateType>
             listTypeArr3: [{
                 name: '今日接单数量',
                 key: 'todayOrder',
-                href: 'javascript:aui.showPage("FrmReport9", "H钢材接单今日动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport9, "H钢材接单今日动态（T）", { index: 2 })
             }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
-                href: 'javascript:aui.showPage("FrmReport11", "H钢材本月接单动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport11, "H钢材本月接单动态（T）", { index: 2 })
             }, {
                 name: '本年接单数量',
                 key: 'yearOrder',
-                href: 'javascript:aui.showPage("FrmReport12", "H钢材本年接单动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport12, "H钢材本年接单动态（T）", { index: 2 })
             }, {
                 name: '今日出库数量',
                 key: 'todayOutStock',
-                href: 'javascript:aui.showPage("FrmReport13", "H钢材今日出库动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport13, "H钢材今日出库动态（T）", { index: 2 })
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
-                href: 'javascript:aui.showPage("FrmReport15", "H钢材本月出库动态（4月）", { index: 2 })'
+                href: ()=>showPage(FrmReport15, "H钢材本月出库动态（4月）", { index: 2 })
             }, {
                 name: '本年出库数量',
                 key: 'yearOutStock',
-                href: 'javascript:aui.showPage("FrmReport16", "H钢材本年出货动态（2022年）", { index: 2 })'
+                href: ()=>showPage(FrmReport16, "H钢材本年出货动态（2022年）", { index: 2 })
             }, {
                 name: '当前未出库数',
                 key: 'onOutStock',
-                href: 'javascript:aui.showPage("FrmReport17", "H钢材未出货订单与库存动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport17, "H钢材未出货订单与库存动态（T）", { index: 2 })
             }, {
                 name: '当前库存数量',
                 key: 'inStock',
@@ -135,44 +145,44 @@ export default class FrmSaleChart1 extends React.Component<PropsType, stateType>
             listTypeArr4: [{
                 name: '今日接单数量',
                 key: 'todayOrder',
-                href: 'javascript:aui.showPage("FrmReport9", "螺纹钢材接单今日动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport9, "螺纹钢材接单今日动态（T）", { index: 3 })
             }, {
                 name: '本月接单数量',
                 key: 'monthOrder',
-                href: 'javascript:aui.showPage("FrmReport11", "螺纹钢材本月接单动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport11, "螺纹钢材本月接单动态（T）", { index: 3 })
             }, {
                 name: '本年接单数量',
                 key: 'yearOrder',
-                href: 'javascript:aui.showPage("FrmReport12", "螺纹钢材本年接单动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport12, "螺纹钢材本年接单动态（T）", { index: 3 })
             }, {
                 name: '今日出库数量',
                 key: 'todayOutStock',
-                href: 'javascript:aui.showPage("FrmReport13", "螺纹钢材今日出库动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport13, "螺纹钢材今日出库动态（T）", { index: 3 })
             }, {
                 name: '本月出库数量',
                 key: 'monthOutStock',
-                href: 'javascript:aui.showPage("FrmReport15", "螺纹钢材本月出库动态（4月）", { index: 3 })'
+                href: ()=>showPage(FrmReport15, "螺纹钢材本月出库动态（4月）", { index: 3 })
             }, {
                 name: '本年出库数量',
                 key: 'yearOutStock',
-                href: 'javascript:aui.showPage("FrmReport16", "螺纹钢材本年出货动态（2022年）", { index: 3 })'
+                href: ()=>showPage(FrmReport16, "螺纹钢材本年出货动态（2022年）", { index: 3 })
             }, {
                 name: '当前未出库数',
                 key: 'onOutStock',
-                href: 'javascript:aui.showPage("FrmReport17", "螺纹钢材未出货订单与库存动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport17, "螺纹钢材未出货订单与库存动态（T）", { index: 3 })
             }, {
                 name: '当前库存数量',
                 key: 'inStock',
             }],
             menuOptions: new Map([['工业4.0-数字化供应链管理中心V1.0', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart", "工业4.0-数字化供应链管理中心V1.0")'
+                href: ()=>showPage(FrmPurchaseChart, "工业4.0-数字化供应链管理中心V1.0")
             }], ['工业4.0-数字化制造管理中心V1.0', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart", "工业4.0-数字化制造管理中心V1.0")'
+                href: ()=>showPage(FrmManufactureChart, "工业4.0-数字化制造管理中心V1.0")
             }], ['工业4.0-数字化销售管理中心V1.0', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmSaleChart", "工业4.0-数字化销售管理中心V1.0")'
+                href: ()=>showPage(FrmSaleChart, "工业4.0-数字化销售管理中心V1.0")
             }]]),
             showIndex: 0,
             boardConfig: {}

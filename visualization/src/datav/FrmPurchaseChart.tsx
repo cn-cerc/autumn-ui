@@ -8,6 +8,12 @@ import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
 import * as echarts from "echarts";
+import { showPage } from '../tool/Summer';
+import FrmManufactureChart from './FrmManufactureChart';
+import FrmReport1 from './FrmReport1';
+import FrmReport2 from './FrmReport2';
+import FrmReport3 from './FrmReport3';
+import FrmSaleChart from './FrmSaleChart';
 type stateType = {
     ironOreRow: DataRow,
     scrapRow: DataRow,
@@ -39,15 +45,15 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr1: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 0})'
+                href: ()=>showPage(FrmReport2, "铁矿石年度入库数量（T）", {index : 0})
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 0})'
+                href: ()=>showPage(FrmReport1, "铁矿石年度采购数量（T）", {index : 0})
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
-                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 0})'
+                href: ()=>showPage(FrmReport3, "铁矿石当前在途数量（T）", {index : 0})
             }, {
                 name: '年度在库数量',
                 key: 'stock',
@@ -55,15 +61,15 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr2: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 1})'
+                href: ()=>showPage(FrmReport2, "铁矿石年度入库数量（T）", {index : 1})
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 1})'
+                href: ()=>showPage(FrmReport1, "铁矿石年度采购数量（T）", {index : 1})
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
-                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 1})'
+                href: ()=>showPage(FrmReport3, "铁矿石当前在途数量（T）", {index : 1})
             }, {
                 name: '年度在库数量',
                 key: 'stock',
@@ -71,15 +77,15 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr3: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 2})'
+                href: ()=>showPage(FrmReport2, "铁矿石年度入库数量（T）", {index : 2})
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 2})'
+                href: ()=>showPage(FrmReport1, "铁矿石年度采购数量（T）", {index : 2})
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
-                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 2})'
+                href: ()=>showPage(FrmReport3, "铁矿石当前在途数量（T）", {index : 2})
             }, {
                 name: '年度在库数量',
                 key: 'stock',
@@ -87,28 +93,28 @@ export default class FrmPurchaseChart extends React.Component<PropsType, stateTy
             listTypeArr4: [{
                 name: '年度采购数量',
                 key: 'purchase',
-                href: 'javascript:aui.showPage("FrmReport2", "铁矿石年度入库数量（T）", {index : 3})'
+                href: ()=>showPage(FrmReport2, "铁矿石年度入库数量（T）", {index : 3})
             }, {
                 name: '年度入库数量',
                 key: 'yearInStock',
-                href: 'javascript:aui.showPage("FrmReport1", "铁矿石年度采购数量（T）", {index : 3})'
+                href: ()=>showPage(FrmReport1, "铁矿石年度采购数量（T）", {index : 3})
             }, {
                 name: '年度在途数量',
                 key: 'inTransit',
-                href: 'javascript:aui.showPage("FrmReport3", "铁矿石当前在途数量（T）", {index : 3})'
+                href: ()=>showPage(FrmReport3, "铁矿石当前在途数量（T）", {index : 3})
             }, {
                 name: '年度在库数量',
                 key: 'stock',
             }],
             menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart", "工业4.0-数字化供应链管理中心V1.0")'
+                href: ()=>showPage(FrmPurchaseChart, "工业4.0-数字化供应链管理中心V1.0")
             }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart", "工业4.0-数字化制造管理中心V1.0")'
+                href: ()=>showPage(FrmManufactureChart, "工业4.0-数字化制造管理中心V1.0")
             }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmSaleChart", "工业4.0-数字化销售管理中心V1.0")'
+                href: ()=>showPage(FrmSaleChart, "工业4.0-数字化销售管理中心V1.0")
             }]]),
             showIndex: 0,
             lengedState: [true, true, true, true],

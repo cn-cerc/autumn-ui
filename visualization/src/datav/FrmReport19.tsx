@@ -2,6 +2,7 @@ import React from "react";
 import { DataRow, DataSet } from "autumn-ui";
 import { Excel, excelData } from "../tool/Utils";
 import ReportDetail from "./ReportDetail";
+import FrmManufactureChart from "./FrmManufactureChart";
 
 export type FrmReportTypeState = {
     reportHead: DataRow,
@@ -89,6 +90,6 @@ export default class FrmRepor19 extends React.Component<FrmReportTypeProps, FrmR
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title='生产设备停机动态' key={this.state.reportData.json} backHref='FrmManufactureChart' backTitle='工业4.0-数字化制造管理中心V1.0' hideIt={true}></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title='生产设备停机动态' key={this.state.reportData.json} backHref={FrmManufactureChart} backTitle='工业4.0-数字化制造管理中心V1.0' hideIt={true}></ReportDetail>
     }
 }

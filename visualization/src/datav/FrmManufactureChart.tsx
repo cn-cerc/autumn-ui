@@ -2,8 +2,15 @@ import { BorderBox11, FullScreenContainer } from '@jiaminghi/data-view-react';
 import { DataRow, DataSet } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import { showPage } from '../tool/Summer';
 import { Excel, excelData } from '../tool/Utils';
+import FrmPurchaseChart from './FrmPurchaseChart';
 import styles from './FrmPurchaseChart.css';
+import FrmReport19 from './FrmReport19';
+import FrmReport4 from './FrmReport4';
+import FrmReport5 from './FrmReport5';
+import FrmReport6 from './FrmReport6';
+import FrmSaleChart from './FrmSaleChart';
 import TextList, { listType } from "./TextList";
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
@@ -40,82 +47,82 @@ export default class FrmManufactureChart extends React.Component<PropsType, stat
             listTypeArr1: [{
                 name: '今日入库数量',
                 key: 'todayStock',
-                href: 'javascript:aui.showPage("FrmReport4", "今日线材入库动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport4, "今日线材入库动态（T）", { index: 0 })
             }, {
                 name: '本月入库数量',
                 key: 'monthStock',
-                href: 'javascript:aui.showPage("FrmReport5", "本月线材入库动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport5, "本月线材入库动态（T）", { index: 0 })
             }, {
                 name: '本年入库数量',
                 key: 'yearStock',
-                href: 'javascript:aui.showPage("FrmReport6", "本年线材入库动态（T）", { index: 0 })'
+                href: ()=>showPage(FrmReport6, "本年线材入库动态（T）", { index: 0 })
             }],
             listTypeArr2: [{
                 name: '今日入库数量',
                 key: 'todayStock',
-                href: 'javascript:aui.showPage("FrmReport4", "今日卷材入库动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport4, "今日卷材入库动态（T）", { index: 1 })
             }, {
                 name: '本月入库数量',
                 key: 'monthStock',
-                href: 'javascript:aui.showPage("FrmReport5", "本月卷材入库动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport5, "本月卷材入库动态（T）", { index: 1 })
             }, {
                 name: '本年入库数量',
                 key: 'yearStock',
-                href: 'javascript:aui.showPage("FrmReport6", "本年卷材入库动态（T）", { index: 1 })'
+                href: ()=>showPage(FrmReport6, "本年卷材入库动态（T）", { index: 1 })
             }],
             listTypeArr3: [{
                 name: '今日入库数量',
                 key: 'todayStock',
-                href: 'javascript:aui.showPage("FrmReport4", "今日H型钢材入库动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport4, "今日H型钢材入库动态（T）", { index: 2 })
             }, {
                 name: '本月入库数量',
                 key: 'monthStock',
-                href: 'javascript:aui.showPage("FrmReport5", "本月H型钢材入库动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport5, "本月H型钢材入库动态（T）", { index: 2 })
             }, {
                 name: '本年入库数量',
                 key: 'yearStock',
-                href: 'javascript:aui.showPage("FrmReport6", "本年H型钢材入库动态（T）", { index: 2 })'
+                href: ()=>showPage(FrmReport6, "本年H型钢材入库动态（T）", { index: 2 })
             }],
             listTypeArr4: [{
                 name: '今日入库数量',
                 key: 'todayStock',
-                href: 'javascript:aui.showPage("FrmReport4", "今日螺纹钢材入库动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport4, "今日螺纹钢材入库动态（T）", { index: 3 })
             }, {
                 name: '本月入库数量',
                 key: 'monthStock',
-                href: 'javascript:aui.showPage("FrmReport5", "本月螺纹钢材入库动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport5, "本月螺纹钢材入库动态（T）", { index: 3 })
             }, {
                 name: '本年入库数量',
                 key: 'yearStock',
-                href: 'javascript:aui.showPage("FrmReport6", "本年螺纹钢材入库动态（T）", { index: 3 })'
+                href: ()=>showPage(FrmReport6, "本年螺纹钢材入库动态（T）", { index: 3 })
             }],
             stopRow: new DataRow(),
             stopArr: [{
                 name: '今日异常停机',
                 key: 'todayError',
-                href: 'javascript:aui.showPage("FrmReport19", "生产设备停机动态")'
+                href: ()=>showPage(FrmReport19, "生产设备停机动态")
             }, {
                 name: '本周异常停机',
                 key: 'weekError',
-                href: 'javascript:aui.showPage("FrmReport19", "生产设备停机动态")'
+                href: ()=>showPage(FrmReport19, "生产设备停机动态")
             }, {
                 name: '本月异常停机',
                 key: 'monthError',
-                href: 'javascript:aui.showPage("FrmReport19", "生产设备停机动态")'
+                href: ()=>showPage(FrmReport19, "生产设备停机动态")
             }, {
                 name: '本年异常停机',
                 key: 'yearError',
-                href: 'javascript:aui.showPage("FrmReport19", "生产设备停机动态")'
+                href: ()=>showPage(FrmReport19, "生产设备停机动态")
             }],
             menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart", "工业4.0-数字化供应链管理中心V1.0")'
+                href: ()=>showPage(FrmPurchaseChart, "工业4.0-数字化供应链管理中心V1.0")
             }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart", "工业4.0-数字化制造管理中心V1.0")'
+                href: ()=>showPage(FrmManufactureChart, "工业4.0-数字化制造管理中心V1.0")
             }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmSaleChart", "工业4.0-数字化销售管理中心V1.0")'
+                href: ()=>showPage(FrmSaleChart, "工业4.0-数字化销售管理中心V1.0")
             }]]),
             showIndex: 0,
             jobData: [],

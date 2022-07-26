@@ -7,6 +7,23 @@ import { AuiMath, showPage } from '../tool/Summer';
 import "../tool/Summer.css";
 import { Excel, excelData } from '../tool/Utils';
 import styles from './FrmPurchaseChart3.css';
+import FrmPurchaseChart4 from './FrmPurchaseChart4';
+import FrmPurchaseChart5 from './FrmPurchaseChart5';
+import PurchaseDetailAlloy1 from './PurchaseDetailAlloy1';
+import PurchaseDetailAlloy2 from './PurchaseDetailAlloy2';
+import PurchaseDetailCHITKDay from './PurchaseDetailCHITKDay';
+import PurchaseDetailCHITKMonth from './PurchaseDetailCHITKMonth';
+import PurchaseDetailCTKDay from './PurchaseDetailCTKDay';
+import PurchaseDetailCTKMonth from './PurchaseDetailCTKMonth';
+import PurchaseDetailHTKDay from './PurchaseDetailHTKDay';
+import PurchaseDetailHTKMonth from './PurchaseDetailHTKMonth';
+import PurchaseDetailJMDay from './PurchaseDetailJMDay';
+import PurchaseDetailJMMonth from './PurchaseDetailJMMonth';
+import PurchaseDetailLTKDay from './PurchaseDetailLTKDay';
+import PurchaseDetailLTKMonth from './PurchaseDetailLTKMonth';
+import PurchaseDetailMTDay from './PurchaseDetailMTDay';
+import PurchaseDetailMTMonth from './PurchaseDetailMTMonth';
+import PurchaseDetailSteell from './PurchaseDetailSteell';
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
 
@@ -45,13 +62,13 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             showIndex: 0,
             menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart3", "工业4.0-数字化供应链管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart3, "工业4.0-数字化供应链管理中心V1.0")
             }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart5", "工业4.0-数字化制造管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart5, "工业4.0-数字化制造管理中心V1.0")
             }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart4", "工业4.0-数字化销售管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart4, "工业4.0-数字化销售管理中心V1.0")
             }]]),
             ltype: this.props.index || 1,
             rtype: 3,
@@ -1374,15 +1391,15 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         var itemText = row.getString('项次');
         switch (itemText) {
             case '今日入库数量（T）':
-                showPage("PurchaseDetailAlloy1", "合金今日入库数量", { index: 1, title: '今日入库数量（T）' });
+                showPage(PurchaseDetailAlloy1, "合金今日入库数量", { index: 1, title: '今日入库数量（T）' });
                 break;
             case '本月入库数量（T）':
-                showPage("PurchaseDetailAlloy2", "合金本月入库数量", { index: 1, title: '本月入库数量（T）' });
+                showPage(PurchaseDetailAlloy2, "合金本月入库数量", { index: 1, title: '本月入库数量（T）' });
                 break;
         }
         switch (itemText) {
             case '今日收料（T）':
-                showPage("PurchaseDetailSteell", "废铁今日收料数量（T）", { index: 1, title: '今日收料（T）' });
+                showPage(PurchaseDetailSteell, "废铁今日收料数量（T）", { index: 1, title: '今日收料（T）' });
                 break;
         }
 
@@ -1391,46 +1408,46 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
         switch (row.getString('项次')) {
             case '今日入库数量（T）':
                 if (target == '煤炭') {
-                    showPage("PurchaseDetailMTDay", "煤炭今日入库数量（T）");
+                    showPage(PurchaseDetailMTDay, "煤炭今日入库数量（T）");
                 } else if (target == '焦煤') {
-                    showPage("PurchaseDetailJMDay", "焦煤今日入库数量（T）");
+                    showPage(PurchaseDetailJMDay, "焦煤今日入库数量（T）");
                 }
                 break;
             case '本月到厂数量（T）':
                 switch (target) {
                     case '煤炭':
-                        showPage("PurchaseDetailMTMonth", "煤炭月度入库数量（T）");
+                        showPage(PurchaseDetailMTMonth, "煤炭月度入库数量（T）");
                         break;
                     case '焦煤':
-                        showPage("PurchaseDetailJMMonth", "焦煤月度入库数量（T）");
+                        showPage(PurchaseDetailJMMonth, "焦煤月度入库数量（T）");
                         break;
                     case '磁铁矿':
-                        showPage("PurchaseDetailCTKMonth", "磁铁矿月度入库数量（T）");
+                        showPage(PurchaseDetailCTKMonth, "磁铁矿月度入库数量（T）");
                         break;
                     case '赤铁矿':
-                        showPage("PurchaseDetailCHITKMonth", "赤铁矿月度入库数量（T）");
+                        showPage(PurchaseDetailCHITKMonth, "赤铁矿月度入库数量（T）");
                         break;
                     case '褐铁矿':
-                        showPage("PurchaseDetailHTKMonth", "褐铁矿月度入库数量（T）");
+                        showPage(PurchaseDetailHTKMonth, "褐铁矿月度入库数量（T）");
                         break;
                     case '菱铁矿':
-                        showPage("PurchaseDetailLTKMonth", "菱铁矿月度入库数量（T）");
+                        showPage(PurchaseDetailLTKMonth, "菱铁矿月度入库数量（T）");
                         break;
                 }
                 break;
             case '今日到厂数量（T）':
                 switch (target) {
                     case '磁铁矿':
-                        showPage("PurchaseDetailCTKDay", "磁铁矿今日入库数量（T）");
+                        showPage(PurchaseDetailCTKDay, "磁铁矿今日入库数量（T）");
                         break;
                     case '赤铁矿':
-                        showPage("PurchaseDetailCHITKDay", "赤铁矿今日入库数量（T）");
+                        showPage(PurchaseDetailCHITKDay, "赤铁矿今日入库数量（T）");
                         break;
                     case '褐铁矿':
-                        showPage("PurchaseDetailHTKDay", "褐铁矿今日入库数量（T）");
+                        showPage(PurchaseDetailHTKDay, "褐铁矿今日入库数量（T）");
                         break;
                     case '菱铁矿':
-                        showPage("PurchaseDetailLTKDay", "菱铁矿今日入库数量（T）");
+                        showPage(PurchaseDetailLTKDay, "菱铁矿今日入库数量（T）");
                         break;
                 }
         }

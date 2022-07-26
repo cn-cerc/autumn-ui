@@ -106,4 +106,4 @@ export default {
     showPage
 }
 
-
+showPage(FrmPurchaseChart3, '工业4.0-数字化供应链管理中心V1.0')

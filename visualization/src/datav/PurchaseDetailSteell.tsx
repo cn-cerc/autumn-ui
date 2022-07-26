@@ -1,11 +1,12 @@
 import { DataRow, DataSet } from "autumn-ui";
 import React, { ReactNode } from "react";
-import { AuiMath } from "../tool/Summer";
+import { AuiMath, showPage } from "../tool/Summer";
 import { Excel, excelData } from "../tool/Utils";
 import ReportDetail from "./ReportDetail";
 import styles from "./ReportDetail.css";
 import { BorderBox9, FullScreenContainer } from "@jiaminghi/data-view-react";
 import TopHeader from "./TopHeader";
+import FrmPurchaseChart3 from "./FrmPurchaseChart3";
 
 
 export type FrmReportTypeState = {
@@ -126,8 +127,7 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
             <div className={styles.main}>
                 <FullScreenContainer className={styles.dvFullScreenContainer}>
                     <TopHeader title='废铁今日收料数量（T）' handleCick={() => {
-                        //@ts-ignore
-                        return aui.showPage('FrmPurchaseChart3', '工业4.0-数字化供应链管理中心V1.0', { index: 2 });
+                        showPage(FrmPurchaseChart3, '工业4.0-数字化供应链管理中心V1.0', { index: 2 })
                     }} />
                     <div className={styles.box} style={{ width: '1700px' }}>
                         <BorderBox9>

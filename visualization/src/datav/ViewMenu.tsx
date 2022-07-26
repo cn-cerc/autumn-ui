@@ -7,7 +7,7 @@ type ViewMenuTypeProps = {
 
 export type ViewMenuMap = Map<string, {
     imgSrc: string,
-    href: string
+    href: Function
 }>
 
 export default function ViewMenu(props: ViewMenuTypeProps) {
@@ -20,7 +20,7 @@ function getMenus(options: ViewMenuMap) {
     let list: ReactNode[] = [];
     options.forEach((val: {
         imgSrc: string,
-        href: string
+        href: Function
     }, key: string) => {
         list.push(
             <li key={key} onMouseLeave={(e)=>handleLeave(e)} onMouseEnter={(e)=>handleEnter(e)} onClick={handleClick.bind(this, val.href)}>
@@ -46,6 +46,6 @@ function handleEnter(e: any): React.MouseEventHandler<HTMLLIElement> {
     return e.target;
 }
 
-function handleClick(href: string) {
-    location.href = href;
+function handleClick(href: Function) {
+    href();
 }

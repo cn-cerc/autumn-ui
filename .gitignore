@@ -1,8 +1,7 @@
 # 去掉安装环境安装的文件
-*/dist
-*/*/dist
-*/node_modules
-*/*/node_modules
+dist
+node_modules
+.history
 # /src/**/*.js
 
 *.tgz

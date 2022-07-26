@@ -12,7 +12,7 @@ type PropsType = {
 export type listType = {
   name: string,
   key: string,
-  href?: string
+  href?: Function
 }
 
 export default class TextList extends React.Component<PropsType> {
@@ -56,6 +56,6 @@ export default class TextList extends React.Component<PropsType> {
 
   handleNameClick(listType: listType) {
     if (listType.href)
-      location.href = listType.href;
+      listType.href();
   }
 }

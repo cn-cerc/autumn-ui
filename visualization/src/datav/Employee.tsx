@@ -1,6 +1,7 @@
 import { BorderBox13, FullScreenContainer } from "@jiaminghi/data-view-react";
 import { DataRow } from "autumn-ui";
 import React from "react";
+import { showPage } from "../tool/Summer";
 import styles from "./Employee.css";
 import TopHeader from "./TopHeader";
 
@@ -24,8 +25,7 @@ export default class Employee extends React.Component<EmployTypeProps> {
         return <div className={styles.main}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
                 <TopHeader title={this.props.title} handleCick={() => {
-                    //@ts-ignore
-                    return aui.showPage(this.props.backHref, this.props.backTitle, this.props.params ? Object.assign({}, this.props.params) : {})
+                    showPage(this.props.backHref, this.props.backTitle, this.props.params ? Object.assign({}, this.props.params) : {})
                 }} />
                 <div className={styles.content}>
                     <div className={styles.left}>

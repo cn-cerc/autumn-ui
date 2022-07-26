@@ -3,6 +3,9 @@ import { DataRow } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
 import { showPage } from "../tool/Summer";
+import Employee from "./Employee";
+import FrmPurchaseChart3 from "./FrmPurchaseChart3";
+import FrmPurchaseChart4 from "./FrmPurchaseChart4";
 import styles from "./FrmPurchaseChart5.css";
 import TopHeader from "./TopHeader";
 import ViewMenu, { ViewMenuMap } from "./ViewMenu";
@@ -26,13 +29,13 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         this.state = {
             menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart3", "工业4.0-数字化供应链管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart3, "工业4.0-数字化供应链管理中心V1.0")
             }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart5", "工业4.0-数字化制造管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart5, "工业4.0-数字化制造管理中心V1.0")
             }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart4", "工业4.0-数字化销售管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart4, "工业4.0-数字化销售管理中心V1.0")
             }]]),
             showIndex: 0,
             navArr: ['炼铁', '炼钢', '轧钢'],
@@ -46,7 +49,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
             let navIndex = this.state.navIndex + 1;
             if (navIndex > 2)
                 navIndex = 0;
-            showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+            showPage(FrmPurchaseChart5, "制造数据中心", { navIndex });
         }, 30000)
         this.myChart = echarts.init(canvas);
         switch (this.state.navIndex) {
@@ -73,7 +76,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                         let navIndex = this.state.navIndex + 1;
                         if (navIndex > 2)
                             navIndex = 0;
-                        showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+                        showPage(FrmPurchaseChart5, "制造数据中心", { navIndex });
                     }, 30000)
                 }
                 return;
@@ -109,7 +112,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
                 let navIndex = this.state.navIndex + 1;
                 if (navIndex > 2)
                     navIndex = 0;
-                showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+                showPage(FrmPurchaseChart5, "制造数据中心", { navIndex });
             }, 30000)
         }
         let showIndex = this.state.showIndex + 1;
@@ -1176,8 +1179,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
         let row5 = bool ? '' : '良好';
         let row = new DataRow();
         row.setValue('A1', row1).setValue('A2', row2).setValue('A3', row3).setValue('A4', row4).setValue('A5', row5).setValue('Name_', name).setValue('Contact_', contact).setValue('CurrentCapacity_', currentCapacity).setValue('State_', state);
-        //@ts-ignore
-        aui.showPage('Employee', title, { dataRow: row, title: title, backHref: 'FrmPurchaseChart5', backTitle: '工业4.0-数字化制造管理中心V1.0', type: bool ? 2 : 1, params: { navIndex }, vedioName })
+        showPage(Employee, title, { dataRow: row, title: title, backHref: FrmPurchaseChart5, backTitle: '工业4.0-数字化制造管理中心V1.0', type: bool ? 2 : 1, params: { navIndex }, vedioName })
     }
 
     getRandom(num: number) {
@@ -1199,7 +1201,7 @@ export default class FrmPurchaseChart5 extends React.Component<PropsType, stateT
 
     handleNavClick(navIndex: number) {
         if (navIndex != this.state.navIndex)
-            showPage("FrmPurchaseChart5", "制造数据中心", { navIndex });
+            showPage(FrmPurchaseChart5, "制造数据中心", { navIndex });
     }
 
     initCanvas(num: number) {

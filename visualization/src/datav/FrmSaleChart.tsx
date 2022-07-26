@@ -2,7 +2,10 @@ import { FullScreenContainer } from '@jiaminghi/data-view-react';
 import { DataRow, DataSet } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import { showPage } from '../tool/Summer';
 import { Excel, excelData } from "../tool/Utils";
+import FrmManufactureChart from './FrmManufactureChart';
+import FrmPurchaseChart from './FrmPurchaseChart';
 import styles from './FrmPurchaseChart.css';
 import PieChart from './PieChart';
 import TopHeader from './TopHeader';
@@ -42,13 +45,13 @@ export default class FrmSaleChart extends React.Component<PropsType, stateType> 
             polylineOption: {},
             menuOptions: new Map([['工业4.0-数字化供应链管理中心V1.0', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart", "工业4.0-数字化供应链管理中心V1.0")'
+                href: ()=>showPage(FrmPurchaseChart, "工业4.0-数字化供应链管理中心V1.0")
             }], ['工业4.0-数字化制造管理中心V1.0', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmManufactureChart", "工业4.0-数字化制造管理中心V1.0")'
+                href: ()=>showPage(FrmManufactureChart, "工业4.0-数字化制造管理中心V1.0")
             }], ['工业4.0-数字化销售管理中心V1.0', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmSaleChart", "工业4.0-数字化销售管理中心V1.0")'
+                href: ()=>showPage(FrmSaleChart, "工业4.0-数字化销售管理中心V1.0")
             }]]),
             showIndex: 0,
             boardConfig: {},

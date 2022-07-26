@@ -210,7 +210,7 @@ function showPage(str, title, props) {
     let app = document.getElementById('app');
     ReactDOM.unmountComponentAtNode(app);
     document.title = title;
-    ReactDOM.render(React.createElement(eval(`aui.${str}`), props), app)
+    ReactDOM.render(React.createElement(str, props), app)
 }
 
 export {Loading, showMsg, AuiMath, showPage}

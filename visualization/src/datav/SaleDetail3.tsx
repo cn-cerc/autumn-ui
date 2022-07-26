@@ -1,6 +1,7 @@
 import { DataRow, DataSet } from "autumn-ui";
 import React from "react";
 import { Excel, excelData } from "../tool/Utils";
+import FrmPurchaseChart4 from "./FrmPurchaseChart4";
 import ReportDetail from "./ReportDetail";
 
 export type FrmReportTypeState = {
@@ -77,11 +78,11 @@ export default class SaleDetail3 extends React.Component<FrmReportTypeProps, Frm
         let date = new Date();
         let year = date.getFullYear();
         return <React.Fragment>
-            <div style={{ 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'position': 'fixed', 'top': '120px', 'left': '0', 'right': '0', 'zIndex': '1000' }}>
-                <span style={{ 'color': this.state.showOut ? '#fff' : '#66ff66', 'cursor': 'pointer' }} onClick={() => this.setShowOut(false)}>接单</span>
-                <span style={{ 'paddingLeft': '35px', 'color': this.state.showOut ? '#66ff66' : '#fff', 'cursor': 'pointer' }} onClick={this.setShowOut.bind(this, true)}>出货</span>
+            <div style={{ 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', 'position': 'fixed', 'top': '120px', 'left': '0', 'right': '0', 'zIndex': '1000', 'fontSize': '24px' }}>
+                <span style={{ 'color': this.state.showOut ? '#fff' : '#58f7ff', 'cursor': 'pointer' }} onClick={() => this.setShowOut(false)}>接单</span>
+                <span style={{ 'paddingLeft': '35px', 'color': this.state.showOut ? '#58f7ff' : '#fff', 'cursor': 'pointer' }} onClick={this.setShowOut.bind(this, true)}>出货</span>
             </div>
-            <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}本年${this.state.showOut ? '出货' : '接单'}动态（${year}年）`} key={String(this.state.showOut)} backHref='FrmPurchaseChart4' backTitle='工业4.0-数字化供应链管理中心V1.0' params={{ pageType1: this.props.pageType1 }}></ReportDetail>
+            <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}本年${this.state.showOut ? '出货' : '接单'}动态（${year}年）`} key={String(this.state.showOut)} backHref={FrmPurchaseChart4} backTitle='工业4.0-数字化供应链管理中心V1.0' params={{ pageType1: this.props.pageType1 }}></ReportDetail>
         </React.Fragment>
     }
 

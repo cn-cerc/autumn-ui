@@ -2,6 +2,7 @@ import { DataRow, DataSet } from "autumn-ui";
 import React from "react";
 import ReportDetail from "./ReportDetail";
 import { Excel, excelData } from '../tool/Utils';
+import FrmPurchaseChart3 from "./FrmPurchaseChart3";
 
 export type FrmReportTypeState = {
     reportHead: DataRow,
@@ -107,6 +108,6 @@ export default class PurchaseDetailLTKMonth extends React.Component<FrmReportTyp
     }
 
     render(): React.ReactNode {
-        return <ReportDetail params={{index:1}} dataSet={this.state.reportData} hideIt={true} head={this.state.reportHead} title='菱铁矿月度入库数量（T）' key={this.state.reportData.json} backHref='FrmPurchaseChart3' backTitle='工业4.0-数字化供应链管理中心V1.0'></ReportDetail>
+        return <ReportDetail params={{index:1}} dataSet={this.state.reportData} hideIt={true} head={this.state.reportHead} title='菱铁矿月度入库数量（T）' key={this.state.reportData.json} backHref={FrmPurchaseChart3} backTitle='工业4.0-数字化供应链管理中心V1.0'></ReportDetail>
     }
 }

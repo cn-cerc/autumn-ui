@@ -1,6 +1,7 @@
 import { BorderBox9, FullScreenContainer } from "@jiaminghi/data-view-react";
 import { Column, ColumnIt, DataRow, DataSet, DBGrid } from "autumn-ui";
 import React, { ReactNode } from "react";
+import { showPage } from "../tool/Summer";
 import styles from "./ReportDetail.css";
 import TopHeader from "./TopHeader";
 
@@ -8,7 +9,7 @@ type FrmReportTypeProps = {
     dataSet: DataSet,
     head: DataRow,
     title: string,
-    backHref?: string,
+    backHref?: Function,
     backTitle?: string,
     hideIt?: boolean,
     params?: object
@@ -23,8 +24,7 @@ export default class ReportDetail extends React.Component<FrmReportTypeProps> {
         return <div className={styles.main}>
             <FullScreenContainer className={styles.dvFullScreenContainer}>
                 <TopHeader title={this.props.title} handleCick={() => {
-                    //@ts-ignore
-                    return aui.showPage(this.props.backHref, this.props.backTitle, this.props.params ? Object.assign({}, this.props.params) : {})
+                    showPage(this.props.backHref, this.props.backTitle, this.props.params ? Object.assign({}, this.props.params) : {})
                 }} />
                 <div className={styles.box}>
                     <BorderBox9>

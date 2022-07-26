@@ -1,5 +1,6 @@
 import { DataRow, DataSet } from "autumn-ui";
 import React from "react";
+import FrmPurchaseChart from "./FrmPurchaseChart";
 import ReportDetail from "./ReportDetail";
 
 export type FrmReportTypeState = {
@@ -43,6 +44,6 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}年度入库数量（T）`} key={this.state.reportData.json} backHref='FrmPurchaseChart' backTitle='工业4.0-数字化供应链管理中心V1.0'></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title={`${this.state.reportName}年度入库数量（T）`} key={this.state.reportData.json} backHref={FrmPurchaseChart} backTitle='工业4.0-数字化供应链管理中心V1.0'></ReportDetail>
     }
 }

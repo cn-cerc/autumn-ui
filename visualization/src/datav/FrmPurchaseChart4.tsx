@@ -4,8 +4,13 @@ import * as echarts from "echarts";
 import React from "react";
 import { AuiMath, showPage } from '../tool/Summer';
 import { Excel, excelData } from "../tool/Utils";
+import FrmPurchaseChart3 from './FrmPurchaseChart3';
 import styles from './FrmPurchaseChart4.css';
+import FrmPurchaseChart5 from './FrmPurchaseChart5';
 import PieChart from './PieChart';
+import SaleDetail1 from './SaleDetail1';
+import SaleDetail2 from './SaleDetail2';
+import SaleDetail3 from './SaleDetail3';
 import TopHeader from './TopHeader';
 import ViewMenu, { ViewMenuMap } from './ViewMenu';
 
@@ -56,13 +61,13 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             polylineOption: {},
             menuOptions: new Map([['工业4.0-数字化供应链管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban1.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart3", "工业4.0-数字化供应链管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart3, "工业4.0-数字化供应链管理中心V1.0")
             }], ['工业4.0-数字化制造管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban2.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart5", "工业4.0-数字化制造管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart5, "工业4.0-数字化制造管理中心V1.0")
             }], ['工业4.0-数字化销售管理中心<span style="font-size:16px;">V1.0</span>', {
                 imgSrc: './kanban3.png',
-                href: 'javascript:aui.showPage("FrmPurchaseChart4", "工业4.0-数字化销售管理中心V1.0")'
+                href: () => showPage(FrmPurchaseChart4, "工业4.0-数字化销售管理中心V1.0")
             }]]),
             showIndex: 0,
             boardConfig: {},
@@ -331,7 +336,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('螺纹钢').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            showPage("SaleDetail1", "销售数据管理中心", { index: 0, pageType1: this.state.pageType1 })
+                            showPage(SaleDetail1, "销售数据管理中心", { index: 0, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -346,7 +351,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('型钢').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            showPage("SaleDetail1", "销售数据管理中心", { index: 1, pageType1: this.state.pageType1 })
+                            showPage(SaleDetail1, "销售数据管理中心", { index: 1, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -361,7 +366,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('带钢').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            showPage("SaleDetail1", "销售数据管理中心", { index: 2, pageType1: this.state.pageType1 })
+                            showPage(SaleDetail1, "销售数据管理中心", { index: 2, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
 
@@ -382,7 +387,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('板材').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            showPage("SaleDetail1", "销售数据管理中心", { index: 3, pageType1: this.state.pageType1 })
+                            showPage(SaleDetail1, "销售数据管理中心", { index: 3, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -397,7 +402,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('线材').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            showPage("SaleDetail1", "销售数据管理中心", { index: 4, pageType1: this.state.pageType1 })
+                            showPage(SaleDetail1, "销售数据管理中心", { index: 4, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -412,7 +417,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
                         saleroom={this.state.saleroom.get('管材').saleroom}
                         lineColor={this.lineColor}
                         onClick={() => {
-                            showPage("SaleDetail1", "销售数据管理中心", { index: 5, pageType1: this.state.pageType1 })
+                            showPage(SaleDetail1, "销售数据管理中心", { index: 5, pageType1: this.state.pageType1 })
                         }}
                     ></PieChart>
                 </div>
@@ -684,7 +689,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
         myChart.on('click', (params: any) => {
             let num = this.state.pageType1 == 1 ? 0 : 3;
             let index: number = num + params.dataIndex;
-            showPage("SaleDetail2", "销售数据管理中心", { index, pageType1: this.state.pageType1 });
+            showPage(SaleDetail2, "销售数据管理中心", { index, pageType1: this.state.pageType1 });
         })
     }
 
@@ -847,7 +852,7 @@ export default class FrmPurchaseChart4 extends React.Component<PropsType, stateT
             let name: string = params.seriesName;
             let arr = ['螺纹钢', '型钢', '带钢', '板材', '线材', '管材'];
             let num = arr.indexOf(name);
-            showPage("SaleDetail3", "销售数据管理中心", { index: num, pageType1: this.state.pageType1 });
+            showPage(SaleDetail3, "销售数据管理中心", { index: num, pageType1: this.state.pageType1 });
         })
         myChart.setOption(lineOption);
     }

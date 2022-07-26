@@ -3,6 +3,7 @@ import { DataRow, DataSet } from "autumn-ui";
 import { Excel, excelData } from "../tool/Utils";
 import { AuiMath } from "../tool/Summer";
 import ReportDetail from "./ReportDetail";
+import FrmSaleChart from "./FrmSaleChart";
 
 export type FrmReportTypeState = {
     reportHead: DataRow,
@@ -59,6 +60,6 @@ export default class FrmReport18 extends React.Component<FrmReportTypeProps, Frm
     }
 
     render(): React.ReactNode {
-        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title='区域销售月底动态分析表' key={this.state.reportData.json} backHref='FrmSaleChart' backTitle='工业4.0-数字化销售管理中心V1.0'></ReportDetail>
+        return <ReportDetail dataSet={this.state.reportData} head={this.state.reportHead} title='区域销售月底动态分析表' key={this.state.reportData.json} backHref={FrmSaleChart} backTitle='工业4.0-数字化销售管理中心V1.0'></ReportDetail>
     }
 }
