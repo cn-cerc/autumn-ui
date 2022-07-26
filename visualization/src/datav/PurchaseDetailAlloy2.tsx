@@ -64,7 +64,7 @@ export default class ReportDetail1 extends React.Component<FrmReportTypeProps, F
             dataSet.first();
             while (dataSet.fetch()) {
                 let dataTextTimeMonth = new Date(dataSet.getString('到货日期')).getMonth();
-                if(dataTextTimeMonth == index){
+                if(dataTextTimeMonth == index && index <= nowMonth){
                     if(dataTextTimeMonth != nowMonth){
                         tempData.setValue('到港数量',math.toFixed(dataSet.getDouble('到港数量') + tempData.getDouble('到港数量'),2))
                         .setValue('出港数量',math.toFixed(dataSet.getDouble('出港数量') + tempData.getDouble('出港数量'),2))
