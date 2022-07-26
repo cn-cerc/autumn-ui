@@ -116,7 +116,7 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('contract_type_name_'),
-                value: ds.getDouble('num_')
+                value: ds.getDouble('sum')
             })
         }
         let option = {
