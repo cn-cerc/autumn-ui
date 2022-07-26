@@ -113,6 +113,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
                 row.set('BankAccount_', record.getString('payee_name_'));
                 row.set('BankName_', record.getString('bank_name_'));
                 row.set('BankNo_', record.getString('identity_card_'));
+                row.set('payee_no_', record.getString('payee_no_'));
                 record.setValue('addAmount', math.add(record.getDouble('addAmount'), amount));
                 $(item).trigger('click');
             }
