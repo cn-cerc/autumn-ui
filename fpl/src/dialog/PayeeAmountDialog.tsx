@@ -82,7 +82,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
 
     append(dataRow: DataRow) {
         let selectDataSet = this.state.selectDataSet;
-        if (!selectDataSet.locate('phone_number_', dataRow.getString('phone_number_'))) {
+        if (!selectDataSet.locate('bank_card_', dataRow.getString('bank_card_'))) {
             selectDataSet.append().copyRecord(dataRow);
             this.setState({ ...this.state, selectDataSet });
         } else {
@@ -93,7 +93,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
     delete(dataRow: DataRow) {
         let selectDataSet = this.state.selectDataSet;
         selectDataSet.first();
-        if (selectDataSet.locate('phone_number_', dataRow.getString('phone_number_'))) {
+        if (selectDataSet.locate('bank_card_', dataRow.getString('bank_card_'))) {
             selectDataSet.delete()
             this.setState({ ...this.state, selectDataSet });
         }
@@ -103,7 +103,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
         let trs = document.querySelectorAll('.dbgrid tr');
         let math = new AuiMath();
         trs.forEach(item => {
-            if($(item).find('#checkBoxName').is(':checked'))
+            if ($(item).find('#checkBoxName').is(':checked'))
                 $(item).trigger('click');
             // @ts-ignore
             var row = new GridRow($(item));
@@ -112,7 +112,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
             if (record) {
                 row.set('BankAccount_', record.getString('payee_name_'));
                 row.set('BankName_', record.getString('bank_name_'));
-                row.set('BankNo_', record.getString('identity_card_'));
+                row.set('BankNo_', record.getString('bank_card_'));
                 row.set('payee_no_', record.getString('payee_no_'));
                 record.setValue('addAmount', math.add(record.getDouble('addAmount'), amount));
                 $(item).trigger('click');
