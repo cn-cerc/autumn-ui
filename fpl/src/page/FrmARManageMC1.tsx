@@ -85,15 +85,51 @@ export default class FrmARManageMC1 extends WebControl<FrmARManageMC1TypeProps, 
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                    <div className={styles.mcPieChart}>
-                        <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
-                            <div className={styles.FrmTaurusMCPie1}></div>
-                        </div>
-                        <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
-                            <div className={styles.FrmTaurusMCPie2}></div>
-                        </div>
+                    <div className={styles.content}>
+                        <ul>
+                            <li>
+                                <p>到期应收</p>
+                                <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '到期应收')}>
+                                    <span>{0}</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>本期应收</p>
+                                <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期应收')}>
+                                    <span>{0}</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>本期已收</p>
+                                <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期已收')}>
+                                    <span>{0}</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>期末应收</p>
+                                <div>
+                                    <span>0</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>逾期应收</p>
+                                <div>
+                                    <span>0</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>新增应收客户</p>
+                                <div>
+                                    <span>0</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>比例图（对接中）</div>
@@ -106,8 +142,8 @@ export default class FrmARManageMC1 extends WebControl<FrmARManageMC1TypeProps, 
 
     componentDidMount(): void {
         this.initBarChart();
-        this.initPieChart1();
-        this.initPieChart2();
+        // this.initPieChart1();
+        // this.initPieChart2();
         this.initFlowChart();
     }
 
@@ -412,5 +448,9 @@ export default class FrmARManageMC1 extends WebControl<FrmARManageMC1TypeProps, 
         if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataJson.getString(`${name}_URL`);
         }
+    }
+
+    gotoFun(name: string) {
+        // location.href = this.state.btnUrl.getString(`${name}_URL`);
     }
 }
