@@ -45,6 +45,7 @@ import PartClassDialog from "../dialog/PartClassDialog";
 import PartCodePartStockDialog from "../dialog/PartCodePartStockDialog";
 import PartModeldDialog from "../dialog/PartModeldDialog";
 import PartStockDialog from "../dialog/PartStockDialog";
+import PayeeAmountDialog from "../dialog/PayeeAmountDialog";
 import PayeeDialog from "../dialog/PayeeDialog";
 import ProcStepDialog from "../dialog/ProcStepDialog";
 import ProductClassDialog from "../dialog/ProductClassDialog";
@@ -132,6 +133,7 @@ export default {
     MaintainVehicleDialog,
     NumberPlateDialog,
     PayeeDialog,
+    PayeeAmountDialog,
     showSiteDialog,
     SupAndCusDialog,
     SupNetCorpDialog
