@@ -2,31 +2,22 @@ import DataSet from "./DataSet";
 
 export default class RemoteService {
     private _token: string = null;
-    private _host = '';
-    private _path = '/services';
+    private _host = '/services/';
     private _service: string;
     private _dataIn: DataSet;
     private _dataOut: DataSet;
 
     constructor(props: any = {}) {
         this._dataIn = new DataSet();
-        this._host = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
-        //@ts-ignore
-        let servicePath = window.Application.servicePath;
-        if (servicePath)
-            this._path = servicePath
-        else
-            this._path = "/services";
+        this._host = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/services/";
         if (props) {
-            const { sid, token, host, path, service } = props;
+            const { sid, token, host, service } = props;
             if (sid)
                 this._token = sid;
             else if (token)
                 this._token = token;
             if (host)
                 this._host = props.host;
-            if (path)
-                this._path = props.path;
             if (service)
                 this._service = props.service;
         }
@@ -42,7 +33,7 @@ export default class RemoteService {
         if (!this._service)
             return new DataSet().setMessage('service is null').getPromise();
 
-        let url = this._host + this._path + "/" + this._service;
+        let url = this._host + this._service;
         if (this._token)
             url = `${url}?sid=${this._token}`;
 
@@ -74,10 +65,6 @@ export default class RemoteService {
 
     get host(): string { return this._host };
     setHost(host: string): RemoteService { this._host = host; return this; }
-
-    get path(): string { return this._path };
-    setPath(path: string): RemoteService { this._path = path; return this; }
-
 
     get service(): string { return this._service }
     setService(service: string): RemoteService { this._service = service; return this; }
