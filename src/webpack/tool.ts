@@ -1,4 +1,4 @@
-import { DataRow, DataSet, QueryService, RemoteService } from "autumn-ui";
+import { DataRow, DataSet, QueryService, RemoteService, TCustomComponent } from "autumn-ui";
 import Datetime from "../tool/Datetime";
 import Loading from "../tool/Loading";
 import Toast from "../tool/Toast";
@@ -8,7 +8,8 @@ export default {
     Loading,
     Toast,
     QueryService, 
-    RemoteService, 
+    RemoteService,
+    TCustomComponent, 
     DataSet, 
     DataRow,
 }
