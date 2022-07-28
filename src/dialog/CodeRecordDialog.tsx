@@ -48,7 +48,7 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
                     <DBEdit dataField="code_" dataName="货物名称" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt/>
+                    <ColumnIt />
                     <Column code="code_" name="货物名称" width="100"></Column>
                     <Column code="main_unit_" name="主单位" width="100" customText={
                         ((dataRow: DataRow) => {
@@ -81,14 +81,22 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let conversionValue = document.getElementById("conversion_value_") as HTMLInputElement;
         let cargoLossRate = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
 
-        input1.value = dataRow.getString('code_');
-        input2.value = dataRow.getString('code_');
-        mainUnit.value=dataRow.getValue("main_unit_");
-        unitPrice.value = dataRow.getString('unit_price_');
-        deputyUnit.value = dataRow.getString('deputy_unit_');
-        deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
-        conversionValue.value = dataRow.getString('conversion_value_');
-        cargoLossRate.value = dataRow.getString('cargo_loss_rate_');
+        if (input1)
+            input1.value = dataRow.getString('code_');
+        if (input2)
+            input2.value = dataRow.getString('code_');
+        if (mainUnit)
+            mainUnit.value = dataRow.getValue("main_unit_");
+        if (unitPrice)
+            unitPrice.value = dataRow.getString('unit_price_');
+        if (deputyUnit)
+            deputyUnit.value = dataRow.getString('deputy_unit_');
+        if (deputyUnitPrice)
+            deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
+        if (conversionValue)
+            conversionValue.value = dataRow.getString('conversion_value_');
+        if (cargoLossRate)
+            cargoLossRate.value = dataRow.getString('cargo_loss_rate_');
         //切换单位
         $("#main_unit_").change();
         this.handleSelect();
