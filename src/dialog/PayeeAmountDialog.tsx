@@ -4,6 +4,7 @@ import FplApi from "../api/FplApi";
 import { AuiMath, showMsg } from "../tool/Summer";
 import "../tool/Summer.css";
 import styles from "./DialogCommon.css";
+import style1 from "./PayeeAmountDialog.css";
 
 type PayeeProps = {
     deptCode: string,
@@ -27,7 +28,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
             dataSet: new DataSet(),
             selectDataSet: new DataSet(),
             width: "45rem",
-            height: this.isPhone ? '25rem' : '35rem'
+            height: this.isPhone ? '25rem' : '39rem'
         }
     }
 
@@ -46,7 +47,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
 
     content() {
         return (
-            <div role="content" className={styles.main}>
+            <div role="content" className={`${styles.main} ${style1.main}`}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName="收款人" dataField="payee_name_" autoFocus></DBEdit>
                 </SearchPanel>
@@ -59,14 +60,14 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
                         return <span role='auiOpera'>选择</span>
                     }}></Column>
                 </DBGrid>
-                <hr />
-                <span>已选收款人：</span>
+                <hr className={style1.auiHr} />
+                <span className={style1.auiSpan}>已选收款人：</span>
                 <DBGrid dataSet={this.state.selectDataSet} openPage={false} key={this.state.selectDataSet.json}>
                     <ColumnIt />
                     <Column name='收款人' code='payee_name_' width='6'></Column>
                     <Column name='联系方式' code='phone_number_' width='11'></Column>
-                    <Column name='银行' code='bank_name_' width='20'></Column>
-                    <Column name='金额' code='amount' width='10'>
+                    <Column name='银行' code='bank_name_' width='16'></Column>
+                    <Column name='金额' code='amount' width='4'>
                         <DBEdit dataField="amount" className=""></DBEdit>
                     </Column>
                     <Column name='操作' code='opera' width='4' textAlign='center' customText={(row: DataRow) => {
@@ -74,7 +75,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
                     }}></Column>
                 </DBGrid>
                 <OperatePanel>
-                    <button className={styles.operaButton} onClick={this.btnSave.bind(this)}>保存</button>
+                    <button className={this.state.selectDataSet.size > 0 ? style1.onSave : style1.save} onClick={this.btnSave.bind(this)}>保存</button>
                 </OperatePanel>
             </div>
         )

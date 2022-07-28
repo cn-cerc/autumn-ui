@@ -1,0 +1,49 @@
+.main div[class='aui-operatePanel-main'] {
+    justify-content: flex-end;
+}
+
+.main div[role="dbgrid"] table tr {
+    height: 2.625rem;
+}
+
+.main div[role="dbgrid"] {
+    width: 96%;
+    margin: .5rem auto auto;
+}
+
+.main div[role="dbgrid"] td:first-child {
+    border-left: 0;
+}
+
+.main div[role="dbgrid"] td:last-child {
+    border-right: 0;
+}
+
+.main table {
+    border: none;
+}
+
+.auiHr {
+    border: none;
+    width: 95.5%;
+    height: 1px;
+    background-color: #eeeeee;
+    margin: 0 auto 24px;
+}
+
+.auiSpan {
+    width: 96%;
+    margin: auto;
+    font-size: 14px;
+    color: #333333;
+}
+
+.save {
+    background: #99CFAF !important;
+    color: #FFF !important;
+}
+
+.onSave {
+    background-color: #008738!important;
+    color: #FFF !important;
+}
