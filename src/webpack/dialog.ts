@@ -68,6 +68,7 @@ import UserDialog from "../dialog/UserDialog";
 import VipCardDialog from "../dialog/VipCardDialog";
 import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
+import RapidInput from "../mc/RapidInput";
 
 export default {
     // 地藤开窗
@@ -126,6 +127,9 @@ export default {
     VipCardDialog,
     WareBasicDialog,
     WorkerDialog,
+
+    // 快录
+    RapidInput,
 
     // 4PL开窗
     CargoCodeTypeDialog,
