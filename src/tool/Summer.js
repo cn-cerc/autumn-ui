@@ -221,25 +221,15 @@ function callPhoneNumber(mobile) {
 class GDMap {
     geocoder;
     async getGeocoder(site) {
-        // let start = [];
-        // await new Promise(function (resolve, reject) {
-        //     var aaa = new AMap.Geocoder();
-        //     aaa.getLocation('深圳市宝安区固戍地铁站', function (status, result) {
-        //         console.log(status)
-        //         console.log(result)
-        //         if (status === 'complete' && result.info === 'OK') {
-        //             resolve(result)
-        //         }
-        //     })
-        // }).then((result) => {
-        //     start = [result.geocodes[0].location.lng, result.geocodes[0].location.lat];
-        // })
-        // console.log(start);
-        let obj = {};
+        let obj = {
+            status: 0,
+            site: [],
+            address: ''
+        };
         if (!this.geocoder)
             this.initGeocoder();
         await new Promise((resolve, reject) => {
-            new AMap.Geocoder().getLocation('深圳市宝安区固戍地铁站', function (status, result) {
+            new AMap.Geocoder().getLocation(site, function (status, result) {
                 if (status === 'complete' && result.info === 'OK') {
                     resolve(result)
                 } else {
@@ -247,11 +237,14 @@ class GDMap {
                 }
             })
         }).then((result) => {
+            console.log(result);
             obj.status = 1;
             obj.site = [result.geocodes[0].location.lng, result.geocodes[0].location.lat];
+            obj.address = result.geocodes[0].formattedAddress
         }).catch((result) => {
             obj.status = 0;
             obj.site = [];
+            obj.address = '';
         });
         return obj;
     }
