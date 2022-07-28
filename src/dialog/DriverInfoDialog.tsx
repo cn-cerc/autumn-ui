@@ -76,7 +76,7 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
         if (input3)
             input3.value = dataRow.getString('phone_num_');
         if (this.props.callBack)
-            this.props.callBack();
+            this.props.callBack(dataRow);
         this.handleSelect();
     }
 }
