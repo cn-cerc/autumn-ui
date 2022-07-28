@@ -46,12 +46,12 @@ cnpm i -D echarts
 二、打包
 运行测试环境
 ```
-cnpm run dev
+npm run dev
 ```
 
-打包生成 autumn-ui.js，用于正式环境
+打包生成aui相关的js文件，用于正式环境
 ```
-cnpm run build
+npm run build
 ```
 
 ## 一键安装环境

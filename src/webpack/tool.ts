@@ -8,8 +8,8 @@ export default {
     Loading,
     Toast,
     QueryService, 
-    TCustomComponent,
-    RemoteService, 
+    RemoteService,
+    TCustomComponent, 
     DataSet, 
     DataRow,
 }

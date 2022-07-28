@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.config.js",
-    "devV": "webpack-dev-server --config webpack.devV.config.js",
+    "serve": "webpack-dev-server --config webpack.serve.config.js",
     "build": "rm -rf dist && webpack --config webpack.build.config.js",
     "main": "webpack --config webpack.main.config.js"
   },
