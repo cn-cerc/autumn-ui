@@ -1,6 +1,7 @@
 import { DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import FplApi from "../api/FplApi";
 import StaticFile from "../static/StaticFile";
 import styles from "./FrmSpectaculars1.css";
 import { MCChartColors } from "./FrmTaurusMC";
@@ -14,7 +15,10 @@ type FrmSpectaculars1TypeState = {
     pieData2: DataSet,
     pieData3: DataSet,
     pieData4: DataSet,
-    toggle: number
+    toggle: number,
+    fullLoadRate: DataSet,
+    arrLossRateStatis: DataSet,
+    countProvince: DataSet,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -54,7 +58,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             pieData2,
             pieData3,
             pieData4,
-            toggle
+            toggle,
+            fullLoadRate: new DataSet(),
+            arrLossRateStatis: new DataSet(),
+            countProvince: new DataSet(),
         }
     }
 
@@ -75,7 +82,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
                                 <div className={styles.topInfo}>
-                                    11042 <span>辆</span>
+                                    {this.state.fullLoadRate.getDouble('cars_num')} <span>辆</span>
                                 </div>
                             </div>
                         </li>
@@ -170,12 +177,25 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     componentDidMount(): void {
-        this.initLineChart();
-        this.initLineChart1();
-        this.initPieChart1();
-        this.initPieChart2();
-        this.initPieChart3();
-        this.initPieChart4();
+        this.init();
+    }
+
+    async init() {
+        let fullLoadRate = await FplApi.getFullLoadRate();
+        let arrLossRateStatis = await FplApi.getArrLossRateStatis();
+        let countProvince = await FplApi.getCountProvince();
+        this.setState({
+            fullLoadRate,
+            arrLossRateStatis,
+            countProvince,
+        }, () => {
+            this.initLineChart();
+            this.initLineChart1();
+            this.initPieChart1();
+            this.initPieChart2();
+            this.initPieChart3();
+            this.initPieChart4();
+        })
     }
 
     initLineChart1() {
@@ -286,6 +306,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //在线率
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
@@ -357,12 +378,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //满载率
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: 99,
+                value: this.state.fullLoadRate.getDouble('total_weight') / this.state.fullLoadRate.getDouble('all_load'),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -428,12 +450,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //货损率
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: 10,
+                value: this.state.arrLossRateStatis.getDouble('avg_loss_rate'),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -499,6 +522,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
