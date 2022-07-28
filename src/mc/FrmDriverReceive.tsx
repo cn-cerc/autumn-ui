@@ -2,6 +2,7 @@ import { Column, DataRow, DataSet, DBGrid, WebControl } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
+import { GDMap } from "../tool/Summer";
 import styles from "./FrmDriverReceive.css";
 
 type FrmDriverReceiveTypeProps = {
@@ -19,6 +20,7 @@ type FrmDriverReceiveTypeState = {
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
+    private gdmap: GDMap = new GDMap();
     constructor(props: FrmDriverReceiveTypeProps) {
         super(props);
         let linkRow = new DataRow();
@@ -100,8 +102,12 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         orderData.first();
         let gridData = new DataSet();
         let gridData_ = new DataSet();
+        //@ts-ignore
+        let map = AMap;
         while (orderData.fetch()) {
             if (orderData.getString('confirm_status_') == '0') {
+                console.log(orderData.current);
+                console.log(await this.gdmap.getGeocoder('深圳市宝安区固戍地铁站'));
                 gridData.append().copyRecord(orderData.current);
             } else
                 gridData_.append().copyRecord(orderData.current);
@@ -157,8 +163,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <Column code='code_' width='20' name='货物'></Column>
                         <Column code='num_' width='20' name='数量'></Column>
                         <Column code='amount_' width='20' name='运费'></Column>
-                        <Column code='Opera_' width='8' name='操作' customText={(row: DataRow) => {
+                        <Column code='Opera_' width='5' name='操作' customText={(row: DataRow) => {
                             return <span className={styles.opera} onClick={this.handleSelect.bind(this, row)}>接单</span>
+                        }}></Column>
+                        <Column code='Site_' width='10' name='' customText={(row: DataRow)=>{
+                            return <span className={styles.opera}>查看路线</span>
                         }}></Column>
                     </DBGrid>
                 </React.Fragment>

@@ -91,7 +91,7 @@ function showMsg(msg, remain) {
     }).click(function () {
         messageBox.stop().animate({
             'opacity': 0
-        }, 500, function(){
+        }, 500, function () {
             messageBox.hide();
         });
     });
@@ -129,7 +129,7 @@ function showMsg(msg, remain) {
         timer = setTimeout(function () {
             messageBox.stop().animate({
                 'opacity': 0
-            }, 3000, function(){
+            }, 3000, function () {
                 messageBox.hide();
             });
         }, 3000);
@@ -144,7 +144,7 @@ function showMsg(msg, remain) {
             timer = setTimeout(function () {
                 messageBox.stop().animate({
                     'opacity': 0
-                }, 3000, function(){
+                }, 3000, function () {
                     messageBox.hide();
                 });
             }, 3000);
@@ -187,14 +187,14 @@ class AuiMath {
     toFixed(num, len) {
         num = String(num)
         let number = num.indexOf(".") > -1 ? num.length - num.indexOf(".") - 1 : 0;
-        if(number < len) {
+        if (number < len) {
             return Number(num);
         }
-        num = String(Math.floor(num * Math.pow(10, len+1)));
-        if(num[num.length - 1] > 4) {
-            return (Math.floor(num/10) + 1) / Math.pow(10, len)
+        num = String(Math.floor(num * Math.pow(10, len + 1)));
+        if (num[num.length - 1] > 4) {
+            return (Math.floor(num / 10) + 1) / Math.pow(10, len)
         } else {
-            return Math.floor(num/10) / Math.pow(10, len)
+            return Math.floor(num / 10) / Math.pow(10, len)
         }
     }
 }
@@ -218,4 +218,49 @@ function callPhoneNumber(mobile) {
     }
 }
 
-export { Loading, showMsg, AuiMath, callPhoneNumber };
+class GDMap {
+    geocoder;
+    async getGeocoder(site) {
+        // let start = [];
+        // await new Promise(function (resolve, reject) {
+        //     var aaa = new AMap.Geocoder();
+        //     aaa.getLocation('深圳市宝安区固戍地铁站', function (status, result) {
+        //         console.log(status)
+        //         console.log(result)
+        //         if (status === 'complete' && result.info === 'OK') {
+        //             resolve(result)
+        //         }
+        //     })
+        // }).then((result) => {
+        //     start = [result.geocodes[0].location.lng, result.geocodes[0].location.lat];
+        // })
+        // console.log(start);
+        let obj = {};
+        if (!this.geocoder)
+            this.initGeocoder();
+        await new Promise((resolve, reject) => {
+            new AMap.Geocoder().getLocation('深圳市宝安区固戍地铁站', function (status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    resolve(result)
+                } else {
+                    reject(result)
+                }
+            })
+        }).then((result) => {
+            obj.status = 1;
+            obj.site = [result.geocodes[0].location.lng, result.geocodes[0].location.lat];
+        }).catch((result) => {
+            obj.status = 0;
+            obj.site = [];
+        });
+        return obj;
+    }
+
+    initGeocoder() {
+        if (!AMap)
+            throw new Error('缺少高德地图依赖文件');
+        this.geocoder = new AMap.Geocoder();
+    }
+}
+
+export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap };
