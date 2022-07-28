@@ -27,7 +27,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
             dataIn,
             dataSet: new DataSet(),
             selectDataSet: new DataSet(),
-            width: "45rem",
+            width: "55rem",
             height: this.isPhone ? '25rem' : '39rem'
         }
     }
