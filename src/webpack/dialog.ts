@@ -58,7 +58,10 @@ import SelectLotNoDialog from "../dialog/SelectLotNoDialog";
 import showSiteDialog from "../dialog/showSiteDialog";
 import SpecCodeDialog from "../dialog/SpecCodeDialog";
 import StaffDialog from "../dialog/StaffDialog";
+import SubordinateDialog from "../dialog/SubordinateDialog";
 import SupAndCusDialog from "../dialog/SupAndCusDialog";
+import SupBankDialog from "../dialog/SupBankDialog";
+import SupDialog from "../dialog/SupDialog";
 import SupNetCorpDialog from "../dialog/SupNetCorpDialog";
 import TempPrefererntialDialog from "../dialog/TempPrefererntialDialog";
 import UserDialog from "../dialog/UserDialog";
@@ -114,7 +117,10 @@ export default {
     SalesmanDialog,
     SelectLotNoDialog,
     SpecCodeDialog,
+    SubordinateDialog,
+    SupBankDialog,
     StaffDialog,
+    SupDialog,
     TempPrefererntialDialog,
     UserDialog,
     VipCardDialog,
@@ -132,8 +138,8 @@ export default {
     FleetDialog,
     MaintainVehicleDialog,
     NumberPlateDialog,
-    PayeeDialog,
     PayeeAmountDialog,
+    PayeeDialog,
     showSiteDialog,
     SupAndCusDialog,
     SupNetCorpDialog
