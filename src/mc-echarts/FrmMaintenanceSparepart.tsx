@@ -341,8 +341,8 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
         let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString(''),
-                value: ds.getDouble('part_total_')
+                name: ds.getString('Desc_'),
+                value: ds.getDouble('AvaiStock_')
             })
         }
         let option = {
