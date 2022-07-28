@@ -1,9 +1,9 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
-import * as echarts from "echarts";
 import React from "react";
-import UIIntroduction from "../module/UIIntroduction";
 import styles from "./FrmARManageMC1.css";
+import * as echarts from "echarts";
 import { MCChartColors } from "./FrmTaurusMC";
+import UIIntroduction from "../module/UIIntroduction";
 
 type FrmARManageMC1TypeProps = {
     dataJson: string,
@@ -85,15 +85,51 @@ export default class FrmARManageMC1 extends WebControl<FrmARManageMC1TypeProps, 
                     </div>
                 </div>
                 <div className={styles.mcCharts}>
-                    <div className={styles.mcPieChart}>
-                        <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
-                            <div className={styles.FrmTaurusMCPie1}></div>
-                        </div>
-                        <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>比例图（对接中）</div>
-                            <div className={styles.FrmTaurusMCPie2}></div>
-                        </div>
+                    <div className={styles.content}>
+                        <ul>
+                            <li>
+                                <p>到期应收</p>
+                                <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '到期应收')}>
+                                    <span>{0}</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>本期应收</p>
+                                <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期应收')}>
+                                    <span>{0}</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>本期已收</p>
+                                <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期已收')}>
+                                    <span>{0}</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>期末应收</p>
+                                <div>
+                                    <span>0</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>逾期应收</p>
+                                <div>
+                                    <span>0</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>新增应收客户</p>
+                                <div>
+                                    <span>0</span>
+                                    <span>元</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>比例图（对接中）</div>
@@ -106,8 +142,6 @@ export default class FrmARManageMC1 extends WebControl<FrmARManageMC1TypeProps, 
 
     componentDidMount(): void {
         this.initBarChart();
-        this.initPieChart1();
-        this.initPieChart2();
         this.initFlowChart();
     }
 
@@ -168,121 +202,6 @@ export default class FrmARManageMC1 extends WebControl<FrmARManageMC1TypeProps, 
                 }
             ]
         };
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-
-    initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData1);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
-        let option = {
-            tooltip: {
-                trigger: 'item'
-            },
-            legend: {
-                top: '25%',
-                left: '65%',
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-            },
-            grid: {
-                top: 40,
-                left: 0,
-                bottom: 0,
-                right: 20,
-                containLabel: false,
-            },
-            series: [
-                {
-                    // name: '本周货运吨数占比',
-                    type: 'pie',
-                    center: ['30%', '50%'],
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '20',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        show: false
-                    },
-                    data: dataArr
-                }
-            ]
-        }
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-
-    initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData2);
-        ds.first();
-        let dataArr = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
-            })
-        }
-        let option = {
-            tooltip: {
-                trigger: 'item'
-            },
-            legend: {
-                top: '25%',
-                left: '65%',
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-            },
-            series: [
-                {
-                    // name: '本周货运车辆占比',
-                    type: 'pie',
-                    center: ['30%', '50%'],
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '20',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        show: false
-                    },
-                    data: dataArr
-                }
-            ]
-        }
         //@ts-ignore
         myChart.setOption(option);
     }
@@ -412,5 +331,9 @@ export default class FrmARManageMC1 extends WebControl<FrmARManageMC1TypeProps, 
         if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataJson.getString(`${name}_URL`);
         }
+    }
+
+    gotoFun(name: string) {
+        // location.href = this.state.btnUrl.getString(`${name}_URL`);
     }
 }
