@@ -806,7 +806,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                             <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
                         </div>
                         <div className={styles.copyRight}>
-                            <a href="http://www.mimrc.com">©恒凯昌（深圳）数字供应链有限公司&nbsp;&nbsp;</a>
+                            <a href="https://www.4plc.cn">©恒凯昌（深圳）数字供应链有限公司&nbsp;&nbsp;</a>
                             <a href="http://beian.miit.gov.cn/">&nbsp;&nbsp;粤ICP备2022090580号-1</a>
                         </div>
                     </footer>
