@@ -469,10 +469,10 @@
     .btnMCBox>li::after {
         right: -17px;
     }
-    
+
     .btnMCItem>p {
         position: absolute;
         bottom: 8px;
     }
-    
+
 }
