@@ -64,7 +64,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                                 </div>
                             </li>
                             <li>
-                                <p>未接物流订单</p>
+                                <p>未完成物流订单</p>
                                 <div className={styles.links_skin} onClick={()=>{
                                     location.href = `FrmDriverArrangeCar.list`;
                                 }}>
@@ -73,7 +73,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                                 </div>
                             </li>
                             <li>
-                                <p>已接物流订单</p>
+                                <p>已完成物流订单</p>
                                 <div className={styles.links_skin} onClick={()=>{
                                     location.href = `#`;
                                 }}>
