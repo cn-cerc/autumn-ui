@@ -299,6 +299,32 @@
     margin-left: 2px;
 }
 
+.topBtnBox {
+    margin-bottom: 16px;
+    color: #333;
+    display: flex;
+}
+
+.topBtnBox .btn_skin {
+    flex: 1;
+    height: 70px;
+    margin-right: 16px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.btn_skin:last-child {
+    margin-right: 0;
+}
+
+.topBtnBox .btn_skin:hover {
+    background-color: #E4F7EC;
+    color: #009933;
+}
+
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -319,7 +345,7 @@
     }
 
     .mcMain {
-        margin:0.75rem;
+        margin: 0.75rem;
         flex-wrap: wrap;
     }
 
@@ -388,4 +414,11 @@
         flex: auto;
     }
 
+    .topBtnBox {
+        margin: 0.75rem 0.75rem 0 0.75rem;
+    }
+
+    .topBtnBox .btn_skin {
+        height: 40px;
+    }
 }

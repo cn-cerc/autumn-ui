@@ -19,6 +19,7 @@ export default class NumberPlateDialog extends BaseDialog<NumberPlateProps, Staf
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue('dept_code_', this.props.deptCode);
+        dataIn.setValue('maxRecord', 100);
         this.state = {
             ...this.state,
             dataIn,
@@ -46,12 +47,13 @@ export default class NumberPlateDialog extends BaseDialog<NumberPlateProps, Staf
             <div role="content" className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="car_num_" dataName="车牌号" autoFocus></DBEdit>
+                    <DBEdit dataField="maxRecord" dataName="载入笔数"></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt/>
+                    <ColumnIt width="10" />
                     <Column code="car_num_" name="车牌号" width="50"></Column>
                     <Column code="approved_load_" name="核定载重" width="50"></Column>
-                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
+                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
                 </DBGrid>
