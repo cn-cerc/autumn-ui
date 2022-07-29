@@ -74,7 +74,7 @@
     display: flex;
 }
 
-.FrmTaurusLine {
+.FrmTaurusQuicknessMCLine {
     padding: 16px 16px 0 16px;
     flex: 1;
 }
@@ -197,8 +197,8 @@
     margin-left: 16px;
 }
 
-.FrmTaurusPie1,
-.FrmTaurusPie2 {
+.FrmTaurusQuicknessMCPie1,
+.FrmTaurusQuicknessMCPie2 {
     flex: 1;
 }
 
@@ -299,30 +299,67 @@
     margin-left: 2px;
 }
 
-.topBtnBox {
-    margin-bottom: 16px;
-    color: #333;
-    display: flex;
+.btnMCBox {
+    position: relative;
+    height: 200px;
 }
 
-.topBtnBox .btn_skin {
-    flex: 1;
-    height: 70px;
-    margin-right: 16px;
-    background-color: #fff;
+.btnMCBox>li {
+    position: absolute;
+   
+}
+
+.btnMCBoxStor1 {
+    top: 2px;
+    left: 12px;
+}
+
+.btnMCBoxStor2 {
+    top: 2px;
+    left: 138px;
+}
+
+.btnMCBoxStor3 {
+    top: 2px;
+    left: 248px;
+}
+
+.btnMCBoxStor4 {
+    top: 100px;
+    left: 12px;
+}
+
+.btnMCBoxStor5 {
+    top: 100px;
+    left: 138px;
+}
+
+.btnMCBoxStor6 {
+    top: 100px;
+    left: 248px;
+}
+
+.btnMCItem {
+    width: 88px;
+    height: 82px;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: #333;
+    justify-self: center;
+    position: relative;
 }
 
-.btn_skin:last-child {
-    margin-right: 0;
+.btnMCItem:hover {
+    border: 1px solid #0473EA;
+}
+.btnMCItem > div{
+    width: 32px;
+    height:32px;
 }
 
-.topBtnBox .btn_skin:hover {
-    background-color: #E4F7EC;
-    color: #009933;
+.btnMCItem > p{
+    position: absolute;
 }
 
 @media screen and (min-width: 768px) {
@@ -350,7 +387,7 @@
     }
 
     .mcFlowChartBox {
-        height: 520px;
+        height: 420px;
     }
 
     .register>span,
@@ -388,7 +425,7 @@
         margin-top: 16px;
     }
 
-    .FrmTaurusLine {
+    .FrmTaurusQuicknessMCLine {
         height: 220px;
         flex: auto;
     }
@@ -408,17 +445,9 @@
         margin-left: 0;
     }
 
-    .FrmTaurusPie1,
-    .FrmTaurusPie2 {
+    .FrmTaurusQuicknessMCPie1,
+    .FrmTaurusQuicknessMCPie2 {
         height: 220px;
         flex: auto;
-    }
-
-    .topBtnBox {
-        margin: 0.75rem 0.75rem 0 0.75rem;
-    }
-
-    .topBtnBox .btn_skin {
-        height: 40px;
     }
 }
