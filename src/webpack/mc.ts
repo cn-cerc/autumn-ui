@@ -16,7 +16,6 @@ import FrmPartPrinciple from "../mc/FrmPartPrinciple";
 import FrmPrivacyRight from "../mc/FrmPrivacyRight";
 import FrmUserAgreement from "../mc/FrmUserAgreement";
 import FrmWagonHome from "../mc/FrmWagonHome";
-import RapidInput from "../mc/RapidInput";
 
 export default {
     AdPlayerMC,
@@ -37,5 +36,4 @@ export default {
     FrmPrivacyRight,
     FrmUserAgreement,
     FrmWagonHome,
-    RapidInput,
 }
