@@ -74,7 +74,7 @@
     display: flex;
 }
 
-.FrmTaurusMCLine {
+.FrmTaurusLine {
     padding: 16px 16px 0 16px;
     flex: 1;
 }
@@ -197,8 +197,8 @@
     margin-left: 16px;
 }
 
-.FrmTaurusMCPie1,
-.FrmTaurusMCPie2 {
+.FrmTaurusPie1,
+.FrmTaurusPie2 {
     flex: 1;
 }
 
@@ -299,6 +299,32 @@
     margin-left: 2px;
 }
 
+.topBtnBox {
+    margin-bottom: 16px;
+    color: #333;
+    display: flex;
+}
+
+.topBtnBox .btn_skin {
+    flex: 1;
+    height: 70px;
+    margin-right: 16px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.btn_skin:last-child {
+    margin-right: 0;
+}
+
+.topBtnBox .btn_skin:hover {
+    background-color: #E4F7EC;
+    color: #009933;
+}
+
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -362,7 +388,7 @@
         margin-top: 16px;
     }
 
-    .FrmTaurusMCLine {
+    .FrmTaurusLine {
         height: 220px;
         flex: auto;
     }
@@ -382,9 +408,17 @@
         margin-left: 0;
     }
 
-    .FrmTaurusMCPie1,
-    .FrmTaurusMCPie2 {
+    .FrmTaurusPie1,
+    .FrmTaurusPie2 {
         height: 220px;
         flex: auto;
+    }
+
+    .topBtnBox {
+        margin: 0.75rem 0.75rem 0 0.75rem;
+    }
+
+    .topBtnBox .btn_skin {
+        height: 40px;
     }
 }

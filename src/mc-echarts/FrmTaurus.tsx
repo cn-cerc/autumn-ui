@@ -2,25 +2,25 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
-import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmTaurusMC.css";
+import styles from "./FrmTaurus.css";
 
-type FrmTaurusMCTypeProps = {
+type FrmTaurusTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmTaurusMCTypeState = {
+type FrmTaurusTypeState = {
     linkRow: DataRow,
     vehicleState: DataSet,
     invoiceStatistics: DataSet,
     waybillDtatistics: DataSet,
 }
 
-export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9']
+//此MC界面没有简介而是按钮代替
+export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9'];
 
-export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
-    constructor(props: FrmTaurusMCTypeProps) {
+export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusTypeState> {
+    constructor(props: FrmTaurusTypeProps) {
         super(props);
         let linkRow = new DataRow();
         linkRow.setJson(this.props.dataJson);
@@ -34,7 +34,11 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <div className={styles.topBtnBox}>
+                <a href="FrmShipping.append" className={styles.btn_skin}>我要发货</a>
+                <a href="FrmShipping" className={styles.btn_skin}>我要监管</a>
+                <a href="FrmShipping.selectShipping" className={styles.btn_skin}>我要结算</a>
+            </div>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -75,16 +79,16 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>车辆状态统计</div>
-                            <div className={styles.FrmTaurusMCPie1}></div>
+                            <div className={styles.FrmTaurusPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
                             <div className={styles.mcTitle}>物流订单统计</div>
-                            <div className={styles.FrmTaurusMCPie2}></div>
+                            <div className={styles.FrmTaurusPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>货运车辆统计</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                        <div className={styles.FrmTaurusLine}></div>
                     </div>
                 </div>
             </div>
@@ -115,7 +119,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     initBarChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
+        let lineChart = document.querySelector(`.${styles.FrmTaurusLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
         ds = this.state.waybillDtatistics;
@@ -184,7 +188,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmTaurusPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         ds = this.state.vehicleState;
@@ -249,7 +253,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmTaurusPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         ds = this.state.invoiceStatistics;
