@@ -2,116 +2,111 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
-import styles from "./FrmTaurus.css";
+import UIIntroduction from "../module/UIIntroduction";
+import StaticFile from "../static/StaticFile";
+import styles from "./FrmTaurusQuicknessMC.css";
 
-type FrmTaurusTypeProps = {
+type FrmTaurusQuicknessMCTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmTaurusTypeState = {
+type FrmTaurusQuicknessMCTypeState = {
     linkRow: DataRow,
-    vehicleState: DataSet,
-    invoiceStatistics: DataSet,
-    waybillDtatistics: DataSet,
 }
 
-//此MC界面没有简介而是按钮代替
 export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9'];
 
-export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusTypeState> {
-    constructor(props: FrmTaurusTypeProps) {
+export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessMCTypeProps, FrmTaurusQuicknessMCTypeState> {
+    constructor(props: FrmTaurusQuicknessMCTypeProps) {
         super(props);
         let linkRow = new DataRow();
         linkRow.setJson(this.props.dataJson);
         this.state = {
             linkRow,
-            vehicleState: new DataSet(),
-            invoiceStatistics: new DataSet(),
-            waybillDtatistics: new DataSet(),
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.topBtnBox}>
-                <a href="FrmShipping.append" className={styles.btn_skin}>我要发货</a>
-                <a href="FrmShipping" className={styles.btn_skin}>我要监管</a>
-                <a href="FrmShipping.selectShipping" className={styles.btn_skin}>我要结算</a>
-            </div>
+            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
-                    <div className={styles.mcFlowChartMain}>
-                        <div className={styles.mcFlowChart}></div>
-                        <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.linkRow.getBoolean('商品资料登记_Dis') ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '商品资料登记')}>
-                                <span>商品资料登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('客户登记_Dis') ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '客户登记')}>
-                                <span>客户登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('车队与司机登记_Dis') ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车队与司机登记')}>
-                                <span>车队与司机登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('物流订单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '物流订单登记')}>
-                                <span>物流订单登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('物流订单管理_Dis') ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
-                                <span>物流订单管理</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('自行派车物流运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车物流运单登记')}>
-                                <span>自行派车物流运单登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
-                                <span>委托第三方物流运输</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('网络货运平台撮合_Dis') ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '网络货运平台撮合')}>
-                                <span>网络货运平台撮合</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('司机端_Dis') ? styles.other_disable : styles.other} ${styles.stock14}`} onClick={this.linkTo.bind(this, '司机端')}>
-                                <span>司机端</span>
-                            </div>
-                        </div>
-                    </div>
+                    {this.getHtml()}
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>车辆状态统计</div>
-                            <div className={styles.FrmTaurusPie1}></div>
+                            <div className={styles.mcTitle}>司机接单统计(前五)(对接中)</div>
+                            <div className={styles.FrmTaurusQuicknessMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>物流订单统计</div>
-                            <div className={styles.FrmTaurusPie2}></div>
+                            <div className={styles.mcTitle}>运单状态(对接中)</div>
+                            <div className={styles.FrmTaurusQuicknessMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>货运车辆统计</div>
-                        <div className={styles.FrmTaurusLine}></div>
+                        <div className={styles.mcTitle}>运单数量(对接中)</div>
+                        <div className={styles.FrmTaurusQuicknessMCLine}></div>
                     </div>
                 </div>
             </div>
         </div>
     }
 
-    async init() {
-        let vehicleState = new DataSet();
-        vehicleState = await FplApi.getMoreThanOneWeekReport();
-        let invoiceStatistics = new DataSet();
-        invoiceStatistics = await FplApi.queryCargoReport();
-        let waybillDtatistics = new DataSet();
-        waybillDtatistics = await FplApi.getWaybillDtatistics();
+    getHtml() {
+        return <div>
+            <ul className={styles.btnMCBox}>
+                <li onClick={this.linkTo.bind(this, '我要发货')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/orderCar.png')} alt="" />
+                        </div>
+                        <p>我要发货</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '司机接单')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/defualtBook.png')} alt="" />
+                        </div>
+                        <p>司机接单</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '我要跟踪')}>
+                    <div className={styles.btnMCItem}>
+                        <span>运输中</span>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/site.png')} alt="" />
+                        </div>
+                        <p>我要跟踪</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '运输完成')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/defualtSuss.png')} alt="" />
+                        </div>
+                        <p>运输完成</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '我要开票')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/openEmail.png')} alt="" />
+                        </div>
+                        <p>我要开票</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    }
 
-        this.setState({
-            vehicleState,
-            invoiceStatistics,
-            waybillDtatistics
-        })
+    async init() {
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
-        this.initFlowChart();
     }
 
     componentDidMount(): void {
@@ -119,24 +114,26 @@ export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusT
     }
 
     initBarChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusLine}`) as HTMLDivElement;
+        let lineChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
-        ds = this.state.waybillDtatistics;
         ds.first();
         let xArr = [
-            '未发货',
-            '已发货',
-            '已卸货',
-            '审核中',
-            '已结案'
+            '一月',
+            '二月',
+            '三月',
+            '四月',
+            '五月',
+            '六月',
+            '七月',
+            '八月',
+            '九月',
+            '十月',
+            '十一月',
+            '十二月',
         ];
         let sData = [
-            ds.getDouble('notYetShipped'),
-            ds.getDouble('hasBeenShipped'),
-            ds.getDouble('cargoUnloaded'),
-            ds.getDouble('checkPending'),
-            ds.getDouble('caseClosed'),
+            10890, 8910, 7500, 12340, 4880, 9604, 10238, 2700, 5000, 6007, 7051, 4050
         ];
         let option = {
             xAxis: {
@@ -172,7 +169,7 @@ export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusT
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: 60,
+                    barWidth: 10,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -188,15 +185,16 @@ export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusT
     }
 
     initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusPie1}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.vehicleState;
         ds.first();
         let dataArr: any = [
-            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
-            { name: '空车', value: ds.getDouble('carry_sum_') },
-            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
+            { name: '张三', value: 50 },
+            { name: '李四', value: 48 },
+            { name: '王五', value: 43 },
+            { name: '赵六', value: 10 },
+            { name: '林二', value: 5 },
         ];
         let option = {
             tooltip: {
@@ -213,7 +211,7 @@ export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusT
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value;
+                    return name + ' : ' + singleData[0].value + '单';
                 },
             },
             grid: {
@@ -253,16 +251,13 @@ export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusT
     }
 
     initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusPie2}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.invoiceStatistics;
         ds.first();
         let dataArr: any = [
-            // {name:'总货单数',value:ds.getDouble('sum')},
-            { name: '未开始', value: ds.getDouble('status1') },
-            { name: '执行中', value: ds.getDouble('status2') },
-            { name: '完成', value: ds.getDouble('status3') }
+            { name: '未完成', value: 30 },
+            { name: '已完成', value: 70 }
         ];
 
         let option = {
@@ -280,7 +275,7 @@ export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusT
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value;
+                    return name + ' : ' + singleData[0].value + '%';
                 },
             },
             series: [
@@ -334,49 +329,14 @@ export default class FrmTaurus extends WebControl<FrmTaurusTypeProps, FrmTaurusT
                 },
                 {
                     coords: [
-                        [168, 160],
-                        [168, 189],
+                        [279, 71],
+                        [279, 105],
                     ]
                 },
                 {
                     coords: [
-                        [168, 247],
-                        [168, 271],
-                    ]
-                },
-                {
-                    coords: [
-                        [168, 247],
-                        [168, 261],
-                        [50, 261],
-                        [50, 271],
-                    ]
-                }, {
-                    coords: [
-                        [168, 247],
-                        [168, 261],
-                        [278, 261],
-                        [278, 271],
-                    ]
-                },
-                {
-                    coords: [ //自行派车运单登记 往右下线条
-                        [50, 328],
-                        [50, 347],
-                        [168, 347]
-                    ]
-                },
-                {
-                    coords: [ //网络货运平台撮合 往左下线条
-                        [278, 328],
-                        [278, 347],
-                        [168, 347],
-                    ]
-                },
-                {
-                    coords: [
-                        [168, 328],
-                        [168, 356],
+                        [256, 123],
+                        [190, 123],
                     ]
                 },
             ]
