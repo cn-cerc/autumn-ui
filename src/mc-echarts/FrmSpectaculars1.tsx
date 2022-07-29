@@ -82,7 +82,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.allCarNetPanel.getDouble('cars_num')} <span>辆</span>
+                                    {/* {this.state.allCarNetPanel.getDouble('cars_num')}  */}
+                                    0
+                                    <span>辆</span>
                                 </div>
                             </div>
                         </li>
@@ -104,7 +106,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>司机数</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.allCarNetPanel.getDouble('driver_num')} <span>名</span>
+                                    {/* {this.state.allCarNetPanel.getDouble('driver_num')} */}
+                                    0
+                                     <span>名</span>
                                 </div>
                             </div>
                         </li>
@@ -140,7 +144,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>司机年龄</div>
+                            <div className={styles.mcTitle}>区域排名TOPS</div>
                             <div className={styles.rightBox1Pie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
@@ -527,46 +531,63 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData4);
+        let ds = this.state.countProvince;
         ds.first();
-        let dataArr = [];
+        let dataArr:any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('receive_province_'),
+                value: ds.getDouble('num')
             })
         }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: '5%',
+                left: '60%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
+                textStyle:{
+                    lineHeight:12,
+                }
+            },
             grid: {
                 top: 40,
-                left: 5,
-                bottom: 5,
-                right: 50,
-                containLabel: true,
+                left: 0,
+                bottom: 0,
+                right: 20,
+                containLabel: false,
             },
             series: [
                 {
-                    name: '司机年龄',
                     type: 'pie',
-                    radius: ['50%', '70%'],
-                    center: ['50%', '50%'],
+                    center: ['30%', '50%'],
+                    radius: ['45%', '70%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '16',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
                     labelLine: {
-                        length: 5,
-                        length2: 5,
-                        maxSurfaceAngle: 80
+                        show: false
                     },
                     data: dataArr
                 }
