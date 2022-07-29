@@ -466,8 +466,28 @@
         flex: auto;
     }
 
+    .btnMCBox>li {
+        position: relative;
+        width: calc(28% - 6px);
+        margin-left: 0;
+        margin-right: 24px;
+    }
+
+    .btnMCBox>li:nth-child(3),
+    .btnMCBox>li:nth-child(5) {
+        margin-right: 12px;
+    }
+    .btnMCBox>li:nth-child(5)::after {
+        top: -20px;
+        right: 50%;
+        transform: translate(80%, 0) rotate(90deg);
+    }
+    
+
     .btnMCBox>li::after {
-        right: -17px;
+        right: -23px;
+        width: 12px;
+        height: 18px;
     }
 
     .btnMCItem>p {
