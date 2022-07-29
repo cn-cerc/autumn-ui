@@ -33,11 +33,7 @@ export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTa
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-             <div className={styles.topBtnBox}>
-                <a href="FrmShipping.append" className={styles.btn_skin}>我要发货</a>
-                <a href="FrmShipping" className={styles.btn_skin}>我要监管</a>
-                <a href="FrmShipping.selectShipping" className={styles.btn_skin}>我要结算</a>
-            </div>
+            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>

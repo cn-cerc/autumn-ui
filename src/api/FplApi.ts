@@ -77,9 +77,9 @@ export default class FplApi {
         return ControlApi.getService('SvrMaintainMA.getMaintainByMonthsReport');
     }
 
-    /** 合同管理=> 获取审核充值记录统计 */
-    static voucherStats() {
-        return ControlApi.getService('SvrVoucher.voucherStats');
+    /** 合同管理=> 获取合同类别数据统计 */
+    static getContractTypeStats() {
+        return ControlApi.getService('SvrContractType.contractTypeStats');
     }
 
     /** 合同管理=> 获取待接收合同数量统计 */

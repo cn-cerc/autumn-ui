@@ -26,7 +26,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         this.state = {
             linkRow,
             notData: new DataSet(),       //未接物流订单DataSet
-            orderType: 0,       //接单状态，0为全部，1为未接单，2为已接单
+            orderType: 1,       //接单状态，0为全部，1为未接单，2为已接单
             orderData: new DataSet(),       //所有物流订单DataSet
             receivedData: new DataSet(),       //已接物流订单DataSet
             isInit: false
@@ -38,9 +38,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 {this.getFlowChart()}
                 <ul className={styles.orderTypeList}>
-                    <li className={this.state.orderType == 0 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 0 })}>全部({this.state.orderData.size})</li>
-                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未接单({this.state.notData.size})</li>
-                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已接单({this.state.receivedData.size})</li>
+                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未完成({this.state.notData.size})</li>
+                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成({this.state.receivedData.size})</li>
                 </ul>
                 {this.getOrderList()}
             </React.Fragment>
@@ -101,7 +100,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         let gridData = new DataSet();
         let gridData_ = new DataSet();
         while (orderData.fetch()) {
-            if (orderData.getString('confirm_status_') == '0') {
+            if (orderData.getString('delivery_status_') < '4') {
                 gridData.append().copyRecord(orderData.current);
             } else
                 gridData_.append().copyRecord(orderData.current);
@@ -266,7 +265,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
-                    {isReceived ? <button className={styles.received}>已接单</button> : <button>立即接单</button>}
+                    {isReceived ? '' : <button>立即接单</button>}
                 </div>
             </li>
         }

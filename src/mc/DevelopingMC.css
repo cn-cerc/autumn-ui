@@ -1,6 +1,7 @@
 .contentBox{
     position: relative;
     height:100%;
+    background: #fff;
 }
 
 .main{
