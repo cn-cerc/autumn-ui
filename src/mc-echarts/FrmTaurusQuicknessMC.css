@@ -306,9 +306,12 @@
 }
 
 .btnMCBox>li {
-    margin: 10px 12px;
     position: relative;
-    width: calc(28% - 7px);
+    width: 88px;
+    margin-left: 0;
+    padding-right: calc((100% - 264px)/2);
+    box-sizing: content-box;
+    margin-bottom: 20px;
 }
 
 .btnMCBox>li::after {
@@ -317,10 +320,15 @@
     background: url('../assets/img/arror.png') center no-repeat;
     background-size: 100%;
     top: 50%;
-    right: -22px;
-    transform: translate(0, -50%);
-    width: 14px;
-    height: 20px;
+    right: calc((100% - 88px)/2);
+    width: 12px;
+    height: 18px;
+    transform: translate(50%, -50%);
+}
+
+.btnMCBox>li:nth-child(3),
+.btnMCBox>li:nth-child(5) {
+    padding-right: 0;
 }
 
 .btnMCBox>li:nth-child(3)::after {
@@ -328,14 +336,14 @@
 }
 
 .btnMCBox>li:nth-child(4)::after {
-    transform: translate(0, -50%) rotate(180deg);
+    transform: translate(50%, -50%) rotate(180deg);
 
 }
 
 .btnMCBox>li:nth-child(5)::after {
-    top: -20px;
+    top: -10px;
     right: 50%;
-    transform: translate(50%, 0) rotate(90deg);
+    transform: translate(50%, -50%) rotate(90deg);
 }
 
 .btnMCItem {
@@ -468,27 +476,34 @@
 
     .btnMCBox>li {
         position: relative;
-        width: calc(28% - 6px);
+        width: 88px;
         margin-left: 0;
-        margin-right: 24px;
+        padding-right: calc((100% - 264px)/2);
+        box-sizing: content-box;
     }
 
-    .btnMCBox>li:nth-child(3),
+    .btnMCBox>li::after {
+        content: '';
+        position: absolute;
+        background: url('../assets/img/arror.png') center no-repeat;
+        background-size: 100%;
+        top: 50%;
+        right: calc((100% - 88px)/2);
+        width: 12px;
+        height: 18px;
+        transform: translate(50%, -50%);
+    }
+
+    /* .btnMCBox>li:nth-child(3),
     .btnMCBox>li:nth-child(5) {
-        margin-right: 12px;
+        -right: 12px;
     }
     .btnMCBox>li:nth-child(5)::after {
         top: -20px;
         right: 50%;
         transform: translate(80%, 0) rotate(90deg);
-    }
-    
+    } */
 
-    .btnMCBox>li::after {
-        right: -23px;
-        width: 12px;
-        height: 18px;
-    }
 
     .btnMCItem>p {
         position: absolute;
