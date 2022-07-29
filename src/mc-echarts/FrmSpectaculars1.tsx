@@ -16,8 +16,8 @@ type FrmSpectaculars1TypeState = {
     pieData3: DataSet,
     pieData4: DataSet,
     toggle: number,
-    fullLoadRate: DataSet,
-    arrLossRateStatis: DataSet,
+    allCarNetPanel: DataSet,
+    weeklyArrCarStatis: DataSet,
     countProvince: DataSet,
 }
 
@@ -59,8 +59,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             pieData3,
             pieData4,
             toggle,
-            fullLoadRate: new DataSet(),
-            arrLossRateStatis: new DataSet(),
+            allCarNetPanel: new DataSet(),
+            weeklyArrCarStatis: new DataSet(),
             countProvince: new DataSet(),
         }
     }
@@ -82,7 +82,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.fullLoadRate.getDouble('cars_num')} <span>辆</span>
+                                    {this.state.allCarNetPanel.getDouble('cars_num')} <span>辆</span>
                                 </div>
                             </div>
                         </li>
@@ -91,7 +91,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                 <img src={StaticFile.getImage('images/MCimg/5.png')} alt="" />
                             </div>
                             <div>
-                                <div className={styles.topTitle}>今日里程</div>
+                                <div className={styles.topTitle}>今日里程(对接中)</div>
                                 <div className={styles.topInfo}>
                                     46 <span>万公里</span>
                                 </div>
@@ -104,7 +104,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>司机数</div>
                                 <div className={styles.topInfo}>
-                                    13045 <span>名</span>
+                                    {this.state.allCarNetPanel.getDouble('driver_num')} <span>名</span>
                                 </div>
                             </div>
                         </li>
@@ -181,12 +181,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     async init() {
-        let fullLoadRate = await FplApi.getFullLoadRate();
-        let arrLossRateStatis = await FplApi.getArrLossRateStatis();
+        let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
         let countProvince = await FplApi.getCountProvince();
         this.setState({
-            fullLoadRate,
-            arrLossRateStatis,
+            ...this.state,
+            allCarNetPanel,
+            weeklyArrCarStatis,
             countProvince,
         }, () => {
             this.initLineChart();
@@ -384,7 +385,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: this.state.fullLoadRate.getDouble('total_weight') / this.state.fullLoadRate.getDouble('all_load'),
+                value: this.state.allCarNetPanel.getDouble('full_load_rate'),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -456,7 +457,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: this.state.arrLossRateStatis.getDouble('avg_loss_rate'),
+                value: this.state.allCarNetPanel.getDouble('full_load_rate'),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },

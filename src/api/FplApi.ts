@@ -233,13 +233,13 @@ export default class FplApi {
 
 
 
-    /** 车联网看板=》 获取满载率和车辆数 */
-    static getFullLoadRate() {
-        return ControlApi.getService('SvrCarNetMonitorPanel.getFullLoadRate');
+    /** 车联网看板=》 获取车联网看板的车辆数、司机数、满载率、货损率 */
+    static getAllCarNetPanel() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.getAllCarNetPanel');
     }
-    /** 车联网看板=》 统计运单货损率 */
-    static getArrLossRateStatis() {
-        return ControlApi.getService('SvrCarNetMonitorPanel.getArrLossRateStatis');
+    /** 车联网看板=》 分组统计一周的物流运单数量 */
+    static getWeeklyArrCarStatis() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.getWeeklyArrCarStatis');
     }
     /** 车联网看板=》 统计运往省份前五的记录 */
     static getCountProvince() {
