@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./showSiteDialog.css";
 
 type UserTypeProps = {
-    inputVal: string
+    inputVal?: string
 } & Partial<BaseDialogPropsType>
 
 type UserTypeState = {
@@ -54,7 +54,7 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
 
     async init() {
         this.getData("Area1_", "Area")
-        let cookie = this.props.inputVal.split("/")
+        let cookie = this.props.inputVal ? this.props.inputVal.split("/") : '';
         if (cookie.length == 3) {
             this.getData(cookie[0], 'City')
             this.getData(cookie[0] + "`" + cookie[1], 'County')

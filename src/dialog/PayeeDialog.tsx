@@ -1,4 +1,4 @@
-import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, SearchPanel } from "autumn-ui";
+import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Block, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, Line, SearchPanel } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import "../tool/Summer.css";
@@ -47,16 +47,35 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataName="收款人姓名" dataField="payee_name_" autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
-                    <ColumnIt />
-                    <Column name='收款人姓名' code='payee_name_' width='20'></Column>
-                    <Column name='联系方式' code='phone_number_' width='20'></Column>
-                    <Column name='操作' code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
-                        return <span role='auiOpera'>选择</span>
-                    }}></Column>
-                </DBGrid>
+                {this.getTable()}
             </div>
         )
+    }
+
+    getTable() {
+        if (this.isPhone) {
+            return <Block dataSet={this.state.dataSet}>
+                <Line>
+                    <ColumnIt width='10' name='' />
+                    <Column name='收款人姓名' code='payee_name_' width='90'></Column>
+                </Line>
+                <Line>
+                    <Column name='联系方式' code='phone_number_' width='80'></Column>
+                    <Column name='' code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
+                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                    }}></Column>
+                </Line>
+            </Block>
+        } else {
+            return <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
+                <ColumnIt />
+                <Column name='收款人姓名' code='payee_name_' width='20'></Column>
+                <Column name='联系方式' code='phone_number_' width='20'></Column>
+                <Column name='操作' code='opera' width='20' textAlign='center' customText={(row: DataRow) => {
+                    return <span role='auiOpera'>选择</span>
+                }}></Column>
+            </DBGrid>
+        }
     }
 
     handleClick(dataRow: DataRow) {
