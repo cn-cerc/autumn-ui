@@ -7,6 +7,7 @@ import styles from "./DialogCommon.css";
 
 type PayeeProps = {
     deptCode: string,
+    cusCode?: string,
     callBack?: Function,
 } & Partial<BaseDialogPropsType>
 
@@ -21,6 +22,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue("dept_code_", this.props.deptCode);
+        dataIn.setValue("cus_code_", this.props.cusCode);
         this.state = {
             ...this.state,
             dataIn,
@@ -37,7 +39,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
 
     async init() {
         this.setLoad(true);
-        let dataSet = await FplApi.getPayeeCode(this.state.dataIn);
+        let dataSet = await FplApi.getCusBindPayee(this.state.dataIn);
         this.setLoad(false);
         this.setState({
             dataSet
@@ -75,6 +77,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
                 </DBGrid>
                 <OperatePanel>
                     <button className={styles.operaButton} onClick={this.btnSave.bind(this)}>保存</button>
+                    <button className={styles.operaButton} onClick={() => { window.location.href = 'FrmCusBindPayee' }}>去绑定收款人</button>
                 </OperatePanel>
             </div>
         )

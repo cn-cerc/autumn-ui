@@ -31,7 +31,7 @@ export default class FplApi {
     static getPartToUse() {
         return ControlApi.getService('SvrMaintainPartInfo.getPartToUse');
     }
-    
+
     /** 零配件管理=> 零配件分类数量最多（前五） */
     static getPartByClass1Report() {
         return ControlApi.getService('SvrMaintainPartInfo.getPartByClass1Report');
@@ -51,7 +51,7 @@ export default class FplApi {
     static getCusByAmountReport() {
         return ControlApi.getService('SvrMaintainCusInfo.getCusByAmountReport');
     }
-    
+
     /** 客户/维修 档案管理=> 本月维修车辆数量最多客户（前五） */
     static getCusByCodeToCountReport() {
         return ControlApi.getService('SvrMaintainCusInfo.getCusByCodeToCountReport');
@@ -156,7 +156,7 @@ export default class FplApi {
     static reviewStatusInvoice() {
         return ControlApi.getService('SvrPInvoiceRecord.statistical');
     }
-    
+
     /** 发票管理=> 每周申请发票次数数据统计 */
     static thisWeekDataInvoice() {
         return ControlApi.getService('SvrPInvoiceApply.thisWeekData');
@@ -194,6 +194,11 @@ export default class FplApi {
     /** 查询收款人列表 **/
     static getPayeeCode(params: DataRow) {
         return ControlApi.getDataOut('SvrPayeeRegister.getPayeeCode', params);
+    }
+
+    /** 查询客户绑定的收款人 **/
+    static getCusBindPayee(params: DataRow) {
+        return ControlApi.getDataOut('SvrPayeeRegister.getCusBindPayee', params);
     }
 
     /** 查询合同列表 */
