@@ -16,7 +16,8 @@ type FrmDriverReceiveTypeState = {
     notData: DataSet,
     receivedData: DataSet,
     orderType: number,
-    isInit: boolean
+    isInit: boolean,
+    showWay: boolean
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
@@ -31,7 +32,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             orderType: 0,       //接单状态，0为全部，1为未接单，2为已接单
             orderData: new DataSet(),       //所有物流订单DataSet
             receivedData: new DataSet(),       //已接物流订单DataSet
-            isInit: false
+            isInit: false,
+            showWay: true
         }
     }
 
@@ -59,7 +61,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <ul>
                             <li>
                                 <p>全部物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `FrmDriverArrangeCar`;
                                 }}>
                                     <span>{this.state.orderData.size}</span>
@@ -68,7 +70,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                             </li>
                             <li>
                                 <p>未接物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `FrmDriverArrangeCar.list`;
                                 }}>
                                     <span>{this.state.notData.size}</span>
@@ -77,7 +79,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                             </li>
                             <li>
                                 <p>已接物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `#`;
                                 }}>
                                     <span>{this.state.receivedData.size}</span>
@@ -102,11 +104,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         orderData.first();
         let gridData = new DataSet();
         let gridData_ = new DataSet();
-        //@ts-ignore
-        let map = AMap;
+        let showWay = false;
         while (orderData.fetch()) {
             if (orderData.getString('confirm_status_') == '0') {
-                console.log(orderData.current);
                 gridData.append().copyRecord(orderData.current);
                 // 发货地详细地址
                 let sendSite1 = gridData.getString('send_detail_');
@@ -120,17 +120,19 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
                 let sendGeocoder = await this.gdmap.getGeocoder(sendSite);
                 let receiveGeocoder = await this.gdmap.getGeocoder(receiveSite);
-                if(sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
+                if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
                     gridData.setValue('sendGeocoder', sendGeocoder);
                     gridData.setValue('receiveGeocoder', receiveGeocoder);
                     gridData.setValue('hasWay', true);
+                    showWay = true;
                 } else {
                     sendGeocoder = await this.gdmap.getGeocoder(sendSite2);
                     receiveGeocoder = await this.gdmap.getGeocoder(receiveSite2);
-                    if(sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
+                    if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
                         gridData.setValue('sendGeocoder', sendGeocoder);
                         gridData.setValue('receiveGeocoder', receiveGeocoder);
                         gridData.setValue('hasWay', true);
+                        showWay = true;
                     } else {
                         gridData.setValue('hasWay', false);
                     }
@@ -144,7 +146,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             notData: gridData,
             receivedData: gridData_,
             orderData,
-            isInit: true
+            isInit: true,
+            showWay
         })
     }
 
@@ -192,9 +195,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <Column code='Opera_' width='6' name='操作' customText={(row: DataRow) => {
                             return <span className={styles.opera} onClick={this.handleSelect.bind(this, row)}>接单</span>
                         }}></Column>
-                        <Column code='Site_' width='12' name='' customText={(row: DataRow)=>{
+                        {this.state.showWay ? <Column code='Site_' width='12' name='' customText={(row: DataRow) => {
                             return row.getBoolean('hasWay') ? <span className={styles.opera} onClick={this.toGaode.bind(this, row)}>查看路线</span> : ''
-                        }}></Column>
+                        }}></Column> : ''}
                     </DBGrid>
                 </React.Fragment>
             return <div className={styles.grid}>{jsx}</div>;
@@ -301,7 +304,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
-                    {isReceived ? <button className={styles.received}>已接单</button> : <button>立即接单</button>}
+                    <div className={styles.btns}>
+                        <span onClick={this.toGaode.bind(this, row)}>查看路线</span>
+                        {isReceived ? <button className={styles.received} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>已接单</button> : <button>立即接单</button>}
+                    </div>
                 </div>
             </li>
         }
@@ -314,10 +320,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     // 查看路线
     toGaode(row: DataRow) {
-        if(row.getBoolean('receiveGeocoder') && row.getBoolean('receiveGeocoder')) {
+        if (row.getBoolean('receiveGeocoder') && row.getBoolean('receiveGeocoder')) {
             let sendGeocoder = row.getValue('sendGeocoder');
             let receiveGeocoder = row.getValue('receiveGeocoder');
-            window.open(`https://uri.amap.com/navigation?from=${sendGeocoder.site.join()},${sendGeocoder.address}&to=${receiveGeocoder.site.join()},${receiveGeocoder.address}&mode=car`)
+            window.open(`https://uri.amap.com/navigation?from=${sendGeocoder.site.join()},${sendGeocoder.address}&to=${receiveGeocoder.site.join()},${receiveGeocoder.address}&mode=car&callnative=1`)
         }
     }
 
