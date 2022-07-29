@@ -300,43 +300,42 @@
 }
 
 .btnMCBox {
-    position: relative;
-    height: 200px;
+    display: flex;
+    justify-content: right;
+    flex-wrap: wrap;
 }
 
 .btnMCBox>li {
+    margin: 10px 12px;
+    position: relative;
+    width: calc(28% - 7px);
+}
+
+.btnMCBox>li::after {
+    content: '';
     position: absolute;
-   
+    background: url('../assets/img/arror.png') center no-repeat;
+    background-size: 100%;
+    top: 50%;
+    right: -22px;
+    transform: translate(0, -50%);
+    width: 14px;
+    height: 20px;
 }
 
-.btnMCBoxStor1 {
-    top: 2px;
-    left: 12px;
+.btnMCBox>li:nth-child(3)::after {
+    display: none;
 }
 
-.btnMCBoxStor2 {
-    top: 2px;
-    left: 138px;
+.btnMCBox>li:nth-child(4)::after {
+    transform: translate(0, -50%) rotate(180deg);
+
 }
 
-.btnMCBoxStor3 {
-    top: 2px;
-    left: 248px;
-}
-
-.btnMCBoxStor4 {
-    top: 100px;
-    left: 12px;
-}
-
-.btnMCBoxStor5 {
-    top: 100px;
-    left: 138px;
-}
-
-.btnMCBoxStor6 {
-    top: 100px;
-    left: 248px;
+.btnMCBox>li:nth-child(5)::after {
+    top: -20px;
+    right: 50%;
+    transform: translate(50%, 0) rotate(90deg);
 }
 
 .btnMCItem {
@@ -344,22 +343,38 @@
     height: 82px;
     border-radius: 8px;
     border: 1px solid #E5E7EB;
-    display: flex;
-    align-items: center;
-    justify-self: center;
+    padding: 16px;
     position: relative;
+    box-sizing: border-box;
 }
 
 .btnMCItem:hover {
     border: 1px solid #0473EA;
 }
-.btnMCItem > div{
+
+.btnMCItem>div {
     width: 32px;
-    height:32px;
+    height: 32px;
+    margin: auto;
+    position: relative;
 }
 
-.btnMCItem > p{
+.btnMCItem>p {
     position: absolute;
+    bottom: 12px;
+}
+
+.btnMCItem>span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: 8px;
+    background-color: #FFB366;
+    color: #fff;
+    width: 50px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
 }
 
 @media screen and (min-width: 768px) {
@@ -387,7 +402,7 @@
     }
 
     .mcFlowChartBox {
-        height: 420px;
+        height: 330px;
     }
 
     .register>span,
@@ -450,4 +465,14 @@
         height: 220px;
         flex: auto;
     }
+
+    .btnMCBox>li::after {
+        right: -17px;
+    }
+    
+    .btnMCItem>p {
+        position: absolute;
+        bottom: 8px;
+    }
+    
 }

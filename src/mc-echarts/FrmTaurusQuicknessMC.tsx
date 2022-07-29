@@ -56,86 +56,57 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     }
 
     getHtml() {
-        if (this.isPhone) {
-            return <div>
-                <ul className={styles.btnMCBox}>
-                    <li className={styles.btnMCBoxStor1}>
-                        <div className={styles.btnMCItem}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/orderCar.png')} alt="" />
-                            </div>
-                            <p>我要发货</p>
+        return <div>
+            <ul className={styles.btnMCBox}>
+                <li onClick={this.linkTo.bind(this, '我要发货')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/orderCar.png')} alt="" />
                         </div>
-                        <span>&get;&get;</span>
-                    </li>
-                    <li className={styles.btnMCBoxStor2}>
-                        <div className={styles.btnMCItem}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/defualtBook.png')} alt="" />
-                            </div>
-                            <p>司机接单</p>
+                        <p>我要发货</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '司机接单')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/defualtBook.png')} alt="" />
                         </div>
-                        <span>&get;&get;</span>
-                    </li>
-                    <li className={styles.btnMCBoxStor3}>
-                        <div className={styles.btnMCItem}>
-                            <span>运输中</span>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/site.png')} alt="" />
-                            </div>
-                            <p>我要跟踪</p>
+                        <p>司机接单</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '我要跟踪')}>
+                    <div className={styles.btnMCItem}>
+                        <span>运输中</span>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/site.png')} alt="" />
                         </div>
-                        <span>&get;&get;</span>
-                    </li>
-                    <li className={styles.btnMCBoxStor5}>
-                        <div className={styles.btnMCItem}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/defualtSuss.png')} alt="" />
-                            </div>
-                            <p>运输完成</p>
+                        <p>我要跟踪</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '运输完成')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/defualtSuss.png')} alt="" />
                         </div>
-                    </li>
-                    <li className={styles.btnMCBoxStor6}>
-                        <div className={styles.btnMCItem}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/openEmail.png')} alt="" />
-                            </div>
-                            <p>我要开票</p>
+                        <p>运输完成</p>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '我要开票')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/openEmail.png')} alt="" />
                         </div>
-                        <span>&get;&get;</span>
-                    </li>
-                </ul>
-            </div>
-        } else {
-            return <div className={styles.mcFlowChartMain}>
-                <div className={styles.mcFlowChart}></div>
-                <div className={styles.mcFlowBox}>
-                    <div className={`${this.state.linkRow.getBoolean('我要发货_Dis') ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '我要发货')}>
-                        <span>我要发货</span>
+                        <p>我要开票</p>
                     </div>
-                    <div className={`${this.state.linkRow.getBoolean('司机接单_Dis') ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '司机接单')}>
-                        <span>司机接单</span>
-                    </div>
-                    <div className={`${this.state.linkRow.getBoolean('我要跟踪_Dis') ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '我要跟踪')}>
-                        <span>我要跟踪</span>
-                    </div>
-                    <div className={`${this.state.linkRow.getBoolean('我要开票_Dis') ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '我要开票')}>
-                        <span>我要开票</span>
-                    </div>
-                    <div className={`${this.state.linkRow.getBoolean('运输完成_Dis') ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '运输完成')}>
-                        <span>运输完成</span>
-                    </div>
-                </div>
-            </div>
-        }
+                </li>
+            </ul>
+        </div>
     }
 
     async init() {
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
-        if (!this.isPhone)
-            this.initFlowChart();
     }
 
     componentDidMount(): void {
