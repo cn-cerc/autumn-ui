@@ -14,6 +14,7 @@ import CardTypeDialog from "../dialog/CardTypeDialog";
 import CargoCodeTypeDialog from "../dialog/CargoCodeTypeDialog";
 import CategoryDialog from "../dialog/CategoryDialog";
 import CodeRecordDialog from "../dialog/CodeRecordDialog";
+import CodeRecordTwoDialog from "../dialog/CodeRecordTwoDialog";
 import ContractDialog from "../dialog/ContractDialog";
 import CopyReportDialog from "../dialog/CopyReportDialog";
 import CreateGroupDialog from "../dialog/CreateGroupDialog";
@@ -32,6 +33,7 @@ import DriverInfoDialog from "../dialog/DriverInfoDialog";
 import FastCorpDialog from "../dialog/FastCorpDialog";
 import FleetDialog from "../dialog/FleetDialog";
 import FreightWayDialog from "../dialog/FreightWayDialog";
+import FSCusDialog from "../dialog/FSCusDialog";
 import GetMarque from "../dialog/GetMarque";
 import LogisticsDialog from "../dialog/LogisticsDialog";
 import MaintainVehicleDialog from "../dialog/MaintainVehicleDialog";
@@ -136,11 +138,13 @@ export default {
     CargoCodeTypeDialog,
     CategoryDialog,
     CodeRecordDialog,
+    CodeRecordTwoDialog,
     ContractDialog,
     CustomerAddressDialog,
     DriverBindingRecordDialog,
     DriverInfoDialog,
     FleetDialog,
+    FSCusDialog,
     MaintainVehicleDialog,
     NumberPlateDialog,
     PayeeAmountDialog,
