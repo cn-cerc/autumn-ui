@@ -57,7 +57,7 @@ export default class CodeRecordTwoDialog extends BaseDialog<ContractProps, Staff
             return <Block dataSet={this.state.dataSet}>
                 <Line>
                     <ColumnIt width='10' name='' />
-                    <Column width='90' code='code_' name='货物名称'></Column>
+                    <Column width='90' code='code_' name=''></Column>
                 </Line>
                 <Line>
                     <Column width='50' code='unit_price_' name='订单价'></Column>
