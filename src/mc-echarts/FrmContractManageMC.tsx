@@ -87,7 +87,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
 
     async init() {
         let contractTypeStats  = new DataSet();
-        contractTypeStats  = await FplApi.voucherStats();
+        contractTypeStats  = await FplApi.getContractTypeStats();
         let contractAmount = new DataSet();
         contractAmount = await FplApi.contractStats();
         let acceptedContract = new DataSet();
@@ -119,7 +119,7 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('contract_type_name_'),
-                value: ds.getDouble('num_')
+                value: ds.getDouble('sum')
             })
         }
         let option = {
@@ -127,8 +127,8 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
-                left: '65%',
+                top: '5%',
+                left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -194,8 +194,8 @@ export default class FrmContractManageMC extends WebControl<FrmContractManageMCT
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
-                left: '65%',
+                top: '5%',
+                left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,

@@ -50,6 +50,7 @@ import PayeeDialog from "../dialog/PayeeDialog";
 import ProcStepDialog from "../dialog/ProcStepDialog";
 import ProductClassDialog from "../dialog/ProductClassDialog";
 import ProductDialog from "../dialog/ProductDialog";
+import QuickSiteDialog from "../dialog/QuickSiteDialog";
 import RABChangeDialog from "../dialog/RABChangeDialog";
 import RemarkDialog from "../dialog/RemarkDialog";
 import SaleCurrentNumDialog from "../dialog/SaleCurrentNumDialog";
@@ -58,13 +59,17 @@ import SelectLotNoDialog from "../dialog/SelectLotNoDialog";
 import showSiteDialog from "../dialog/showSiteDialog";
 import SpecCodeDialog from "../dialog/SpecCodeDialog";
 import StaffDialog from "../dialog/StaffDialog";
+import SubordinateDialog from "../dialog/SubordinateDialog";
 import SupAndCusDialog from "../dialog/SupAndCusDialog";
+import SupBankDialog from "../dialog/SupBankDialog";
+import SupDialog from "../dialog/SupDialog";
 import SupNetCorpDialog from "../dialog/SupNetCorpDialog";
 import TempPrefererntialDialog from "../dialog/TempPrefererntialDialog";
 import UserDialog from "../dialog/UserDialog";
 import VipCardDialog from "../dialog/VipCardDialog";
 import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
+import RapidInput from "../mc/RapidInput";
 
 export default {
     // 地藤开窗
@@ -114,12 +119,18 @@ export default {
     SalesmanDialog,
     SelectLotNoDialog,
     SpecCodeDialog,
+    SubordinateDialog,
+    SupBankDialog,
     StaffDialog,
+    SupDialog,
     TempPrefererntialDialog,
     UserDialog,
     VipCardDialog,
     WareBasicDialog,
     WorkerDialog,
+
+    // 快录
+    RapidInput,
 
     // 4PL开窗
     CargoCodeTypeDialog,
@@ -132,9 +143,10 @@ export default {
     FleetDialog,
     MaintainVehicleDialog,
     NumberPlateDialog,
-    PayeeDialog,
     PayeeAmountDialog,
+    PayeeDialog,
+    QuickSiteDialog,
     showSiteDialog,
     SupAndCusDialog,
-    SupNetCorpDialog
+    SupNetCorpDialog,
 }

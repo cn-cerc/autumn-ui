@@ -199,6 +199,7 @@
 .FrmTaurusMCPie2 {
     flex: 1;
 }
+
 .stock1 {
     left: 4px;
     top: 16px;
@@ -304,7 +305,7 @@
     }
 
     .mcMain {
-        margin:0.75rem;
+        margin: 0.75rem;
         flex-wrap: wrap;
     }
 
