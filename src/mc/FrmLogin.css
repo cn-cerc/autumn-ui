@@ -1204,6 +1204,24 @@ a {
         margin-top: 1.5rem;
     }
 
+    .oneKeyLogin {
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
+        display: block;
+        height: 2.25rem;
+        line-height: 2.25rem;
+        margin: 0 auto;
+        background-color: #fff;
+        text-align: center;
+        font-size: 1rem;
+        color: #008738 !important;
+        outline: none;
+        border: none;
+        border-radius: 3px;
+        margin-top: 1.5rem;
+        border: 1px solid #008738;
+    }
+
     .btnSubmit:hover {
         background-color: #009933;
     }
