@@ -266,6 +266,7 @@
         border-radius: .125rem;
         padding: .75rem 1rem;
         display: flex;
+        position: relative;
     }
 
     .orderCenter>div {
@@ -276,7 +277,9 @@
     .orderCenter>img {
         width: 4.5rem;
         height: 4.5rem;
-        margin-left: 1rem;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.32rem;
     }
 
     .orderInfo {
