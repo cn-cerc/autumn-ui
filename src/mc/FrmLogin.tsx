@@ -153,11 +153,11 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     getOneKeyLoginBtn() {
         //@ts-ignore
         if (this.isPhone && window.ApiCloud.isApiCloud()) {
-            return <button type="button" onClick={this.onKeyLogin.bind(this)} className={styles.btnSubmit} style={{ 'marginTop': '.75rem' }}>本机号码一键登录</button>
+            return <button type="button" onClick={this.oneKeyLogin.bind(this)} className={styles.oneKeyLogin} style={{ 'marginTop': '.75rem' }}>本机号码一键登录</button>
         }
     }
 
-    onKeyLogin() {
+    oneKeyLogin() {
         if (!this.state.protocol && this.isPhone) {
             this.setState({
                 message: '请先同意用户协议和隐私协议',
@@ -170,12 +170,12 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             //@ts-ignore
             var aliPhoneAuth = api.require('aliPhoneAuth');
             var params = {
-                timeout: 5000,
+                timeout: 10000,
                 navHidden: "true",
                 logBtnTextColor: "#ffffff",
                 privacyColor: "#e75555",
-                privacyOne: ["《用户协议》", "https://www.diteng.site/forms/user-agreement?back=WebDefault&device=phone"],
-                privacyTwo: ["《隐私政策》", "https://www.diteng.site/forms/privacy-right?back=WebDefault&device=phone"],
+                privacyOne: ["", ""],
+                privacyTwo: ["", ""],
                 privacyTip: "请阅读并同意协议"
             }
             aliPhoneAuth.oneKeyLogin(params, (ret: any, err: any) => {
@@ -223,7 +223,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 } else if (ret.code == '700000') {
                     aliPhoneAuth.quitLoginPage();
                 } else if (ret.code != '600001') {
-                    let msg = '登录失败，请检查移动网络后重试或使用其他登录方式';
+                    let msg = ret.msg;
                     aliPhoneAuth.quitLoginPage();
                     showMsg(msg);
                 }
