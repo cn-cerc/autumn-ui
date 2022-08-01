@@ -244,6 +244,32 @@ class GDMap {
         })
     }
 
+    async getAsyncGeocoder(site) {
+        let obj = {
+            status: 0,
+            site: [],
+            address: ''
+        };
+        await new Promise((resolve, reject) => {
+            new AMap.Geocoder().getLocation(site, function (status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    resolve(result);
+                } else {
+                    reject(result);
+                }
+            })
+        }).then((result) => {
+            obj.status = 1;
+            obj.site = [result.geocodes[0].location.lng, result.geocodes[0].location.lat];
+            obj.address = result.geocodes[0].formattedAddress
+        }).catch((result) => {
+            obj.status = 0;
+            obj.site = [];
+            obj.address = '';
+        });
+        return obj;
+    }
+
     // 根据位置获取经纬度
     getAddress(lng, lat, callBack) {
         if (!AMap)
@@ -334,6 +360,59 @@ class GDMap {
             driving.search(startLngLat, endLngLat);
             callBack(driving);
         })
+    }
+
+    // 在App中打开高德地图并根据起始点与截止点路径规划
+    async routePlanInApp(startSite, endSite) {
+        let sendGeocoder = await this.getAsyncGeocoder(startSite);
+        let receiveGeocoder = await this.getAsyncGeocoder(endSite);
+        let slon, slat, sname, dlon, dlat, dname;
+        if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
+            slon = sendGeocoder.site[0];
+            slat = sendGeocoder.site[1];
+            sname = sendGeocoder.address;
+            dlon = receiveGeocoder.site[0];
+            dlat = receiveGeocoder.site[1];
+            dname = receiveGeocoder.address;
+        } else {
+            sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite2);
+            receiveGeocoder = await this.gdmap.getAsyncGeocoder(receiveSite2);
+            if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
+                slon = sendGeocoder.site[0];
+                slat = sendGeocoder.site[1];
+                sname = sendGeocoder.address;
+                dlon = receiveGeocoder.site[0];
+                dlat = receiveGeocoder.site[1];
+                dname = receiveGeocoder.address;
+            }
+        }
+        if (slon && slat && sname && dlon && dlat && dname) {
+            if (window.ApiCloud.isApiCloud()) {
+                api.openApp({
+                    androidPkg: 'android.intent.action.VIEW',
+                    appParam: {
+                        slon,
+                        slat,
+                        sname,
+                        dlon,
+                        dlat,
+                        dname,
+                        t: 0,
+                        sourceApplication: api.appName
+                    },
+                    iosUrl: 'iosamap://path',
+                    uri: `amapuri://route/plan/?slon=${slon}&slat=${slat}&sname=${sname}&dlon=${dlon}&dlat=${dlat}&dname=${dname}&t=0`
+                }, function (ret, err) {
+                    showMsg('请先安装高德地图');
+                });
+            } else {
+                location.href = `https://uri.amap.com/navigation?from=${slon},${slat},${sname}&to=${dlon},${dlat},${dname}&mode=car&callnative=1`
+            }
+
+        } else {
+            showMsg('地图上面找不到起始或结束位置，建议更换精确坐标');
+        }
+
     }
 }
 
