@@ -106,9 +106,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         let notComplete = new DataSet();
         let isCompleted = new DataSet();
         while (orderData.fetch()) {
-            if (orderData.getString('delivery_status_') < '4') {
+            if (orderData.getString('confirm_status_') == '0' || orderData.getString('delivery_status_') < '4') {
                 notComplete.append().copyRecord(orderData.current);
-            } else{
+            } else if(orderData.getString('delivery_status_') == '4'){
                 isCompleted.append().copyRecord(orderData.current);
             }
             if (orderData.getString('confirm_status_') == '0') {
