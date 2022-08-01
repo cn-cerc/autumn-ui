@@ -111,40 +111,42 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         let isCompleted = new DataSet();
         let showWay = false;
         while (orderData.fetch()) {
-            if (orderData.getString('delivery_status_') < '4') {
+            if (orderData.getString('confirm_status_') == '0' || orderData.getString('delivery_status_') < '4') {
                 notComplete.append().copyRecord(orderData.current);
-            } else{
+            } else if (orderData.getString('delivery_status_') == '4') {
                 isCompleted.append().copyRecord(orderData.current);
             }
             if (orderData.getString('confirm_status_') == '0') {
                 gridData.append().copyRecord(orderData.current);
-                // 发货地详细地址
-                let sendSite1 = gridData.getString('send_detail_');
-                // 发货地
-                let sendSite2 = gridData.getString('depart_').replaceAll('/', '');
-                // 目的地详细地址
-                let receiveSite1 = gridData.getString('receive_detail_');
-                // 目的地
-                let receiveSite2 = gridData.getString('destination_').replaceAll('/', '');
-                let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
-                let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
-                let sendGeocoder = await this.gdmap.getGeocoder(sendSite);
-                let receiveGeocoder = await this.gdmap.getGeocoder(receiveSite);
-                if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
-                    gridData.setValue('sendGeocoder', sendGeocoder);
-                    gridData.setValue('receiveGeocoder', receiveGeocoder);
-                    gridData.setValue('hasWay', true);
-                    showWay = true;
-                } else {
-                    sendGeocoder = await this.gdmap.getGeocoder(sendSite2);
-                    receiveGeocoder = await this.gdmap.getGeocoder(receiveSite2);
+                if (!this.isPhone) {
+                    // 发货地详细地址
+                    let sendSite1 = gridData.getString('send_detail_');
+                    // 发货地
+                    let sendSite2 = gridData.getString('depart_').replaceAll('/', '');
+                    // 目的地详细地址
+                    let receiveSite1 = gridData.getString('receive_detail_');
+                    // 目的地
+                    let receiveSite2 = gridData.getString('destination_').replaceAll('/', '');
+                    let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
+                    let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
+                    let sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite);
+                    let receiveGeocoder = await this.gdmap.getAsyncGeocoder(receiveSite);
                     if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
                         gridData.setValue('sendGeocoder', sendGeocoder);
                         gridData.setValue('receiveGeocoder', receiveGeocoder);
                         gridData.setValue('hasWay', true);
                         showWay = true;
                     } else {
-                        gridData.setValue('hasWay', false);
+                        sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite2);
+                        receiveGeocoder = await this.gdmap.getAsyncGeocoder(receiveSite2);
+                        if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
+                            gridData.setValue('sendGeocoder', sendGeocoder);
+                            gridData.setValue('receiveGeocoder', receiveGeocoder);
+                            gridData.setValue('hasWay', true);
+                            showWay = true;
+                        } else {
+                            gridData.setValue('hasWay', false);
+                        }
                     }
                 }
             } else
@@ -315,10 +317,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
                     <div className={styles.btns}>
-                        <span onClick={this.toGaode.bind(this, row)}>查看路线</span>
-                        {isReceived ? <button className={styles.received} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>已接单</button> : <button>立即接单</button>}
+                        {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}>查看路线</span> : ''}
+                        {isReceived ? '' : <button>立即接单</button>}
                     </div>
-                    {isReceived ? '' : <button>立即接单</button>}
                 </div>
             </li>
         }
@@ -330,11 +331,25 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
     }
 
     // 查看路线
-    toGaode(row: DataRow) {
-        if (row.getBoolean('receiveGeocoder') && row.getBoolean('receiveGeocoder')) {
-            let sendGeocoder = row.getValue('sendGeocoder');
-            let receiveGeocoder = row.getValue('receiveGeocoder');
-            window.open(`https://uri.amap.com/navigation?from=${sendGeocoder.site.join()},${sendGeocoder.address}&to=${receiveGeocoder.site.join()},${receiveGeocoder.address}&mode=car&callnative=1`)
+    async toGaode(row: DataRow) {
+        if (this.isPhone) {
+            // 发货地详细地址
+            let sendSite1 = row.getString('send_detail_');
+            // 发货地
+            let sendSite2 = row.getString('depart_').replaceAll('/', '');
+            // 目的地详细地址
+            let receiveSite1 = row.getString('receive_detail_');
+            // 目的地
+            let receiveSite2 = row.getString('destination_').replaceAll('/', '');
+            let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
+            let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
+            this.gdmap.routePlanInApp(sendSite, receiveSite);
+        } else {
+            if (row.getBoolean('receiveGeocoder') && row.getBoolean('receiveGeocoder')) {
+                let sendGeocoder = row.getValue('sendGeocoder');
+                let receiveGeocoder = row.getValue('receiveGeocoder');
+                window.open(`https://uri.amap.com/navigation?from=${sendGeocoder.site.join()},${sendGeocoder.address}&to=${receiveGeocoder.site.join()},${receiveGeocoder.address}&mode=car&callnative=1`)
+            }
         }
     }
 
