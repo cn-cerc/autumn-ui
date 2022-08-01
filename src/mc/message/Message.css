@@ -1,0 +1,191 @@
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.personBox {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 6px;
+}
+
+.person {
+    font-size: 14px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 14px;
+}
+
+.person>div:nth-child(2) {
+    color: #b7b7b7;
+}
+
+.imageBox {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #0755aa;
+    font-size: 14px;
+    color: #fff;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.message {
+    word-break: break-all;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.defaultMessage {
+    padding: 9px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    margin-top: 3px;
+    text-align: left;
+}
+
+.defaultMessage table th {
+    position: relative;
+}
+
+.msgRight .person {
+    align-items: flex-end;
+}
+
+.msgRight .personBox {
+    flex-direction: row-reverse;
+}
+
+.msgRight .imageBox, .msgRight .message{
+    margin-right: 0 !important;
+    margin-left: 10px !important;
+}
+.msgRight .message{
+    text-align: right;
+    align-items: flex-end;
+}
+.msgRight .defaultMessage{
+    background-color: #d1e7ff;
+}
+
+.msgStatus{
+    color:#aaa;
+    font-size: 12px;
+}
+
+.specialMsg{
+    text-align: right;
+    padding: 15px 0 5px;
+}
+
+.specialMsg > button{
+    margin-left: 1.25rem;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    font-weight: 400;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    height:1.875rem;
+    line-height:1.875rem;
+    padding: 0;
+}
+.rejectBtn{
+    background: #FFFFFF;
+    border: 1px solid #999999;
+    color:#333333;
+}
+
+.noAgreeBtn{
+    background-color: #e55050;
+}
+
+.disEvents {
+    pointer-events: none !important;
+    color: #c1c7c4 !important;
+    background-color: #d9d9d9!important;
+}
+
+.toastBox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .2);
+    z-index: 1001;
+}
+
+.toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+    height: 100px;
+    border-radius: 4px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.toast>p {
+    padding: 16px;
+    height: 0;
+    flex: 1;
+    overflow: auto;
+    border-bottom: 1px solid #ebebeb;
+    line-height: 20px;
+}
+
+.toast>div {
+    display: flex;
+    align-items: center;
+}
+
+.toast>div>span {
+    width: 0;
+    flex: 1;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.toast>div>span:nth-child(2) {
+    border-left: 1px solid #ebebeb;
+}
+
+.reportLine {
+    position: relative;
+    z-index: 10;
+}
+
+.reportLine::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid red;
+    border-radius: 4px;
+}
+
+.imageMessage {
+    border: 1px solid #f1ecec;
+    border-radius: 4px;
+    max-width: 600px;
+}
+
+.imageMessage {
+    margin: 0 16px;
+}

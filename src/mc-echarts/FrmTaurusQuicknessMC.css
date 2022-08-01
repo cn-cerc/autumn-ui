@@ -1,0 +1,478 @@
+.mcIntroduction {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.mcIntroduction>p {
+    line-height: 24px;
+    padding-top: 5px;
+}
+
+.mcMain {
+    flex: 1;
+    display: flex;
+    padding-bottom: 16px;
+}
+
+.mcFlowChartBox,
+.mcTrendChart {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+}
+
+.mcFlowChartBox {
+    width: 360px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcFlowChartMain {
+    height: 0;
+    flex: 1;
+    position: relative;
+    width: 300px;
+    margin: auto;
+}
+
+.mcFlowChart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.mcFlowBox {
+    position: relative;
+    z-index: 10;
+}
+
+.mcCharts {
+    width: 0;
+    flex: 1;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcTrendChart {
+    margin-top: 16px;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.mcPieChart {
+    height: 0;
+    flex: 1;
+    display: flex;
+}
+
+.FrmTaurusQuicknessMCLine {
+    padding: 16px 16px 0 16px;
+    flex: 1;
+}
+
+.register {
+    background: url("../assets/img/register.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.register_disable {
+    background: url("../assets/img/register_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.receipt {
+    background: url("../assets/img/receipt.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.receipt_disable {
+    background: url("../assets/img/receipt_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.control {
+    background: url("../assets/img/control.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.control_disable {
+    background: url("../assets/img/control_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.other {
+    background: url("../assets/img/other.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.other_disable {
+    background: url("../assets/img/other_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.register>span,
+.receipt>span,
+.control>span,
+.other>span,
+.register_disable>span,
+.receipt_disable>span,
+.control_disable>span,
+.other_disable>span {
+    width: 6em;
+    text-align: center;
+    display: block;
+    font-weight: 600;
+}
+
+.register:hover {
+    background-image: url("../assets/img/register_hover.png");
+}
+
+.receipt:hover {
+    background-image: url("../assets/img/receipt_hover.png");
+}
+
+.control:hover {
+    background-image: url("../assets/img/control_hover.png");
+}
+
+.other:hover {
+    background-image: url("../assets/img/other_hover.png");
+}
+
+.mcTitle {
+    font-weight: bold;
+}
+
+.mcPieBox1,
+.mcPieBox2 {
+    width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: .28rem;
+}
+
+.mcPieBox2 {
+    position: relative;
+    margin-left: 16px;
+}
+
+.FrmTaurusQuicknessMCPie1,
+.FrmTaurusQuicknessMCPie2 {
+    flex: 1;
+}
+
+.stock1 {
+    left: 4px;
+    top: 16px;
+}
+
+.stock2 {
+    left: 112px;
+    top: 16px;
+}
+
+.stock3 {
+    left: 212px;
+    top: 16px;
+}
+
+.stock4 {
+    left: 4px;
+    top: 102px;
+}
+
+.stock5 {
+    left: 112px;
+    top: 102px;
+}
+
+.stock6 {
+    left: 212px;
+    top: 102px;
+}
+
+.stock7 {
+    left: 4px;
+    top: 188px;
+}
+
+.stock8 {
+    left: 112px;
+    top: 188px;
+}
+
+.stock9 {
+    left: 212px;
+    top: 188px;
+}
+
+.stock10 {
+    left: 4px;
+    top: 269px;
+}
+
+.stock11 {
+    left: 112px;
+    top: 269px;
+}
+
+.stock12 {
+    left: 212px;
+    top: 269px;
+}
+
+.stock13 {
+    left: 4px;
+    top: 356px;
+}
+
+.stock14 {
+    left: 112px;
+    top: 356px;
+}
+
+.stock15 {
+    left: 212px;
+    top: 356px;
+}
+
+.btnBox {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 72px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00A653;
+    box-sizing: border-box;
+    color: #00A653;
+    border-radius: 4px;
+}
+
+.btn_arrow {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    margin-left: 2px;
+}
+
+.btnMCBox {
+    display: flex;
+    justify-content: right;
+    flex-wrap: wrap;
+}
+
+.btnMCBox>li {
+    margin: 10px 12px;
+    position: relative;
+    width: calc(28% - 7px);
+}
+
+.btnMCBox>li::after {
+    content: '';
+    position: absolute;
+    background: url('../assets/img/arror.png') center no-repeat;
+    background-size: 100%;
+    top: 50%;
+    right: -22px;
+    transform: translate(0, -50%);
+    width: 14px;
+    height: 20px;
+}
+
+.btnMCBox>li:nth-child(3)::after {
+    display: none;
+}
+
+.btnMCBox>li:nth-child(4)::after {
+    transform: translate(0, -50%) rotate(180deg);
+
+}
+
+.btnMCBox>li:nth-child(5)::after {
+    top: -20px;
+    right: 50%;
+    transform: translate(50%, 0) rotate(90deg);
+}
+
+.btnMCItem {
+    width: 88px;
+    height: 82px;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    padding: 16px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.btnMCItem:hover {
+    border: 1px solid #0473EA;
+}
+
+.btnMCItem>div {
+    width: 32px;
+    height: 32px;
+    margin: auto;
+    position: relative;
+}
+
+.btnMCItem>p {
+    position: absolute;
+    bottom: 14px;
+}
+
+.btnMCItem>span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: 8px;
+    background-color: #FFB366;
+    color: #fff;
+    width: 50px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .mc {
+        font-size: 14px;
+        color: #333;
+        line-height: 1em;
+        font-weight: 400;
+        height: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .mcIntroduction {
+        display: none;
+    }
+
+    .mcMain {
+        margin: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .mcFlowChartBox {
+        height: 330px;
+    }
+
+    .register>span,
+    .receipt>span,
+    .control>span,
+    .other>span,
+    .register_disable>span,
+    .receipt_disable>span,
+    .control_disable>span,
+    .other_disable>span {
+        font-size: 14px;
+        line-height: 1.2;
+        margin-top: 5px;
+    }
+
+    .register,
+    .receipt,
+    .control,
+    .other {
+        padding-top: 35px;
+    }
+
+    .mcFlowChartBox {
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .mcCharts {
+        width: 100%;
+        margin: auto;
+    }
+
+    .mcTrendChart,
+    .mcPieBox2 {
+        margin-top: 16px;
+    }
+
+    .FrmTaurusQuicknessMCLine {
+        height: 220px;
+        flex: auto;
+    }
+
+    .mcPieChart {
+        flex-wrap: wrap;
+        flex: 1;
+    }
+
+    .mcPieBox1,
+    .mcPieBox2 {
+        width: 100%;
+        flex: auto;
+    }
+
+    .mcPieBox2 {
+        margin-left: 0;
+    }
+
+    .FrmTaurusQuicknessMCPie1,
+    .FrmTaurusQuicknessMCPie2 {
+        height: 220px;
+        flex: auto;
+    }
+
+    .btnMCBox>li::after {
+        right: -17px;
+    }
+
+    .btnMCItem>p {
+        position: absolute;
+        bottom: 8px;
+    }
+
+}

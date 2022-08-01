@@ -1,0 +1,11 @@
+.main {
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.main tr[role='childRow'] {
+    font-size: 0.9em;
+    color: #6a6a6a;
+}

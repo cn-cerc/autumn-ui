@@ -1,0 +1,53 @@
+div[role="content"] {
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+div[id='page'] {
+    display: contents;
+}
+
+[role="auiOpera"] {
+    color: #0283f7;
+    display: inline!important;
+}
+
+div[role="dbgrid"] {
+    height: 0;
+    flex: 1;
+    overflow: auto;
+    margin-top: .5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+div[role="dbgrid"] th {
+    position: sticky;
+    top: -1px;
+    z-index: 10;
+}
+
+div[role="dbgrid"] td {
+    padding: 0 .5rem;
+}
+
+div[role="dialog"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+@media screen and (max-width: 767px) {
+    div[role="dbgrid"] {
+        height: auto;
+        flex: none;
+    }
+}
