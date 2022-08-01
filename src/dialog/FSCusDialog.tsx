@@ -106,7 +106,7 @@ export default class FSCusDialog extends BaseDialog<FSCusTypeProps, FSCusTypeSta
 
     getTable() {
         return <DBGrid dataSet={this.state.dataSet} key={this.getKey()} onRowClick={this.isPhone ? '' : this.trClick.bind(this)} openPage={false}>
-            <ColumnIt width='3' />
+            <ColumnIt width='2' />
             <Column name='客户简称' code='ShortName_' width='8'></Column>
             {this.state.dataIn.getValue('isName') ? <Column name='客户全称' code='Name_' width='8'></Column> : ''}
             {this.isPhone ? '' : <Column name='联系人' code='Contact_' width='5'></Column>}
