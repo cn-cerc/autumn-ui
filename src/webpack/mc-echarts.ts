@@ -23,7 +23,7 @@ import FrmMaintenanceSparepart from "../mc-echarts/FrmMaintenanceSparepart";
 import FrmSpectaculars1 from "../mc-echarts/FrmSpectaculars1";
 import FrmSpectaculars2 from "../mc-echarts/FrmSpectaculars2";
 import FrmSpectaculars3 from "../mc-echarts/FrmSpectaculars3";
-import FrmTaurus from "../mc-echarts/FrmTaurus";
+import FrmTaurusQuicknessMC from "../mc-echarts/FrmTaurusQuicknessMC";
 import FrmTaurusMC from "../mc-echarts/FrmTaurusMC";
 import FrmTaurusMC1 from "../mc-echarts/FrmTaurusMC1";
 import FrmTaurusMC2 from "../mc-echarts/FrmTaurusMC2";
@@ -79,5 +79,5 @@ export default {
     TOrdMC,
     TPurMC,
     TStockMC,
-    FrmTaurus
+    FrmTaurusQuicknessMC
 }

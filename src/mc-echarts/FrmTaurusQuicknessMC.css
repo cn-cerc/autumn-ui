@@ -74,7 +74,7 @@
     display: flex;
 }
 
-.FrmTaurusLine {
+.FrmTaurusQuicknessMCLine {
     padding: 16px 16px 0 16px;
     flex: 1;
 }
@@ -197,8 +197,8 @@
     margin-left: 16px;
 }
 
-.FrmTaurusPie1,
-.FrmTaurusPie2 {
+.FrmTaurusQuicknessMCPie1,
+.FrmTaurusQuicknessMCPie2 {
     flex: 1;
 }
 
@@ -299,9 +299,7 @@
     margin-left: 2px;
 }
 
-.topBtnBox {
-    margin-bottom: 16px;
-    color: #333;
+.btnMCBox {
     display: flex;
     justify-content: right;
     flex-wrap: wrap;
@@ -369,13 +367,75 @@
     position: relative;
 }
 
-.btn_skin:last-child {
-    margin-right: 0;
+.btnMCBox>li::after {
+    content: '';
+    position: absolute;
+    background: url('../assets/img/arror.png') center no-repeat;
+    background-size: 100%;
+    top: 50%;
+    right: calc((100% - 88px)/2);
+    width: 12px;
+    height: 18px;
+    transform: translate(50%, -50%);
 }
 
-.topBtnBox .btn_skin:hover {
-    background-color: #E4F7EC;
-    color: #009933;
+.btnMCBox>li:nth-child(3),
+.btnMCBox>li:nth-child(5) {
+    padding-right: 0;
+}
+
+.btnMCBox>li:nth-child(3)::after {
+    display: none;
+}
+
+.btnMCBox>li:nth-child(4)::after {
+    transform: translate(50%, -50%) rotate(180deg);
+
+}
+
+.btnMCBox>li:nth-child(5)::after {
+    top: -10px;
+    right: 50%;
+    transform: translate(50%, -50%) rotate(90deg);
+}
+
+.btnMCItem {
+    width: 88px;
+    height: 82px;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    padding: 16px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.btnMCItem:hover {
+    border: 1px solid #0473EA;
+}
+
+.btnMCItem>div {
+    width: 32px;
+    height: 32px;
+    margin: auto;
+    position: relative;
+}
+
+.btnMCItem>p {
+    position: absolute;
+    bottom: 14px;
+}
+
+.btnMCItem>span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: 8px;
+    background-color: #FFB366;
+    color: #fff;
+    width: 50px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
 }
 
 @media screen and (min-width: 768px) {
@@ -403,7 +463,7 @@
     }
 
     .mcFlowChartBox {
-        height: 520px;
+        height: 330px;
     }
 
     .register>span,
@@ -441,7 +501,7 @@
         margin-top: 16px;
     }
 
-    .FrmTaurusLine {
+    .FrmTaurusQuicknessMCLine {
         height: 220px;
         flex: auto;
     }
@@ -461,17 +521,46 @@
         margin-left: 0;
     }
 
-    .FrmTaurusPie1,
-    .FrmTaurusPie2 {
+    .FrmTaurusQuicknessMCPie1,
+    .FrmTaurusQuicknessMCPie2 {
         height: 220px;
         flex: auto;
     }
 
-    .topBtnBox {
-        margin: 0.75rem 0.75rem 0 0.75rem;
+    .btnMCBox>li {
+        position: relative;
+        width: 88px;
+        margin-left: 0;
+        padding-right: calc((100% - 264px)/2);
+        box-sizing: content-box;
     }
 
-    .topBtnBox .btn_skin {
-        height: 40px;
+    .btnMCBox>li::after {
+        content: '';
+        position: absolute;
+        background: url('../assets/img/arror.png') center no-repeat;
+        background-size: 100%;
+        top: 50%;
+        right: calc((100% - 88px)/2);
+        width: 12px;
+        height: 18px;
+        transform: translate(50%, -50%);
     }
+
+    /* .btnMCBox>li:nth-child(3),
+    .btnMCBox>li:nth-child(5) {
+        -right: 12px;
+    }
+    .btnMCBox>li:nth-child(5)::after {
+        top: -20px;
+        right: 50%;
+        transform: translate(80%, 0) rotate(90deg);
+    } */
+
+
+    .btnMCItem>p {
+        position: absolute;
+        bottom: 8px;
+    }
+
 }
