@@ -101,6 +101,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         let gridData_ = new DataSet();
         while (orderData.fetch()) {
             if (orderData.getString('delivery_status_') < '4') {
+                notComplete.append().copyRecord(orderData.current);
+            } else{
+                isCompleted.append().copyRecord(orderData.current);
+            }
+            if (orderData.getString('confirm_status_') == '0') {
                 gridData.append().copyRecord(orderData.current);
             } else
                 gridData_.append().copyRecord(orderData.current);
