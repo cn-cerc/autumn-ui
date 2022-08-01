@@ -50,6 +50,7 @@ import PayeeDialog from "../dialog/PayeeDialog";
 import ProcStepDialog from "../dialog/ProcStepDialog";
 import ProductClassDialog from "../dialog/ProductClassDialog";
 import ProductDialog from "../dialog/ProductDialog";
+import QuickSiteDialog from "../dialog/QuickSiteDialog";
 import RABChangeDialog from "../dialog/RABChangeDialog";
 import RemarkDialog from "../dialog/RemarkDialog";
 import SaleCurrentNumDialog from "../dialog/SaleCurrentNumDialog";
@@ -68,6 +69,7 @@ import UserDialog from "../dialog/UserDialog";
 import VipCardDialog from "../dialog/VipCardDialog";
 import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
+import RapidInput from "../mc/RapidInput";
 
 export default {
     // 地藤开窗
@@ -127,6 +129,9 @@ export default {
     WareBasicDialog,
     WorkerDialog,
 
+    // 快录
+    RapidInput,
+
     // 4PL开窗
     CargoCodeTypeDialog,
     CategoryDialog,
@@ -140,7 +145,8 @@ export default {
     NumberPlateDialog,
     PayeeAmountDialog,
     PayeeDialog,
+    QuickSiteDialog,
     showSiteDialog,
     SupAndCusDialog,
-    SupNetCorpDialog
+    SupNetCorpDialog,
 }

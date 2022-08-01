@@ -17,6 +17,8 @@ type FrmDriverReceiveTypeState = {
     receivedData: DataSet,
     orderType: number,
     isInit: boolean,
+    notComplete: DataSet,
+    isCompleted: DataSet,
     showWay: boolean
 }
 
@@ -29,10 +31,12 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         this.state = {
             linkRow,
             notData: new DataSet(),       //未接物流订单DataSet
-            orderType: 0,       //接单状态，0为全部，1为未接单，2为已接单
+            orderType: 1,       //接单状态，0为全部，1为未接单，2为已接单
             orderData: new DataSet(),       //所有物流订单DataSet
             receivedData: new DataSet(),       //已接物流订单DataSet
             isInit: false,
+            notComplete: new DataSet(),
+            isCompleted: new DataSet(),
             showWay: true
         }
     }
@@ -42,9 +46,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 {this.getFlowChart()}
                 <ul className={styles.orderTypeList}>
-                    <li className={this.state.orderType == 0 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 0 })}>全部({this.state.orderData.size})</li>
-                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未接单({this.state.notData.size})</li>
-                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已接单({this.state.receivedData.size})</li>
+                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未完成({this.state.notComplete.size})</li>
+                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成({this.state.isCompleted.size})</li>
                 </ul>
                 {this.getOrderList()}
             </React.Fragment>
@@ -104,8 +107,15 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         orderData.first();
         let gridData = new DataSet();
         let gridData_ = new DataSet();
+        let notComplete = new DataSet();
+        let isCompleted = new DataSet();
         let showWay = false;
         while (orderData.fetch()) {
+            if (orderData.getString('delivery_status_') < '4') {
+                notComplete.append().copyRecord(orderData.current);
+            } else{
+                isCompleted.append().copyRecord(orderData.current);
+            }
             if (orderData.getString('confirm_status_') == '0') {
                 gridData.append().copyRecord(orderData.current);
                 // 发货地详细地址
@@ -147,6 +157,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             receivedData: gridData_,
             orderData,
             isInit: true,
+            notComplete,
+            isCompleted,
             showWay
         })
     }
@@ -210,12 +222,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return;
         let list = [];
         let ds = new DataSet();
-        if (this.state.orderType == 0)
-            ds.appendDataSet(this.state.orderData)
-        else if (this.state.orderType == 1)
-            ds.appendDataSet(this.state.notData)
+        if (this.state.orderType == 1)
+            ds.appendDataSet(this.state.notComplete)
         else
-            ds.appendDataSet(this.state.receivedData)
+            ds.appendDataSet(this.state.isCompleted)
         ds.first();
         let hasNextOrder = false;
         let time = new Date().getTime();
@@ -308,6 +318,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <span onClick={this.toGaode.bind(this, row)}>查看路线</span>
                         {isReceived ? <button className={styles.received} onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>已接单</button> : <button>立即接单</button>}
                     </div>
+                    {isReceived ? '' : <button>立即接单</button>}
                 </div>
             </li>
         }

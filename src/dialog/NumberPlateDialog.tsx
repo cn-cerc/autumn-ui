@@ -1,4 +1,4 @@
-import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, SearchPanel } from "autumn-ui";
+import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Block, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, Line, SearchPanel } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import "../tool/Summer.css";
@@ -19,6 +19,7 @@ export default class NumberPlateDialog extends BaseDialog<NumberPlateProps, Staf
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue('dept_code_', this.props.deptCode);
+        dataIn.setValue('maxRecord', 100);
         this.state = {
             ...this.state,
             dataIn,
@@ -46,17 +47,37 @@ export default class NumberPlateDialog extends BaseDialog<NumberPlateProps, Staf
             <div role="content" className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="car_num_" dataName="车牌号" autoFocus></DBEdit>
+                    <DBEdit dataField="maxRecord" dataName="载入笔数"></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt/>
-                    <Column code="car_num_" name="车牌号" width="50"></Column>
-                    <Column code="approved_load_" name="核定载重" width="50"></Column>
-                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow)=>{
-                        return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
-                    }}></Column>
-                </DBGrid>
+                {this.getTable()}
             </div>
         )
+    }
+
+    getTable() {
+        if (this.isPhone) {
+            return <Block dataSet={this.state.dataSet}>
+                <Line>
+                    <ColumnIt width="10" name='' />
+                    <Column code="car_num_" name="车牌号" width="90"></Column>
+                </Line>
+                <Line>
+                    <Column code="approved_load_" name="核定载重" width="80"></Column>
+                    <Column code="opera" name="" width="20" textAlign='center' customText={(row: DataRow) => {
+                        return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
+                    }}></Column>
+                </Line>
+            </Block>
+        } else {
+            return <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
+                <ColumnIt width="10" />
+                <Column code="car_num_" name="车牌号" width="50"></Column>
+                <Column code="approved_load_" name="核定载重" width="50"></Column>
+                <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
+                    return <span role="auiOpera" id='category'>选择</span>
+                }}></Column>
+            </DBGrid>
+        }
     }
 
     handleClick(dataRow: DataRow) {

@@ -1,4 +1,4 @@
-import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, SearchPanel } from "autumn-ui";
+import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Block, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, Line, SearchPanel } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import "../tool/Summer.css";
@@ -47,27 +47,63 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="code_" dataName="货物名称" autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt/>
-                    <Column code="code_" name="货物名称" width="100"></Column>
-                    <Column code="main_unit_" name="主单位" width="100" customText={
+                {this.getTable()}
+            </div>
+        )
+    }
+
+    getTable() {
+        if (this.isPhone) {
+            return <Block dataSet={this.state.dataSet}>
+                <Line>
+                    <ColumnIt width='10' name='' />
+                    <Column width='90' code='code_' name='货物名称'></Column>
+                </Line>
+                <Line>
+                    <Column width='50' code='main_unit_' name='主单位' customText={
                         ((dataRow: DataRow) => {
                             let unit = dataRow.getValue("main_unit_");
                             return unit == 0 ? "吨" : unit == 1 ? "方" : "件";
                         })
                     }></Column>
-                    <Column code="unit_price_" name="主单价" width="100" ></Column>
-                    <Column code="deputy_unit_" name="副单位" width="100"></Column>
-                    <Column code="deputy_unit_price_" name="副单价" width="100"></Column>
-                    <Column code="conversion_value_" name="换算值" width="100"></Column>
-                    <Column code="cargo_loss_rate_" name="货损率" width="100"></Column>
-                    <Column code="remark_" name="备注" width="100"></Column>
-                    <Column code="opera" name="操作" width="100" textAlign='center' customText={(row: DataRow) => {
+                    <Column width='50' code='unit_price_' name='主单价'></Column>
+                </Line>
+                <Line>
+                    <Column width='50' code='deputy_unit_' name='副单位'></Column>
+                    <Column width='50' code='deputy_unit_price_' name='副单价'></Column>
+                </Line>
+                <Line>
+                    <Column width='50' code='conversion_value_' name='换算值'></Column>
+                    <Column width='50' code='cargo_loss_rate_' name='货损率'></Column>
+                </Line>
+                <Line>
+                    <Column width='85' code='remark_' name='备注'></Column>
+                    <Column code="opera" name="" width="15" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
-                </DBGrid>
-            </div>
-        )
+                </Line>
+            </Block>
+        } else {
+            return <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
+                <ColumnIt />
+                <Column code="code_" name="货物名称" width="100"></Column>
+                <Column code="main_unit_" name="主单位" width="100" customText={
+                    ((dataRow: DataRow) => {
+                        let unit = dataRow.getValue("main_unit_");
+                        return unit == 0 ? "吨" : unit == 1 ? "方" : "件";
+                    })
+                }></Column>
+                <Column code="unit_price_" name="主单价" width="100" ></Column>
+                <Column code="deputy_unit_" name="副单位" width="100"></Column>
+                <Column code="deputy_unit_price_" name="副单价" width="100"></Column>
+                <Column code="conversion_value_" name="换算值" width="100"></Column>
+                <Column code="cargo_loss_rate_" name="货损率" width="100"></Column>
+                <Column code="remark_" name="备注" width="100"></Column>
+                <Column code="opera" name="操作" width="100" textAlign='center' customText={(row: DataRow) => {
+                    return <span role="auiOpera" id='category'>选择</span>
+                }}></Column>
+            </DBGrid>
+        }
     }
 
     handleClick(dataRow: DataRow) {
@@ -81,14 +117,22 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let conversionValue = document.getElementById("conversion_value_") as HTMLInputElement;
         let cargoLossRate = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
 
-        input1.value = dataRow.getString('code_');
-        input2.value = dataRow.getString('code_');
-        mainUnit.value=dataRow.getValue("main_unit_");
-        unitPrice.value = dataRow.getString('unit_price_');
-        deputyUnit.value = dataRow.getString('deputy_unit_');
-        deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
-        conversionValue.value = dataRow.getString('conversion_value_');
-        cargoLossRate.value = dataRow.getString('cargo_loss_rate_');
+        if (input1)
+            input1.value = dataRow.getString('code_');
+        if (input2)
+            input2.value = dataRow.getString('code_');
+        if (mainUnit)
+            mainUnit.value = dataRow.getValue("main_unit_");
+        if (unitPrice)
+            unitPrice.value = dataRow.getString('unit_price_');
+        if (deputyUnit)
+            deputyUnit.value = dataRow.getString('deputy_unit_');
+        if (deputyUnitPrice)
+            deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
+        if (conversionValue)
+            conversionValue.value = dataRow.getString('conversion_value_');
+        if (cargoLossRate)
+            cargoLossRate.value = dataRow.getString('cargo_loss_rate_');
         //切换单位
         $("#main_unit_").change();
         this.handleSelect();
