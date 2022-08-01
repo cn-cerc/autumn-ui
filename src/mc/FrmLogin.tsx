@@ -216,8 +216,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     let msg = '未检测到SIM卡，请检查SIM卡后重试';
                     aliPhoneAuth.quitLoginPage();
                     showMsg(msg);
-                } else if (ret.code == '600008') {
-                    let msg = '请开启移动网络后重试';
+                } else if (ret.code == '600008' || ret.code == '600011') {
+                    let msg = '请开启移动网络后重试或切换其他登录方式';
                     aliPhoneAuth.quitLoginPage();
                     showMsg(msg);
                 } else if (ret.code == '700000') {
