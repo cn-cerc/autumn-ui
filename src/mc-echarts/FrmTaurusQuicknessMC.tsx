@@ -48,7 +48,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                             <div className={styles.FrmTaurusQuicknessMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>运单状态</div>
+                            <div className={styles.mcTitle}>运单统计</div>
                             <div className={styles.FrmTaurusQuicknessMCPie2}></div>
                         </div>
                     </div>
@@ -137,10 +137,10 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
         let myChart = echarts.init(lineChart);
         let ds = this.state.monthlyArrCarStatis;
         ds.first();
-        let xArr:any = [];
-        let sData:any = [];
+        let xArr: any = [];
+        let sData: any = [];
         while (ds.fetch()) {
-            xArr.push(`${ds.getString('date_')}`);
+            xArr.push(`${new Date(ds.getString('date_')).getMonth()+1}月`);
             sData.push(`${ds.getDouble('arr_total_')}`);
         }
         let option = {
@@ -177,7 +177,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: 20,
+                    barWidth: 10,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -201,7 +201,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('driver_name_'),
-                value: ds.getDouble('num')
+                value: ds.getDouble('num_')
             })
         }
 
@@ -265,9 +265,9 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
         let ds = this.state.ticketedArrTotal;
         ds.first();
         let dataArr: any = [
-            {name:'已开票',value:ds.getString('ticketed_arr_total_')},
-            {name:'未开票',value:ds.getString('unticketed_arr_total_')}
-    ];
+            { name: '已开票', value: ds.getString('ticketed_arr_total_') },
+            { name: '未开票', value: ds.getString('unticketed_arr_total_') }
+        ];
 
         let option = {
             tooltip: {
@@ -284,7 +284,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value + '%';
+                    return name + ' : ' + singleData[0].value + '单';
                 },
             },
             series: [
