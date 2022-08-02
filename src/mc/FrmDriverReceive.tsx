@@ -60,7 +60,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <ul>
                             <li>
                                 <p>全部物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `FrmDriverArrangeCar`;
                                 }}>
                                     <span>{this.state.orderData.size}</span>
@@ -69,7 +69,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                             </li>
                             <li>
                                 <p>未接物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `FrmDriverArrangeCar.list`;
                                 }}>
                                     <span>{this.state.notData.size}</span>
@@ -78,7 +78,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                             </li>
                             <li>
                                 <p>已接物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `#`;
                                 }}>
                                     <span>{this.state.receivedData.size}</span>
@@ -108,7 +108,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         while (orderData.fetch()) {
             if (orderData.getString('confirm_status_') == '0' || orderData.getString('delivery_status_') < '4') {
                 notComplete.append().copyRecord(orderData.current);
-            } else if(orderData.getString('delivery_status_') == '4'){
+            } else if (orderData.getString('delivery_status_') == '4') {
                 isCompleted.append().copyRecord(orderData.current);
             }
             if (orderData.getString('confirm_status_') == '0') {
@@ -261,9 +261,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
-                        <span>{`${row.getString('depart_').split('/')[1]}/${row.getString('depart_').split('/')[2]}`}</span>
+                        <span>{row.getString('depart_').substring(row.getString('depart_').indexOf('/') + 1, row.getString('depart_').length)}</span>
                         <img src='images/order/transportation.png'></img>
-                        <span>{`${row.getString('destination_').split('/')[1]}/${row.getString('destination_').split('/')[2]}`}</span>
+                        <span>{row.getString('destination_').slice(row.getString('destination_').indexOf('/') + 1, row.getString('destination_').length)}</span>
                     </div>
                 </div>
                 <div className={styles.orderCenter}>
