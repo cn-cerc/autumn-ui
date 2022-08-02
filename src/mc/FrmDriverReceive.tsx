@@ -238,7 +238,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
         }
         if (!list.length) {
-            list.push(<li className={styles.noOrder}>暂无物流订单</li>)
+            list.push(<li className={styles.noOrder} key='noData'>暂无物流订单</li>)
         }
         return <ul className={styles.orderList} key={this.state.orderType}>{list}</ul>
     }
@@ -343,6 +343,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             let receiveSite2 = row.getString('destination_').replaceAll('/', '');
             let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
             let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
+            console.log(sendSite, receiveSite);
             this.gdmap.routePlanInApp(sendSite, receiveSite);
         } else {
             if (row.getBoolean('receiveGeocoder') && row.getBoolean('receiveGeocoder')) {
