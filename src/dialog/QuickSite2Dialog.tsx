@@ -41,7 +41,7 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
         this.state = {
             ...this.state,
             width: this.isPhone ? '100%' : '50rem',
-            height: '35rem',
+            height: this.isPhone ? '100vh' : '35rem',
             site: {
                 province: '',
                 city: '',
