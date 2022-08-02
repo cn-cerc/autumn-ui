@@ -52,6 +52,7 @@ import PayeeDialog from "../dialog/PayeeDialog";
 import ProcStepDialog from "../dialog/ProcStepDialog";
 import ProductClassDialog from "../dialog/ProductClassDialog";
 import ProductDialog from "../dialog/ProductDialog";
+import QuickSiteDialog2 from "../dialog/QuickSite2Dialog";
 import QuickSiteDialog from "../dialog/QuickSiteDialog";
 import RABChangeDialog from "../dialog/RABChangeDialog";
 import RemarkDialog from "../dialog/RemarkDialog";
@@ -150,6 +151,7 @@ export default {
     PayeeAmountDialog,
     PayeeDialog,
     QuickSiteDialog,
+    QuickSiteDialog2,
     showSiteDialog,
     SupAndCusDialog,
     SupNetCorpDialog,

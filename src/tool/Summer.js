@@ -329,7 +329,7 @@ class GDMap {
         })
     }
 
-    addMark(lng, lat, iconSrc, offset) {
+    addMark(lng, lat, iconSrc, offset, size) {
         if (!this.map)
             throw new Error('请先初始化地图容器');
         if (!AMap)
@@ -337,7 +337,8 @@ class GDMap {
         let marker = new AMap.Marker({
             map: this.map,
             position: [lng, lat],
-            icon: iconSrc,
+            content: `<img src='${iconSrc}' width='${size[0]}' height='${size[1]}'>`,
+            anchor: 'center',
             offset: new AMap.Pixel(offset[0], offset[1]),
         });
         this.map.setZoomAndCenter(16, [lng, lat]);

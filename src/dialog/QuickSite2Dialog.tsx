@@ -1,0 +1,108 @@
+import { BaseDialog, BaseDialogPropsType, BaseDialogStateType } from "autumn-ui";
+import React from "react";
+import ImageConfig from "../static/ImageConfig";
+import StaticFile from "../static/StaticFile";
+import { GDMap, showMsg } from "../tool/Summer";
+import styles from "./QuickSiteDialog.css";
+
+type QuickSiteDialogTypeProps = {
+    siteId: string,
+    addressId: string
+} & Partial<BaseDialogPropsType>
+
+type QuickSiteDialogTypeState = {
+    site: site,
+    driving: any
+} & Partial<BaseDialogStateType>
+
+type site = {
+    province: string,
+    city: string,
+    district: string,
+    name: string,
+    lng: number,
+    lat: number,
+    marker: any;
+}
+
+type addressInfo = {
+    lng: number,    // 经度
+    lat: number,    // 纬度
+    name: string,   // 详细位置
+    province: string,   // 省
+    city: string,   // 市
+    district: string    // 区
+}
+
+export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProps, QuickSiteDialogTypeState> {
+    private gdmap: GDMap = new GDMap();
+    constructor(props: QuickSiteDialogTypeProps) {
+        super(props);
+        this.state = {
+            ...this.state,
+            width: this.isPhone ? '100%' : '50rem',
+            height: '35rem',
+            site: {
+                province: '',
+                city: '',
+                district: '',
+                name: '',
+                lng: 0,
+                lat: 0,
+                marker: null
+            },
+            driving: null
+        }
+    }
+
+    content(): JSX.Element {
+        return <div className={styles.main}>
+            <div className={styles.inputBox}>
+                <input type="text" id='siteInput' placeholder="请输入查询位置" />
+            </div>
+            <div id="container" className={styles.container}></div>
+            <button onClick={this.handleClick.bind(this)} className={styles.button}>确定</button>
+        </div>
+    }
+
+    componentDidMount(): void {
+        super.componentDidMount();
+        this.init();
+    }
+
+    init() {
+        this.gdmap.initMap('container');
+        this.gdmap.initPlaceSearch('siteInput', this.setSite.bind(this));
+    }
+
+    async setSite(info: addressInfo) {
+        if (this.state.site.marker)
+            this.state.site.marker.destroy();
+        this.setState({
+            site: {
+                province: info.province,
+                city: info.city,
+                district: info.district,
+                name: info.name,
+                lng: info.lng,
+                lat: info.lat,
+                marker: this.gdmap.addMark(info.lng, info.lat, StaticFile.getImage(ImageConfig.ICON_MAPPOINT), [0, 0], [30, 30])
+            }
+        });
+    }
+
+    handleClick() {
+        let siteInput = document.getElementById(this.props.siteId) as HTMLInputElement;
+        let addressInput = document.getElementById(this.props.addressId) as HTMLInputElement;
+        let siteValue = '';
+        if (this.state.site.province)
+            siteValue = this.state.site.province;
+        if (this.state.site.city)
+            siteValue += `/${this.state.site.city}`;
+        if (this.state.site.district)
+            siteValue += `/${this.state.site.district}`;
+        siteInput.value = siteValue;
+        addressInput.value = this.state.site.name;
+        this.handleClose();
+    }
+}
