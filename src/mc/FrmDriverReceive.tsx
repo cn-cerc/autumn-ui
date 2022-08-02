@@ -167,29 +167,31 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     // 获取流程图介绍
     getFlowChart() {
-        return <div className={styles.charts}>
-            <ul className={styles.flowBox}>
-                <li onClick={this.linkTo.bind(this, '接单')} >
-                    <img src='images/order/order.png' />
-                    <span>接单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '装货回单')}>
-                    <img src='images/order/shipOrder.png' />
-                    <span>装货回单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '卸货回单')}>
-                    <img src='images/order/dischargeOrder.png' />
-                    <span>卸货回单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '完结')}>
-                    <img src='images/order/end.png' />
-                    <span>完结</span>
-                </li>
-            </ul>
-        </div>
+        if (!this.isPhone) {
+            return <div className={styles.charts}>
+                <ul className={styles.flowBox}>
+                    <li onClick={this.linkTo.bind(this, '接单')} >
+                        <img src='images/order/order.png' />
+                        <span>接单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '装货回单')}>
+                        <img src='images/order/shipOrder.png' />
+                        <span>装货回单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '卸货回单')}>
+                        <img src='images/order/dischargeOrder.png' />
+                        <span>卸货回单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '完结')}>
+                        <img src='images/order/end.png' />
+                        <span>完结</span>
+                    </li>
+                </ul>
+            </div>
+        }
     }
 
     getDBGrid() {
