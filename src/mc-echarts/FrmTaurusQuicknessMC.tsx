@@ -140,7 +140,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
         let xArr: any = [];
         let sData: any = [];
         while (ds.fetch()) {
-            xArr.push(`${ds.getString('date_').substring(5)}月`);
+            xArr.push(`${new Date(ds.getString('date_')).getMonth()+1}月`);
             sData.push(`${ds.getDouble('arr_total_')}`);
         }
         let option = {
