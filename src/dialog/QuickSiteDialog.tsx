@@ -93,7 +93,7 @@ export default class QuickSiteDialog extends BaseDialog<BaseDialogPropsType, Qui
             name: info.name,
             lng: info.lng,
             lat: info.lat,
-            marker: this.gdmap.addMark(info.lng, info.lat, StaticFile.getImage('images/public/startSite.png'), [-24, -48])
+            marker: this.gdmap.addMark(info.lng, info.lat, StaticFile.getImage('images/public/startSite.png'), [-24, -48], [48, 48])
         }
         this.setState(this.state, () => {
             this.showLine();
@@ -110,7 +110,7 @@ export default class QuickSiteDialog extends BaseDialog<BaseDialogPropsType, Qui
             name: info.name,
             lng: info.lng,
             lat: info.lat,
-            marker: this.gdmap.addMark(info.lng, info.lat, StaticFile.getImage('images/public/endSite.png'), [-24, -48])
+            marker: this.gdmap.addMark(info.lng, info.lat, StaticFile.getImage('images/public/endSite.png'), [-24, -48], [48, 48])
         }
         this.setState(this.state, () => {
             this.showLine();

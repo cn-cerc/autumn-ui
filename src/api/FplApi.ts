@@ -239,5 +239,20 @@ export default class FplApi {
     /** 获取地址 */
     static getAddress(params: DataRow) {
         return ControlApi.getDataOut('SvrAddress.search', params);
+        
+    /** 货运管理急速版 => 司机接单Top5 */
+    static getDriverOrderTop5() {
+        return ControlApi.getService('SvrTaurusQuicknessMCStatis.getDriverOrderTop5');
+    }
+
+    /** 货运管理急速版 => 运单已开票或未开票统计  */
+    static getTicketedArrTotal() {
+        return ControlApi.getService('SvrTaurusQuicknessMCStatis.getTicketedArrTotal');
+    }
+
+    /** 货运管理急速版 => 按月分组统计的物流运单数量  */
+    static getMonthlyArrCarStatis() {
+        return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
+    }
     }
 }
