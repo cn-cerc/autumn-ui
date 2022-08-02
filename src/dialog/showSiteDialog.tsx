@@ -205,8 +205,8 @@ export default class showSiteDialog extends BaseDialog<UserTypeProps, UserTypeSt
             colorCounty:index
         })
         let inputArr = this.props.inputId.split(",");
-        $("#" + inputArr[0]).val(this.state.Area + "/" + this.state.City + "/" + this.state.County)
-        $("#" + inputArr[1]).val(this.state.Area + "/" + this.state.City + "/" + this.state.County)
+        $("#" + inputArr[0]).val(this.state.Area + "\\" + this.state.City + "\\" + this.state.County)
+        $("#" + inputArr[1]).val(this.state.Area + "\\" + this.state.City + "\\" + this.state.County)
         this.handleSelect();
         return false
     }

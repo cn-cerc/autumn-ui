@@ -113,7 +113,6 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         if (input1)
             input1.value = dataRow.getString('code_');
         //切换单位
-        $("#main_unit_").change();
         if (this.props.callBack)
             this.props.callBack(dataRow);
         this.handleSelect();
