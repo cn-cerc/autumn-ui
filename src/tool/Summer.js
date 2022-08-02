@@ -365,6 +365,10 @@ class GDMap {
     // 在App中打开高德地图并根据起始点与截止点路径规划
     async routePlanInApp(startSite, endSite) {
         let sendGeocoder = await this.getAsyncGeocoder(startSite);
+        console.log(sendGeocoder);
+        this.getGeocoder(startSite, function(result){
+            console.log(result)
+        })
         let receiveGeocoder = await this.getAsyncGeocoder(endSite);
         let slon, slat, sname, dlon, dlat, dname;
         if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
