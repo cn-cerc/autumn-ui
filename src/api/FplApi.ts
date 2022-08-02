@@ -235,4 +235,9 @@ export default class FplApi {
     static getSupAndCus(params: DataRow) {
         return ControlApi.getDataOut('SvrSupInfoStandard.searchSupAndCus', params);
     }
+
+    /** 获取地址 */
+    static getAddress(params: DataRow) {
+        return ControlApi.getDataOut('SvrAddress.search', params);
+    }
 }

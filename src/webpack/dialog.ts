@@ -1,4 +1,5 @@
 import AccountEditDialog from "../dialog/AccountEditDialog";
+import AddressDialog from "../dialog/AddressDialog";
 import AdvertContentDialog from "../dialog/AdvertContentDialog";
 import AERemarkDialog from "../dialog/AERemarkDialog";
 import AHRemarkDialog from "../dialog/AHRemarkDialog";
@@ -153,4 +154,5 @@ export default {
     showSiteDialog,
     SupAndCusDialog,
     SupNetCorpDialog,
+    AddressDialog
 }
