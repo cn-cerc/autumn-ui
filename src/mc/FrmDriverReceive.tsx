@@ -261,9 +261,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
-                        <span>{row.getString('depart_')}</span>
+                        <span>{`${row.getString('depart_').split('/')[1]}/${row.getString('depart_').split('/')[2]}`}</span>
                         <img src='images/order/transportation.png'></img>
-                        <span>{row.getString('destination_')}</span>
+                        <span>{`${row.getString('destination_').split('/')[1]}/${row.getString('destination_').split('/')[2]}`}</span>
                     </div>
                 </div>
                 <div className={styles.orderCenter}>
