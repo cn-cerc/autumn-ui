@@ -239,6 +239,7 @@ export default class FplApi {
     /** 获取地址 */
     static getAddress(params: DataRow) {
         return ControlApi.getDataOut('SvrAddress.search', params);
+    }
         
     /** 货运管理急速版 => 司机接单Top5 */
     static getDriverOrderTop5() {
@@ -253,6 +254,5 @@ export default class FplApi {
     /** 货运管理急速版 => 按月分组统计的物流运单数量  */
     static getMonthlyArrCarStatis() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
-    }
     }
 }
