@@ -245,6 +245,10 @@ export default class FplApi {
     static getCountProvince() {
         return ControlApi.getService('SvrCarNetMonitorPanel.countProvince');
     }
+    /** 车联网看板=》 中央车辆位置信息 */
+    static getQueryCarsLocation() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.queryCarsLocation');
+    }
 
 
 

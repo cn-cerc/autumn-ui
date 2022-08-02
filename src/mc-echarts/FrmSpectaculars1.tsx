@@ -19,6 +19,8 @@ type FrmSpectaculars1TypeState = {
     allCarNetPanel: DataSet,
     weeklyArrCarStatis: DataSet,
     countProvince: DataSet,
+    cars_num: String,
+    driver_num: String,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -62,6 +64,39 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             allCarNetPanel: new DataSet(),
             weeklyArrCarStatis: new DataSet(),
             countProvince: new DataSet(),
+            cars_num: "0",
+            driver_num: "0",
+        }
+    }
+
+    componentDidMount(): void {
+        this.init();
+    }
+
+    async init() {
+        let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
+        let countProvince = await FplApi.getCountProvince();
+        let queryCarsLocation = await FplApi.getQueryCarsLocation();
+        this.setState({
+            ...this.state,
+            allCarNetPanel,
+            weeklyArrCarStatis,
+            countProvince,
+            cars_num: allCarNetPanel.getString('cars_total_'),
+            driver_num: allCarNetPanel.getString("driver_num_"),
+        }, () => {
+            this.initLineChart();
+            this.initLineChart1();
+            this.initPieChart1();
+            this.initPieChart2();
+            this.initPieChart3();
+            this.initPieChart4();
+        })
+        console.log(weeklyArrCarStatis)
+        weeklyArrCarStatis.first();
+        while(weeklyArrCarStatis.fetch()) {
+
         }
     }
 
@@ -82,8 +117,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
                                 <div className={styles.topInfo}>
-                                    {/* {this.state.allCarNetPanel.getDouble('cars_num')}  */}
-                                    0
+                                    {this.state.cars_num} 
                                     <span>辆</span>
                                 </div>
                             </div>
@@ -106,9 +140,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>司机数</div>
                                 <div className={styles.topInfo}>
-                                    {/* {this.state.allCarNetPanel.getDouble('driver_num')} */}
-                                    0
-                                     <span>名</span>
+                                    {this.state.driver_num}
+                                    <span>名</span>
                                 </div>
                             </div>
                         </li>
@@ -180,29 +213,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         </div>
     }
 
-    componentDidMount(): void {
-        this.init();
-    }
-
-    async init() {
-        let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
-        let countProvince = await FplApi.getCountProvince();
-        this.setState({
-            ...this.state,
-            allCarNetPanel,
-            weeklyArrCarStatis,
-            countProvince,
-        }, () => {
-            this.initLineChart();
-            this.initLineChart1();
-            this.initPieChart1();
-            this.initPieChart2();
-            this.initPieChart3();
-            this.initPieChart4();
-        })
-    }
-
+    
+    //异常动态
     initLineChart1() {
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
@@ -247,6 +259,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //物流运单
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
@@ -259,6 +272,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             xArr.push(ds.getString('XName_'));
             sData.push(ds.getDouble('Value_'));
         }
+
+        // this.state.weeklyArrCarStatis.first();
+        // while (this.state.weeklyArrCarStatis.fetch()) {
+        //     sData.push(ds.getDouble('Value_'));
+        // }
         let option = {
             xAxis: {
                 type: 'category',
@@ -389,7 +407,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: this.state.allCarNetPanel.getDouble('full_load_rate'),
+                value: this.state.allCarNetPanel.getDouble('full_load_rate_').toFixed(4),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -461,7 +479,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: this.state.allCarNetPanel.getDouble('full_load_rate'),
+                value: this.state.allCarNetPanel.getDouble('avg_loss_rate_').toFixed(4),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
