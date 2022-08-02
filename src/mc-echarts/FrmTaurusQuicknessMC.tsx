@@ -45,6 +45,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>司机接单统计(前五)</div>
+                            {this.state.driverOrderTop5.size==0?<div style={{color:'red'}}>暂无数据</div>:''}
                             <div className={styles.FrmTaurusQuicknessMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
