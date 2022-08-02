@@ -177,7 +177,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: 10,
+                    barWidth: 20,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
