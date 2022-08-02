@@ -375,8 +375,8 @@ class GDMap {
             dlat = receiveGeocoder.site[1];
             dname = receiveGeocoder.address;
         } else {
-            sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite2);
-            receiveGeocoder = await this.gdmap.getAsyncGeocoder(receiveSite2);
+            sendGeocoder = await this.getAsyncGeocoder(sendSite2);
+            receiveGeocoder = await this.getAsyncGeocoder(receiveSite2);
             if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
                 slon = sendGeocoder.site[0];
                 slat = sendGeocoder.site[1];
