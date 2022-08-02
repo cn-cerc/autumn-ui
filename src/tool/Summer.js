@@ -251,12 +251,14 @@ class GDMap {
             address: ''
         };
         await new Promise((resolve, reject) => {
-            new AMap.Geocoder().getLocation(site, function (status, result) {
-                if (status === 'complete' && result.info === 'OK') {
-                    resolve(result);
-                } else {
-                    reject(result);
-                }
+            AMap.plugin('AMap.Geocoder', () => {
+                new AMap.Geocoder().getLocation(site, function (status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        resolve(result);
+                    } else {
+                        reject(result);
+                    }
+                })
             })
         }).then((result) => {
             obj.status = 1;
@@ -375,17 +377,6 @@ class GDMap {
             dlon = receiveGeocoder.site[0];
             dlat = receiveGeocoder.site[1];
             dname = receiveGeocoder.address;
-        } else {
-            sendGeocoder = await this.getAsyncGeocoder(sendSite2);
-            receiveGeocoder = await this.getAsyncGeocoder(receiveSite2);
-            if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
-                slon = sendGeocoder.site[0];
-                slat = sendGeocoder.site[1];
-                sname = sendGeocoder.address;
-                dlon = receiveGeocoder.site[0];
-                dlat = receiveGeocoder.site[1];
-                dname = receiveGeocoder.address;
-            }
         }
         if (slon && slat && sname && dlon && dlat && dname) {
             if (window.ApiCloud.isApiCloud()) {

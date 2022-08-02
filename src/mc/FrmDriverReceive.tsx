@@ -240,7 +240,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
         }
         if (!list.length) {
-            list.push(<li className={styles.noOrder}>暂无物流订单</li>)
+            list.push(<li className={styles.noOrder} key='noData'>暂无物流订单</li>)
         }
         return <ul className={styles.orderList} key={this.state.orderType}>{list}</ul>
     }
