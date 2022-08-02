@@ -64,8 +64,8 @@ export default class QuickSiteDialog extends BaseDialog<BaseDialogPropsType, Qui
     content(): JSX.Element {
         return <div className={styles.main}>
             <div className={styles.inputBox}>
-                <input type="text" id='startInput' placeholder="请输入起点"/>
-                <input type="text" id='endInput' placeholder="请输入终点"/>
+                <input type="text" id='startInput' placeholder="请输入起点" />
+                <input type="text" id='endInput' placeholder="请输入终点" />
             </div>
             <div id="container" className={styles.container}></div>
             <button onClick={this.handleClick.bind(this)} className={styles.button}>确定</button>
@@ -130,7 +130,7 @@ export default class QuickSiteDialog extends BaseDialog<BaseDialogPropsType, Qui
     }
 
     handleClick() {
-        if(!this.state.siteArr[0].province && !this.state.siteArr[1].province) {
+        if (!this.state.siteArr[0].province && !this.state.siteArr[1].province) {
             showMsg('起点和终点不可都为空！');
             return;
         }
@@ -141,9 +141,9 @@ export default class QuickSiteDialog extends BaseDialog<BaseDialogPropsType, Qui
             if (this.state.siteArr[0].province)
                 value = this.state.siteArr[0].province;
             if (this.state.siteArr[0].city)
-                value += `/${this.state.siteArr[0].city}`;
+                value += `\\${this.state.siteArr[0].city}`;
             if (this.state.siteArr[0].district)
-                value += `/${this.state.siteArr[0].district}`;
+                value += `\\${this.state.siteArr[0].district}`;
             input1.value = value;
         }
         if (inputArr[1] && this.state.siteArr[0].province) {
@@ -156,9 +156,9 @@ export default class QuickSiteDialog extends BaseDialog<BaseDialogPropsType, Qui
             if (this.state.siteArr[1].province)
                 value = this.state.siteArr[1].province;
             if (this.state.siteArr[1].city)
-                value += `/${this.state.siteArr[1].city}`;
+                value += `\\${this.state.siteArr[1].city}`;
             if (this.state.siteArr[1].district)
-                value += `/${this.state.siteArr[1].district}`;
+                value += `\\${this.state.siteArr[1].district}`;
             input3.value = value;
         }
         if (inputArr[3] && this.state.siteArr[1].province) {

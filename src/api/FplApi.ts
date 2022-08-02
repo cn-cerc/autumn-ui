@@ -236,7 +236,11 @@ export default class FplApi {
         return ControlApi.getDataOut('SvrSupInfoStandard.searchSupAndCus', params);
     }
 
-
+    /** 获取地址 */
+    static getAddress(params: DataRow) {
+        return ControlApi.getDataOut('SvrAddress.search', params);
+    }
+        
     /** 货运管理急速版 => 司机接单Top5 */
     static getDriverOrderTop5() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getDriverOrderTop5');

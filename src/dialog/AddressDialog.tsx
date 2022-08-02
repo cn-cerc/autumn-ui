@@ -4,8 +4,8 @@ import FplApi from "../api/FplApi";
 import "../tool/Summer.css";
 import styles from "./DialogCommon.css";
 
-type ContractProps = {
-    code: String,
+type AddressProps = {
+    parms?: String,
     callBack?: Function;
 } & Partial<BaseDialogPropsType>
 
@@ -15,11 +15,11 @@ type StaffTypeState = {
     dataSet: DataSet,
 } & Partial<BaseDialogStateType>
 
-export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTypeState> {
-    constructor(props: ContractProps) {
-        super(props)
+export default class AddressDialog extends BaseDialog<AddressProps, StaffTypeState> {
+    constructor(props: AddressProps) {
         let dataIn = new DataRow();
-        dataIn.setValue('parent_code_', this.props.code);
+        dataIn.setValue('maxRecord', 100);
+        super(props)
         this.state = {
             ...this.state,
             dataIn,
@@ -35,7 +35,9 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
 
     async init() {
         this.setLoad(true);
-        let dataSet = await FplApi.getCargoCodeRecord(this.state.dataIn);
+        let dataSet = await FplApi.getAddress(this.state.dataIn);
+
+
         this.setLoad(false);
         this.setState({
             dataSet
@@ -46,7 +48,9 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         return (
             <div role="content" className={styles.main}>
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
-                    <DBEdit dataField="code_" dataName="货物名称" autoFocus></DBEdit>
+                    <DBEdit dataField="contact_" dataName="联系人" autoFocus></DBEdit>
+                    <DBEdit dataField="mobile_" dataName="手机号" ></DBEdit>
+                    <DBEdit dataField="maxRecord" dataName="载入笔数" ></DBEdit>
                 </SearchPanel>
                 {this.getTable()}
             </div>
@@ -58,24 +62,10 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
             return <Block dataSet={this.state.dataSet}>
                 <Line>
                     <ColumnIt width='10' name='' />
-                    <Column width='90' code='code_' name='货物名称'></Column>
+                    <Column code="contact_" name="联系人" width="100"></Column>
                 </Line>
                 <Line>
-                    <Column width='50' code='main_unit_' name='主单位' customText={
-                        ((dataRow: DataRow) => {
-                            let unit = dataRow.getValue("main_unit_");
-                            return unit == 0 ? "吨" : unit == 1 ? "方" : "件";
-                        })
-                    }></Column>
-                    <Column width='50' code='unit_price_' name='主单价'></Column>
-                </Line>
-                <Line>
-                    <Column width='50' code='deputy_unit_' name='副单位'></Column>
-                    <Column width='50' code='deputy_unit_price_' name='副单价'></Column>
-                </Line>
-                <Line>
-                    <Column width='50' code='conversion_value_' name='换算值'></Column>
-                    <Column width='50' code='cargo_loss_rate_' name='货损率'></Column>
+                    <Column code="mobile_" name="手机号" width="100"></Column>
                 </Line>
                 <Line>
                     <Column width='85' code='remark_' name='备注'></Column>
@@ -87,18 +77,10 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         } else {
             return <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
                 <ColumnIt />
-                <Column code="code_" name="货物名称" width="100"></Column>
-                <Column code="main_unit_" name="主单位" width="100" customText={
-                    ((dataRow: DataRow) => {
-                        let unit = dataRow.getValue("main_unit_");
-                        return unit == 0 ? "吨" : unit == 1 ? "方" : "件";
-                    })
-                }></Column>
-                <Column code="unit_price_" name="主单价" width="100" ></Column>
-                <Column code="deputy_unit_" name="副单位" width="100"></Column>
-                <Column code="deputy_unit_price_" name="副单价" width="100"></Column>
-                <Column code="conversion_value_" name="换算值" width="100"></Column>
-                <Column code="cargo_loss_rate_" name="货损率" width="100"></Column>
+                <Column code="contact_" name="联系人" width="100"></Column>
+                <Column code="mobile_" name="手机号" width="100"></Column>
+                <Column code="address_" name="地址" width="100"></Column>
+                <Column code="area5_" name="详细地址" width="100"></Column>
                 <Column code="remark_" name="备注" width="100"></Column>
                 <Column code="opera" name="操作" width="100" textAlign='center' customText={(row: DataRow) => {
                     return <span role="auiOpera" id='category'>选择</span>
@@ -111,10 +93,22 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         if (input1)
-            input1.value = dataRow.getString('code_');
-        //切换单位
+            input1.value = dataRow.getString('contact_');
         if (this.props.callBack)
             this.props.callBack(dataRow);
+        if (this.props.parms)
+            this.callBackInputs(dataRow, this.props.parms);
         this.handleSelect();
+    }
+    callBackInputs(dataRow: DataRow, parms: String) {
+        if (parms) {
+            let arr = parms.split(",");
+            for (let i = 0; i < arr.length / 2; i++) {
+                let key = arr[i];
+                let value = arr[i + 1];
+                if (dataRow)
+                    $("#" + value).val(dataRow.getValue(key));
+            }
+        }
     }
 }

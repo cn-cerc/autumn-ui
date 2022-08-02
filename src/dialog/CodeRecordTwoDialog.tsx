@@ -6,6 +6,7 @@ import styles from "./DialogCommon.css";
 
 type ContractProps = {
     code: String,
+    callBack?: Function;
 } & Partial<BaseDialogPropsType>
 
 
@@ -104,32 +105,11 @@ export default class CodeRecordTwoDialog extends BaseDialog<ContractProps, Staff
     handleClick(dataRow: DataRow) {
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        let mainUnit = document.getElementById("main_unit_") as HTMLInputElement;
-        let unitPrice = document.getElementById("unit_price_") as HTMLInputElement;
-        let deputyUnit = document.getElementById("deputy_unit_") as HTMLInputElement;
-        let deputyUnitPrice = document.getElementById("deputy_unit_price_") as HTMLInputElement;
-        let conversionValue = document.getElementById("conversion_value_") as HTMLInputElement;
-        let cargoLossRate = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
-
         if (input1)
             input1.value = dataRow.getString('code_');
-        if (input2)
-            input2.value = dataRow.getString('code_');
-        if (mainUnit)
-            mainUnit.value = dataRow.getValue("main_unit_");
-        if (unitPrice)
-            unitPrice.value = dataRow.getString('unit_price_');
-        if (deputyUnit)
-            deputyUnit.value = dataRow.getString('deputy_unit_');
-        if (deputyUnitPrice)
-            deputyUnitPrice.value = dataRow.getString('deputy_unit_price_');
-        if (conversionValue)
-            conversionValue.value = dataRow.getString('conversion_value_');
-        if (cargoLossRate)
-            cargoLossRate.value = dataRow.getString('cargo_loss_rate_');
         //切换单位
-        $("#main_unit_").change();
+        if (this.props.callBack)
+            this.props.callBack(dataRow);
         this.handleSelect();
     }
 }
