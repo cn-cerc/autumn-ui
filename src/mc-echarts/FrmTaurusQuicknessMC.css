@@ -463,10 +463,6 @@
         flex-wrap: wrap;
     }
 
-    .mcFlowChartBox {
-        height: 330px;
-    }
-
     .register>span,
     .receipt>span,
     .control>span,

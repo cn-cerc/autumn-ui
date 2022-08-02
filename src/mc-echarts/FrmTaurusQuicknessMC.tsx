@@ -13,6 +13,9 @@ type FrmTaurusQuicknessMCTypeProps = {
 
 type FrmTaurusQuicknessMCTypeState = {
     linkRow: DataRow,
+    driverOrderTop5: DataSet,
+    ticketedArrTotal: DataSet,
+    monthlyArrCarStatis: DataSet,
 }
 
 export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9'];
@@ -24,6 +27,9 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
         linkRow.setJson(this.props.dataJson);
         this.state = {
             linkRow,
+            driverOrderTop5: new DataSet(),
+            ticketedArrTotal: new DataSet(),
+            monthlyArrCarStatis: new DataSet(),
         }
     }
 
@@ -38,16 +44,16 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>司机接单统计(前五)(对接中)</div>
+                            <div className={styles.mcTitle}>司机接单统计(前五)</div>
                             <div className={styles.FrmTaurusQuicknessMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>运单状态(对接中)</div>
+                            <div className={styles.mcTitle}>运单状态</div>
                             <div className={styles.FrmTaurusQuicknessMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>运单数量(对接中)</div>
+                        <div className={styles.mcTitle}>运单数量</div>
                         <div className={styles.FrmTaurusQuicknessMCLine}></div>
                     </div>
                 </div>
@@ -104,9 +110,22 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     }
 
     async init() {
-        this.initBarChart();
-        this.initPieChart1();
-        this.initPieChart2();
+        let driverOrderTop5 = new DataSet();
+        driverOrderTop5 = await FplApi.getDriverOrderTop5();
+        let ticketedArrTotal = new DataSet();
+        ticketedArrTotal = await FplApi.getTicketedArrTotal();
+        let monthlyArrCarStatis = new DataSet();
+        monthlyArrCarStatis = await FplApi.getMonthlyArrCarStatis();
+
+        this.setState({
+            driverOrderTop5,
+            ticketedArrTotal,
+            monthlyArrCarStatis,
+        }, () => {
+            this.initBarChart();
+            this.initPieChart1();
+            this.initPieChart2();
+        })
     }
 
     componentDidMount(): void {
@@ -116,25 +135,14 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
+        let ds = this.state.monthlyArrCarStatis;
         ds.first();
-        let xArr = [
-            '一月',
-            '二月',
-            '三月',
-            '四月',
-            '五月',
-            '六月',
-            '七月',
-            '八月',
-            '九月',
-            '十月',
-            '十一月',
-            '十二月',
-        ];
-        let sData = [
-            10890, 8910, 7500, 12340, 4880, 9604, 10238, 2700, 5000, 6007, 7051, 4050
-        ];
+        let xArr:any = [];
+        let sData:any = [];
+        while (ds.fetch()) {
+            xArr.push(`${ds.getString('date_')}`);
+            sData.push(`${ds.getDouble('arr_total_')}`);
+        }
         let option = {
             xAxis: {
                 type: 'category',
@@ -169,7 +177,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: 10,
+                    barWidth: 20,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -187,15 +195,16 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
+        let ds = this.state.driverOrderTop5;
         ds.first();
-        let dataArr: any = [
-            { name: '张三', value: 50 },
-            { name: '李四', value: 48 },
-            { name: '王五', value: 43 },
-            { name: '赵六', value: 10 },
-            { name: '林二', value: 5 },
-        ];
+        let dataArr: any = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('driver_name_'),
+                value: ds.getDouble('num')
+            })
+        }
+
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -253,12 +262,12 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
+        let ds = this.state.ticketedArrTotal;
         ds.first();
         let dataArr: any = [
-            { name: '未完成', value: 30 },
-            { name: '已完成', value: 70 }
-        ];
+            {name:'已开票',value:ds.getString('ticketed_arr_total_')},
+            {name:'未开票',value:ds.getString('unticketed_arr_total_')}
+    ];
 
         let option = {
             tooltip: {
