@@ -10,7 +10,8 @@ type FSCusDialogTypeState = {
 
 type FSCusDialogTypeProsp = {
     nameId: string,
-    phoneId: string
+    phoneId: string,
+    personID: string
 } & Partial<BaseDialogPropsType>
 
 export default class FSCusDialog extends BaseDialog<FSCusDialogTypeProsp, FSCusDialogTypeState> {
@@ -86,10 +87,12 @@ export default class FSCusDialog extends BaseDialog<FSCusDialogTypeProsp, FSCusD
     handleClick(row: DataRow) {
         let nameInput = document.getElementById(this.props.nameId) as HTMLInputElement;
         nameInput.value = row.getString('Name_');
-        if(this.props.phoneId) {
+        if (this.props.phoneId) {
             let phoneInput = document.getElementById(this.props.phoneId) as HTMLInputElement;
             phoneInput.value = row.getString('Mobile_');
         }
+        if (this.props.personID)
+            $("#" + this.props.personID).val(row.getString('Contact_'))
         this.handleClose();
     }
 

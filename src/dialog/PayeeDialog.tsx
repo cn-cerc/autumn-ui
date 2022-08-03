@@ -7,6 +7,7 @@ import styles from "./DialogCommon.css";
 type PayeeProps = {
     deptCode: string,
     callBack?: Function,
+    personID: string,
 } & Partial<BaseDialogPropsType>
 
 type StaffTypeState = {
@@ -82,10 +83,14 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        input1.value = dataRow.getString("payee_no_");
-        input2.value = dataRow.getString("payee_name_");
+        if (input1)
+            input1.value = dataRow.getString("payee_no_");
+        if (input2)
+            input2.value = dataRow.getString("payee_name_");
         if (this.props.callBack)
             this.props.callBack(dataRow);
+        if (this.props.personID)
+            $("#" + this.props.personID).val(dataRow.getString("payee_name_"))
         this.handleClose();
     }
 }

@@ -6,6 +6,7 @@ import styles from "./DialogCommon.css";
 
 type AddressProps = {
     parms?: String,
+    personID: String,
     callBack?: Function;
 } & Partial<BaseDialogPropsType>
 
@@ -36,7 +37,6 @@ export default class AddressDialog extends BaseDialog<AddressProps, StaffTypeSta
     async init() {
         this.setLoad(true);
         let dataSet = await FplApi.getAddress(this.state.dataIn);
-
 
         this.setLoad(false);
         this.setState({
@@ -98,6 +98,8 @@ export default class AddressDialog extends BaseDialog<AddressProps, StaffTypeSta
             this.props.callBack(dataRow);
         if (this.props.parms)
             this.callBackInputs(dataRow, this.props.parms);
+        if (this.props.personID)
+            $("#" + this.props.personID).val(dataRow.getString("contact_"));
         this.handleSelect();
     }
     callBackInputs(dataRow: DataRow, parms: String) {

@@ -38,7 +38,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
             <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
-                    <div className={styles.mcTitle}>流程图</div>
+                    <div className={styles.mcTitle}>发货流程</div>
                     {this.getHtml()}
                 </div>
                 <div className={styles.mcCharts}>
@@ -68,42 +68,34 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 <li onClick={this.linkTo.bind(this, '我要发货')}>
                     <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/orderCar.png')} alt="" />
+                            <img src={StaticFile.getImage('images/MCimg/deliver.png')} alt="" />
                         </div>
-                        <p>我要发货</p>
-                    </div>
-                </li>
-                <li onClick={this.linkTo.bind(this, '司机接单')}>
-                    <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/defualtBook.png')} alt="" />
+                            <span>我要发货</span>
+                            <p>填写发货信息</p>
                         </div>
-                        <p>司机接单</p>
                     </div>
                 </li>
                 <li onClick={this.linkTo.bind(this, '我要跟踪')}>
                     <div className={styles.btnMCItem}>
-                        <span>运输中</span>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/site.png')} alt="" />
+                            <img src={StaticFile.getImage('images/MCimg/schedule.png')} alt="" />
                         </div>
-                        <p>我要跟踪</p>
-                    </div>
-                </li>
-                <li onClick={this.linkTo.bind(this, '运输完成')}>
-                    <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/defualtSuss.png')} alt="" />
+                            <span>我要跟踪</span>
+                            <p>跟踪货物信息</p>
                         </div>
-                        <p>运输完成</p>
                     </div>
                 </li>
                 <li onClick={this.linkTo.bind(this, '我要开票')}>
                     <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/openEmail.png')} alt="" />
+                            <img src={StaticFile.getImage('images/MCimg/invoice.png')} alt="" />
                         </div>
-                        <p>我要开票</p>
+                        <div>
+                            <span>我要开票</span>
+                            <p>运单开具发票</p>
+                        </div>
                     </div>
                 </li>
             </ul>

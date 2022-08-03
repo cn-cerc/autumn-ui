@@ -308,135 +308,68 @@
 
 .btnMCBox>li {
     position: relative;
-    width: 88px;
-    margin-left: 0;
-    padding-right: calc((100% - 264px)/2);
+    width: 100%;
     box-sizing: content-box;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    background: #F5F6FA;
+    border-radius: 8px;
+    border: 1px solid #F5F6FA;
+    padding: 12px 28px;
+    cursor: pointer;
 }
 
-.btnMCBox>li::after {
-    content: '';
-    position: absolute;
-    background: url('../assets/img/arror.png') center no-repeat;
-    background-size: 100%;
-    top: 50%;
-    right: calc((100% - 88px)/2);
-    width: 12px;
-    height: 18px;
-    transform: translate(50%, -50%);
+.btnMCBox>li:hover {
+    border: 1px solid #A2C1FF;
 }
 
-.btnMCBox>li:nth-child(3),
-.btnMCBox>li:nth-child(5) {
-    padding-right: 0;
-}
-
-.btnMCBox>li:nth-child(3)::after {
-    display: none;
-}
-
-.btnMCBox>li:nth-child(4)::after {
-    transform: translate(50%, -50%) rotate(180deg);
-
-}
-
-.btnMCBox>li:nth-child(5)::after {
-    top: -10px;
-    right: 50%;
-    transform: translate(50%, -50%) rotate(90deg);
+.btnMCBox>li:last-child {
+    margin-bottom: 0;
 }
 
 .btnMCItem {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.btnMCItem>div:first-child {
     width: 88px;
-    height: 82px;
-    border-radius: 8px;
-    border: 1px solid #E5E7EB;
-    padding: 16px;
-    position: relative;
-    box-sizing: border-box;
+    height: 64px;
+    margin-right: 28px;
 }
 
-.btnMCItem:hover {
-    border: 1px solid #0473EA;
-}
-
-.btnMCItem>div {
-    width: 32px;
-    height: 32px;
-    margin: auto;
-    position: relative;
-}
-
-.btnMCBox>li::after {
-    content: '';
-    position: absolute;
-    background: url('../assets/img/arror.png') center no-repeat;
-    background-size: 100%;
-    top: 50%;
-    right: calc((100% - 88px)/2);
-    width: 12px;
-    height: 18px;
-    transform: translate(50%, -50%);
-}
-
-.btnMCBox>li:nth-child(3),
-.btnMCBox>li:nth-child(5) {
-    padding-right: 0;
-}
-
-.btnMCBox>li:nth-child(3)::after {
-    display: none;
-}
-
-.btnMCBox>li:nth-child(4)::after {
-    transform: translate(50%, -50%) rotate(180deg);
-
-}
-
-.btnMCBox>li:nth-child(5)::after {
-    top: -10px;
-    right: 50%;
-    transform: translate(50%, -50%) rotate(90deg);
+.btnMCItem>div:first-child img {
+    width: 100%;
 }
 
 .btnMCItem {
-    width: 88px;
-    height: 82px;
-    border-radius: 8px;
-    border: 1px solid #E5E7EB;
-    padding: 16px;
-    position: relative;
     box-sizing: border-box;
 }
 
-.btnMCItem:hover {
-    border: 1px solid #0473EA;
-}
-
-.btnMCItem>div {
-    width: 32px;
-    height: 32px;
-    margin: auto;
+.btnMCItem span {
     position: relative;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
 }
 
-.btnMCItem>p {
+.btnMCItem span::after {
     position: absolute;
-    bottom: 14px;
-}
-
-.btnMCItem>span {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-top-left-radius: 8px;
-    background-color: #FFB366;
-    color: #fff;
-    width: 50px;
+    content: '';
+    background: url('../assets/img/more.png') center no-repeat;
+    background-size: 100%;
+    left: calc(100% + 4px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
     height: 16px;
-    line-height: 16px;
-    text-align: center;
+}
+
+.btnMCItem p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #999999;
+    margin-top: 8px;
 }
 
 .noDataText {
@@ -458,6 +391,11 @@
 }
 
 @media screen and (max-width: 767px) {
+    .mcTitle {
+        line-height: 1;
+        margin-bottom: calc(16px - 0.25rem);
+    }
+
     .mcIntroduction {
         display: none;
     }
@@ -530,26 +468,6 @@
 
     .btnMCBox {
         margin-top: 0.25rem;
-    }
-
-    .btnMCBox>li {
-        position: relative;
-        width: 88px;
-        margin-left: 0;
-        padding-right: calc((100% - 264px)/2);
-        box-sizing: content-box;
-    }
-
-    .btnMCBox>li::after {
-        content: '';
-        position: absolute;
-        background: url('../assets/img/arror.png') center no-repeat;
-        background-size: 100%;
-        top: 50%;
-        right: calc((100% - 88px)/2);
-        width: 12px;
-        height: 18px;
-        transform: translate(50%, -50%);
     }
 
     .btnMCItem>p {
