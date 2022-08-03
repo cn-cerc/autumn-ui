@@ -109,7 +109,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                 }
                 let img = null;
                 if (ds.getString('content_').match(/<img [^>]*>/) && ds.getString('content_').match(/<img [^>]*>/)[0]) {
-                    img = ds.getString('content_').match(/<img [^>]*>/)[0];
+                    img = ds.getString('content_').match(/<img [^>]*>/)[0].replace('style','cust-style');
                 }
                 list.push(<li className={styles.item} onClick={this.toDetailFun.bind(this, ds.getDouble('advert_no_'))} key={key + ds.getString('type_') + ds.getString('UID_')}>
                     <div className={styles.mainText}>

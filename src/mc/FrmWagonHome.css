@@ -103,8 +103,8 @@
 }
 
 .imgBox > img{
-    width:70px !important;
-    height:70px !important;
+    width:70px;
+    height:70px;
 }
 
 .rightBtn {
