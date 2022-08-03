@@ -58,7 +58,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                                 </p>}
                             </header>
                             <ul>
-                                {this.getHtml(1)}
+                                {this.getHtml(3)}
                             </ul>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                                 </p>}
                             </header>
                             <ul>
-                                {this.getHtml(2)}
+                                {this.getHtml(1)}
                             </ul>
                         </div>
                     </div>
@@ -84,7 +84,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                                 </p>}
                             </header>
                             <ul>
-                                {this.getHtml(3)}
+                                {this.getHtml(2)}
                             </ul>
                         </div>
                     </div>
@@ -104,6 +104,9 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
         ds.first();
         while (ds.fetch()) {
             if (type == ds.getDouble('type_')) {
+                if(key > 2){
+                    continue;
+                }
                 let img = null;
                 if (ds.getString('content_').match(/<img [^>]*>/) && ds.getString('content_').match(/<img [^>]*>/)[0]) {
                     img = ds.getString('content_').match(/<img [^>]*>/)[0];
@@ -113,7 +116,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div>
                             {ds.getString('title_')}
                         </div>
-                        <p>{ds.getString('create_time_')} · {ds.getString('corp_name_')}</p>
+                        <p>{ds.getString('create_time_').slice(0,-3)} · {ds.getString('corp_name_')}</p>
                     </div>
                     {img ?
                         <div className={styles.imgBox} dangerouslySetInnerHTML={{ __html: img }}>
@@ -140,13 +143,13 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                 case '0':
                     activityNum += 1;
                     break;
-                case '1':
+                case '3':
                     opNum += 1;
                     break;
-                case '2':
+                case '1':
                     productNum += 1;
                     break;
-                case '3':
+                case '2':
                     serveNum += 1;
                     break;
             }
