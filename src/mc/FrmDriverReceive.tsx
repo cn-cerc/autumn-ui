@@ -3,7 +3,7 @@ import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
 import StaticFile from "../static/StaticFile";
-import { GDMap } from "../tool/Summer";
+import { AuiMath, GDMap } from "../tool/Summer";
 import styles from "./FrmDriverReceive.css";
 
 type FrmDriverReceiveTypeProps = {
@@ -25,6 +25,7 @@ type FrmDriverReceiveTypeState = {
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
     private gdmap: GDMap = new GDMap();
+    private unitArr: string[] = ['吨', '方', '件', '车'];
     constructor(props: FrmDriverReceiveTypeProps) {
         super(props);
         let linkRow = new DataRow();
@@ -240,10 +241,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 isReceived = false;
             list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
         }
-        if (!list.length) {
-            list.push(<li className={styles.noOrder} key='noData'>暂无物流订单</li>)
+        let bool = !list.length;
+        if (bool) {
+            list.push(<li className={styles.noOrder} key='noData'>暂无运单</li>)
         }
-        return <ul className={styles.orderList} key={this.state.orderType}>{list}</ul>
+        return <ul className={styles.orderList} style={{ 'marginTop': !bool ? '0.75rem' : '' }} key={this.state.orderType}>{list}</ul>
     }
 
     linkTo(name: string) {
@@ -284,6 +286,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number) {
         let time_ = new Date(row.getString('receiving_time_')).getTime();
+        let math = new AuiMath();
         if (!hasNextOrder && isReceived && !hasNextOrder && time_ > time) {
             hasNextOrder = true;
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
@@ -301,27 +304,42 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
             </li>
         } else {
+            let depart = row.getString('depart_');
+            if (depart.indexOf('/') > -1) {
+                depart = depart.substring(depart.indexOf('/') + 1, depart.length);
+            } else {
+                depart = depart.substring(depart.indexOf('\\') + 1, depart.length);
+            }
+            let destination = row.getString('destination_');
+            if (destination.indexOf('/') > -1) {
+                destination = destination.substring(destination.indexOf('/') + 1, destination.length);
+            } else {
+                destination = destination.substring(destination.indexOf('\\') + 1, destination.length);
+            }
+            let stratDate = new Date(row.getString('send_date_time_'));
+            let endDate = new Date(row.getString('arrive_date_time_'));
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
-                        <span>{row.getString('depart_').substring(row.getString('depart_').indexOf('/') + 1, row.getString('depart_').length).replace('/', ' ')}</span>
+                        <span>{depart}</span>
                         <img src='images/order/transportation.png'></img>
-                        <span>{row.getString('destination_').slice(row.getString('destination_').indexOf('/') + 1, row.getString('destination_').length).replace('/', ' ')}</span>
+                        <span>{destination}</span>
                         {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}> <a className={styles.luxian} href=""> <img src={StaticFile.getImage('images/Frmshopping/site.png')} alt="" /> 路线</a> </span> : ''}
                     </div>
                 </div>
                 <div className={styles.orderCenter}>
+
                     <div className={styles.orderInfo}>
-                        <span><i>货物明细</i>{row.getString('code_')}</span>
-                        <span><i>计划发车</i>{row.getString('send_date_time_')}</span>
-                        <span><i>计划抵达</i>{row.getString('arrive_date_time_')}</span>
+                        <span><i>货物明细</i>{row.getString('code_')} | {row.getString('total_')}{[this.unitArr[row.getDouble('main_unit_')]]} | {row.getString('unit_price_')}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
+                        <span><i>计划发车</i>{stratDate.getFullYear == new Date().getFullYear ? `${(stratDate.getMonth() + 1) < 10 ? '0' + (stratDate.getMonth() + 1) : stratDate.getMonth() + 1}月${stratDate.getDate() < 10 ? '0' + stratDate.getDate() : stratDate.getDate()}日${stratDate.getHours() < 10 ? '0' + stratDate.getHours() : stratDate.getHours()}时` : `${stratDate.getFullYear()}年${(stratDate.getMonth() + 1) < 10 ? '0' + (stratDate.getMonth() + 1) : stratDate.getMonth() + 1}月${stratDate.getDate() < 10 ? '0' + stratDate.getDate() : stratDate.getDate()}日`}</span>
+                        <span><i>计划抵达</i>{endDate.getFullYear == new Date().getFullYear ? `${(endDate.getMonth() + 1) < 10 ? '0' + (endDate.getMonth() + 1) : endDate.getMonth() + 1}月${endDate.getDate() < 10 ? '0' + endDate.getDate() : endDate.getDate()}日${endDate.getHours() < 10 ? '0' + endDate.getHours() : endDate.getHours()}时` : `${endDate.getFullYear()}年${(endDate.getMonth() + 1) < 10 ? '0' + (endDate.getMonth() + 1) : endDate.getMonth() + 1}月${endDate.getDate() < 10 ? '0' + endDate.getDate() : endDate.getDate()}日`}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>
                 <div className={styles.orderBottom}>
-                    <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
+                    <div className={styles.freight}>￥<span>{math.toFixed(row.getString('amount_'), 2)}</span></div>
                     <div className={styles.btns}>
-                        {isReceived ? '' : <button>接单</button>}
+                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button>接单</button>}
                     </div>
                 </div>
             </li>
