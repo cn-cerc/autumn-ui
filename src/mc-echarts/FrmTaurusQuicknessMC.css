@@ -303,7 +303,7 @@
     display: flex;
     justify-content: right;
     flex-wrap: wrap;
-    margin-top:0.875rem;
+    margin-top: 0.875rem;
 }
 
 .btnMCBox>li {
@@ -439,6 +439,10 @@
     text-align: center;
 }
 
+.noDataText {
+    color: #d3d3d3;
+}
+
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -525,7 +529,7 @@
     }
 
     .btnMCBox {
-        margin-top:0.25rem;
+        margin-top: 0.25rem;
     }
 
     .btnMCBox>li {

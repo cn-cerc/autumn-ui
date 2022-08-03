@@ -45,6 +45,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>司机接单统计(前五)</div>
+
                             <div className={styles.FrmTaurusQuicknessMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
@@ -140,7 +141,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
         let xArr: any = [];
         let sData: any = [];
         while (ds.fetch()) {
-            xArr.push(`${new Date(ds.getString('date_')).getMonth()+1}月`);
+            xArr.push(`${new Date(ds.getString('date_')).getMonth() + 1}月`);
             sData.push(`${ds.getDouble('arr_total_')}`);
         }
         let option = {
@@ -195,14 +196,21 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = this.state.driverOrderTop5;
-        ds.first();
         let dataArr: any = [];
-        while (ds.fetch()) {
+        if (this.state.driverOrderTop5.size >= 1) {
+            let ds = this.state.driverOrderTop5;
+            ds.first();
+            while (ds.fetch()) {
+                dataArr.push({
+                    name: ds.getString('driver_name_'),
+                    value: ds.getDouble('num_')
+                })
+            }
+        } else {
             dataArr.push({
-                name: ds.getString('driver_name_'),
-                value: ds.getDouble('num_')
-            })
+                name: '暂无司机接单',
+                value: 0
+            });
         }
 
         let option = {
@@ -220,7 +228,11 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value + '单';
+                    if (this.state.driverOrderTop5.size >= 1) {
+                        return name + ' : ' + singleData[0].value + '单';
+                    } else {
+                        return name;
+                    }
                 },
             },
             grid: {
