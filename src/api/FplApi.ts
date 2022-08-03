@@ -255,4 +255,9 @@ export default class FplApi {
     static getMonthlyArrCarStatis() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
     }
+
+    /** 根据支行缩写查询支行名称 */
+    static getBankCorrection(params: DataRow) {
+        return ControlApi.getDataOut('SvrBankCorrection.query', params);
+    }
 }

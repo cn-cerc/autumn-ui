@@ -6,6 +6,7 @@ import AHRemarkDialog from "../dialog/AHRemarkDialog";
 import AORemarkDialog from "../dialog/AORemarkDialog";
 import AreaDialog from "../dialog/AreaDialog";
 import BankAccountDialog from "../dialog/BankAccountDialog";
+import BankCorrectionDialog from "../dialog/BankCorrectionDialog";
 import BaseAreaDialog from "../dialog/BaseAreaDialog";
 import BIRemarkDialog from "../dialog/BIRemarkDialog";
 import BOMProcessDialog from "../dialog/BOMProcessDialog";
@@ -137,6 +138,7 @@ export default {
     RapidInput,
 
     // 4PL开窗
+    BankCorrectionDialog,
     CargoCodeTypeDialog,
     CategoryDialog,
     CodeRecordDialog,
