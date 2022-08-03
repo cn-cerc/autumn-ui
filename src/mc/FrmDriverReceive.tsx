@@ -2,6 +2,7 @@ import { Column, DataRow, DataSet, DBGrid, WebControl } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
+import StaticFile from "../static/StaticFile";
 import { GDMap } from "../tool/Summer";
 import styles from "./FrmDriverReceive.css";
 
@@ -46,8 +47,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 {this.getFlowChart()}
                 <ul className={styles.orderTypeList}>
-                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未完成({this.state.notComplete.size})</li>
-                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成({this.state.isCompleted.size})</li>
+                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未完成</li>
+                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成</li>
                 </ul>
                 {this.getOrderList()}
             </React.Fragment>
@@ -303,24 +304,24 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
-                        <span>{row.getString('depart_').substring(row.getString('depart_').indexOf('/') + 1, row.getString('depart_').length)}</span>
+                        <span>{row.getString('depart_').substring(row.getString('depart_').indexOf('/') + 1, row.getString('depart_').length).replace('/', ' ')}</span>
                         <img src='images/order/transportation.png'></img>
-                        <span>{row.getString('destination_').slice(row.getString('destination_').indexOf('/') + 1, row.getString('destination_').length)}</span>
+                        <span>{row.getString('destination_').slice(row.getString('destination_').indexOf('/') + 1, row.getString('destination_').length).replace('/', ' ')}</span>
+                        {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}> <a className={styles.luxian} href=""> <img src={StaticFile.getImage('images/Frmshopping/site.png')} alt="" /> 路线</a> </span> : ''}
                     </div>
                 </div>
                 <div className={styles.orderCenter}>
                     <div className={styles.orderInfo}>
-                        <span><i>发货明细</i>{row.getString('code_')}</span>
-                        <span><i>发货时间</i>{row.getString('send_date_time_')}</span>
-                        <span><i>到货时间</i>{row.getString('arrive_date_time_')}</span>
+                        <span><i>货物明细</i>{row.getString('code_')}</span>
+                        <span><i>计划发车</i>{row.getString('send_date_time_')}</span>
+                        <span><i>计划抵达</i>{row.getString('arrive_date_time_')}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
                     <div className={styles.btns}>
-                        {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}>查看路线</span> : ''}
-                        {isReceived ? '' : <button>立即接单</button>}
+                        {isReceived ? '' : <button>接单</button>}
                     </div>
                 </div>
             </li>
