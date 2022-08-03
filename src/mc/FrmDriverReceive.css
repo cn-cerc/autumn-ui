@@ -200,7 +200,6 @@
         justify-content: space-evenly;
         position: inherit;
         background-color: #fff;
-        margin-bottom: 12px;
     }
 
     .orderTypeList>li {
@@ -283,8 +282,8 @@
     }
 
     .orderCenter>img {
-        width: 4.5rem;
-        height: 4.5rem;
+        width: 4.375rem;
+        height: 4.375rem;
         position: absolute;
         right: 0.75rem;
         top: 0.32rem;
@@ -333,6 +332,7 @@
         background-color: #00A653;
         color: #fff;
         box-sizing: content-box;
+        padding: 0 !important;
     }
 
     .btns>button.received {
@@ -377,11 +377,18 @@
     }
 
     .orderList>li.noOrder {
-        text-align: center;
+        display: flex;
+        align-items: center;
+        position: relative;
+        justify-content: center;
+        color: #ccc;
+        cursor: auto;
         padding: 1rem;
-        height: 8rem;
-        color: #999;
-        background-color: transparent;
+        font-size: 14px;
+        line-height: 14px;
+        background: #fff;
+        margin: 0;
+        border-top: 1px solid #ebebeb;
     }
 
     .orderMsg {
@@ -450,5 +457,12 @@
         width: 16px;
         height: 16px;
         margin-right: 4px;
+    }
+
+    .btns .btn_detail {
+        border: 1px solid #CCCCCC;
+        background-color: #fff;
+        color: #333;
+        border-radius: 4px;
     }
 }
