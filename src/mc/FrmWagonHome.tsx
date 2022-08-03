@@ -41,7 +41,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 活动公告 · <span>{this.state.activityNum}条</span>
-                                {!this.state.activityNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
+                                {!this.state.activityNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this, 0)}>
                                     查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>}
                             </header>
@@ -52,7 +52,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 操作指引 · <span>{this.state.opNum}条</span>
-                                {!this.state.opNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
+                                {!this.state.opNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this, 3)}>
                                     查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>}
                             </header>
@@ -65,7 +65,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 商品优惠 · <span>{this.state.productNum}条</span>
-                                {!this.state.productNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
+                                {!this.state.productNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this, 1)}>
                                     查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>}
                             </header>
@@ -78,7 +78,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                         <div className={styles.items}>
                             <header>
                                 服务优惠 · <span>{this.state.serveNum}条</span>
-                                {!this.state.serveNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
+                                {!this.state.serveNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this, 2)}>
                                     查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
                                 </p>}
                             </header>
@@ -103,19 +103,19 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
         ds.first();
         while (ds.fetch()) {
             if (type == ds.getDouble('type_')) {
-                if(key > 2){
+                if (key > 2) {
                     continue;
                 }
                 let img = null;
                 if (ds.getString('content_').match(/<img [^>]*>/) && ds.getString('content_').match(/<img [^>]*>/)[0]) {
-                    img = ds.getString('content_').match(/<img [^>]*>/)[0].replace('style','cust-style');
+                    img = ds.getString('content_').match(/<img [^>]*>/)[0].replace('style', 'cust-style');
                 }
                 list.push(<li className={styles.item} onClick={this.toDetailFun.bind(this, ds.getDouble('advert_no_'))} key={key + ds.getString('type_') + ds.getString('UID_')}>
                     <div className={styles.mainText}>
                         <div>
                             {ds.getString('title_')}
                         </div>
-                        <p>{ds.getString('create_time_').slice(0,-3)} · {ds.getString('corp_name_')}</p>
+                        <p>{ds.getString('create_time_').slice(0, -3)} · {ds.getString('corp_name_')}</p>
                     </div>
                     {img ?
                         <div className={styles.imgBox} dangerouslySetInnerHTML={{ __html: img }}>
@@ -161,8 +161,8 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
         });
     }
 
-    moreMsg() {
-        location.href = `FrmDriverAdvert`;
+    moreMsg(type: number) {
+        location.href = `FrmDriverAdvert?type=` + type;
     }
 
     toDetailFun(advert_no: number) {
