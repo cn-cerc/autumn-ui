@@ -108,6 +108,7 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
             siteValue += `\\${this.state.site.district}`;
         siteInput.value = siteValue;
         addressInput.value = this.state.site.township + this.state.site.name;
+        addressInput.focus();
         this.handleClose();
     }
 }
