@@ -38,8 +38,6 @@ export default class AddressDialog extends BaseDialog<AddressProps, StaffTypeSta
         this.setLoad(true);
         let dataSet = await FplApi.getAddress(this.state.dataIn);
 
-        console.log(this.props)
-
         this.setLoad(false);
         this.setState({
             dataSet

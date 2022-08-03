@@ -40,7 +40,6 @@ export default class PayeeDialog extends BaseDialog<PayeeProps, StaffTypeState> 
         this.setState({
             dataSet
         })
-        console.log(this.props)
     }
 
     content() {
