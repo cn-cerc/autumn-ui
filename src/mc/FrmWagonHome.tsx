@@ -30,7 +30,6 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
             serveNum: 0,
             dataSet
         }
-        console.log(this.state.dataSet);
     }
 
     render(): React.ReactNode {
