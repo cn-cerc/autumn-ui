@@ -19,6 +19,7 @@ type site = {
     province: string,
     city: string,
     district: string,
+    township: string,
     name: string,
     lng: number,
     lat: number,
@@ -31,13 +32,15 @@ type addressInfo = {
     name: string,   // 详细位置
     province: string,   // 省
     city: string,   // 市
-    district: string    // 区
+    district: string    // 区、县
+    township: string    //镇、乡
 }
 
 export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProps, QuickSiteDialogTypeState> {
     private gdmap: GDMap = new GDMap();
     constructor(props: QuickSiteDialogTypeProps) {
         super(props);
+        this.setTitle("选择地址");
         this.state = {
             ...this.state,
             width: this.isPhone ? '100%' : '50rem',
@@ -47,6 +50,7 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
                 city: '',
                 district: '',
                 name: '',
+                township: '',
                 lng: 0,
                 lat: 0,
                 marker: null
@@ -58,7 +62,7 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
     content(): JSX.Element {
         return <div className={styles.main}>
             <div className={styles.inputBox}>
-                <input type="text" id='siteInput' placeholder="请输入查询位置" />
+                <input type="text" id='siteInput' placeholder="请输入查询位置" autoComplete="off" />
             </div>
             <div id="container" className={styles.container}></div>
             <button onClick={this.handleClick.bind(this)} className={styles.button}>确定</button>
@@ -83,6 +87,7 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
                 province: info.province,
                 city: info.city,
                 district: info.district,
+                township: info.township,
                 name: info.name,
                 lng: info.lng,
                 lat: info.lat,
@@ -102,7 +107,8 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
         if (this.state.site.district)
             siteValue += `\\${this.state.site.district}`;
         siteInput.value = siteValue;
-        addressInput.value = this.state.site.name;
+        addressInput.value = this.state.site.township + this.state.site.name;
+        addressInput.focus();
         this.handleClose();
     }
 }

@@ -196,30 +196,37 @@
     }
 
     .orderTypeList {
-        margin: 1.25rem .75rem;
         display: flex;
-        justify-content: space-around;
-        font-size: 14px;
-        color: #333333;
-        line-height: 1em;
+        justify-content: space-evenly;
+        position: inherit;
+        background-color: #fff;
+        margin-bottom: 12px;
     }
 
-    .orderTypeList .orderActive {
-        color: #0473EA;
-        font-weight: bold;
-        font-size: 16px;
+    .orderTypeList>li {
+        line-height: 1;
+        box-sizing: content-box;
+        margin: 0;
+        padding: 10px;
+        background: #FFFFFF00;
+        border: none;
+        display: block;
+        color: #000;
+        font-size: 14px;
+        height: 1.75em;
+        line-height: 1.75em;
         position: relative;
     }
 
     .orderTypeList .orderActive::after {
-        content: '';
         position: absolute;
-        top: 20px;
-        width: 1.25rem;
+        content: '';
+        top: calc(100% - 2px);
         left: 50%;
         transform: translateX(-50%);
+        width: 50%;
         height: 2px;
-        background-color: #0473EA;
+        background: #008738;
     }
 
     .orderList>li {
@@ -245,6 +252,7 @@
         overflow: hidden;
         font-weight: bold;
         overflow: hidden;
+        position: relative;
     }
 
     .orderTop>div>span {
@@ -261,7 +269,7 @@
     }
 
     .orderCenter {
-        margin: .625rem 0;
+        margin: 0.625rem 0;
         background-color: #FAFAFA;
         border-radius: .125rem;
         padding: .75rem 1rem;
@@ -309,7 +317,7 @@
     }
 
     .freight {
-        color: #E65C5C;
+        color: #333333;
     }
 
     .freight>span {
@@ -318,13 +326,13 @@
     }
 
     .btns>button {
-        padding: .5rem .875rem;
+        width: 3.5rem;
+        height: 1.875rem;
+        line-height: 1.875rem;
         border-radius: .25rem;
         background-color: #00A653;
         color: #fff;
         box-sizing: content-box;
-        height: 1em;
-        line-height: 1em;
     }
 
     .btns>button.received {
@@ -426,5 +434,21 @@
         box-sizing: content-box;
         height: 1em;
         line-height: 1em;
+    }
+
+    .luxian {
+        color: #333 !important;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: 2px;
+        top: 0;
+    }
+
+    .luxian>img {
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
     }
 }

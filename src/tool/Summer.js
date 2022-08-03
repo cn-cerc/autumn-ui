@@ -310,10 +310,13 @@ class GDMap {
                     this.getGeocoder(e.poi.name, (result) => {
                         infomation.lng = result.geocodes[0].location.lng;
                         infomation.lat = result.geocodes[0].location.lat;
-                        infomation.name = '';
                         infomation.province = result.geocodes[0].addressComponent.province;
                         infomation.city = result.geocodes[0].addressComponent.city;
                         infomation.district = result.geocodes[0].addressComponent.district;
+                        infomation.township = result.geocodes[0].addressComponent.township;
+                        infomation.name = '';
+                        if (e.poi.name != infomation.province && e.poi.name != infomation.city && e.poi.name != infomation.district && e.poi.name != infomation.township)
+                            infomation.name = e.poi.name;
                         callBack(infomation);
                     })
                     return;
@@ -325,6 +328,7 @@ class GDMap {
                     infomation.province = result.regeocode.addressComponent.province;
                     infomation.city = result.regeocode.addressComponent.city;
                     infomation.district = result.regeocode.addressComponent.district;
+                    infomation.township = result.regeocode.addressComponent.township;
                     callBack(infomation);
                 });
             })
