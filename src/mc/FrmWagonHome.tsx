@@ -1,25 +1,36 @@
 import { WebControl } from "autumn-ui";
 import React from "react";
+import { DataSet } from "../../autumn";
 import UIIntroduction from "../module/UIIntroduction";
 import StaticFile from "../static/StaticFile";
 import styles from "./FrmWagonHome.css";
 
 type FrmWagonHomeTypeProps = {
     introduction: string,
+    jsonData: string
 }
 
 type FrmWagonHomeTypeState = {
+    activityNum: number,
+    opNum: number,
     productNum: number,
     serveNum: number,
+    dataSet: DataSet,
 }
 
 export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmWagonHomeTypeState> {
     constructor(props: FrmWagonHomeTypeProps) {
         super(props);
+        let dataSet = new DataSet();
+        dataSet.setJson(this.props.jsonData);
         this.state = {
+            activityNum: 0,
+            opNum: 0,
             productNum: 0,
             serveNum: 0,
+            dataSet
         }
+        console.log(this.state.dataSet);
     }
 
     render(): React.ReactNode {
@@ -30,63 +41,24 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                     <div className={styles.leftBox}>
                         <div className={styles.items}>
                             <header>
-                                活动公告 · <span>20条</span>
-                                <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
+                                活动公告 · <span>{this.state.activityNum}条</span>
+                                {!this.state.activityNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
                                     查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
-                                </p>
+                                </p>}
                             </header>
                             <ul>
-                                <li className={styles.item} onClick={this.toDetailFun.bind(this, 1)}>
-                                    <div className={styles.mainText}>
-                                        <div>
-                                            恒大汽车：恒驰5将于7月6日晚8点开启预售 首一万辆可交车时付...
-                                        </div>
-                                        <p>2022-07-05 12:53·庆丰物流</p>
-                                    </div>
-                                </li>
-                                <li className={styles.item} onClick={this.toDetailFun.bind(this, 1)}>
-                                    <div className={styles.mainText}>
-                                        <div>
-                                            恒大汽车：恒驰5将于7月6日晚8点开启预售 首一万辆可交车时付...
-                                        </div>
-                                        <p>2022-07-05 12:53·庆丰物流</p>
-                                    </div>
-                                    <div className={styles.imgBox}>
-                                        <img src="images/MCimg/sjzj_1.png" alt="" />
-                                    </div>
-                                </li>
+                                {this.getHtml(0)}
                             </ul>
                         </div>
                         <div className={styles.items}>
                             <header>
-                                操作指引 · <span>11条</span>
-                                <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
+                                操作指引 · <span>{this.state.opNum}条</span>
+                                {!this.state.opNum ? '' : <p className={styles.rightBtn} onClick={this.moreMsg.bind(this)}>
                                     查看更多 <img src={StaticFile.getImage('images/arrow_right.png')} alt="" />
-                                </p>
+                                </p>}
                             </header>
                             <ul>
-                                <li className={styles.item} onClick={this.toDetailFun.bind(this, 2)}>
-                                    <div className={styles.mainText}>
-                                        <div>
-                                            恒大汽车：恒驰5将于7月6日晚8点开启预售 首一万辆可交车时付...
-                                        </div>
-                                        <p>2022-07-05 12:53·庆丰物流</p>
-                                    </div>
-                                    <div className={styles.imgBox}>
-                                        <img src="images/MCimg/sjzj_1.png" alt="" />
-                                    </div>
-                                </li>
-                                <li className={styles.item} onClick={this.toDetailFun.bind(this, 2)}>
-                                    <div className={styles.mainText}>
-                                        <div>
-                                            恒大汽车：恒驰5将于7月6日晚8点开启预售 首一万辆可交车时付...
-                                        </div>
-                                        <p>2022-07-05 12:53·庆丰物流</p>
-                                    </div>
-                                    <div className={styles.imgBox}>
-                                        <img src="images/MCimg/sjzj_1.png" alt="" />
-                                    </div>
-                                </li>
+                                {this.getHtml(1)}
                             </ul>
                         </div>
                     </div>
@@ -99,7 +71,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                                 </p>}
                             </header>
                             <ul>
-                                <li className={styles.textCenter}>暂无数据</li>
+                                {this.getHtml(2)}
                             </ul>
                         </div>
                     </div>
@@ -112,7 +84,7 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
                                 </p>}
                             </header>
                             <ul>
-                                <li className={styles.textCenter}>暂无数据</li>
+                                {this.getHtml(3)}
                             </ul>
                         </div>
                     </div>
@@ -122,19 +94,76 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
     }
 
     componentDidMount(): void {
+        this.getCount();
+    }
+
+    getHtml(type: number) {
+        let list: any = [];
+        let ds = this.state.dataSet;
+        let notData = true, key: number = 1;
+        ds.first();
+        while (ds.fetch()) {
+            if (type == ds.getDouble('type_')) {
+                let img = null;
+                if (ds.getString('content_').match(/<img [^>]*>/) && ds.getString('content_').match(/<img [^>]*>/)[0]) {
+                    img = ds.getString('content_').match(/<img [^>]*>/)[0];
+                }
+                list.push(<li className={styles.item} onClick={this.toDetailFun.bind(this, ds.getDouble('advert_no_'))} key={key + ds.getString('type_') + ds.getString('UID_')}>
+                    <div className={styles.mainText}>
+                        <div>
+                            {ds.getString('title_')}
+                        </div>
+                        <p>{ds.getString('create_time_')} · {ds.getString('corp_name_')}</p>
+                    </div>
+                    {img ?
+                        <div className={styles.imgBox} dangerouslySetInnerHTML={{ __html: img }}>
+                        </div> : ''}
+                </li>)
+                notData = false;
+                key++;
+            }
+        }
+
+        if (notData) {
+            list.push(<li className={styles.textCenter}>暂无数据</li>);
+        }
+
+        return list;
+    }
+
+    getCount() {
+        let ds = this.state.dataSet;
+        ds.first();
+        let activityNum = 0, opNum = 0, productNum = 0, serveNum = 0;
+        while (ds.fetch()) {
+            switch (ds.getString('type_')) {
+                case '0':
+                    activityNum += 1;
+                    break;
+                case '1':
+                    opNum += 1;
+                    break;
+                case '2':
+                    productNum += 1;
+                    break;
+                case '3':
+                    serveNum += 1;
+                    break;
+            }
+        }
+        this.setState({
+            activityNum,
+            opNum,
+            productNum,
+            serveNum,
+        });
     }
 
     moreMsg() {
         location.href = `FrmDriverAdvert`;
     }
 
-    toDetailFun(type: number) {
-        let advert_no_;
-        if (type == 1) {
-            advert_no_ = 20220711372;
-        } else if (type == 2) {
-            advert_no_ = 20220711239;
-        }
-        location.href = `FrmDriverAdvert.modify?advert_no_=${advert_no_}`;
+    toDetailFun(advert_no: number) {
+        location.href = `FrmDriverAdvert.modify?advert_no_=${advert_no}`;
     }
 }
