@@ -55,16 +55,16 @@ export default class BankCorrectionDialog extends BaseDialog<BaseDialogPropsType
             return <Block dataSet={this.state.dataSet}>
                 <Line>
                     <ColumnIt width='10' name=''></ColumnIt>
-                    <Column width='80' name='' code='XXX'></Column>
-                    <Column code='Opera' width='10' name='' customText={(row: DataRow) => {
-                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
-                    }}></Column>
+                    <Column width='90' name='' code='bankName'></Column>
                 </Line>
                 <Line>
                     <Column width='50' name='支行号码' code='bankCode'></Column>
                 </Line>
                 <Line>
-                    <Column width='50' name='支行名称' code='bankName'></Column>
+                    <Column code='bankRatio' width='85' name="匹配度" textAlign="center"></Column>
+                    <Column code='Opera' width='15' name='' customText={(row: DataRow) => {
+                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                    }}></Column>
                 </Line>
             </Block>
         } else {
@@ -72,6 +72,7 @@ export default class BankCorrectionDialog extends BaseDialog<BaseDialogPropsType
                 <ColumnIt width='10'></ColumnIt>
                 <Column code='bankCode' width='40' name="支行号码"></Column>
                 <Column code='bankName' width='60' name="支行名称"></Column>
+                <Column code='bankRatio' width='20' name="匹配度" textAlign="center"></Column>
                 <Column code='Opera' width='20' name='操作' textAlign="center" customText={(row: DataRow) => {
                     return <span role='auiOpera'>选择</span>
                 }}></Column>
