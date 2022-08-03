@@ -314,6 +314,7 @@ class GDMap {
                         infomation.province = result.geocodes[0].addressComponent.province;
                         infomation.city = result.geocodes[0].addressComponent.city;
                         infomation.district = result.geocodes[0].addressComponent.district;
+                        infomation.township = result.geocodes[0].addressComponent.township;
                         callBack(infomation);
                     })
                     return;
@@ -325,6 +326,7 @@ class GDMap {
                     infomation.province = result.regeocode.addressComponent.province;
                     infomation.city = result.regeocode.addressComponent.city;
                     infomation.district = result.regeocode.addressComponent.district;
+                    infomation.township = result.regeocode.addressComponent.township;
                     callBack(infomation);
                 });
             })
