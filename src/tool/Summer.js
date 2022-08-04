@@ -166,22 +166,22 @@ class AuiMath {
 
     add(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) + (num2 * multiple)) / multiple;
+        return (Math.round((num1 * multiple)) + Math.round(num2 * multiple)) / multiple;
     }
 
     sub(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) - (num2 * multiple)) / multiple;
+        return (Math.round(num1 * multiple) - Math.round(num2 * multiple)) / multiple;
     }
 
     mul(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) * (num2 * multiple)) / Math.pow(multiple, 2);
+        return (Math.round(num1 * multiple) * Math.round(num2 * multiple)) / Math.pow(multiple, 2);
     }
 
     div(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) / (num2 * multiple)) / Math.pow(multiple, 2);
+        return (Math.round(num1 * multiple) / Math.round(num2 * multiple)) / Math.pow(multiple, 2);
     }
 
     toFixed(num, len) {
@@ -221,12 +221,18 @@ function callPhoneNumber(mobile) {
 class GDMap {
     map;
     geocoder;
-    initMap(container) {
+    initMap(container, config) {
         if (!AMap)
             throw new Error('缺少高德地图依赖文件');
-        this.map = new AMap.Map(container, {
+        let configObj = {
             resizeEnable: true
-        });
+        }
+        if (config)
+            configObj = {
+                ...configObj,
+                ...config
+            }
+        this.map = new AMap.Map(container, configObj);
     }
 
     // 根据位置获取经纬度
@@ -412,4 +418,12 @@ class GDMap {
     }
 }
 
-export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap };
+function addScript(url, callBack) {
+    let script = document.createElement('script');
+    script.setAttribute('src', url);
+    script.setAttribute('type', 'text/javascript');
+    script.onload = callBack;
+    document.body.appendChild(script);
+}
+
+export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap, addScript };

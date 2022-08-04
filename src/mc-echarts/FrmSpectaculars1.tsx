@@ -1,7 +1,10 @@
 import { DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import FplApi from "../api/FplApi";
+import ApplicationConfig from "../static/ApplicationConfig";
 import StaticFile from "../static/StaticFile";
+import { addScript, AuiMath, GDMap } from "../tool/Summer";
 import styles from "./FrmSpectaculars1.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
@@ -9,6 +12,7 @@ type FrmSpectaculars1TypeProps = {
 }
 
 type FrmSpectaculars1TypeState = {
+    carData: DataSet,
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
@@ -18,6 +22,7 @@ type FrmSpectaculars1TypeState = {
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
+    private gdmap: GDMap = new GDMap();
     constructor(props: FrmSpectaculars1TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -49,6 +54,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         pieData4.append().setValue('Value_', 13).setValue('Name_', '50~65');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
+            carData: new DataSet(),
             lineData,
             pieData1,
             pieData2,
@@ -75,7 +81,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
                                 <div className={styles.topInfo}>
-                                    11042 <span>辆</span>
+                                    {this.state.carData.head.getString('total_')} <span>辆</span>
                                 </div>
                             </div>
                         </li>
@@ -122,8 +128,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
-                            <div className={styles.mcMap}>
-                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
+                            <div className={styles.mcMap} id='carMapContainer'>
+                                {/* <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" /> */}
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
@@ -170,12 +176,26 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     componentDidMount(): void {
+        this.initCarData();
         this.initLineChart();
         this.initLineChart1();
-        this.initPieChart1();
         this.initPieChart2();
         this.initPieChart3();
         this.initPieChart4();
+        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
+    }
+
+    async initCarData() {
+        let carData = await FplApi.queryCarsCurrentLocation();
+        this.setState({
+            carData
+        }, () => {
+            this.initPieChart1();
+        })
+    }
+
+    initMap() {
+        this.gdmap.initMap('carMapContainer');
     }
 
     initLineChart1() {
@@ -289,9 +309,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let math = new AuiMath();
         const gaugeData = [
             {
-                value: 90,
+                value: math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
