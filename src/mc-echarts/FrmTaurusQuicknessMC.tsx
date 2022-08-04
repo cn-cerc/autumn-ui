@@ -153,7 +153,8 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 type: 'value',
                 axisLabel: {
                     color: '#333333'
-                }
+                },
+                minInterval:1
             },
             tooltip: {},
             grid: {
