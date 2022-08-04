@@ -129,7 +129,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
                             <div className={styles.mcMap} id='carMapContainer'>
-                                {/* <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" /> */}
+                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
                             </div>
                         </div>
                         <div className={styles.centerBox2}>
@@ -182,7 +182,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         this.initPieChart2();
         this.initPieChart3();
         this.initPieChart4();
-        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
+        // addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
     }
 
     async initCarData() {
