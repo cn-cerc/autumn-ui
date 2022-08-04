@@ -243,7 +243,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         }
         let bool = !list.length;
         if (bool) {
-            list.push(<li className={styles.noOrder} key='noData'>暂无运单</li>)
+            list.push(<li className={styles.noOrder} key='noData'>
+                <div><img src={StaticFile.getImage('images/Frmshopping/notDataImg.png')} alt="" /></div>
+                <p>暂无运单</p>
+            </li>)
         }
         return <ul className={styles.orderList} style={{ 'marginTop': !bool ? '0.75rem' : '' }} key={this.state.orderType}>{list}</ul>
     }
@@ -304,18 +307,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
             </li>
         } else {
-            let depart = row.getString('depart_');
-            if (depart.indexOf('/') > -1) {
-                depart = depart.substring(depart.indexOf('/') + 1, depart.length);
-            } else {
-                depart = depart.substring(depart.indexOf('\\') + 1, depart.length);
-            }
-            let destination = row.getString('destination_');
-            if (destination.indexOf('/') > -1) {
-                destination = destination.substring(destination.indexOf('/') + 1, destination.length);
-            } else {
-                destination = destination.substring(destination.indexOf('\\') + 1, destination.length);
-            }
+            let depart = this.removeProvinceFun(row.getString('depart_'));
+            let destination = this.removeProvinceFun(row.getString('destination_'));
             let stratDate = new Date(row.getString('send_date_time_'));
             let endDate = new Date(row.getString('arrive_date_time_'));
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
@@ -331,8 +324,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
                     <div className={styles.orderInfo}>
                         <span><i>货物明细</i>{row.getString('code_')} | {row.getString('total_')}{[this.unitArr[row.getDouble('main_unit_')]]} | {row.getString('unit_price_')}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
-                        <span><i>计划发车</i>{stratDate.getFullYear == new Date().getFullYear ? `${(stratDate.getMonth() + 1) < 10 ? '0' + (stratDate.getMonth() + 1) : stratDate.getMonth() + 1}月${stratDate.getDate() < 10 ? '0' + stratDate.getDate() : stratDate.getDate()}日${stratDate.getHours() < 10 ? '0' + stratDate.getHours() : stratDate.getHours()}时` : `${stratDate.getFullYear()}年${(stratDate.getMonth() + 1) < 10 ? '0' + (stratDate.getMonth() + 1) : stratDate.getMonth() + 1}月${stratDate.getDate() < 10 ? '0' + stratDate.getDate() : stratDate.getDate()}日`}</span>
-                        <span><i>计划抵达</i>{endDate.getFullYear == new Date().getFullYear ? `${(endDate.getMonth() + 1) < 10 ? '0' + (endDate.getMonth() + 1) : endDate.getMonth() + 1}月${endDate.getDate() < 10 ? '0' + endDate.getDate() : endDate.getDate()}日${endDate.getHours() < 10 ? '0' + endDate.getHours() : endDate.getHours()}时` : `${endDate.getFullYear()}年${(endDate.getMonth() + 1) < 10 ? '0' + (endDate.getMonth() + 1) : endDate.getMonth() + 1}月${endDate.getDate() < 10 ? '0' + endDate.getDate() : endDate.getDate()}日`}</span>
+                        <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
+                        <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>
@@ -398,5 +391,24 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 break;
         }
         return <img src={imgSrc}></img>
+    }
+
+    removeProvinceFun(address:string){
+        if (address.indexOf('/') > -1) {
+            address = address.substring(address.indexOf('/') + 1, address.length);
+        } else {
+            address = address.substring(address.indexOf('\\') + 1, address.length);
+        }
+        return address;
+    }
+
+    formatDateTimeFun(dateObj:Date){
+        let str = '';
+        if(dateObj.getFullYear == new Date().getFullYear){
+            str = `${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日${dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours()}时`;
+        }else{
+            str = `${dateObj.getFullYear()}年${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日`;
+        }
+        return str;
     }
 }
