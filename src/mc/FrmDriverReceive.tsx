@@ -323,7 +323,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 <div className={styles.orderCenter}>
 
                     <div className={styles.orderInfo}>
-                        <span><i>货物明细</i>{row.getString('code_')} | {row.getString('total_')}{[this.unitArr[row.getDouble('main_unit_')]]} | {row.getString('unit_price_')}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
+                        <span><i>货物明细</i>{row.getString('code_')} | {this.fromatPriceFun(row.getString('total_'))}{[this.unitArr[row.getDouble('main_unit_')]]} | {this.fromatPriceFun(row.getString('unit_price_'))}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
                         <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
                         <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
                     </div>
@@ -410,5 +410,13 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             str = `${dateObj.getFullYear()}年${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日`;
         }
         return str;
+    }
+
+
+    fromatPriceFun(num:any){
+        let d = Math.round(num*100) / 100;
+        const price = (d+"").split(".");
+        price[1] = price[1]?`${(price[1]+"000").substring(0,3)}`:"00";
+        return price.join(".");
     }
 }
