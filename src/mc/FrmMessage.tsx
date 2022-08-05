@@ -5,7 +5,6 @@ import CreateGroupDialog from "../dialog/CreateGroupDialog";
 import ImageConfig from "../static/ImageConfig";
 import StaticFile from "../static/StaticFile";
 import { showMsg } from "../tool/Summer";
-import Utils from "../tool/Utils";
 import styles from "./FrmMessage.css";
 import AcceptMessage from "./message/AcceptMessage";
 import DefaultMessage from "./message/DefaultMessage";
@@ -765,6 +764,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         row.setValue('UserCode_', messageData.fromUser)
+        if(!messageData.fromUser)
+            return '';
         let dataOut = await DitengApi.getUserRemark(row);
         if (this.closeServerFun(dataOut.state)) {
             return;

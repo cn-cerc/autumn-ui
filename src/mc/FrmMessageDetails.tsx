@@ -186,8 +186,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
     async getMessageData() {
         let row = new DataRow();
         row.setValue('FromUser_', this.props.fromUser);
-        if (this.state.lastMessageId)
-            row.setValue('offset', this.state.lastMessageId);
         let messageData = new DataSet();
         let ds = await DitengApi.getMessageDetails(row);
         if (this.closeServerFun(ds.state)) {
@@ -208,7 +206,6 @@ export default class FrmMessageDetails extends WebControl<FrmMessageDetailsTypeP
         messageData.first();
         this.setState({
             messageData,
-            lastMessageId: messageData.getString('UID_')
         }, () => {
             this.initMessageScroll();
         })
