@@ -14,10 +14,6 @@ type FrmSpectaculars1TypeProps = {
 type FrmSpectaculars1TypeState = {
     carData: DataSet,
     lineData: DataSet,
-    pieData1: DataSet,
-    pieData2: DataSet,
-    pieData3: DataSet,
-    pieData4: DataSet,
     toggle: number,
     allCarNetPanel: DataSet,
     weeklyArrCarStatis: DataSet,
@@ -38,33 +34,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let pieData3 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let pieData4 = new DataSet();
-        pieData4.append().setValue('Value_', 11).setValue('Name_', '18~30');
-        pieData4.append().setValue('Value_', 50).setValue('Name_', '31~50');
-        pieData4.append().setValue('Value_', 13).setValue('Name_', '50~65');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             carData: new DataSet(),
             lineData,
-            pieData1,
-            pieData2,
-            pieData3,
-            pieData4,
             toggle,
             allCarNetPanel: new DataSet(),
             weeklyArrCarStatis: new DataSet(),
@@ -94,10 +67,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             this.initPieChart3();
             this.initPieChart4();
         })
-        weeklyArrCarStatis.first();
-        while (weeklyArrCarStatis.fetch()) {
 
-        }
     }
 
     render(): React.ReactNode {
@@ -278,20 +248,15 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
+        let ds = this.state.weeklyArrCarStatis;
         let xArr = [];
         let sData = [];
+        ds.first();
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('arr_total_'));
         }
-
-        // this.state.weeklyArrCarStatis.first();
-        // while (this.state.weeklyArrCarStatis.fetch()) {
-        //     sData.push(ds.getDouble('Value_'));
-        // }
+        
         let option = {
             xAxis: {
                 type: 'category',
@@ -309,12 +274,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 type: 'value',
                 axisLabel: {
                     color: '#333333'
-                }
+                },
+                minInterval:1
             },
             lengend: {},
             tooltip: {},
             grid: {
-                top: 15,
+                top: 20,
                 left: 0,
                 bottom: 0,
                 right: 10,
