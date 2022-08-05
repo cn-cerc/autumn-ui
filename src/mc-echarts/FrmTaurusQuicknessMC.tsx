@@ -3,32 +3,33 @@ import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmTaurusMC.css";
+import StaticFile from "../static/StaticFile";
+import styles from "./FrmTaurusQuicknessMC.css";
 
-type FrmTaurusMCTypeProps = {
+type FrmTaurusQuicknessMCTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmTaurusMCTypeState = {
+type FrmTaurusQuicknessMCTypeState = {
     linkRow: DataRow,
-    vehicleState: DataSet,
-    invoiceStatistics: DataSet,
-    waybillDtatistics: DataSet,
+    driverOrderTop5: DataSet,
+    ticketedArrTotal: DataSet,
+    monthlyArrCarStatis: DataSet,
 }
 
-export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9']
+export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9'];
 
-export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
-    constructor(props: FrmTaurusMCTypeProps) {
+export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessMCTypeProps, FrmTaurusQuicknessMCTypeState> {
+    constructor(props: FrmTaurusQuicknessMCTypeProps) {
         super(props);
         let linkRow = new DataRow();
         linkRow.setJson(this.props.dataJson);
         this.state = {
             linkRow,
-            vehicleState: new DataSet(),
-            invoiceStatistics: new DataSet(),
-            waybillDtatistics: new DataSet(),
+            driverOrderTop5: new DataSet(),
+            ticketedArrTotal: new DataSet(),
+            monthlyArrCarStatis: new DataSet(),
         }
     }
 
@@ -37,77 +38,87 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
             <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
-                    <div className={styles.mcTitle}>流程图</div>
-                    <div className={styles.mcFlowChartMain}>
-                        <div className={styles.mcFlowChart}></div>
-                        <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.linkRow.getBoolean('商品资料登记_Dis') ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '商品资料登记')}>
-                                <span>商品资料登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('客户登记_Dis') ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '客户登记')}>
-                                <span>客户登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('车队与司机登记_Dis') ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车队与司机登记')}>
-                                <span>车队与司机登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('物流订单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '物流订单登记')}>
-                                <span>物流订单登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('物流订单管理_Dis') ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
-                                <span>物流订单管理</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('自行派车物流运单登记_Dis') ? styles.register_disable : styles.register} ${styles.stock10}`} onClick={this.linkTo.bind(this, '自行派车物流运单登记')}>
-                                <span>自行派车物流运单登记</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('委托第三方物流运输_Dis') ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '委托第三方物流运输')}>
-                                <span>委托第三方物流运输</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('网络货运平台撮合_Dis') ? styles.other_disable : styles.other} ${styles.stock12}`} onClick={this.linkTo.bind(this, '网络货运平台撮合')}>
-                                <span>网络货运平台撮合</span>
-                            </div>
-                            <div className={`${this.state.linkRow.getBoolean('司机端_Dis') ? styles.other_disable : styles.other} ${styles.stock14}`} onClick={this.linkTo.bind(this, '司机端')}>
-                                <span>司机端</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div className={styles.mcTitle}>发货流程</div>
+                    {this.getHtml()}
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>车辆状态统计</div>
-                            <div className={styles.FrmTaurusMCPie1}></div>
+                            <div className={styles.mcTitle}>司机接单统计(前五)</div>
+
+                            <div className={styles.FrmTaurusQuicknessMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>物流订单统计</div>
-                            <div className={styles.FrmTaurusMCPie2}></div>
+                            <div className={styles.mcTitle}>运单统计</div>
+                            <div className={styles.FrmTaurusQuicknessMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>货运车辆统计</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                        <div className={styles.mcTitle}>运单数量</div>
+                        <div className={styles.FrmTaurusQuicknessMCLine}></div>
                     </div>
                 </div>
             </div>
         </div>
     }
 
+    getHtml() {
+        return <div>
+            <ul className={styles.btnMCBox}>
+                <li onClick={this.linkTo.bind(this, '我要发货')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/deliver.png')} alt="" />
+                        </div>
+                        <div>
+                            <span>我要发货</span>
+                            <p>填写发货信息</p>
+                        </div>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '我要跟踪')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/schedule.png')} alt="" />
+                        </div>
+                        <div>
+                            <span>我要跟踪</span>
+                            <p>跟踪货物信息</p>
+                        </div>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '我要开票')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/invoice.png')} alt="" />
+                        </div>
+                        <div>
+                            <span>我要开票</span>
+                            <p>运单开具发票</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    }
+
     async init() {
-        let vehicleState = new DataSet();
-        vehicleState = await FplApi.getMoreThanOneWeekReport();
-        let invoiceStatistics = new DataSet();
-        invoiceStatistics = await FplApi.queryCargoReport();
-        let waybillDtatistics = new DataSet();
-        waybillDtatistics = await FplApi.getWaybillDtatistics();
+        let driverOrderTop5 = new DataSet();
+        driverOrderTop5 = await FplApi.getDriverOrderTop5();
+        let ticketedArrTotal = new DataSet();
+        ticketedArrTotal = await FplApi.getTicketedArrTotal();
+        let monthlyArrCarStatis = new DataSet();
+        monthlyArrCarStatis = await FplApi.getMonthlyArrCarStatis();
 
         this.setState({
-            vehicleState,
-            invoiceStatistics,
-            waybillDtatistics
+            driverOrderTop5,
+            ticketedArrTotal,
+            monthlyArrCarStatis,
+        }, () => {
+            this.initBarChart();
+            this.initPieChart1();
+            this.initPieChart2();
         })
-        this.initBarChart();
-        this.initPieChart1();
-        this.initPieChart2();
-        this.initFlowChart();
     }
 
     componentDidMount(): void {
@@ -115,25 +126,16 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     initBarChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
+        let lineChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds = this.state.waybillDtatistics;
+        let ds = this.state.monthlyArrCarStatis;
         ds.first();
-        let xArr = [
-            '未发货',
-            '已发货',
-            '已卸货',
-            '审核中',
-            '已结案'
-        ];
-        let sData = [
-            ds.getDouble('notYetShipped'),
-            ds.getDouble('hasBeenShipped'),
-            ds.getDouble('cargoUnloaded'),
-            ds.getDouble('checkPending'),
-            ds.getDouble('caseClosed'),
-        ];
+        let xArr: any = [];
+        let sData: any = [];
+        while (ds.fetch()) {
+            xArr.push(`${new Date(ds.getString('date_')).getMonth() + 1}月`);
+            sData.push(`${ds.getDouble('arr_total_')}`);
+        }
         let option = {
             xAxis: {
                 type: 'category',
@@ -151,7 +153,8 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 type: 'value',
                 axisLabel: {
                     color: '#333333'
-                }
+                },
+                minInterval:1
             },
             tooltip: {},
             grid: {
@@ -168,7 +171,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: 60,
+                    barWidth: 10,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -184,16 +187,25 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds = this.state.vehicleState;
-        ds.first();
-        let dataArr: any = [
-            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
-            { name: '空车', value: ds.getDouble('carry_sum_') },
-            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
-        ];
+        let dataArr: any = [];
+        if (this.state.driverOrderTop5.size >= 1) {
+            let ds = this.state.driverOrderTop5;
+            ds.first();
+            while (ds.fetch()) {
+                dataArr.push({
+                    name: ds.getString('driver_name_'),
+                    value: ds.getDouble('num_')
+                })
+            }
+        } else {
+            dataArr.push({
+                name: '暂无司机接单',
+                value: 0
+            });
+        }
+
         let option = {
             tooltip: {
                 trigger: 'item'
@@ -209,7 +221,11 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value;
+                    if (this.state.driverOrderTop5.size >= 1) {
+                        return name + ' : ' + singleData[0].value + '单';
+                    } else {
+                        return name;
+                    }
                 },
             },
             grid: {
@@ -249,16 +265,13 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
     }
 
     initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds = this.state.invoiceStatistics;
+        let ds = this.state.ticketedArrTotal;
         ds.first();
         let dataArr: any = [
-            // {name:'总货单数',value:ds.getDouble('sum')},
-            { name: '未开始', value: ds.getDouble('status1') },
-            { name: '执行中', value: ds.getDouble('status2') },
-            { name: '完成', value: ds.getDouble('status3') }
+            { name: '已开票', value: ds.getString('ticketed_arr_total_') },
+            { name: '未开票', value: ds.getString('unticketed_arr_total_') }
         ];
 
         let option = {
@@ -276,7 +289,7 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value;
+                    return name + ' : ' + singleData[0].value + '单';
                 },
             },
             series: [
@@ -330,49 +343,14 @@ export default class FrmTaurusMC extends WebControl<FrmTaurusMCTypeProps, FrmTau
                 },
                 {
                     coords: [
-                        [168, 160],
-                        [168, 189],
+                        [279, 71],
+                        [279, 105],
                     ]
                 },
                 {
                     coords: [
-                        [168, 247],
-                        [168, 271],
-                    ]
-                },
-                {
-                    coords: [
-                        [168, 247],
-                        [168, 261],
-                        [50, 261],
-                        [50, 271],
-                    ]
-                }, {
-                    coords: [
-                        [168, 247],
-                        [168, 261],
-                        [278, 261],
-                        [278, 271],
-                    ]
-                },
-                {
-                    coords: [ //自行派车运单登记 往右下线条
-                        [50, 328],
-                        [50, 347],
-                        [168, 347]
-                    ]
-                },
-                {
-                    coords: [ //网络货运平台撮合 往左下线条
-                        [278, 328],
-                        [278, 347],
-                        [168, 347],
-                    ]
-                },
-                {
-                    coords: [
-                        [168, 328],
-                        [168, 356],
+                        [256, 123],
+                        [190, 123],
                     ]
                 },
             ]

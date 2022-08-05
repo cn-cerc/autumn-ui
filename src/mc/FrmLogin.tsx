@@ -78,7 +78,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     <form method="post" className={styles.mainBox} onSubmit={this.onSubmit.bind(this)}>
                         <div className={`${styles.inputGroup} ${styles.userName} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
                             <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
-                            <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                            <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或4PL帐号" autoComplete='off' onChanged={this.changeUserCode.bind(this)} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                             {this.getSelectBtn()}
                             {this.getChooseList()}
                         </div>
@@ -93,12 +93,13 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             <a href="FrmForgetPassword">找回密码?</a>
                         </div>
                         <button className={styles.btnSubmit} onClick={this.onSubmit.bind(this)}>登录</button>
+                        {this.getOneKeyLoginBtn()}
                         <section className={styles.customService}>
                             <div className={styles.protocolBox}>
                                 <div className={styles.protocol}>
                                     <img src={this.state.protocol ? StaticFile.getImage('images/icon/checkbox_checked.png') : StaticFile.getImage('images/icon/checkbox.png')} onClick={this.changeProtocol.bind(this)}></img>
                                     <input type="checkBox" name="protocol" id="protocol" checked={this.state.protocol} onChange={this.changeProtocol.bind(this)} />
-                                    <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
+                                    <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault&device=phone">《用户协议》</a>和<a href="privacy-right?back=WebDefault&device=phone">《隐私协议》</a></label>
                                 </div>
                             </div>
                             <h3><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
@@ -116,7 +117,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         <div className={styles.userMessage}>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
                                 <img src={this.state.iconHover == 1 ? StaticFile.getImage('images/login/account_hover.png') : StaticFile.getImage('images/login/account.png')} />
-                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或地藤帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
+                                <DBEdit dataField="userCode" dataRow={this.props.dataRow} placeholder="手机号码或4PL帐号" autoComplete='off' autoFocus onChanged={this.changeUserCode.bind(this)} className={styles.formInput} onFocus={this.setIconHover.bind(this, 1)} onBlur={this.inputBlur.bind(this)}></DBEdit>
                                 {this.getSelectBtn()}
                                 {this.getChooseList()}
                             </p>
@@ -139,13 +140,103 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         <div className={styles.bottom}>
                             <a href="FrmForgetPassword" className={styles.afterRight}>找回密码</a>
                             <a href="TFrmContact" className={styles.afterRight}>客服中心</a>
-                            <a href="TFrmHardware" className={styles.afterRight}>硬件配置</a>
+                            {/* <a href="TFrmHardware" className={styles.afterRight}>硬件配置</a> */}
                             <a href="install" className={styles.afterInstall}>软件下载</a>
                         </div>
                         {this.getMessageDOM()}
                     </div>
                 </form>
             )
+        }
+    }
+
+    getOneKeyLoginBtn() {
+        //@ts-ignore
+        if (this.isPhone && window.ApiCloud.isApiCloud()) {
+            return <button type="button" onClick={this.oneKeyLogin.bind(this)} className={styles.oneKeyLogin} style={{ 'marginTop': '.75rem' }}>本机号码一键登录</button>
+        }
+    }
+
+    oneKeyLogin() {
+        if (!this.state.protocol && this.isPhone) {
+            this.setState({
+                message: '请先同意用户协议和隐私协议',
+                showLoad: false
+            })
+            return;
+        }
+        //@ts-ignore
+        try {
+            //@ts-ignore
+            var aliPhoneAuth = api.require('aliPhoneAuth');
+            var params = {
+                timeout: 10000,
+                navHidden: "true",
+                logBtnTextColor: "#ffffff",
+                privacyColor: "#e75555",
+                privacyOne: ["", ""],
+                privacyTwo: ["", ""],
+                privacyTip: "请阅读并同意协议"
+            }
+            aliPhoneAuth.oneKeyLogin(params, (ret: any, err: any) => {
+                if (ret.code == '600000') {//获取token成功
+                    this.setState({
+                        showLoad: true
+                    })
+                    aliPhoneAuth.quitLoginPage();//关闭一键登录页面
+                    let service = new QueryService(this.props);
+                    service.setService('SvrUserLogin.getToken');
+                    this.props.dataRow.setValue('loginType', 'oneKeyLogin');
+                    this.props.dataRow.setValue('userCode', "***********");
+                    this.props.dataRow.setValue('password', ret.token);
+                    service.dataIn.head.copyValues(this.props.dataRow.current);
+                    service.open().then((dataOut) => {
+                        let href = location.protocol + '//' + location.host + '/' + dataOut.head.getString('startPage')
+                            + '?sid=' + dataOut.head.getString('token') + '&CLIENTID=' + this.props.dataRow.getString('clientId')
+                            + '&device=phone';
+                        localStorage.setItem('ErpKey_Account1', dataOut.head.getString('mobile'));
+                        localStorage.setItem('ErpKey_password', dataOut.head.getString('token'));
+                        localStorage.setItem('ErpKey_loginType', "mobile");
+                        location.href = href;
+                    }).catch((dataOut) => {
+                        this.setState({ showLoad: false })
+                        if (dataOut.head.getValue('status') == -8) {
+                            this.props.dataRow.setValue('verifyCode', '??????');
+                            showVerify = true
+                            this.setState({
+                                message: ''
+                            })
+                        } else {
+                            this.setState({
+                                message: dataOut.message
+                            })
+                        }
+                    });
+                } else if (ret.code == '600007') {
+                    let msg = '未检测到SIM卡，请检查SIM卡后重试';
+                    aliPhoneAuth.quitLoginPage();
+                    showMsg(msg);
+                } else if (ret.code == '600008' || ret.code == '600011') {
+                    let msg = '请开启移动网络后重试或切换其他登录方式';
+                    aliPhoneAuth.quitLoginPage();
+                    showMsg(msg);
+                } else if (ret.code == '700000') {
+                    aliPhoneAuth.quitLoginPage();
+                } else if (ret.code != '600001') {
+                    let msg = ret.msg;
+                    aliPhoneAuth.quitLoginPage();
+                    showMsg(msg);
+                }
+                this.setState({
+                    message: ''
+                })
+            });
+        } catch (err) {
+            aliPhoneAuth.quitLoginPage();
+            this.setState({
+                showLoad: false,
+                message: ''
+            })
         }
     }
 
@@ -662,16 +753,19 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         this.setState({ showLoad: true, message: '' })
         // let dataOut = new DataSet();
         try {
+            if (this.props.dataRow.getString('userCode') != this.state.client.get('Account1') || this.props.dataRow.getString('password') != this.state.client.get('password')) {
+                this.state.client.set('loginType', '');
+            }
             let service = new QueryService(this.props);
             service.setService('SvrUserLogin.getToken');
-            service.dataIn.head.copyValues(this.props.dataRow.current)
-            // dataOut = QueryService.await this.getService();
+            this.props.dataRow.setValue('loginType', this.state.client.get('loginType') || '');
+            service.dataIn.head.copyValues(this.props.dataRow.current);
             service.open().then((dataOut) => {
                 let ds1 = new DataSet();
                 if (this.state.client.get('Accounts'))
                     ds1.setJson(this.state.client.get('Accounts'))
                 let account = this.props.dataRow.getString('userCode');
-                if (account) {
+                if (account && this.state.client.get('loginType') != 'mobile') {
                     if (!ds1.locate("account", account)) {
                         ds1.append();
                         ds1.setValue("account", account);
@@ -743,6 +837,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
         dataIn.setValue('languageId', this.props.language);
         dataIn.setValue('userCode', client.get('Account1') || '');
         dataIn.setValue('password', client.get("savePwd") == 'true' ? client.get('password') || '' : '');
+        dataIn.setValue('loginType', client.get('loginType') || '');
         this.state = {
             client,
             dataIn,
@@ -761,7 +856,7 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                 <React.Fragment>
                     <div className={styles.logoBox}>
                         <img src={StaticFile.getImage('images/login/logo_phone.png')} />
-                        <h3>您好！欢迎登录地藤管家！</h3>
+                        <h3>您好！欢迎登录4PL管家！</h3>
                     </div>
                     <Login dataRow={this.state.dataIn} loginMsg={this.state.message} language={this.props.language || ''} lowVersion={this.props.lowVersion} key={new Date().getTime()} />
                     <div className={styles.upt}>
@@ -787,31 +882,27 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <div className={styles.loginFormBox}>
                             <div className={styles.loginLeft}>
                                 <div className={styles.loginLogo}>
-                                    <img src={StaticFile.getImage('images/login/logo.png')} alt="地藤管家" />
-                                    <span>地藤管家</span>
+                                    <img src={StaticFile.getImage('images/login/logo.png')} alt="4PL管家" />
+                                    <span>4PL管家</span>
                                 </div>
-                                <div className={styles.loginLeftText}>地藤，您随身携带的大管家</div>
+                                <div className={styles.loginLeftText}>智慧赋能&nbsp;&nbsp;协作共赢</div>
                             </div>
                             <div className={styles.loginRight}>
-                                <div className={styles.loginTitle}>您好！欢迎登录地藤管家！</div>
+                                <div className={styles.loginTitle}>您好！欢迎登录4PL管家！</div>
                                 <Login dataRow={this.state.dataIn} loginMsg={this.state.message} lowVersion={this.props.lowVersion} language={this.props.language || ''} />
                             </div>
                         </div>
                     </div>
                     <footer className={styles.status} style={{ 'clear': 'both', 'textAlign': 'center' }}>
                         <div className={styles.otherLinks}>
-                            <a href="https://mimrc.com/" target="_black">华软首页</a>
-                            <a href="https://www.diaoyou.site/" target="_black">钓友汇商城</a>
-                            <a href="https://mimrc.com/page/erp.html" target="_black">绩效ERP</a>
-                            <a href="https://mimrc.com/page/customer.html" target="_black">客户服务</a>
-                            <a href="https://mimrc.com/page/contact.html" target="_black">联系我们</a>
+                            <a href="https://www.4plc.cn" target="_black">公司首页</a>
                         </div>
                         <div className="electronicFlag">
                             <iframe srcDoc={iFrame} className={styles.iframe}></iframe>
                         </div>
                         <div className={styles.copyRight}>
-                            <a href="http://www.mimrc.com">©深圳市华软资讯科技有限公司</a>
-                            <a href="http://beian.miit.gov.cn/">粤ICP备11098885号-3</a>
+                            <a href="https://www.4plc.cn">©恒凯昌（深圳）数字供应链有限公司&nbsp;&nbsp;</a>
+                            <a href="http://beian.miit.gov.cn/">&nbsp;&nbsp;粤ICP备2022090580号-1</a>
                         </div>
                     </footer>
                 </React.Fragment>
@@ -834,10 +925,10 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                         <div className={styles.mainText}>
                             <img src={StaticFile.getImage('images/logoMenu.png')} />
                             <div className={styles.appDescription}>
-                                <span>地藤管家</span>
-                                <span>地藤，您随身携带的大管家</span>
+                                <span>4PL管家</span>
+                                <span>4PL，您随身携带的大管家</span>
                             </div>
-                            <a href="install" className={styles.install}>下载</a>
+                            <a href="install?device=phone" className={styles.install}>下载</a>
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ type StaffTypeState = {
     dataSet: DataSet,
 } & Partial<BaseDialogStateType>
 
-export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTypeState> {
+export default class CodeRecordTwoDialog extends BaseDialog<ContractProps, StaffTypeState> {
     constructor(props: ContractProps) {
         super(props)
         let dataIn = new DataRow();
@@ -58,24 +58,19 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
             return <Block dataSet={this.state.dataSet}>
                 <Line>
                     <ColumnIt width='10' name='' />
-                    <Column width='90' code='code_' name='货物名称'></Column>
+                    <Column width='90' code='code_' name=''></Column>
                 </Line>
                 <Line>
-                    <Column width='50' code='main_unit_' name='主单位' customText={
+                    <Column width='50' code='unit_price_' name='订单价'></Column>
+                    <Column width='50' code='waybill_unit_price_' name='运单价'></Column>
+                </Line>
+                <Line>
+                    <Column width='100' code='main_unit_' name='单位' customText={
                         ((dataRow: DataRow) => {
                             let unit = dataRow.getValue("main_unit_");
-                            return unit == 0 ? "吨" : unit == 1 ? "方" : "件";
+                            return unit == 0 ? "吨" : unit == 1 ? "方" : unit == 2 ? "件" : "车";
                         })
                     }></Column>
-                    <Column width='50' code='unit_price_' name='主单价'></Column>
-                </Line>
-                <Line>
-                    <Column width='50' code='deputy_unit_' name='副单位'></Column>
-                    <Column width='50' code='deputy_unit_price_' name='副单价'></Column>
-                </Line>
-                <Line>
-                    <Column width='50' code='conversion_value_' name='换算值'></Column>
-                    <Column width='50' code='cargo_loss_rate_' name='货损率'></Column>
                 </Line>
                 <Line>
                     <Column width='85' code='remark_' name='备注'></Column>

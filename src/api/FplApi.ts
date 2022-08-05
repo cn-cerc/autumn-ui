@@ -77,9 +77,9 @@ export default class FplApi {
         return ControlApi.getService('SvrMaintainMA.getMaintainByMonthsReport');
     }
 
-    /** 合同管理=> 获取审核充值记录统计 */
-    static voucherStats() {
-        return ControlApi.getService('SvrVoucher.voucherStats');
+    /** 合同管理=> 获取合同类别数据统计 */
+    static getContractTypeStats() {
+        return ControlApi.getService('SvrContractType.contractTypeStats');
     }
 
     /** 合同管理=> 获取待接收合同数量统计 */
@@ -196,6 +196,11 @@ export default class FplApi {
         return ControlApi.getDataOut('SvrPayeeRegister.getPayeeCode', params);
     }
 
+    /** 查询客户绑定的收款人 **/
+    static getCusBindPayee(params: DataRow) {
+        return ControlApi.getDataOut('SvrPayeeRegister.getCusBindPayee', params);
+    }
+
     /** 查询合同列表 */
     static getContractList(params: DataRow) {
         return ControlApi.getDataOut('SvrContract.searchStatus', params);
@@ -231,7 +236,19 @@ export default class FplApi {
         return ControlApi.getDataOut('SvrSupInfoStandard.searchSupAndCus', params);
     }
 
+    /** 获取地址 */
+    static getAddress(params: DataRow) {
+        return ControlApi.getDataOut('SvrAddress.search', params);
+    }
+    /** 货运管理急速版 => 司机接单Top5 */
+    static getDriverOrderTop5() {
+        return ControlApi.getService('SvrTaurusQuicknessMCStatis.getDriverOrderTop5');
+    }
 
+    /** 货运管理急速版 => 运单已开票或未开票统计  */
+    static getTicketedArrTotal() {
+        return ControlApi.getService('SvrTaurusQuicknessMCStatis.getTicketedArrTotal');
+    }
 
     /** 车联网看板=》 获取车联网看板的车辆数、司机数、满载率、货损率 */
     static getAllCarNetPanel() {
@@ -249,7 +266,19 @@ export default class FplApi {
     static getQueryCarsLocation() {
         return ControlApi.getService('SvrCarNetMonitorPanel.queryCarsLocation');
     }
+    
+    
+    /** 货运管理急速版 => 按月分组统计的物流运单数量  */
+    static getMonthlyArrCarStatis() {
+        return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
+    }
+    /** 根据支行缩写查询支行名称 */
+    static getBankCorrection(params: DataRow) {
+        return ControlApi.getDataOut('SvrBankCorrection.query', params);
+    }
 
-
-
+    /** 获取当前账套下面车辆信息 */
+    static queryCarsCurrentLocation() {
+        return ControlApi.getService('SvrCarTrajectories.queryCarsCurrentLocation');
+    }
 }

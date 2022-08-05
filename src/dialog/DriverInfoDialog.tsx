@@ -1,4 +1,4 @@
-import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, SearchPanel } from "autumn-ui";
+import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Block, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, Line, SearchPanel } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import "../tool/Summer.css";
@@ -8,6 +8,7 @@ type DriverInfoProps = {
     deptCode: string,
     callBack?: Function,
     DriverStatus?: boolean,
+    personID: string
 } & Partial<BaseDialogPropsType>
 
 
@@ -53,16 +54,35 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
                     <DBEdit dataField="name_" dataName="司机名称" autoFocus></DBEdit>
                     <DBEdit dataField="maxRecord" dataName="载入笔数"></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt />
-                    <Column code="name_" name="司机名称" width="20"></Column>
-                    <Column code="phone_num_" name="联系方式" width="20"></Column>
-                    <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
-                        return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
-                    }}></Column>
-                </DBGrid>
+                {this.getTable()}
             </div>
         )
+    }
+
+    getTable() {
+        if (this.isPhone) {
+            return <Block dataSet={this.state.dataSet}>
+                <Line>
+                    <ColumnIt width='10' name='' />
+                    <Column code="name_" name="司机名称" width="90"></Column>
+                </Line>
+                <Line>
+                    <Column code="phone_num_" name="联系方式" width="80"></Column>
+                    <Column code="opera" name="" width="20" textAlign='center' customText={(row: DataRow) => {
+                        return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
+                    }}></Column>
+                </Line>
+            </Block>
+        } else {
+            return <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
+                <ColumnIt />
+                <Column code="name_" name="司机名称" width="20"></Column>
+                <Column code="phone_num_" name="联系方式" width="20"></Column>
+                <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
+                    return <span role="auiOpera" id='category'>选择</span>
+                }}></Column>
+            </DBGrid>
+        }
     }
 
     handleClick(dataRow: DataRow) {
@@ -77,6 +97,8 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
             input3.value = dataRow.getString('phone_num_');
         if (this.props.callBack)
             this.props.callBack(dataRow);
+        if (this.props.personID)
+            $("#" + this.props.personID).val(dataRow.getString('name_'));
         this.handleSelect();
     }
 }

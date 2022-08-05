@@ -41,7 +41,8 @@ export default class SupBankDialog extends BaseDialog<SupBankTypeProps, SupBankT
             <div className={styles.main} role='content'>
                 <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)} openPage={false}>
                     <ColumnIt width={this.isPhone ? '10' : '5'}/>
-                    <Column name='银行名称' code='Name_' width='16'></Column>
+                    <Column name='银行名称' code='Name_' width='20'></Column>
+                    <Column name='开户行' code='AccountBank_' width='30'></Column>
                     <Column name='银行帐号' code='AccountNo_' width='40'></Column>
                     <Column name='操作' code='opera' textAlign='center' width='10' customText={(row: DataRow) => {
                         return <span role='auiOpera'>选择</span>
@@ -54,7 +55,7 @@ export default class SupBankDialog extends BaseDialog<SupBankTypeProps, SupBankT
     handleClick(row: DataRow) {
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-        input1.value = row.getString('Name_');
+        input1.value = row.getString('AccountBank_');
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         if(input2) input2.value = row.getString('AccountNo_');
         this.handleSelect();

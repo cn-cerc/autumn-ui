@@ -243,7 +243,7 @@ a {
         align-items: center;
         font-size: 32px;
         font-weight: bold;
-        color: #22AC38;
+        color: #00569E;
     }
 
     .loginLogo>img {
@@ -489,7 +489,7 @@ a {
         background-color: #ccc;
         top: 50%;
         transform: translateY(-50%);
-        right: -2.25rem;
+        right: -3.25rem;
     }
 
     .bottom .afterInstall {
@@ -718,7 +718,7 @@ a {
         align-items: center;
         font-size: 1.5rem;
         font-weight: bold;
-        color: #22AC38;
+        color: #00569E;
     }
 
     .loginLogo>img {
@@ -855,7 +855,7 @@ a {
     }
 
     .bottom .afterRight:after {
-        right: -1.25rem;
+        right: -2.25rem;
     }
 }
 
@@ -1202,6 +1202,24 @@ a {
         border: none;
         border-radius: 3px;
         margin-top: 1.5rem;
+    }
+
+    .oneKeyLogin {
+        width: calc(100% - 2rem);
+        margin: 1rem auto;
+        display: block;
+        height: 2.25rem;
+        line-height: 2.25rem;
+        margin: 0 auto;
+        background-color: #fff;
+        text-align: center;
+        font-size: 1rem;
+        color: #008738 !important;
+        outline: none;
+        border: none;
+        border-radius: 3px;
+        margin-top: 1.5rem;
+        border: 1px solid #008738;
     }
 
     .btnSubmit:hover {

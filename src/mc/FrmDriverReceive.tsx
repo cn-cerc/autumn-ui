@@ -2,6 +2,8 @@ import { Column, DataRow, DataSet, DBGrid, WebControl } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
+import StaticFile from "../static/StaticFile";
+import { AuiMath, GDMap } from "../tool/Summer";
 import styles from "./FrmDriverReceive.css";
 
 type FrmDriverReceiveTypeProps = {
@@ -15,10 +17,15 @@ type FrmDriverReceiveTypeState = {
     notData: DataSet,
     receivedData: DataSet,
     orderType: number,
-    isInit: boolean
+    isInit: boolean,
+    notComplete: DataSet,
+    isCompleted: DataSet,
+    showWay: boolean
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
+    private gdmap: GDMap = new GDMap();
+    private unitArr: string[] = ['吨', '方', '件', '车'];
     constructor(props: FrmDriverReceiveTypeProps) {
         super(props);
         let linkRow = new DataRow();
@@ -26,10 +33,13 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         this.state = {
             linkRow,
             notData: new DataSet(),       //未接物流订单DataSet
-            orderType: 0,       //接单状态，0为全部，1为未接单，2为已接单
+            orderType: 1,       //接单状态，0为全部，1为未接单，2为已接单
             orderData: new DataSet(),       //所有物流订单DataSet
             receivedData: new DataSet(),       //已接物流订单DataSet
-            isInit: false
+            isInit: false,
+            notComplete: new DataSet(),
+            isCompleted: new DataSet(),
+            showWay: true
         }
     }
 
@@ -38,9 +48,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 {this.getFlowChart()}
                 <ul className={styles.orderTypeList}>
-                    <li className={this.state.orderType == 0 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 0 })}>全部({this.state.orderData.size})</li>
-                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未接单({this.state.notData.size})</li>
-                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已接单({this.state.receivedData.size})</li>
+                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未完成</li>
+                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成</li>
                 </ul>
                 {this.getOrderList()}
             </React.Fragment>
@@ -57,7 +66,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         <ul>
                             <li>
                                 <p>全部物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `FrmDriverArrangeCar`;
                                 }}>
                                     <span>{this.state.orderData.size}</span>
@@ -66,7 +75,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                             </li>
                             <li>
                                 <p>未接物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `FrmDriverArrangeCar.list`;
                                 }}>
                                     <span>{this.state.notData.size}</span>
@@ -75,7 +84,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                             </li>
                             <li>
                                 <p>已接物流订单</p>
-                                <div className={styles.links_skin} onClick={()=>{
+                                <div className={styles.links_skin} onClick={() => {
                                     location.href = `#`;
                                 }}>
                                     <span>{this.state.receivedData.size}</span>
@@ -100,9 +109,48 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         orderData.first();
         let gridData = new DataSet();
         let gridData_ = new DataSet();
+        let notComplete = new DataSet();
+        let isCompleted = new DataSet();
+        let showWay = false;
         while (orderData.fetch()) {
+            if (orderData.getString('confirm_status_') == '0' || orderData.getString('delivery_status_') < '4') {
+                notComplete.append().copyRecord(orderData.current);
+            } else if (orderData.getString('delivery_status_') == '4') {
+                isCompleted.append().copyRecord(orderData.current);
+            }
             if (orderData.getString('confirm_status_') == '0') {
                 gridData.append().copyRecord(orderData.current);
+                if (!this.isPhone) {
+                    // 发货地详细地址
+                    let sendSite1 = gridData.getString('send_detail_');
+                    // 发货地
+                    let sendSite2 = gridData.getString('depart_').replaceAll('/', '');
+                    // 目的地详细地址
+                    let receiveSite1 = gridData.getString('receive_detail_');
+                    // 目的地
+                    let receiveSite2 = gridData.getString('destination_').replaceAll('/', '');
+                    let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
+                    let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
+                    let sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite);
+                    let receiveGeocoder = await this.gdmap.getAsyncGeocoder(receiveSite);
+                    if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
+                        gridData.setValue('sendGeocoder', sendGeocoder);
+                        gridData.setValue('receiveGeocoder', receiveGeocoder);
+                        gridData.setValue('hasWay', true);
+                        showWay = true;
+                    } else {
+                        sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite2);
+                        receiveGeocoder = await this.gdmap.getAsyncGeocoder(receiveSite2);
+                        if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
+                            gridData.setValue('sendGeocoder', sendGeocoder);
+                            gridData.setValue('receiveGeocoder', receiveGeocoder);
+                            gridData.setValue('hasWay', true);
+                            showWay = true;
+                        } else {
+                            gridData.setValue('hasWay', false);
+                        }
+                    }
+                }
             } else
                 gridData_.append().copyRecord(orderData.current);
         }
@@ -112,35 +160,40 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             notData: gridData,
             receivedData: gridData_,
             orderData,
-            isInit: true
+            isInit: true,
+            notComplete,
+            isCompleted,
+            showWay
         })
     }
 
     // 获取流程图介绍
     getFlowChart() {
-        return <div className={styles.charts}>
-            <ul className={styles.flowBox}>
-                <li onClick={this.linkTo.bind(this, '接单')} >
-                    <img src='images/order/order.png' />
-                    <span>接单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '装货回单')}>
-                    <img src='images/order/shipOrder.png' />
-                    <span>装货回单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '卸货回单')}>
-                    <img src='images/order/dischargeOrder.png' />
-                    <span>卸货回单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '完结')}>
-                    <img src='images/order/end.png' />
-                    <span>完结</span>
-                </li>
-            </ul>
-        </div>
+        if (!this.isPhone) {
+            return <div className={styles.charts}>
+                <ul className={styles.flowBox}>
+                    <li onClick={this.linkTo.bind(this, '接单')} >
+                        <img src='images/order/order.png' />
+                        <span>接单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '装货回单')}>
+                        <img src='images/order/shipOrder.png' />
+                        <span>装货回单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '卸货回单')}>
+                        <img src='images/order/dischargeOrder.png' />
+                        <span>卸货回单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '完结')}>
+                        <img src='images/order/end.png' />
+                        <span>完结</span>
+                    </li>
+                </ul>
+            </div>
+        }
     }
 
     getDBGrid() {
@@ -150,16 +203,19 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 jsx = <React.Fragment>
                     <div className={styles.gridTitle}>您存在未接物流运单——{this.state.notData.size}单，请尽快接单</div>
                     <DBGrid dataSet={this.state.notData} className={styles.dbgrid}>
-                        <Column code='send_date_time_' width='20' name='发货时间'></Column>
-                        <Column code='arrive_date_time_' width='20' name='到货时间'></Column>
+                        <Column code='send_date_time_' width='16' name='发货时间'></Column>
+                        <Column code='arrive_date_time_' width='16' name='到货时间'></Column>
                         <Column code='depart_' width='20' name='起始点'></Column>
                         <Column code='destination_' width='20' name='目的地'></Column>
                         <Column code='code_' width='20' name='货物'></Column>
-                        <Column code='num_' width='20' name='数量'></Column>
-                        <Column code='amount_' width='20' name='运费'></Column>
-                        <Column code='Opera_' width='8' name='操作' customText={(row: DataRow) => {
+                        <Column code='num_' width='10' name='数量'></Column>
+                        <Column code='amount_' width='16' name='运费'></Column>
+                        <Column code='Opera_' width='6' name='操作' customText={(row: DataRow) => {
                             return <span className={styles.opera} onClick={this.handleSelect.bind(this, row)}>接单</span>
                         }}></Column>
+                        {this.state.showWay ? <Column code='Site_' width='12' name='' customText={(row: DataRow) => {
+                            return row.getBoolean('hasWay') ? <span className={styles.opera} onClick={this.toGaode.bind(this, row)}>查看路线</span> : ''
+                        }}></Column> : ''}
                     </DBGrid>
                 </React.Fragment>
             return <div className={styles.grid}>{jsx}</div>;
@@ -172,12 +228,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return;
         let list = [];
         let ds = new DataSet();
-        if (this.state.orderType == 0)
-            ds.appendDataSet(this.state.orderData)
-        else if (this.state.orderType == 1)
-            ds.appendDataSet(this.state.notData)
+        if (this.state.orderType == 1)
+            ds.appendDataSet(this.state.notComplete)
         else
-            ds.appendDataSet(this.state.receivedData)
+            ds.appendDataSet(this.state.isCompleted)
         ds.first();
         let hasNextOrder = false;
         let time = new Date().getTime();
@@ -187,10 +241,14 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 isReceived = false;
             list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
         }
-        if (!list.length) {
-            list.push(<li className={styles.noOrder}>暂无物流订单</li>)
+        let bool = !list.length;
+        if (bool) {
+            list.push(<li className={styles.noOrder} key='noData'>
+                <div><img src={StaticFile.getImage('images/Frmshopping/notDataImg.png')} alt="" /></div>
+                <p>暂无运单</p>
+            </li>)
         }
-        return <ul className={styles.orderList} key={this.state.orderType}>{list}</ul>
+        return <ul className={styles.orderList} style={{ 'marginTop': !bool ? '0.75rem' : '' }} key={this.state.orderType}>{list}</ul>
     }
 
     linkTo(name: string) {
@@ -231,6 +289,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number) {
         let time_ = new Date(row.getString('receiving_time_')).getTime();
+        let math = new AuiMath();
         if (!hasNextOrder && isReceived && !hasNextOrder && time_ > time) {
             hasNextOrder = true;
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
@@ -248,25 +307,33 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
             </li>
         } else {
+            let depart = this.removeProvinceFun(row.getString('depart_'));
+            let destination = this.removeProvinceFun(row.getString('destination_'));
+            let stratDate = new Date(row.getString('send_date_time_'));
+            let endDate = new Date(row.getString('arrive_date_time_'));
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
-                        <span>{row.getString('depart_')}</span>
+                        <span>{depart}</span>
                         <img src='images/order/transportation.png'></img>
-                        <span>{row.getString('destination_')}</span>
+                        <span>{destination}</span>
+                        {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}> <a className={styles.luxian} href=""> <img src={StaticFile.getImage('images/Frmshopping/site.png')} alt="" /> 路线</a> </span> : ''}
                     </div>
                 </div>
                 <div className={styles.orderCenter}>
+
                     <div className={styles.orderInfo}>
-                        <span><i>发货明细</i>{row.getString('code_')}</span>
-                        <span><i>发货时间</i>{row.getString('send_date_time_')}</span>
-                        <span><i>到货时间</i>{row.getString('arrive_date_time_')}</span>
+                        <span><i>货物明细</i>{row.getString('code_')} | {row.getString('total_')}{[this.unitArr[row.getDouble('main_unit_')]]} | {row.getString('unit_price_')}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
+                        <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
+                        <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>
                 <div className={styles.orderBottom}>
-                    <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
-                    {isReceived ? <button className={styles.received}>已接单</button> : <button>立即接单</button>}
+                    <div className={styles.freight}>￥<span>{math.toFixed(row.getString('amount_'), 2)}</span></div>
+                    <div className={styles.btns}>
+                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button>接单</button>}
+                    </div>
                 </div>
             </li>
         }
@@ -275,6 +342,29 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
     // 接单
     handleSelect(row: DataRow) {
         location.href = `FrmDriverArrangeCar.detail?cargoNo=${row.getString('cargo_no_')}&tbNo=${row.getString('tb_no_')}&dcorpno=${row.getString('d_corp_no_')}&it=${row.getDouble('it_')}`;
+    }
+
+    // 查看路线
+    async toGaode(row: DataRow) {
+        if (this.isPhone) {
+            // 发货地详细地址
+            let sendSite1 = row.getString('send_detail_');
+            // 发货地
+            let sendSite2 = row.getString('depart_').replaceAll('/', '');
+            // 目的地详细地址
+            let receiveSite1 = row.getString('receive_detail_');
+            // 目的地
+            let receiveSite2 = row.getString('destination_').replaceAll('/', '');
+            let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
+            let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
+            this.gdmap.routePlanInApp(sendSite, receiveSite);
+        } else {
+            if (row.getBoolean('receiveGeocoder') && row.getBoolean('receiveGeocoder')) {
+                let sendGeocoder = row.getValue('sendGeocoder');
+                let receiveGeocoder = row.getValue('receiveGeocoder');
+                window.open(`https://uri.amap.com/navigation?from=${sendGeocoder.site.join()},${sendGeocoder.address}&to=${receiveGeocoder.site.join()},${receiveGeocoder.address}&mode=car&callnative=1`)
+            }
+        }
     }
 
     // 获取手机版已接单订单状态
@@ -301,5 +391,24 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 break;
         }
         return <img src={imgSrc}></img>
+    }
+
+    removeProvinceFun(address:string){
+        if (address.indexOf('/') > -1) {
+            address = address.substring(address.indexOf('/') + 1, address.length);
+        } else {
+            address = address.substring(address.indexOf('\\') + 1, address.length);
+        }
+        return address;
+    }
+
+    formatDateTimeFun(dateObj:Date){
+        let str = '';
+        if(dateObj.getFullYear == new Date().getFullYear){
+            str = `${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日${dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours()}时`;
+        }else{
+            str = `${dateObj.getFullYear()}年${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日`;
+        }
+        return str;
     }
 }
