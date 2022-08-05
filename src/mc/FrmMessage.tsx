@@ -314,7 +314,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let contact = document.querySelector('#contact') as HTMLSpanElement;
         contact.innerHTML = contactInfo.getString('Mobile_');
         let remark = document.querySelector('#remark') as HTMLTextAreaElement;
-        remark.value = decodeURIComponent(messageData.remarkText);
+        let savBtn = document.querySelector('.remarkBox') as HTMLTextAreaElement;
+        if(messageData.fromUser) {
+            remark.value = decodeURIComponent(messageData.remarkText);
+            remark.style.display = 'block';
+            savBtn.style.display = 'flex';
+        } else {
+            remark.style.display = 'none';
+            savBtn.style.display = 'none';
+        }
+            
         let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
         if (messageData.remarkText == messageData.remarkText_) {
             saveBtn.classList.remove('change');
