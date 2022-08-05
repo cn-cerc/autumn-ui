@@ -14,7 +14,7 @@ type FrmSpectaculars1TypeProps = {
 type FrmSpectaculars1TypeState = {
     carData: DataSet,
     lineData: DataSet,
-    pieData1: DataSet
+    pieData1: DataSet,
     pieData2: DataSet,
     pieData3: DataSet,
     pieData4: DataSet,
@@ -259,7 +259,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     data: sData,
                     type: 'line',
                     smooth: true,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -326,7 +325,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     data: sData,
                     type: 'line',
                     smooth: 0.6,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
