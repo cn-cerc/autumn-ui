@@ -59,7 +59,7 @@ type opeartes = {
     y: number
 }
 
-export const timing = 5000;
+export const timing = 5;
 export const imageColorArr = ['#d57f10', '#0755aa', '#0755aa', '#3fba0c', '#0755aa', '#d00c89', '#0755aa'];
 
 export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessageTypeState> {
