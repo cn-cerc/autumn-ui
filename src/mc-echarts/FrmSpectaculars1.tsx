@@ -206,17 +206,25 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(lineChart);
         let xArr = [];
         let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6]];
+        let base = +new Date(2022, 5, 17);
+        let oneDay = 24 * 3600 * 1000;
+
+        let data = [[base, Math.random() * 100]];
+
+        for (let i = 1; i < 365; i++) {
+            let now = new Date((base += oneDay));
+            data.push([+now, Math.round((Math.random() * 0.5) * 200)]);
+        }
+
         let option = {
             xAxis: {
-                type: 'category',
+                type: 'time',
                 boundaryGap: false
             },
             yAxis: {
                 type: 'value',
                 boundaryGap: [0, '100%']
             },
-            lengend: {},
-            tooltip: {},
             grid: {
                 top: 20,
                 left: 0,
@@ -226,20 +234,15 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             },
             series: [
                 {
-                    data: sData,
                     type: 'line',
                     smooth: true,
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0],
-                        width: 1
-                    },
+                    symbol: 'none',
                     areaStyle: {},
-                },
+                    data: data
+                }
             ]
         };
+
 
         //@ts-ignore
         myChart.setOption(option);
@@ -256,7 +259,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
             sData.push(ds.getDouble('arr_total_'));
         }
-        
+
         let option = {
             xAxis: {
                 type: 'category',
@@ -275,7 +278,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 axisLabel: {
                     color: '#333333'
                 },
-                minInterval:1
+                minInterval: 1
             },
             lengend: {},
             tooltip: {},
@@ -371,8 +374,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
@@ -443,8 +446,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
@@ -515,8 +518,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
