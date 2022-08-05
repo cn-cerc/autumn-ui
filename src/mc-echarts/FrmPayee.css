@@ -83,6 +83,15 @@
     flex: 1;
 }
 
+.mcTitleSkin {
+    position: absolute;
+    top: 16px;
+}
+
+.echartsSkin {
+    padding-top: 0;
+}
+
 .register {
     background: url("../assets/img/register.png") top center no-repeat;
     padding-top: 40px;

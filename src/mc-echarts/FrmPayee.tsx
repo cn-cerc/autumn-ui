@@ -109,8 +109,8 @@ export default class FrmPayee extends WebControl<FrmPayeeTypeProps, FrmPayeeType
                         </ul>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>比例图（对接中）</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                        <div className={`${styles.mcTitle} ${styles.mcTitleSkin}`}>比例图（对接中）</div>
+                        <div className={`${styles.FrmTaurusMCLine} ${styles.echartsSkin}`}></div>
                     </div>
                 </div>
             </div>
@@ -137,6 +137,12 @@ export default class FrmPayee extends WebControl<FrmPayeeTypeProps, FrmPayeeType
         //     sData.push(ds.getDouble('Value_'));
         // }
         let option = {
+            legend: {
+                top: 0,
+                right: 50,
+                itemWidth: 8,
+                itemHeight: 8,
+            },
             xAxis: {
                 type: 'category',
                 data: xArr,
@@ -157,7 +163,7 @@ export default class FrmPayee extends WebControl<FrmPayeeTypeProps, FrmPayeeType
             },
             tooltip: {},
             grid: {
-                top: 15,
+                top: 50,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -165,6 +171,7 @@ export default class FrmPayee extends WebControl<FrmPayeeTypeProps, FrmPayeeType
             },
             series: [
                 {
+                    name: '应收款',
                     data: sData1,
                     type: 'bar',
                     itemStyle: {
@@ -180,6 +187,7 @@ export default class FrmPayee extends WebControl<FrmPayeeTypeProps, FrmPayeeType
                     },
                 },
                 {
+                    name: '应付款',
                     data: sData2,
                     type: 'bar',
                     itemStyle: {
