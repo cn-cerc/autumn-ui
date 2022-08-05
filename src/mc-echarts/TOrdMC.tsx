@@ -11,7 +11,6 @@ type TOrdMCTypeProps = {
 }
 
 type TOrdMCTypeState = {
-    lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
@@ -20,15 +19,7 @@ type TOrdMCTypeState = {
 export default class TOrdMC extends WebControl<TOrdMCTypeProps, TOrdMCTypeState> {
     constructor(props: TOrdMCTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
         pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
         pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
@@ -41,7 +32,6 @@ export default class TOrdMC extends WebControl<TOrdMCTypeProps, TOrdMCTypeState>
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
-            lineData,
             pieData1,
             pieData2,
             dataJson: dataJson,
@@ -90,7 +80,52 @@ export default class TOrdMC extends WebControl<TOrdMCTypeProps, TOrdMCTypeState>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>趋势图（对接中）</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                        <div className={styles.content}>
+                            <ul>
+                                <li>
+                                    <p>到期应付</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '到期应付')}>
+                                        <span>{0}</span>
+                                        <span>元</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>本期应付</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期应付')}>
+                                        <span>{0}</span>
+                                        <span>元</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>本期已付</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期已付')}>
+                                        <span>{0}</span>
+                                        <span>元</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>期末应付</p>
+                                    <div>
+                                        <span>0</span>
+                                        <span>元</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>逾期应付</p>
+                                    <div>
+                                        <span>0</span>
+                                        <span>元</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>新增应付客户</p>
+                                    <div>
+                                        <span>0</span>
+                                        <span>元</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
@@ -108,72 +143,11 @@ export default class TOrdMC extends WebControl<TOrdMCTypeProps, TOrdMCTypeState>
     }
 
     componentDidMount(): void {
-        this.initLineChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
-        let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
-        let xArr = [];
-        let sData = [];
-        while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
-        }
-        let option = {
-            xAxis: {
-                type: 'category',
-                data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
-            },
-            yAxis: {
-                type: 'value',
-                axisLabel: {
-                    color: '#333333'
-                }
-            },
-            lengend: {},
-            tooltip: {},
-            grid: {
-                top: 10,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
-            },
-            series: [
-                {
-                    data: sData,
-                    type: 'line',
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                }
-            ]
-        };
-        //@ts-ignore
-        myChart.setOption(option);
-    }
 
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
@@ -379,5 +353,9 @@ export default class TOrdMC extends WebControl<TOrdMCTypeProps, TOrdMCTypeState>
         if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataJson.getString(`${name}_URL`);
         }
+    }
+
+    gotoFun(name: string) {
+        // location.href = this.state.btnUrl.getString(`${name}_URL`);
     }
 }
