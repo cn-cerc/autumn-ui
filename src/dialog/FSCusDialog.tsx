@@ -1,6 +1,7 @@
 import { BaseDialog, BaseDialogPropsType, BaseDialogStateType, Block, Column, ColumnIt, DataRow, DataSet, DBEdit, DBGrid, Line, SearchPanel } from "autumn-ui";
 import React from "react";
 import DitengApi from "../api/DitengApi";
+import UIBlockCard, { UICardChildLine, UICardLine } from "../module/UIBlockCard";
 import styles from "./DialogCommon.css";
 
 type FSCusDialogTypeState = {
@@ -60,18 +61,16 @@ export default class FSCusDialog extends BaseDialog<FSCusDialogTypeProsp, FSCusD
 
     getTable() {
         if (this.isPhone) {
-            return <Block dataSet={this.state.dataSet}>
-                <Line>
-                    <ColumnIt width='10' name=''></ColumnIt>
-                    <Column code='Name_' width='90' name=''></Column>
-                </Line>
-                <Line>
-                    <Column code='Mobile_' width='85' name='手机号'></Column>
-                    <Column code='Opear_' width='15' name='' customText={(row: DataRow) => {
-                        return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
-                    }}></Column>
-                </Line>
-            </Block>
+            return <UIBlockCard dataSet={this.state.dataSet}>
+                <UICardLine dataField='Name_' dataName='姓名' width={10}></UICardLine>
+                <UICardLine dataField='Mobile_' dataName='手机号' width={20}></UICardLine>
+                <UICardLine dataField='Opear_' dataName='操作' width={10} customText={(row: DataRow) => {
+                    return <span role='auiOpera' onClick={this.handleClick.bind(this, row)}>选择</span>
+                }}></UICardLine>
+                <UICardChildLine>
+                    <UICardLine dataField='Name_' dataName='姓名' width={10}></UICardLine>
+                </UICardChildLine>
+            </UIBlockCard>
         } else {
             return <DBGrid dataSet={this.state.dataSet} onRowClick={this.handleClick.bind(this)}>
                 <ColumnIt width='15'></ColumnIt>
