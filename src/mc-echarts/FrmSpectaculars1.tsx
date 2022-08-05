@@ -95,7 +95,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             this.initPieChart4();
         })
         weeklyArrCarStatis.first();
-        while(weeklyArrCarStatis.fetch()) {
+        while (weeklyArrCarStatis.fetch()) {
 
         }
     }
@@ -117,7 +117,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
                                 <div className={styles.topInfo}>
-                                   {this.state.carData.head.getString('total_')} <span>辆</span>
+                                    {this.state.carData.head.getString('total_')} <span>辆</span>
                                 </div>
                             </div>
                         </li>
@@ -212,7 +212,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         </div>
     }
 
-    
+
     componentDidMount(): void {
         this.init();
         this.initCarData();
@@ -230,12 +230,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     initMap() {
         this.gdmap.initMap('carMapContainer');
     }
-    
+
     initLineChart1() {
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let xArr = [];
-        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6],];
+        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6]];
         let option = {
             xAxis: {
                 type: 'category',
@@ -568,7 +568,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(peiChart);
         let ds = this.state.countProvince;
         ds.first();
-        let dataArr:any = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('receive_province_'),
@@ -580,20 +580,21 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 trigger: 'item'
             },
             legend: {
-                top: '5%',
+                top: '8%',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                itemGap: 5,
                 formatter: (name: any) => {
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
                     return name + ' : ' + singleData[0].value;
                 },
-                textStyle:{
-                    lineHeight:12,
+                textStyle: {
+                    lineHeight: 10,
                 }
             },
             grid: {
@@ -606,8 +607,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             series: [
                 {
                     type: 'pie',
-                    center: ['30%', '50%'],
-                    radius: ['45%', '70%'],
+                    center: ['30%', '53%'],
+                    radius: ['50%', '75%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
