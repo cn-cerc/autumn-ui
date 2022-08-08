@@ -1,0 +1,386 @@
+.MCtext {
+    position: absolute;
+    color: #999;
+    font-size: 14px;
+}
+
+.MCtextStock1 {
+    top: 86px;
+    left: 120px;
+}
+
+.mcIntroduction {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.mcIntroduction>p {
+    line-height: 24px;
+    padding-top: 5px;
+}
+
+.mcMain {
+    flex: 1;
+    display: flex;
+    padding-bottom: 16px;
+}
+
+.mcFlowChartBox,
+.mcTrendChart {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+}
+
+.mcFlowChartBox {
+    width: 360px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcFlowChartMain {
+    height: 0;
+    flex: 1;
+    position: relative;
+    width: 300px;
+    margin: auto;
+}
+
+.mcFlowChart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.mcFlowBox {
+    position: relative;
+    z-index: 10;
+}
+
+.mcCharts {
+    width: 0;
+    flex: 1;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcTrendChart {
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.FrmTaurusMCLine {
+    padding: 16px 16px 0 16px;
+    flex: 1;
+}
+
+.mcTitleSkin {
+    position: absolute;
+    top: 16px;
+}
+
+.echartsSkin {
+    padding-top: 0;
+}
+
+.register {
+    background: url("../assets/img/register.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.register_disable {
+    background: url("../assets/img/register_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.receipt {
+    background: url("../assets/img/receipt.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.receipt_disable {
+    background: url("../assets/img/receipt_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.control {
+    background: url("../assets/img/control.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.control_disable {
+    background: url("../assets/img/control_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.other {
+    background: url("../assets/img/other.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+}
+
+.other_disable {
+    background: url("../assets/img/other_disable.png") top center no-repeat;
+    padding-top: 40px;
+    background-size: 40px 40px;
+    position: absolute;
+    text-align: center;
+}
+
+.register>span,
+.receipt>span,
+.control>span,
+.other>span,
+.register_disable>span,
+.receipt_disable>span,
+.control_disable>span,
+.other_disable>span {
+    width: 6em;
+    text-align: center;
+    display: block;
+    font-weight: 600;
+}
+
+.register:hover {
+    background-image: url("../assets/img/register_hover.png");
+}
+
+.receipt:hover {
+    background-image: url("../assets/img/receipt_hover.png");
+}
+
+.control:hover {
+    background-image: url("../assets/img/control_hover.png");
+}
+
+.other:hover {
+    background-image: url("../assets/img/other_hover.png");
+}
+
+.mcTitle {
+    font-weight: bold;
+}
+
+.stock1 {
+    left: 60px;
+    top: 15px;
+}
+
+.stock2 {
+    left: 160px;
+    top: 15px;
+}
+
+.stock3 {
+    left: 60px;
+    top: 100px;
+}
+
+.stock4 {
+    left: 160px;
+    top: 100px;
+}
+
+.stock5 {
+    left: 60px;
+    top: 185px;
+}
+
+.stock6 {
+    left: 160px;
+    top: 185px;
+}
+
+.stock7 {
+    left: 60px;
+    top: 270px;
+}
+
+.stock8 {
+    left: 160px;
+    top: 270px;
+}
+
+.stock9 {
+    left: 60px;
+    top: 355px;
+}
+
+.content>ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content>ul>li {
+    background-color: #fff;
+    position: relative;
+}
+
+.content>ul>li:nth-child(3n+1) {
+    margin-left: 0;
+}
+
+.content>ul>li>p {
+    color: #333333;
+    font-weight: bold;
+    padding-bottom: 8px;
+    font-size: 14px;
+}
+
+.content>ul>li>div {
+    display: flex;
+    align-items: flex-end;
+}
+
+.content>ul>li>div>span:first-child {
+    font-weight: bold;
+    font-size: 20px;
+    padding-right: 6px;
+    line-height: 18px;
+}
+
+.content>ul>li>div>span:nth-child(2) {
+    color: #666;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+@media screen and (min-width: 768px) {
+    .mc {
+        font-size: 14px;
+        color: #333;
+        line-height: 1em;
+        font-weight: 400;
+        height: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    .content>ul>li {
+        width: calc((100% - 32px)/3);
+        border-radius: 4px;
+        margin-bottom: 16px;
+        margin-left: 16px;
+        padding: 16px;
+    }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1366px) {
+    .mcCharts {
+        margin-left: 10px;
+    }
+
+    .content>ul>li {
+        width: calc((100% - 20px)/3);
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .mcIntroduction {
+        display: none;
+    }
+
+    .mcMain {
+        margin: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .mcFlowChartBox {
+        height: 485px;
+    }
+
+    .register>span,
+    .receipt>span,
+    .control>span,
+    .other>span,
+    .register_disable>span,
+    .receipt_disable>span,
+    .control_disable>span,
+    .other_disable>span {
+        font-size: 14px;
+        line-height: 1.2;
+        margin-top: 5px;
+    }
+
+    .register,
+    .receipt,
+    .control,
+    .other {
+        padding-top: 35px;
+    }
+
+    .mcFlowChartBox {
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .mcCharts {
+        width: 100%;
+        margin: auto;
+    }
+
+    .FrmTaurusMCLine {
+        height: 220px;
+        flex: auto;
+    }
+
+    .content>ul>li {
+        background-color: #fff;
+        border-radius: .25rem;
+        margin-bottom: .75rem;
+        margin-left: .75rem;
+        padding: 1rem;
+        position: relative;
+    }
+
+    .content>ul>li:nth-child(3n+1) {
+        margin-left: 0.75rem;
+    }
+
+    .content>ul>li:nth-child(odd) {
+        margin-left: 0;
+    }
+
+    .content>ul>li,
+    .content>ul>li {
+        width: calc(50% - .75rem / 2);
+    }
+
+}

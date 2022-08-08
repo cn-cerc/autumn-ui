@@ -38,6 +38,7 @@ import TMakeMC from "../mc-echarts/TMakeMC";
 import TOrdMC from "../mc-echarts/TOrdMC";
 import TPurMC from "../mc-echarts/TPurMC";
 import TStockMC from "../mc-echarts/TStockMC";
+import FrmPayee from "../mc-echarts/FrmPayee";
 
 export default {
     Frm4PLCusManage,
@@ -79,5 +80,6 @@ export default {
     TOrdMC,
     TPurMC,
     TStockMC,
-    FrmTaurusQuicknessMC
+    FrmTaurusQuicknessMC,
+    FrmPayee,
 }
