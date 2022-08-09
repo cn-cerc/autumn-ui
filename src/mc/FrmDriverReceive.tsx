@@ -63,10 +63,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
                 <div className={styles.contents}>
-                    <div className={styles.chartsBox}>
+                    {/* 暂时隐藏流程图 */}
+                    {/* <div className={styles.chartsBox}>
                         <p>流程图</p>
                         {this.getFlowChart()}
-                    </div>
+                    </div> */}
                     <div className={styles.info}>
                         {this.getToast()}
                         <ul>

@@ -7,7 +7,8 @@ import styles from "./QuickSiteDialog.css";
 
 type QuickSiteDialogTypeProps = {
     siteId: string,
-    addressId: string
+    addressId: string,
+    center?: string
 } & Partial<BaseDialogPropsType>
 
 type QuickSiteDialogTypeState = {
@@ -75,7 +76,13 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
     }
 
     init() {
-        this.gdmap.initMap('container');
+        if (this.props.center)
+            this.gdmap.initMap('container', {
+                center: this.props.center.split(','),
+                zoom: 12
+            });
+        else
+            this.gdmap.initMap('container');
         this.gdmap.initPlaceSearch('siteInput', this.setSite.bind(this));
     }
 
