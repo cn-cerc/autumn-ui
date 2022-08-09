@@ -79,7 +79,7 @@ export default class TOrdMC extends WebControl<TOrdMCTypeProps, TOrdMCTypeState>
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（对接中）</div>
+                        <div className={styles.mcTitle}>数据概览（对接中）</div>
                         <div className={styles.content}>
                             <ul>
                                 <li>
