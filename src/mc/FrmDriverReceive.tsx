@@ -314,8 +314,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
             </li>
         } else {
-            let depart = this.removeProvinceFun(row.getString('depart_'));
-            let destination = this.removeProvinceFun(row.getString('destination_'));
+            let depart = this.removeProvinceFun(row.getString('send_city_'));
+            let destination = this.removeProvinceFun(row.getString('receive_city_'));
             let stratDate = new Date(row.getString('send_date_time_'));
             let endDate = new Date(row.getString('arrive_date_time_'));
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
@@ -328,9 +328,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     </div>
                 </div>
                 <div className={styles.orderCenter}>
-
                     <div className={styles.orderInfo}>
-
                         <span className={styles.siteSkin}>{`${row.getString('depart_').replaceAll('\\', '')}${row.getString('send_detail_')}`}</span>
                         <span className={styles.siteSkin}>{`${row.getString('destination_').replaceAll('\\', '')}${row.getString('receive_detail_')}`}</span>
                         <span><i>货物明细</i>{row.getString('code_')} | {row.getString('total_')}{[this.unitArr[row.getDouble('main_unit_')]]} | {row.getString('unit_price_')}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
