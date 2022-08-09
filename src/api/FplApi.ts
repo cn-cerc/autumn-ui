@@ -240,7 +240,6 @@ export default class FplApi {
     static getAddress(params: DataRow) {
         return ControlApi.getDataOut('SvrAddress.search', params);
     }
-        
     /** 货运管理急速版 => 司机接单Top5 */
     static getDriverOrderTop5() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getDriverOrderTop5');
@@ -251,11 +250,28 @@ export default class FplApi {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getTicketedArrTotal');
     }
 
+    /** 车联网看板=》 获取车联网看板的车辆数、司机数、满载率、货损率 */
+    static getAllCarNetPanel() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.getAllCarNetPanel');
+    }
+    /** 车联网看板=》 分组统计一周的物流运单数量 */
+    static getWeeklyArrCarStatis() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.getWeeklyArrCarStatis');
+    }
+    /** 车联网看板=》 统计运往省份前五的记录 */
+    static getCountProvince() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.countProvince');
+    }
+    /** 车联网看板=》 中央车辆位置信息 */
+    static getQueryCarsLocation() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.queryCarsLocation');
+    }
+    
+    
     /** 货运管理急速版 => 按月分组统计的物流运单数量  */
     static getMonthlyArrCarStatis() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
     }
-
     /** 根据支行缩写查询支行名称 */
     static getBankCorrection(params: DataRow) {
         return ControlApi.getDataOut('SvrBankCorrection.query', params);
