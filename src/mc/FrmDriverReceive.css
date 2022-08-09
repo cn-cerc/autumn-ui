@@ -160,7 +160,7 @@
     height: 74px;
     line-height: 74px;
     text-align: center;
-    font-size: 21px;
+    font-size: 20px;
     color: #333;
 }
 
@@ -168,7 +168,7 @@
     width: 100%;
     line-height: 24px;
     text-align: center;
-    font-size: 17px;
+    font-size: 16px;
     color: #666;
     padding: 0 15px;
     box-sizing: border-box;
@@ -191,7 +191,7 @@
     text-align: center;
     float: left;
     color: #2F8BF7;
-    font-size: 19px;
+    font-size: 18px;
     cursor: pointer
 }
 
@@ -275,10 +275,43 @@
         border: none;
         display: block;
         color: #000;
-        font-size: 14px;
+        font-size: 16px;
         height: 1.75em;
         line-height: 1.75em;
         position: relative;
+        padding-left: 30px;
+        min-width: 4rem;
+        text-align: center;
+    }
+
+    .orderTypeList>li::before {
+        content: '';
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        left: .875rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .orderTypeList>li:nth-of-type(1)::before {
+        background: url('../assets/img/unfinished.png') center no-repeat;
+        background-size: 100%;
+    }
+
+    .orderTypeList>li:nth-of-type(1).orderActive::before {
+        background: url('../assets/img/un_unfinished.png') center no-repeat;
+        background-size: 100%;
+    }
+
+    .orderTypeList>li:nth-of-type(2)::before {
+        background: url('../assets/img/completed.png') center no-repeat;
+        background-size: 100%;
+    }
+
+    .orderTypeList>li:nth-of-type(2).orderActive::before {
+        background: url('../assets/img/un_completed.png') center no-repeat;
+        background-size: 100%;
     }
 
     .orderTypeList .orderActive::after {
@@ -350,7 +383,7 @@
         height: 4.375rem;
         position: absolute;
         right: 0.75rem;
-        top: 0.32rem;
+        bottom: 0.32rem;
     }
 
     .orderInfo {
@@ -362,6 +395,7 @@
 
     .orderInfo>span {
         overflow: hidden;
+        font-size: 16px;
     }
 
     .orderInfo>span>i {
@@ -369,7 +403,19 @@
         padding-right: .625rem;
     }
 
-    .orderInfo>span:nth-child(n+2) {
+    .orderInfo>span:nth-child(n+3) {
+        padding-left: 74px;
+        position: relative;
+        line-height: 1rem;
+    }
+
+    .orderInfo>span:nth-child(n+3)>i {
+        position: absolute;
+        left: 0;
+        top: .5rem;
+    }
+
+    .orderInfo>span:nth-child(n+4) {
         padding-top: .5rem;
     }
 
@@ -384,7 +430,7 @@
     }
 
     .freight>span {
-        font-size: 1.125rem;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -447,8 +493,8 @@
         justify-content: center;
         color: #999;
         cursor: auto;
-        font-size: 14px;
-        line-height: 14px;
+        font-size: 16px;
+        line-height: 16px;
         background: transparent;
         flex-direction: column;
         margin-top: 15%;
@@ -481,7 +527,7 @@
         width: 0;
         flex: 1;
         color: #E65C5C;
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .orderDetail {
@@ -517,7 +563,7 @@
 
     .luxian {
         color: #333 !important;
-        font-size: 14px;
+        font-size: 16px;
         display: flex;
         align-items: center;
         position: absolute;
@@ -536,5 +582,41 @@
         background-color: #fff;
         color: #333;
         border-radius: 4px;
+    }
+
+    .siteSkin {
+        padding-left: 1.75rem;
+        position: relative;
+        padding-bottom: 0.75rem;
+        line-height: 18px;
+    }
+
+    .siteSkin::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .siteSkin:nth-of-type(1)::before {
+        background: url('../assets/img/start.png') center no-repeat;
+        background-size: 100%;
+    }
+
+    .siteSkin:nth-of-type(2)::before {
+        background: url('../assets/img/end.png') center no-repeat;
+        background-size: 100%;
+    }
+
+    .siteSkin:nth-of-type(1)::after {
+        position: absolute;
+        content: '';
+        left: 0.625rem;
+        top: 1.25rem;
+        height: 80%;
+        border: none;
+        border-left: 1.5px dashed #00000050;
     }
 }

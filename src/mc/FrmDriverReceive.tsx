@@ -330,6 +330,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 <div className={styles.orderCenter}>
 
                     <div className={styles.orderInfo}>
+
+                        <span className={styles.siteSkin}>{`${row.getString('depart_').replaceAll('\\', '')}${row.getString('send_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('destination_').replaceAll('\\', '')}${row.getString('receive_detail_')}`}</span>
                         <span><i>货物明细</i>{row.getString('code_')} | {row.getString('total_')}{[this.unitArr[row.getDouble('main_unit_')]]} | {row.getString('unit_price_')}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
                         <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
                         <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
@@ -348,7 +351,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     // 接单
     handleSelect(row: DataRow) {
-        if(row.getDouble('delivery_status_') == 1){
+        if (row.getDouble('delivery_status_') == 1) {
             if (this.props.noAccount || this.props.noVerify) {
                 this.setState({
                     openTipsFlag: true
