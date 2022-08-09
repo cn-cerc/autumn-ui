@@ -410,31 +410,30 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '当前库存均价（T）' && new Date(calcData.getString('到货日期')).getDate() <= now.getDate()) {
+                        let index: any = -1;
                         switch (zl) {
                             case '锰':
-                                temp[0].p += calcData.current.getDouble('单价');
-                                temp[0].c += 1;
+                                index = 0;
                                 break;
                             case '硅':
-                                temp[1].p += calcData.current.getDouble('单价');
-                                temp[1].c += 1;
+                                index = 1;
                                 break;
                             case '钒':
-                                temp[2].p += calcData.current.getDouble('单价');
-                                temp[2].c += 1;
+                                index = 2;
                                 break;
                             case '钨':
-                                temp[3].p += calcData.current.getDouble('单价');
-                                temp[3].c += 1;
+                                index = 3;
                                 break;
                             case '钛':
-                                temp[4].p += calcData.current.getDouble('单价');
-                                temp[4].c += 1;
+                                index = 4;
                                 break;
                             case '钼':
-                                temp[5].p += calcData.current.getDouble('单价');
-                                temp[5].c += 1;
+                                index = 5;
                                 break;
+                        }
+                        if (index != -1) {
+                            temp[index].p += calcData.current.getDouble('单价');
+                            temp[index].c += 1;
                         }
                     }
                 }
@@ -527,23 +526,24 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                         tempDataSet.setValue(zl, math.toFixed(calcData.current.getDouble('到货数量') + tempDataSet.current.getDouble(zl), 1));
                     }
                     if (item == '厂区当前库存均价（T/元）' && new Date(calcData.getString('到货日期')) <= now) {
+                        let index: any = -1;
                         switch (zl) {
                             case 'A站':
-                                temp[0].p = math.add(temp[0].p, calcData.current.getDouble('单价'));
-                                temp[0].c += 1;
+                                index = 0;
                                 break;
                             case 'B站':
-                                temp[1].p = math.add(temp[1].p, calcData.current.getDouble('单价'));
-                                temp[1].c += 1;
+                                index = 1;
                                 break;
                             case 'C站':
-                                temp[2].p = math.add(temp[2].p, calcData.current.getDouble('单价'));
-                                temp[2].c += 1;
+                                index = 2;
                                 break;
                             case 'D站':
-                                temp[3].p = math.add(temp[3].p, calcData.current.getDouble('单价'));
-                                temp[3].c += 1;
+                                index = 3;
                                 break;
+                        }
+                        if (index != -1) {
+                            temp[index].p = math.add(temp[index].p, calcData.current.getDouble('单价'));
+                            temp[index].c += 1;
                         }
                     }
                 }
@@ -556,35 +556,19 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
             let main3Data = [
                 {
                     name: 'A站',
-                    data: [0, 0, 0, 0, 0, 0, 0],
-                    // areaStyle: { //折线图 面积效果
+                    data: new Array(nowMonth + 1).fill(0),
                 },
                 {
                     name: 'B站',
-                    data: [0, 0, 0, 0, 0, 0, 0],
-                    // areaStyle: { //折线图 面积效果
+                    data: new Array(nowMonth + 1).fill(0),
                 },
                 {
                     name: 'C站',
-                    data: [0, 0, 0, 0, 0, 0, 0],
-                    // areaStyle: { //折线图 面积效果
+                    data: new Array(nowMonth + 1).fill(0),
                 },
                 {
                     name: 'D站',
-                    data: [0, 0, 0, 0, 0, 0, 0],
-                    // areaStyle: { //折线图 面积效果
-                    //     opacity: 0.8,
-                    //     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                    //     {
-                    //         offset: 0,
-                    //         color: 'rgb(128, 255, 165)'
-                    //     },
-                    //     {
-                    //         offset: 1,
-                    //         color: 'rgb(1, 191, 236)'
-                    //     }
-                    //     ])
-                    // }
+                    data: new Array(nowMonth + 1).fill(0),
                 }
             ]
             for (let i = 0; i < main3Data.length; i++) {
@@ -601,37 +585,20 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
                 }
                 Object.assign(main3Data[i], obj)
             }
-            let date = new Date
-            let d = date.getDate()
-            let ftSheet = dataList[1].data
+            let date = new Date;
+            let d = date.getDate();
+            let m = date.getMonth();
+            let ftSheet = dataList[1].data;
             ftSheet.first();
             while (ftSheet.fetch()) {
                 let month = new Date(ftSheet.getString('到货日期')).getMonth() + 1
-                let day = new Date(ftSheet.getString('到货日期')).getDate()
-                switch (month) {
-                    case 1:
-                        this.monthSwitch(ftSheet, main3Data, 0);
-                        break;
-                    case 2:
-                        this.monthSwitch(ftSheet, main3Data, 1);
-                        break;
-                    case 3:
-                        this.monthSwitch(ftSheet, main3Data, 2);
-                        break;
-                    case 4:
-                        this.monthSwitch(ftSheet, main3Data, 3);
-                        break;
-                    case 5:
-                        this.monthSwitch(ftSheet, main3Data, 4);
-                        break;
-                    case 6:
-                        this.monthSwitch(ftSheet, main3Data, 5);
-                        break;
-                    case 7:
-                        if (d >= day) {
-                            this.monthSwitch(ftSheet, main3Data, 6);
-                        }
-                        break;
+                let day = new Date(ftSheet.getString('到货日期')).getDate();
+                if (month == m) {
+                    if (d >= day) {
+                        this.monthSwitch(ftSheet, main3Data, month - 1);
+                    }
+                } else {
+                    this.monthSwitch(ftSheet, main3Data, month - 1);
                 }
             }
             this.setState({
@@ -1220,6 +1187,18 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
     }
     //初始化废钢图表
     initMain3() {
+        let data = [], yearArr = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+        let nowMonth = new Date().getMonth() + 1;
+        let index = 0;
+        if (nowMonth <= 6) {
+            nowMonth = 6;
+        }
+        // else { //当前月份超过六个月时，显示最近六个月
+        //     index = nowMonth - 6;
+        // }
+        for (index; index < nowMonth; index++) {
+            data.push(yearArr[index]);
+        }
         var myChart = echarts.init(document.getElementById('main3'));
         var option = {
             color: ['#A587FF', '#5CB4FE', '#FF8B4B', '#00D3A0'],
@@ -1251,7 +1230,7 @@ export default class FrmPurchaseChart3 extends React.Component<PropsType, stateT
 
             xAxis: {
                 type: 'category',
-                data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月']
+                data: data
             },
             yAxis: {
                 type: 'value',
