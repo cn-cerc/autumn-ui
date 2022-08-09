@@ -251,6 +251,8 @@ class GDMap {
     }
 
     async getAsyncGeocoder(site) {
+        if (!AMap)
+            throw new Error('缺少高德地图依赖文件');
         let obj = {
             status: 0,
             site: [],
