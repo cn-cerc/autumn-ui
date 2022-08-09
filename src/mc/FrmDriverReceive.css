@@ -406,7 +406,7 @@
     .orderInfo>span:nth-child(n+3) {
         padding-left: 74px;
         position: relative;
-        line-height: 1rem;
+        line-height: 1.25rem;
     }
     
     .orderInfo>span:nth-child(n+3)>i {
@@ -416,7 +416,7 @@
     }
 
     .orderInfo>span:nth-child(n+4) {
-        padding-top: .5rem;
+        padding-top: 0.375rem;
     }
     .orderInfo>span:nth-of-type(3)>i {
         top: 0;
