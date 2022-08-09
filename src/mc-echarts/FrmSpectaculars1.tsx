@@ -14,11 +14,12 @@ type FrmSpectaculars1TypeProps = {
 type FrmSpectaculars1TypeState = {
     carData: DataSet,
     lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
-    pieData3: DataSet,
-    pieData4: DataSet,
-    toggle: number
+    toggle: number,
+    allCarNetPanel: DataSet,
+    weeklyArrCarStatis: DataSet,
+    countProvince: DataSet,
+    cars_num: String,
+    driver_num: String,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -33,35 +34,40 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let pieData3 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let pieData4 = new DataSet();
-        pieData4.append().setValue('Value_', 11).setValue('Name_', '18~30');
-        pieData4.append().setValue('Value_', 50).setValue('Name_', '31~50');
-        pieData4.append().setValue('Value_', 13).setValue('Name_', '50~65');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             carData: new DataSet(),
             lineData,
-            pieData1,
-            pieData2,
-            pieData3,
-            pieData4,
-            toggle
+            toggle,
+            allCarNetPanel: new DataSet(),
+            weeklyArrCarStatis: new DataSet(),
+            countProvince: new DataSet(),
+            cars_num: "0",
+            driver_num: "0",
         }
+    }
+
+    async init() {
+        let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
+        let countProvince = await FplApi.getCountProvince();
+        let queryCarsLocation = await FplApi.getQueryCarsLocation();
+        this.setState({
+            ...this.state,
+            allCarNetPanel,
+            weeklyArrCarStatis,
+            countProvince,
+            cars_num: allCarNetPanel.getString('cars_total_'),
+            driver_num: allCarNetPanel.getString("driver_num_"),
+        }, () => {
+            this.initLineChart();
+            this.initLineChart1();
+            this.initPieChart1();
+            this.initPieChart2();
+            this.initPieChart3();
+            this.initPieChart4();
+        })
+
     }
 
     render(): React.ReactNode {
@@ -90,7 +96,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                 <img src={StaticFile.getImage('images/MCimg/5.png')} alt="" />
                             </div>
                             <div>
-                                <div className={styles.topTitle}>今日里程</div>
+                                <div className={styles.topTitle}>今日里程(对接中)</div>
                                 <div className={styles.topInfo}>
                                     46 <span>万公里</span>
                                 </div>
@@ -103,7 +109,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>司机数</div>
                                 <div className={styles.topInfo}>
-                                    13045 <span>名</span>
+                                    {this.state.driver_num}
+                                    <span>名</span>
                                 </div>
                             </div>
                         </li>
@@ -139,7 +146,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>司机年龄</div>
+                            <div className={styles.mcTitle}>区域排名TOPS</div>
                             <div className={styles.rightBox1Pie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
@@ -175,16 +182,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         </div>
     }
 
+
     componentDidMount(): void {
+        this.init();
         this.initCarData();
-        this.initLineChart();
-        this.initLineChart1();
-        this.initPieChart2();
-        this.initPieChart3();
-        this.initPieChart4();
         // addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
     }
-
     async initCarData() {
         let carData = await FplApi.queryCarsCurrentLocation();
         this.setState({
@@ -202,18 +205,26 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let xArr = [];
-        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6],];
+        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6]];
+        let base = +new Date(2022, 5, 17);
+        let oneDay = 24 * 3600 * 1000;
+
+        let data = [[base, Math.random() * 100]];
+
+        for (let i = 1; i < 365; i++) {
+            let now = new Date((base += oneDay));
+            data.push([+now, Math.round((Math.random() * 0.5) * 200)]);
+        }
+
         let option = {
             xAxis: {
-                type: 'category',
+                type: 'time',
                 boundaryGap: false
             },
             yAxis: {
                 type: 'value',
                 boundaryGap: [0, '100%']
             },
-            lengend: {},
-            tooltip: {},
             grid: {
                 top: 20,
                 left: 0,
@@ -223,37 +234,32 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             },
             series: [
                 {
-                    data: sData,
                     type: 'line',
                     smooth: true,
-                    // symbol: 'none',
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0],
-                        width: 1
-                    },
+                    symbol: 'none',
                     areaStyle: {},
-                },
+                    data: data
+                }
             ]
         };
+
 
         //@ts-ignore
         myChart.setOption(option);
     }
+    //物流运单
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
+        let ds = this.state.weeklyArrCarStatis;
         let xArr = [];
         let sData = [];
+        ds.first();
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('arr_total_'));
         }
+
         let option = {
             xAxis: {
                 type: 'category',
@@ -271,12 +277,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 type: 'value',
                 axisLabel: {
                     color: '#333333'
-                }
+                },
+                minInterval: 1
             },
             lengend: {},
             tooltip: {},
             grid: {
-                top: 15,
+                top: 20,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -287,7 +294,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     data: sData,
                     type: 'line',
                     smooth: 0.6,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -306,6 +312,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //在线率
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
@@ -367,8 +374,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
@@ -378,12 +385,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //满载率
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: 99,
+                value: this.state.allCarNetPanel.getDouble('full_load_rate_').toFixed(4),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -438,8 +446,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
@@ -449,12 +457,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //货损率
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         const gaugeData = [
             {
-                value: 10,
+                value: this.state.allCarNetPanel.getDouble('avg_loss_rate_').toFixed(4),
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
@@ -509,8 +518,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
@@ -520,49 +529,68 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+    //
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData4);
+        let ds = this.state.countProvince;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('receive_province_'),
+                value: ds.getDouble('num')
             })
         }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: '8%',
+                left: '60%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+                itemGap: 5,
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
+                textStyle: {
+                    lineHeight: 10,
+                }
+            },
             grid: {
                 top: 40,
-                left: 5,
-                bottom: 5,
-                right: 50,
-                containLabel: true,
+                left: 0,
+                bottom: 0,
+                right: 20,
+                containLabel: false,
             },
             series: [
                 {
-                    name: '司机年龄',
                     type: 'pie',
-                    radius: ['50%', '70%'],
-                    center: ['50%', '50%'],
+                    center: ['30%', '53%'],
+                    radius: ['50%', '75%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '16',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
                     labelLine: {
-                        length: 5,
-                        length2: 5,
-                        maxSurfaceAngle: 80
+                        show: false
                     },
                     data: dataArr
                 }
