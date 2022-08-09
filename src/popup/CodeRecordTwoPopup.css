@@ -53,19 +53,20 @@
 .list>li {
     margin-top: 1.5rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    line-height: 1.125rem;
 }
 
 .list>li>span:first-child {
     background-color: #EBEBEB;
-    width: 1.125rem;
     height: 1.125rem;
+    padding: 0 .325rem;
     text-align: center;
-    line-height: 1.125rem;
 }
 
 .list>li>span:nth-child(2) {
     width: 0;
     flex: 1;
     margin: 0 1.25rem;
+
 }
