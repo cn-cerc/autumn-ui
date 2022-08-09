@@ -83,45 +83,51 @@ export default class TOrdMC extends WebControl<TOrdMCTypeProps, TOrdMCTypeState>
                         <div className={styles.content}>
                             <ul>
                                 <li>
-                                    <p>到期应付</p>
-                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '到期应付')}>
-                                        <span>{0}</span>
-                                        <span>元</span>
+                                    <p>在线订货单</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '在线订货单')}>
+                                        <span>358</span>
                                     </div>
                                 </li>
                                 <li>
-                                    <p>本期应付</p>
-                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期应付')}>
-                                        <span>{0}</span>
-                                        <span>元</span>
+                                    <p>销售订单</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '销售订单')}>
+                                        <span>69</span>
                                     </div>
                                 </li>
                                 <li>
-                                    <p>本期已付</p>
-                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '本期已付')}>
-                                        <span>{0}</span>
-                                        <span>元</span>
+                                    <p>销售单</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '销售单')}>
+                                        <span>983</span>
                                     </div>
                                 </li>
                                 <li>
-                                    <p>期末应付</p>
+                                    <p>销售退货单</p>
                                     <div>
-                                        <span>0</span>
-                                        <span>元</span>
+                                        <span>60</span>
                                     </div>
                                 </li>
                                 <li>
-                                    <p>逾期应付</p>
+                                    <p>3天未发货</p>
                                     <div>
-                                        <span>0</span>
-                                        <span>元</span>
+                                        <span>58</span>
                                     </div>
                                 </li>
                                 <li>
-                                    <p>新增应付客户</p>
+                                    <p>出货通知</p>
                                     <div>
-                                        <span>0</span>
-                                        <span>元</span>
+                                        <span>2</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>未下单</p>
+                                    <div>
+                                        <span>5</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>已下单</p>
+                                    <div>
+                                        <span>785</span>
                                     </div>
                                 </li>
                             </ul>
