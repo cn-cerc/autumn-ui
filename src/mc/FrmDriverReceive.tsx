@@ -8,7 +8,9 @@ import styles from "./FrmDriverReceive.css";
 
 type FrmDriverReceiveTypeProps = {
     introduction: string,
-    chartsJson: string
+    chartsJson: string,
+    noAccount: boolean,
+    noVerify: boolean,
 }
 
 type FrmDriverReceiveTypeState = {
@@ -20,7 +22,8 @@ type FrmDriverReceiveTypeState = {
     isInit: boolean,
     notComplete: DataSet,
     isCompleted: DataSet,
-    showWay: boolean
+    showWay: boolean,
+    openTipsFlag: boolean
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
@@ -39,8 +42,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             isInit: false,
             notComplete: new DataSet(),
             isCompleted: new DataSet(),
-            showWay: true
+            showWay: true,
+            openTipsFlag: false,
         }
+
     }
 
     render(): React.ReactNode {
@@ -52,6 +57,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成</li>
                 </ul>
                 {this.getOrderList()}
+                {this.openTips()}
             </React.Fragment>
         } else {
             return <React.Fragment>
@@ -95,7 +101,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     </div>
                 </div>
                 {this.getDBGrid()}
-
+                {this.openTips()}
             </React.Fragment>
         }
     }
@@ -341,7 +347,39 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     // 接单
     handleSelect(row: DataRow) {
+        if(row.getDouble('delivery_status_') == 1){
+            if (this.props.noAccount || this.props.noVerify) {
+                this.setState({
+                    openTipsFlag: true
+                })
+                return;
+            }
+        }
         location.href = `FrmDriverArrangeCar.detail?cargoNo=${row.getString('cargo_no_')}&tbNo=${row.getString('tb_no_')}&dcorpno=${row.getString('d_corp_no_')}&it=${row.getDouble('it_')}`;
+    }
+
+    // 接单未认证身份 提示
+    openTips() {
+        if (!this.state.openTipsFlag) { return }
+        return <div className={styles.alertShadow}>
+            <div className={styles.alertBox}><div>
+                <h1 className={styles.alertTitle}>温馨提示</h1>
+                <p className={styles.alertCon}>您还没有身份认证，无法接单！点确认前往身份认证。</p>
+            </div>
+                <ul>
+                    <li className={styles.alertCancel} onClick={() => {
+                        this.setState({
+                            openTipsFlag: false
+                        })
+                    }}>取消</li>
+                    <li className={styles.alertConfirm} onClick={() => {
+                        this.setState({
+                            openTipsFlag: false
+                        })
+                    }}>确认</li>
+                </ul>
+            </div>
+        </div>
     }
 
     // 查看路线
@@ -393,7 +431,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         return <img src={imgSrc}></img>
     }
 
-    removeProvinceFun(address:string){
+    removeProvinceFun(address: string) {
         if (address.indexOf('/') > -1) {
             address = address.substring(address.indexOf('/') + 1, address.length);
         } else {
@@ -402,11 +440,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         return address;
     }
 
-    formatDateTimeFun(dateObj:Date){
+    formatDateTimeFun(dateObj: Date) {
         let str = '';
-        if(dateObj.getFullYear == new Date().getFullYear){
+        if (dateObj.getFullYear == new Date().getFullYear) {
             str = `${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日${dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours()}时`;
-        }else{
+        } else {
             str = `${dateObj.getFullYear()}年${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日`;
         }
         return str;
