@@ -319,7 +319,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let math = new AuiMath();
         const gaugeData = [
             {
-                value: math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2),
+                value: math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2) || 0,
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
