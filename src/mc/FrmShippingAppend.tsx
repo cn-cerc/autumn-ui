@@ -1,5 +1,9 @@
-import { WebControl } from "autumn-ui";
+import { DataRow, WebControl } from "autumn-ui";
 import React, { ReactNode } from "react";
+import DialogDOM from "../dialog/DialogDOM";
+import { AddressPopup_MC } from "../popup/AddressPopup";
+import { FSCusPopup_MC } from "../popup/FSCusPopup";
+import { QuickSitePopup_MC } from "../popup/QuickSitePopup";
 import StaticFile from "../static/StaticFile";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./FrmShippingAppend.css";
@@ -34,7 +38,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     constructor(props: FrmShippingAppendTypeProps) {
         super(props);
         let state = {};
-        if(this.client.get('state'))
+        if (this.client.get('state'))
             state = JSON.parse(this.client.get('state'))
         this.state = {
             sendName: '',
@@ -62,10 +66,102 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     render(): ReactNode {
         return <div className={styles.main}>
             <ul className={styles.peopleBox}>
+                <li onClick={this.showSendPopup.bind(this)}>
+                    <img src={StaticFile.getImage('images/icon/send_round.png')}></img>
+                    <span>{(this.state.sendName || this.state.sendMobile) ? `${this.state.sendName} ${this.state.sendMobile}` : '发货人信息'}</span>
+                    {(this.state.sendName || this.state.sendMobile) ? '' : <span className={styles.selectName}>请选择</span>}
+                    <img src={StaticFile.getImage('images/icon/arrow-right.png')} />
+                </li>
+                <li onClick={this.showSendSitePopup.bind(this)}>
+                    <span>{this.state.sendDepart || '发货人地址'}</span>
+                    {this.state.sendDepart ? '' : <span className={styles.selectName}>请选择</span>}
+                    <img src={StaticFile.getImage('images/icon/arrow-right.png')} />
+                </li>
                 <li>
-                    <img src={StaticFile.getImage('')}></img>
+                    <textarea value={this.state.sendAddress} onChange={(e) => { this.saveState({ sendAddress: e.target.value }) }} ></textarea>
+                </li>
+            </ul>
+            <ul className={styles.peopleBox}>
+                <li onClick={this.showReceivePopup.bind(this)}>
+                    <img src={StaticFile.getImage('images/icon/receive_round.png')}></img>
+                    <span>{(this.state.receiveName || this.state.receiveMobile) ? `${this.state.receiveName} ${this.state.receiveMobile}` : '发货人信息'}</span>
+                    {(this.state.receiveName || this.state.receiveMobile) ? '' : <span className={styles.selectName}>请选择</span>}
+                    <img src={StaticFile.getImage('images/icon/arrow-right.png')} />
+                </li>
+                <li onClick={this.showReceiveSitePopup.bind(this)}>
+                    <span>{this.state.receiveDepart || '发货人地址'}</span>
+                    {this.state.receiveDepart ? '' : <span className={styles.selectName}>请选择</span>}
+                    <img src={StaticFile.getImage('images/icon/arrow-right.png')} />
+                </li>
+                <li>
+                    <textarea value={this.state.receiveAddress} onChange={(e) => { this.saveState({ receiveAddress: e.target.value }) }} ></textarea>
                 </li>
             </ul>
         </div>
+    }
+
+    saveState(obj: object) {
+        this.setState({
+            ...obj
+        }, () => {
+            this.client.set('state', JSON.stringify(this.state));
+        })
+    }
+
+    showSendPopup() {
+        DialogDOM.render(React.createElement(AddressPopup_MC, {
+            onSelect: this.chooseSendInfo.bind(this)
+        }));
+    }
+
+    chooseSendInfo(row: DataRow) {
+        console.log(row);
+        this.saveState({
+            sendName: row.getString('contact_'),
+            sendMobile: row.getString('mobile_'),
+            sendDepart: row.getString('address_'),
+            sendAddress: row.getString('area5_')
+        });
+    }
+
+    showSendSitePopup() {
+        DialogDOM.render(React.createElement(QuickSitePopup_MC, {
+            onSelect: this.chooseSendSite.bind(this),
+            title: '选择发货地'
+        }));
+    }
+
+    chooseSendSite(depart: string, address: string) {
+        this.saveState({
+            sendDepart: depart,
+            sendAddress: address
+        })
+    }
+
+    showReceivePopup() {
+        DialogDOM.render(React.createElement(FSCusPopup_MC, {
+            onSelect: this.chooseReceiveInfo.bind(this)
+        }));
+    }
+
+    chooseReceiveInfo(row: DataRow) {
+        this.saveState({
+            receiveName: row.getString('Name_'),
+            receiveMobile: row.getString('Mobile_'),
+        })
+    }
+
+    showReceiveSitePopup() {
+        DialogDOM.render(React.createElement(QuickSitePopup_MC, {
+            onSelect: this.chooseReceiveSite.bind(this),
+            title: '选择收货地'
+        }));
+    }
+
+    chooseReceiveSite(depart: string, address: string) {
+        this.saveState({
+            receiveDepart: depart,
+            receiveAddress: address
+        })
     }
 }
