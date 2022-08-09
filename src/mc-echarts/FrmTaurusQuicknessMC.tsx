@@ -98,6 +98,17 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                         </div>
                     </div>
                 </li>
+                <li onClick={this.linkTo.bind(this, '我要充值')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/topUp.png')} alt="" />
+                        </div>
+                        <div>
+                            <span>我要充值</span>
+                            <p>钱包充值信息</p>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     }
