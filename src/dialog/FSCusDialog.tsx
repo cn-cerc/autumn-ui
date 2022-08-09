@@ -93,7 +93,7 @@ export default class FSCusDialog extends BaseDialog<FSCusDialogTypeProsp, FSCusD
         }
         if (this.props.personID)
             $("#" + this.props.personID).val(row.getString('Contact_'))
-        this.handleClose();
+        this.handleSelect();
     }
 
 }

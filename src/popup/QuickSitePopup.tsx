@@ -1,20 +1,20 @@
-import { BaseDialog, BaseDialogPropsType, BaseDialogStateType } from "autumn-ui";
 import React from "react";
 import ImageConfig from "../static/ImageConfig";
 import StaticFile from "../static/StaticFile";
-import { GDMap, showMsg } from "../tool/Summer";
-import styles from "./QuickSiteDialog.css";
+import { GDMap } from "../tool/Summer";
+import BasePopup, { BasePopupTypeProps, BasePopupTypeState } from "./BasePopup";
+import styles from "./QuickSitePopup.css";
 
-type QuickSiteDialogTypeProps = {
+type QuickSitePopupTypeProps = {
     siteId: string,
     addressId: string,
     center?: string
-} & Partial<BaseDialogPropsType>
+} & BasePopupTypeProps
 
-type QuickSiteDialogTypeState = {
+type QuickSitePopupTypeState = {
     site: site,
     driving: any
-} & Partial<BaseDialogStateType>
+} & BasePopupTypeState
 
 type site = {
     province: string,
@@ -37,15 +37,13 @@ type addressInfo = {
     township: string    //镇、乡
 }
 
-export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProps, QuickSiteDialogTypeState> {
+export default class QuickSitePopup extends BasePopup<QuickSitePopupTypeProps, QuickSitePopupTypeState> {
     private gdmap: GDMap = new GDMap();
-    constructor(props: QuickSiteDialogTypeProps) {
+    constructor(props: QuickSitePopupTypeProps) {
         super(props);
-        this.setTitle("选择地址");
         this.state = {
             ...this.state,
-            width: this.isPhone ? '100%' : '50rem',
-            height: this.isPhone ? '100vh' : '35rem',
+            height: '100vh',
             site: {
                 province: '',
                 city: '',
@@ -66,12 +64,13 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
                 <input type="text" id='siteInput' placeholder="请输入查询位置" autoComplete="off" />
             </div>
             <div id="container" className={styles.container}></div>
-            <button onClick={this.handleClick.bind(this)} className={styles.button}>确定</button>
+            <div className={styles.btn}>
+                <button onClick={this.handleClick.bind(this)} className={styles.button}>确定</button>
+            </div>
         </div>
     }
 
     componentDidMount(): void {
-        super.componentDidMount();
         this.init();
     }
 
