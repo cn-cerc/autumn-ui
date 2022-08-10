@@ -115,11 +115,11 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                             <div className={styles.mcMap}>
                                 <ul>
                                     <li className={styles.imgItem}>
-                                        <img src={StaticFile.getImage('images/MCimg/bg-1.png')} alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-1.jpg')} alt="" />
                                         <p className={styles.imgBottomText}> <span>2022/06/20 00:00:00</span> <span>前</span></p>
                                     </li>
                                     <li className={styles.imgItem}>
-                                        <img src={StaticFile.getImage('images/MCimg/bg-2.png')} alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-2.jpg')} alt="" />
                                         <p className={styles.imgBottomText}> <span>后</span> <span></span></p>
                                     </li>
                                 </ul>
