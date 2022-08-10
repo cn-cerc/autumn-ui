@@ -97,6 +97,14 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                     <textarea value={this.state.receiveAddress} onChange={(e) => { this.saveState({ receiveAddress: e.target.value }) }} ></textarea>
                 </li>
             </ul>
+            <ul className={styles.goodsBox}>
+                <li>
+                    <span>货物名称</span>
+                    <span className={this.state.goodsName ? '' : styles.color9}>{this.state.goodsName || '货物信息'}</span>
+                    {this.state.goodsName ? '' : <span className={styles.selectName}>请选择</span>}
+                    <img src={StaticFile.getImage('images/icon/arrow-right.png')} />
+                </li>
+            </ul>
         </div>
     }
 

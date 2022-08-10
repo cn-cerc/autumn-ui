@@ -4,6 +4,10 @@
     font-size: 16px;
 }
 
+.color9 {
+    color: #999;
+}
+
 .peopleBox {
     margin: .625rem .625rem 0;
     background-color: #fff;
@@ -38,7 +42,7 @@
     color: #999999;
 }
 
-.peopleBox>li>img:last-of-type {
+.main li>img:last-of-type {
     width: 1rem;
 }
 
@@ -64,5 +68,32 @@
 }
 
 .peopleBox>li:nth-child(3)>textarea::placeholder {
+    color: #999999;
+}
+
+.goodsBox {
+    margin: .625rem .625rem 0;
+    background-color: #fff;
+    padding: 0 .625rem;
+}
+
+.goodsBox li {
+    padding: .625rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.goodsBox>li:first-child>span:first-child {
+    padding-right: 1rem;
+}
+
+.goodsBox>li:first-child>span:nth-child(2) {
+    width: 0;
+    flex: 1;
+    padding-right: 1rem;
+}
+
+.goodsBox>li:first-child>span:nth-child(3) {
+    margin-right: .625rem;
     color: #999999;
 }
