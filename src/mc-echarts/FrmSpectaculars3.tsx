@@ -207,17 +207,26 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     }
 
     async init() {
-        let dealStatus = await FplApi.getDealStatus();
-        let allDataPanelData = await FplApi.getAllDataPanelData();
-        let cargoWeightTop3 = await FplApi.getCargoWeightTop3();
-        let queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
-        let queryMileageTotal = await FplApi.queryMileageTotal();
-        let weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
-        let weeklyOrderCount = await FplApi.getWeeklyOrderCount();
-        let weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
-        let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        let queryCarsLocation = await FplApi.getQueryCarsLocation();
-
+        let dealStatus = new DataSet();
+        dealStatus = await FplApi.getDealStatus();
+        let allDataPanelData = new DataSet();
+        allDataPanelData = await FplApi.getAllDataPanelData();
+        let cargoWeightTop3 = new DataSet();
+        cargoWeightTop3 = await FplApi.getCargoWeightTop3();
+        let queryDriverOrderTop5 = new DataSet();
+        queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
+        let queryMileageTotal = new DataSet();
+        queryMileageTotal = await FplApi.queryMileageTotal();
+        let weeklyOrderAmount = new DataSet();
+        weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
+        let weeklyOrderCount = new DataSet();
+        weeklyOrderCount = await FplApi.getWeeklyOrderCount();
+        let weeklyArrangeWeight = new DataSet();
+        weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
+        let allCarNetPanel = new DataSet();
+        allCarNetPanel = await FplApi.getAllCarNetPanel();
+        let queryCarsLocation = new DataSet();
+        queryCarsLocation = await FplApi.getQueryCarsLocation();
         let math = new AuiMath();
         let online = queryCarsLocation.head.getDouble('online_'), total = queryCarsLocation.head.getDouble('total_');
         if (!online) {
@@ -286,7 +295,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
         ds = this.state.weeklyArrangeWeight;
-
         let dataArr: any = [];
         ds.first();
         while (ds.fetch()) {
@@ -335,10 +343,12 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let ds = this.state.weeklyOrderAmount;
+        let ds = new DataSet();
+        ds = this.state.weeklyOrderAmount;
         let xArr = [];
         let sData = [];
         ds.first();
@@ -399,10 +409,10 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        console.log(this.state.dealStatus);
         let dataArr: any = [];
         dataArr = [
             { value: this.state.dealStatus.getDouble('ydeal'), name: '已成交' },
@@ -466,6 +476,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
     initBarChart1() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCBar1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
