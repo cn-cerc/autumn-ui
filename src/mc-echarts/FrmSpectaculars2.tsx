@@ -115,11 +115,11 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                             <div className={styles.mcMap}>
                                 <ul>
                                     <li className={styles.imgItem}>
-                                        <img src={StaticFile.getImage('images/MCimg/bg-1.png')} alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-1.jpg')} alt="" />
                                         <p className={styles.imgBottomText}> <span>2022/06/20 00:00:00</span> <span>前</span></p>
                                     </li>
                                     <li className={styles.imgItem}>
-                                        <img src={StaticFile.getImage('images/MCimg/bg-2.png')} alt="" />
+                                        <img src={StaticFile.getImage('images/MCimg/bg-2.jpg')} alt="" />
                                         <p className={styles.imgBottomText}> <span>后</span> <span></span></p>
                                     </li>
                                 </ul>
@@ -259,20 +259,12 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
     }
 
     initPieChart1() {
-        let legend = {
-            top: '25%',
-            left: '65%',
-            orient: 'vertical',
-            itemWidth: 8,
-            itemHeight: 8,
-            icon: 'circle',
-        };
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
         ds.appendDataSet(this.state.pieData1);
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
                 name: ds.getString('Name_'),
@@ -283,7 +275,24 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             tooltip: {
                 trigger: 'item'
             },
-            legend: legend,
+            legend: {
+                top: 'center',
+                left: '60%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+                itemGap: 5,
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value +'辆';
+                },
+                textStyle: {
+                    lineHeight: 10,
+                }
+            },
             grid: {
                 top: '20%',
                 left: 5,
@@ -291,34 +300,26 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 right: '20%',
                 containLabel: true,
             },
-            title: {
-                subtext: '数量（辆）',
-                left: 'left',
-            },
             series: [
                 {
                     type: 'pie',
-                    radius: ['55%', '75%'],
-                    center: ['35%', '50%'],
+                    center: ['30%', '53%'],
+                    radius: ['50%', '75%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '16',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
-                    color: MCChartColors,
-                    itemStyle: {
-                        normal: {
-                            label: {
-                                show: true,
-                                position: 'inner',
-                                formatter: '{c}'
-                                , color: '#000'
-                            }
-                        },
-
+                    labelLine: {
+                        show: false
                     },
                     data: dataArr
                 }

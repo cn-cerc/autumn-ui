@@ -149,7 +149,7 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
             },
             tooltip: {},
             grid: {
-                top: 15,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -192,7 +192,7 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -256,7 +256,7 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
