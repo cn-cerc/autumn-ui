@@ -317,9 +317,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let math = new AuiMath();
+        var value = isNaN(math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2)) ? 0 : math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2);
         const gaugeData = [
             {
-                value: math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2) || 0,
+                value: value,
                 title: {
                     offsetCenter: ['0%', '30%']
                 },
