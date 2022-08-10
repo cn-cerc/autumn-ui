@@ -255,6 +255,11 @@
     padding-left: 16px;
 }
 
+.leftTop1Item>div>img {
+    width: 35px;
+    height: 35px;
+}
+
 .leftTop1ItemInfo {
     display: flex;
     font-size: 14px;
