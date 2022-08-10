@@ -53,31 +53,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         }
     }
 
-    async init() {
-        let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
-        let countProvince = await FplApi.getCountProvince();
-        let queryCarsLocation = await FplApi.getQueryCarsLocation();
-        let queryMileageD = await FplApi.getQueryMileageD();
-        this.setState({
-            ...this.state,
-            allCarNetPanel,
-            weeklyArrCarStatis,
-            countProvince,
-            queryMileageD: queryMileageD.getDouble('total_mileage_'),
-            online_num: queryCarsLocation.head.getDouble('online_'),
-            cars_num: queryCarsLocation.head.getDouble('total_'),
-            driver_num: allCarNetPanel.getDouble("driver_num_"),
-        }, () => {
-            this.initLineChart();
-            this.initLineChart1();
-            this.initPieChart1();
-            this.initPieChart2();
-            this.initPieChart3();
-            this.initPieChart4();
-        })
 
-    }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
@@ -191,7 +167,51 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
     componentDidMount(): void {
         this.init();
-        // addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
+        this.timer = setInterval(this.init, 30000);
+        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
+    }
+
+    async initCarData() {
+        let carData = await FplApi.queryCarsCurrentLocation();
+        this.setState({
+            carData
+        }, () => {
+            this.initPieChart1();
+            this.initCarSite();
+        })
+    }
+    async init() {
+        let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
+        let countProvince = await FplApi.getCountProvince();
+        let queryCarsLocation = await FplApi.getQueryCarsLocation();
+        let queryMileageD = await FplApi.getQueryMileageD();
+        this.setState({
+            ...this.state,
+            allCarNetPanel,
+            weeklyArrCarStatis,
+            countProvince,
+            cars_num: queryCarsLocation.head.getDouble('total_'),
+            driver_num: allCarNetPanel.getDouble("driver_num_"),
+            queryMileageD: queryMileageD.getDouble('total_mileage_'),
+            online_num: queryCarsLocation.head.getDouble('online_'),
+        }, () => {
+            this.initLineChart();
+            this.initLineChart1();
+            this.initPieChart1();
+            this.initPieChart2();
+            this.initPieChart3();
+            this.initPieChart4();
+        })
+
+    }
+    initMap() {
+        this.gdmap.initMap('carMapContainer', {
+            zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
+            center: this.props.lonlat.split(',')
+        });
+        this.initCarData();
+    
     }
 
     initLineChart1() {
