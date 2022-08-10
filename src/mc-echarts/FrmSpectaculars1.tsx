@@ -14,7 +14,6 @@ type FrmSpectaculars1TypeProps = {
 
 type FrmSpectaculars1TypeState = {
     carData: DataSet,
-    lineData: DataSet,
     toggle: number,
     allCarNetPanel: DataSet,
     weeklyArrCarStatis: DataSet,
@@ -30,18 +29,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     private timer: any;
     constructor(props: FrmSpectaculars1TypeProps) {
         super(props);
-        let lineData = new DataSet();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             carData: new DataSet(),
-            lineData,
             toggle,
             allCarNetPanel: new DataSet(),
             weeklyArrCarStatis: new DataSet(),
@@ -594,7 +584,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 trigger: 'item'
             },
             legend: {
-                top: '8%',
+                top: 'center',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,

@@ -124,7 +124,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                 trigger: 'item'
             },
             legend: {
-                top: '5%',
+                top: 'center',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -191,7 +191,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                 trigger: 'item'
             },
             legend: {
-                top: '5%',
+                top: 'center',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -247,7 +247,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
         }
         let option = {
             grid: {
-                top: 10,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
