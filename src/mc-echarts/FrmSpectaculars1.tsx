@@ -165,6 +165,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         </div>
     }
 
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
     componentDidMount(): void {
         this.init();
         this.timer = setInterval(this.init, 30000);
