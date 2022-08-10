@@ -1,21 +1,43 @@
 import { DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import FplApi from "../api/FplApi";
 import StaticFile from "../static/StaticFile";
+import { addScript, AuiMath, GDMap } from "../tool/Summer";
+import ApplicationConfig from "../static/ApplicationConfig";
 import styles from "./FrmSpectaculars3.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars3TypeProps = {
+    lonlat: string
 }
 
 type FrmSpectaculars3TypeState = {
+    carData: DataSet,
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    toggle: number
+    toggle: number,
+    dealStatus: DataSet,
+    allDataPanelData: DataSet,
+    cargoWeightTop3: DataSet,
+    queryDriverOrderTop5: DataSet,
+    weeklyOrderAmount: DataSet,
+    weeklyOrderCount: DataSet,
+    weeklyArrangeWeight: DataSet,
+    allCarNetPanel: DataSet,
+    queryMileageTotal: number,
+    sumMoney: number,
+    sumTransportation: number,
+    onlineNum: number,
+    contactNum: number,
+    driverNum: number,
+    abnormalNum: number,
 }
 
 export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypeProps, FrmSpectaculars3TypeState> {
+    private gdmap: GDMap = new GDMap();
+    private timer: any;
     constructor(props: FrmSpectaculars3TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -38,10 +60,26 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
+            carData: new DataSet(),
             lineData,
             pieData1,
             pieData2,
             toggle,
+            dealStatus: new DataSet(),
+            allDataPanelData: new DataSet(),
+            cargoWeightTop3: new DataSet(),
+            queryDriverOrderTop5: new DataSet(),
+            weeklyOrderAmount: new DataSet(),
+            weeklyOrderCount: new DataSet(),
+            weeklyArrangeWeight: new DataSet(),
+            allCarNetPanel: new DataSet(),
+            queryMileageTotal: 0,
+            sumMoney: 0,
+            sumTransportation: 0,
+            onlineNum: 0,
+            contactNum: 0,
+            driverNum: 0,
+            abnormalNum: 0,
         }
     }
 
@@ -62,7 +100,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div>
                                 <div className={styles.topTitle}>交易金额</div>
                                 <div className={styles.topInfo}>
-                                    626.65 <span>万元</span>
+                                    {this.state.sumMoney} <span>万元</span>
                                 </div>
                             </div>
                         </li>
@@ -73,7 +111,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div>
                                 <div className={styles.topTitle}>物流运单数</div>
                                 <div className={styles.topInfo}>
-                                    746 <span>单</span>
+                                    {this.state.sumTransportation} <span>单</span>
                                 </div>
                             </div>
                         </li>
@@ -84,7 +122,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div>
                                 <div className={styles.topTitle}>总里程</div>
                                 <div className={styles.topInfo}>
-                                    576.66 <span>万公里</span>
+                                    {this.state.queryMileageTotal} <span>万公里</span>
                                 </div>
                             </div>
                         </li>
@@ -98,39 +136,39 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.mcTitle}>实时统计</div>
                             <div className={styles.FrmSpectaculars3LeftTop1}>
                                 <div className={styles.leftTop1Item}>
-                                    <div>
+                                    {/* <div>
                                         <img src={StaticFile.getImage('images/MCimg/7.png')} alt="" />
-                                    </div>
+                                    </div> */}
                                     <div className={styles.leftTop1ItemInfo}>
-                                        <div>停车数</div>
-                                        <div>150</div>
+                                        <div>在线率</div>
+                                        <div>{this.state.onlineNum}%</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
-                                    <div>
+                                    {/* <div>
                                         <img src={StaticFile.getImage('images/MCimg/8.png')} alt="" />
+                                    </div> */}
+                                    <div className={styles.leftTop1ItemInfo}>
+                                        <div>离线率</div>
+                                        <div>{this.state.contactNum}%</div>
                                     </div>
+                                </div>
+                                <div className={styles.leftTop1Item}>
+                                    {/* <div>
+                                        <img src={StaticFile.getImage('images/MCimg/9.png')} alt="" />
+                                    </div> */}
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>司机数</div>
-                                        <div>108</div>
+                                        <div>{this.state.driverNum}</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
-                                    <div>
-                                        <img src={StaticFile.getImage('images/MCimg/9.png')} alt="" />
-                                    </div>
+                                    {/* <div>
+                                        <img src={StaticFile.getImage('images/MCimg/10.png')} alt="" />
+                                    </div> */}
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>异常率</div>
-                                        <div>12%</div>
-                                    </div>
-                                </div>
-                                <div className={styles.leftTop1Item}>
-                                    <div>
-                                        <img src={StaticFile.getImage('images/MCimg/10.png')} alt="" />
-                                    </div>
-                                    <div className={styles.leftTop1ItemInfo}>
-                                        <div>回款率</div>
-                                        <div>89%</div>
+                                        <div>{this.state.abnormalNum}%</div>
                                     </div>
                                 </div>
                             </div>
@@ -146,9 +184,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     </div>
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
-                            <div className={styles.mcMap}>
-                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
-                            </div>
+                            <div className={styles.mcMap} id='carMapContainer'></div>
                         </div>
                         <div className={styles.centerBox2}>
                             <div className={styles.mcTitle}>交易金额</div>
@@ -161,7 +197,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.rightSiteEchat1BoxPie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
-                            <div className={styles.mcTitle}>物流运单量</div>
+                            <div className={styles.mcTitle}>物流运单笔数</div>
                             <div className={styles.mcBar2}></div>
                         </div>
                         <div className={styles.rightBox3}>
@@ -174,20 +210,113 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         </div>
     }
 
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
     componentDidMount(): void {
-        this.initLineChart();
-        this.initLineChart1();
-        this.initPieChart1();
-        this.initBarChart1();
-        this.initPieChart2();
-        this.initBarchart2();
+        this.init();
+        this.timer = setInterval(this.init, 30000);
+        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
+    }
+
+    async initCarData() {
+        let carData = await FplApi.queryCarsCurrentLocation();
+        this.setState({
+            carData
+        }, () => {
+            this.initPieChart1();
+            this.initCarSite();
+        })
+    }
+
+    async init() {
+        let dealStatus = await FplApi.getDealStatus();
+        let allDataPanelData = await FplApi.getAllDataPanelData();
+        let cargoWeightTop3 = await FplApi.getCargoWeightTop3();
+        let queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
+        let queryMileageTotal = await FplApi.queryMileageTotal();
+        let weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
+        let weeklyOrderCount = await FplApi.getWeeklyOrderCount();
+        let weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
+        let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        let queryCarsLocation = await FplApi.getQueryCarsLocation();
+
+        let math = new AuiMath();
+        let online = queryCarsLocation.head.getDouble('online_'), total = queryCarsLocation.head.getDouble('total_');
+        if (!online) {
+            online = 0;
+        }
+        let onlineNum;
+        if (online == 0 || total == 0) {
+            onlineNum = 0;
+        } else {
+            onlineNum = math.toFixed(online / total * 100, 2);
+        }
+
+        this.setState({
+            dealStatus,
+            cargoWeightTop3,
+            queryDriverOrderTop5,
+            weeklyOrderAmount,
+            weeklyOrderCount,
+            weeklyArrangeWeight,
+            queryMileageTotal: queryMileageTotal.getDouble('total_mileage_'),
+            sumMoney: allDataPanelData.getDouble('sum_money'),
+            sumTransportation: allDataPanelData.getDouble('sum_transportation'),
+            onlineNum,
+            contactNum: 100 - onlineNum,
+            driverNum: allCarNetPanel.getDouble('driver_num_'),
+            abnormalNum: 0,
+        }, () => {
+            this.initLineChart();
+            this.initLineChart1();
+            this.initPieChart1();
+            this.initBarChart1();
+            this.initPieChart2();
+            this.initBarchart2();
+        })
+
+    }
+
+    initMap() {
+        this.gdmap.initMap('carMapContainer', {
+            zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
+            center: this.props.lonlat.split(',')
+        });
+        this.initCarData();
+
+    }
+
+    initCarSite() {
+        this.gdmap.clear();
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.carData);
+        ds.first();
+        while (ds.fetch()) {
+            this.gdmap.addLableMark({
+                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
+            }, `<div class="input-card content-window-card">
+                    <div style="color:#666;">
+                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
+                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
+                    </div>
+                </div>`)
+        }
     }
 
     initLineChart1() {
         let lineChart = document.querySelector(`.${styles.mcLink1}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let xArr = [];
-        let sData = [['周一', 200], ['周二', 180], ['周三', 250], ['周四', 291], ['周五', 270], ['周六', 146], ['周日', 128]];
+        let ds = new DataSet();
+        ds = this.state.weeklyArrangeWeight;
+
+        let dataArr: any = [];
+        ds.first();
+        while (ds.fetch()) {
+            dataArr.push([`${ds.getString('create_date_').split("-")[1]}.${ds.getString('create_date_').split("-")[2]}`, ds.getString('num')])
+        }
+
         let option = {
             xAxis: {
                 type: 'category',
@@ -195,7 +324,8 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             },
             yAxis: {
                 type: 'value',
-                boundaryGap: [0, '100%']
+                boundaryGap: [0, '100%'],
+                minInterval: 1
             },
             lengend: {},
             tooltip: {},
@@ -208,10 +338,9 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             },
             series: [
                 {
-                    data: sData,
+                    data: dataArr,
                     type: 'line',
                     smooth: true,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -233,15 +362,15 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
+        let ds = this.state.weeklyOrderAmount;
         let xArr = [];
         let sData = [];
+        ds.first();
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('amount_total_'));
         }
+
         let option = {
             xAxis: {
                 type: 'category',
@@ -259,12 +388,13 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                 type: 'value',
                 axisLabel: {
                     color: '#333333'
-                }
+                },
+                minInterval: 1
             },
             lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
+                top: 20,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -275,7 +405,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     data: sData,
                     type: 'line',
                     smooth: 0.6,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -288,23 +417,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                         position: 'top'
                     },
                 },
-                {
-                    data: [158, 310, 221, 30, 281, 290, 129],
-                    type: 'line',
-                    smooth: 0.6,
-                    // symbol: 'none',
-                    itemStyle: {
-                        color: MCChartColors[1]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[1],
-                        width: 5
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                }
             ]
         };
 
@@ -312,26 +424,48 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         myChart.setOption(option);
     }
     initPieChart1() {
-        let legend = {
-            top: '25%',
-            left: '65%',
-            orient: 'vertical',
-            itemWidth: 8,
-            itemHeight: 8,
-            icon: 'circle',
-        };
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let dataArr: any = [];
+        dataArr = [
+            { value: this.state.dealStatus.getDouble('ydeal'), name: '已成交' },
+            { value: this.state.dealStatus.getDouble('ndeal'), name: '未成交' },
+        ]
+
         let option = {
             tooltip: {
                 trigger: 'item'
             },
-            legend: legend,
+            legend: {
+                top: '18%',
+                left: '60%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+                itemGap: 5,
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
+                textStyle: {
+                    lineHeight: 10,
+                }
+            },
+            grid: {
+                top: 40,
+                left: 0,
+                bottom: 0,
+                right: 20,
+                containLabel: false,
+            },
             series: [
                 {
                     type: 'pie',
-                    radius: ['55%', '75%'],
-                    center: ['35%', '50%'],
+                    center: ['30%', '53%'],
+                    radius: ['50%', '75%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -348,10 +482,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     labelLine: {
                         show: false
                     },
-                    data: [
-                        { value: 1048, name: '已成交' },
-                        { value: 735, name: '未成交' },
-                    ]
+                    data: dataArr
                 }
             ]
         };
@@ -362,20 +493,39 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     initBarChart1() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCBar1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let ds = new DataSet();
+        ds = this.state.cargoWeightTop3;
+        ds.first();
+        let xArr = [];
+        let sData = [];
+        while (ds.fetch()) {
+            xArr.push(ds.getString('type_goods_'));
+            sData.push(ds.getDouble('weight_total_'));
+        }
         let option = {
-            legend: {},
-            tooltip: {},
-            dataset: {
-                source: [
-                    ['product', '钢铁', '废钢', '合金'],
-                    ['铁矿', 43.3, 85.8, 85.8,],
-                ]
+            grid: [{
+                left: 10,
+                top: 12,
+                right: 5,
+                bottom: 5,
+                containLabel: true,
+            }],
+            xAxis: {
+                type: 'category',
+                data: xArr
             },
-            xAxis: { type: 'category' },
-            yAxis: {},
-            grid: [{ top: 25, left: 30, right: 10, bottom: 20 }],
-            color: MCChartColors,
-            series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
+            yAxis: {
+                type: 'value',
+                minInterval: 1
+            },
+            series: [
+                {
+                    data: sData,
+                    type: 'bar',
+                    color: MCChartColors,
+                    barWidth: 30,
+                }
+            ]
         };
 
         //@ts-ignore
@@ -383,26 +533,49 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     }
 
     initPieChart2() {
-        let legend = {
-            top: '25%',
-            left: '65%',
-            orient: 'vertical',
-            itemWidth: 8,
-            itemHeight: 8,
-            icon: 'circle',
-        };
         let peiChart = document.querySelector(`.${styles.rightSiteEchat1BoxPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let ds = new DataSet();
+        ds = this.state.queryDriverOrderTop5;
+        let dataArr: any = [];
+        ds.first();
+        while (ds.fetch()) {
+            dataArr.push({ value: ds.getDouble('num'), name: ds.getString('driver_name_') });
+        }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
-            legend: legend,
+            legend: {
+                top: '8%',
+                left: '60%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+                itemGap: 5,
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
+                textStyle: {
+                    lineHeight: 10,
+                }
+            },
+            grid: {
+                top: 40,
+                left: 0,
+                bottom: 0,
+                right: 20,
+                containLabel: false,
+            },
             series: [
                 {
                     type: 'pie',
-                    radius: ['55%', '75%'],
-                    center: ['35%', '50%'],
+                    center: ['30%', '53%'],
+                    radius: ['50%', '75%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -419,13 +592,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     labelLine: {
                         show: false
                     },
-                    data: [
-                        { value: 750, name: '广东省' },
-                        { value: 1048, name: '福建省' },
-                        { value: 580, name: '山东省' },
-                        { value: 484, name: '山西省' },
-                        { value: 300, name: '浙江省' }
-                    ]
+                    data: dataArr
                 }
             ]
         };
@@ -437,6 +604,16 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     initBarchart2() {
         let peiChart = document.querySelector(`.${styles.mcBar2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let ds = new DataSet();
+        ds = this.state.weeklyOrderCount;
+        let xArr: any = [];
+        let sData: any = [];
+        ds.first();
+        while (ds.fetch()) {
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('trade_total_'));
+        }
+
         let option = {
             grid: [{
                 left: 10,
@@ -447,14 +624,15 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             }],
             xAxis: {
                 type: 'category',
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                data: xArr
             },
             yAxis: {
-                type: 'value'
+                type: 'value',
+                minInterval: 1
             },
             series: [
                 {
-                    data: [120, 200, 150, 80, 70, 110, 130],
+                    data: sData,
                     type: 'bar'
                 }
             ]

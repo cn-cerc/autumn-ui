@@ -19,8 +19,10 @@ type FrmSpectaculars1TypeState = {
     allCarNetPanel: DataSet,
     weeklyArrCarStatis: DataSet,
     countProvince: DataSet,
-    cars_num: String,
-    driver_num: String,
+    queryMileageD: number,
+    online_num: number,
+    cars_num: number,
+    driver_num: number,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -44,32 +46,14 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             allCarNetPanel: new DataSet(),
             weeklyArrCarStatis: new DataSet(),
             countProvince: new DataSet(),
-            cars_num: "0",
-            driver_num: "0",
+            queryMileageD: 0,
+            online_num: 0,
+            cars_num: 0,
+            driver_num: 0,
         }
     }
 
-    async init() {
-        let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
-        let countProvince = await FplApi.getCountProvince();
-        this.setState({
-            ...this.state,
-            allCarNetPanel,
-            weeklyArrCarStatis,
-            countProvince,
-            cars_num: allCarNetPanel.getString('cars_total_'),
-            driver_num: allCarNetPanel.getString("driver_num_"),
-        }, () => {
-            this.initLineChart();
-            this.initLineChart1();
-            this.initPieChart1();
-            this.initPieChart2();
-            this.initPieChart3();
-            this.initPieChart4();
-        })
 
-    }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
@@ -88,7 +72,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>车辆数</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.carData.head.getString('total_')} <span>辆</span>
+                                    {this.state.cars_num} <span>辆</span>
                                 </div>
                             </div>
                         </li>
@@ -97,9 +81,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                 <img src={StaticFile.getImage('images/MCimg/5.png')} alt="" />
                             </div>
                             <div>
-                                <div className={styles.topTitle}>今日里程(对接中)</div>
+                                <div className={styles.topTitle}>今日里程</div>
                                 <div className={styles.topInfo}>
-                                    46 <span>万公里</span>
+                                    {this.state.queryMileageD}<span>万公里</span>
                                 </div>
                             </div>
                         </li>
@@ -153,7 +137,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div className={styles.mcLink2}></div>
                         </div>
                         <div className={styles.rightBox3}>
-                            <div className={styles.mcTitle}>实时动态</div>
+                            <div className={styles.mcTitle}>实时动态(对接中)</div>
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
                                     <li>
@@ -201,12 +185,39 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         })
     }
 
+    async init() {
+        let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
+        let countProvince = await FplApi.getCountProvince();
+        let queryCarsLocation = await FplApi.getQueryCarsLocation();
+        let queryMileageD = await FplApi.getQueryMileageD();
+        this.setState({
+            ...this.state,
+            allCarNetPanel,
+            weeklyArrCarStatis,
+            countProvince,
+            cars_num: queryCarsLocation.head.getDouble('total_'),
+            driver_num: allCarNetPanel.getDouble("driver_num_"),
+            queryMileageD: queryMileageD.getDouble('total_mileage_'),
+            online_num: queryCarsLocation.head.getDouble('online_'),
+        }, () => {
+            this.initLineChart();
+            this.initLineChart1();
+            this.initPieChart1();
+            this.initPieChart2();
+            this.initPieChart3();
+            this.initPieChart4();
+        })
+
+    }
+
     initMap() {
         this.gdmap.initMap('carMapContainer', {
             zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
+
     }
 
     initLineChart1() {
@@ -343,7 +354,16 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let math = new AuiMath();
-        var value = isNaN(math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2)) ? 0 : math.toFixed(this.state.carData.head.getDouble('online_') / this.state.carData.head.getDouble('total_') * 100, 2);
+        let online = this.state.online_num, total = this.state.cars_num;
+        if (!online) {
+            online = 0;
+        }
+        var value
+        if (online == 0 || total == 0) {
+            value = 0;
+        } else {
+            value = math.toFixed(online / total * 100, 2);
+        }
         const gaugeData = [
             {
                 value: value,
