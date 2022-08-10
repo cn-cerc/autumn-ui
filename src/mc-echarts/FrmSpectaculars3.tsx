@@ -201,7 +201,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         this.setState({
             carData
         }, () => {
-            this.initPieChart1();
             this.initCarSite();
         })
     }
@@ -209,6 +208,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     async init() {
         let dealStatus = new DataSet();
         dealStatus = await FplApi.getDealStatus();
+        dealStatus.first()
         let allDataPanelData = new DataSet();
         allDataPanelData = await FplApi.getAllDataPanelData();
         let cargoWeightTop3 = new DataSet();
