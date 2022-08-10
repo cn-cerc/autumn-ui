@@ -14,9 +14,6 @@ type FrmSpectaculars3TypeProps = {
 
 type FrmSpectaculars3TypeState = {
     carData: DataSet,
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     toggle: number,
     dealStatus: DataSet,
     allDataPanelData: DataSet,
@@ -40,30 +37,9 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     private timer: any;
     constructor(props: FrmSpectaculars3TypeProps) {
         super(props);
-        let lineData = new DataSet();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             carData: new DataSet(),
-            lineData,
-            pieData1,
-            pieData2,
             toggle,
             dealStatus: new DataSet(),
             allDataPanelData: new DataSet(),
