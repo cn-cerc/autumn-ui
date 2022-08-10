@@ -402,10 +402,17 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars3MCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
+        let ydeal = 0, ndeal = 0;
+        if (this.state.dealStatus.getValue('ydeal') != null) {
+            ydeal = this.state.dealStatus.getDouble('ydeal');
+        }
+        if (this.state.dealStatus.getValue('ndeal') != null) {
+            ndeal = this.state.dealStatus.getDouble('ndeal');
+        }
         let dataArr: any = [];
         dataArr = [
-            { value: this.state.dealStatus.getDouble('ydeal'), name: '已成交' },
-            { value: this.state.dealStatus.getDouble('ndeal'), name: '未成交' },
+            { value: ydeal, name: '已成交' },
+            { value: ndeal, name: '未成交' },
         ]
 
         let option = {
