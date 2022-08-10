@@ -589,8 +589,8 @@
     .siteSkin {
         padding-left: 1.75rem;
         position: relative;
-        padding-bottom: 0.75rem;
-        line-height: 18px;
+        padding-bottom: 0.5rem;
+        line-height: 20px;
     }
 
     .siteSkin::before {
