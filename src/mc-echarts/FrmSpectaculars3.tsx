@@ -3,14 +3,17 @@ import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
 import StaticFile from "../static/StaticFile";
-import { AuiMath } from "../tool/Summer";
+import { addScript, AuiMath, GDMap } from "../tool/Summer";
+import ApplicationConfig from "../static/ApplicationConfig";
 import styles from "./FrmSpectaculars3.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars3TypeProps = {
+    lonlat: string
 }
 
 type FrmSpectaculars3TypeState = {
+    carData: DataSet,
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
@@ -33,6 +36,8 @@ type FrmSpectaculars3TypeState = {
 }
 
 export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypeProps, FrmSpectaculars3TypeState> {
+    private gdmap: GDMap = new GDMap();
+    private timer: any;
     constructor(props: FrmSpectaculars3TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -55,6 +60,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
+            carData: new DataSet(),
             lineData,
             pieData1,
             pieData2,
@@ -178,9 +184,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     </div>
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
-                            <div className={styles.mcMap}>
-                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
-                            </div>
+                            <div className={styles.mcMap} id='carMapContainer'></div>
                         </div>
                         <div className={styles.centerBox2}>
                             <div className={styles.mcTitle}>交易金额</div>
@@ -208,6 +212,18 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
     componentDidMount(): void {
         this.init();
+        this.timer = setInterval(this.init, 30000);
+        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
+    }
+
+    async initCarData() {
+        let carData = await FplApi.queryCarsCurrentLocation();
+        this.setState({
+            carData
+        }, () => {
+            this.initPieChart1();
+            this.initCarSite();
+        })
     }
 
     async init() {
@@ -257,6 +273,32 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             this.initBarchart2();
         })
 
+    }
+
+    initMap() {
+        this.gdmap.initMap('carMapContainer', {
+            zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
+            center: this.props.lonlat.split(',')
+        });
+        this.initCarData();
+
+    }
+
+    initCarSite() {
+        this.gdmap.clear();
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.carData);
+        ds.first();
+        while (ds.fetch()) {
+            this.gdmap.addLableMark({
+                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
+            }, `<div class="input-card content-window-card">
+                    <div style="color:#666;">
+                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
+                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
+                    </div>
+                </div>`)
+        }
     }
 
     initLineChart1() {
