@@ -206,14 +206,14 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         })
 
     }
-    
+
     initMap() {
         this.gdmap.initMap('carMapContainer', {
             zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
-    
+
     }
 
     initLineChart1() {

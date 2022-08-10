@@ -391,7 +391,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                 trigger: 'item'
             },
             legend: {
-                top: '8%',
+                top: '18%',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
