@@ -171,7 +171,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
     componentDidMount(): void {
         this.init();
-        this.timer = setInterval(this.init, 30000);
+        this.timer = setInterval(this.init.bind(this), 30000);
         addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
     }
 
