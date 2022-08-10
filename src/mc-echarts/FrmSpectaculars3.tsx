@@ -136,36 +136,36 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.mcTitle}>实时统计</div>
                             <div className={styles.FrmSpectaculars3LeftTop1}>
                                 <div className={styles.leftTop1Item}>
-                                    {/* <div>
+                                    <div>
                                         <img src={StaticFile.getImage('images/MCimg/7.png')} alt="" />
-                                    </div> */}
+                                    </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>在线率</div>
                                         <div>{this.state.onlineNum}%</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
-                                    {/* <div>
+                                    <div>
                                         <img src={StaticFile.getImage('images/MCimg/8.png')} alt="" />
-                                    </div> */}
+                                    </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>离线率</div>
                                         <div>{this.state.contactNum}%</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
-                                    {/* <div>
+                                    <div>
                                         <img src={StaticFile.getImage('images/MCimg/9.png')} alt="" />
-                                    </div> */}
+                                    </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>司机数</div>
                                         <div>{this.state.driverNum}</div>
                                     </div>
                                 </div>
                                 <div className={styles.leftTop1Item}>
-                                    {/* <div>
+                                    <div>
                                         <img src={StaticFile.getImage('images/MCimg/10.png')} alt="" />
-                                    </div> */}
+                                    </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>异常率</div>
                                         <div>{this.state.abnormalNum}%</div>
