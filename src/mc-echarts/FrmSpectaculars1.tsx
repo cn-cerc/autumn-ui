@@ -9,6 +9,7 @@ import styles from "./FrmSpectaculars1.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars1TypeProps = {
+    lonlat: string
 }
 
 type FrmSpectaculars1TypeState = {
@@ -26,6 +27,7 @@ type FrmSpectaculars1TypeState = {
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
     private gdmap: GDMap = new GDMap();
+    private timer: any;
     constructor(props: FrmSpectaculars1TypeProps) {
         super(props);
         let lineData = new DataSet();
@@ -142,9 +144,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.centerSiteEcharts}>
                         <div className={styles.centerBox1}>
-                            <div className={styles.mcMap} id='carMapContainer'>
-                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
-                            </div>
+                            <div className={styles.mcMap} id='carMapContainer'></div>
                         </div>
                         <div className={styles.centerBox2}>
                             <div className={styles.mcTitle}>物流运单</div>
@@ -305,6 +305,24 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    initCarSite() {
+        this.gdmap.clear();
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.carData);
+        ds.first();
+        while (ds.fetch()) {
+            this.gdmap.addLableMark({
+                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
+            }, `<div class="input-card content-window-card">
+                    <div style="color:#666;">
+                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
+                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
+                    </div>
+                </div>`)
+        }
+    }
+
     //在线率
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
