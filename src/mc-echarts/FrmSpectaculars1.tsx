@@ -161,7 +161,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div className={styles.mcLink2}></div>
                         </div>
                         <div className={styles.rightBox3}>
-                            <div className={styles.mcTitle}>实时动态</div>
+                            <div className={styles.mcTitle}>实时动态(对接中)</div>
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
                                     <li>
