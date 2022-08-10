@@ -193,7 +193,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>区域排名TOPS</div>
+                            <div className={styles.mcTitle}>司机接单排名</div>
                             <div className={styles.rightSiteEchat1BoxPie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
