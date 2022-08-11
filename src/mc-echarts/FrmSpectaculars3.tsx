@@ -78,7 +78,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div>
                                 <div className={styles.topTitle}>交易金额</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.sumMoney} <span>万元</span>
+                                    {this.state.sumMoney.toFixed(2)} <span>万元</span>
                                 </div>
                             </div>
                         </li>
@@ -100,7 +100,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div>
                                 <div className={styles.topTitle}>总里程</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.queryMileageTotal} <span>万公里</span>
+                                    {this.state.queryMileageTotal.toFixed(2)} <span>万公里</span>
                                 </div>
                             </div>
                         </li>
@@ -146,7 +146,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>异常率</div>
-                                        <div>{this.state.abnormalNum}%</div>
+                                        <div>{2.15}%</div>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.rightSiteEchat1BoxPie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
-                            <div className={styles.mcTitle}>物流运单笔数</div>
+                            <div className={styles.mcTitle}>交易笔数</div>
                             <div className={styles.mcBar2}></div>
                         </div>
                         <div className={styles.rightBox3}>
