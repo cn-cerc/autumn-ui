@@ -132,20 +132,21 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                 <ul className={styles.srcollListMain}>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        06-25 11:26 <span className={styles.colorSkin}>粤BFC888</span> 行驶超速
+                                        08-10 07:37 <span className={styles.colorSkin}>闽DW572</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        05-06 09:53 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
+                                        08-07 23:19 <span className={styles.colorSkin}>闽BA427</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 20:39 <span className={styles.colorSkin}>浙AWC226</span> 行驶超速
+                                        07-19 23:19 <span className={styles.colorSkin}>闽FE734</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        06-25 11:26 <span className={styles.colorSkin}>赣CHQ813</span> 行驶超速
+                                        07-12 17:39 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
                                     </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -177,10 +178,26 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
     async init() {
         let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        this.setState({
+            ...this.state,
+            allCarNetPanel,
+        }, () => {
+            this.initPieChart2();
+            this.initPieChart3();
+        })
+
         let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
+        this.setState({
+            ...this.state,
+            weeklyArrCarStatis
+        }, () => {
+            this.initLineChart();
+        })
+
         let countProvince = await FplApi.getCountProvince();
         let queryCarsLocation = await FplApi.getQueryCarsLocation();
         let queryMileageD = await FplApi.getQueryMileageD();
+
         this.setState({
             ...this.state,
             allCarNetPanel,
@@ -191,14 +208,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             queryMileageD: queryMileageD.getDouble('total_mileage_'),
             online_num: queryCarsLocation.head.getDouble('online_'),
         }, () => {
-            this.initLineChart();
+            this.initPieChart4();
             this.initLineChart1();
             this.initPieChart1();
-            this.initPieChart2();
-            this.initPieChart3();
-            this.initPieChart4();
         })
-
     }
 
     initMap() {
@@ -215,14 +228,14 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(lineChart);
         let xArr = [];
         let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6]];
-        let base = +new Date(2022, 5, 17);
+        let base = +new Date();
         let oneDay = 24 * 3600 * 1000;
 
         let data = [[base, Math.random() * 100]];
 
         for (let i = 1; i < 365; i++) {
-            let now = new Date((base += oneDay));
-            data.push([+now, Math.round((Math.random() * 0.5) * 200)]);
+            let now = new Date((base -= oneDay));
+            data.unshift([+now, Math.round((Math.random() * 0.5) * 200)]);
         }
 
         let option = {
