@@ -2,6 +2,7 @@ import AdPlayerMC from "../mc/AdPlayerMC";
 import DevelopingMC from "../mc/developingMC";
 import ErrorPage from "../mc/ErrorPage";
 import FrmCarGrab from "../mc/FrmCarGrab";
+import FrmConcentratedData from "../mc/FrmConcentratedData";
 import FrmDriverArrangeCar from "../mc/FrmDriverArrangeCar";
 import FrmDriverArrangeCarDetail from "../mc/FrmDriverArrangeCarDetail";
 import FrmDriverReceive from "../mc/FrmDriverReceive";
@@ -36,4 +37,5 @@ export default {
     FrmPrivacyRight,
     FrmUserAgreement,
     FrmWagonHome,
+    FrmConcentratedData,
 }
