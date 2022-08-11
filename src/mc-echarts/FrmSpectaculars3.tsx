@@ -201,8 +201,22 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
     async initCarData() {
         let carData = await FplApi.queryCarsCurrentLocation();
+        let math = new AuiMath();
+        let online = carData.head.getDouble('online_'), total = carData.head.getDouble('total_');
+        if (!online) {
+            online = 0;
+        }
+        let onlineNum;
+        if (online == 0 || total == 0) {
+            onlineNum = 0;
+        } else {
+            onlineNum = math.toFixed(online / total * 100, 2);
+        }
+
         this.setState({
-            carData
+            carData,
+            onlineNum,
+            contactNum: 100 - onlineNum,
         }, () => {
             this.initCarSite();
         })
@@ -238,7 +252,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         }, () => {
             this.initBarchart2();
         })
-
     }
 
     async init1() {
@@ -246,18 +259,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         let weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
         let weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
         let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        let queryCarsLocation = await FplApi.getQueryCarsLocation();
-        let math = new AuiMath();
-        let online = queryCarsLocation.head.getDouble('online_'), total = queryCarsLocation.head.getDouble('total_');
-        if (!online) {
-            online = 0;
-        }
-        let onlineNum;
-        if (online == 0 || total == 0) {
-            onlineNum = 0;
-        } else {
-            onlineNum = math.toFixed(online / total * 100, 2);
-        }
+        
 
         this.setState({
             ...this.state,
@@ -265,8 +267,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             weeklyArrangeWeight,
             sumMoney: allDataPanelData.getDouble('sum_money'),
             sumTransportation: allDataPanelData.getDouble('sum_transportation'),
-            onlineNum,
-            contactNum: 100 - onlineNum,
             driverNum: allCarNetPanel.getDouble('driver_num_'),
             abnormalNum: 0,
         }, () => {

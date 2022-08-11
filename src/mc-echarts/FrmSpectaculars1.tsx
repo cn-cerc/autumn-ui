@@ -44,8 +44,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         }
     }
 
-
-
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
@@ -227,8 +225,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let ds = new DataSet();
 
         ds.first();
-        let xArr = ['三月','四月','五月','六月','七月','八月'];
-        let sData = [10,20,30,15,3,41];
+        let xArr = ['三月', '四月', '五月', '六月', '七月', '八月'];
+        let sData = [10, 20, 30, 15, 3, 41];
         // while (ds.fetch()) {
         //     xArr.push(ds.getString('type_goods_'));
         //     sData.push(ds.getDouble('weight_total_'));
