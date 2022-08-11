@@ -127,11 +127,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     // 发货地详细地址
                     let sendSite1 = gridData.getString('send_detail_');
                     // 发货地
-                    let sendSite2 = gridData.getString('depart_').replaceAll('/', '');
+                    let sendSite2 = gridData.getString('depart_').replace(/\//g, '');
                     // 目的地详细地址
                     let receiveSite1 = gridData.getString('receive_detail_');
                     // 目的地
-                    let receiveSite2 = gridData.getString('destination_').replaceAll('/', '');
+                    let receiveSite2 = gridData.getString('destination_').replace(/\//g, '');
                     let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
                     let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
                     let sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite);
@@ -354,11 +354,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             // 发货地详细地址
             let sendSite1 = row.getString('send_detail_');
             // 发货地
-            let sendSite2 = row.getString('depart_').replaceAll('/', '');
+            let sendSite2 = row.getString('depart_').replace(/\//g, '');
             // 目的地详细地址
             let receiveSite1 = row.getString('receive_detail_');
             // 目的地
-            let receiveSite2 = row.getString('destination_').replaceAll('/', '');
+            let receiveSite2 = row.getString('destination_').replace(/\//g, '');
             let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
             let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
             this.gdmap.routePlanInApp(sendSite, receiveSite);
