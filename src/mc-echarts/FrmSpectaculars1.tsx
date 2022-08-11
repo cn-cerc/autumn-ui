@@ -9,7 +9,8 @@ import styles from "./FrmSpectaculars1.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars1TypeProps = {
-    lonlat: string
+    lonlat: string,
+    corpName: string
 }
 
 type FrmSpectaculars1TypeState = {
@@ -49,7 +50,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <p>
-                    <span>营运数据中心</span>
+                    <b className={styles.corpName}><img src={StaticFile.getImage('images/MCimg/corpName.png')} alt="" />{this.props.corpName}</b>
+                    <span>车联网看板</span>
                     <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
@@ -132,20 +134,21 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                 <ul className={styles.srcollListMain}>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        06-25 11:26 <span className={styles.colorSkin}>粤BFC888</span> 行驶超速
+                                        08-10 07:37 <span className={styles.colorSkin}>闽DW572</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        05-06 09:53 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
+                                        08-07 23:19 <span className={styles.colorSkin}>闽BA427</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        04-12 20:39 <span className={styles.colorSkin}>浙AWC226</span> 行驶超速
+                                        07-19 23:19 <span className={styles.colorSkin}>闽FE734</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>
-                                        06-25 11:26 <span className={styles.colorSkin}>赣CHQ813</span> 行驶超速
+                                        07-12 17:39 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
                                     </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -177,33 +180,45 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
     async init() {
         let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        this.setState({
+            ...this.state,
+            allCarNetPanel,
+        }, () => {
+            this.initPieChart2();
+            this.initPieChart3();
+        })
+
         let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
+        this.setState({
+            ...this.state,
+            weeklyArrCarStatis
+        }, () => {
+            this.initLineChart();
+        })
+
         let countProvince = await FplApi.getCountProvince();
         let queryCarsLocation = await FplApi.getQueryCarsLocation();
         let queryMileageD = await FplApi.getQueryMileageD();
+
         this.setState({
             ...this.state,
             allCarNetPanel,
             weeklyArrCarStatis,
             countProvince,
-            cars_num: queryCarsLocation.head.getDouble('total_'),
+            cars_num: allCarNetPanel.getDouble('cars_total_'),
             driver_num: allCarNetPanel.getDouble("driver_num_"),
             queryMileageD: queryMileageD.getDouble('total_mileage_'),
             online_num: queryCarsLocation.head.getDouble('online_'),
         }, () => {
-            this.initLineChart();
+            this.initPieChart4();
             this.initLineChart1();
             this.initPieChart1();
-            this.initPieChart2();
-            this.initPieChart3();
-            this.initPieChart4();
         })
-
     }
 
     initMap() {
         this.gdmap.initMap('carMapContainer', {
-            zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
+            zoom: 5.8,
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
@@ -215,14 +230,14 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.init(lineChart);
         let xArr = [];
         let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6]];
-        let base = +new Date(2022, 5, 17);
+        let base = +new Date();
         let oneDay = 24 * 3600 * 1000;
 
         let data = [[base, Math.random() * 100]];
 
         for (let i = 1; i < 365; i++) {
-            let now = new Date((base += oneDay));
-            data.push([+now, Math.round((Math.random() * 0.5) * 200)]);
+            let now = new Date((base -= oneDay));
+            data.unshift([+now, Math.round((Math.random() * 0.5) * 200)]);
         }
 
         let option = {

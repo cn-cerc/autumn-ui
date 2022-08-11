@@ -9,7 +9,8 @@ import styles from "./FrmSpectaculars3.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars3TypeProps = {
-    lonlat: string
+    lonlat: string,
+    corpName: string
 }
 
 type FrmSpectaculars3TypeState = {
@@ -63,7 +64,8 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <p>
-                    <span>数据总览</span>
+                    <b className={styles.corpName}><img src={StaticFile.getImage('images/MCimg/corpName.png')} alt="" />{this.props.corpName}</b>
+                    <span>数据监控中心</span>
                     <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
@@ -154,7 +156,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.FrmSpectaculars3MCPie2}></div>
                         </div>
                         <div className={styles.leftBox3}>
-                            <div className={styles.mcTitle}>货物分类</div>
+                            <div className={styles.mcTitle}>货物分类(吨)</div>
                             <div className={styles.FrmSpectaculars3MCBar1}></div>
                         </div>
                     </div>
@@ -211,16 +213,10 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         dealStatus.first()
         let allDataPanelData = new DataSet();
         allDataPanelData = await FplApi.getAllDataPanelData();
-        let cargoWeightTop3 = new DataSet();
-        cargoWeightTop3 = await FplApi.getCargoWeightTop3();
-        let queryDriverOrderTop5 = new DataSet();
-        queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
         let queryMileageTotal = new DataSet();
         queryMileageTotal = await FplApi.queryMileageTotal();
         let weeklyOrderAmount = new DataSet();
         weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
-        let weeklyOrderCount = new DataSet();
-        weeklyOrderCount = await FplApi.getWeeklyOrderCount();
         let weeklyArrangeWeight = new DataSet();
         weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
         let allCarNetPanel = new DataSet();
@@ -241,10 +237,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
         this.setState({
             dealStatus,
-            cargoWeightTop3,
-            queryDriverOrderTop5,
             weeklyOrderAmount,
-            weeklyOrderCount,
             weeklyArrangeWeight,
             queryMileageTotal: queryMileageTotal.getDouble('total_mileage_'),
             sumMoney: allDataPanelData.getDouble('sum_money'),
@@ -257,8 +250,25 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             this.initLineChart();
             this.initLineChart1();
             this.initPieChart1();
+        })
+
+        let queryDriverOrderTop5 = new DataSet();
+        queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
+        let cargoWeightTop3 = new DataSet();
+        cargoWeightTop3 = await FplApi.getCargoWeightTop3();
+        this.setState({
+            queryDriverOrderTop5,
+            cargoWeightTop3,
+        }, () => {
             this.initBarChart1();
             this.initPieChart2();
+        })
+
+        let weeklyOrderCount = new DataSet();
+        weeklyOrderCount = await FplApi.getWeeklyOrderCount();
+        this.setState({
+            weeklyOrderCount,
+        }, () => {
             this.initBarchart2();
         })
 
@@ -266,7 +276,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
     initMap() {
         this.gdmap.initMap('carMapContainer', {
-            zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
+            zoom: 5.8,
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
