@@ -1,5 +1,3 @@
-import StaticFile from "../static/StaticFile";
-
 function Loading(hintMessage) {
     var self = this;
     this.hideTime = 120; // 秒
@@ -382,7 +380,7 @@ class GDMap {
             fold: true,
             icon: {
                 type: 'image',
-                image: StaticFile.getImage("images/mapPoint.png"),
+                image: getStaticFileImage("images/mapPoint.png"),
                 size: [24, 24],
                 anchor: 'bottom-center',
             },
@@ -471,6 +469,19 @@ function addScript(url, callBack) {
     script.setAttribute('type', 'text/javascript');
     script.onload = callBack;
     document.body.appendChild(script);
+}
+
+function getStaticFileImage(imgSrc) {
+    let staticPath = '';
+    try {
+        //@ts-ignore
+        if (window.Application.staticPath)
+            //@ts-ignore
+            staticPath = window.Application.staticPath + '/';
+    } catch {
+        staticPath = '';
+    }
+    return staticPath + imgSrc;
 }
 
 export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap, addScript };
