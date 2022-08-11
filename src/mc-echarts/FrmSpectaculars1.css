@@ -244,6 +244,7 @@
     margin-bottom: 10px;
     padding: 0;
     height: 125px;
+    min-height:125px;
 }
 
 .btn_toggle_pc,
@@ -298,6 +299,9 @@
 
     .mcPieChart {
         margin-top: 10px;
+    }
+    .mcMain {
+        min-height:490px;
     }
 }
 

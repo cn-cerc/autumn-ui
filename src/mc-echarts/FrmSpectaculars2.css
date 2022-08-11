@@ -270,6 +270,7 @@
     margin-bottom: 10px;
     padding: 0;
     height: 125px;
+    min-height:125px;
 }
 
 .imgBottomText {
@@ -351,6 +352,10 @@
     .leftScrollList {
         margin: 10px 0 0;
         height: 96px;
+    }
+
+    .mcMain {
+        min-height:490px;
     }
 }
 
