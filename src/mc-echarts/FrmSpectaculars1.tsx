@@ -75,7 +75,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div>
                                 <div className={styles.topTitle}>今日里程</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.queryMileageD}<span>万公里</span>
+                                    {this.state.queryMileageD.toFixed(2)}<span>万公里</span>
                                 </div>
                             </div>
                         </li>
@@ -129,7 +129,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                             <div className={styles.mcLink2}></div>
                         </div>
                         <div className={styles.rightBox3}>
-                            <div className={styles.mcTitle}>实时动态(对接中)</div>
+                            <div className={styles.mcTitle}>实时动态</div>
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
                                     <li>
@@ -228,41 +228,37 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     initLineChart1() {
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let xArr = [];
-        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6]];
-        let base = +new Date();
-        let oneDay = 24 * 3600 * 1000;
+        let ds = new DataSet();
 
-        let data = [[base, Math.random() * 100]];
-
-        for (let i = 1; i < 365; i++) {
-            let now = new Date((base -= oneDay));
-            data.unshift([+now, Math.round((Math.random() * 0.5) * 200)]);
-        }
-
+        ds.first();
+        let xArr = ['三月','四月','五月','六月','七月','八月'];
+        let sData = [10,20,30,15,3,41];
+        // while (ds.fetch()) {
+        //     xArr.push(ds.getString('type_goods_'));
+        //     sData.push(ds.getDouble('weight_total_'));
+        // }
         let option = {
+            grid: [{
+                left: 10,
+                top: 12,
+                right: 5,
+                bottom: 5,
+                containLabel: true,
+            }],
             xAxis: {
-                type: 'time',
-                boundaryGap: false
+                type: 'category',
+                data: xArr
             },
             yAxis: {
                 type: 'value',
-                boundaryGap: [0, '100%']
-            },
-            grid: {
-                top: 20,
-                left: 0,
-                bottom: 10,
-                right: 16,
-                containLabel: true,
+                minInterval: 1
             },
             series: [
                 {
-                    type: 'line',
-                    smooth: true,
-                    symbol: 'none',
-                    areaStyle: {},
-                    data: data
+                    data: sData,
+                    type: 'bar',
+                    color: MCChartColors,
+                    barWidth: 10,
                 }
             ]
         };

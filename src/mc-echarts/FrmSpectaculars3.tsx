@@ -78,7 +78,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div>
                                 <div className={styles.topTitle}>交易金额</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.sumMoney} <span>万元</span>
+                                    {this.state.sumMoney.toFixed(2)} <span>万元</span>
                                 </div>
                             </div>
                         </li>
@@ -100,7 +100,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div>
                                 <div className={styles.topTitle}>总里程</div>
                                 <div className={styles.topInfo}>
-                                    {this.state.queryMileageTotal} <span>万公里</span>
+                                    {this.state.queryMileageTotal.toFixed(2)} <span>万公里</span>
                                 </div>
                             </div>
                         </li>
