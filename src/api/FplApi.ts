@@ -186,6 +186,11 @@ export default class FplApi {
         return ControlApi.getDataOut('SvrPDriverBindingRecord.getDriverByCarNo', params);
     }
 
+    /** 查询司机 --用于派车使用 */
+    static getSendCarDriver(params: DataRow) {
+        return ControlApi.getDataOut('SvrDriverDetalis.getSendCarDriver', params);
+    }
+
     /** 根据车队查询车辆列表 */
     static getCarsByDeptCode(params: DataRow) {
         return ControlApi.getDataOut('SvrPCarRegistration.getCarsByDeptCode', params);
