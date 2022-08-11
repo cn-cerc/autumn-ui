@@ -270,6 +270,7 @@
     margin-bottom: 10px;
     padding: 0;
     height: 125px;
+    min-height:125px;
 }
 
 .imgBottomText {
@@ -298,29 +299,49 @@
     position: absolute;
     right: 1rem;
     top: 8px;
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     cursor: pointer;
 }
 
 .btn_toggle_pc {
     background: url("../assets/img/pc.png") top center no-repeat;
+    background-size: contain;
 }
 
 .btn_toggle_pc:hover {
     background: url("../assets/img/pc_hover.png") top center no-repeat;
+    background-size: contain;
 }
 
 .btn_toggle_kanban {
     background: url("../assets/img/kanban.png") top center no-repeat;
+    background-size: contain;
 }
 
 .btn_toggle_kanban:hover {
     background: url("../assets/img/kanban_hover.png") top center no-repeat;
+    background-size: contain;
 }
 
 .mcMainNoPB {
     padding-bottom: 0;
+}
+
+.corpName {
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    color: #333;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.corpName > img{
+    margin-right: 5px;
+    width: 18px;
+    height: 18px;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1366px) {
@@ -333,6 +354,10 @@
     .leftScrollList {
         margin: 10px 0 0;
         height: 96px;
+    }
+
+    .mcMain {
+        min-height:490px;
     }
 }
 
