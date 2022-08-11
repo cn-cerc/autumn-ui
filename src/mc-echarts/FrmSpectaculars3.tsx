@@ -175,7 +175,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <div className={styles.rightSiteEchat1BoxPie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
-                            <div className={styles.mcTitle}>物流运单笔数</div>
+                            <div className={styles.mcTitle}>交易笔数</div>
                             <div className={styles.mcBar2}></div>
                         </div>
                         <div className={styles.rightBox3}>
