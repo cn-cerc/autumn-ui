@@ -146,7 +146,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                                     </div>
                                     <div className={styles.leftTop1ItemInfo}>
                                         <div>异常率</div>
-                                        <div>{this.state.abnormalNum}%</div>
+                                        <div>{2.15}%</div>
                                     </div>
                                 </div>
                             </div>
