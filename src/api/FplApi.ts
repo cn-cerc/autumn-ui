@@ -318,9 +318,4 @@ export default class FplApi {
     static getBankCorrection(params: DataRow) {
         return ControlApi.getDataOut('SvrBankCorrection.query', params);
     }
-
-    /** 获取当前账套下面车辆信息 */
-    static queryCarsCurrentLocation() {
-        return ControlApi.getService('SvrCarTrajectories.queryCarsCurrentLocation');
-    }
 }

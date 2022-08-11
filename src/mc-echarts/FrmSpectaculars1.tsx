@@ -163,16 +163,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     componentDidMount(): void {
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
-        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
-    }
-
-    async initCarData() {
-        let carData = await FplApi.queryCarsCurrentLocation();
-        this.setState({
-            carData
-        }, () => {
-            this.initCarSite();
-        })
+        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
     }
 
     async init() {
@@ -202,6 +193,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         this.setState({
             ...this.state,
             countProvince,
+            carData:queryCarsLocation,
             queryMileageD: queryMileageD.getDouble('total_mileage_'),
             online_num: queryCarsLocation.head.getDouble('online_'),
         }, () => {
@@ -213,10 +205,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
     initMap() {
         this.gdmap.initMap('carMapContainer', {
-            zoom: 5.8,
+            zoom: 8,
             center: this.props.lonlat.split(',')
         });
-        this.initCarData();
+        this.initCarSite();
     }
 
     initLineChart1() {

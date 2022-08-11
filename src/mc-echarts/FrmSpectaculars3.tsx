@@ -200,7 +200,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     }
 
     async initCarData() {
-        let carData = await FplApi.queryCarsCurrentLocation();
+        let carData = await FplApi.getQueryCarsLocation();
         let math = new AuiMath();
         let online = carData.head.getDouble('online_'), total = carData.head.getDouble('total_');
         if (!online) {
@@ -277,11 +277,10 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
     initMap() {
         this.gdmap.initMap('carMapContainer', {
-            zoom: 5.8,
+            zoom: 8,
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
-
     }
 
     initCarSite() {
