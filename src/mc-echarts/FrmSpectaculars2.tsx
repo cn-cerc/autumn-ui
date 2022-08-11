@@ -6,6 +6,7 @@ import styles from "./FrmSpectaculars2.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars2TypeProps = {
+    corpName: string
 }
 
 type FrmSpectaculars2TypeState = {
@@ -49,6 +50,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <p>
+                    <b className={styles.corpName}><img src={StaticFile.getImage('images/MCimg/corpName.png')} alt="" />{this.props.corpName}</b>
                     <span>安全监控中心</span>
                     <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
@@ -287,7 +289,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value +'辆';
+                    return name + ' : ' + singleData[0].value + '辆';
                 },
                 textStyle: {
                     lineHeight: 10,
