@@ -13,6 +13,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
     "@babel/preset-react": "^7.18.6",
     "@jiaminghi/data-view-react": "^1.2.5",
     "@types/echarts": "^4.9.16",
@@ -21,6 +23,7 @@
     "@types/react": "^16.14.0",
     "@types/react-dom": "^16.8.0",
     "autumn-ui": "^1.6.2",
+    "babel-loader": "^8.2.5",
     "classnames": "^2.3.1",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
