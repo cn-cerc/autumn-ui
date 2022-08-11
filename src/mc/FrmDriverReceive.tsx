@@ -325,8 +325,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
                 <div className={styles.orderCenter}>
                     <div className={styles.orderInfo}>
-                        <span className={styles.siteSkin}>{`${row.getString('depart_').replaceAll('\\', '')}${row.getString('send_detail_')}`}</span>
-                        <span className={styles.siteSkin}>{`${row.getString('destination_').replaceAll('\\', '')}${row.getString('receive_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g , '')}${row.getString('send_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('destination_').replace(/\\/g, '')}${row.getString('receive_detail_')}`}</span>
                         <span><i>货物明细</i>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} | {this.fromatPriceFun(row.getString('unit_price_'))}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
                         <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
                         <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
