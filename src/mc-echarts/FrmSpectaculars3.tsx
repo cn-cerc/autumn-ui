@@ -194,37 +194,15 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
 
     componentDidMount(): void {
         this.init();
+        this.init1();
         this.timer = setInterval(this.init.bind(this), 30000);
         addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
     }
 
     async initCarData() {
-        let carData = await FplApi.queryCarsCurrentLocation();
-        this.setState({
-            carData
-        }, () => {
-            this.initCarSite();
-        })
-    }
-
-    async init() {
-        let dealStatus = new DataSet();
-        dealStatus = await FplApi.getDealStatus();
-        dealStatus.first()
-        let allDataPanelData = new DataSet();
-        allDataPanelData = await FplApi.getAllDataPanelData();
-        let queryMileageTotal = new DataSet();
-        queryMileageTotal = await FplApi.queryMileageTotal();
-        let weeklyOrderAmount = new DataSet();
-        weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
-        let weeklyArrangeWeight = new DataSet();
-        weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
-        let allCarNetPanel = new DataSet();
-        allCarNetPanel = await FplApi.getAllCarNetPanel();
-        let queryCarsLocation = new DataSet();
-        queryCarsLocation = await FplApi.getQueryCarsLocation();
+        let carData = await FplApi.getQueryCarsLocation();
         let math = new AuiMath();
-        let online = queryCarsLocation.head.getDouble('online_'), total = queryCarsLocation.head.getDouble('total_');
+        let online = carData.head.getDouble('online_'), total = carData.head.getDouble('total_');
         if (!online) {
             online = 0;
         }
@@ -236,27 +214,31 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         }
 
         this.setState({
-            dealStatus,
-            weeklyOrderAmount,
-            weeklyArrangeWeight,
-            queryMileageTotal: queryMileageTotal.getDouble('total_mileage_'),
-            sumMoney: allDataPanelData.getDouble('sum_money'),
-            sumTransportation: allDataPanelData.getDouble('sum_transportation'),
+            carData,
             onlineNum,
             contactNum: 100 - onlineNum,
-            driverNum: allCarNetPanel.getDouble('driver_num_'),
-            abnormalNum: 0,
         }, () => {
-            this.initLineChart();
-            this.initLineChart1();
+            this.initCarSite();
+        })
+    }
+
+    async init() {
+        let dealStatus = await FplApi.getDealStatus();
+        let queryMileageTotal = await FplApi.queryMileageTotal();
+        dealStatus.first();
+
+        this.setState({
+            ...this.state,
+            dealStatus,
+            queryMileageTotal: queryMileageTotal.getDouble('total_mileage_'),
+        }, () => {
             this.initPieChart1();
         })
 
-        let queryDriverOrderTop5 = new DataSet();
-        queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
-        let cargoWeightTop3 = new DataSet();
-        cargoWeightTop3 = await FplApi.getCargoWeightTop3();
+        let queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
+        let cargoWeightTop3 = await FplApi.getCargoWeightTop3();
         this.setState({
+            ...this.state,
             queryDriverOrderTop5,
             cargoWeightTop3,
         }, () => {
@@ -264,23 +246,41 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             this.initPieChart2();
         })
 
-        let weeklyOrderCount = new DataSet();
-        weeklyOrderCount = await FplApi.getWeeklyOrderCount();
+        let weeklyOrderCount = await FplApi.getWeeklyOrderCount();
         this.setState({
             weeklyOrderCount,
         }, () => {
             this.initBarchart2();
         })
+    }
 
+    async init1() {
+        let allDataPanelData = await FplApi.getAllDataPanelData();
+        let weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
+        let weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
+        let allCarNetPanel = await FplApi.getAllCarNetPanel();
+        
+
+        this.setState({
+            ...this.state,
+            weeklyOrderAmount,
+            weeklyArrangeWeight,
+            sumMoney: allDataPanelData.getDouble('sum_money'),
+            sumTransportation: allDataPanelData.getDouble('sum_transportation'),
+            driverNum: allCarNetPanel.getDouble('driver_num_'),
+            abnormalNum: 0,
+        }, () => {
+            this.initLineChart();
+            this.initLineChart1();
+        })
     }
 
     initMap() {
         this.gdmap.initMap('carMapContainer', {
-            zoom: 5.8,
+            zoom: 8,
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
-
     }
 
     initCarSite() {

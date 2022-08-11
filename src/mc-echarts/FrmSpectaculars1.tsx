@@ -44,8 +44,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         }
     }
 
-
-
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
@@ -165,17 +163,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     componentDidMount(): void {
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
-        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
-    }
-
-    async initCarData() {
-        let carData = await FplApi.queryCarsCurrentLocation();
-        this.setState({
-            carData
-        }, () => {
-            this.initPieChart1();
-            this.initCarSite();
-        })
+        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
     }
 
     async init() {
@@ -183,6 +171,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         this.setState({
             ...this.state,
             allCarNetPanel,
+            cars_num: allCarNetPanel.getDouble('cars_total_'),
+            driver_num: allCarNetPanel.getDouble("driver_num_"),
         }, () => {
             this.initPieChart2();
             this.initPieChart3();
@@ -202,11 +192,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
         this.setState({
             ...this.state,
-            allCarNetPanel,
-            weeklyArrCarStatis,
             countProvince,
-            cars_num: allCarNetPanel.getDouble('cars_total_'),
-            driver_num: allCarNetPanel.getDouble("driver_num_"),
+            carData:queryCarsLocation,
             queryMileageD: queryMileageD.getDouble('total_mileage_'),
             online_num: queryCarsLocation.head.getDouble('online_'),
         }, () => {
@@ -218,11 +205,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
     initMap() {
         this.gdmap.initMap('carMapContainer', {
-            zoom: 5.8,
+            zoom: 8,
             center: this.props.lonlat.split(',')
         });
-        this.initCarData();
-
+        this.initCarSite();
     }
 
     initLineChart1() {
@@ -231,8 +217,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let ds = new DataSet();
 
         ds.first();
-        let xArr = ['三月','四月','五月','六月','七月','八月'];
-        let sData = [10,20,30,15,3,41];
+        let xArr = ['三月', '四月', '五月', '六月', '七月', '八月'];
+        let sData = [10, 20, 30, 15, 3, 41];
         // while (ds.fetch()) {
         //     xArr.push(ds.getString('type_goods_'));
         //     sData.push(ds.getDouble('weight_total_'));
