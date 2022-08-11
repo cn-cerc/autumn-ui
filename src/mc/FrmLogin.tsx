@@ -911,13 +911,21 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
     }
 
     getInstall() {
-        if (this.state.isPhoneWeb) {
+        let now = new Date();
+        let now_year = now.getFullYear();
+        let now_month = now.getMonth() + 1;
+        let now_date = now.getDate();
+        let last;
+        if (this.state.client.get('lastTime'))
+            last = new Date(Number(this.state.client.get('lastTime')));
+        let bool = !last || (now_year != last.getFullYear() || now_month != (last.getMonth() + 1) || now_date != last.getDate());
+        if (this.state.isPhoneWeb && bool) {
             return <div className={styles.mengceng}>
                 <div className={styles.mengcengContent}>
                     <div className={styles.contentHeader}>
                         <div>打开方式</div>
                         <div className={styles.useBrowser}>
-                            <span onClick={() => this.setState({ isPhoneWeb: false })}>继续使用浏览器</span>
+                            <span onClick={this.stillUseWeb.bind(this, now.getTime())}>继续使用浏览器</span>
                             <img src={StaticFile.getImage(ImageConfig.ICON_RIGHT)} />
                         </div>
                     </div>
@@ -934,6 +942,13 @@ export default class FrmLogin extends WebControl<FrmLoginTypeProps, FrmLoginType
                 </div>
             </div>
         }
+    }
+
+    stillUseWeb(time: number) {
+        this.state.client.set('lastTime', time);
+        this.setState({
+            isPhoneWeb: false
+        })
     }
 
     componentDidMount(): void {
