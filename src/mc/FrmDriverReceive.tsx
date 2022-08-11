@@ -127,11 +127,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     // 发货地详细地址
                     let sendSite1 = gridData.getString('send_detail_');
                     // 发货地
-                    let sendSite2 = gridData.getString('depart_').replaceAll('/', '');
+                    let sendSite2 = gridData.getString('depart_').replace(/\//g, '');
                     // 目的地详细地址
                     let receiveSite1 = gridData.getString('receive_detail_');
                     // 目的地
-                    let receiveSite2 = gridData.getString('destination_').replaceAll('/', '');
+                    let receiveSite2 = gridData.getString('destination_').replace(/\//g, '');
                     let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
                     let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
                     let sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite);
@@ -325,8 +325,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
                 <div className={styles.orderCenter}>
                     <div className={styles.orderInfo}>
-                        <span className={styles.siteSkin}>{`${row.getString('depart_').replaceAll('\\', '')}${row.getString('send_detail_')}`}</span>
-                        <span className={styles.siteSkin}>{`${row.getString('destination_').replaceAll('\\', '')}${row.getString('receive_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g , '')}${row.getString('send_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('destination_').replace(/\\/g, '')}${row.getString('receive_detail_')}`}</span>
                         <span><i>货物明细</i>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} | {this.fromatPriceFun(row.getString('unit_price_'))}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
                         <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
                         <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
@@ -354,11 +354,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             // 发货地详细地址
             let sendSite1 = row.getString('send_detail_');
             // 发货地
-            let sendSite2 = row.getString('depart_').replaceAll('/', '');
+            let sendSite2 = row.getString('depart_').replace(/\//g, '');
             // 目的地详细地址
             let receiveSite1 = row.getString('receive_detail_');
             // 目的地
-            let receiveSite2 = row.getString('destination_').replaceAll('/', '');
+            let receiveSite2 = row.getString('destination_').replace(/\//g, '');
             let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
             let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
             this.gdmap.routePlanInApp(sendSite, receiveSite);
