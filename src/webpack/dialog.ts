@@ -76,6 +76,7 @@ import VipCardDialog from "../dialog/VipCardDialog";
 import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
 import RapidInput from "../mc/RapidInput";
+import SendCarDriverDialog from "../dialog/SendCarDriverDialog";
 
 export default {
     // 地藤开窗
@@ -160,5 +161,6 @@ export default {
     showSiteDialog,
     SupAndCusDialog,
     SupNetCorpDialog,
-    AddressDialog
+    AddressDialog,
+    SendCarDriverDialog
 }
