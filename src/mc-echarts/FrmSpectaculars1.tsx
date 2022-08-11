@@ -9,7 +9,8 @@ import styles from "./FrmSpectaculars1.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmSpectaculars1TypeProps = {
-    lonlat: string
+    lonlat: string,
+    corpName: string
 }
 
 type FrmSpectaculars1TypeState = {
@@ -49,7 +50,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
                 <p>
-                    <span>营运数据中心</span>
+                    <b className={styles.corpName}><img src={StaticFile.getImage('images/MCimg/corpName.png')} alt="" />{this.props.corpName}</b>
+                    <span>车联网看板</span>
                     <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </p>
@@ -216,7 +218,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
     initMap() {
         this.gdmap.initMap('carMapContainer', {
-            zoom: document.body.offsetWidth > 1600 ? 4 : 3.2,
+            zoom: 5.8,
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
