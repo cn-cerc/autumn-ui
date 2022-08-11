@@ -313,7 +313,8 @@ a {
         position: absolute;
         right: 16px;
         top: 16px;
-        width: 32px;
+        width: 28px;
+        cursor: pointer;
     }
 
     .contentRight {

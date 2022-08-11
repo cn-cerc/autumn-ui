@@ -28,22 +28,22 @@ type LoginTypeState = {
     isFirefox: boolean,
     iconHover: 0 | 1 | 2 | 3,
     protocol: boolean,
-    apiURL: string,
 }
 
 var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
+    private wxLoginUrl: string = '';
     constructor(props: LoginTypeProps) {
+        super(props);
 
         //微信登陆
-        let apiURL = "https://open.weixin.qq.com/connect/qrconnect?";
-        apiURL += 'appid=wxfe39d62642ef5a46&';
-        apiURL += 'redirect_uri=' + encodeURIComponent(window.location.origin + '/forms/FrmWeChatLogin') + '&';
-        apiURL += "response_type=code&scope=snsapi_login&";
-        apiURL += "state=" + Date.now() + "" + Math.ceil(Math.random() * 1000);
+        this.wxLoginUrl = "https://open.weixin.qq.com/connect/qrconnect?";
+        this.wxLoginUrl += 'appid=wxfe39d62642ef5a46&';
+        this.wxLoginUrl += 'redirect_uri=' + encodeURIComponent("http://debug.4plc.cn" + '/forms/FrmWeChatLogin') + '&';
+        this.wxLoginUrl += "response_type=code&scope=snsapi_login&";
+        this.wxLoginUrl += "state=" + Date.now() + "" + Math.ceil(Math.random() * 1000);
 
-        super(props);
         let client = new ClientStorage('ErpKey');
         let accountData = new DataSet();
         let savePwd = client.get("savePwd") == 'true' ? true : false;
@@ -68,7 +68,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             isFirefox,
             iconHover: this.isPhone ? 0 : 1,
             protocol,
-            apiURL,
         }
     }
     render() {
@@ -112,7 +111,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
                     <div className={styles.formTitle}>系统登录</div>
-                    <div id="wxContainer"></div>
+                    <img src={StaticFile.getImage('images/weixin_ionic.png')} onClick={() => { window.open(this.wxLoginUrl, '_target') }} className={styles.wxIcon} />
+                    {/* <div id="wxContainer"></div> */}
                     <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
@@ -382,9 +382,9 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         });
 
 
-        if (!this.isPhone)
-            // 引入微信登录js
-            addScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', this.initWXLogin.bind(this))
+        // if (!this.isPhone)
+        //     // 引入微信登录js
+        //     addScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', this.initWXLogin.bind(this))
 
 
 
