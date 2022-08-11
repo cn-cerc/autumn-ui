@@ -4,7 +4,7 @@ import React from "react";
 import ImageConfig from "../static/ImageConfig";
 import StaticFile from "../static/StaticFile";
 import Loading from "../tool/Loading";
-import { showMsg } from "../tool/Summer";
+import { addScript, showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./FrmLogin.css";
 
@@ -28,7 +28,7 @@ type LoginTypeState = {
     isFirefox: boolean,
     iconHover: 0 | 1 | 2 | 3,
     protocol: boolean,
-    apiURL: string
+    apiURL: string,
 }
 
 var showVerify: boolean = false;
@@ -112,6 +112,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
                     <div className={styles.formTitle}>系统登录</div>
+                    <div id="wxContainer"></div>
                     <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
                             <p className={`${styles.keyInput} ${this.state.iconHover == 1 ? styles.inputHover : ''}`}>
@@ -330,6 +331,17 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         })
     }
 
+    initWXLogin() {
+        //@ts-ignore
+        var obj = new WxLogin({
+            self_redirect: true,
+            id: "wxContainer",
+            appid: "wxfe39d62642ef5a46",
+            scope: "snsapi_login",
+            redirect_uri: "http://debug.4plc.cn/public/TFrmWXLogin.scanLogin",
+        });
+    }
+
     componentWillMount() {
         let device = '';
         let clientId = ''
@@ -368,6 +380,14 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }, function () {
             $(document).scrollTop(0);
         });
+
+
+        if (!this.isPhone)
+            // 引入微信登录js
+            addScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', this.initWXLogin.bind(this))
+
+
+
 
         //@ts-ignore
         if (window.ApiCloud.isApiCloud()) {

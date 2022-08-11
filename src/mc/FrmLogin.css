@@ -309,6 +309,13 @@ a {
         line-height: 28px;
     }
 
+    .wxIcon {
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        width: 32px;
+    }
+
     .contentRight {
         padding: 0 16px 48px;
         display: flex;
