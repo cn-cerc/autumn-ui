@@ -167,7 +167,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     init() {
-        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet)=>{
+        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
             this.setState({
                 allCarNetPanel,
                 cars_num: allCarNetPanel.getDouble('cars_total_'),
@@ -179,7 +179,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             })
         })
 
-        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet)=>{
+        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
             this.setState({
                 allCarNetPanel,
                 cars_num: allCarNetPanel.getDouble('cars_total_'),
@@ -190,8 +190,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 this.initPieChart3();
             })
         })
-        
-        FplApi.getWeeklyArrCarStatis().then((weeklyArrCarStatis: DataSet)=>{
+
+        FplApi.getWeeklyArrCarStatis().then((weeklyArrCarStatis: DataSet) => {
             this.setState({
                 weeklyArrCarStatis
             }, () => {
@@ -199,26 +199,26 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             })
         })
 
-        FplApi.getCountProvince().then((countProvince: DataSet)=>{
+        FplApi.getCountProvince().then((countProvince: DataSet) => {
             this.setState({
                 countProvince
-            }, ()=>{
+            }, () => {
 
             })
         })
 
-        FplApi.getCountProvince().then((countProvince: DataSet)=>{
+        FplApi.getCountProvince().then((countProvince: DataSet) => {
             this.setState({
                 countProvince
-            }, ()=>{
+            }, () => {
                 this.initPieChart4();
             })
         })
-        
-        FplApi.getQueryCarsLocation().then((queryCarsLocation)=>{
-            FplApi.getQueryMileageD().then((queryMileageD)=>{
+
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            FplApi.getQueryMileageD().then((queryMileageD) => {
                 this.setState({
-                    carData:queryCarsLocation,
+                    carData: queryCarsLocation,
                     online_num: queryCarsLocation.head.getDouble('online_'),
                     queryMileageD: queryMileageD.getDouble('total_mileage_'),
                 }, () => {
