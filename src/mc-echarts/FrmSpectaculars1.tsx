@@ -173,7 +173,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         this.setState({
             carData
         }, () => {
-            this.initPieChart1();
             this.initCarSite();
         })
     }
@@ -220,7 +219,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             center: this.props.lonlat.split(',')
         });
         this.initCarData();
-
     }
 
     initLineChart1() {
