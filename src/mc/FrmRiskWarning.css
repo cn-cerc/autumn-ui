@@ -1,0 +1,298 @@
+#fullContent {
+    min-height: 100% !important;
+}
+
+.mc {
+    font-size: 14px;
+    color: #333;
+    line-height: 1em;
+    font-weight: 400;
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.mcIntroduction {
+    background-color: #fff;
+    border-radius: .28rem;
+    padding: 16px;
+    margin-bottom: 12px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mcIntroduction>p {
+    height: 52px;
+    min-height: 48px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    text-align: center;
+    position: relative;
+}
+
+.mcIntroduction>p>span {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #4A8EFE;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.mcIntroduction>p>img {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20px;
+    left: 0;
+}
+
+.mcMain {
+    flex: 1;
+    display: flex;
+    height: 0;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.mcMainNoPB {
+    padding-bottom: 0;
+}
+
+.centerBox1 {
+    display: flex;
+    min-width: 623px;
+    min-height: 454px;
+    height: 454px;
+    width: 70%;
+}
+
+.mcMap {
+    flex: 1;
+    position: relative;
+}
+
+.mcMap>img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dataBgBox {
+    position: absolute;
+    width: 257px;
+    height: 170px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #4A8EFE;
+}
+
+.dataBgBox>img {
+    width: 100%;
+    height: 100%;
+}
+
+.dataBox1 {
+    top: 0;
+    right: 0;
+}
+
+.dataBox2 {
+    top: 170px;
+    right: 0;
+}
+
+.dataBox3 {
+    width: 100%;
+    height: 210px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.dataItemTitle {
+    position: absolute;
+    height: 42px;
+    line-height: 42px;
+    left: 16px;
+    top: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.dataItemInfo {
+    position: absolute;
+    top: 32px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+
+.warningDetail {
+    display: flex;
+    flex-direction: column;
+    color: #333;
+    width: 114px;
+    height: 100%;
+    margin-top: 50px;
+    margin-left: 16px;
+}
+
+.warningDetail>p {
+    margin-bottom: 18px;
+}
+
+.dataItemInfoText {
+    padding-bottom: 23px;
+}
+
+.mcMain {
+    min-height: 550px;
+}
+
+.warningPieBox {
+    flex: 1;
+}
+
+.warningPie {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #4A8EFE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.warningPie>p {
+    line-height: 2.5em;
+    height: 28px
+}
+
+
+@media screen and (min-width: 1620px) {
+    .centerBox1 {
+        height: 90%;
+        width: 60%;
+    }
+
+    .dataBox3 {
+        height: 280px;
+    }
+
+    .dataBox3 .dataItemTitle {
+        height: 56px;
+        line-height: 56px;
+        left: 26px;
+    }
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1619px) {
+
+    .dataBox3 {
+        height: 260px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+    .mcMain {
+        min-height: 528px;
+    }
+
+    .centerBox1 {
+        height: 454px;
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .mc {
+        overflow: inherit;
+        min-height: 100%;
+    }
+
+    .mcMain {
+        min-height: 100%;
+    }
+
+    .mcIntroduction {
+        background-color: #fff;
+        margin: 12px;
+        padding: 0;
+    }
+
+    .mcIntroduction>p {}
+
+
+    .mcIntroduction>p>span {
+        bottom: 20px;
+    }
+
+    .mcIntroduction>p>img {
+        bottom: 5px;
+        height: 10px;
+    }
+
+    .centerBox1 {
+        min-width: 90%;
+        min-height: 360px;
+        width: 90%;
+        height: 360px;
+    }
+
+    .mcMap>img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* .dataBgBox {
+        width: 140px;
+        height: 150px;
+    } */
+
+    /* .dataBox1 {
+        top: 14px;
+        left: 4px;
+    }
+
+    .dataBox2 {
+        top: 14px;
+        right: 4px;
+    }
+
+    .dataBox3 {
+        bottom: 34px;
+        left: 4px;
+    }
+
+    .dataBox4 {
+        bottom: 34px;
+        right: 4px;
+    }
+
+    .dataItemTitle {
+        height: 38px;
+        line-height: 38px;
+        left: 12px;
+    }
+
+    .dataItemInfoNum {
+        font-size: 40px;
+    } */
+}
