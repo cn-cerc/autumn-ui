@@ -183,6 +183,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         this.setState({
             ...this.state,
             allCarNetPanel,
+            cars_num: allCarNetPanel.getDouble('cars_total_'),
+            driver_num: allCarNetPanel.getDouble("driver_num_"),
         }, () => {
             this.initPieChart2();
             this.initPieChart3();
@@ -202,11 +204,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
         this.setState({
             ...this.state,
-            allCarNetPanel,
-            weeklyArrCarStatis,
             countProvince,
-            cars_num: allCarNetPanel.getDouble('cars_total_'),
-            driver_num: allCarNetPanel.getDouble("driver_num_"),
             queryMileageD: queryMileageD.getDouble('total_mileage_'),
             online_num: queryCarsLocation.head.getDouble('online_'),
         }, () => {
