@@ -259,7 +259,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         let weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
         let weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
         let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        
 
         this.setState({
             ...this.state,

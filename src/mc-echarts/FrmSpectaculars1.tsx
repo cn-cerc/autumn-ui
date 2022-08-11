@@ -166,40 +166,66 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
     }
 
-    async init() {
-        let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        this.setState({
-            ...this.state,
-            allCarNetPanel,
-            cars_num: allCarNetPanel.getDouble('cars_total_'),
-            driver_num: allCarNetPanel.getDouble("driver_num_"),
-        }, () => {
-            this.initPieChart2();
-            this.initPieChart3();
+    init() {
+        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet)=>{
+            this.setState({
+                allCarNetPanel,
+                cars_num: allCarNetPanel.getDouble('cars_total_'),
+                driver_num: allCarNetPanel.getDouble("driver_num_"),
+            }, () => {
+                this.initPieChart2();
+                this.initCarSite();
+                this.initPieChart3();
+            })
         })
 
-        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
-        this.setState({
-            ...this.state,
-            weeklyArrCarStatis
-        }, () => {
-            this.initLineChart();
+        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet)=>{
+            this.setState({
+                allCarNetPanel,
+                cars_num: allCarNetPanel.getDouble('cars_total_'),
+                driver_num: allCarNetPanel.getDouble("driver_num_"),
+            }, () => {
+                this.initPieChart2();
+                this.initCarSite();
+                this.initPieChart3();
+            })
+        })
+        
+        FplApi.getWeeklyArrCarStatis().then((weeklyArrCarStatis: DataSet)=>{
+            this.setState({
+                weeklyArrCarStatis
+            }, () => {
+                this.initLineChart();
+            })
         })
 
-        let countProvince = await FplApi.getCountProvince();
-        let queryCarsLocation = await FplApi.getQueryCarsLocation();
-        let queryMileageD = await FplApi.getQueryMileageD();
+        FplApi.getCountProvince().then((countProvince: DataSet)=>{
+            this.setState({
+                countProvince
+            }, ()=>{
 
-        this.setState({
-            ...this.state,
-            countProvince,
-            carData:queryCarsLocation,
-            queryMileageD: queryMileageD.getDouble('total_mileage_'),
-            online_num: queryCarsLocation.head.getDouble('online_'),
-        }, () => {
-            this.initPieChart4();
-            this.initLineChart1();
-            this.initPieChart1();
+            })
+        })
+
+        FplApi.getCountProvince().then((countProvince: DataSet)=>{
+            this.setState({
+                countProvince
+            }, ()=>{
+                this.initPieChart4();
+            })
+        })
+        
+        FplApi.getQueryCarsLocation().then((queryCarsLocation)=>{
+            FplApi.getQueryMileageD().then((queryMileageD)=>{
+                this.setState({
+                    carData:queryCarsLocation,
+                    online_num: queryCarsLocation.head.getDouble('online_'),
+                    queryMileageD: queryMileageD.getDouble('total_mileage_'),
+                }, () => {
+                    this.initLineChart1();
+                    this.initPieChart1();
+                })
+            })
         })
     }
 
@@ -208,7 +234,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             zoom: 8,
             center: this.props.lonlat.split(',')
         });
-        this.initCarSite();
     }
 
     initLineChart1() {
