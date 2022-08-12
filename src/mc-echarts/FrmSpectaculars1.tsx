@@ -183,8 +183,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         FplApi.getQueryMileageD().then((queryMileageD) => {
             this.setState({
                 queryMileageD: queryMileageD.getDouble('total_mileage_'),
-            }, () => {
-
             })
         })
 
