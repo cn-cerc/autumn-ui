@@ -167,25 +167,24 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     async initCarData() {
-        let carData = this.state.carData;
-        this.setState({
-            carData,
-        }, () => {
-            this.initCarSite();
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            this.setState({
+                carData: queryCarsLocation,
+                online_num: queryCarsLocation.head.getDouble('online_'),
+            }, () => {
+                this.initLineChart1();
+                this.initPieChart1();
+                this.initCarSite();
+            })
         })
     }
 
     init() {
-        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
-            FplApi.getQueryMileageD().then((queryMileageD) => {
-                this.setState({
-                    carData: queryCarsLocation,
-                    online_num: queryCarsLocation.head.getDouble('online_'),
-                    queryMileageD: queryMileageD.getDouble('total_mileage_'),
-                }, () => {
-                    this.initLineChart1();
-                    this.initPieChart1();
-                })
+        FplApi.getQueryMileageD().then((queryMileageD) => {
+            this.setState({
+                queryMileageD: queryMileageD.getDouble('total_mileage_'),
+            }, () => {
+
             })
         })
 
