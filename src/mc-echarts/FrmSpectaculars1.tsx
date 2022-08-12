@@ -208,8 +208,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         FplApi.getCountProvince().then((countProvince: DataSet) => {
             this.setState({
                 countProvince
-            }, () => {
-
             })
         })
 
