@@ -4,7 +4,7 @@ import React from "react";
 import ImageConfig from "../static/ImageConfig";
 import StaticFile from "../static/StaticFile";
 import Loading from "../tool/Loading";
-import { addScript, showMsg } from "../tool/Summer";
+import { showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./FrmLogin.css";
 
@@ -33,16 +33,8 @@ type LoginTypeState = {
 var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
-    private wxLoginUrl: string = '';
     constructor(props: LoginTypeProps) {
         super(props);
-
-        //微信登陆
-        this.wxLoginUrl = "https://open.weixin.qq.com/connect/qrconnect?";
-        this.wxLoginUrl += 'appid=wxfe39d62642ef5a46&';
-        this.wxLoginUrl += 'redirect_uri=' + encodeURIComponent("http://debug.4plc.cn" + '/forms/FrmWeChatLogin') + '&';
-        this.wxLoginUrl += "response_type=code&scope=snsapi_login&";
-        this.wxLoginUrl += "state=" + Date.now() + "" + Math.ceil(Math.random() * 1000);
 
         let client = new ClientStorage('ErpKey');
         let accountData = new DataSet();
@@ -111,7 +103,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
                     <div className={styles.formTitle}>系统登录</div>
-                    <img src={StaticFile.getImage('images/weixin_ionic.png')} onClick={() => { window.open(this.wxLoginUrl, '_target') }} className={styles.wxIcon} />
+                    <img src={StaticFile.getImage('images/weixin_ionic.png')} onClick={() => { window.open(`TFrmWXLogin?clientId=${this.props.dataRow.getString('clientId')}`, '_target') }} className={styles.wxIcon} />
                     {/* <div id="wxContainer"></div> */}
                     <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
