@@ -22,6 +22,7 @@ module.exports = {
             directory: path.join(__dirname, 'dist'),
         },
         port: 81,
+        host: 'debug.4plc.cn'
     },
     // 	devtool 取值
     // 1 source-map ：
