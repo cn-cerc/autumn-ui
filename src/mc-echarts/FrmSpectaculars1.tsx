@@ -467,20 +467,20 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 8,
                         offsetCenter: [0, '-60%'],
                         itemStyle: {
-                            color: 'auto'
+                            color: 'inherit'
                         }
                     },
                     axisTick: {
                         length: 4,
                         lineStyle: {
-                            color: 'auto',
+                            color: 'inherit',
                             width: 1
                         }
                     },
                     splitLine: {
                         length: 14,
                         lineStyle: {
-                            color: 'auto',
+                            color: 'inherit',
                             width: 3
                         }
                     },
@@ -512,7 +512,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         formatter: function (value: number) {
                             return Math.round(value) + '分';
                         },
-                        color: 'auto'
+                        color: 'inherit'
                     },
                     data: [
                         {
@@ -591,8 +591,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
@@ -666,8 +666,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         width: 5,
                         height: 14,
                         fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
+                        color: 'inherit',
+                        borderColor: 'inherit',
                         formatter: '{value}%'
                     }
                 }
@@ -685,43 +685,61 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
         let ds = this.state.countProvince;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('receive_province_'),
+                value: ds.getDouble('num')
             })
         }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: 'center',
+                left: '60%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+                itemGap: 5,
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
+                textStyle: {
+                    lineHeight: 10,
+                }
+            },
             grid: {
-                top: 40,
-                left: 5,
-                bottom: 5,
-                right: 50,
-                containLabel: true,
+                left: 0,
+                bottom: 0,
+                right: 20,
+                containLabel: false,
             },
             series: [
                 {
-                    name: '司机年龄',
                     type: 'pie',
-                    radius: ['50%', '70%'],
-                    center: ['50%', '50%'],
+                    center: ['30%', '53%'],
+                    radius: ['50%', '75%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '16',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
                     labelLine: {
-                        length: 5,
-                        length2: 5,
-                        maxSurfaceAngle: 80
+                        show: false
                     },
                     data: dataArr
                 }
