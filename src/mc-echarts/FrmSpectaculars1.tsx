@@ -21,6 +21,8 @@ type FrmSpectaculars1TypeState = {
     online_num: number,
     cars_num: number,
     driver_num: number,
+    gaugeCenter: Array<string>,
+    gaugeRadius: number,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -39,7 +41,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             online_num: 0,
             cars_num: 0,
             driver_num: 0,
+            gaugeCenter: ['60%', '80%'],
+            gaugeRadius: 65
         }
+
+
     }
 
     render(): React.ReactNode {
@@ -78,12 +84,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 </div>
                 <div className={styles.toprightEacharBox}>
                     <div className={styles.topBox1}>
-                        <div className={styles.mcTitle}>在线率</div>
-                        <div className={styles.FrmTaurusMCPie1}></div>
-                    </div>
-                    <div className={styles.topBox2}>
-                        <div className={styles.mcTitle}>满载率</div>
-                        <div className={styles.FrmTaurusMCPie2}></div>
+                        <div className={styles.mcTitle}>异常动态</div>
+                        <div className={styles.mcLink2}></div>
                     </div>
                 </div>
             </div>
@@ -91,12 +93,16 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
-                            <div className={styles.mcTitle}>货损率</div>
-                            <div className={styles.FrmTaurusMCPie3}></div>
+                            <div className={styles.mcTitle}>在线率</div>
+                            <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.leftBox2}>
-                            <div className={styles.mcTitle}>区域排名TOPS</div>
-                            <div className={styles.leftBox1Pie1}></div>
+                            <div className={styles.mcTitle}>满载率</div>
+                            <div className={styles.FrmTaurusMCPie2}></div>
+                        </div>
+                        <div className={styles.leftBox3}>
+                            <div className={styles.mcTitle}>货损率</div>
+                            <div className={styles.FrmTaurusMCPie3}></div>
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
@@ -110,8 +116,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>异常动态</div>
-                            <div className={styles.mcLink2}></div>
+                            <div className={styles.mcTitle}>区域排名TOPS</div>
+                            <div className={styles.rightBox1Pie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
                             <div className={styles.mcTitle}>实时动态</div>
@@ -139,6 +145,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     componentDidMount(): void {
+        if (this.isPhone) {
+            this.setState({
+                gaugeCenter: ['50%', '80%'],
+                gaugeRadius: 85
+            })
+        }
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
         addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
@@ -256,33 +268,33 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let option = {
             xAxis: {
                 type: 'category',
-                boundaryGap: false
             },
             yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
+                show: false
             },
             lengend: {},
-            tooltip: {},
             grid: {
-                top: 20,
+                top: 10,
                 left: 0,
-                bottom: 10,
-                right: 16,
+                bottom: 0,
+                right: 0,
                 containLabel: true,
             },
             series: [
                 {
                     data: sData,
                     type: 'line',
-                    smooth: true,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
                     lineStyle: {
                         color: MCChartColors[0],
-                        width: 1
+                        width: 3
+                    },
+                    label: {
+                        show: true,
+                        verticalAlign: 'middle',
+                        position: 'top'
                     },
                     areaStyle: {},
                 },
@@ -319,10 +331,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 }
             },
             yAxis: {
-                type: 'value',
-                axisLabel: {
-                    color: '#333333'
-                }
+                show: false
             },
             lengend: {},
             tooltip: {},
@@ -337,17 +346,16 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 {
                     data: sData,
                     type: 'line',
-                    smooth: 0.6,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
                     lineStyle: {
                         color: MCChartColors[0],
-                        width: 5
+                        width: 3
                     },
                     label: {
                         show: true,
+                        verticalAlign: 'middle',
                         position: 'top'
                     },
                 },
@@ -376,74 +384,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         } else {
             value = math.toFixed(online / total * 100, 2);
         }
-        // const gaugeData = [
-        //     {
-        //         value: value,
-        //         title: {
-        //             offsetCenter: ['0%', '30%']
-        //         },
-        //         detail: {
-        //             valueAnimation: true,
-        //             offsetCenter: ['0%', '10%']
-        //         }
-        //     }
-        // ];
-        // let option = {
-        //     series: [
-        //         {
-        //             type: 'gauge',
-        //             startAngle: 90,
-        //             endAngle: -270,
-        //             pointer: {
-        //                 show: false
-        //             },
-        //             color: ['#63DAAB'],
-        //             progress: {
-        //                 show: true,
-        //                 overlap: false,
-        //                 roundCap: true,
-        //                 clip: false,
-        //                 itemStyle: {
-        //                     borderWidth: 1,
-        //                     borderColor: '#63DAAB'
-        //                 }
-        //             },
-        //             axisLine: {
-        //                 lineStyle: {
-        //                     width: 6
-        //                 }
-        //             },
-        //             splitLine: {
-        //                 show: false,
-        //                 distance: 0,
-        //                 length: 10
-        //             },
-        //             axisTick: {
-        //                 show: false
-        //             },
-        //             axisLabel: {
-        //                 show: false,
-        //                 distance: 20
-        //             },
-        //             data: gaugeData,
-        //             title: {
-        //                 fontSize: 14
-        //             },
-        //             detail: {
-        //                 width: 5,
-        //                 height: 14,
-        //                 fontSize: 14,
-        //                 color: 'inherit',
-        //                 borderColor: 'inherit',
-        //                 formatter: '{value}%'
-        //             }
-        //         }
-        //     ]
-        // };
 
         let option = {
             series: [
                 {
+                    center: this.state.gaugeCenter,
+                    radius: this.state.gaugeRadius,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -452,7 +398,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 4,
+                            width: 2,
                             color: [
                                 [0.25, '#FF6E76'],
                                 [0.5, '#FDDD60'],
@@ -478,10 +424,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         }
                     },
                     splitLine: {
-                        length: 14,
+                        length: 6,
                         lineStyle: {
                             color: 'inherit',
-                            width: 3
+                            width: 2
                         }
                     },
                     axisLabel: {
@@ -510,7 +456,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value) + '分';
+                            return Math.round(value) + '%';
                         },
                         color: 'inherit'
                     },
@@ -533,68 +479,88 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-
-        const gaugeData = [
-            {
-                value: 99,
-                title: {
-                    offsetCenter: ['0%', '30%']
-                },
-                detail: {
-                    valueAnimation: true,
-                    offsetCenter: ['0%', '10%']
-                }
-            }
-        ];
+        let value: any = this.state.allCarNetPanel.getDouble('full_load_rate_').toFixed(2);
         let option = {
             series: [
                 {
+                    center: ['60%', '80%'],
+                    radius: 65,
                     type: 'gauge',
-                    startAngle: 90,
-                    endAngle: -270,
-                    pointer: {
-                        show: false
-                    },
-                    color: ['#578DF9'],
-                    progress: {
-                        show: true,
-                        overlap: false,
-                        roundCap: true,
-                        clip: false,
-                        itemStyle: {
-                            borderWidth: 1,
-                            borderColor: '#578DF9'
-                        }
-                    },
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 1,
+                    splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 6
+                            width: 2,
+                            color: [
+                                [0.25, '#FF6E76'],
+                                [0.5, '#FDDD60'],
+                                [0.75, '#58D9F9'],
+                                [1, '#7CFFB2']
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-60%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
                         }
                     },
                     splitLine: {
-                        show: false,
-                        distance: 0,
-                        length: 10
-                    },
-                    axisTick: {
-                        show: false
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
                     },
                     axisLabel: {
-                        show: false,
-                        distance: 20
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 0.875) {
+                                return 'A';
+                            } else if (value === 0.625) {
+                                return 'B';
+                            } else if (value === 0.375) {
+                                return 'C';
+                            } else if (value === 0.125) {
+                                return 'D';
+                            }
+                            return '';
+                        }
                     },
-                    data: gaugeData,
                     title: {
-                        fontSize: 14
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
                     },
                     detail: {
-                        width: 5,
-                        height: 14,
-                        fontSize: 14,
-                        color: 'inherit',
-                        borderColor: 'inherit',
-                        formatter: '{value}%'
-                    }
+                        fontSize: 16,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return Math.round(value) + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                            name: 'Grade Rating'
+                        }
+                    ]
                 }
             ]
         };
@@ -607,69 +573,88 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
-
-
-        const gaugeData = [
-            {
-                value: 10,
-                title: {
-                    offsetCenter: ['0%', '30%']
-                },
-                detail: {
-                    valueAnimation: true,
-                    offsetCenter: ['0%', '10%']
-                }
-            }
-        ];
+        let value = this.state.allCarNetPanel.getDouble('avg_loss_rate_').toFixed(4);
         let option = {
             series: [
                 {
+                    center: ['60%', '80%'],
+                    radius: 65,
                     type: 'gauge',
-                    startAngle: 90,
-                    endAngle: -270,
-                    pointer: {
-                        show: false
-                    },
-                    color: ['#E6806C'],
-                    progress: {
-                        show: true,
-                        overlap: false,
-                        roundCap: true,
-                        clip: false,
-                        itemStyle: {
-                            borderWidth: 1,
-                            borderColor: '#E6806C'
-                        }
-                    },
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 1,
+                    splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 6
+                            width: 2,
+                            color: [
+                                [0.25, '#FF6E76'],
+                                [0.5, '#FDDD60'],
+                                [0.75, '#58D9F9'],
+                                [1, '#7CFFB2']
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-60%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
                         }
                     },
                     splitLine: {
-                        show: false,
-                        distance: 0,
-                        length: 10
-                    },
-                    axisTick: {
-                        show: false
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
                     },
                     axisLabel: {
-                        show: false,
-                        distance: 20
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 0.875) {
+                                return 'A';
+                            } else if (value === 0.625) {
+                                return 'B';
+                            } else if (value === 0.375) {
+                                return 'C';
+                            } else if (value === 0.125) {
+                                return 'D';
+                            }
+                            return '';
+                        }
                     },
-                    data: gaugeData,
                     title: {
-                        fontSize: 14
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
                     },
                     detail: {
-                        width: 5,
-                        height: 14,
-                        fontSize: 14,
-                        color: 'inherit',
-                        borderColor: 'inherit',
-                        formatter: '{value}%'
-                    }
+                        fontSize: 16,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return Math.round(value) + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                            name: 'Grade Rating'
+                        }
+                    ]
                 }
             ]
         };
@@ -678,7 +663,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         myChart.setOption(option);
     }
     initPieChart4() {
-        let peiChart = document.querySelector(`.${styles.leftBox1Pie1}`) as HTMLDivElement;
+        let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
@@ -724,7 +709,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 {
                     type: 'pie',
                     center: ['30%', '53%'],
-                    radius: ['50%', '75%'],
+                    radius: ['40%', '65%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,

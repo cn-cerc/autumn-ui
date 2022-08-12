@@ -59,9 +59,6 @@
     font-weight: bold;
     color: #333333;
     line-height: 16px;
-    position: absolute;
-    top: 20px;
-    left: 20px;
 }
 
 .topBox {
@@ -79,12 +76,13 @@
     padding: 16px 20px;
     box-sizing: border-box;
     background-color: #fff;
+    margin-right: 10px;
 }
 
 .top_list,
 .toprightEacharBox {
     flex: 1;
-    width: 50%;
+    width: calc(50% - 5px);
     min-height: 114px;
     height: 114px;
 }
@@ -130,10 +128,8 @@
     display: flex;
 }
 
-
-.toprightEacharBox .topBox1,
-.toprightEacharBox .topBox2 {
-    width: 50%;
+.topBox1 {
+    width: 100%;
     border-radius: 10px;
     background-color: #fff;
     padding: 16px 20px 12px;
@@ -147,40 +143,34 @@
 .FrmTaurusMCPie2,
 .FrmTaurusMCPie3 {
     flex: 1;
-    height: 100%;
+    height: calc(100% - 16px);
 }
 
 
 .leftBox1,
-.leftBox2 {
+.leftBox2,
+.leftBox3 {
     background-color: #fff;
     border: 1px solid #e6e6e6;
     border-radius: 10px;
     padding: 16px 20px;
     position: relative;
-}
-
-.leftBox1 {
-    min-height: 114px;
-    height: 114px;
+    height: calc((100% - 20px) / 3);
     margin-bottom: 10px;
 }
 
-.leftBox2 {
-    flex: 1;
-    height: calc(100% - 124px);
+.leftBox3 {
+    margin-bottom: 0;
 }
 
-.leftBox1Pie1,
 .mcLink2 {
+    flex: 1;
+    height: calc(100% - 16px);
+}
+
+.rightBox1Pie1 {
     height: 100%;
 }
-
-.mcLink2,
-.srcollListContent {
-    padding-top: 16px;
-}
-
 
 .contentEcharts {
     display: flex;
@@ -242,11 +232,15 @@
 .centerBox1 {
     margin-bottom: 10px;
     height: calc(100% - 33.3% + 10px);
+    box-sizing: border-box;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
 }
 
 .mcMap {
     position: relative;
     height: 100%;
+    border-radius: 10px;
 }
 
 .mcMap>img {
@@ -273,9 +267,12 @@
 }
 
 .srcollListMain>li {
-    height: 19px;
-    line-height: 19px;
-    margin-bottom: 8px;
+    height: 14px;
+    line-height: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .srcollListMain>li:last-child {
@@ -299,8 +296,7 @@
 }
 
 .FrmTaurusMCPie3,
-.mcLink,
-.rightBox1Pie1 {
+.mcLink {
     flex: 1;
 }
 
@@ -388,11 +384,7 @@
     .mc {
         overflow: inherit;
         height: 100%;
-    }
-
-    .mcMain {
-        margin-left: 12px;
-        margin-right: 12px;
+        background-color: transparent;
     }
 
     .mcIntroduction {
@@ -432,7 +424,6 @@
     }
 
     .leftBox3,
-    .rightBox1,
     .centerBox2 {
         height: 160px;
     }
@@ -451,7 +442,7 @@
     }
 
     .mcLink2 {
-        height: 180px;
+        /* height: 144px; */
     }
 
     .srcollListMain>li {
@@ -487,18 +478,52 @@
         flex-wrap: wrap;
     }
 
+
+    /* /////////////////////////  */
+
+    .topBox {
+        flex-direction: column;
+    }
+
+    .top_list,
+    .toprightEacharBox {
+        flex: 1;
+        width: 100%;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .top_list {
+        height: 180px;
+        margin-bottom: 10px;
+    }
+
+    .toprightEacharBox {
+        height: 144px;
+    }
+
+    .topBox1 {
+        margin-left: 0;
+    }
+
     .leftBox1,
     .leftBox2,
+    .leftBox3,
+    .rightBox1,
     .rightBox2 {
         width: 100%;
+        margin-bottom: 10px;
+        height: 186px;
+        min-height: 186px;
     }
 
-    .leftBox1,
-    .leftBox2 {
-        margin-bottom: 10px;
+    .rightBox1 {
+        height: 196px;
+        min-height: 196px;
     }
 
-    .rightBox3 {
-        margin-bottom: 10px;
+    .rightBox2 {
+        height: 216px;
+        min-height: 216px;
     }
 }
