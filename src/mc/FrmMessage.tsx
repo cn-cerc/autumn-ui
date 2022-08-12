@@ -391,7 +391,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
-                    date = new Date(messageData.latestDate.replaceAll('-', '/'));
+                    date = new Date(messageData.latestDate?.replace(/-/g,'/'));
                     hour = date.getHours();
                     minut = date.getMinutes();
                     if (minut < 10) minut = '0' + minut;
@@ -479,6 +479,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         </li>)
         ds.appendDataSet(messageData.data);
         ds.first();
+        
         while (ds.fetch()) {
             let isSelf = false, systemMsg = false, msgStatus = ds.getString('Status_');
             let name = ds.getString('Name_') || messageData.name;
