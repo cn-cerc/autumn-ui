@@ -1,7 +1,3 @@
-#fullContent {
-    min-height: 100% !important;
-}
-
 .mc {
     font-size: 14px;
     color: #333;
@@ -12,17 +8,13 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
+    background: #fff;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
 .mcIntroduction,
-.leftBox1,
-.leftBox2,
-.leftBox3,
-.centerBox1,
-.centerBox2,
-.rightBox1,
-.rightBox2,
-.rightBox3 {
+.centerBox2 {
     background-color: #fff;
     border-radius: .28rem;
     padding: 16px;
@@ -32,7 +24,7 @@
 
 .mcIntroduction>p {
     height: 52px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     color: #333333;
     text-align: center;
@@ -41,7 +33,7 @@
 
 .mcIntroduction>p>span {
     position: absolute;
-    bottom: 12px;
+    bottom: 14px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -50,7 +42,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 20px;
+    height: 30px;
     left: 0;
 }
 
@@ -62,46 +54,68 @@
     height: 0;
 }
 
-.top_list {
-    display: flex;
-    align-items: center;
-}
-
 .mcTitle {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     color: #333333;
-    line-height: 14px;
+    line-height: 16px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
-.li_3 {
-    flex: 1;
+.topBox {
     display: flex;
     align-items: center;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.top_list {
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.top_list,
+.toprightEacharBox {
+    flex: 1;
+    width: 50%;
+    min-height: 114px;
+    height: 114px;
+}
+
+.top_list>p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    flex: 1;
+}
+
+.top_list>ul {
+    display: flex;
     justify-content: flex-start;
-    padding-left: 48px;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-    margin-top: 12px;
 }
 
-.li_3:last-child {
-    margin-right: 0;
-    border: none;
-}
-
-.li_3>div {
-    margin-right: 12px;
+.top_list>ul>.li_3 {
+    width: 142px;
+    display: flex;
+    flex-direction: column;
 }
 
 .topTitle {
     font-size: 14px;
-    font-weight: bold;
-    color: #333333;
+    font-weight: 400;
+    color: #666666;
     margin-bottom: 12px;
 }
 
 .topInfo {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     color: #333333;
 }
@@ -112,9 +126,81 @@
     color: #666666;
 }
 
+.toprightEacharBox {
+    display: flex;
+}
+
+
+.toprightEacharBox .topBox1,
+.toprightEacharBox .topBox2 {
+    width: 50%;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 16px 20px 12px;
+    margin-left: 10px;
+    box-sizing: border-box;
+    border: 1px solid #e6e6e6;
+    position: relative;
+}
+
+.FrmTaurusMCPie1,
+.FrmTaurusMCPie2,
+.FrmTaurusMCPie3 {
+    flex: 1;
+    height: 100%;
+}
+
+
+.leftBox1,
+.leftBox2 {
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    padding: 16px 20px;
+    position: relative;
+}
+
+.leftBox1 {
+    min-height: 114px;
+    height: 114px;
+    margin-bottom: 10px;
+}
+
+.leftBox2 {
+    flex: 1;
+    height: calc(100% - 124px);
+}
+
+.leftBox1Pie1,
+.mcLink2 {
+    height: 100%;
+}
+
+.mcLink2,
+.srcollListContent {
+    padding-top: 16px;
+}
+
+
 .contentEcharts {
     display: flex;
     flex: 1;
+    height: 100%;
+}
+
+.rightBox1,
+.rightBox2 {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    padding: 16px 20px;
+    height: calc(50% - 5px);
+    position: relative;
+}
+
+.rightBox1 {
+    margin-bottom: 10px;
 }
 
 .leftSiteEcharts,
@@ -122,21 +208,18 @@
     width: 20%;
     display: flex;
     flex-direction: column;
-    min-width: 264px;
+    min-width: 258px;
 }
 
-.leftBox1,
-.leftBox2,
-.leftBox3,
-.rightBox3,
-.centerBox2,
-.rightBox1,
-.rightBox2 {
+.centerBox2 {
     margin-bottom: 10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     height: 33.3%;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    position: relative;
 }
 
 
@@ -145,6 +228,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    height: calc(100% - 16px);
 }
 
 .centerSiteEcharts {
@@ -158,7 +242,6 @@
 .centerBox1 {
     margin-bottom: 10px;
     height: calc(100% - 33.3% + 10px);
-    padding: 0;
 }
 
 .mcMap {
@@ -215,11 +298,8 @@
     margin-bottom: 6px;
 }
 
-.FrmTaurusMCPie1,
-.FrmTaurusMCPie2,
 .FrmTaurusMCPie3,
 .mcLink,
-.mcLink2,
 .rightBox1Pie1 {
     flex: 1;
 }
@@ -232,8 +312,8 @@
 
 .rSkin {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background-color: #308DF2;
     transform: translateY(-1px);
@@ -243,38 +323,34 @@
 .mcIntroduction {
     margin-bottom: 10px;
     padding: 0;
-    height: 125px;
-    min-height:125px;
+    height: 52px;
+    min-height: 52px;
 }
 
 .btn_toggle_pc,
 .btn_toggle_kanban {
     position: absolute;
     right: 1rem;
-    top: 8px;
-    width: 18px;
-    height: 18px;
+    bottom: 16px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
 }
 
 .btn_toggle_pc {
     background: url("../assets/img/pc.png") top center no-repeat;
-    background-size: contain;
 }
 
 .btn_toggle_pc:hover {
     background: url("../assets/img/pc_hover.png") top center no-repeat;
-    background-size: contain;
 }
 
 .btn_toggle_kanban {
     background: url("../assets/img/kanban.png") top center no-repeat;
-    background-size: contain;
 }
 
 .btn_toggle_kanban:hover {
     background: url("../assets/img/kanban_hover.png") top center no-repeat;
-    background-size: contain;
 }
 
 .mcMainNoPB {
@@ -284,17 +360,17 @@
 .corpName {
     position: absolute;
     left: 12px;
-    top: 8px;
+    bottom: 16px;
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     align-items: center;
 }
 
-.corpName > img{
+.corpName>img {
     margin-right: 5px;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 14px;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1366px) {
@@ -302,14 +378,16 @@
     .mcPieChart {
         margin-top: 10px;
     }
+
     .mcMain {
-        min-height:490px;
+        min-height: 438px;
     }
 }
 
 @media screen and (max-width: 767px) {
     .mc {
         overflow: inherit;
+        height: 100%;
     }
 
     .mcMain {
@@ -343,29 +421,6 @@
         display: none;
     }
 
-    .top_list {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .li_3 {
-        border-radius: 0.28rem;
-        background-color: #fff;
-        flex: auto;
-        margin-right: 0;
-        height: 78px;
-        border: none;
-        justify-content: flex-start;
-        padding: 0 16px;
-    }
-
-    .topTitle {
-        margin-bottom: 0;
-    }
-
-    .li_3>div {
-        line-height: 1.2;
-    }
 
     .contentEcharts {
         flex-direction: column;
@@ -376,8 +431,6 @@
         width: 100%;
     }
 
-    .leftBox1,
-    .leftBox2,
     .leftBox3,
     .rightBox1,
     .centerBox2 {
@@ -392,8 +445,6 @@
         height: 132px;
     }
 
-    .FrmTaurusMCPie1,
-    .FrmTaurusMCPie2,
     .FrmTaurusMCPie3,
     .mcLink {
         height: 130px;
@@ -437,20 +488,13 @@
     }
 
     .leftBox1,
-    .leftBox2 {
-        width: calc(50% - 5px);
-    }
-
-    .leftBox1 {
-        margin-right: 10px;
-    }
-
-    .leftBox3,
+    .leftBox2,
     .rightBox2 {
         width: 100%;
     }
 
-    .leftBox3 {
+    .leftBox1,
+    .leftBox2 {
         margin-bottom: 10px;
     }
 

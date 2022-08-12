@@ -42,7 +42,7 @@
 
 .mcIntroduction>p>span {
     position: absolute;
-    bottom: 12px;
+    bottom: 14px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -51,7 +51,7 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 20px;
+    height: 30px;
     left: 0;
 }
 
@@ -168,7 +168,6 @@
 .centerBox1 {
     margin-bottom: 10px;
     height: calc(100% - 33.3% + 10px);
-    padding: 0;
 }
 
 .mcMap {
@@ -255,11 +254,6 @@
     padding-left: 16px;
 }
 
-.leftTop1Item>div>img {
-    width: 35px;
-    height: 35px;
-}
-
 .leftTop1ItemInfo {
     display: flex;
     font-size: 14px;
@@ -286,7 +280,7 @@
     margin-bottom: 10px;
     padding: 0;
     height: 125px;
-    min-height:125px;
+    min-height: 125px;
 }
 
 .btn_toggle_pc,
@@ -294,29 +288,25 @@
     position: absolute;
     right: 1rem;
     top: 8px;
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
 }
 
 .btn_toggle_pc {
     background: url("../assets/img/pc.png") top center no-repeat;
-    background-size: contain;
 }
 
 .btn_toggle_pc:hover {
     background: url("../assets/img/pc_hover.png") top center no-repeat;
-    background-size: contain;
 }
 
 .btn_toggle_kanban {
     background: url("../assets/img/kanban.png") top center no-repeat;
-    background-size: contain;
 }
 
 .btn_toggle_kanban:hover {
     background: url("../assets/img/kanban_hover.png") top center no-repeat;
-    background-size: contain;
 }
 
 .mcMainNoPB {
@@ -326,17 +316,17 @@
 .corpName {
     position: absolute;
     left: 12px;
-    top: 8px;
+    bottom: 16px;
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     align-items: center;
 }
 
 .corpName>img {
     margin-right: 5px;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 14px;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1366px) {
@@ -351,8 +341,9 @@
     .FrmSpectaculars3LeftTop1 {
         margin-top: 10px;
     }
+
     .mcMain {
-        min-height:490px;
+        min-height: 490px;
     }
 }
 
