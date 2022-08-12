@@ -197,17 +197,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             })
         })
 
-        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
-            this.setState({
-                allCarNetPanel,
-                cars_num: allCarNetPanel.getDouble('cars_total_'),
-                driver_num: allCarNetPanel.getDouble("driver_num_"),
-            }, () => {
-                this.initPieChart2();
-                this.initPieChart3();
-            })
-        })
-
         FplApi.getWeeklyArrCarStatis().then((weeklyArrCarStatis: DataSet) => {
             this.setState({
                 weeklyArrCarStatis
