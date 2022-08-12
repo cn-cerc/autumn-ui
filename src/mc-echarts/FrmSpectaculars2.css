@@ -10,6 +10,10 @@
     overflow: auto;
 }
 
+.mcIntroduction>.corpName>img {
+    width: 1rem;
+}
+
 .mcIntroduction,
 .leftBox1,
 .leftBox2,
