@@ -166,7 +166,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
     }
 
-    async initCarData() {
+    initCarData() {
         FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
             this.setState({
                 carData: queryCarsLocation,
