@@ -195,7 +195,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 driver_num: allCarNetPanel.getDouble("driver_num_"),
             }, () => {
                 this.initPieChart2();
-                this.initCarSite();
                 this.initPieChart3();
             })
         })
@@ -207,7 +206,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 driver_num: allCarNetPanel.getDouble("driver_num_"),
             }, () => {
                 this.initPieChart2();
-                this.initCarSite();
                 this.initPieChart3();
             })
         })
