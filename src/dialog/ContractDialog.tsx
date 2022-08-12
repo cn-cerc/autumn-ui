@@ -5,6 +5,8 @@ import "../tool/Summer.css";
 import styles from "./DialogCommon.css";
 
 type ContractProps = {
+    parms?: String,
+    callBack?: Function;
 } & Partial<BaseDialogPropsType>
 
 
@@ -56,6 +58,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                     <Column code="contract_amount_" name="合同金额" width="50"></Column>
                     <Column code="recharged_amount_" name="充值金额" width="50"></Column>
                     <Column code="remaining_amount_" name="可用余额" width="50"></Column>
+                    <Column code="rate_" name="约定费率%" width="50"></Column>
                     <Column code="opera" name="操作" width="50" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
@@ -68,17 +71,34 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        let input3 = document.getElementById("remaining_amount_") as HTMLInputElement;
+
+        input1.value = dataRow.getString('contract_no_');
+        input2.value = dataRow.getString('contract_type_name_');
+
         let input4 = document.getElementById("unit_price_") as HTMLInputElement;
         let input5 = document.getElementById("waybill_unit_price_") as HTMLInputElement;
         let input6 = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
 
-        input1.value = dataRow.getString('contract_no_');
-        input2.value = dataRow.getString('contract_type_name_');
-        input3.value = dataRow.getString('remaining_amount_');
         input4.value = dataRow.getString('cargo_unit_price_');
         input5.value = dataRow.getString('arrangecar_unit_price_');
         input6.value = dataRow.getString('cargo_loss_rate_');
+
+        if (this.props.callBack)
+            this.props.callBack(dataRow);
+        if (this.props.parms)
+            this.callBackInputs(dataRow, this.props.parms);
         this.handleSelect();
+    }
+
+    callBackInputs(dataRow: DataRow, parms: String) {
+        if (parms) {
+            let arr = parms.split(",");
+            for (let i = 0; i < arr.length; i += 2) {
+                let key = arr[i];
+                let targetInputId = arr[i + 1];
+                if (dataRow)
+                    $("#" + targetInputId).val(dataRow.getValue(key));
+            }
+        }
     }
 }
