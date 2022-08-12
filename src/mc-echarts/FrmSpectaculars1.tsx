@@ -166,40 +166,57 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
     }
 
-    async init() {
-        let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        this.setState({
-            ...this.state,
-            allCarNetPanel,
-            cars_num: allCarNetPanel.getDouble('cars_total_'),
-            driver_num: allCarNetPanel.getDouble("driver_num_"),
-        }, () => {
-            this.initPieChart2();
-            this.initPieChart3();
+    initCarData() {
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            this.setState({
+                carData: queryCarsLocation,
+                online_num: queryCarsLocation.head.getDouble('online_'),
+            }, () => {
+                this.initLineChart1();
+                this.initPieChart1();
+                this.initCarSite();
+            })
+        })
+    }
+
+    init() {
+        FplApi.getQueryMileageD().then((queryMileageD) => {
+            this.setState({
+                queryMileageD: queryMileageD.getDouble('total_mileage_'),
+            })
         })
 
-        let weeklyArrCarStatis = await FplApi.getWeeklyArrCarStatis();
-        this.setState({
-            ...this.state,
-            weeklyArrCarStatis
-        }, () => {
-            this.initLineChart();
+        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
+            this.setState({
+                allCarNetPanel,
+                cars_num: allCarNetPanel.getDouble('cars_total_'),
+                driver_num: allCarNetPanel.getDouble("driver_num_"),
+            }, () => {
+                this.initPieChart2();
+                this.initPieChart3();
+            })
         })
 
-        let countProvince = await FplApi.getCountProvince();
-        let queryCarsLocation = await FplApi.getQueryCarsLocation();
-        let queryMileageD = await FplApi.getQueryMileageD();
+        FplApi.getWeeklyArrCarStatis().then((weeklyArrCarStatis: DataSet) => {
+            this.setState({
+                weeklyArrCarStatis
+            }, () => {
+                this.initLineChart();
+            })
+        })
 
-        this.setState({
-            ...this.state,
-            countProvince,
-            carData:queryCarsLocation,
-            queryMileageD: queryMileageD.getDouble('total_mileage_'),
-            online_num: queryCarsLocation.head.getDouble('online_'),
-        }, () => {
-            this.initPieChart4();
-            this.initLineChart1();
-            this.initPieChart1();
+        FplApi.getCountProvince().then((countProvince: DataSet) => {
+            this.setState({
+                countProvince
+            })
+        })
+
+        FplApi.getCountProvince().then((countProvince: DataSet) => {
+            this.setState({
+                countProvince
+            }, () => {
+                this.initPieChart4();
+            })
         })
     }
 
@@ -208,7 +225,24 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             zoom: 8,
             center: this.props.lonlat.split(',')
         });
-        this.initCarSite();
+        this.initCarData();
+    }
+
+    initCarSite() {
+        this.gdmap.clear();
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.carData);
+        ds.first();
+        while (ds.fetch()) {
+            this.gdmap.addLableMark({
+                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
+            }, `<div class="input-card content-window-card">
+                    <div style="color:#666;">
+                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
+                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
+                    </div>
+                </div>`)
+        }
     }
 
     initLineChart1() {
@@ -253,6 +287,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
     //物流运单
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
@@ -317,23 +352,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
         //@ts-ignore
         myChart.setOption(option);
-    }
-
-    initCarSite() {
-        this.gdmap.clear();
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.carData);
-        ds.first();
-        while (ds.fetch()) {
-            this.gdmap.addLableMark({
-                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
-            }, `<div class="input-card content-window-card">
-                    <div style="color:#666;">
-                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
-                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
-                    </div>
-                </div>`)
-        }
     }
 
     //在线率
