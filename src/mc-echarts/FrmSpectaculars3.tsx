@@ -222,36 +222,42 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         })
     }
 
-    async init() {
-        let dealStatus = await FplApi.getDealStatus();
-        let queryMileageTotal = await FplApi.queryMileageTotal();
-        dealStatus.first();
+    init() {
 
-        this.setState({
-            ...this.state,
-            dealStatus,
-            queryMileageTotal: queryMileageTotal.getDouble('total_mileage_'),
-        }, () => {
-            this.initPieChart1();
+        FplApi.getDealStatus().then((dealStatus) => {
+            FplApi.queryMileageTotal().then((queryMileageTotal) => {
+                dealStatus.first();
+                this.setState({
+                    dealStatus,
+                    queryMileageTotal: queryMileageTotal.getDouble('total_mileage_'),
+                }, () => {
+                    this.initPieChart1();
+                })
+            })
         })
 
-        let queryDriverOrderTop5 = await FplApi.getQueryDriverOrderTop5();
-        let cargoWeightTop3 = await FplApi.getCargoWeightTop3();
-        this.setState({
-            ...this.state,
-            queryDriverOrderTop5,
-            cargoWeightTop3,
-        }, () => {
-            this.initBarChart1();
-            this.initPieChart2();
+        FplApi.getQueryDriverOrderTop5().then((queryDriverOrderTop5) => {
+            FplApi.getCargoWeightTop3().then((cargoWeightTop3) => {
+
+                this.setState({
+                    queryDriverOrderTop5,
+                    cargoWeightTop3,
+                }, () => {
+                    this.initBarChart1();
+                    this.initPieChart2();
+                })
+
+
+            })
+        })
+        FplApi.getWeeklyOrderCount().then((weeklyOrderCount) => {
+            this.setState({
+                weeklyOrderCount,
+            }, () => {
+                this.initBarchart2();
+            })
         })
 
-        let weeklyOrderCount = await FplApi.getWeeklyOrderCount();
-        this.setState({
-            weeklyOrderCount,
-        }, () => {
-            this.initBarchart2();
-        })
     }
 
     async init1() {
@@ -259,7 +265,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         let weeklyOrderAmount = await FplApi.getWeeklyOrderAmount();
         let weeklyArrangeWeight = await FplApi.getWeeklyArrangeWeight();
         let allCarNetPanel = await FplApi.getAllCarNetPanel();
-        
 
         this.setState({
             ...this.state,
