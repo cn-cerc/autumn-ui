@@ -37,6 +37,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     private gdmap: GDMap = new GDMap();
     private timer: any;
     private math: AuiMath = new AuiMath();
+    private isInitMap: boolean = false;
     constructor(props: FrmSpectaculars3TypeProps) {
         super(props);
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
@@ -188,7 +189,10 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
         if (!this.isPhone)
-            addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
+            addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, () => {
+                this.isInitMap = true;
+                this.initMap();
+            })
     }
 
     init() {
@@ -269,13 +273,18 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             });
         });
 
+        // 构建车辆位置
+        this.initMap();
     }
 
     initMap() {
-        this.gdmap.initMap('carMapContainer', {
-            zoom: 8,
-            center: this.props.lonlat.split(',')
-        });
+        if (!this.isInitMap)
+            return;
+        if (!this.gdmap.map)
+            this.gdmap.initMap('carMapContainer', {
+                zoom: 8,
+                center: this.props.lonlat.split(',')
+            });
         this.initCarData();
     }
 
@@ -519,7 +528,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                 fontSize: 14
             }
         }
-        if(this.isPhone) {
+        if (this.isPhone) {
             legend = {
                 ...legend,
                 top: 'center',
