@@ -316,8 +316,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let xArr = [];
         let sData = [];
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('arr_total_'));
         }
         let option = {
             xAxis: {
