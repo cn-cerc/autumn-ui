@@ -163,7 +163,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     componentDidMount(): void {
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
-        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
     }
 
     async initCarData() {
@@ -176,6 +175,20 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     init() {
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
+            FplApi.getQueryMileageD().then((queryMileageD) => {
+                this.setState({
+                    carData: queryCarsLocation,
+                    online_num: queryCarsLocation.head.getDouble('online_'),
+                    queryMileageD: queryMileageD.getDouble('total_mileage_'),
+                }, () => {
+                    this.initLineChart1();
+                    this.initPieChart1();
+                })
+            })
+        })
+
         FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
             this.setState({
                 allCarNetPanel,
@@ -223,19 +236,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 this.initPieChart4();
             })
         })
-
-        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
-            FplApi.getQueryMileageD().then((queryMileageD) => {
-                this.setState({
-                    carData: queryCarsLocation,
-                    online_num: queryCarsLocation.head.getDouble('online_'),
-                    queryMileageD: queryMileageD.getDouble('total_mileage_'),
-                }, () => {
-                    this.initLineChart1();
-                    this.initPieChart1();
-                })
-            })
-        })
     }
 
     initMap() {
@@ -252,6 +252,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         ds.appendDataSet(this.state.carData);
         ds.first();
         while (ds.fetch()) {
+            console.log([ds.getDouble('lon_'), ds.getDouble('lat_')]);
             this.gdmap.addLableMark({
                 position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
             }, `<div class="input-card content-window-card">
