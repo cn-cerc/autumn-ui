@@ -166,6 +166,15 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
     }
 
+    async initCarData() {
+        let carData = this.state.carData;
+        this.setState({
+            carData,
+        }, () => {
+            this.initCarSite();
+        })
+    }
+
     init() {
         FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
             this.setState({
@@ -234,6 +243,24 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             zoom: 8,
             center: this.props.lonlat.split(',')
         });
+        this.initCarData();
+    }
+
+    initCarSite() {
+        this.gdmap.clear();
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.carData);
+        ds.first();
+        while (ds.fetch()) {
+            this.gdmap.addLableMark({
+                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
+            }, `<div class="input-card content-window-card">
+                    <div style="color:#666;">
+                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
+                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
+                    </div>
+                </div>`)
+        }
     }
 
     initLineChart1() {
@@ -278,6 +305,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
     //物流运单
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
@@ -342,23 +370,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
 
         //@ts-ignore
         myChart.setOption(option);
-    }
-
-    initCarSite() {
-        this.gdmap.clear();
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.carData);
-        ds.first();
-        while (ds.fetch()) {
-            this.gdmap.addLableMark({
-                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
-            }, `<div class="input-card content-window-card">
-                    <div style="color:#666;">
-                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
-                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
-                    </div>
-                </div>`)
-        }
     }
 
     //在线率
