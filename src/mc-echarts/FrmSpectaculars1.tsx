@@ -252,7 +252,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         ds.appendDataSet(this.state.carData);
         ds.first();
         while (ds.fetch()) {
-            console.log([ds.getDouble('lon_'), ds.getDouble('lat_')]);
             this.gdmap.addLableMark({
                 position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
             }, `<div class="input-card content-window-card">
