@@ -28,6 +28,8 @@ type FrmSpectaculars1TypeState = {
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
     private gdmap: GDMap = new GDMap();
     private timer: any;
+    private math = new AuiMath();
+    private isInitMap: boolean = false;
     constructor(props: FrmSpectaculars1TypeProps) {
         super(props);
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
@@ -41,8 +43,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             online_num: 0,
             cars_num: 0,
             driver_num: 0,
-            gaugeCenter: ['60%', '80%'],
-            gaugeRadius: 65
+            gaugeCenter: ['55%', '85%'],
+            gaugeRadius: 62
         }
 
 
@@ -51,45 +53,48 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>
-                    <span>营运数据中心</span>
-                    <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
-                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
-                </p>
-            </div>
-            <div className={styles.topBox}>
-                <div className={styles.top_list}>
-                    <p>数据总览</p>
-                    <ul>
-                        <li className={styles.li_3}>
-                            <div className={styles.topTitle}>车辆数</div>
-                            <div className={styles.topInfo}>
-                                {this.state.cars_num} <span>辆</span>
-                            </div>
-                        </li>
-                        <li className={styles.li_3}>
-                            <div className={styles.topTitle}>今日里程</div>
-                            <div className={styles.topInfo}>
-                                {this.state.queryMileageD.toFixed(2)}<span>万公里</span>
-                            </div>
-                        </li>
-                        <li className={styles.li_3}>
-                            <div className={styles.topTitle}>司机数</div>
-                            <div className={styles.topInfo}>
-                                {this.state.driver_num}
-                                <span>名</span>
-                            </div>
-                        </li>
-                    </ul>
+                <div className={styles.corpName}>
+                    <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
+                    <span>{this.props.corpName}</span>
                 </div>
-                <div className={styles.toprightEacharBox}>
-                    <div className={styles.topBox1}>
-                        <div className={styles.mcTitle}>异常动态</div>
-                        <div className={styles.mcLink2}></div>
-                    </div>
+                <span>营运数据中心</span>
+                <div className={styles.toggleIcons}>
+                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </div>
             </div>
             <div className={`${styles.mcMain} ${this.state.toggle == 1 ? '' : styles.mcMainNoPB}`}>
+                <div className={styles.topBox}>
+                    <div className={styles.top_list}>
+                        <p className={styles.mcTitle}>数据总览</p>
+                        <ul>
+                            <li className={styles.li_3}>
+                                <div className={styles.topTitle}>车辆数</div>
+                                <div className={styles.topInfo}>
+                                    {this.state.cars_num} <span>辆</span>
+                                </div>
+                            </li>
+                            <li className={styles.li_3}>
+                                <div className={styles.topTitle}>今日里程</div>
+                                <div className={styles.topInfo}>
+                                    {this.state.queryMileageD.toFixed(2)}<span>万公里</span>
+                                </div>
+                            </li>
+                            <li className={styles.li_3}>
+                                <div className={styles.topTitle}>司机数</div>
+                                <div className={styles.topInfo}>
+                                    {this.state.driver_num}
+                                    <span>名</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className={styles.toprightEacharBox}>
+                        <div className={styles.topBox1}>
+                            <div className={styles.mcTitle}>异常动态</div>
+                            <div className={styles.mcLink2}></div>
+                        </div>
+                    </div>
+                </div>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -106,9 +111,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
-                        <div className={styles.centerBox1}>
+                        {this.isPhone ? '' : <div className={styles.centerBox1}>
                             <div className={styles.mcMap} id='carMapContainer'></div>
-                        </div>
+                        </div>}
                         <div className={styles.centerBox2}>
                             <div className={styles.mcTitle}>物流运单</div>
                             <div className={styles.mcLink}></div>
@@ -148,12 +153,16 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (this.isPhone) {
             this.setState({
                 gaugeCenter: ['50%', '80%'],
-                gaugeRadius: 85
+                gaugeRadius: 90
             })
         }
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
-        addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this));
+        if (!this.isPhone)
+            addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, () => {
+                this.isInitMap = true;
+                this.initMap();
+            });
     }
 
     async initCarData() {
@@ -166,17 +175,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     init() {
-        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
-            this.setState({
-                allCarNetPanel,
-                cars_num: allCarNetPanel.getDouble('cars_total_'),
-                driver_num: allCarNetPanel.getDouble("driver_num_"),
-            }, () => {
-                this.initPieChart2();
-                this.initPieChart3();
-            })
-        })
-
         FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
             this.setState({
                 allCarNetPanel,
@@ -227,10 +225,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     initMap() {
-        this.gdmap.initMap('carMapContainer', {
-            zoom: 8,
-            center: this.props.lonlat.split(',')
-        });
+        if (!this.isInitMap)
+            return;
+        if (!this.gdmap.map)
+            this.gdmap.initMap('carMapContainer', {
+                zoom: 8,
+                center: this.props.lonlat.split(',')
+            });
         this.initCarData();
     }
 
@@ -268,35 +269,36 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let option = {
             xAxis: {
                 type: 'category',
+                boundaryGap: false,
+                data: xArr
             },
             yAxis: {
-                show: false
+                show: false,
             },
             lengend: {},
+            tooltip: {},
             grid: {
-                top: 10,
-                left: 0,
-                bottom: 0,
-                right: 0,
-                containLabel: true,
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
             },
             series: [
                 {
                     data: sData,
                     type: 'line',
+                    smooth: true,
                     itemStyle: {
                         color: MCChartColors[0]
                     },
                     lineStyle: {
                         color: MCChartColors[0],
-                        width: 3
-                    },
-                    label: {
-                        show: true,
-                        verticalAlign: 'middle',
-                        position: 'top'
+                        width: 1
                     },
                     areaStyle: {},
+                    label: {
+                        show: true
+                    }
                 },
             ]
         };
@@ -320,44 +322,36 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let option = {
             xAxis: {
                 type: 'category',
-                data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
+                boundaryGap: false,
+                data: xArr
             },
             yAxis: {
-                show: false
+                show: false,
             },
             lengend: {},
             tooltip: {},
             grid: {
-                top: 15,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
             },
             series: [
                 {
                     data: sData,
                     type: 'line',
+                    smooth: true,
                     itemStyle: {
                         color: MCChartColors[0]
                     },
                     lineStyle: {
                         color: MCChartColors[0],
-                        width: 3
+                        width: 1
                     },
+                    areaStyle: {},
                     label: {
-                        show: true,
-                        verticalAlign: 'middle',
-                        position: 'top'
-                    },
+                        show: true
+                    }
                 },
             ]
         };
@@ -373,7 +367,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let math = new AuiMath();
         let online = this.state.online_num, total = this.state.cars_num;
         if (!online) {
             online = 0;
@@ -382,7 +375,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (online == 0 || total == 0) {
             value = 0;
         } else {
-            value = math.toFixed(online / total * 100, 2);
+            value = this.math.toFixed(online / total, 2);
         }
 
         let option = {
@@ -398,12 +391,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 2,
+                            width: 4,
                             color: [
-                                [0.25, '#FF6E76'],
-                                [0.5, '#FDDD60'],
-                                [0.75, '#58D9F9'],
-                                [1, '#7CFFB2']
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
                             ]
                         }
                     },
@@ -411,7 +404,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
                         length: '12%',
                         width: 8,
-                        offsetCenter: [0, '-60%'],
+                        offsetCenter: [0, '-50%'],
                         itemStyle: {
                             color: 'inherit'
                         }
@@ -452,18 +445,17 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 16,
+                        fontSize: 20,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value) + '%';
+                            return Math.round(value * 100) + '%';
                         },
                         color: 'inherit'
                     },
                     data: [
                         {
                             value: value,
-                            name: 'Grade Rating'
                         }
                     ]
                 }
@@ -479,12 +471,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = this.state.allCarNetPanel.getDouble('full_load_rate_').toFixed(2);
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 2);
         let option = {
             series: [
                 {
-                    center: ['60%', '80%'],
-                    radius: 65,
+                    center: this.state.gaugeCenter,
+                    radius: this.state.gaugeRadius,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -493,12 +485,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 2,
+                            width: 4,
                             color: [
-                                [0.25, '#FF6E76'],
-                                [0.5, '#FDDD60'],
-                                [0.75, '#58D9F9'],
-                                [1, '#7CFFB2']
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
                             ]
                         }
                     },
@@ -506,7 +498,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
                         length: '12%',
                         width: 8,
-                        offsetCenter: [0, '-60%'],
+                        offsetCenter: [0, '-50%'],
                         itemStyle: {
                             color: 'inherit'
                         }
@@ -547,18 +539,17 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 16,
+                        fontSize: 20,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value) + '%';
+                            return Math.round(value * 100) + '%';
                         },
                         color: 'inherit'
                     },
                     data: [
                         {
                             value: value,
-                            name: 'Grade Rating'
                         }
                     ]
                 }
@@ -573,12 +564,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
-        let value = this.state.allCarNetPanel.getDouble('avg_loss_rate_').toFixed(4);
+        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') / 100, 2);
         let option = {
             series: [
                 {
-                    center: ['60%', '80%'],
-                    radius: 65,
+                    center: this.state.gaugeCenter,
+                    radius: this.state.gaugeRadius,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -587,12 +578,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 2,
+                            width: 4,
                             color: [
-                                [0.25, '#FF6E76'],
-                                [0.5, '#FDDD60'],
-                                [0.75, '#58D9F9'],
-                                [1, '#7CFFB2']
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
                             ]
                         }
                     },
@@ -600,7 +591,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
                         length: '12%',
                         width: 8,
-                        offsetCenter: [0, '-60%'],
+                        offsetCenter: [0, '-50%'],
                         itemStyle: {
                             color: 'inherit'
                         }
@@ -641,18 +632,17 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 16,
+                        fontSize: 20,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value) + '%';
+                            return Math.round(value * 100) + '%';
                         },
                         color: 'inherit'
                     },
                     data: [
                         {
                             value: value,
-                            name: 'Grade Rating'
                         }
                     ]
                 }
@@ -708,8 +698,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             series: [
                 {
                     type: 'pie',
-                    center: ['30%', '53%'],
-                    radius: ['40%', '65%'],
+                    center: ['32%', '53%'],
+                    radius: ['35%', '52%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,

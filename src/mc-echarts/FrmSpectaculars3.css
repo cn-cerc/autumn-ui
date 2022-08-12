@@ -296,6 +296,10 @@
         color: #404D66;
     }
 
+    .mcIntroduction>.corpName>img {
+        width: 1rem;
+    }
+
     .mcIntroduction>.corpName>span {
         margin-left: .125rem;
     }
