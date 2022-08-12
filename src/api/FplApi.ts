@@ -191,6 +191,11 @@ export default class FplApi {
         return ControlApi.getDataOut('SvrDriverDetalis.getSendCarDriver', params);
     }
 
+    /** 查询车辆挂车厢  */
+    static getCarBody(params: DataRow) {
+        return ControlApi.getDataOut('SvrPCarRegistration.getCarBody', params);
+    }
+
     /** 根据车队查询车辆列表 */
     static getCarsByDeptCode(params: DataRow) {
         return ControlApi.getDataOut('SvrPCarRegistration.getCarsByDeptCode', params);
