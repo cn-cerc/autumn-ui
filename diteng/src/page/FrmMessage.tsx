@@ -380,7 +380,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
-                    date = new Date(messageData.latestDate.replaceAll('-','/'));
+                    date = new Date(messageData.latestDate.replace(/-/g, '/'));
                     hour = date.getHours();
                     minut = date.getMinutes();
                     if (minut < 10) minut = '0' + minut;
@@ -650,7 +650,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let messageDataList = await this.getContactData();
         this.setState({
             messageDataList,
-        }, ()=>{
+        }, () => {
             if (!this.isPhone) {
                 this.getMessageData(this.state.currentUserId);
             }
@@ -850,10 +850,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     getCreateBox() {
         if (this.state.showCreate) {
-            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })} success={(ds: DataSet)=>{
+            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })} success={(ds: DataSet) => {
                 this.setState({
                     currentUserId: ds.head.getString('gid')
-                }, ()=>{
+                }, () => {
                     this.updateDataLTR();
                 })
             }}></CreateGroupDialog>
