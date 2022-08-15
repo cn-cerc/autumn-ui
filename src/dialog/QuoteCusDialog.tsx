@@ -53,12 +53,14 @@ export default class QuoteCusDialog extends BaseDialog<QuoteCusProps, StaffTypeS
                     <Column code="line_name_" name="线路名称" width="80"></Column>
                     <Column code="cargo_oriup_" name="订单价" width="50"></Column>
                     <Column code="arrangecar_oriup_" name="运单价" width="50"></Column>
-                    <Column code="send_name_" name="姓名(发)" width="80"></Column>
-                    <Column code="receive_name_" name="姓名(收)" width="80"></Column>
+                    <Column code="arrangecar_oriup_" name="平台费率‰" width="80"></Column>
+                    <Column code="cargo_loss_rate_" name="货损率%" width="60"></Column>
+
+                    <Column code="send_name_" name="发货人" width="80"></Column>
                     <Column code="send_address" name="发货地" width="150" textAlign='center' customText={(row: DataRow) => {
                         return <span> {row.getString("send_city_") + row.getString("send_county_")}</span>
                     }}></Column>
-
+                    <Column code="receive_name_" name="收货人" width="80"></Column>
                     <Column code="receive_address" name="收货地" width="150" textAlign='center' customText={(row: DataRow) => {
                         return <span> {row.getString("receive_city_") + row.getString("receive_county_")}</span>
                     }}></Column>
