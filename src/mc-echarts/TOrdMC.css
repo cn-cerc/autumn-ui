@@ -269,12 +269,12 @@
     position: relative;
 }
 
-.content>ul>li:nth-child(3n+1) {
+.content>ul>li:nth-child(4n+1) {
     margin-left: 0;
 }
 
 .content>ul>li>p {
-    color: #333333;
+    color: #666;
     font-weight: bold;
     padding-bottom: 8px;
     font-size: 14px;
@@ -312,7 +312,7 @@
     }
 
     .content>ul>li {
-        width: calc((100% - 32px)/3);
+        width: calc((100% - 48px)/4);
         border-radius: 4px;
         margin-bottom: 16px;
         margin-left: 16px;
@@ -330,7 +330,7 @@
     }
 
     .content>ul>li {
-        width: calc((100% - 20px)/3);
+        width: calc((100% - 30px)/4);
         margin-bottom: 10px;
         margin-left: 10px;
     }
