@@ -53,7 +53,7 @@ export default class QuoteCusDialog extends BaseDialog<QuoteCusProps, StaffTypeS
                     <Column code="line_name_" name="线路名称" width="80"></Column>
                     <Column code="cargo_oriup_" name="订单价" width="50"></Column>
                     <Column code="arrangecar_oriup_" name="运单价" width="50"></Column>
-                    <Column code="arrangecar_oriup_" name="平台费率‰" width="80"></Column>
+                    <Column code="rate_" name="平台费率‰" width="80"></Column>
                     <Column code="cargo_loss_rate_" name="货损率%" width="60"></Column>
 
                     <Column code="send_name_" name="发货人" width="80"></Column>
