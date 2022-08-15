@@ -119,7 +119,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                     </li>
                     <li>
                         <span>数量</span>
-                        <input type="number" value={this.state.goodsNum} onChange={(e) => { this.saveState({ goodsNum: parseFloat(e.target.value) || null }) }} placeholder='请输入数量' />
+                        <input type="number" value={this.state.goodsNum} onChange={(e) => { this.saveState({ goodsNum: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='请输入数量' />
                     </li>
                     <li>
                         <span>单位</span>
@@ -129,7 +129,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                         <span>订单价</span>
                         <div>
                             <div>
-                                <input type="number" value={this.state.goodsPrice} onChange={(e) => { this.saveState({ goodsPrice: parseFloat(e.target.value) || null }) }} placeholder='输入金额' />
+                                <input type="number" value={this.state.goodsPrice} onChange={(e) => { this.saveState({ goodsPrice: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
                                 <span>/{this.units[this.state.goodsUnit]}</span>
                             </div>
                             <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPrice > 0 ? this.state.goodsNum * this.state.goodsPrice : '0.00'}</span></div>
@@ -139,7 +139,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                         <span>运单价</span>
                         <div>
                             <div>
-                                <input type="number" value={this.state.goodsPriceF} onChange={(e) => { this.saveState({ goodsPriceF: parseFloat(e.target.value) || null }) }} placeholder='输入金额' />
+                                <input type="number" value={this.state.goodsPriceF} onChange={(e) => { this.saveState({ goodsPriceF: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
                                 <span>/{this.units[this.state.goodsUnit]}</span>
                             </div>
                             <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPriceF > 0 ? this.state.goodsNum * this.state.goodsPriceF : '0.00'}</span></div>
@@ -190,10 +190,10 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             receiveDepart: ds.head.getString('destination_'),
             receiveAddress: ds.head.getString('receive_detail_'),
             goodsName: ds.head.getString('code_'),
-            goodsNum: ds.head.getDouble('total_'),
+            goodsNum: parseFloat(ds.head.getString('total_')) || null,
             goodsUnit: ds.head.getDouble('main_unit_'),
-            goodsPrice: ds.head.getDouble('unit_price_'),
-            goodsPriceF: ds.head.getDouble('waybill_unit_price_'),
+            goodsPrice: parseFloat(ds.head.getString('unit_price_')) || null,
+            goodsPriceF: parseFloat(ds.head.getString('waybill_unit_price_')) || null,
             carName: ds.head.getString('car_num_'),
             driverName: ds.head.getString('driver_name_'),
             driverMobile: ds.head.getString('driver_phone_'),
@@ -205,6 +205,10 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             return <span key={unit} className={index == this.state.goodsUnit ? styles.active : ''} onClick={() => this.saveState({ goodsUnit: index })}>{unit}</span>
         })
         return <div>{list}</div>
+    }
+
+    getPrice(val: string) {
+        return val != '0' && !val ? val : Number(val);
     }
 
     saveState(obj: object) {
@@ -222,7 +226,6 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     }
 
     chooseSendInfo(row: DataRow) {
-        console.log(row);
         this.saveState({
             sendName: row.getString('contact_'),
             sendMobile: row.getString('mobile_'),
