@@ -5,7 +5,6 @@ import CreateGroupDialog from "../dialog/CreateGroupDialog";
 import ImageConfig from "../static/ImageConfig";
 import StaticFile from "../static/StaticFile";
 import { showMsg } from "../tool/Summer";
-import Utils from "../tool/Utils";
 import styles from "./FrmMessage.css";
 import AcceptMessage from "./message/AcceptMessage";
 import DefaultMessage from "./message/DefaultMessage";
@@ -38,17 +37,18 @@ type FrmMessageTypeState = {
 
 type messageDetail = {
     data: DataSet,
-    latestDate: string,
+    latestDate: string, // 联系人最新一条消息的时间
     latestMessage: string,
     cropName: string,
-    date: string,
     fromBottom: number,
     fromUser: string,
     name: string,
     unReadNum: number,
     messageText: string,
     remarkText: string,
-    remarkText_: string
+    remarkText_: string,
+    hasHistory: boolean, // 是否有历史消息
+    lastMessageId: string,  //最后一条消息id
 };
 
 type opeartes = {
@@ -76,7 +76,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 data: new DataSet(),
                 latestDate: '',
                 latestMessage: '',
-                date: '',
                 fromBottom: 0,
                 fromUser: '',
                 name: '',
@@ -85,6 +84,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 cropName: '',
                 remarkText_: '',        //默认备注字段，用来判断备注是否有修改
                 remarkText: '',     //备注字段
+                hasHistory: true,
+                lastMessageId: '',
             }],     //消息列表DataSet
             currentUserId: null,
             showMessage,        //是否展示消息列表
@@ -200,16 +201,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let allUnReadNum = 0;
         while (dataOut.fetch()) {
             let latestDate = dataOut.getString('LatestDate_');
-            let date_ = new Date(latestDate);
-            let year_ = date_.getFullYear();
-            let month_ = date_.getMonth() + 1;
-            let day_ = date_.getDate();
             let unReadNum = dataOut.getDouble('UnReadNum_');
             messageDataList.push({
                 data: new DataSet(),
                 latestDate,
                 latestMessage: dataOut.getString('LatestMessage_'),
-                date: `${year_}-${month_ < 10 ? '0' + month_ : month_}-${day_ < 10 ? '0' + day_ : day_}`,
                 fromBottom: 0,
                 fromUser: dataOut.getString('FromUser_'),
                 name: dataOut.getString('Name_'),
@@ -217,7 +213,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 cropName: dataOut.getString('FromCorp_'),
                 messageText: '',
                 remarkText: '',
-                remarkText_: ''
+                remarkText_: '',
+                hasHistory: true,
+                lastMessageId: ''
             })
             allUnReadNum += unReadNum;
         }
@@ -262,7 +260,6 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     data: messageDataList[num].data,
                     latestDate,
                     latestMessage,
-                    date: messageDataList[num].date,
                     fromBottom: messageDataList[num].fromBottom,
                     fromUser: messageDataList[num].fromUser,
                     name: messageDataList[num].name,
@@ -270,19 +267,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     cropName: messageDataList[num].cropName,
                     messageText: messageDataList[num].messageText,
                     remarkText: messageDataList[num].remarkText,
-                    remarkText_: messageDataList[num].remarkText_
+                    remarkText_: messageDataList[num].remarkText_,
+                    hasHistory: messageDataList[num].hasHistory,
+                    lastMessageId: messageDataList[num].lastMessageId
                 }
             } else {
                 unReadNum = dataOut.getDouble('UnReadNum_');
-                date_ = new Date(latestDate);
-                year_ = date_.getFullYear();
-                month_ = date_.getMonth() + 1;
-                day_ = date_.getDate();
                 messageDataList.unshift({
                     data: new DataSet(),
                     latestDate: dataOut.getString('LatestDate_'),
                     latestMessage: dataOut.getString('LatestMessage_'),
-                    date: `${year_}-${month_ < 10 ? '0' + month_ : month_}-${day_ < 10 ? '0' + day_ : day_}`,
                     fromBottom: 0,
                     fromUser: dataOut.getString('FromUser_'),
                     name: dataOut.getString('Name_'),
@@ -290,7 +284,9 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                     unReadNum,
                     messageText: '',
                     remarkText: '',
-                    remarkText_: ''
+                    remarkText_: '',
+                    hasHistory: true,
+                    lastMessageId: dataOut.getString('UID_')
                 })
             }
             allUnReadNum += unReadNum;
@@ -317,7 +313,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let contact = document.querySelector('#contact') as HTMLSpanElement;
         contact.innerHTML = contactInfo.getString('Mobile_');
         let remark = document.querySelector('#remark') as HTMLTextAreaElement;
-        remark.value = decodeURIComponent(messageData.remarkText);
+        let savBtn = document.querySelector('.remarkBox') as HTMLTextAreaElement;
+        if(messageData.fromUser) {
+            remark.value = decodeURIComponent(messageData.remarkText);
+            remark.style.display = 'block';
+            savBtn.style.display = 'flex';
+        } else {
+            remark.style.display = 'none';
+            savBtn.style.display = 'none';
+        }
+            
         let saveBtn = document.querySelector('#saveBtn') as HTMLButtonElement;
         if (messageData.remarkText == messageData.remarkText_) {
             saveBtn.classList.remove('change');
@@ -327,11 +332,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     // 获取单个联系人消息详情
-    async getMessageData(id: string, date?: string) {
+    async getMessageData(id: string) {
         let messageData = this.getMessageDataByCode(id);
-        let date_ = date ? date : messageData.latestDate;
         let row = new DataRow();
-        row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date_);
+        row.setValue('FromUser_', messageData.fromUser);
         let dataOut = await DitengApi.getMessageDetails(row);
         if (this.closeServerFun(dataOut.state)) {
             return;
@@ -348,10 +352,16 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             }
         }
         if (ds.size > 1) {
-            ds.setSort('AppDate_');
+            ds.setSort('UID_');
         }
-        messageData.data = ds;
-        messageData.latestDate = date_;
+        if (ds.size) {
+            ds.first();
+            messageData.data = ds;
+            messageData.lastMessageId = ds.getString('UID_');
+            messageData.latestDate = ds.getString('AppDate_');
+        }
+        if(dataOut.size < 100)
+            messageData.hasHistory = false;
         this.setState({
             currentUserId: id,
         });
@@ -359,10 +369,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     // 获取历史消息
-    async getHistoryData(date: string) {
+    async getHistoryData(messageId: string) {
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         let row = new DataRow();
-        row.setValue('FromUser_', messageData.fromUser).setValue('Date_', date);
+        row.setValue('FromUser_', messageData.fromUser).setValue('offset', messageId);
         let dataOut = await DitengApi.getMessageDetails(row);
         if (this.closeServerFun(dataOut.state)) {
             return;
@@ -380,7 +390,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 let cropName = messageData.cropName;
                 let date, hour, minut: string | number, timeText: string = '';
                 if (messageData.latestDate) {
-                    date = new Date(messageData.latestDate.replaceAll('-','/'));
+                    date = new Date(messageData.latestDate?.replace(/-/g,'/'));
                     hour = date.getHours();
                     minut = date.getMinutes();
                     if (minut < 10) minut = '0' + minut;
@@ -393,7 +403,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                         continue;
                     }
                 }
-                list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.latestDate, messageData.fromUser)} onContextMenuCapture={this.handleContextMenuCapture.bind(this, num)}>
+                list.push(<li key={num} className={messageData.fromUser == this.state.currentUserId ? styles.selectContact : ''} onClick={this.handleClick.bind(this, messageData.fromUser)} onContextMenuCapture={this.handleContextMenuCapture.bind(this, num)}>
                     <div className={styles.contactImage} style={{ 'backgroundColor': imageColorArr[i % 7] }}>{name == '系统消息' ? '系统' : name.substring(name.length - 2)}</div>
                     <div>
                         {unread ? <span className={styles.UnReadNum}>{unread}</span> : ''}
@@ -468,6 +478,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         </li>)
         ds.appendDataSet(messageData.data);
         ds.first();
+        
         while (ds.fetch()) {
             let isSelf = false, systemMsg = false, msgStatus = ds.getString('Status_');
             let name = ds.getString('Name_') || messageData.name;
@@ -566,7 +577,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         return !formUser || formUser.startsWith('g_');
     }
 
-    // 移除会话
+    // 清除未读
     async cleanUnread() {
         let dataOut = await DitengApi.cleanUnread(new DataRow().setValue('FromUser_', this.state.messageDataList[this.state.opeartes.index].fromUser));
         if (dataOut.state > 0)
@@ -581,49 +592,31 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     }
 
     reloadMessage() {
-        this.getMessageData(this.state.currentUserId, Utils.getNowDate())
+        this.getMessageData(this.state.currentUserId)
     }
 
     getHistoryBtn(messageData: messageDetail) {
-        if (this.moreThanOneMonth(messageData.date)) {
+        // return <span className={styles.noHistory}>暂无更多历史消息</span>
+        if (!messageData.hasHistory) {
             return <span className={styles.noHistory}>暂无更多历史消息</span>
         } else {
             return <span className={styles.historicalRecordsBtn} onClick={this.getHistoricalRecordsFun.bind(this)}>获取更多历史消息</span>;
         }
     }
 
-    moreThanOneMonth(date: string) {
-        let date_ = new Date(date);
-        let year_ = date_.getFullYear();
-        let month_ = date_.getMonth() + 1;
-        let day_ = date_.getDate();
-        let _date = new Date();
-        let _year = _date.getFullYear();
-        let _month = _date.getMonth() + 1;
-        let _day = _date.getDate();
-        let bool = true;
-        if (year_ == _year && month_ == _month)
-            bool = false;
-        else if (year_ == year_ && month_ != _month && day_ >= _day)
-            bool = false
-        else if (year_ != year_ && month_ == 12 && _month == 1 && day_ >= _day)
-            bool = false;
-        return bool;
-    }
-
     // 点击联系人触发的事件
-    async handleClick(date: string, id: string) {
+    async handleClick(id: string) {
         this.removeTimer();
         let messageData = this.getMessageDataByCode(id);
         if (!this.isPhone) {
-            await this.getMessageData(id, date);
+            await this.getMessageData(id);
             this.getUserInfo();
             this.startTimer();
         } else {
             this.setState({
                 currentUserId: id
             }, () => {
-                location.href = `./FrmMyMessage.details?fromUser=${encodeURIComponent(messageData.fromUser)}&date=${encodeURIComponent(date)}&name=${encodeURIComponent(messageData.name)}`;
+                location.href = `./FrmMyMessage.details?fromUser=${encodeURIComponent(messageData.fromUser)}&name=${encodeURIComponent(messageData.name)}`;
             })
         }
 
@@ -650,7 +643,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let messageDataList = await this.getContactData();
         this.setState({
             messageDataList,
-        }, ()=>{
+        }, () => {
             if (!this.isPhone) {
                 this.getMessageData(this.state.currentUserId);
             }
@@ -686,7 +679,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
             messageDataList,
             currentUserId: messageData.fromUser
         }, () => {
-            this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            this.getMessageData(messageData.fromUser);
         })
     }
 
@@ -698,7 +691,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         formData.set('ToUser_', messageData.fromUser);
         let ds = await DitengApi.replyImageMessage(formData);
         if (ds.state > 0) {
-            this.getMessageData(messageData.fromUser, Utils.getNowDate());
+            this.getMessageData(messageData.fromUser);
             messageData.messageText = '';
             messageData.fromBottom = 0;
             let messageDataList = await this.getContactData();
@@ -706,7 +699,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 messageDataList,
                 currentUserId: messageData.fromUser
             }, () => {
-                this.getMessageData(messageData.fromUser, Utils.getNowDate());
+                this.getMessageData(messageData.fromUser);
             })
         } else
             showMsg(ds.message);
@@ -742,7 +735,7 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 messageDataList,
                 currentUserId: messageData.fromUser
             }, () => {
-                this.getMessageData(messageData.fromUser, Utils.getNowDate());
+                this.getMessageData(messageData.fromUser);
             })
         }
     }
@@ -770,6 +763,8 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
         let row = new DataRow();
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
         row.setValue('UserCode_', messageData.fromUser)
+        if(!messageData.fromUser)
+            return '';
         let dataOut = await DitengApi.getUserRemark(row);
         if (this.closeServerFun(dataOut.state)) {
             return;
@@ -789,19 +784,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
     //获取历史消息 每次点击都获取当前查询时间 前一天
     async getHistoricalRecordsFun() {
         let messageData = this.getMessageDataByCode(this.state.currentUserId);
-        let beginTimer = new Date(messageData.date).getTime();
-        let endTimer = beginTimer - (24 * 60 * 60 * 1000 * 7);
-        let date = new Date(endTimer);
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        let date_ = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        let dataOut = await this.getHistoryData(date_);
-        if (dataOut.size <= 0 && !this.moreThanOneMonth(date_)) {
-            messageData.date = date_;
-            this.setState(this.state, () => {
-                this.getHistoricalRecordsFun();
-            })
+        let dataOut = await this.getHistoryData(messageData.lastMessageId);
+        if (dataOut.size < 100) {
+            messageData.hasHistory = false;
+            this.setState(this.state);
         } else {
             let ds = new DataSet();
             ds.appendDataSet(messageData.data);
@@ -815,10 +801,11 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
                 }
             }
             if (ds.size > 1) {
-                ds.setSort('AppDate_');
+                ds.setSort('UID_');
             }
+            ds.first();
             messageData.data = ds;
-            messageData.date = date_;
+            messageData.lastMessageId = ds.getString('UID_');
             this.setState(this.state, () => {
                 this.initMessageScroll();
             });
@@ -850,10 +837,10 @@ export default class FrmMessage extends WebControl<FrmMessageTypeProps, FrmMessa
 
     getCreateBox() {
         if (this.state.showCreate) {
-            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })} success={(ds: DataSet)=>{
+            return <CreateGroupDialog onClose={() => this.setState({ showCreate: false })} success={(ds: DataSet) => {
                 this.setState({
                     currentUserId: ds.head.getString('gid')
-                }, ()=>{
+                }, () => {
                     this.updateDataLTR();
                 })
             }}></CreateGroupDialog>

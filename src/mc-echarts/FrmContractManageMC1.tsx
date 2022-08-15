@@ -124,18 +124,22 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
                 trigger: 'item'
             },
             legend: {
-                top: '5%',
+                top: 'center',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                itemGap:5,
                 formatter: (name: any) => {
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
                     return name + ' : ' + singleData[0].value;
                 },
+                textStyle: {
+                    lineHeight: 10,
+                }
             },
             grid: {
                 top: 40,
@@ -191,12 +195,13 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
                 trigger: 'item'
             },
             legend: {
-                top: '5%',
+                top: 'center',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                itemGap:5,
                 formatter: (name: any) => {
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
@@ -247,7 +252,7 @@ export default class FrmContractManageMC1 extends WebControl<FrmContractManageMC
         }
         let option = {
             grid: {
-                top: 10,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,
