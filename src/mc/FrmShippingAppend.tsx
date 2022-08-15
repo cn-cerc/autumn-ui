@@ -389,6 +389,8 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             this.client.remove('state');
             showMsg('发布成功');
             location.href = 'FrmShipping';
+        } else {
+            showMsg(dataOut.message);
         }
     }
 }
