@@ -21,8 +21,6 @@ type FrmSpectaculars1TypeState = {
     online_num: number,
     cars_num: number,
     driver_num: number,
-    gaugeCenter: Array<string>,
-    gaugeRadius: number,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -43,8 +41,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             online_num: 0,
             cars_num: 0,
             driver_num: 0,
-            gaugeCenter: ['55%', '85%'],
-            gaugeRadius: 62
         }
     }
 
@@ -148,12 +144,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     componentDidMount(): void {
-        if (this.isPhone) {
-            this.setState({
-                gaugeCenter: ['50%', '80%'],
-                gaugeRadius: 90
-            })
-        }
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
         if (!this.isPhone)
@@ -327,8 +317,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -423,8 +413,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -518,8 +508,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,

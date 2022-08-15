@@ -13,8 +13,6 @@ type FrmSpectaculars2TypeState = {
     lineData: DataSet,
     pieData1: DataSet,
     toggle: number,
-    gaugeCenter: Array<string>,
-    gaugeRadius: number,
 }
 
 export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypeProps, FrmSpectaculars2TypeState> {
@@ -38,8 +36,6 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
             lineData,
             pieData1,
             toggle,
-            gaugeCenter: ['55%', '85%'],
-            gaugeRadius: 55
         }
     }
 
@@ -149,25 +145,25 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-11 08.36 <span className={styles.colorSkin}>湘AH6344</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-13 08.36 <span className={styles.colorSkin}>湘AH6344</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-11 10:56 <span className={styles.colorSkin}>粤AK3316</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-12 10:56 <span className={styles.colorSkin}>粤AK3316</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-11 11:22 <span className={styles.colorSkin}>粤BW22C6</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-12 15:22 <span className={styles.colorSkin}>粤BW22C6</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-11 11:54 <span className={styles.colorSkin}>桂A32X31</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-11 07:54 <span className={styles.colorSkin}>桂A32X31</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-11 14:10 <span className={styles.colorSkin}>闽B346D5</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-11 12:10 <span className={styles.colorSkin}>闽B346D5</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-11 16:41 <span className={styles.colorSkin}>赣B33C24</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-10 16:41 <span className={styles.colorSkin}>赣B33C24</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-11 18:30 <span className={styles.colorSkin}>粤AC6666</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-10 18:30 <span className={styles.colorSkin}>粤AC6666</span> 行驶超速
                                     </li>
                                 </ul>
                             </div>
@@ -179,22 +175,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
     }
 
     componentDidMount(): void {
-        if (this.isPhone) {
-            this.setState({
-                gaugeCenter: ['50%', '80%'],
-                gaugeRadius: 90
-            }, () => {
-                this.initLineChart();
-                this.initPieChart1();
-                this.initPieChart2();
-                this.initPieChart3();
-            })
-        } else {
-            this.initLineChart();
-            this.initPieChart1();
-            this.initPieChart2();
-            this.initPieChart3();
-        }
+        this.initLineChart();
+        this.initPieChart1();
+        this.initPieChart2();
+        this.initPieChart3();
     }
 
     //近一周车辆异常
@@ -350,8 +334,8 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 55,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
