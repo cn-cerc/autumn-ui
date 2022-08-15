@@ -180,7 +180,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
         let headIn = new DataRow();
         headIn.setValue('tb_no_', this.props.tbNo);
         let ds = await FplApi.copyShipping(headIn);
-        this.saveState({
+        this.setState({
             sendName: ds.head.getString('send_name_'),
             sendMobile: ds.head.getString('send_phone_'),
             sendDepart: ds.head.getString('depart_'),
