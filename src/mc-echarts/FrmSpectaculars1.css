@@ -134,6 +134,10 @@
         margin-bottom: 10px;
     }
 
+    .rightBox2 {
+        padding: 16px 15px 16px 20px;
+    }
+
     .leftSiteEcharts,
     .rIghtSiteEcharts {
         width: 20%;
@@ -194,13 +198,8 @@
     }
 
     .leftBox3,
-    .centerBox2,
-    .rightBox3 {
+    .centerBox2 {
         margin-bottom: 0;
-    }
-
-    .rightBox3 {
-        overflow: auto;
     }
 
     .srcollListMain {
@@ -254,7 +253,7 @@
         border-radius: 50%;
         background-color: #308DF2;
         transform: translateY(-1px);
-        margin-right: 5px;
+        margin-right: 4px;
     }
 
     .mcMainNoPB {
@@ -512,7 +511,7 @@
         background-color: rgba(0, 0, 0, .1);
     }
 
-    .totopBoxp>div>ul>li>div:first-child {
+    .topBox>div>ul>li>div:first-child {
         font-size: 14px;
         color: #666666;
     }

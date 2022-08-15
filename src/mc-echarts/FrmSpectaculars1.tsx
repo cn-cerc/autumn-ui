@@ -46,8 +46,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             gaugeCenter: ['55%', '85%'],
             gaugeRadius: 62
         }
-
-
     }
 
     render(): React.ReactNode {
@@ -57,7 +55,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
                     <span>{this.props.corpName}</span>
                 </div>
-                <span>营运数据中心</span>
+                <span>车辆网看板</span>
                 <div className={styles.toggleIcons}>
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </div>
@@ -295,7 +293,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         color: MCChartColors[0],
                         width: 1
                     },
-                    areaStyle: {},
                     label: {
                         show: true
                     }
@@ -348,7 +345,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         color: MCChartColors[0],
                         width: 1
                     },
-                    areaStyle: {},
                     label: {
                         show: true
                     }
@@ -367,7 +363,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let online = this.state.online_num, total = this.state.cars_num;
+        let online = this.state.online_num, total = this.state.carData.head.getNumber('total_');
         if (!online) {
             online = 0;
         }
