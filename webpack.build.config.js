@@ -3,10 +3,10 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
 	entry: {
-        common: './src/webpack/common.ts',
-        mc: './src/webpack/mc.ts',
-        mcEcharts: './src/webpack/mc-echarts.ts',
-        export: './src/webpack/export.ts',
+		common: './src/webpack/common.ts',
+		mc: './src/webpack/mc.ts',
+		mcEcharts: './src/webpack/mc-echarts.ts',
+		export: './src/webpack/export.ts',
 	},
 	output: {
 		filename: './aui-[name].js',
@@ -66,6 +66,16 @@ module.exports = {
 				test: /\.(woff|woff2|ttf)$/,
 				generator: {
 					filename: 'iconfont/[name][ext][query]'
+				}
+			},
+			{
+				test: /\.m?js$/,
+				exclude: /(node_modules|bower_components)/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env']
+					}
 				}
 			}
 		]

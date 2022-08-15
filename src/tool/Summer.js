@@ -221,6 +221,7 @@ function callPhoneNumber(mobile) {
 class GDMap {
     map;
     geocoder;
+    labelLayer;
     initMap(container, config) {
         if (!AMap)
             throw new Error('缺少高德地图依赖文件');
@@ -359,6 +360,42 @@ class GDMap {
         return marker;
     }
 
+    addLableMark(config, content) {
+        if (!this.map)
+            throw new Error('请先初始化地图容器');
+        if (!AMap)
+            throw new Error('缺少高德地图依赖文件');
+        if (!this.labelLayer) {
+            this.labelLayer = new AMap.LabelsLayer({
+                zooms: [3, 20],
+                zIndex: 1000,
+                collision: false,
+                allowCollision: false,
+            });
+            this.map.add(this.labelLayer);
+        }
+        let mark = new AMap.LabelMarker({
+            opacity: 1,
+            zIndex: 10,
+            fold: true,
+            icon: {
+                type: 'image',
+                image: getStaticFileImage("images/mapPoint.png"),
+                size: [24, 24],
+                anchor: 'bottom-center',
+            },
+            ...config
+        })
+        mark.on('click', () => {
+            let infoWindow = new AMap.InfoWindow({
+                offset: new AMap.Pixel(0, -25),
+                content
+            });
+            infoWindow.open(this.map, [config.position[0], config.position[1]]);
+        })
+        this.labelLayer.add(mark);
+    }
+
     showLine(startLng, startLat, endLng, endLat, callBack) {
         if (!this.map)
             throw new Error('请先初始化地图容器');
@@ -418,6 +455,12 @@ class GDMap {
         }
 
     }
+
+    clear() {
+        if (!this.map)
+            return;
+        this.map.clearMap();
+    }
 }
 
 function addScript(url, callBack) {
@@ -426,6 +469,19 @@ function addScript(url, callBack) {
     script.setAttribute('type', 'text/javascript');
     script.onload = callBack;
     document.body.appendChild(script);
+}
+
+function getStaticFileImage(imgSrc) {
+    let staticPath = '';
+    try {
+        //@ts-ignore
+        if (window.Application.staticPath)
+            //@ts-ignore
+            staticPath = window.Application.staticPath + '/';
+    } catch {
+        staticPath = '';
+    }
+    return staticPath + imgSrc;
 }
 
 export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap, addScript };

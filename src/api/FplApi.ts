@@ -186,6 +186,16 @@ export default class FplApi {
         return ControlApi.getDataOut('SvrPDriverBindingRecord.getDriverByCarNo', params);
     }
 
+    /** 查询司机 --用于派车使用 */
+    static getSendCarDriver(params: DataRow) {
+        return ControlApi.getDataOut('SvrDriverDetalis.getSendCarDriver', params);
+    }
+
+    /** 查询车辆挂车厢  */
+    static getCarBody(params: DataRow) {
+        return ControlApi.getDataOut('SvrPCarRegistration.getCarBody', params);
+    }
+
     /** 根据车队查询车辆列表 */
     static getCarsByDeptCode(params: DataRow) {
         return ControlApi.getDataOut('SvrPCarRegistration.getCarsByDeptCode', params);
@@ -266,8 +276,45 @@ export default class FplApi {
     static getQueryCarsLocation() {
         return ControlApi.getService('SvrCarNetMonitorPanel.queryCarsLocation');
     }
-    
-    
+    /** 车联网看板=》 查询今日里程数 */
+    static getQueryMileageD() {
+        return ControlApi.getService('SvrCarNetMonitorPanel.queryMileageD');
+    }
+
+    /** 安全监控中心=》 获取交易状态--已成交数、未成交数 */
+    static getDealStatus() {
+        return ControlApi.getService('SvrDataMonitorPanel.getDealStatus');
+    }
+    /** 安全监控中心=》 获取数据监控中心的数据(总交易金额、总物流运单数)  */
+    static getAllDataPanelData() {
+        return ControlApi.getService('SvrDataMonitorPanel.getAllDataPanelData');
+    }
+    /** 安全监控中心=》 获取货物重量前三名  */
+    static getCargoWeightTop3() {
+        return ControlApi.getService('SvrDataMonitorPanel.getCargoWeightTop3');
+    }
+    /** 安全监控中心=》 司机接单Top5   */
+    static getQueryDriverOrderTop5() {
+        return ControlApi.getService('SvrDataMonitorPanel.getDriverOrderTop5');
+    }
+    /** 安全监控中心=》 查询总里程数   */
+    static queryMileageTotal() {
+        return ControlApi.getService('SvrDataMonitorPanel.queryMileageTotal');
+    }
+    /** 安全监控中心=》 获取一周交易金额   */
+    static getWeeklyOrderAmount() {
+        return ControlApi.getService('SvrDataMonitorPanel.getWeeklyOrderAmount');
+    }
+    /** 安全监控中心=》 获取一周交易笔数   */
+    static getWeeklyOrderCount() {
+        return ControlApi.getService('SvrDataMonitorPanel.getWeeklyOrderCount');
+    }
+    /** 安全监控中心=》 获取一周运单重量   */
+    static getWeeklyArrangeWeight() {
+        return ControlApi.getService('SvrDataMonitorPanel.getWeeklyArrangeWeight');
+    }
+
+
     /** 货运管理急速版 => 按月分组统计的物流运单数量  */
     static getMonthlyArrCarStatis() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
@@ -275,10 +322,5 @@ export default class FplApi {
     /** 根据支行缩写查询支行名称 */
     static getBankCorrection(params: DataRow) {
         return ControlApi.getDataOut('SvrBankCorrection.query', params);
-    }
-
-    /** 获取当前账套下面车辆信息 */
-    static queryCarsCurrentLocation() {
-        return ControlApi.getService('SvrCarTrajectories.queryCarsCurrentLocation');
     }
 }

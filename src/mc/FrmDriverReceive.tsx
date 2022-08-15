@@ -9,8 +9,6 @@ import styles from "./FrmDriverReceive.css";
 type FrmDriverReceiveTypeProps = {
     introduction: string,
     chartsJson: string,
-    noAccount: boolean,
-    noVerify: boolean,
 }
 
 type FrmDriverReceiveTypeState = {
@@ -57,7 +55,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成</li>
                 </ul>
                 {this.getOrderList()}
-                {this.openTips()}
             </React.Fragment>
         } else {
             return <React.Fragment>
@@ -102,7 +99,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     </div>
                 </div>
                 {this.getDBGrid()}
-                {this.openTips()}
             </React.Fragment>
         }
     }
@@ -131,11 +127,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     // 发货地详细地址
                     let sendSite1 = gridData.getString('send_detail_');
                     // 发货地
-                    let sendSite2 = gridData.getString('depart_').replaceAll('/', '');
+                    let sendSite2 = gridData.getString('depart_').replace(/\//g, '');
                     // 目的地详细地址
                     let receiveSite1 = gridData.getString('receive_detail_');
                     // 目的地
-                    let receiveSite2 = gridData.getString('destination_').replaceAll('/', '');
+                    let receiveSite2 = gridData.getString('destination_').replace(/\//g, '');
                     let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
                     let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
                     let sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite);
@@ -329,9 +325,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
                 <div className={styles.orderCenter}>
                     <div className={styles.orderInfo}>
-                        <span className={styles.siteSkin}>{`${row.getString('depart_').replaceAll('\\', '')}${row.getString('send_detail_')}`}</span>
-                        <span className={styles.siteSkin}>{`${row.getString('destination_').replaceAll('\\', '')}${row.getString('receive_detail_')}`}</span>
-                        <span><i>货物明细</i>{row.getString('code_')} | {row.getString('total_')}{[this.unitArr[row.getDouble('main_unit_')]]} | {row.getString('unit_price_')}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g , '')}${row.getString('send_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('destination_').replace(/\\/g, '')}${row.getString('receive_detail_')}`}</span>
+                        <span><i>货物明细</i>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} | {this.fromatPriceFun(row.getString('unit_price_'))}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
                         <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
                         <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
                     </div>
@@ -349,39 +345,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     // 接单
     handleSelect(row: DataRow) {
-        if (row.getDouble('delivery_status_') == 1) {
-            if (this.props.noAccount || this.props.noVerify) {
-                this.setState({
-                    openTipsFlag: true
-                })
-                return;
-            }
-        }
         location.href = `FrmDriverArrangeCar.detail?cargoNo=${row.getString('cargo_no_')}&tbNo=${row.getString('tb_no_')}&dcorpno=${row.getString('d_corp_no_')}&it=${row.getDouble('it_')}`;
-    }
-
-    // 接单未认证身份 提示
-    openTips() {
-        if (!this.state.openTipsFlag) { return }
-        return <div className={styles.alertShadow}>
-            <div className={styles.alertBox}><div>
-                <h1 className={styles.alertTitle}>温馨提示</h1>
-                <p className={styles.alertCon}>您还没有身份认证，无法接单！点确认前往身份认证。</p>
-            </div>
-                <ul>
-                    <li className={styles.alertCancel} onClick={() => {
-                        this.setState({
-                            openTipsFlag: false
-                        })
-                    }}>取消</li>
-                    <li className={styles.alertConfirm} onClick={() => {
-                        this.setState({
-                            openTipsFlag: false
-                        })
-                    }}>确认</li>
-                </ul>
-            </div>
-        </div>
     }
 
     // 查看路线
@@ -390,11 +354,11 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             // 发货地详细地址
             let sendSite1 = row.getString('send_detail_');
             // 发货地
-            let sendSite2 = row.getString('depart_').replaceAll('/', '');
+            let sendSite2 = row.getString('depart_').replace(/\//g, '');
             // 目的地详细地址
             let receiveSite1 = row.getString('receive_detail_');
             // 目的地
-            let receiveSite2 = row.getString('destination_').replaceAll('/', '');
+            let receiveSite2 = row.getString('destination_').replace(/\//g, '');
             let sendSite = sendSite1.indexOf(sendSite2) > -1 ? sendSite1 : sendSite2 + sendSite1;
             let receiveSite = receiveSite1.indexOf(receiveSite2) > -1 ? receiveSite1 : receiveSite2 + receiveSite1;
             this.gdmap.routePlanInApp(sendSite, receiveSite);
@@ -450,5 +414,12 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             str = `${dateObj.getFullYear()}年${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日`;
         }
         return str;
+    }
+
+    fromatPriceFun(num:any){
+        let d = Math.round(num*100) / 100;
+        const price = (d+"").split(".");
+        price[1] = price[1]?`${(price[1]+"000").substring(0,2)}`:"00";
+        return price.join(".");
     }
 }
