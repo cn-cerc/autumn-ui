@@ -338,4 +338,9 @@ export default class FplApi {
     static copyShipping(params: DataRow) {
         return ControlApi.getDataOut('SvrShipping.copyShipping', params);
     }
+
+    /** 查询所有客户最新线路数值  */
+    static getQuoteCusList(params: DataRow) {
+        return ControlApi.getDataOut('SvrTransportQuote.queryCusLine', params);
+    }
 }
