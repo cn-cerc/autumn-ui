@@ -325,16 +325,16 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
                 <div className={styles.orderCenter}>
                     <div className={styles.orderInfo}>
-                        <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g , '')}${row.getString('send_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g, '')}${row.getString('send_detail_')}`}</span>
                         <span className={styles.siteSkin}>{`${row.getString('destination_').replace(/\\/g, '')}${row.getString('receive_detail_')}`}</span>
-                        <span><i>货物明细</i>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} | {this.fromatPriceFun(row.getString('unit_price_'))}元/{[this.unitArr[row.getDouble('main_unit_')]]}</span>
+                        <span><i>货物明细</i>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} {row.getInt('driver_type_') == 1 ? `| ${this.fromatPriceFun(row.getString('unit_price_'))}元/${[this.unitArr[row.getDouble('main_unit_')]]}` : ''}</span>
                         <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
                         <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>
                 <div className={styles.orderBottom}>
-                    <div className={styles.freight}>￥<span>{math.toFixed(row.getString('amount_'), 2)}</span></div>
+                    <div className={styles.freight}>{row.getInt('driver_type_') == 1 ? '￥' : ''}<span>{row.getInt('driver_type_') == 1 ? math.toFixed(row.getString('amount_'), 2) : ''}</span></div>
                     <div className={styles.btns}>
                         {isReceived ? <button className={styles.btn_detail}>详情</button> : <button>接单</button>}
                     </div>
@@ -416,10 +416,10 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         return str;
     }
 
-    fromatPriceFun(num:any){
-        let d = Math.round(num*100) / 100;
-        const price = (d+"").split(".");
-        price[1] = price[1]?`${(price[1]+"000").substring(0,2)}`:"00";
+    fromatPriceFun(num: any) {
+        let d = Math.round(num * 100) / 100;
+        const price = (d + "").split(".");
+        price[1] = price[1] ? `${(price[1] + "000").substring(0, 2)}` : "00";
         return price.join(".");
     }
 }
