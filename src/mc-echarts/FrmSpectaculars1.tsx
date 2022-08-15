@@ -303,58 +303,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
-    initLineChart() {
-        let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
-        let myChart = echarts.getInstanceByDom(lineChart);
-        if (!myChart)
-            myChart = echarts.init(lineChart);
 
-        let ds = this.state.weeklyArrCarStatis;
-        let xArr = [];
-        let sData = [];
-        while (ds.fetch()) {
-            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
-            sData.push(ds.getDouble('arr_total_'));
-        }
-        let option = {
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: xArr
-            },
-            yAxis: {
-                show: false,
-            },
-            lengend: {},
-            tooltip: {},
-            grid: {
-                top: 20,
-                left: 20,
-                bottom: 20,
-                right: 20,
-            },
-            series: [
-                {
-                    data: sData,
-                    type: 'line',
-                    smooth: true,
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0],
-                        width: 1
-                    },
-                    label: {
-                        show: true
-                    }
-                },
-            ]
-        };
 
-        //@ts-ignore
-        myChart.setOption(option);
-    }
 
     //在线率
     initPieChart1() {
@@ -461,6 +411,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //满载率
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
@@ -555,6 +507,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //货损率
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
@@ -648,6 +602,62 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //物流运单
+    initLineChart() {
+        let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(lineChart);
+        if (!myChart)
+            myChart = echarts.init(lineChart);
+
+        let ds = this.state.weeklyArrCarStatis;
+        let xArr = [];
+        let sData = [];
+        while (ds.fetch()) {
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('arr_total_'));
+        }
+        let option = {
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: xArr
+            },
+            yAxis: {
+                show: false,
+            },
+            lengend: {},
+            tooltip: {},
+            grid: {
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
+            },
+            series: [
+                {
+                    data: sData,
+                    type: 'line',
+                    smooth: true,
+                    itemStyle: {
+                        color: MCChartColors[0]
+                    },
+                    lineStyle: {
+                        color: MCChartColors[0],
+                        width: 1
+                    },
+                    label: {
+                        show: true
+                    }
+                },
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //区域排名TOPS
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
@@ -694,8 +704,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             series: [
                 {
                     type: 'pie',
-                    center: ['32%', '53%'],
-                    radius: ['35%', '52%'],
+                    center: this.isPhone ? ['30%', '55%'] : ['28%', '50%'],
+                    radius: this.isPhone ? ['50%', '80%'] : ['30%', '55%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,

@@ -12,7 +12,6 @@ type FrmSpectaculars2TypeProps = {
 type FrmSpectaculars2TypeState = {
     lineData: DataSet,
     pieData1: DataSet,
-    pieData2: DataSet,
     toggle: number,
     gaugeCenter: Array<string>,
     gaugeRadius: number,
@@ -34,16 +33,10 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         pieData1.append().setValue('Value_', 20).setValue('Name_', '小型');
         pieData1.append().setValue('Value_', 30).setValue('Name_', '中型');
         pieData1.append().setValue('Value_', 15).setValue('Name_', '大型');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             lineData,
             pieData1,
-            pieData2,
             toggle,
             gaugeCenter: ['55%', '85%'],
             gaugeRadius: 55
@@ -204,6 +197,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         }
     }
 
+    //近一周车辆异常
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
@@ -256,6 +250,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         myChart.setOption(option);
     }
 
+    //异常情况
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
@@ -344,6 +339,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         myChart.setOption(option);
     }
 
+    //违章率
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie2}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
@@ -438,6 +434,8 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //事故率
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie3}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
