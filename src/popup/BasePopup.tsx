@@ -4,7 +4,6 @@ import StaticFile from "../static/StaticFile";
 import styles from "./BasePopup.css";
 
 export type BasePopupTypeProps = {
-    height: string,
     title?: string,
     inputId?: string,
 }
