@@ -297,7 +297,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 {
                     type: 'pie',
                     center: this.isPhone ? ['30%', '55%'] : ['50%', '30%'],
-                    radius: this.isPhone ? ['50%', '80%'] : ['25%', '48%'],
+                    radius: this.isPhone ? ['50%', '80%'] : ['25%', '50%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -430,8 +430,8 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 55,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
