@@ -323,4 +323,19 @@ export default class FplApi {
     static getBankCorrection(params: DataRow) {
         return ControlApi.getDataOut('SvrBankCorrection.query', params);
     }
+
+    /** 获取当前账套下面车辆信息 */
+    static queryCarsCurrentLocation() {
+        return ControlApi.getService('SvrCarTrajectories.queryCarsCurrentLocation');
+    }
+
+    /** 极速版我要发货 */
+    static appendAndTakeEffect(params: DataRow) {
+        return ControlApi.getDataOut('SvrShipping.appendAndTakeEffect', params);
+    }
+
+    /** 极速版再来一单根据单号查询已填写数据 */
+    static copyShipping(params: DataRow) {
+        return ControlApi.getDataOut('SvrShipping.copyShipping', params);
+    }
 }

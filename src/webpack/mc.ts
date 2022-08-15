@@ -14,6 +14,7 @@ import FrmOEMAppend from "../mc/FrmOEMAppend";
 import FrmOEMChange from "../mc/FrmOEMChange";
 import FrmPartPrinciple from "../mc/FrmPartPrinciple";
 import FrmPrivacyRight from "../mc/FrmPrivacyRight";
+import FrmShippingAppend from "../mc/FrmShippingAppend";
 import FrmUserAgreement from "../mc/FrmUserAgreement";
 import FrmWagonHome from "../mc/FrmWagonHome";
 
@@ -34,6 +35,7 @@ export default {
     FrmOEMChange,
     FrmPartPrinciple,
     FrmPrivacyRight,
+    FrmShippingAppend,
     FrmUserAgreement,
     FrmWagonHome,
 }
