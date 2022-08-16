@@ -18,7 +18,6 @@ type FrmSpectaculars1TypeState = {
     weeklyArrCarStatis: DataSet,
     countProvince: DataSet,
     queryMileageD: number,
-    online_num: number,
     cars_num: number,
     driver_num: number,
     gaugeCenter: Array<string>,
@@ -40,7 +39,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             weeklyArrCarStatis: new DataSet(),
             countProvince: new DataSet(),
             queryMileageD: 0,
-            online_num: 0,
             cars_num: 0,
             driver_num: 0,
             gaugeCenter: ['55%', '85%'],
@@ -214,7 +212,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             FplApi.getQueryMileageD().then((queryMileageD) => {
                 this.setState({
                     carData: queryCarsLocation,
-                    online_num: queryCarsLocation.head.getDouble('online_'),
                     queryMileageD: queryMileageD.getDouble('total_mileage_'),
                 }, () => {
                     this.initLineChart1();
@@ -367,7 +364,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let online = this.state.online_num, total = this.state.cars_num;
+        let online = this.state.carData.head.getDouble('online_'), total = this.state.carData.head.getDouble('total_');
         if (!online) {
             online = 0;
         }
