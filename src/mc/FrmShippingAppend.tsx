@@ -388,7 +388,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
         if (dataOut.state > 0) {
             this.client.remove('state');
             showMsg('发布成功');
-            location.href = 'FrmShipping';
+            location.href = `FrmShipping.success?tbNo=${dataOut.head.getString('tb_no_')}&cargoNo=${dataOut.head.getString('cargo_no_')}&it=${dataOut.head.getString('it_')}`;
         } else {
             showMsg(dataOut.message);
         }
