@@ -624,14 +624,6 @@
         border-left: 1.5px dashed #00000050;
     }
 
-    .btns .defaultBtn {
-        background: #dedede;
-        cursor: default;
-        color: #999;
-        border: 1px solid #dedede;
-    }
-
-
     .alertShadow1 .alertBox {
         position: absolute;
         top: 50%;
