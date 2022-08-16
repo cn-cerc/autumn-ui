@@ -78,6 +78,7 @@ import WorkerDialog from "../dialog/WorkerDialog";
 import RapidInput from "../mc/RapidInput";
 import SendCarDriverDialog from "../dialog/SendCarDriverDialog";
 import CarBodyDialog from "../dialog/CarBodyDialog";
+import QuoteCusDialog from "../dialog/QuoteCusDialog";
 
 export default {
     // 地藤开窗
@@ -164,5 +165,6 @@ export default {
     SupNetCorpDialog,
     AddressDialog,
     SendCarDriverDialog,
-    CarBodyDialog
+    CarBodyDialog,
+    QuoteCusDialog
 }

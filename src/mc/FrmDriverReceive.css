@@ -623,4 +623,37 @@
         border: none;
         border-left: 1.5px dashed #00000050;
     }
+
+    .alertShadow1 .alertBox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 19.5em;
+        min-height: 160px;
+        background: #fff;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translateY(-50%, -50%);
+    }
+
+    .alertShadow1 .alertBox {
+        min-height: 146px;
+    }
+
+    .alertShadow1 .alertBox .alertTitle {
+        height: 88px;
+        line-height: 88px;
+    }
+
+    .alertShadow1 .alertBox ul {
+        height: 56px;
+    }
+
+    .alertShadow1 .alertBox ul li {
+        width: 100%;
+        height: 56px;
+        line-height: 56px;
+        color: #00A653;
+    }
 }
