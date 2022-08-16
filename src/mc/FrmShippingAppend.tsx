@@ -19,6 +19,7 @@ type FrmShippingAppendTypeProps = {
     units: string,
     userCode: string,
     tbNo: string,
+    parentCode: string,
 }
 
 type FrmShippingAppendTypeState = {
@@ -97,12 +98,12 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                 <ul className={styles.peopleBox}>
                     <li onClick={this.showReceivePopup.bind(this)}>
                         <img src={StaticFile.getImage('images/icon/receive_round.png')}></img>
-                        <span>{(this.state.receiveName || this.state.receiveMobile) ? `${this.state.receiveName} ${this.state.receiveMobile}` : '发货人信息'}</span>
+                        <span>{(this.state.receiveName || this.state.receiveMobile) ? `${this.state.receiveName} ${this.state.receiveMobile}` : '收货人信息'}</span>
                         {(this.state.receiveName || this.state.receiveMobile) ? '' : <span className={styles.selectName}>请选择</span>}
                         <img src={StaticFile.getImage('images/icon/arrow-right.png')} />
                     </li>
                     <li onClick={this.showReceiveSitePopup.bind(this)}>
-                        <span>{this.state.receiveDepart || '发货人地址'}</span>
+                        <span>{this.state.receiveDepart || '收货人地址'}</span>
                         {this.state.receiveDepart ? '' : <span className={styles.selectName}>请选择</span>}
                         <img src={StaticFile.getImage('images/icon/arrow-right.png')} />
                     </li>
@@ -173,6 +174,8 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     componentDidMount(): void {
         if (this.props.tbNo) {
             this.init();
+        } else {
+            this.initSendInfo();
         }
     }
 
@@ -198,6 +201,19 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             driverName: ds.head.getString('driver_name_'),
             driverMobile: ds.head.getString('driver_phone_'),
         })
+    }
+
+    async initSendInfo() {
+        let dataOut = await FplApi.getSendInfo();
+        dataOut.first();
+        if (!dataOut.eof()) {
+            this.setState({
+                sendName: dataOut.getString('contact_'),
+                sendMobile: dataOut.getString('mobile_'),
+                sendDepart: dataOut.getString('address_'),
+                sendAddress: dataOut.getString('area5_'),
+            })
+        }
     }
 
     getUnit() {
@@ -278,7 +294,8 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     showGoosNamePopup() {
         DialogDOM.render(React.createElement(CodeRecordTwoPopup_MC, {
             onSelect: this.chooseGoodsName.bind(this),
-            title: '货物信息'
+            title: '货物信息',
+            code: this.props.parentCode,
         }));
     }
 
@@ -388,7 +405,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
         if (dataOut.state > 0) {
             this.client.remove('state');
             showMsg('发布成功');
-            location.href = `FrmShipping.success?tbNo=${dataOut.head.getString('tb_no_')}&cargoNo=${dataOut.head.getString('cargo_no_')}&it=${dataOut.head.getString('it_')}`;
+            location.href = `FrmShipping.success?tbNo=${dataOut.head.getString('tb_no_')}&it=${dataOut.head.getString('it_')}`;
         } else {
             showMsg(dataOut.message);
         }

@@ -361,5 +361,8 @@ export default class FplApi {
     static getEarlyWarningMonthStatistics() {
         return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningMonthStatistics');
     }
-
+    /** 获取发货人默认信息 */
+    static getSendInfo() {
+        return ControlApi.getService('SvrAddress.getDefaultAddress');
+    }
 }
