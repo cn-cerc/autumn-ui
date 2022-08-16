@@ -58,11 +58,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
                 <div className={styles.contents}>
-                    {/* 暂时隐藏流程图 */}
-                    {/* <div className={styles.chartsBox}>
-                        <p>流程图</p>
-                        {this.getFlowChart()}
-                    </div> */}
                     <div className={styles.info}>
                         {this.getToast()}
                         <ul>
@@ -327,9 +322,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     <div className={styles.orderInfo}>
                         <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g, '')}${row.getString('send_detail_')}`}</span>
                         <span className={styles.siteSkin}>{`${row.getString('destination_').replace(/\\/g, '')}${row.getString('receive_detail_')}`}</span>
-                        <span><i>货物明细</i>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} {row.getInt('driver_type_') == 1 ? `| ${this.fromatPriceFun(row.getString('unit_price_'))}元/${[this.unitArr[row.getDouble('main_unit_')]]}` : ''}</span>
-                        <span><i>计划发车</i>{this.formatDateTimeFun(stratDate)}</span>
-                        <span><i>计划抵达</i>{this.formatDateTimeFun(endDate)}</span>
+                        <span>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} {row.getInt('driver_type_') == 1 ? `| ${this.fromatPriceFun(row.getString('unit_price_'))}元/${[this.unitArr[row.getDouble('main_unit_')]]}` : ''}</span>
+                        <span>计划发车:{this.formatDateTimeFun(stratDate)}</span>
+                        <span>计划抵达:{this.formatDateTimeFun(endDate)}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>

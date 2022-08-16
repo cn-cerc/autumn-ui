@@ -404,7 +404,7 @@
     }
 
     .orderInfo>span:nth-child(n+3) {
-        padding-left: 74px;
+        /* padding-left: 74px; */
         position: relative;
         line-height: 1.25rem;
     }
