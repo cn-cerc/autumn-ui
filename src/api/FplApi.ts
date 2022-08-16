@@ -338,12 +338,12 @@ export default class FplApi {
     static copyShipping(params: DataRow) {
         return ControlApi.getDataOut('SvrShipping.copyShipping', params);
     }
-    
+
     /** 查询所有客户最新线路数值  */
     static getQuoteCusList(params: DataRow) {
         return ControlApi.getDataOut('SvrTransportQuote.queryCusLine', params);
     }
-    
+
     /** 风险预警=》 预警详情(半年) */
     static getEarlyWarningDetails() {
         return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningDetails');
@@ -359,5 +359,15 @@ export default class FplApi {
     /** 获取发货人默认信息 */
     static getSendInfo() {
         return ControlApi.getService('SvrAddress.getDefaultAddress');
+    }
+
+
+    /** 恒凯昌 认证中心=》认证看板统计查询 */
+    static getAllVerify() {
+        return ControlApi.getService('SvrDriverDetalis.getAllVerify');
+    }
+    /** 恒凯昌 认证中心=》每天审核的数量 (自动+手动,往前推七天) */
+    static getStatisticsVerify() {
+        return ControlApi.getService('SvrDriverDetalis.statisticsVerify');
     }
 }

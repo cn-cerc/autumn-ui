@@ -3,31 +3,29 @@ import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmAuthManageMC.css";
+import styles from "./FrmAuthManage1MC.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmAuthManageMCTypeProps = {
+type FrmAuthManage1MCTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmAuthManageMCTypeState = {
+type FrmAuthManage1MCTypeState = {
     dataJson: DataRow,
-    DriverStatistics: DataSet,
-    CorpStatistics: DataSet,
-    payeeStatistics: DataSet,
+    allVerify: DataSet,
+    statisticsVerify: DataSet,
 }
 
-export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
-    constructor(props: FrmAuthManageMCTypeProps) {
+export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypeProps, FrmAuthManage1MCTypeState> {
+    constructor(props: FrmAuthManage1MCTypeProps) {
         super(props);
         let lineRow = new DataRow();
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             dataJson: dataJson,
-            DriverStatistics: new DataSet(),
-            CorpStatistics: new DataSet(),
-            payeeStatistics: new DataSet(),
+            allVerify: new DataSet(),
+            statisticsVerify: new DataSet(),
         }
     }
 
@@ -66,13 +64,24 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
-                        <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>收款人统计</div>
-                            <div className={styles.FrmTaurusMCPie1}></div>
-                        </div>
-                        <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>司机人数统计</div>
-                            <div className={styles.FrmTaurusMCPie2}></div>
+                        <div className={styles.mcTitle}>数据概览</div>
+                        <div className={styles.fourDiv}>
+                            <div>
+                                <p>等待时间最长</p>
+                                <span>55</span>
+                            </div>
+                            <div>
+                                <p>待审核</p>
+                                <span>5</span>
+                            </div>
+                            <div>
+                                <p>自动审核</p>
+                                <span>51</span>
+                            </div>
+                            <div>
+                                <p>已审核</p>
+                                <span>98</span>
+                            </div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
@@ -84,23 +93,20 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         </div>
     }
 
-    async init() {
-        let DriverStatistics = new DataSet();
-        DriverStatistics = await FplApi.queryDriverStatistics();
-        let CorpStatistics = new DataSet();
-        CorpStatistics = await FplApi.queryCorpStatistics();
-        let payeeStatistics = new DataSet();
-        payeeStatistics = await FplApi.queryDataStat();
+    init() {
+        FplApi.getAllVerify().then((allVerify) => {
+            this.setState({
+                allVerify
+            })
+        });
+        FplApi.getStatisticsVerify().then((statisticsVerify) => {
+            this.setState({
+                statisticsVerify
+            }, () => {
+                this.initBarChart();
+            })
+        });
 
-        this.setState({
-            DriverStatistics,
-            CorpStatistics,
-            payeeStatistics
-        })
-
-        this.initBarChart();
-        this.initPieChart1();
-        this.initPieChart2();
         this.initFlowChart();
     }
 
@@ -112,7 +118,7 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
-        ds = this.state.CorpStatistics;
+        ds = this.state.statisticsVerify;
         ds.first();
         let xArr = [];
         let sData = [];
@@ -153,7 +159,7 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: this.isPhone ? 10 : 60,
+                    barWidth: 60,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
@@ -166,131 +172,6 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         };
         //@ts-ignore
         myChart.setOption(option);
-    }
-
-    initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds = this.state.payeeStatistics;
-        ds.first();
-        let dataArr: any = [
-            { name: '已登记', value: ds.getDouble('registered') },
-            { name: '已认证', value: ds.getDouble('certified') }
-        ];
-        let option = {
-            tooltip: {
-                trigger: 'item'
-            },
-            legend: {
-                top: '25%',
-                left: '65%',
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-                formatter: (name: any) => {
-                    let singleData = dataArr.filter(function (item: any) {
-                        return item.name == name
-                    })
-                    return name + ' : ' + singleData[0].value;
-                },
-            },
-            grid: {
-                top: 40,
-                left: 0,
-                bottom: 0,
-                right: 20,
-                containLabel: false,
-            },
-            series: [
-                {
-                    type: 'pie',
-                    center: ['30%', '50%'],
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    color: MCChartColors,
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '20',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        show: false
-                    },
-                    data: dataArr
-                }
-            ]
-        }
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-
-    initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds = this.state.DriverStatistics;
-        ds.first();
-        let dataArr: any = [
-            { name: '未审核', value: ds.getDouble('未审核') },
-            { name: '已审核', value: ds.getDouble('已审核') },
-        ];
-        let option = {
-            tooltip: {
-                trigger: 'item'
-            },
-            legend: {
-                top: '25%',
-                left: '65%',
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-                formatter: (name: any) => {
-                    let singleData = dataArr.filter(function (item: any) {
-                        return item.name == name
-                    })
-                    return name + ' : ' + singleData[0].value;
-                },
-            },
-            series: [
-                {
-                    type: 'pie',
-                    center: ['30%', '50%'],
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    label: {
-                        show: false,
-                        position: 'center'
-                    },
-                    color: MCChartColors,
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: '20',
-                            fontWeight: 'bold'
-                        }
-                    },
-                    labelLine: {
-                        show: false
-                    },
-                    data: dataArr
-                }
-            ]
-        }
-        //@ts-ignore
-        myChart.setOption(option);
-
-        myChart.on('click', function (params: any) {
-            alert(params.name);
-        })
     }
 
     initFlowChart() {

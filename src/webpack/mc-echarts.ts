@@ -38,6 +38,7 @@ import TMakeMC from "../mc-echarts/TMakeMC";
 import TOrdMC from "../mc-echarts/TOrdMC";
 import TPurMC from "../mc-echarts/TPurMC";
 import TStockMC from "../mc-echarts/TStockMC";
+import FrmAuthManage1MC from "../mc-echarts/FrmAuthManage1MC";
 import FrmPayee from "../mc-echarts/FrmPayee";
 import FrmRiskWarning from "../mc-echarts/FrmRiskWarning";
 
@@ -84,5 +85,5 @@ export default {
     FrmTaurusQuicknessMC,
     FrmPayee,
     FrmRiskWarning,
-
+    FrmAuthManage1MC,
 }
