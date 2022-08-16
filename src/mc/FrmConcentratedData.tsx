@@ -19,8 +19,6 @@ type FrmConcentratedDataTypeState = {
 }
 
 export default class FrmConcentratedData extends WebControl<FrmConcentratedDataTypeProps, FrmConcentratedDataTypeState>{
-    // private gdmap: GDMap = new GDMap();
-    // private timer: any;
     constructor(props: FrmConcentratedDataTypeProps) {
         super(props);
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
@@ -46,7 +44,6 @@ export default class FrmConcentratedData extends WebControl<FrmConcentratedDataT
                         <div className={styles.mcMap}>
                             <img src={StaticFile.getImage('images/MCimg/map_bg.png')} alt="" />
                         </div>
-                        {/* <div className={styles.mcMap} id='carMapContainer'></div> */}
                     </div>
                     <div className={`${styles.dataBgBox} ${styles.dataBox1}`}>
                         <img src={StaticFile.getImage('images/MCimg/data_bg.png')} alt="" />
@@ -95,17 +92,7 @@ export default class FrmConcentratedData extends WebControl<FrmConcentratedDataT
 
     componentDidMount() {
         this.init();
-        //     // this.timer = setInterval(this.init.bind(this), 30000);
-        //     addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
     }
-
-    // initMap() {
-    //     this.gdmap.initMap('carMapContainer', {
-    //         zoom: 5.8,
-    //         // center: this.props.lonlat.split(',')
-    //         center: [115.693942, 28.2882]
-    //     });
-    // }
 
     init() {
 

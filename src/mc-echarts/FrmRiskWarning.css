@@ -262,39 +262,4 @@
         max-width: 100%;
         max-height: 100%;
     }
-
-    /* .dataBgBox {
-        width: 140px;
-        height: 150px;
-    } */
-
-    /* .dataBox1 {
-        top: 14px;
-        left: 4px;
-    }
-
-    .dataBox2 {
-        top: 14px;
-        right: 4px;
-    }
-
-    .dataBox3 {
-        bottom: 34px;
-        left: 4px;
-    }
-
-    .dataBox4 {
-        bottom: 34px;
-        right: 4px;
-    }
-
-    .dataItemTitle {
-        height: 38px;
-        line-height: 38px;
-        left: 12px;
-    }
-
-    .dataItemInfoNum {
-        font-size: 40px;
-    } */
 }

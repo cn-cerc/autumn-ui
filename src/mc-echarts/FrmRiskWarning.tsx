@@ -2,9 +2,7 @@ import { DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
-import ApplicationConfig from "../static/ApplicationConfig";
 import StaticFile from "../static/StaticFile";
-import { addScript, GDMap } from "../tool/Summer";
 import styles from "./FrmRiskWarning.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
@@ -23,8 +21,6 @@ type FrmRiskWarningTypeState = {
 }
 
 export default class FrmRiskWarning extends WebControl<FrmRiskWarningTypeProps, FrmRiskWarningTypeState>{
-    // private gdmap: GDMap = new GDMap();
-    // private timer: any;
     constructor(props: FrmRiskWarningTypeProps) {
         super(props);
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
@@ -52,7 +48,6 @@ export default class FrmRiskWarning extends WebControl<FrmRiskWarningTypeProps, 
                         <div className={styles.mcMap}>
                             <img src={StaticFile.getImage('images/MCimg/map_bg.png')} alt="" />
                         </div>
-                        {/* <div className={styles.mcMap} id='carMapContainer'></div> */}
                     </div>
                     <div className={`${styles.dataBgBox} ${styles.dataBox1}`}>
                         <img src={StaticFile.getImage('images/MCimg/data_bg.png')} alt="" />
@@ -93,17 +88,7 @@ export default class FrmRiskWarning extends WebControl<FrmRiskWarningTypeProps, 
 
     componentDidMount() {
         this.init();
-        //     // this.timer = setInterval(this.init.bind(this), 30000);
-        //     addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, this.initMap.bind(this))
     }
-
-    // initMap() {
-    //     this.gdmap.initMap('carMapContainer', {
-    //         zoom: 5.8,
-    //         // center: this.props.lonlat.split(',')
-    //         center: [115.693942, 28.2882]
-    //     });
-    // }
 
     init() {
         FplApi.getEarlyWarningDetails().then((earlyWarningDetails) => {
