@@ -10,7 +10,7 @@ import { NumberPlatePopup_MC } from "../popup/NumberPlatePopup";
 import { PayeePopup_MC } from "../popup/PayeePopup";
 import { QuickSitePopup_MC } from "../popup/QuickSitePopup";
 import StaticFile from "../static/StaticFile";
-import { showMsg } from "../tool/Summer";
+import { AuiMath, showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./FrmShippingAppend.css";
 
@@ -45,6 +45,7 @@ type FrmShippingAppendTypeState = {
 
 export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeProps, FrmShippingAppendTypeState> {
     private client: ClientStorage = null;
+    private math: AuiMath = new AuiMath();
     private units: string[] = [];
     constructor(props: FrmShippingAppendTypeProps) {
         super(props);
@@ -133,7 +134,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                                 <input type="number" value={this.state.goodsPrice} onChange={(e) => { this.saveState({ goodsPrice: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
                                 <span>元/{this.units[this.state.goodsUnit]}</span>
                             </div>
-                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPrice > 0 ? this.state.goodsNum * this.state.goodsPrice : '0.00'}</span></div>
+                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPrice > 0 ? this.math.toFixed(this.state.goodsNum * this.state.goodsPrice, 2) : '0.00'}</span></div>
                         </div>
                     </li>
                     <li>
@@ -143,7 +144,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                                 <input type="number" value={this.state.goodsPriceF} onChange={(e) => { this.saveState({ goodsPriceF: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
                                 <span>元/{this.units[this.state.goodsUnit]}</span>
                             </div>
-                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPriceF > 0 ? this.state.goodsNum * this.state.goodsPriceF : '0.00'}</span></div>
+                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPriceF > 0 ? this.math.toFixed(this.state.goodsNum * this.state.goodsPriceF, 2) : '0.00'}</span></div>
                         </div>
                     </li>
                 </ul>
