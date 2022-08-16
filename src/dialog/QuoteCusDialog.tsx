@@ -24,8 +24,8 @@ export default class QuoteCusDialog extends BaseDialog<QuoteCusProps, StaffTypeS
             ...this.state,
             dataIn,
             dataSet: new DataSet(),
-            width: '65rem',
-            height: this.isPhone ? '25rem' : '30rem'
+            width: '75rem',
+            height: this.isPhone ? '25rem' : '40rem'
         }
     }
 
@@ -50,18 +50,18 @@ export default class QuoteCusDialog extends BaseDialog<QuoteCusProps, StaffTypeS
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
                     <ColumnIt />
-                    <Column code="line_name_" name="线路名称" width="80"></Column>
+                    <Column code="line_name_" name="线路名称" width="120"></Column>
                     <Column code="cargo_oriup_" name="订单价" width="50"></Column>
                     <Column code="arrangecar_oriup_" name="运单价" width="50"></Column>
                     <Column code="rate_" name="平台费率‰" width="80"></Column>
                     <Column code="cargo_loss_rate_" name="货损率%" width="60"></Column>
 
-                    <Column code="send_name_" name="发货人" width="80"></Column>
-                    <Column code="send_address" name="发货地" width="150" textAlign='center' customText={(row: DataRow) => {
+                    <Column code="send_name_" name="发货人" width="60"></Column>
+                    <Column code="send_address" name="发货地" width="140" textAlign='center' customText={(row: DataRow) => {
                         return <span> {row.getString("send_city_") + row.getString("send_county_")}</span>
                     }}></Column>
-                    <Column code="receive_name_" name="收货人" width="80"></Column>
-                    <Column code="receive_address" name="收货地" width="150" textAlign='center' customText={(row: DataRow) => {
+                    <Column code="receive_name_" name="收货人" width="60"></Column>
+                    <Column code="receive_address" name="收货地" width="140" textAlign='center' customText={(row: DataRow) => {
                         return <span> {row.getString("receive_city_") + row.getString("receive_county_")}</span>
                     }}></Column>
                     <Column code="opera" name="操作" width="50" textAlign='center' customText={(row: DataRow) => {
