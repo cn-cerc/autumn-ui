@@ -15,7 +15,7 @@
 .btn {
     background-color: #fff;
     padding: .3125rem .625rem;
-    box-shadow: 0 0 4px 2px rgb(237 237 237);
+    border-top: 1px solid #E6E6E6;
     display: flex;
     justify-content: center;
 }
