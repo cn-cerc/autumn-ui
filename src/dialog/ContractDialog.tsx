@@ -47,7 +47,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="contract_type_name_" dataName="合同名称" autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
                     <ColumnIt />
                     <Column code="contract_type_name_" name="合同名称" width="130"></Column>
                     <Column code="party_a_name_" name="甲方公司" width="70"></Column>
@@ -60,7 +60,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                     <Column code="remaining_amount_" name="可用余额" width="50"></Column>
                     <Column code="rate_" name="约定费率%" width="50"></Column>
                     <Column code="opera" name="操作" width="50" textAlign='center' customText={(row: DataRow) => {
-                        return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role="auiOpera" id='category'>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>
