@@ -281,35 +281,40 @@ export default class FplApi {
         return ControlApi.getService('SvrCarNetMonitorPanel.queryMileageD');
     }
 
-    /** 安全监控中心=》 获取交易状态--已成交数、未成交数 */
+
+    /** 数据监控中心=》 中央车辆位置信息 */
+    static getQueryCarsLocation3() {
+        return ControlApi.getService('SvrDataMonitorPanel.queryCarsLocation');
+    }
+    /** 数据监控中心=》 获取交易状态--已成交数、未成交数 */
     static getDealStatus() {
         return ControlApi.getService('SvrDataMonitorPanel.getDealStatus');
     }
-    /** 安全监控中心=》 获取数据监控中心的数据(总交易金额、总物流运单数)  */
+    /** 数据监控中心=》 获取数据监控中心的数据(总交易金额、总物流运单数)  */
     static getAllDataPanelData() {
         return ControlApi.getService('SvrDataMonitorPanel.getAllDataPanelData');
     }
-    /** 安全监控中心=》 获取货物重量前三名  */
+    /** 数据监控中心=》 获取货物重量前三名  */
     static getCargoWeightTop3() {
         return ControlApi.getService('SvrDataMonitorPanel.getCargoWeightTop3');
     }
-    /** 安全监控中心=》 司机接单Top5   */
+    /** 数据监控中心=》 司机接单Top5   */
     static getQueryDriverOrderTop5() {
         return ControlApi.getService('SvrDataMonitorPanel.getDriverOrderTop5');
     }
-    /** 安全监控中心=》 查询总里程数   */
+    /** 数据监控中心=》 查询总里程数   */
     static queryMileageTotal() {
         return ControlApi.getService('SvrDataMonitorPanel.queryMileageTotal');
     }
-    /** 安全监控中心=》 获取一周交易金额   */
+    /** 数据监控中心=》 获取一周交易金额   */
     static getWeeklyOrderAmount() {
         return ControlApi.getService('SvrDataMonitorPanel.getWeeklyOrderAmount');
     }
-    /** 安全监控中心=》 获取一周交易笔数   */
+    /** 数据监控中心=》 获取一周交易笔数   */
     static getWeeklyOrderCount() {
         return ControlApi.getService('SvrDataMonitorPanel.getWeeklyOrderCount');
     }
-    /** 安全监控中心=》 获取一周运单重量   */
+    /** 数据监控中心=》 获取一周运单重量   */
     static getWeeklyArrangeWeight() {
         return ControlApi.getService('SvrDataMonitorPanel.getWeeklyArrangeWeight');
     }
@@ -338,12 +343,12 @@ export default class FplApi {
     static copyShipping(params: DataRow) {
         return ControlApi.getDataOut('SvrShipping.copyShipping', params);
     }
-    
+
     /** 查询所有客户最新线路数值  */
     static getQuoteCusList(params: DataRow) {
         return ControlApi.getDataOut('SvrTransportQuote.queryCusLine', params);
     }
-    
+
     /** 风险预警=》 预警详情(半年) */
     static getEarlyWarningDetails() {
         return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningDetails');
