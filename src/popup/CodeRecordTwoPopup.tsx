@@ -112,14 +112,15 @@ export default class CodeRecordTwoPopup extends BasePopup<CodeRecordTwoPopupType
 }
 
 type CodeRecordTwoPopup_MCTypeProps = {
-    onSelect: Function
+    onSelect: Function,
+    code: string
 } & BasePopupTypeProps
 
 export class CodeRecordTwoPopup_MC extends BasePopup<CodeRecordTwoPopup_MCTypeProps, CodeRecordTwoPopupTypeState> {
     constructor(props: CodeRecordTwoPopup_MCTypeProps) {
         super(props);
         let dataRow = new DataRow();
-        dataRow.setValue('parent_code_', '');
+        dataRow.setValue('parent_code_', this.props.code);
         this.state = {
             ...this.state,
             title: this.props.title || '',
