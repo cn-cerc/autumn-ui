@@ -338,9 +338,23 @@ export default class FplApi {
     static copyShipping(params: DataRow) {
         return ControlApi.getDataOut('SvrShipping.copyShipping', params);
     }
-
+    
     /** 查询所有客户最新线路数值  */
     static getQuoteCusList(params: DataRow) {
         return ControlApi.getDataOut('SvrTransportQuote.queryCusLine', params);
     }
+    
+    /** 风险预警=》 预警详情(半年) */
+    static getEarlyWarningDetails() {
+        return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningDetails');
+    }
+    /** 风险预警=》数据汇总 (半年-高风险) */
+    static getEarlyWarningStatistics() {
+        return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningStatistics');
+    }
+    /** 风险预警=》 分析研判(自然月) */
+    static getEarlyWarningMonthStatistics() {
+        return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningMonthStatistics');
+    }
+
 }

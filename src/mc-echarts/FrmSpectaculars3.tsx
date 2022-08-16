@@ -305,7 +305,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
         this.setState({
             carData,
             onlineNum,
-            contactNum: 100 - onlineNum,
+            contactNum: math.toFixed(100 - onlineNum, 2),
         }, () => {
             this.initCarSite();
         })
