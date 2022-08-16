@@ -21,8 +21,7 @@ type FrmDriverReceiveTypeState = {
     notComplete: DataSet,
     isCompleted: DataSet,
     showWay: boolean,
-    openTipsFlag: boolean,
-    tipsType: boolean
+    openTipsFlag: boolean
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
@@ -43,7 +42,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             isCompleted: new DataSet(),
             showWay: true,
             openTipsFlag: false,
-            tipsType: false,
         }
 
     }
@@ -341,7 +339,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>{row.getInt('driver_type_') == 1 ? '￥' : ''}<span>{row.getInt('driver_type_') == 1 ? math.toFixed(row.getString('amount_'), 2) : ''}</span></div>
                     <div className={styles.btns}>
-                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button>接单</button>}
+                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button className={index == 1 ? '' : styles.defaultBtn}>接单</button>}
                     </div>
                 </div>
             </li>
@@ -354,7 +352,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             location.href = `FrmDriverArrangeCar.detail?cargoNo=${row.getString('cargo_no_')}&tbNo=${row.getString('tb_no_')}&dcorpno=${row.getString('d_corp_no_')}&it=${row.getDouble('it_')}`;
         } else {
             this.setState({
-                tipsType: true
+                openTipsFlag: true
             })
         }
     }
@@ -435,13 +433,13 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
     }
 
     openWindowFun() {
-        if (!this.state.tipsType) return;
+        if (!this.state.openTipsFlag) return;
         return <div className={`${styles.alertShadow} ${styles.alertShadow1}`}>
             <div className={styles.alertBox}><div>
                 <h1 className={styles.alertTitle}>请按顺序接单！</h1>
             </div>
                 <ul>
-                    <li className={styles.alertConfirm} onClick={() => { this.setState({ tipsType: false }) }}>确定</li>
+                    <li className={styles.alertConfirm} onClick={() => { this.setState({ openTipsFlag: false }) }}>确定</li>
                 </ul>
             </div>
         </div>
