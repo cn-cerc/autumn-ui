@@ -162,10 +162,10 @@ export class AddressPopup_MC extends BasePopup<AddressPopup_MCTypeProps, Address
             <p>发货人<span>（注：有记录默认搜索，没有记录直接添加）</span></p>
             <ul className={styles.inputLine}>
                 <li>
-                    <PopupEdit dataRow={this.state.dataRow} dataField='contact_' class={styles.nameInput} placeHolder='请输入姓名' onChange={this.handleChange.bind(this)}></PopupEdit>
+                    <PopupEdit dataRow={this.state.dataRow} dataField='contact_' class={styles.nameInput} placeHolder='请输入姓名' onChange={this.handleChange.bind(this)} autoFocus={true}></PopupEdit>
                 </li>
                 <li>
-                    <PopupEdit dataRow={this.state.dataRow} dataField='mobile_' class={styles.mobileInput} placeHolder='请输入手机号' onChange={this.handleChange.bind(this)}></PopupEdit>
+                    <PopupEdit type="number" dataRow={this.state.dataRow} dataField='mobile_' class={styles.mobileInput} placeHolder='请输入手机号' onChange={this.handleChange.bind(this)}></PopupEdit>
                 </li>
             </ul>
             <div className={styles.buttonLine}>

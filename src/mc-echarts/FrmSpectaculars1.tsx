@@ -124,10 +124,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                         <i className={styles.rSkin}></i>08-10 07:37 <span className={styles.colorSkin}>闽DW572</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>08-07 23:19 <span className={styles.colorSkin}>闽BA427</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-07 23:19 <span className={styles.colorSkin}>闽BAC427</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-19 23:19 <span className={styles.colorSkin}>闽FE734</span> 行驶超速
+                                        <i className={styles.rSkin}></i>07-19 23:19 <span className={styles.colorSkin}>闽FEA734</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>07-12 17:39 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
@@ -202,11 +202,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     carData: queryCarsLocation,
                     queryMileageD: queryMileageD.getDouble('total_mileage_'),
                 }, () => {
-                    this.initLineChart1();
                     this.initPieChart1();
                 })
             })
         })
+
+        this.initLineChart1();
     }
 
     initMap() {
