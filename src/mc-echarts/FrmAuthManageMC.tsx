@@ -66,14 +66,33 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
-                        <div className={styles.mcPieBox1}>
+                        <div className={styles.mcTitle}>数据概览</div>
+                        <div className={styles.fourDiv}>
+                            <div>
+                                <p>等待时间最长</p>
+                                <span>55</span>
+                            </div>
+                            <div>
+                                <p>待审核</p>
+                                <span>5</span>
+                            </div>
+                            <div>
+                                <p>自动审核</p>
+                                <span>51</span>
+                            </div>
+                            <div>
+                                <p>已审核</p>
+                                <span>98</span>
+                            </div>
+                        </div>
+                        {/* <div className={styles.mcPieBox1}>
                             <div className={styles.mcTitle}>收款人统计</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
                             <div className={styles.mcTitle}>司机人数统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles.mcTrendChart}>
                         <div className={styles.mcTitle}>司机认证前五统计</div>
@@ -99,8 +118,8 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         })
 
         this.initBarChart();
-        this.initPieChart1();
-        this.initPieChart2();
+        // this.initPieChart1();
+        // this.initPieChart2();
         this.initFlowChart();
     }
 
