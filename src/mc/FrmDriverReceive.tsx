@@ -21,8 +21,6 @@ type FrmDriverReceiveTypeState = {
     notComplete: DataSet,
     isCompleted: DataSet,
     showWay: boolean,
-    openTipsFlag: boolean,
-    tipsType: boolean
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
@@ -42,8 +40,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             notComplete: new DataSet(),
             isCompleted: new DataSet(),
             showWay: true,
-            openTipsFlag: false,
-            tipsType: false,
         }
 
     }
@@ -57,7 +53,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成</li>
                 </ul>
                 {this.getOrderList()}
-                {this.openWindowFun()}
             </React.Fragment>
         } else {
             return <React.Fragment>
@@ -319,7 +314,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             let destination = this.removeProvinceFun(row.getString('receive_city_'));
             let stratDate = new Date(row.getString('send_date_time_'));
             let endDate = new Date(row.getString('arrive_date_time_'));
-            return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row, index, isReceived)}>
+            return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
                         <span>{depart}</span>
@@ -341,7 +336,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>{row.getInt('driver_type_') == 1 ? '￥' : ''}<span>{row.getInt('driver_type_') == 1 ? math.toFixed(row.getString('amount_'), 2) : ''}</span></div>
                     <div className={styles.btns}>
-                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button>接单</button>}
+                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button className={index == 1 ? '' : styles.defaultBtn}>接单</button>}
                     </div>
                 </div>
             </li>
@@ -349,14 +344,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
     }
 
     // 接单
-    handleSelect(row: DataRow, index: number, isReceived: boolean) {
-        if (isReceived || index == 1) {
-            location.href = `FrmDriverArrangeCar.detail?cargoNo=${row.getString('cargo_no_')}&tbNo=${row.getString('tb_no_')}&dcorpno=${row.getString('d_corp_no_')}&it=${row.getDouble('it_')}`;
-        } else {
-            this.setState({
-                tipsType: true
-            })
-        }
+    handleSelect(row: DataRow) {
+        location.href = `FrmDriverArrangeCar.detail?cargoNo=${row.getString('cargo_no_')}&tbNo=${row.getString('tb_no_')}&dcorpno=${row.getString('d_corp_no_')}&it=${row.getDouble('it_')}`;
     }
 
     // 查看路线
@@ -432,18 +421,5 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         const price = (d + "").split(".");
         price[1] = price[1] ? `${(price[1] + "000").substring(0, 2)}` : "00";
         return price.join(".");
-    }
-
-    openWindowFun() {
-        if (!this.state.tipsType) return;
-        return <div className={`${styles.alertShadow} ${styles.alertShadow1}`}>
-            <div className={styles.alertBox}><div>
-                <h1 className={styles.alertTitle}>请按顺序接单！</h1>
-            </div>
-                <ul>
-                    <li className={styles.alertConfirm} onClick={() => { this.setState({ tipsType: false }) }}>确定</li>
-                </ul>
-            </div>
-        </div>
     }
 }
