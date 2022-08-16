@@ -81,7 +81,9 @@ type PopupEditTypeProps = {
     dataField: string,
     onChange?: Function,
     class?: string,
-    placeHolder?: string
+    placeHolder?: string,
+    type?: string,
+    autoFocus?: boolean
 }
 
 type PopupEditTypeState = {
@@ -97,7 +99,7 @@ export class PopupEdit extends React.Component<PopupEditTypeProps, PopupEditType
     }
 
     render(): React.ReactNode {
-        return <input type='text' value={this.state.value} onChange={(e) => this.handleChange(e)} className={this.props.class || styles.popupEdit} placeholder={this.props.placeHolder || ''}></input>
+        return <input type={this.props.type || 'text'} value={this.state.value} onChange={(e) => this.handleChange(e)} className={this.props.class || styles.popupEdit} placeholder={this.props.placeHolder || ''} autoFocus={this.props.autoFocus}></input>
     }
 
     handleChange(e: any) {

@@ -133,7 +133,7 @@ export class NumberPlatePopup_MC extends BasePopup<NumberPlatePopup_MCTypeProps,
             <p>车牌号<span>（注：有记录默认搜索，没有记录直接添加）</span></p>
             <ul className={styles.inputLine}>
                 <li>
-                    <PopupEdit dataRow={this.state.dataRow} dataField='car_num_' class={styles.nameInput} placeHolder='请输入车牌号' onChange={this.handleChange.bind(this)}></PopupEdit>
+                    <PopupEdit dataRow={this.state.dataRow} dataField='car_num_' class={styles.nameInput} placeHolder='请输入车牌号' onChange={this.handleChange.bind(this)} autoFocus={true}></PopupEdit>
                 </li>
             </ul>
             <div className={styles.buttonLine}>
