@@ -214,11 +214,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     carData: queryCarsLocation,
                     queryMileageD: queryMileageD.getDouble('total_mileage_'),
                 }, () => {
-                    this.initLineChart1();
                     this.initPieChart1();
                 })
             })
         })
+
+        this.initLineChart1();
     }
 
     initMap() {
@@ -372,7 +373,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (online == 0 || total == 0) {
             value = 0;
         } else {
-            value = this.math.toFixed(online / total, 2);
+            value = this.math.toFixed(online / total, 4);
         }
 
         let option = {
@@ -442,11 +443,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value * 100 + '%';
                         },
                         color: 'inherit'
                     },
@@ -468,7 +469,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 2);
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 4);
+        console.log(value)
         let option = {
             series: [
                 {
@@ -536,11 +538,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value * 100 + '%';
                         },
                         color: 'inherit'
                     },
@@ -561,7 +563,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
-        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') / 100, 2);
+        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') , 4);
         let option = {
             series: [
                 {
@@ -612,13 +614,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -629,11 +631,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
