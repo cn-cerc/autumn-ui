@@ -18,7 +18,6 @@ type FrmSpectaculars1TypeState = {
     weeklyArrCarStatis: DataSet,
     countProvince: DataSet,
     queryMileageD: number,
-    online_num: number,
     cars_num: number,
     driver_num: number,
     gaugeCenter: Array<string>,
@@ -40,7 +39,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             weeklyArrCarStatis: new DataSet(),
             countProvince: new DataSet(),
             queryMileageD: 0,
-            online_num: 0,
             cars_num: 0,
             driver_num: 0,
             gaugeCenter: ['55%', '85%'],
@@ -132,10 +130,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                         <i className={styles.rSkin}></i>08-10 07:37 <span className={styles.colorSkin}>闽DW572</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>08-07 23:19 <span className={styles.colorSkin}>闽BA427</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-07 23:19 <span className={styles.colorSkin}>闽BAC427</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-19 23:19 <span className={styles.colorSkin}>闽FE734</span> 行驶超速
+                                        <i className={styles.rSkin}></i>07-19 23:19 <span className={styles.colorSkin}>闽FEA734</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>07-12 17:39 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
@@ -214,14 +212,14 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             FplApi.getQueryMileageD().then((queryMileageD) => {
                 this.setState({
                     carData: queryCarsLocation,
-                    online_num: queryCarsLocation.head.getDouble('online_'),
                     queryMileageD: queryMileageD.getDouble('total_mileage_'),
                 }, () => {
-                    this.initLineChart1();
                     this.initPieChart1();
                 })
             })
         })
+
+        this.initLineChart1();
     }
 
     initMap() {
@@ -367,7 +365,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let online = this.state.online_num, total = this.state.cars_num;
+        let online = this.state.carData.head.getDouble('online_'), total = this.state.carData.head.getDouble('total_');
         if (!online) {
             online = 0;
         }
@@ -375,7 +373,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (online == 0 || total == 0) {
             value = 0;
         } else {
-            value = this.math.toFixed(online / total, 2);
+            value = this.math.toFixed(online / total * 100, 2);
         }
 
         let option = {
@@ -387,7 +385,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -428,13 +426,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -445,11 +443,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
@@ -471,7 +469,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 2);
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_'), 4);
         let option = {
             series: [
                 {
@@ -481,7 +479,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -522,13 +520,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -539,11 +537,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
@@ -564,7 +562,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
-        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') / 100, 2);
+        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_'), 2);
         let option = {
             series: [
                 {
@@ -574,7 +572,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -615,13 +613,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -632,11 +630,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },

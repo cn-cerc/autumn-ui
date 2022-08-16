@@ -153,7 +153,7 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: 60,
+                    barWidth: this.isPhone ? 10 : 60,
                     lineStyle: {
                         color: MCChartColors[0]
                     },

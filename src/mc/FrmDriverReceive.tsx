@@ -21,7 +21,6 @@ type FrmDriverReceiveTypeState = {
     notComplete: DataSet,
     isCompleted: DataSet,
     showWay: boolean,
-    openTipsFlag: boolean
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
@@ -41,7 +40,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             notComplete: new DataSet(),
             isCompleted: new DataSet(),
             showWay: true,
-            openTipsFlag: false,
         }
 
     }
@@ -238,11 +236,13 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         ds.first();
         let hasNextOrder = false;
         let time = new Date().getTime();
+        let index = 1;
         while (ds.fetch()) {
             let isReceived = true;
             if (ds.getString('confirm_status_') == '0')
                 isReceived = false;
-            list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
+            list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time, index))
+            index++;
         }
         let bool = !list.length;
         if (bool) {
@@ -290,7 +290,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         return jsx;
     }
 
-    getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number) {
+    getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number, index: number) {
         let time_ = new Date(row.getString('receiving_time_')).getTime();
         let math = new AuiMath();
         if (!hasNextOrder && isReceived && !hasNextOrder && time_ > time) {
@@ -336,7 +336,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 <div className={styles.orderBottom}>
                     <div className={styles.freight}>{row.getInt('driver_type_') == 1 ? '￥' : ''}<span>{row.getInt('driver_type_') == 1 ? math.toFixed(row.getString('amount_'), 2) : ''}</span></div>
                     <div className={styles.btns}>
-                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button>接单</button>}
+                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button className={index == 1 ? '' : styles.defaultBtn}>接单</button>}
                     </div>
                 </div>
             </li>
