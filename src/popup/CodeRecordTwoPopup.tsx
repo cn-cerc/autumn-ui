@@ -136,7 +136,7 @@ export class CodeRecordTwoPopup_MC extends BasePopup<CodeRecordTwoPopup_MCTypePr
             <p>货物名称<span>（注：有记录默认搜索，没有记录直接添加）</span></p>
             <ul className={styles.inputLine}>
                 <li>
-                    <PopupEdit dataRow={this.state.dataRow} dataField='code_' class={styles.nameInput} placeHolder='请输入货物名称' onChange={this.handleChange.bind(this)}></PopupEdit>
+                    <PopupEdit dataRow={this.state.dataRow} dataField='code_' class={styles.nameInput} placeHolder='请输入货物名称' onChange={this.handleChange.bind(this)} autoFocus={true}></PopupEdit>
                 </li>
             </ul>
             <div className={styles.buttonLine}>

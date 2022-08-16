@@ -16,10 +16,13 @@
     background-color: #fff;
     padding: .3125rem .625rem;
     box-shadow: 0 0 4px 2px rgb(237 237 237);
+    display: flex;
+    justify-content: center;
 }
 
-.btn>button {
-    width: 100%;
+.btn>button {    
+    width: auto;
+    min-width: auto;
     height: 2.25rem;
     border-radius: .25rem;
     line-height: 2.25rem;
@@ -214,6 +217,7 @@
 
 .goodsBox>li:nth-child(n+4)>div>div:first-child>span {
     padding-right: .75rem;
+    white-space: nowrap;
 }
 
 .goodsBox>li:nth-child(n+4)>div>div:nth-child(2)>span {

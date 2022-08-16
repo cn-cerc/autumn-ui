@@ -131,7 +131,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                         <div>
                             <div>
                                 <input type="number" value={this.state.goodsPrice} onChange={(e) => { this.saveState({ goodsPrice: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
-                                <span>/{this.units[this.state.goodsUnit]}</span>
+                                <span>元/{this.units[this.state.goodsUnit]}</span>
                             </div>
                             <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPrice > 0 ? this.state.goodsNum * this.state.goodsPrice : '0.00'}</span></div>
                         </div>
@@ -141,7 +141,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                         <div>
                             <div>
                                 <input type="number" value={this.state.goodsPriceF} onChange={(e) => { this.saveState({ goodsPriceF: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
-                                <span>/{this.units[this.state.goodsUnit]}</span>
+                                <span>元/{this.units[this.state.goodsUnit]}</span>
                             </div>
                             <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPriceF > 0 ? this.state.goodsNum * this.state.goodsPriceF : '0.00'}</span></div>
                         </div>
@@ -401,6 +401,8 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
         headIn.setValue('car_num_', this.state.carName);
         headIn.setValue('driver_name_', this.state.driverName);
         headIn.setValue('driver_phone_', this.state.driverMobile);
+        headIn.setValue('payee_name_', this.state.payeeName);
+        headIn.setValue('payee_phone_', this.state.payeeMobile);
         let dataOut = await FplApi.appendAndTakeEffect(headIn);
         if (dataOut.state > 0) {
             this.client.remove('state');
