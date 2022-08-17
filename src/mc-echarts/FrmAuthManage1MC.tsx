@@ -13,7 +13,10 @@ type FrmAuthManage1MCTypeProps = {
 
 type FrmAuthManage1MCTypeState = {
     dataJson: DataRow,
-    allVerify: DataSet,
+    waitYearVerify: number,
+    waitVerify: number,
+    automaticVerify: number,
+    passVerify: number,
     statisticsVerify: DataSet,
 }
 
@@ -24,7 +27,10 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             dataJson: dataJson,
-            allVerify: new DataSet(),
+            waitYearVerify: 0,
+            waitVerify: 0,
+            automaticVerify: 0,
+            passVerify: 0,
             statisticsVerify: new DataSet(),
         }
     }
@@ -68,24 +74,24 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
                         <div className={styles.fourDiv}>
                             <div>
                                 <p>等待时间最长</p>
-                                <span>55</span>
+                                <span>{this.state.waitYearVerify}</span>
                             </div>
                             <div>
                                 <p>待审核</p>
-                                <span>5</span>
+                                <span>{this.state.waitVerify}</span>
                             </div>
                             <div>
                                 <p>自动审核</p>
-                                <span>51</span>
+                                <span>{this.state.automaticVerify}</span>
                             </div>
                             <div>
                                 <p>已审核</p>
-                                <span>98</span>
+                                <span>{this.state.passVerify}</span>
                             </div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>司机认证前五统计</div>
+                        <div className={styles.mcTitle}>一周审核数量</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -96,7 +102,10 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
     init() {
         FplApi.getAllVerify().then((allVerify) => {
             this.setState({
-                allVerify
+                waitYearVerify: allVerify.getDouble('waitYearVerify'),
+                waitVerify: allVerify.getDouble('waitVerify'),
+                automaticVerify: allVerify.getDouble('automaticVerify'),
+                passVerify: allVerify.getDouble('passVerify'),
             })
         });
         FplApi.getStatisticsVerify().then((statisticsVerify) => {
@@ -123,7 +132,7 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
         let xArr = [];
         let sData = [];
         while (ds.fetch()) {
-            xArr.push(ds.getString('corp_no_'));
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
             sData.push(ds.getDouble('num'));
         }
         let option = {
@@ -159,7 +168,7 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
                     itemStyle: {
                         color: MCChartColors[0],
                     },
-                    barWidth: 60,
+                    barWidth: this.isPhone ? 10 : 60,
                     lineStyle: {
                         color: MCChartColors[0]
                     },
