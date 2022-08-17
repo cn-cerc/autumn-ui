@@ -41,6 +41,8 @@ type FrmShippingAppendTypeState = {
     driverMobile: string,   // 司机手机号
     payeeName: string,      // 收款人名称
     payeeMobile: string     // 收款人手机号
+    isSubmit: boolean,      // 是否在提交页面
+    isLoad: boolean,        // 页面是否加载完成
 }
 
 export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeProps, FrmShippingAppendTypeState> {
@@ -49,11 +51,8 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     private units: string[] = [];
     constructor(props: FrmShippingAppendTypeProps) {
         super(props);
-        let state = {};
         this.client = new ClientStorage(`FrmShoppingAppend_${this.props.userCode}`);
         this.units = this.props.units.split(',');
-        if (this.client.get('state'))
-            state = JSON.parse(this.client.get('state'));
         this.state = {
             sendName: '',
             sendMobile: '',
@@ -73,12 +72,13 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             driverMobile: '',
             payeeName: '',
             payeeMobile: '',
-            ...state
+            isSubmit: false,
+            isLoad: false
         }
     }
 
     render(): ReactNode {
-        return <div className={styles.main}>
+        return <div className={styles.main} style={{ 'display': this.state.isLoad ? 'flex' : 'none' }}>
             <div className={styles.info}>
                 <ul className={styles.peopleBox}>
                     <li onClick={this.showSendPopup.bind(this)}>
@@ -201,18 +201,29 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             carName: ds.head.getString('car_num_'),
             driverName: ds.head.getString('driver_name_'),
             driverMobile: ds.head.getString('driver_phone_'),
+            isLoad: true
         })
     }
 
     async initSendInfo() {
         let dataOut = await FplApi.getSendInfo();
         dataOut.first();
+        let state = {};
+        if (this.client.get('state'))
+            state = JSON.parse(this.client.get('state'));
         if (!dataOut.eof()) {
             this.setState({
                 sendName: dataOut.getString('contact_'),
                 sendMobile: dataOut.getString('mobile_'),
                 sendDepart: dataOut.getString('address_'),
                 sendAddress: dataOut.getString('area5_'),
+                isLoad: true,
+                ...state,
+            })
+        } else {
+            this.setState({
+                isLoad: true,
+                ...state
             })
         }
     }
@@ -348,7 +359,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     }
 
     isIntact() {
-        let bool = true;
+        let bool = !this.state.isSubmit;
         if (!this.state.sendName)
             bool = false;
         else if (!this.state.sendMobile)
@@ -385,6 +396,9 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     async handleSubmit() {
         if (!this.isIntact())
             return;
+        this.setState({
+            isSubmit: true
+        })
         let headIn = new DataRow();
         headIn.setValue('send_name_', this.state.sendName);
         headIn.setValue('send_phone_', this.state.sendMobile);
@@ -405,6 +419,9 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
         headIn.setValue('payee_name_', this.state.payeeName);
         headIn.setValue('payee_phone_', this.state.payeeMobile);
         let dataOut = await FplApi.appendAndTakeEffect(headIn);
+        this.setState({
+            isSubmit: false
+        })
         if (dataOut.state > 0) {
             this.client.remove('state');
             showMsg('发布成功');
