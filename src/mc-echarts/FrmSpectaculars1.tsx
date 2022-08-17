@@ -20,8 +20,6 @@ type FrmSpectaculars1TypeState = {
     queryMileageD: number,
     cars_num: number,
     driver_num: number,
-    gaugeCenter: Array<string>,
-    gaugeRadius: number,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -41,8 +39,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             queryMileageD: 0,
             cars_num: 0,
             driver_num: 0,
-            gaugeCenter: ['55%', '85%'],
-            gaugeRadius: 62
         }
 
 
@@ -55,7 +51,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
                     <span>{this.props.corpName}</span>
                 </div>
-                <span>营运数据中心</span>
+                <span>车辆网看板</span>
                 <div className={styles.toggleIcons}>
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </div>
@@ -148,12 +144,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     componentDidMount(): void {
-        if (this.isPhone) {
-            this.setState({
-                gaugeCenter: ['50%', '80%'],
-                gaugeRadius: 90
-            })
-        }
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
         if (!this.isPhone)
@@ -189,14 +179,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 weeklyArrCarStatis
             }, () => {
                 this.initLineChart();
-            })
-        })
-
-        FplApi.getCountProvince().then((countProvince: DataSet) => {
-            this.setState({
-                countProvince
-            }, () => {
-
             })
         })
 
@@ -304,59 +286,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
-    initLineChart() {
-        let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
-        let myChart = echarts.getInstanceByDom(lineChart);
-        if (!myChart)
-            myChart = echarts.init(lineChart);
-
-        let ds = this.state.weeklyArrCarStatis;
-        let xArr = [];
-        let sData = [];
-        while (ds.fetch()) {
-            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
-            sData.push(ds.getDouble('arr_total_'));
-        }
-        let option = {
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: xArr
-            },
-            yAxis: {
-                show: false,
-            },
-            lengend: {},
-            tooltip: {},
-            grid: {
-                top: 20,
-                left: 20,
-                bottom: 20,
-                right: 20,
-            },
-            series: [
-                {
-                    data: sData,
-                    type: 'line',
-                    smooth: true,
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0],
-                        width: 1
-                    },
-                    areaStyle: {},
-                    label: {
-                        show: true
-                    }
-                },
-            ]
-        };
-
-        //@ts-ignore
-        myChart.setOption(option);
-    }
 
     //在线率
     initPieChart1() {
@@ -365,7 +294,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let online = this.state.carData.head.getDouble('online_'), total = this.state.carData.head.getDouble('total_');
+        let online = this.state.carData.head.getNumber('online_'), total = this.state.carData.head.getNumber('total_');
         if (!online) {
             online = 0;
         }
@@ -373,14 +302,14 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (online == 0 || total == 0) {
             value = 0;
         } else {
-            value = this.math.toFixed(online / total * 100, 2);
+            value = this.math.toFixed(online / total, 2);
         }
 
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -463,18 +392,20 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //满载率
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_'), 4);
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 4);
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -562,12 +493,12 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
-        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_'), 2);
+        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') / 100, 2);
         let option = {
             series: [
                 {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
                     type: 'gauge',
                     startAngle: 180,
                     endAngle: 0,
@@ -650,6 +581,62 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //物流运单
+    initLineChart() {
+        let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(lineChart);
+        if (!myChart)
+            myChart = echarts.init(lineChart);
+
+        let ds = this.state.weeklyArrCarStatis;
+        let xArr = [];
+        let sData = [];
+        while (ds.fetch()) {
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('arr_total_'));
+        }
+        let option = {
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: xArr
+            },
+            yAxis: {
+                show: false,
+            },
+            lengend: {},
+            tooltip: {},
+            grid: {
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
+            },
+            series: [
+                {
+                    data: sData,
+                    type: 'line',
+                    smooth: true,
+                    itemStyle: {
+                        color: MCChartColors[0]
+                    },
+                    lineStyle: {
+                        color: MCChartColors[0],
+                        width: 1
+                    },
+                    label: {
+                        show: true
+                    }
+                },
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //区域排名TOPS
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
@@ -696,8 +683,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             series: [
                 {
                     type: 'pie',
-                    center: ['32%', '53%'],
-                    radius: ['35%', '52%'],
+                    center: this.isPhone ? ['30%', '55%'] : ['28%', '50%'],
+                    radius: this.isPhone ? ['50%', '80%'] : ['30%', '55%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -718,7 +705,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 }
             ]
         }
-
         //@ts-ignore
         myChart.setOption(option);
     }
