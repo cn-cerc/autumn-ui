@@ -172,8 +172,9 @@
 }
 
 .goodsBox>li:nth-child(3)>div>span.active {
-    color: #009307;
+    color: #fff;
     border-color: #009307;
+    background-color: #009307;
 }
 
 .goodsBox>li:nth-child(3)>div>span:nth-child(n+2) {

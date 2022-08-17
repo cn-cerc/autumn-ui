@@ -353,16 +353,24 @@ export default class FplApi {
     static getEarlyWarningDetails() {
         return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningDetails');
     }
+
     /** 风险预警=》数据汇总 (半年-高风险) */
     static getEarlyWarningStatistics() {
         return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningStatistics');
     }
+
     /** 风险预警=》 分析研判(自然月) */
     static getEarlyWarningMonthStatistics() {
         return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningMonthStatistics');
     }
+
     /** 获取发货人默认信息 */
     static getSendInfo() {
         return ControlApi.getService('SvrAddress.getDefaultAddress');
+    }
+
+    /** 查询车牌号是否有在恒凯昌认证过  */
+    static queryCarCertification(params: DataRow) {
+        return ControlApi.getDataOut('SvrPCarRegistration.queryCarCertification', params);
     }
 }

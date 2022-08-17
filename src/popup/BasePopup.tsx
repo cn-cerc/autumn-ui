@@ -84,22 +84,16 @@ type PopupEditTypeProps = {
     placeHolder?: string,
     type?: string,
     autoFocus?: boolean
+    readonly?: boolean
 }
 
-type PopupEditTypeState = {
-    value: string
-}
-
-export class PopupEdit extends React.Component<PopupEditTypeProps, PopupEditTypeState> {
+export class PopupEdit extends React.Component<PopupEditTypeProps> {
     constructor(props: PopupEditTypeProps) {
         super(props);
-        this.state = {
-            value: this.props.dataRow.getString(this.props.dataField)
-        }
     }
 
     render(): React.ReactNode {
-        return <input type={this.props.type || 'text'} value={this.state.value} onChange={(e) => this.handleChange(e)} className={this.props.class || styles.popupEdit} placeholder={this.props.placeHolder || ''} autoFocus={this.props.autoFocus}></input>
+        return <input type={this.props.type || 'text'} value={this.props.dataRow.getString(this.props.dataField)} onChange={(e) => this.handleChange(e)} className={this.props.class || styles.popupEdit} placeholder={this.props.placeHolder || ''} autoFocus={this.props.autoFocus} readOnly={this.props.readonly}></input>
     }
 
     handleChange(e: any) {
@@ -108,7 +102,7 @@ export class PopupEdit extends React.Component<PopupEditTypeProps, PopupEditType
         if (this.props.onChange)
             this.props.onChange();
         this.setState({
-            value
+            ...this.state
         });
     }
 }
