@@ -190,14 +190,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             })
         })
 
-        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
-            FplApi.getQueryMileageD().then((queryMileageD) => {
-                this.setState({
-                    carData: queryCarsLocation,
-                    queryMileageD: queryMileageD.getDouble('total_mileage_'),
-                }, () => {
-                    this.initPieChart1();
-                })
+        FplApi.getQueryMileageD().then((queryMileageD) => {
+            this.setState({
+                queryMileageD: queryMileageD.getDouble('total_mileage_'),
             })
         })
 
@@ -212,7 +207,15 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 zoom: 8,
                 center: this.props.lonlat.split(',')
             });
-        this.initCarData();
+
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            this.setState({
+                carData: queryCarsLocation,
+            }, () => {
+                this.initPieChart1();
+                this.initCarData();
+            })
+        })
     }
 
     initCarSite() {
@@ -232,6 +235,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         }
     }
 
+    //异常动态
     initLineChart1() {
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(lineChart);
@@ -488,6 +492,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //货损率
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
