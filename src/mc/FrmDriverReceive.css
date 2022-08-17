@@ -314,6 +314,11 @@
         background-size: 100%;
     }
 
+    .orderTypeList .orderActive {
+        color: #0473EA;
+        font-weight: bold;
+    }
+
     .orderTypeList .orderActive::after {
         position: absolute;
         content: '';
