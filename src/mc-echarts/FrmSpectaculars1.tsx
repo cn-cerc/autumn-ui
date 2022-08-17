@@ -115,7 +115,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>区域排名TOPS</div>
+                            <div className={styles.mcTitle}>省份运单排名</div>
                             <div className={styles.rightBox1Pie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
@@ -642,7 +642,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         myChart.setOption(option);
     }
 
-    //区域排名TOPS
+    //省份运单排名
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
