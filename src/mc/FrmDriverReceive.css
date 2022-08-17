@@ -364,21 +364,27 @@
         color: #999;
     }
 
+    .siteCenter,
     .orderCenter {
-        margin: 0.625rem 0;
-        background-color: #FAFAFA;
         border-radius: .125rem;
         padding: .75rem 1rem;
         display: flex;
         position: relative;
     }
 
-    .orderCenter>div {
+    .orderCenter {
+        margin: 0 0.625rem 0.625rem 0.625rem;
+        background-color: #FAFAFA;
+    }
+
+    .orderCenter>div,
+    .siteCenter>div {
         width: 0;
         flex: 1;
     }
 
-    .orderCenter>img {
+    .orderCenter>img,
+    .siteCenter>img {
         width: 4.375rem;
         height: 4.375rem;
         position: absolute;
@@ -386,40 +392,42 @@
         bottom: 0.32rem;
     }
 
-    .orderInfo {
+    .orderInfo,
+    .siteInfo {
         display: flex;
         flex-direction: column;
         width: 0;
         flex: 1;
     }
 
-    .orderInfo>span {
+    .orderInfo>span,
+    .siteInfo>span {
         overflow: hidden;
         font-size: 16px;
     }
 
-    .orderInfo>span>i {
+    .orderInfo>span>i,
+    .siteInfo>span>i {
         color: #999999;
         padding-right: .625rem;
     }
 
-    .orderInfo>span:nth-child(n+3) {
-        /* padding-left: 74px; */
+    .orderInfo>span {
         position: relative;
-        line-height: 1.25rem;
+        line-height: 1.5rem;
     }
 
-    .orderInfo>span:nth-child(n+3)>i {
+    .orderInfo>span>i {
         position: absolute;
         left: 0;
         top: .5rem;
     }
 
-    .orderInfo>span:nth-child(n+4) {
-        padding-top: 0.375rem;
+    .orderInfo>span:nth-child(1) {
+        padding-top: 0;
     }
 
-    .orderInfo>span:nth-of-type(3)>i {
+    .orderInfo>span>i {
         top: 0;
     }
 
@@ -593,6 +601,10 @@
         position: relative;
         padding-bottom: 0.5rem;
         line-height: 20px;
+    }
+
+    .siteSkin:last-child {
+        padding-bottom: 0;
     }
 
     .siteSkin::before {
