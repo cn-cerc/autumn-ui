@@ -222,7 +222,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -290,7 +290,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,

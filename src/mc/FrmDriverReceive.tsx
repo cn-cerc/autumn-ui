@@ -318,13 +318,17 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                         {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}> <a className={styles.luxian} href=""> <img src={StaticFile.getImage('images/Frmshopping/site.png')} alt="" /> 路线</a> </span> : ''}
                     </div>
                 </div>
-                <div className={styles.orderCenter}>
-                    <div className={styles.orderInfo}>
+                <div className={styles.siteCenter}>
+                    <div className={styles.siteInfo}>
                         <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g, '')}${row.getString('send_detail_')}`}</span>
                         <span className={styles.siteSkin}>{`${row.getString('destination_').replace(/\\/g, '')}${row.getString('receive_detail_')}`}</span>
+                    </div>
+                </div>
+                <div className={styles.orderCenter}>
+                    <div className={styles.orderInfo}>
                         <span>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} {row.getInt('driver_type_') == 1 ? `| ${this.fromatPriceFun(row.getString('unit_price_'))}元/${[this.unitArr[row.getDouble('main_unit_')]]}` : ''}</span>
-                        <span>计划发车:{this.formatDateTimeFun(stratDate)}</span>
-                        <span>计划抵达:{this.formatDateTimeFun(endDate)}</span>
+                        <span>计划发车: {this.formatDateTimeFun(stratDate)}</span>
+                        <span>计划抵达: {this.formatDateTimeFun(endDate)}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>
