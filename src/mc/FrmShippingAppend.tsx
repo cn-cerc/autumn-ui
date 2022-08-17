@@ -201,6 +201,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             carName: ds.head.getString('car_num_'),
             driverName: ds.head.getString('driver_name_'),
             driverMobile: ds.head.getString('driver_phone_'),
+            isSubmit: false,
             isLoad: true
         })
     }
@@ -217,12 +218,14 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                 sendMobile: dataOut.getString('mobile_'),
                 sendDepart: dataOut.getString('address_'),
                 sendAddress: dataOut.getString('area5_'),
+                isSubmit: false,
                 isLoad: true,
                 ...state,
             })
         } else {
             this.setState({
                 isLoad: true,
+                isSubmit: false,
                 ...state
             })
         }
@@ -394,8 +397,55 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     }
 
     async handleSubmit() {
-        if (!this.isIntact())
+        if (this.state.isSubmit) {
+            showMsg('正在提交中，请稍后...');
             return;
+        } else if (!this.state.sendName) {
+            showMsg('发货人姓名不可为空!');
+            return;
+        } else if (!this.state.sendMobile) {
+            showMsg('发货人手机号不可为空!');
+            return;
+        } else if (!this.state.sendDepart) {
+            showMsg('发货地不可为空!');
+            return;
+        } else if (!this.state.sendAddress) {
+            showMsg('发货地详细地址不可为空!');
+            return;
+        } else if (!this.state.receiveName) {
+            showMsg('收货人姓名不可为空!');
+            return;
+        } else if (!this.state.receiveMobile) {
+            showMsg('收货人手机号不可为空!');
+            return;
+        } else if (!this.state.receiveDepart) {
+            showMsg('收货地不可为空!');
+            return;
+        } else if (!this.state.receiveAddress) {
+            showMsg('收货地详细地址不可为空!');
+            return;
+        } else if (!this.state.goodsName) {
+            showMsg('货物名称不可为空!');
+            return;
+        } else if (!this.state.goodsNum) {
+            showMsg('货物数量不可为空或0!');
+            return;
+        } else if (!this.state.goodsPrice) {
+            showMsg('订单价不可为空或0!');
+            return;
+        } else if (!this.state.goodsPriceF) {
+            showMsg('运单价不可为空或0!');
+            return;
+        } else if (!this.state.carName) {
+            showMsg('车牌号不可为空!');
+            return;
+        } else if (!this.state.driverName) {
+            showMsg('司机姓名不可为空!');
+            return;
+        } else if (!this.state.driverMobile) {
+            showMsg('司机手机号不可为空!');
+            return;
+        }
         this.setState({
             isSubmit: true
         })
