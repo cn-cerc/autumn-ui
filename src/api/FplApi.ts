@@ -329,7 +329,6 @@ export default class FplApi {
         return ControlApi.getService('SvrDataMonitorPanel.getWeeklyArrangeWeight');
     }
 
-
     /** 货运管理急速版 => 按月分组统计的物流运单数量  */
     static getMonthlyArrCarStatis() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
@@ -357,21 +356,6 @@ export default class FplApi {
     /** 查询所有客户最新线路数值  */
     static getQuoteCusList(params: DataRow) {
         return ControlApi.getDataOut('SvrTransportQuote.queryCusLine', params);
-    }
-
-    /** 风险预警=》 预警详情(半年) */
-    static getEarlyWarningDetails() {
-        return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningDetails');
-    }
-
-    /** 风险预警=》数据汇总 (半年-高风险) */
-    static getEarlyWarningStatistics() {
-        return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningStatistics');
-    }
-
-    /** 风险预警=》 分析研判(自然月) */
-    static getEarlyWarningMonthStatistics() {
-        return ControlApi.getService('SvrRiskWarningMonitorPanel.getEarlyWarningMonthStatistics');
     }
 
     /** 获取发货人默认信息 */
