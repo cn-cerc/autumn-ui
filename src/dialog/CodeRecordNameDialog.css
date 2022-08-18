@@ -1,0 +1,19 @@
+.site {
+    padding: 10px 20px;
+    /* margin: 20px 0; */
+    border-top: 1px solid #CCCCCC;
+}
+
+.site>a {
+    margin: 0.5rem 1rem 0.5rem 0;
+    min-width: 8rem;
+    padding: 0.5rem 1rem;
+    background: #009307;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0.24rem;
+    display: inline-block;
+    text-align: center;
+}
+
