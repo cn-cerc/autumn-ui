@@ -66,11 +66,12 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
         let list = [];
         ds.first();
         let colorIndex = 0;
+        let searchText = this.state.searchRow.getString('searchText_');
         while (ds.fetch()) {
             let name = ds.getString('name_');
             let userCode = ds.getString('user_code_');
             let text = ds.getString('corp_name_');
-            list.push(<li key={userCode} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name, ds.getString('UID_'))}>
+            list.push(<li key={name+userCode+searchText} onClick={this.handleClick.bind(this, ds.getString('update_time_'), userCode, name, ds.getString('UID_'))}>
                 <div className={styles.contactImage} style={{ 'backgroundColor': this.colorArr[colorIndex] }}>{name.substring(name.length - 2)}</div>
                 <div className={styles.alignItem}>
                     <div className={styles.contactTitle}>
@@ -91,7 +92,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             </form>
             <ul className={`${styles.AllContactList} ${list.length > 0 ? styles.contactDetailList : ''}`} onScroll={(e) => {
                 this.scrollEventFun(e);
-            }} key={this.state.searchRow.getString('searchText_')}>
+            }} key={searchText}>
                 {list}
             </ul>
         </React.Fragment>
