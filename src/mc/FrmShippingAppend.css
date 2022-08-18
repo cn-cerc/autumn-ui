@@ -172,8 +172,9 @@
 }
 
 .goodsBox>li:nth-child(3)>div>span.active {
-    color: #009307;
+    color: #fff;
     border-color: #009307;
+    background-color: #009307;
 }
 
 .goodsBox>li:nth-child(3)>div>span:nth-child(n+2) {
@@ -208,6 +209,7 @@
     border-radius: 0;
     font-size: 16px;
     background-color: #F5F5F5;
+    min-width: auto;
 }
 
 .goodsBox>li:nth-child(n+4)>div>div:first-child>input::placeholder {
@@ -218,6 +220,7 @@
 .goodsBox>li:nth-child(n+4)>div>div:first-child>span {
     padding-right: .75rem;
     white-space: nowrap;
+    line-height: 2rem;
 }
 
 .goodsBox>li:nth-child(n+4)>div>div:nth-child(2)>span {

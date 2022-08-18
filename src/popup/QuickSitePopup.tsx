@@ -130,7 +130,7 @@ export class QuickSitePopup_MC extends BasePopup<QuickSitePopup_MCTypeProps, Qui
         super(props);
         this.state = {
             ...this.state,
-            height: '95vh',
+            height: '95%',
             site: {
                 province: '',
                 city: '',
@@ -148,7 +148,7 @@ export class QuickSitePopup_MC extends BasePopup<QuickSitePopup_MCTypeProps, Qui
     content(): JSX.Element {
         return <div className={styles.main}>
             <div className={styles.inputBox}>
-                <input type="text" id='siteInput' placeholder="请输入查询位置" autoComplete="off" autoFocus={true} />
+                <input type="text" id='siteInput' placeholder="请输入查询位置" autoComplete="off" />
             </div>
             <div id="container" className={styles.container}></div>
             <div className={styles.btn}>

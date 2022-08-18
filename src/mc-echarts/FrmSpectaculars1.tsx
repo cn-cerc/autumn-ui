@@ -113,7 +113,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>区域排名TOPS</div>
+                            <div className={styles.mcTitle}>省份运单排名</div>
                             <div className={styles.rightBox1Pie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
@@ -180,14 +180,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             })
         })
 
-        // FplApi.getCountProvince().then((countProvince: DataSet) => {
-        //     this.setState({
-        //         countProvince
-        //     }, () => {
-
-        //     })
-        // })
-
         FplApi.getCountProvince().then((countProvince: DataSet) => {
             this.setState({
                 countProvince
@@ -196,14 +188,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             })
         })
 
-        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
-            FplApi.getQueryMileageD().then((queryMileageD) => {
-                this.setState({
-                    carData: queryCarsLocation,
-                    queryMileageD: queryMileageD.getDouble('total_mileage_'),
-                }, () => {
-                    this.initPieChart1();
-                })
+        FplApi.getQueryMileageD().then((queryMileageD) => {
+            this.setState({
+                queryMileageD: queryMileageD.getDouble('total_mileage_'),
             })
         })
 
@@ -218,7 +205,15 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 zoom: 8,
                 center: this.props.lonlat.split(',')
             });
-        this.initCarData();
+
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            this.setState({
+                carData: queryCarsLocation,
+            }, () => {
+                this.initPieChart1();
+                this.initCarData();
+            })
+        })
     }
 
     initCarSite() {
@@ -320,7 +315,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -361,13 +356,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -378,11 +373,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
@@ -406,7 +401,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 2);
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 4);
         let option = {
             series: [
                 {
@@ -416,7 +411,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -457,13 +452,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -474,11 +469,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
@@ -511,7 +506,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -552,13 +547,13 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -569,11 +564,11 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: 18,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
@@ -644,7 +639,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         myChart.setOption(option);
     }
 
-    //区域排名TOPS
+    //省份运单排名
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);

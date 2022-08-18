@@ -27,7 +27,7 @@ export default class SendCarDriverDialog extends BaseDialog<CarBodyProps, StaffT
             width: '45rem',
             height: this.isPhone ? '25rem' : '30rem'
         }
-        this.setTitle("选择挂车厢")
+        this.setTitle("选择挂车")
     }
 
     componentWillMount() {
@@ -59,7 +59,7 @@ export default class SendCarDriverDialog extends BaseDialog<CarBodyProps, StaffT
         if (this.isPhone) {
             return <Block dataSet={this.state.dataSet}>
                 <Line>
-                    <Column code="car_num_" name="挂车箱车牌号" width="80"></Column>
+                    <Column code="car_num_" name="挂车车牌号" width="80"></Column>
                     <Column code="opera" name="" width="20" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
                     }}></Column>
@@ -68,7 +68,7 @@ export default class SendCarDriverDialog extends BaseDialog<CarBodyProps, StaffT
         } else {
             return <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
                 <ColumnIt />
-                <Column code="car_num_" name="挂车箱车牌号" width="40"></Column>
+                <Column code="car_num_" name="挂车车牌号" width="40"></Column>
                 <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
                     return <span role="auiOpera" id='category'>选择</span>
                 }}></Column>
