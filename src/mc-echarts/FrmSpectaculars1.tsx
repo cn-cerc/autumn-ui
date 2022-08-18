@@ -144,11 +144,20 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     componentDidMount(): void {
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
-        if (!this.isPhone)
+        if (!this.isPhone) {
             addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, () => {
                 this.isInitMap = true;
                 this.initMap();
             });
+        } else {
+            FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+                this.setState({
+                    carData: queryCarsLocation,
+                }, () => {
+                    this.initPieChart1();
+                })
+            })
+        }
     }
 
     async initCarData() {
@@ -303,7 +312,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (online == 0 || total == 0) {
             value = 0;
         } else {
-            value = this.math.toFixed(online / total, 2);
+            value = this.math.toFixed(online / total * 100, 2);
         }
 
         let option = {
@@ -401,7 +410,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 4);
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_'), 2);
         let option = {
             series: [
                 {
@@ -496,7 +505,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         let myChart = echarts.getInstanceByDom(peiChart);
         if (!myChart)
             myChart = echarts.init(peiChart);
-        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') / 100, 2);
+        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_'), 2);
         let option = {
             series: [
                 {

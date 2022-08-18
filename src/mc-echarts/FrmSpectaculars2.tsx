@@ -330,7 +330,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = 0.15;
+        let value: any = 15.51;
         let option = {
             series: [
                 {
@@ -340,7 +340,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -381,13 +381,13 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -398,11 +398,11 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize:this.isPhone ? 18 : 14,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
@@ -426,7 +426,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         if (!myChart)
             myChart = echarts.init(peiChart);
 
-        let value: any = 0.21;
+        let value: any = 21.21;
         let option = {
             series: [
                 {
@@ -436,7 +436,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     startAngle: 180,
                     endAngle: 0,
                     min: 0,
-                    max: 1,
+                    max: 100,
                     splitNumber: 3,
                     axisLine: {
                         lineStyle: {
@@ -477,13 +477,13 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         fontSize: 8,
                         distance: -60,
                         formatter: function (value: number) {
-                            if (value === 0.875) {
+                            if (value === 87.5) {
                                 return 'A';
-                            } else if (value === 0.625) {
+                            } else if (value === 62.5) {
                                 return 'B';
-                            } else if (value === 0.375) {
+                            } else if (value === 37.5) {
                                 return 'C';
-                            } else if (value === 0.125) {
+                            } else if (value === 12.5) {
                                 return 'D';
                             }
                             return '';
@@ -494,11 +494,11 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                         fontSize: 8
                     },
                     detail: {
-                        fontSize: 20,
+                        fontSize: this.isPhone ? 18 : 14,
                         offsetCenter: [0, '0%'],
                         valueAnimation: true,
                         formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
+                            return value + '%';
                         },
                         color: 'inherit'
                     },
