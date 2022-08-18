@@ -368,9 +368,17 @@ export default class FplApi {
     static getSendInfo() {
         return ControlApi.getService('SvrAddress.getDefaultAddress');
     }
-
     /** 查询车牌号是否有在恒凯昌认证过  */
     static queryCarCertification(params: DataRow) {
         return ControlApi.getDataOut('SvrPCarRegistration.queryCarCertification', params);
+    }
+
+    /** 恒凯昌 认证中心=》认证看板统计查询 */
+    static getAllVerify() {
+        return ControlApi.getService('SvrDriverDetalis.getAllVerify');
+    }
+    /** 恒凯昌 认证中心=》每天审核的数量 (自动+手动,往前推七天) */
+    static getStatisticsVerify() {
+        return ControlApi.getService('SvrDriverDetalis.statisticsVerify');
     }
 }

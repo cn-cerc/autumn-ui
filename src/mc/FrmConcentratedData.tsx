@@ -1,9 +1,6 @@
 import { WebControl } from "autumn-ui";
 import React from "react";
-import FplApi from "../api/FplApi";
-import ApplicationConfig from "../static/ApplicationConfig";
 import StaticFile from "../static/StaticFile";
-import { addScript, GDMap } from "../tool/Summer";
 import styles from "./FrmConcentratedData.css";
 
 type FrmConcentratedDataTypeProps = {
