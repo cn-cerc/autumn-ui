@@ -314,6 +314,11 @@
         background-size: 100%;
     }
 
+    .orderTypeList .orderActive {
+        color: #0473EA;
+        font-weight: bold;
+    }
+
     .orderTypeList .orderActive::after {
         position: absolute;
         content: '';
@@ -366,14 +371,15 @@
 
     .siteCenter,
     .orderCenter {
-        border-radius: .125rem;
-        padding: .75rem 1rem;
         display: flex;
         position: relative;
+        padding: .75rem 0;
     }
 
     .orderCenter {
-        margin: 0 0.625rem 0.625rem 0.625rem;
+        margin-bottom: 0.625rem;
+        padding: .75rem 1rem;
+        border-radius: .125rem;
         background-color: #FAFAFA;
     }
 
