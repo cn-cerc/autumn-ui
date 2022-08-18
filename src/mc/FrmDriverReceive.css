@@ -391,8 +391,8 @@
 
     .orderCenter>img,
     .siteCenter>img {
-        width: 4.375rem;
-        height: 4.375rem;
+        width: 56px;
+        height: 56px;
         position: absolute;
         right: 0.75rem;
         bottom: 0.32rem;
