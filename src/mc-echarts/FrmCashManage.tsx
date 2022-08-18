@@ -1,6 +1,7 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import UIIntroduction from "../module/UIIntroduction";
 import styles from "./FrmCashManage.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
@@ -49,10 +50,7 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <div className={styles.mcIntroduction}>
-                <div className={styles.mcTitle}>简介</div>
-                <p>{this.props.introduction}</p>
-            </div>
+            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -194,7 +192,7 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -254,7 +252,7 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,

@@ -1,7 +1,6 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
-import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
 import styles from "./FrmChargeManage.css";
 import { MCChartColors } from "./FrmTaurusMC";

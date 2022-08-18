@@ -54,13 +54,13 @@
 .mcCharts {
     width: 0;
     flex: 1;
-    margin-left: 16px;
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
 }
 
 .mcTrendChart {
-    margin-top: 16px;
+    margin-top: 10px;
     height: 0;
     flex: 1;
     display: flex;
@@ -156,7 +156,7 @@
     cursor: pointer;
 }
 
-.primeval_disable{
+.primeval_disable {
     background: url("../assets/img/primeval_disable.png") top center no-repeat;
     padding-top: 40px;
     background-size: 40px 40px;
@@ -216,7 +216,7 @@
 }
 
 .mcPieBox2 {
-    margin-left: 16px;
+    margin-left: 10px;
 }
 
 .FrmTaurusMCPie1,
@@ -319,12 +319,13 @@
     }
 
     .mcMain {
-        margin:0.75rem;
+        margin: 0.75rem;
         flex-wrap: wrap;
+        padding-bottom: 0;
     }
 
     .mcFlowChartBox {
-        height: 520px;
+        height: 330px;
     }
 
     .register>span,
@@ -347,12 +348,12 @@
     .control,
     .other,
     .primeval {
-        padding-top: 35px;
+        padding-top: 2.1875rem;
     }
 
     .mcFlowChartBox {
         width: 100%;
-        margin-bottom: 16px;
+        margin-bottom: 0.75rem;
     }
 
     .mcCharts {
@@ -362,7 +363,7 @@
 
     .mcTrendChart,
     .mcPieBox2 {
-        margin-top: 16px;
+        margin-top: 0.75rem;
     }
 
     .FrmTaurusMCLine {
