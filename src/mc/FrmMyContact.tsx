@@ -261,11 +261,12 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
             let list = [];
             ds.first();
             let colorIndex = 0;
+            let searchText = this.state.searchRow.getString('searchText_');
             while (ds.fetch()) {
                 let name = ds.getString('name_');
                 let userCode = ds.getString('user_code_');
                 let text = ds.getString('corp_name_');
-                list.push(<li key={userCode}>
+                list.push(<li key={name+userCode+searchText}>
                     <div className={`${styles.contactImage} ${userCode == '' ? styles.hover : ''}`} style={{ 'backgroundColor': imageColorArr[colorIndex] }} onClick={this.toModify.bind(this, ds.current)}>{name.substring(name.length - 2)}</div>
                     <div className={styles.alignItem}>
                         <div className={styles.contactTitle}>
@@ -289,7 +290,7 @@ export default class FrmMyContact extends WebControl<FrmMyContactTypeProps, FrmM
                 </form>
                 <ul className={styles.AllContactList} onScroll={(e) => {
                     this.scrollEventFun(e);
-                }} key={this.state.searchRow.getString('searchText_')}>
+                }} key={searchText}>
                     {list}
                 </ul>
             </div >
