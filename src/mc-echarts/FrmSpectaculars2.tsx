@@ -12,8 +12,7 @@ type FrmSpectaculars2TypeProps = {
 type FrmSpectaculars2TypeState = {
     lineData: DataSet,
     pieData1: DataSet,
-    pieData2: DataSet,
-    toggle: number
+    toggle: number,
 }
 
 export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypeProps, FrmSpectaculars2TypeState> {
@@ -32,58 +31,56 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         pieData1.append().setValue('Value_', 20).setValue('Name_', '小型');
         pieData1.append().setValue('Value_', 30).setValue('Name_', '中型');
         pieData1.append().setValue('Value_', 15).setValue('Name_', '大型');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             lineData,
             pieData1,
-            pieData2,
-            toggle
+            toggle,
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>
-                    <b className={styles.corpName}><img src={StaticFile.getImage('images/MCimg/corpName.png')} alt="" />{this.props.corpName}</b>
-                    <span>安全监控中心</span>
-                    <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
+                <div className={styles.corpName}>
+                    <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
+                    <span>{this.props.corpName}</span>
+                </div>
+                <span>安全监控中心</span>
+                <div className={styles.toggleIcons}>
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
-                </p>
-                <div>
-                    <ul className={styles.top_list}>
-                        <li className={styles.li_3}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/3.png')} alt="" />
-                            </div>
-                            <div>
+                </div>
+            </div>
+            <div className={`${styles.mcMain} ${this.state.toggle == 1 ? '' : styles.mcMainNoPB}`}>
+                <div className={styles.topBox}>
+                    <div className={styles.top_list}>
+                        <p className={styles.mcTitle}>数据总览</p>
+                        <ul>
+                            <li className={styles.li_3}>
                                 <div className={styles.topTitle}>交易金额</div>
                                 <div className={styles.topInfo}>
                                     534.24 <span>万元</span>
                                 </div>
-                            </div>
-                        </li>
-                        <li className={styles.li_3}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/2.png')} alt="" />
-                            </div>
-                            <div>
+                            </li>
+                            <li className={styles.li_3}>
                                 <div className={styles.topTitle}>运行时间</div>
                                 <div className={styles.topInfo}>
                                     687 <span>小时</span>
                                 </div>
-                            </div>
-
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className={styles.toprightEacharBox}>
+                        <div className={styles.topBox1}>
+                            <div className={styles.mcTitle}>违章率</div>
+                            <div className={styles.FrmSpectaculars2MCPie2}></div>
+                        </div>
+                        <div className={styles.topBox2}>
+                            <div className={styles.mcTitle}>事故率</div>
+                            <div className={styles.FrmSpectaculars2MCPie3}></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className={`${styles.mcMain} ${this.state.toggle == 1 ? '' : styles.mcMainNoPB}`}>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -101,19 +98,19 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                                     <img src={StaticFile.getImage('images/MCimg/1.png')} alt="" />
                                     道路安全交通小常识
                                 </div>
+                                <div className={styles.leftScrollListItem}>
+                                    <img src={StaticFile.getImage('images/MCimg/1.png')} alt="" />
+                                    安全警示通告
+                                </div>
                             </div>
                         </div>
                         <div className={styles.leftBox2}>
-                            <div className={styles.mcTitle}>违章率</div>
-                            <div className={styles.FrmSpectaculars2MCPie2}></div>
-                        </div>
-                        <div className={styles.leftBox3}>
-                            <div className={styles.mcTitle}>事故率</div>
-                            <div className={styles.FrmSpectaculars2MCPie3}></div>
+                            <div className={styles.mcTitle}>异常情况</div>
+                            <div className={styles.FrmSpectaculars2MCPie1}></div>
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
-                        <div className={styles.centerBox1}>
+                        {this.isPhone ? '' : <div className={styles.centerBox1}>
                             <div className={styles.mcMap}>
                                 <ul>
                                     <li className={styles.imgItem}>
@@ -136,48 +133,37 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div>}
                         <div className={styles.centerBox2}>
-                            <div className={styles.mcTitle}>本周异常情况</div>
+                            <div className={styles.mcTitle}>近一周车辆异常</div>
                             <div className={styles.mcLink}></div>
                         </div>
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>异常情况</div>
-                            <div className={styles.FrmSpectaculars2MCPie1}></div>
-                        </div>
-                        <div className={styles.rightBox2}>
                             <div className={styles.mcTitle}>异常动态</div>
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        07-11 08.36 <span className={styles.colorSkin}>湘AH6344</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-13 08.36 <span className={styles.colorSkin}>湘AH6344</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        07-11 10:56 <span className={styles.colorSkin}>粤AK3316</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-12 10:56 <span className={styles.colorSkin}>粤AK3316</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        07-11 11:22 <span className={styles.colorSkin}>粤BW22C6</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-12 15:22 <span className={styles.colorSkin}>粤BW22C6</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        07-11 11:54 <span className={styles.colorSkin}>桂A32X31</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-11 07:54 <span className={styles.colorSkin}>桂A32X31</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        07-11 14:10 <span className={styles.colorSkin}>闽B346D5</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-11 12:10 <span className={styles.colorSkin}>闽B346D5</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        07-11 16:41 <span className={styles.colorSkin}>赣B33C24</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-10 16:41 <span className={styles.colorSkin}>赣B33C24</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        07-11 18:30 <span className={styles.colorSkin}>粤AC6666</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-10 18:30 <span className={styles.colorSkin}>粤AC6666</span> 行驶超速
                                     </li>
                                 </ul>
                             </div>
@@ -195,6 +181,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         this.initPieChart3();
     }
 
+    //近一周车辆异常
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
@@ -210,47 +197,34 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         let option = {
             xAxis: {
                 type: 'category',
+                boundaryGap: false,
                 data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
             },
             yAxis: {
-                type: 'value',
-                axisLabel: {
-                    color: '#333333'
-                }
+                show: false,
             },
             lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
             },
             series: [
                 {
                     data: [58, 140, 121, 130, 181, 190, 129],
                     type: 'line',
-                    smooth: 0.6,
-                    symbol: 'none',
+                    smooth: true,
                     itemStyle: {
                         color: MCChartColors[1]
                     },
                     lineStyle: {
                         color: MCChartColors[1],
-                        width: 2
+                        width: 1
                     },
                     label: {
-                        // show: true,
-                        position: 'top'
+                        show: true,
                     },
                 }
             ]
@@ -260,6 +234,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         myChart.setOption(option);
     }
 
+    //异常情况
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
@@ -273,40 +248,56 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                 value: ds.getDouble('Value_')
             })
         }
+
+        let legend: object = {
+            itemWidth: 8,
+            itemHeight: 8,
+            icon: 'circle',
+            itemGap: 16,
+            formatter: (name: any) => {
+                let singleData = dataArr.filter(function (item: any) {
+                    return item.name == name
+                })
+                return name + ' : ' + singleData[0].value + '辆';
+            },
+            textStyle: {
+                lineHeight: 10,
+                fontSize: 14
+            }
+        }
+
+        if (this.isPhone) {
+            legend = {
+                ...legend,
+                top: 'center',
+                left: '60%',
+                orient: 'vertical',
+            }
+        } else {
+            legend = {
+                ...legend,
+                bottom: '0',
+                left: 'center',
+            }
+        }
+
         let option = {
             tooltip: {
                 trigger: 'item'
             },
-            legend: {
-                top: 'center',
-                left: '60%',
-                orient: 'vertical',
-                itemWidth: 8,
-                itemHeight: 8,
-                icon: 'circle',
-                itemGap: 5,
-                formatter: (name: any) => {
-                    let singleData = dataArr.filter(function (item: any) {
-                        return item.name == name
-                    })
-                    return name + ' : ' + singleData[0].value + '辆';
-                },
-                textStyle: {
-                    lineHeight: 10,
-                }
-            },
+            legend,
             grid: {
-                top: '20%',
-                left: 5,
-                bottom: 5,
-                right: '20%',
+                top: 0,
+                left: 0,
+                bottom: 20,
+                right: 0,
                 containLabel: true,
             },
             series: [
                 {
                     type: 'pie',
-                    center: ['30%', '53%'],
-                    radius: ['50%', '75%'],
+                    center: this.isPhone ? ['30%', '55%'] : ['50%', '30%'],
+                    radius: this.isPhone ? ['50%', '80%'] : ['25%', '50%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -316,7 +307,7 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '20',
+                            fontSize: '14',
                             fontWeight: 'bold'
                         }
                     },
@@ -326,76 +317,100 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
                     data: dataArr
                 }
             ]
-        }
+        };
 
         //@ts-ignore
         myChart.setOption(option);
     }
 
+    //违章率
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie2}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        const gaugeData = [
-            {
-                value: 60,
-                title: {
-                    offsetCenter: ['0%', '30%']
-                },
-                detail: {
-                    valueAnimation: true,
-                    offsetCenter: ['0%', '10%']
-                }
-            }
-        ];
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+
+        let value: any = 15.51;
         let option = {
             series: [
                 {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 55,
                     type: 'gauge',
-                    startAngle: 90,
-                    endAngle: -270,
-                    pointer: {
-                        show: false
-                    },
-                    color: ['#63DAAB'],
-                    progress: {
-                        show: true,
-                        overlap: false,
-                        roundCap: true,
-                        clip: false,
-                        itemStyle: {
-                            borderWidth: 1,
-                            borderColor: '#63DAAB'
-                        }
-                    },
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 4
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
                         }
                     },
                     splitLine: {
-                        show: false,
-                        distance: 0,
-                        length: 10
-                    },
-                    axisTick: {
-                        show: false
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
                     },
                     axisLabel: {
-                        show: false,
-                        distance: 20
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
                     },
-                    data: gaugeData,
                     title: {
-                        fontSize: 14
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
                     },
                     detail: {
-                        width: 5,
-                        height: 14,
-                        fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
-                        formatter: '{value}%'
-                    }
+                        fontSize:this.isPhone ? 18 : 14,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
                 }
             ]
         };
@@ -403,73 +418,99 @@ export default class FrmSpectaculars2 extends WebControl<FrmSpectaculars2TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //事故率
     initPieChart3() {
         let peiChart = document.querySelector(`.${styles.FrmSpectaculars2MCPie3}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        const gaugeData = [
-            {
-                value: 60,
-                title: {
-                    offsetCenter: ['0%', '30%']
-                },
-                detail: {
-                    valueAnimation: true,
-                    offsetCenter: ['0%', '10%']
-                }
-            }
-        ];
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+
+        let value: any = 21.21;
         let option = {
             series: [
                 {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 55,
                     type: 'gauge',
-                    startAngle: 90,
-                    endAngle: -270,
-                    pointer: {
-                        show: false
-                    },
-                    color: ['#E6806C'],
-                    progress: {
-                        show: true,
-                        overlap: false,
-                        roundCap: true,
-                        clip: false,
-                        itemStyle: {
-                            borderWidth: 1,
-                            borderColor: '#E6806C'
-                        }
-                    },
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
                     axisLine: {
                         lineStyle: {
-                            width: 4
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
                         }
                     },
                     splitLine: {
-                        show: false,
-                        distance: 0,
-                        length: 10
-                    },
-                    axisTick: {
-                        show: false
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
                     },
                     axisLabel: {
-                        show: false,
-                        distance: 20
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
                     },
-                    data: gaugeData,
                     title: {
-                        fontSize: 14
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
                     },
                     detail: {
-                        width: 5,
-                        height: 14,
-                        fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
-                        formatter: '{value}%'
-                    }
+                        fontSize: this.isPhone ? 18 : 14,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
                 }
             ]
         };
+
 
         //@ts-ignore
         myChart.setOption(option);

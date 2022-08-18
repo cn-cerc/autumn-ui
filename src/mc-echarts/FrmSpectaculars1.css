@@ -134,6 +134,10 @@
         margin-bottom: 10px;
     }
 
+    .rightBox2 {
+        padding: 16px 15px 16px 20px;
+    }
+
     .leftSiteEcharts,
     .rIghtSiteEcharts {
         width: 20%;
@@ -194,7 +198,7 @@
     }
 
     .leftBox3,
-    .rightBox3 {
+    .centerBox2 {
         margin-bottom: 0;
     }
 
@@ -507,7 +511,7 @@
         background-color: rgba(0, 0, 0, .1);
     }
 
-    .totopBox>div>ul>li>div:first-child {
+    .topBox>div>ul>li>div:first-child {
         font-size: 14px;
         color: #666666;
     }
