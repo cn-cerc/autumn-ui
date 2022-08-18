@@ -102,6 +102,13 @@
     font-weight: bold;
 }
 
+.fourDiv span.color1 {
+    color: #f53838f0;
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 20px;
+}
+
 .FrmTaurusMCLine {
     padding: 16px 16px 0 16px;
     flex: 1;
@@ -184,7 +191,7 @@
     cursor: pointer;
 }
 
-.primeval_disable{
+.primeval_disable {
     background: url("../assets/img/primeval_disable.png") top center no-repeat;
     padding-top: 40px;
     background-size: 40px 40px;
@@ -331,6 +338,8 @@
     height: 118px;
 }
 
+
+
 @media screen and (min-width: 768px) {
     .mc {
         font-size: 14px;
@@ -351,7 +360,7 @@
     }
 
     .mcMain {
-        margin:0.75rem;
+        margin: 0.75rem;
         flex-wrap: wrap;
     }
 

@@ -13,6 +13,7 @@ type FrmAuthManage1MCTypeProps = {
 
 type FrmAuthManage1MCTypeState = {
     dataJson: DataRow,
+    waitYearVerifyTime: string,
     waitYearVerify: number,
     waitVerify: number,
     automaticVerify: number,
@@ -27,6 +28,7 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             dataJson: dataJson,
+            waitYearVerifyTime: '',
             waitYearVerify: 0,
             waitVerify: 0,
             automaticVerify: 0,
@@ -73,8 +75,8 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
                         <div className={styles.mcTitle}>数据概览</div>
                         <div className={styles.fourDiv}>
                             <div>
-                                <p>等待时间最长</p>
-                                <span>{this.state.waitYearVerify}</span>
+                                <p>等待审核时间最长</p>
+                                <span>{this.state.waitYearVerify}</span> <span className={styles.color1}>{this.state.waitYearVerifyTime}</span>
                             </div>
                             <div>
                                 <p>待审核</p>
@@ -101,8 +103,11 @@ export default class FrmAuthManage1MC extends WebControl<FrmAuthManage1MCTypePro
 
     init() {
         FplApi.getAllVerify().then((allVerify) => {
+            let waitYearVerifyArr: any = allVerify.getValue('waitYearVerify');
+            let timeText = (waitYearVerifyArr[1] / (60 * 24)) >= 1 ? `${Math.floor((waitYearVerifyArr[1] / (60 * 24)))}天${Math.floor(waitYearVerifyArr[1] % (60 * 24) / 60)}小时${waitYearVerifyArr[1] % 60}分` : waitYearVerifyArr[1] / 60 > 1 ? `${Math.floor(waitYearVerifyArr[1] / 60)}小时${waitYearVerifyArr[1] % 60}分` : `${waitYearVerifyArr[1] % 60}分`;
             this.setState({
-                waitYearVerify: allVerify.getDouble('waitYearVerify'),
+                waitYearVerifyTime: timeText,
+                waitYearVerify: waitYearVerifyArr[0],
                 waitVerify: allVerify.getDouble('waitVerify'),
                 automaticVerify: allVerify.getDouble('automaticVerify'),
                 passVerify: allVerify.getDouble('passVerify'),
