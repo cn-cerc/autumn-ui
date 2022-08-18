@@ -130,7 +130,7 @@ export class QuickSitePopup_MC extends BasePopup<QuickSitePopup_MCTypeProps, Qui
         super(props);
         this.state = {
             ...this.state,
-            height: '95vh',
+            height: '95%',
             site: {
                 province: '',
                 city: '',

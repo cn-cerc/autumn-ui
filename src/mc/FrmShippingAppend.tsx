@@ -10,7 +10,7 @@ import { NumberPlatePopup_MC } from "../popup/NumberPlatePopup";
 import { PayeePopup_MC } from "../popup/PayeePopup";
 import { QuickSitePopup_MC } from "../popup/QuickSitePopup";
 import StaticFile from "../static/StaticFile";
-import { showMsg } from "../tool/Summer";
+import { AuiMath, showMsg } from "../tool/Summer";
 import { ClientStorage } from "../tool/Utils";
 import styles from "./FrmShippingAppend.css";
 
@@ -41,18 +41,18 @@ type FrmShippingAppendTypeState = {
     driverMobile: string,   // 司机手机号
     payeeName: string,      // 收款人名称
     payeeMobile: string     // 收款人手机号
+    isSubmit: boolean,      // 是否在提交页面
+    isLoad: boolean,        // 页面是否加载完成
 }
 
 export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeProps, FrmShippingAppendTypeState> {
     private client: ClientStorage = null;
+    private math: AuiMath = new AuiMath();
     private units: string[] = [];
     constructor(props: FrmShippingAppendTypeProps) {
         super(props);
-        let state = {};
         this.client = new ClientStorage(`FrmShoppingAppend_${this.props.userCode}`);
         this.units = this.props.units.split(',');
-        if (this.client.get('state'))
-            state = JSON.parse(this.client.get('state'));
         this.state = {
             sendName: '',
             sendMobile: '',
@@ -72,12 +72,13 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             driverMobile: '',
             payeeName: '',
             payeeMobile: '',
-            ...state
+            isSubmit: false,
+            isLoad: false
         }
     }
 
     render(): ReactNode {
-        return <div className={styles.main}>
+        return <div className={styles.main} style={{ 'display': this.state.isLoad ? 'flex' : 'none' }}>
             <div className={styles.info}>
                 <ul className={styles.peopleBox}>
                     <li onClick={this.showSendPopup.bind(this)}>
@@ -131,9 +132,9 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                         <div>
                             <div>
                                 <input type="number" value={this.state.goodsPrice} onChange={(e) => { this.saveState({ goodsPrice: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
-                                <span>/{this.units[this.state.goodsUnit]}</span>
+                                <span>元/{this.units[this.state.goodsUnit]}</span>
                             </div>
-                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPrice > 0 ? this.state.goodsNum * this.state.goodsPrice : '0.00'}</span></div>
+                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPrice > 0 ? this.math.toFixed(this.state.goodsNum * this.state.goodsPrice, 2) : '0.00'}</span></div>
                         </div>
                     </li>
                     <li>
@@ -141,9 +142,9 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
                         <div>
                             <div>
                                 <input type="number" value={this.state.goodsPriceF} onChange={(e) => { this.saveState({ goodsPriceF: this.getPrice(e.target.value) }) }} onFocus={(e) => { e.target.select() }} placeholder='输入金额' />
-                                <span>/{this.units[this.state.goodsUnit]}</span>
+                                <span>元/{this.units[this.state.goodsUnit]}</span>
                             </div>
-                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPriceF > 0 ? this.state.goodsNum * this.state.goodsPriceF : '0.00'}</span></div>
+                            <div>总价：<span>{this.state.goodsNum > 0 && this.state.goodsPriceF > 0 ? this.math.toFixed(this.state.goodsNum * this.state.goodsPriceF, 2) : '0.00'}</span></div>
                         </div>
                     </li>
                 </ul>
@@ -200,18 +201,32 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
             carName: ds.head.getString('car_num_'),
             driverName: ds.head.getString('driver_name_'),
             driverMobile: ds.head.getString('driver_phone_'),
+            isSubmit: false,
+            isLoad: true
         })
     }
 
     async initSendInfo() {
         let dataOut = await FplApi.getSendInfo();
         dataOut.first();
+        let state = {};
+        if (this.client.get('state'))
+            state = JSON.parse(this.client.get('state'));
         if (!dataOut.eof()) {
             this.setState({
                 sendName: dataOut.getString('contact_'),
                 sendMobile: dataOut.getString('mobile_'),
                 sendDepart: dataOut.getString('address_'),
                 sendAddress: dataOut.getString('area5_'),
+                isSubmit: false,
+                isLoad: true,
+                ...state,
+            })
+        } else {
+            this.setState({
+                isLoad: true,
+                isSubmit: false,
+                ...state
             })
         }
     }
@@ -347,7 +362,7 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     }
 
     isIntact() {
-        let bool = true;
+        let bool = !this.state.isSubmit;
         if (!this.state.sendName)
             bool = false;
         else if (!this.state.sendMobile)
@@ -382,8 +397,58 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
     }
 
     async handleSubmit() {
-        if (!this.isIntact())
+        if (this.state.isSubmit) {
+            showMsg('正在提交中，请稍后...');
             return;
+        } else if (!this.state.sendName) {
+            showMsg('发货人姓名不可为空!');
+            return;
+        } else if (!this.state.sendMobile) {
+            showMsg('发货人手机号不可为空!');
+            return;
+        } else if (!this.state.sendDepart) {
+            showMsg('发货地不可为空!');
+            return;
+        } else if (!this.state.sendAddress) {
+            showMsg('发货地详细地址不可为空!');
+            return;
+        } else if (!this.state.receiveName) {
+            showMsg('收货人姓名不可为空!');
+            return;
+        } else if (!this.state.receiveMobile) {
+            showMsg('收货人手机号不可为空!');
+            return;
+        } else if (!this.state.receiveDepart) {
+            showMsg('收货地不可为空!');
+            return;
+        } else if (!this.state.receiveAddress) {
+            showMsg('收货地详细地址不可为空!');
+            return;
+        } else if (!this.state.goodsName) {
+            showMsg('货物名称不可为空!');
+            return;
+        } else if (!this.state.goodsNum) {
+            showMsg('货物数量不可为空或0!');
+            return;
+        } else if (!this.state.goodsPrice) {
+            showMsg('订单价不可为空或0!');
+            return;
+        } else if (!this.state.goodsPriceF) {
+            showMsg('运单价不可为空或0!');
+            return;
+        } else if (!this.state.carName) {
+            showMsg('车牌号不可为空!');
+            return;
+        } else if (!this.state.driverName) {
+            showMsg('司机姓名不可为空!');
+            return;
+        } else if (!this.state.driverMobile) {
+            showMsg('司机手机号不可为空!');
+            return;
+        }
+        this.setState({
+            isSubmit: true
+        })
         let headIn = new DataRow();
         headIn.setValue('send_name_', this.state.sendName);
         headIn.setValue('send_phone_', this.state.sendMobile);
@@ -401,7 +466,12 @@ export default class FrmShippingAppend extends WebControl<FrmShippingAppendTypeP
         headIn.setValue('car_num_', this.state.carName);
         headIn.setValue('driver_name_', this.state.driverName);
         headIn.setValue('driver_phone_', this.state.driverMobile);
+        headIn.setValue('payee_name_', this.state.payeeName);
+        headIn.setValue('payee_phone_', this.state.payeeMobile);
         let dataOut = await FplApi.appendAndTakeEffect(headIn);
+        this.setState({
+            isSubmit: false
+        })
         if (dataOut.state > 0) {
             this.client.remove('state');
             showMsg('发布成功');

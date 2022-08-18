@@ -20,8 +20,6 @@ type FrmSpectaculars1TypeState = {
     queryMileageD: number,
     cars_num: number,
     driver_num: number,
-    gaugeCenter: Array<string>,
-    gaugeRadius: number,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
@@ -41,8 +39,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             queryMileageD: 0,
             cars_num: 0,
             driver_num: 0,
-            gaugeCenter: ['55%', '85%'],
-            gaugeRadius: 62
         }
 
 
@@ -55,7 +51,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
                     <span>{this.props.corpName}</span>
                 </div>
-                <span>营运数据中心</span>
+                <span>车辆网看板</span>
                 <div className={styles.toggleIcons}>
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </div>
@@ -130,10 +126,10 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                                         <i className={styles.rSkin}></i>08-10 07:37 <span className={styles.colorSkin}>闽DW572</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>08-07 23:19 <span className={styles.colorSkin}>闽BA427</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-07 23:19 <span className={styles.colorSkin}>闽BAC427</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>07-19 23:19 <span className={styles.colorSkin}>闽FE734</span> 行驶超速
+                                        <i className={styles.rSkin}></i>07-19 23:19 <span className={styles.colorSkin}>闽FEA734</span> 行驶超速
                                     </li>
                                     <li>
                                         <i className={styles.rSkin}></i>07-12 17:39 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
@@ -148,12 +144,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     componentDidMount(): void {
-        if (this.isPhone) {
-            this.setState({
-                gaugeCenter: ['50%', '80%'],
-                gaugeRadius: 90
-            })
-        }
         this.init();
         this.timer = setInterval(this.init.bind(this), 30000);
         if (!this.isPhone)
@@ -196,29 +186,17 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             this.setState({
                 countProvince
             }, () => {
-
-            })
-        })
-
-        FplApi.getCountProvince().then((countProvince: DataSet) => {
-            this.setState({
-                countProvince
-            }, () => {
                 this.initPieChart4();
             })
         })
 
-        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
-            FplApi.getQueryMileageD().then((queryMileageD) => {
-                this.setState({
-                    carData: queryCarsLocation,
-                    queryMileageD: queryMileageD.getDouble('total_mileage_'),
-                }, () => {
-                    this.initLineChart1();
-                    this.initPieChart1();
-                })
+        FplApi.getQueryMileageD().then((queryMileageD) => {
+            this.setState({
+                queryMileageD: queryMileageD.getDouble('total_mileage_'),
             })
         })
+
+        this.initLineChart1();
     }
 
     initMap() {
@@ -229,7 +207,15 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 zoom: 8,
                 center: this.props.lonlat.split(',')
             });
-        this.initCarData();
+
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            this.setState({
+                carData: queryCarsLocation,
+            }, () => {
+                this.initPieChart1();
+                this.initCarData();
+            })
+        })
     }
 
     initCarSite() {
@@ -249,6 +235,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         }
     }
 
+    //异常动态
     initLineChart1() {
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(lineChart);
@@ -303,6 +290,305 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //在线率
+    initPieChart1() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+
+        let online = this.state.carData.head.getNumber('online_'), total = this.state.carData.head.getNumber('total_');
+        if (!online) {
+            online = 0;
+        }
+        let value: any;
+        if (online == 0 || total == 0) {
+            value = 0;
+        } else {
+            value = this.math.toFixed(online / total, 2);
+        }
+
+        let option = {
+            series: [
+                {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
+                    type: 'gauge',
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
+                    axisLine: {
+                        lineStyle: {
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
+                        }
+                    },
+                    splitLine: {
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
+                    },
+                    axisLabel: {
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
+                    },
+                    title: {
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
+                    },
+                    detail: {
+                        fontSize: 18,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
+                }
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //满载率
+    initPieChart2() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 4);
+        let option = {
+            series: [
+                {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
+                    type: 'gauge',
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
+                    axisLine: {
+                        lineStyle: {
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
+                        }
+                    },
+                    splitLine: {
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
+                    },
+                    axisLabel: {
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
+                    },
+                    title: {
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
+                    },
+                    detail: {
+                        fontSize: 18,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
+                }
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //货损率
+    initPieChart3() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') / 100, 2);
+        let option = {
+            series: [
+                {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
+                    type: 'gauge',
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
+                    axisLine: {
+                        lineStyle: {
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
+                        }
+                    },
+                    splitLine: {
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
+                    },
+                    axisLabel: {
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
+                    },
+                    title: {
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
+                    },
+                    detail: {
+                        fontSize: 18,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
+                }
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //物流运单
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(lineChart);
@@ -345,7 +631,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         color: MCChartColors[0],
                         width: 1
                     },
-                    areaStyle: {},
                     label: {
                         show: true
                     }
@@ -357,298 +642,7 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         myChart.setOption(option);
     }
 
-    //在线率
-    initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
-        let myChart = echarts.getInstanceByDom(peiChart);
-        if (!myChart)
-            myChart = echarts.init(peiChart);
-
-        let online = this.state.carData.head.getDouble('online_'), total = this.state.carData.head.getDouble('total_');
-        if (!online) {
-            online = 0;
-        }
-        let value: any;
-        if (online == 0 || total == 0) {
-            value = 0;
-        } else {
-            value = this.math.toFixed(online / total, 2);
-        }
-
-        let option = {
-            series: [
-                {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
-                    type: 'gauge',
-                    startAngle: 180,
-                    endAngle: 0,
-                    min: 0,
-                    max: 1,
-                    splitNumber: 3,
-                    axisLine: {
-                        lineStyle: {
-                            width: 4,
-                            color: [
-                                [0.25, MCChartColors[0]],
-                                [0.5, MCChartColors[1]],
-                                [0.75, MCChartColors[2]],
-                                [1, MCChartColors[3]]
-                            ]
-                        }
-                    },
-                    pointer: {
-                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-                        length: '12%',
-                        width: 8,
-                        offsetCenter: [0, '-50%'],
-                        itemStyle: {
-                            color: 'inherit'
-                        }
-                    },
-                    axisTick: {
-                        length: 4,
-                        lineStyle: {
-                            color: 'inherit',
-                            width: 1
-                        }
-                    },
-                    splitLine: {
-                        length: 6,
-                        lineStyle: {
-                            color: 'inherit',
-                            width: 2
-                        }
-                    },
-                    axisLabel: {
-                        color: '#464646',
-                        fontSize: 8,
-                        distance: -60,
-                        formatter: function (value: number) {
-                            if (value === 0.875) {
-                                return 'A';
-                            } else if (value === 0.625) {
-                                return 'B';
-                            } else if (value === 0.375) {
-                                return 'C';
-                            } else if (value === 0.125) {
-                                return 'D';
-                            }
-                            return '';
-                        }
-                    },
-                    title: {
-                        offsetCenter: [0, '-20%'],
-                        fontSize: 8
-                    },
-                    detail: {
-                        fontSize: 20,
-                        offsetCenter: [0, '0%'],
-                        valueAnimation: true,
-                        formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
-                        },
-                        color: 'inherit'
-                    },
-                    data: [
-                        {
-                            value: value,
-                        }
-                    ]
-                }
-            ]
-        };
-
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-    initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
-        let myChart = echarts.getInstanceByDom(peiChart);
-        if (!myChart)
-            myChart = echarts.init(peiChart);
-
-        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_') / 100, 2);
-        let option = {
-            series: [
-                {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
-                    type: 'gauge',
-                    startAngle: 180,
-                    endAngle: 0,
-                    min: 0,
-                    max: 1,
-                    splitNumber: 3,
-                    axisLine: {
-                        lineStyle: {
-                            width: 4,
-                            color: [
-                                [0.25, MCChartColors[0]],
-                                [0.5, MCChartColors[1]],
-                                [0.75, MCChartColors[2]],
-                                [1, MCChartColors[3]]
-                            ]
-                        }
-                    },
-                    pointer: {
-                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-                        length: '12%',
-                        width: 8,
-                        offsetCenter: [0, '-50%'],
-                        itemStyle: {
-                            color: 'inherit'
-                        }
-                    },
-                    axisTick: {
-                        length: 4,
-                        lineStyle: {
-                            color: 'inherit',
-                            width: 1
-                        }
-                    },
-                    splitLine: {
-                        length: 6,
-                        lineStyle: {
-                            color: 'inherit',
-                            width: 2
-                        }
-                    },
-                    axisLabel: {
-                        color: '#464646',
-                        fontSize: 8,
-                        distance: -60,
-                        formatter: function (value: number) {
-                            if (value === 0.875) {
-                                return 'A';
-                            } else if (value === 0.625) {
-                                return 'B';
-                            } else if (value === 0.375) {
-                                return 'C';
-                            } else if (value === 0.125) {
-                                return 'D';
-                            }
-                            return '';
-                        }
-                    },
-                    title: {
-                        offsetCenter: [0, '-20%'],
-                        fontSize: 8
-                    },
-                    detail: {
-                        fontSize: 20,
-                        offsetCenter: [0, '0%'],
-                        valueAnimation: true,
-                        formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
-                        },
-                        color: 'inherit'
-                    },
-                    data: [
-                        {
-                            value: value,
-                        }
-                    ]
-                }
-            ]
-        };
-
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-    initPieChart3() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
-        let myChart = echarts.getInstanceByDom(peiChart);
-        if (!myChart)
-            myChart = echarts.init(peiChart);
-        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_') / 100, 2);
-        let option = {
-            series: [
-                {
-                    center: this.state.gaugeCenter,
-                    radius: this.state.gaugeRadius,
-                    type: 'gauge',
-                    startAngle: 180,
-                    endAngle: 0,
-                    min: 0,
-                    max: 1,
-                    splitNumber: 3,
-                    axisLine: {
-                        lineStyle: {
-                            width: 4,
-                            color: [
-                                [0.25, MCChartColors[0]],
-                                [0.5, MCChartColors[1]],
-                                [0.75, MCChartColors[2]],
-                                [1, MCChartColors[3]]
-                            ]
-                        }
-                    },
-                    pointer: {
-                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-                        length: '12%',
-                        width: 8,
-                        offsetCenter: [0, '-50%'],
-                        itemStyle: {
-                            color: 'inherit'
-                        }
-                    },
-                    axisTick: {
-                        length: 4,
-                        lineStyle: {
-                            color: 'inherit',
-                            width: 1
-                        }
-                    },
-                    splitLine: {
-                        length: 6,
-                        lineStyle: {
-                            color: 'inherit',
-                            width: 2
-                        }
-                    },
-                    axisLabel: {
-                        color: '#464646',
-                        fontSize: 8,
-                        distance: -60,
-                        formatter: function (value: number) {
-                            if (value === 0.875) {
-                                return 'A';
-                            } else if (value === 0.625) {
-                                return 'B';
-                            } else if (value === 0.375) {
-                                return 'C';
-                            } else if (value === 0.125) {
-                                return 'D';
-                            }
-                            return '';
-                        }
-                    },
-                    title: {
-                        offsetCenter: [0, '-20%'],
-                        fontSize: 8
-                    },
-                    detail: {
-                        fontSize: 20,
-                        offsetCenter: [0, '0%'],
-                        valueAnimation: true,
-                        formatter: function (value: number) {
-                            return Math.round(value * 100) + '%';
-                        },
-                        color: 'inherit'
-                    },
-                    data: [
-                        {
-                            value: value,
-                        }
-                    ]
-                }
-            ]
-        };
-
-        //@ts-ignore
-        myChart.setOption(option);
-    }
+    //区域排名TOPS
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
         let myChart = echarts.getInstanceByDom(peiChart);
@@ -695,8 +689,8 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
             series: [
                 {
                     type: 'pie',
-                    center: ['32%', '53%'],
-                    radius: ['35%', '52%'],
+                    center: this.isPhone ? ['30%', '55%'] : ['28%', '50%'],
+                    radius: this.isPhone ? ['50%', '80%'] : ['30%', '55%'],
                     avoidLabelOverlap: false,
                     label: {
                         show: false,
@@ -717,7 +711,6 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                 }
             ]
         }
-
         //@ts-ignore
         myChart.setOption(option);
     }

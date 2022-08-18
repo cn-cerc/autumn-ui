@@ -126,7 +126,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                             <li>
                                 <p>异常率</p>
                                 <p>
-                                    <span>{2.15}%</span>
+                                    <span>{2.18}%</span>
                                 </p>
                             </li>
                         </ul>
@@ -289,7 +289,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
     }
 
     async initCarData() {
-        let carData = await FplApi.getQueryCarsLocation();
+        let carData = await FplApi.getQueryCarsLocation3();
         let math = new AuiMath();
         let online = carData.head.getDouble('online_'), total = carData.head.getDouble('total_');
         if (!online) {
@@ -370,7 +370,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                         color: MCChartColors[0],
                         width: 1
                     },
-                    areaStyle: {},
                     label: {
                         show: true
                     }
@@ -402,14 +401,7 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
             xAxis: {
                 type: 'category',
                 data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
+                boundaryGap: false,
             },
             yAxis: {
                 show: false
@@ -426,13 +418,12 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                 {
                     data: sData,
                     type: 'line',
-                    smooth: 0.6,
                     itemStyle: {
                         color: MCChartColors[0]
                     },
                     lineStyle: {
                         color: MCChartColors[0],
-                        width: 5
+                        width: 1
                     },
                     label: {
                         show: true,
@@ -490,7 +481,6 @@ export default class FrmSpectaculars3 extends WebControl<FrmSpectaculars3TypePro
                         color: MCChartColors[0],
                         width: 1
                     },
-                    areaStyle: {},
                     label: {
                         show: true
                     }
