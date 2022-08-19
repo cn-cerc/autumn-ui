@@ -323,17 +323,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         })
     }
 
-    initWXLogin() {
-        //@ts-ignore
-        var obj = new WxLogin({
-            self_redirect: true,
-            id: "wxContainer",
-            appid: "wxfe39d62642ef5a46",
-            scope: "snsapi_login",
-            redirect_uri: "http://debug.4plc.cn/public/TFrmWXLogin.scanLogin",
-        });
-    }
-
     componentWillMount() {
         let device = '';
         let clientId = ''
@@ -372,11 +361,6 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         }, function () {
             $(document).scrollTop(0);
         });
-
-
-        // if (!this.isPhone)
-        //     // 引入微信登录js
-        //     addScript('http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js', this.initWXLogin.bind(this))
 
 
 
