@@ -288,9 +288,16 @@
     .contactList,
     .AllContactList {
         min-height: 100%;
+        position: relative;
     }
 
     .main .search {
+        position: fixed;
+        top: 2.59rem;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background-color: #fff;
         height: 50px;
         display: flex;
         align-items: center;
@@ -359,7 +366,8 @@
     }
 
     .contactDetailList {
-        padding-top: .5rem;
+        overflow: auto;
+        padding-top: 50px;
     }
 
     .contactList>li>.title,

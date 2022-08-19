@@ -34,7 +34,7 @@
     height: 0;
     flex: 1;
     position: relative;
-    width: 310px;
+    width: 300px;
     margin: auto;
 }
 
@@ -216,7 +216,7 @@
 }
 
 .mcPieBox2 {
-    margin-left: 10px;
+    margin-left: 16px;
 }
 
 .FrmTaurusMCPie1,
@@ -225,78 +225,78 @@
 }
 
 .stock1 {
-    left: 9px;
+    left: 4px;
     top: 16px;
 }
 
 .stock2 {
-    left: 117px;
+    left: 112px;
     top: 16px;
 }
 
 .stock3 {
-    left: 217px;
+    left: 212px;
     top: 16px;
 }
 
 .stock4 {
-    left: 9px;
+    left: 4px;
     top: 102px;
 }
 
 .stock5 {
-    left: 117px;
+    left: 112px;
     top: 102px;
 }
 
 .stock6 {
-    left: 217px;
+    left: 212px;
     top: 102px;
 }
 
 .stock7 {
-    left: 9px;
+    left: 4px;
     top: 188px;
 }
 
 .stock8 {
-    left: 117px;
+    left: 112px;
     top: 188px;
 }
 
 .stock9 {
-    left: 217px;
+    left: 212px;
     top: 188px;
 }
 
 .stock10 {
-    left: 9px;
+    left: 4px;
     top: 269px;
 }
 
 .stock11 {
-    left: 117px;
+    left: 112px;
     top: 269px;
 }
 
 .stock12 {
-    left: 217px;
+    left: 212px;
     top: 269px;
 }
 
 .stock13 {
-    left: 9px;
-    top: 345px;
+    left: 4px;
+    top: 350px;
 }
 
 .stock14 {
-    left: 117px;
-    top: 345px;
+    left: 112px;
+    top: 350px;
 }
 
 .stock15 {
-    left: 217px;
-    top: 345px;
+    left: 212px;
+    top: 350px;
 }
 
 @media screen and (min-width: 768px) {
@@ -325,7 +325,7 @@
     }
 
     .mcFlowChartBox {
-        height: 330px;
+        height: 520px;
     }
 
     .register>span,
@@ -348,7 +348,7 @@
     .control,
     .other,
     .primeval {
-        padding-top: 2.1875rem;
+        padding-top: 35px;
     }
 
     .mcFlowChartBox {

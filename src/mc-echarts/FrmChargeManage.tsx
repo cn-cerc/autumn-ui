@@ -2,23 +2,23 @@ import { DataRow, DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmCashManage.css";
+import styles from "./FrmChargeManage.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmCashManageTypeProps = {
+type FrmChargeManageTypeProps = {
     dataJson: string,
     introduction: string
 }
 
-type FrmCashManageTypeState = {
+type FrmChargeManageTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
     dataJson: DataRow,
 }
 
-export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, FrmCashManageTypeState> {
-    constructor(props: FrmCashManageTypeProps) {
+export default class FrmChargeManage extends WebControl<FrmChargeManageTypeProps, FrmChargeManageTypeState> {
+    constructor(props: FrmChargeManageTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -57,32 +57,35 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`应收结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '应收结账单')}>
-                                <span>应收结账单</span>
+                            <div className={`${this.state.dataJson.getBoolean('费用请购单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '费用请购单')}>
+                                <span>费用请购单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '请款单')}>
-                                <span>请款单</span>
+                            <div className={`${this.state.dataJson.getBoolean('费用报销单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '费用报销单')}>
+                                <span>费用报销单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '收款单')}>
-                                <span>收款单</span>
+                            <div className={`${this.state.dataJson.getBoolean('费用进货单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '费用进货单')}>
+                                <span>费用进货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '应付结账单')}>
-                                <span>应付结账单</span>
+                            <div className={`${this.state.dataJson.getBoolean('付款(申请)单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '付款(申请)单')}>
+                                <span>付款(申请)单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`付款申请单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '付款申请单')}>
-                                <span>付款申请单</span>
+                            <div className={`${this.state.dataJson.getBoolean('报废单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '报废单')}>
+                                <span>报废单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`付款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '付款单')}>
-                                <span>付款单</span>
+                            <div className={`${this.state.dataJson.getBoolean('办公用品库存表_Dis') ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '办公用品库存表')}>
+                                <span>办公用品库存表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`转账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '转账单')}>
-                                <span>转账单</span>
+                            <div className={`${this.state.dataJson.getBoolean('会计凭证_Dis') ? styles.other_disable : styles.other} ${styles.stock9}`} onClick={this.linkTo.bind(this, '会计凭证')}>
+                                <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`银行账户表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '银行账户表')}>
-                                <span>银行账户表</span>
+                            <div className={`${this.state.dataJson.getBoolean('还库单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '还库单')}>
+                                <span>还库单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '对账单')}>
-                                <span>对账单</span>
+                            <div className={`${this.state.dataJson.getBoolean('领用单_Dis') ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '领用单')}>
+                                <span>领用单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean('个人领用报表_Dis') ? styles.control_disable : styles.control} ${styles.stock14}`} onClick={this.linkTo.bind(this, '个人领用报表')}>
+                                <span>个人领用报表</span>
                             </div>
                         </div>
                     </div>
@@ -107,11 +110,15 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
         </div>
     }
 
-    componentDidMount(): void {
+    async init() {
         this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
+    }
+
+    componentDidMount(): void {
+        this.init();
     }
 
     initBarChart() {
@@ -295,39 +302,57 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
             nodes,
             linesData: [
                 {
-                    coords: [ //应收结账单 往右线条
-                        [73, 38],
-                        [150, 38],
+                    coords: [ //费用请购单 往下线条
+                        [168, 75],
+                        [168, 108]
                     ]
                 },
                 {
-                    coords: [ //请款单 往右线条
-                        [190, 38],
-                        [256, 38],
+                    coords: [ //费用报销单 往下线条
+                        [278, 75],
+                        [278, 108]
                     ]
                 },
                 {
-                    coords: [ //应付结账单 往右线条
-                        [73, 123],
-                        [150, 123],
-                    ]
-                },
-                {
-                    coords: [ //付款申请单 往右线条
+                    coords: [ //费用进货单 往右线条
                         [190, 123],
                         [256, 123],
                     ]
                 },
                 {
-                    coords: [ //转账单 往右线条
-                        [73, 210],
-                        [150, 210],
+                    coords: [ //费用进货单 往下线条
+                        [168, 160],
+                        [168, 189]
                     ]
                 },
                 {
-                    coords: [ //银行账户表 往右线条
-                        [190, 210],
-                        [256, 210],
+                    coords: [ //付款（申请）单 往下线条
+                        [278, 160],
+                        [278, 189]
+                    ]
+                },
+                {
+                    coords: [ //办公用品库存表 往左线条
+                        [150, 210],
+                        [73, 210],
+                    ]
+                },
+                {
+                    coords: [ //办公用品库存表 往下线条
+                        [168, 247],
+                        [168, 271]
+                    ]
+                },
+                {
+                    coords: [ //领用单 往左线条
+                        [150, 290],
+                        [73, 290]
+                    ]
+                },
+                {
+                    coords: [ //领用单 往下线条
+                        [168, 328],
+                        [168, 349]
                     ]
                 },
             ]
@@ -340,7 +365,7 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                 max: 328,
                 show: false,
                 type: 'value',
-                position: 'top',
+                position: 'top'
             },
             yAxis: {
                 min: 0,
@@ -349,7 +374,7 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                 },
                 show: false,
                 type: 'value',
-                inverse: true,
+                inverse: true
             },
             grid: {
                 left: 0,
@@ -378,6 +403,7 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                     width: 2,
                     color: '#ccc',
                     curveness: 0.3
+
                 },
                 effect: {
                     show: true,
@@ -387,7 +413,7 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
                     color: '#ccc',
                     symbolSize: 6
                 },
-                data: charts.linesData,
+                data: charts.linesData
             }]
         };
         //@ts-ignore
