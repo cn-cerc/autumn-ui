@@ -77,6 +77,7 @@ import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
 import RapidInput from "../mc/RapidInput";
 import SendCarDriverDialog from "../dialog/SendCarDriverDialog";
+import SalaryLevelDialog from "../dialog/SalaryLevelDialog";
 import CarBodyDialog from "../dialog/CarBodyDialog";
 import QuoteCusDialog from "../dialog/QuoteCusDialog";
 import CodeRecordNameDialog from "../dialog/CodeRecordNameDialog";
@@ -138,6 +139,7 @@ export default {
     VipCardDialog,
     WareBasicDialog,
     WorkerDialog,
+    SalaryLevelDialog,
 
     // 快录
     RapidInput,
