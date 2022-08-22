@@ -99,12 +99,12 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                         </section>
                         {this.getMessageDOM()}
                     </form>
-                    {this.state.showWXLogin ? <div className={styles.wxLogin}>
+                    {/* {this.state.showWXLogin ? <div className={styles.wxLogin}>
                         <div onClick={this.wxLogin.bind(this)}>
                             <img src={StaticFile.getImage('images/public/bind_wx.png')} />
                         </div>
                         <span onClick={this.wxLogin.bind(this)}>微信登录</span>
-                    </div> : ''}
+                    </div> : ''} */}
                     <h3 className={styles.contact}><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
                     {this.getLoad()}
                 </React.Fragment>
@@ -113,7 +113,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
                     <div className={styles.formTitle}>系统登录</div>
-                    <img src={StaticFile.getImage('images/weixin_ionic.png')} onClick={() => { window.open(`FrmWXLogin?clientId=${this.props.dataRow.getString('clientId')}`, '_target') }} className={styles.wxIcon} />
+                    {/* <img src={StaticFile.getImage('images/weixin_ionic.png')} onClick={() => { window.open(`FrmWXLogin?clientId=${this.props.dataRow.getString('clientId')}`, '_target') }} className={styles.wxIcon} /> */}
                     {/* <div id="wxContainer"></div> */}
                     <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
