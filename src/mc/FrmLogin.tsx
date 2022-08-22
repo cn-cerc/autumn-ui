@@ -28,11 +28,13 @@ type LoginTypeState = {
     isFirefox: boolean,
     iconHover: 0 | 1 | 2 | 3,
     protocol: boolean,
+    showWXLogin: boolean
 }
 
 var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
+    private wxPlus: any;
     constructor(props: LoginTypeProps) {
         super(props);
 
@@ -60,6 +62,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             isFirefox,
             iconHover: this.isPhone ? 0 : 1,
             protocol,
+            showWXLogin: false
         }
     }
     render() {
@@ -92,10 +95,16 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                                     <label htmlFor="protocol">我已同意<a href="user-agreement?back=WebDefault">《用户协议》</a>和<a href="privacy-right?back=WebDefault">《隐私协议》</a></label>
                                 </div>
                             </div>
-                            <h3><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
                         </section>
                         {this.getMessageDOM()}
                     </form>
+                    {this.state.showWXLogin ? <div className={styles.wxLogin}>
+                        <div onClick={this.wxLogin.bind(this)}>
+                            <img src={StaticFile.getImage('images/public/bind_wx.png')} />
+                        </div>
+                        <span onClick={this.wxLogin.bind(this)}>微信登录</span>
+                    </div> : ''}
+                    <h3 className={styles.contact}><a href="TFrmContact?device=phone">如有疑问请联系客服中心{`>>`}</a></h3>
                     {this.getLoad()}
                 </React.Fragment>
             )
@@ -362,15 +371,12 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             $(document).scrollTop(0);
         });
 
-
-
-
         //@ts-ignore
         if (window.ApiCloud.isApiCloud()) {
             if (window.localStorage.getItem("alreadyLogin")) {
                 window.localStorage.removeItem("alreadyLogin")
                 //@ts-ignore
-                apiready = function () {
+                apiready = () => {
                     //@ts-ignore
                     api.execScript({
                         script: "closeAllFrames();"
@@ -383,10 +389,19 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     api.execScript({
                         script: "hideFooter();"
                     })
+                    //@ts-ignore
+                    this.wxPlus = api.require('wxPlus');
+                    this.wxPlus.isInstalled((ret: any, err: any) => {
+                        if (ret.installed) {
+                            this.setState({
+                                showWXLogin: true
+                            })
+                        }
+                    });
                 }
             } else {
                 //@ts-ignore
-                apiready = function () {
+                apiready = () => {
                     //@ts-ignore
                     api.execScript({
                         script: "hideHeader(true, 'main');"
@@ -395,6 +410,15 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     api.execScript({
                         script: "hideFooter();"
                     })
+                    //@ts-ignore
+                    this.wxPlus = api.require('wxPlus');
+                    this.wxPlus.isInstalled((ret: any, err: any) => {
+                        if (ret.installed) {
+                            this.setState({
+                                showWXLogin: true
+                            })
+                        }
+                    });
                 }
             }
         }
@@ -402,6 +426,40 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         if (this.state.client.get('savePwd') == 'true' && !this.props.loginMsg && this.props.dataRow.getString('password') && this.isPhone) {
             this.onSubmit();
         }
+    }
+
+    wxLogin() {
+        if (!this.state.protocol) {
+            this.setState({
+                message: '请先同意用户协议和隐私协议',
+                showLoad: false
+            })
+            return;
+        }
+        let urlSearchParams = new URLSearchParams();
+        urlSearchParams.set('clientId', this.props.dataRow.getString('clientId'));
+        urlSearchParams.set('loginType', 'app');
+        fetch('TFrmWXLogin', {
+            method: 'POST',
+            body: urlSearchParams
+        }).then((response) => {
+            return response.text();
+        }).then((json) => {
+            let dataSet = new DataSet();
+            dataSet.setJson(json);
+            let state = dataSet.head.getString('state');
+            this.wxPlus.auth({
+                state
+            }, (ret: any, err: any) => {
+                if (ret.status) {
+                    this.setState({
+                        showLoad: true
+                    }, () => {
+                        location.href = `TFrmWXLogin.scanLogin?code=${ret.code}&state=${state}&device=phone`;
+                    })
+                }
+            });
+        })
     }
 
     async getFingerprient() {
