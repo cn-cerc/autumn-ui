@@ -6,7 +6,8 @@ import styles from "./DialogCommon.css";
 
 type ContractProps = {
     code: String,
-    callBack?: Function;
+    callBack?: Function,
+    cusCode?: String;
 } & Partial<BaseDialogPropsType>
 
 
@@ -20,6 +21,7 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue('parent_code_', this.props.code);
+        dataIn.setValue('cus_code_', this.props.cusCode);
         this.state = {
             ...this.state,
             dataIn,
@@ -88,6 +90,7 @@ export default class CodeRecordDialog extends BaseDialog<ContractProps, StaffTyp
             return <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
                 <ColumnIt />
                 <Column code="code_" name="货物名称" width="100"></Column>
+                <Column code="money_" name="货物价值" width="100"></Column>
                 <Column code="main_unit_" name="主单位" width="100" customText={
                     ((dataRow: DataRow) => {
                         let unit = dataRow.getValue("main_unit_");
