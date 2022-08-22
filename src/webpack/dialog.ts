@@ -70,6 +70,7 @@ import VipCardDialog from "../dialog/VipCardDialog";
 import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
 import RapidInput from "../mc/RapidInput";
+import SalaryLevelDialog from "../dialog/SalaryLevelDialog";
 
 export default {
     // 地藤开窗
@@ -128,6 +129,7 @@ export default {
     VipCardDialog,
     WareBasicDialog,
     WorkerDialog,
+    SalaryLevelDialog,
 
     // 快录
     RapidInput,
