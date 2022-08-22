@@ -257,6 +257,11 @@ export default class DitengApi {
         return ControlApi.getDataOut('TAppSupInfo.Download', params);
     }
 
+    /** 获取薪资等级 */
+    static getSalaryLevel(params: DataRow) {
+        return ControlApi.getDataOut('SvrSalaryLevel.search', params);
+    }
+
     /** 显示客户专卖区域 */
     static async getCusInfos(params: DataRow) {
         return ControlApi.getDataOut('TAppCusInfo.Download', params);
