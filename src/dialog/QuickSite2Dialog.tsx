@@ -4,6 +4,7 @@ import ImageConfig from "../static/ImageConfig";
 import StaticFile from "../static/StaticFile";
 import { GDMap, showMsg } from "../tool/Summer";
 import styles from "./QuickSiteDialog.css";
+import styles2 from "./QuickSiteDialog2.css";
 
 type QuickSiteDialogTypeProps = {
     siteId: string,
@@ -45,7 +46,7 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
         this.state = {
             ...this.state,
             width: this.isPhone ? '100%' : '50rem',
-            height: this.isPhone ? '100vh' : '35rem',
+            height: this.isPhone ? '100%' : '35rem',
             site: {
                 province: '',
                 city: '',
@@ -62,11 +63,11 @@ export default class QuickSiteDialog2 extends BaseDialog<QuickSiteDialogTypeProp
 
     content(): JSX.Element {
         return <div className={styles.main}>
-            <div className={styles.inputBox}>
+            <div className={`${styles.inputBox} ${styles2.inputDiv}`}>
                 <input type="text" id='siteInput' placeholder="请输入查询位置" autoComplete="off" />
+                <button onClick={this.handleClick.bind(this)} className={styles.button}>确定</button>
             </div>
             <div id="container" className={styles.container}></div>
-            <button onClick={this.handleClick.bind(this)} className={styles.button}>确定</button>
         </div>
     }
 
