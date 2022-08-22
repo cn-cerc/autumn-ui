@@ -44,7 +44,7 @@ a {
 
 .page {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     overflow: auto;
 }
 
@@ -52,6 +52,7 @@ a {
     height: 100%;
     background-color: #fff;
     line-height: 16px;
+    position: relative;
 }
 
 .loginMsg {
@@ -66,6 +67,8 @@ a {
     background-color: #FDF5E8;
     border-radius: 6px;
     border: 1px solid #F8DDC0;
+    position: relative;
+    z-index: 10;
 }
 
 .loginMsg>span:first-child {
@@ -307,6 +310,14 @@ a {
         font-weight: 500;
         font-size: 28px;
         line-height: 28px;
+    }
+
+    .wxIcon {
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        width: 28px;
+        cursor: pointer;
     }
 
     .contentRight {
@@ -865,7 +876,7 @@ a {
 
 @media screen and (max-width: 767px) {
     .main {
-        height: 100vh;
+        height: 100%;
         overflow: auto;
     }
 
@@ -947,7 +958,7 @@ a {
         width: calc(100% - 2rem);
         height: 2.375rem;
         line-height: 2.375rem;
-        margin: 0 1rem 1.5rem;
+        margin: 0 1rem 1rem;
         padding: 0 1rem;
         border-radius: 4px;
         box-sizing: border-box;
@@ -1201,7 +1212,7 @@ a {
         outline: none;
         border: none;
         border-radius: 3px;
-        margin-top: 1.5rem;
+        margin-top: 1rem;
     }
 
     .btnSubmit:hover {
@@ -1223,8 +1234,8 @@ a {
         font-weight: 400;
     }
 
-    .customService h3 {
-        position: fixed;
+    .main .contact {
+        position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
@@ -1235,7 +1246,7 @@ a {
         align-items: center;
     }
 
-    .customService h3>a {
+    .main .contact>a {
         color: #0169AB;
         font-size: .75rem;
     }
@@ -1309,7 +1320,7 @@ a {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding-top: 6rem;
+        padding-top: 3rem;
     }
 
     .logoBox>img {
@@ -1322,7 +1333,7 @@ a {
         line-height: 18px;
         color: #333333;
         font-weight: 300;
-        padding-bottom: 4.3125rem;
+        padding-bottom: 2.3125rem;
     }
 
     .mengceng {
@@ -1416,28 +1427,36 @@ a {
         cursor: pointer;
         font-size: 14px;
     }
-}
 
-.wx_login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 16px;
-}
+    .wxLogin {
+        position: absolute;
+        bottom: 4rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-.wechar_login {
-    font-size: 14px;
-    color: #666666;
-    cursor: pointer;
-}
+    .wxLogin>div:first-child {
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: 50%;
+        background-color: #F7F7F7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.wechar_login:hover {
-    color: #009933;
-}
+    .wxLogin>div:first-child>img {
+        width: 2rem;
+        height: 2rem;
+    }
 
-.login_dis {
-    margin-left: 16px;
-    font-size: 14px;
-    color: #999999;
-    cursor: not-allowed
+    .wxLogin>span {
+        font-size: 14px;
+        color: #999999;
+        line-height: 14px;
+        margin-top: .5rem;
+    }
 }

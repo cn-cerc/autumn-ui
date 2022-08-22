@@ -416,4 +416,12 @@ class GDMap {
     }
 }
 
-export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap };
+function addScript(url, callBack) {
+    let scrpit = document.createElement('script');
+    scrpit.setAttribute('src', url);
+    scrpit.setAttribute('type', 'text/javascript');
+    scrpit.onload = callBack;
+    document.body.appendChild(scrpit);
+}
+
+export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap, addScript };
