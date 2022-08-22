@@ -113,7 +113,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return (
                 <form id="login_form" className={styles.uiForm} method="post" onSubmit={this.onSubmit.bind(this)}>
                     <div className={styles.formTitle}>系统登录</div>
-                    <img src={StaticFile.getImage('images/weixin_ionic.png')} onClick={() => { window.open(`TFrmWXLogin?clientId=${this.props.dataRow.getString('clientId')}`, '_target') }} className={styles.wxIcon} />
+                    <img src={StaticFile.getImage('images/weixin_ionic.png')} onClick={() => { window.open(`FrmWXLogin?clientId=${this.props.dataRow.getString('clientId')}`, '_target') }} className={styles.wxIcon} />
                     {/* <div id="wxContainer"></div> */}
                     <div className={`${styles.contentRight} ${this.state.message ? styles.contentRightMsg : ''}`}>
                         <div className={styles.userMessage}>
@@ -532,7 +532,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
         let urlSearchParams = new URLSearchParams();
         urlSearchParams.set('clientId', this.props.dataRow.getString('clientId'));
         urlSearchParams.set('loginType', 'app');
-        fetch('TFrmWXLogin', {
+        fetch('FrmWXLogin', {
             method: 'POST',
             body: urlSearchParams
         }).then((response) => {
@@ -548,7 +548,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                     this.setState({
                         showLoad: true
                     }, () => {
-                        location.href = `TFrmWXLogin.scanLogin?code=${ret.code}&state=${state}&device=phone`;
+                        location.href = `FrmWXLogin.scanLogin?code=${ret.code}&state=${state}&device=phone`;
                     })
                 }
             });
