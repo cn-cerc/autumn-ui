@@ -181,47 +181,47 @@
 
 .stock2 {
     left: 112px;
-    top: 16px;
+    top: 90px;
 }
 
 .stock3 {
-    left: 212px;
-    top: 16px;
+    left: 112px;
+    top: 10px;
 }
 
 .stock4 {
     left: 4px;
-    top: 102px;
+    top: 10px;
 }
 
 .stock5 {
     left: 112px;
-    top: 102px;
+    top: 250px;
 }
 
 .stock6 {
-    left: 212px;
-    top: 102px;
+    left: 4px;
+    top: 165px;
 }
 
 .stock7 {
     left: 4px;
-    top: 188px;
+    top: 330px;
 }
 
 .stock8 {
     left: 112px;
-    top: 188px;
+    top: 330px;
 }
 
 .stock9 {
-    left: 212px;
-    top: 188px;
+    left: 112px;
+    top: 165px;
 }
 
 .stock10 {
     left: 4px;
-    top: 269px;
+    top: 410px;
 }
 
 .stock11 {
@@ -231,12 +231,12 @@
 
 .stock12 {
     left: 212px;
-    top: 269px;
+    top: 410px;
 }
 
 .stock13 {
     left: 4px;
-    top: 350px;
+    top: 490px;
 }
 
 .stock14 {
@@ -333,7 +333,7 @@
     }
 
     .mcFlowChartBox {
-        height: 485px;
+        height: 620px;
     }
 
     .register>span,
