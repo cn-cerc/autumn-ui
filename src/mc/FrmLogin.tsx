@@ -35,7 +35,7 @@ var showVerify: boolean = false;
 
 export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
     private wxPlus: any;
-    private wxLoginError: Map<number, string> = new Map([[-1, '未知错误'], [0, '成功，用户同意'], [1, '用户取消'], [2, '用户拒绝授权'], [3, '当前设备未安装微信客户端']])
+    private wxLoginError: Map<number, string> = new Map([[-1, '未知错误'], [0, '成功，用户同意'], [1, '用户取消'], [2, '用户拒绝授权'], [3, '请先启动微信']])
     constructor(props: LoginTypeProps) {
         super(props);
 
