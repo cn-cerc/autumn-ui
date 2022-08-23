@@ -334,7 +334,8 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
 
     componentWillMount() {
         // 固定页面高度，防止键盘弹出高度变化导致定位元素位置错乱
-        document.body.style.height = document.body.offsetHeight + 'px';
+        if (this.isPhone)
+            document.body.style.height = document.body.offsetHeight + 'px';
         let device = '';
         let clientId = ''
         let href = window.location.href;
