@@ -46,11 +46,20 @@ export default class FrmARManageMC extends WebControl<FrmARManageMCTypeProps, Fr
                             <div className={`${this.state.dataJson.getBoolean(`应收调整单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收调整单')}>
                                 <span>应收调整单</span>
                             </div>
+                            <div className={`${this.state.dataJson.getBoolean(`物流运单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '物流运单')}>
+                                <span>物流运单</span>
+                            </div>
                             <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '销售订单')}>
                                 <span>销售订单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应收对账单')}>
                                 <span>应收对账单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`应收对账作业_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '应收对账作业')}>
+                                <span>应收对账作业</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`运单应收对账作业_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '运单应收对账作业')}>
+                                <span>运单应收对账作业</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`收款(申请)单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '收款(申请)单')}>
                                 <span>收款(申请)单</span>
@@ -199,53 +208,81 @@ export default class FrmARManageMC extends WebControl<FrmARManageMCTypeProps, Fr
             nodes,
             linesData: [
                 {
-                    coords: [ //应收调整单 往下线条
-                        [168, 75],
-                        [168, 108]
+                    coords: [ 
+                        [170, 65],
+                        [170, 96]
                     ]
                 },
                 {
-                    coords: [ //销货单 往右线条
-                        [73, 123],
-                        [150, 123],
+                    coords: [ 
+                        [50, 65],
+                        [50, 80],
+                        [170, 80]
                     ]
                 },
                 {
-                    coords: [ //应收对账单 往右下线条
-                        [190, 123],
-                        [279, 123],
-                        [279, 271]
+                    coords: [ 
+                        [154, 113],
+                        [60, 113]
                     ]
                 },
                 {
-                    coords: [ //应收对账单 往下线条
-                        [168, 160],
-                        [168, 189]
+                    coords: [ 
+                        [182, 113],
+                        [256, 113]
                     ]
                 },
                 {
-                    coords: [ //应收对账单 往左下线条
-                        [168, 174],
-                        [50, 174],
-                        [50, 189]
+                    coords: [ 
+                        [50, 146],
+                        [50, 156],
+                        [170, 156],
+                        [170, 175]
                     ]
                 },
                 {
-                    coords: [ //应收账款 往下线条
-                        [50, 247],
-                        [50, 271]
+                    coords: [ 
+                        [278, 146],
+                        [278, 156],
+                        [170, 156]
                     ]
                 },
                 {
-                    coords: [ //收款单 往右线条
-                        [73, 290],
-                        [256, 290]
+                    coords: [ 
+                        [170, 222],
+                        [170, 254]
                     ]
                 },
                 {
-                    coords: [ //收款单 往下线条
-                        [50, 328],
-                        [50, 349]
+                    coords: [ 
+                        [170, 235],
+                        [50, 235],
+                        [50, 254]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [50, 308],
+                        [50, 336]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [50, 386],
+                        [50, 416]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [60, 352],
+                        [265, 352]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [182, 186],
+                        [278, 186],
+                        [278, 336]
                     ]
                 },
             ]
