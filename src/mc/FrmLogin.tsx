@@ -169,9 +169,12 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
             return;
         }
         //@ts-ignore
+        let aliPhoneAuth = api.require('aliPhoneAuth');
+        //@ts-ignore
+        let isAndriod = api.systemType =='android';
+        let handleClose = isAndriod ? aliPhoneAuth.quitLoginPage : aliPhoneAuth.cancelLoginVCAnimated;
+        //@ts-ignore
         try {
-            //@ts-ignore
-            var aliPhoneAuth = api.require('aliPhoneAuth');
             var params = {
                 timeout: 10000,
                 navHidden: "true",
@@ -181,12 +184,16 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 privacyTwo: ["", ""],
                 privacyTip: "请阅读并同意协议"
             }
+
             aliPhoneAuth.oneKeyLogin(params, (ret: any, err: any) => {
-                if (ret.code == '600000') {//获取token成功
+                let code = isAndriod ? ret.code : ret.resultCode;
+                if(!isAndriod && (err || !ret))
+                    return;
+                if (code == '600000') {//获取token成功
                     this.setState({
                         showLoad: true
                     })
-                    aliPhoneAuth.quitLoginPage();//关闭一键登录页面
+                    handleClose();//关闭一键登录页面
                     let service = new QueryService(this.props);
                     service.setService('SvrUserLogin.getToken');
                     this.props.dataRow.setValue('loginType', 'oneKeyLogin');
@@ -215,19 +222,19 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                             })
                         }
                     });
-                } else if (ret.code == '600007') {
+                } else if (code == '600007') {
                     let msg = '未检测到SIM卡，请检查SIM卡后重试';
-                    aliPhoneAuth.quitLoginPage();
+                    handleClose();
                     showMsg(msg);
-                } else if (ret.code == '600008' || ret.code == '600011') {
+                } else if (code == '600008' || code == '600011') {
                     let msg = '请开启移动网络后重试或切换其他登录方式';
-                    aliPhoneAuth.quitLoginPage();
+                    handleClose();
                     showMsg(msg);
-                } else if (ret.code == '700000') {
-                    aliPhoneAuth.quitLoginPage();
-                } else if (ret.code != '600001') {
-                    let msg = ret.msg;
-                    aliPhoneAuth.quitLoginPage();
+                } else if (code == '700000' || code == '700002') {
+                    handleClose();
+                } else if (code != '600001') {
+                    let msg = ret.msg || '';
+                    handleClose();
                     showMsg(msg);
                 }
                 this.setState({
@@ -235,7 +242,7 @@ export class Login extends WebControl<LoginTypeProps, LoginTypeState> {
                 })
             });
         } catch (err) {
-            aliPhoneAuth.quitLoginPage();
+            handleClose();
             this.setState({
                 showLoad: false,
                 message: ''
