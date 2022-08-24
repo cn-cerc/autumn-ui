@@ -7,12 +7,11 @@ import StaticFile from "../static/StaticFile";
 import styles from "./FrmTaurusQuicknessMC.css";
 
 type FrmTaurusQuicknessMCTypeProps = {
-    dataJson: string,
-    introduction: string
 }
 
 type FrmTaurusQuicknessMCTypeState = {
     linkRow: DataRow,
+    introduction: string
 }
 
 export const MCChartColors = ['#578DF9', '#63DAAB', '#6B7A91', '#F0D062', '#E6806C', '#7DD17D', '#9A7BD9'];
@@ -21,15 +20,27 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     constructor(props: FrmTaurusQuicknessMCTypeProps) {
         super(props);
         let linkRow = new DataRow();
-        linkRow.setJson(this.props.dataJson);
+        linkRow.setValue("我要发货_URL", "FrmShipping.append")
+            .setValue("我要发货_Dis", false)
+            .setValue("司机接单_URL", "")
+            .setValue("司机接单_Dis", true)
+            .setValue("我要跟踪_URL", "FrmShipping")
+            .setValue("我要跟踪_Dis", false)
+            .setValue("我要开票_URL", "FrmShipping.selectShipping")
+            .setValue("我要开票_Dis", false)
+            .setValue("我要充值_URL", "FrmRecharge")
+            .setValue("我要充值_Dis", false)
+            .setValue("运输完成_URL", "")
+            .setValue("运输完成_Dis", true);
         this.state = {
             linkRow,
+            introduction: '主要用于登记和管理物流订单。登记物流订单后，可以选择运输模式运输货物。可以事先设置好商品资料登记、客户登记、以及车队与司机登记，以方便节省大量的重复的信息输入情况。可以对所有的物流订单进行管理和监控，查看货运相关数据统计以及数据分析。'
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
