@@ -11,8 +11,6 @@ type FrmAPManageTypeProps = {
 
 type FrmAPManageTypeState = {
     lineData: DataSet,
-    pieData1:DataSet,
-    pieData2:DataSet,
     dataRow: DataRow,
     introduction:string
 }
@@ -63,8 +61,6 @@ export default class FrmAPManage extends WebControl<FrmAPManageTypeProps, FrmAPM
 
         this.state = {
             lineData,
-            pieData1,
-            pieData2,
             dataRow,
             introduction
         }
