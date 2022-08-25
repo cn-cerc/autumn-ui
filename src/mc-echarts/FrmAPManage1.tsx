@@ -6,13 +6,11 @@ import styles from "./FrmAPManage1.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmAPManage1TypeProps = {
-    
+
 }
 
 type FrmAPManage1TypeState = {
     lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataRow: DataRow,
     introduction: string
 }
@@ -29,34 +27,24 @@ export default class FrmAPManage1 extends WebControl<FrmAPManage1TypeProps, FrmA
         lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataRow: DataRow = lineRow.setValue("应付调整单_URL", "TFrmPaidPA")
-        .setValue("应付调整单_Dis", false)
-        .setValue("进货单_URL", "TFrmTranAB")
-        .setValue("进货单_Dis", false)
-        .setValue("应付结账单_URL", "")
-        .setValue("应付结账单_Dis", false)
-        .setValue("应付对账单_URL", "FrmTranCPBill")
-        .setValue("应付对账单_Dis", false)
-        .setValue("应收账款_URL", "TFrmCheckAR")
-        .setValue("应收账款_Dis", false)
-        .setValue("付款(申请)单_URL", "TFrmPaidAP")
-        .setValue("付款(申请)单_Dis", false)
-        .setValue("会计凭证_URL", "TFrmAccBook")
-        .setValue("会计凭证_Dis", false)
-        .setValue("银行存款_URL", "TSchAccBook1300")
-        .setValue("银行存款_Dis", false);
+            .setValue("应付调整单_Dis", false)
+            .setValue("进货单_URL", "TFrmTranAB")
+            .setValue("进货单_Dis", false)
+            .setValue("应付结账单_URL", "")
+            .setValue("应付结账单_Dis", false)
+            .setValue("应付对账单_URL", "FrmTranCPBill")
+            .setValue("应付对账单_Dis", false)
+            .setValue("应收账款_URL", "TFrmCheckAR")
+            .setValue("应收账款_Dis", false)
+            .setValue("付款(申请)单_URL", "TFrmPaidAP")
+            .setValue("付款(申请)单_Dis", false)
+            .setValue("会计凭证_URL", "TFrmAccBook")
+            .setValue("会计凭证_Dis", false)
+            .setValue("银行存款_URL", "TSchAccBook1300")
+            .setValue("银行存款_Dis", false);
         let introduction = "本模组主要提供人事资料的管理，由于每一家企业的性质与规模不同，此模组在实际使用时，会根据每家企业的特点与需求进行定制开发。当前模组默认的只是提供了最为基础的数据管理，并为定制开发做好了准备。";
-        
+
         this.state = {
             lineData,
             pieData1,
