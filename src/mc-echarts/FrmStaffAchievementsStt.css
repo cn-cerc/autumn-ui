@@ -1,0 +1,215 @@
+.main {
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+    background-color: #fff;
+    padding: 16px;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+}
+
+.top>li {
+    width: 0;
+    flex: 1;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+.top>li:first-child {
+    margin-left: 0;
+}
+
+.top>li>span:first-child {
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.top>li>span:nth-child(2) {
+    margin-top: 16px;
+    font-size: 22px;
+    line-height: 22px;
+}
+
+.bottom {
+    height: 0;
+    flex: 1;
+    display: flex;
+    margin-top: 16px;
+}
+
+.table {
+    width: 0;
+    flex: 2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 16px;
+}
+
+.table>h4 {
+    padding: 16px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.tableTH {
+    margin: 0 16px;
+    height: 36px;
+    background-color: #F7F7F7;
+}
+
+.echarts {
+    width: 0;
+    min-width: 360px;
+    flex: 1;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.echart1 {
+    height: 0;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.echart1>h4 {
+    padding: 16px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.echart1>h4+div {
+    height: 0;
+    flex: 1;
+}
+
+.echart2 {
+    height: 0;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.echart2>h4 {
+    padding: 16px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.echart2>h4+div {
+    height: 0;
+    flex: 1;
+}
+
+.tableLine {
+    display: flex;
+    align-items: center;
+}
+
+.tableLine>span {
+    padding: 0 8px;
+    text-align: center;
+}
+
+.tableLine>span:first-child {
+    width: 0;
+    flex: 3;
+}
+
+.tableLine>span:nth-child(2) {
+    width: 0;
+    flex: 2;
+}
+
+.tableLine>span:nth-child(3) {
+    width: 0;
+    flex: 3;
+}
+
+.tableLine>span:nth-child(4) {
+    width: 0;
+    flex: 3;
+}
+
+.tableLine>span:nth-child(5) {
+    width: 0;
+    flex: 3;
+}
+
+.tableLine>span:nth-child(6) {
+    width: 0;
+    flex: 3;
+}
+
+.tableLine>span:nth-child(7) {
+    width: 0;
+    flex: 3;
+}
+
+.tableContent>ul>.noData {
+    text-align: center;
+    padding: 16px;
+    color: #999;
+    border-bottom: 0;
+}
+
+.tableContent {
+    margin: 0 16px;
+    height: 0;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.tableContent>ul {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+}
+
+.tableContent>ul>li {
+    height: 36px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1366px) {
+    .main {
+        padding: 12px;
+    }
+
+    .top>li {
+        margin-left: 12px;
+    }
+
+    .bottom {
+        margin-top: 12px;
+    }
+
+    .echarts {
+        margin-left: 12px;
+    }
+
+    .echart2 {
+        margin-top: 12px;
+    }
+}

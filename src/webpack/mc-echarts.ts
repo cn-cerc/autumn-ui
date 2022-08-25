@@ -39,6 +39,7 @@ import TOrdMC from "../mc-echarts/TOrdMC";
 import TPurMC from "../mc-echarts/TPurMC";
 import TStockMC from "../mc-echarts/TStockMC";
 import FrmChargeManage from "../mc-echarts/FrmChargeManage";
+import FrmStaffAchievementsStt from "../mc-echarts/FrmStaffAchievementsStt";
 
 export default {
     Frm4PLCusManage,
@@ -82,4 +83,5 @@ export default {
     TStockMC,
     FrmTaurusQuicknessMC,
     FrmChargeManage,
+    FrmStaffAchievementsStt,
 }
