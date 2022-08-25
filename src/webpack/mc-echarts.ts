@@ -42,6 +42,7 @@ import FrmChargeManage from "../mc-echarts/FrmChargeManage";
 import FrmAuthManage1MC from "../mc-echarts/FrmAuthManage1MC";
 import FrmPayee from "../mc-echarts/FrmPayee";
 import FrmRiskWarning from "../mc-echarts/FrmRiskWarning";
+import FrmStaffAchievementsStt from "../mc-echarts/FrmStaffAchievementsStt";
 
 export default {
     Frm4PLCusManage,
@@ -88,4 +89,5 @@ export default {
     FrmPayee,
     FrmRiskWarning,
     FrmAuthManage1MC,
+    FrmStaffAchievementsStt,
 }
