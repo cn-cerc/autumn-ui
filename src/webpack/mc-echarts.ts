@@ -4,7 +4,7 @@ import FrmAPManageMC1 from "../mc-echarts/FrmAPManageMC1";
 import FrmARManageMC from "../mc-echarts/FrmARManageMC";
 import FrmARManageMC1 from "../mc-echarts/FrmARManageMC1";
 import FrmAuthManageMC from "../mc-echarts/FrmAuthManageMC";
-import FrmCarManagerMC from "../mc-echarts/FrmCarManagerMC";
+import FrmCarManagerMC from "../mc-echarts/FrmCarManager";
 import FrmCarManagerMC2 from "../mc-echarts/FrmCarManagerMC2";
 import FrmCashManage from "../mc-echarts/FrmCashManage";
 import FrmContractManageMC from "../mc-echarts/FrmContractManageMC";
