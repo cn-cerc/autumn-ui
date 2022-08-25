@@ -71,6 +71,7 @@ import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
 import RapidInput from "../mc/RapidInput";
 import SalaryLevelDialog from "../dialog/SalaryLevelDialog";
+import ExpenseDialog from "../dialog/ExpenseDialog";
 
 export default {
     // 地藤开窗
@@ -130,6 +131,7 @@ export default {
     WareBasicDialog,
     WorkerDialog,
     SalaryLevelDialog,
+    ExpenseDialog,
 
     // 快录
     RapidInput,

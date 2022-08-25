@@ -262,6 +262,11 @@ export default class DitengApi {
         return ControlApi.getDataOut('SvrSalaryLevel.search', params);
     }
 
+    /** 获取费用类别 */
+    static getExpense(params: DataRow) {
+        return ControlApi.getDataOut('SvrExpenseReimbursed.searchExpenseType', params);
+    }
+
     /** 显示客户专卖区域 */
     static async getCusInfos(params: DataRow) {
         return ControlApi.getDataOut('TAppCusInfo.Download', params);
