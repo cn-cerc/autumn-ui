@@ -7,9 +7,6 @@ import { MCChartColors } from "./FrmTaurusMC";
 import styles from "./FrmWagonAccountBook.css";
 
 type FrmWagonAccountBookTypeProps = {
-    introduction: string,
-    dataJson: string,
-    btnArr: string,
     record: any
 }
 
@@ -18,30 +15,65 @@ type FrmWagonAccountBookTypeState = {
     moduleData: DataSet,
     btnUrl: DataRow,
     record: DataRow,
+    introduction: string,
 }
 
 export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookTypeProps, FrmWagonAccountBookTypeState> {
     constructor(props: FrmWagonAccountBookTypeProps) {
         super(props);
         let moduleData = new DataSet();
-        moduleData.setJson(this.props.dataJson);
+        moduleData.append()
+        .setValue("Name_", "账本记录")
+        .setValue("Image_", "images/MCimg/wagonAccountBook/zbjl.png")
+        .setValue("账本记录_URL", "FrmPUserBookkeeping")
+        .setValue("账本记录_Dis", false)
+        .append()
+        .setValue("Name_", "支出登记")
+        .setValue("Image_", "images/MCimg/wagonAccountBook/zcdj.png")
+        .setValue("支出登记_URL", "FrmPUserBookkeeping.append?billType=1")
+        .setValue("支出登记_Dis", false)
+        .append()
+        .setValue("Name_", "收入登记")
+        .setValue("Image_", "images/MCimg/wagonAccountBook/srdj.png")
+        .setValue("收入登记_URL", "FrmPUserBookkeeping.append?billType=0")
+        .setValue("收入登记_Dis", false)
+        .append()
+        .setValue("Name_", "公司报销")
+        .setValue("Image_", "images/MCimg/wagonAccountBook/gsbx.png")
+        .setValue("公司报销_URL", "FrmPReimburse")
+        .setValue("公司报销_Dis", false)
+        .append()
+        .setValue("Name_", "申请报销")
+        .setValue("Image_", "images/MCimg/wagonAccountBook/sqbx.png")
+        .setValue("申请报销_URL", "FrmPReimburse.selectBookkeeping")
+        .setValue("申请报销_Dis", false);
         let btnUrl = new DataRow();
-        btnUrl.setJson(this.props.btnArr);
+        btnUrl.setValue("Name_", "钱包余额")
+        .setValue("钱包余额_URL", "FrmDriverWallet")
+        .setValue("Name_", "支出")
+        .setValue("支出_URL", "FrmDriverWallet.expeDetails")
+        .setValue("Name_", "收入")
+        .setValue("收入_URL", "FrmDriverWallet.incomeDetails")
+        .setValue("Name_", "提现")
+        .setValue("提现_URL", "FrmDriverWallet.selectSubWallet");
         let record = new DataRow();
         if (this.props.record != '') {
             record.setJson(this.props.record);
         }
+        let introduction = "主要用于管理钱包余额、账本记录、费用报销的费用登记。拥有相关的支出登记，收入登记、报销申请，以及相关的数据统计以及分析等功能。";
+
         this.state = {
             data: new DataSet(),
             moduleData,
             btnUrl,
             record,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <React.Fragment>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.main}>
                 {this.isPhone ? '' : this.getModule()}
                 <div className={styles.content}>
