@@ -7,58 +7,73 @@ import styles from "./FrmAuthManageMC.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmAuthManageMCTypeProps = {
-    dataJson: string,
-    introduction: string
+
 }
 
 type FrmAuthManageMCTypeState = {
-    dataJson: DataRow,
+    dataRow: DataRow,
     DriverStatistics: DataSet,
     CorpStatistics: DataSet,
     payeeStatistics: DataSet,
+    introduction: string
 }
 
 export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
     constructor(props: FrmAuthManageMCTypeProps) {
         super(props);
         let lineRow = new DataRow();
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("企业认证_URL", "")
+            .setValue("企业认证_Dis", false)
+            .setValue("认证中心_URL", "")
+            .setValue("认证中心_Dis", false)
+            .setValue("车辆认证_URL", "FrmPCarRegistration")
+            .setValue("车辆认证_Dis", false)
+            .setValue("企业审核_URL", "")
+            .setValue("企业审核_Dis", false)
+            .setValue("司机认证_URL", "FrmAdminDriverAuth")
+            .setValue("司机认证_Dis", false)
+            .setValue("车辆审核_URL", "")
+            .setValue("车辆审核_Dis", false)
+            .setValue("司机审核_URL", "")
+            .setValue("司机审核_Dis", false);
+        let introduction = "用于审核收款人信息，以及查看，修改收款人功能。";
         this.state = {
-            dataJson: dataJson,
+            dataRow,
             DriverStatistics: new DataSet(),
             CorpStatistics: new DataSet(),
             payeeStatistics: new DataSet(),
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`企业认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '企业认证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`企业认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '企业认证')}>
                                 <span>企业认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`认证中心_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '认证中心')}>
+                            <div className={`${this.state.dataRow.getBoolean(`认证中心_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '认证中心')}>
                                 <span>认证中心</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车辆认证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`车辆认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车辆认证')}>
                                 <span>车辆认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`企业审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock4}`} onClick={this.linkTo.bind(this, '企业审核')}>
+                            <div className={`${this.state.dataRow.getBoolean(`企业审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock4}`} onClick={this.linkTo.bind(this, '企业审核')}>
                                 <span>企业审核</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '司机认证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`司机认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '司机认证')}>
                                 <span>司机认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock6}`} onClick={this.linkTo.bind(this, '车辆审核')}>
+                            <div className={`${this.state.dataRow.getBoolean(`车辆审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock6}`} onClick={this.linkTo.bind(this, '车辆审核')}>
                                 <span>车辆审核</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '司机审核')}>
+                            <div className={`${this.state.dataRow.getBoolean(`司机审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '司机审核')}>
                                 <span>司机审核</span>
                             </div>
                         </div>
@@ -401,8 +416,8 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }
