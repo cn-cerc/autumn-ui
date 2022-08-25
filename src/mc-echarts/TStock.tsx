@@ -13,7 +13,7 @@ type TStockTypeState = {
     lineData: DataSet,
     barData: DataSet,
     dataRow: DataRow,
-    introduction:string
+    introduction: string
 }
 
 export default class TStock extends WebControl<TStockTypeProps, TStockTypeState> {
@@ -36,30 +36,30 @@ export default class TStock extends WebControl<TStockTypeProps, TStockTypeState>
         barData.append().setValue('Value_', 10).setValue('Name_', '周五');
         barData.append().setValue('Value_', 14).setValue('Name_', '周六');
         barData.append().setValue('Value_', 12).setValue('Name_', '周日');
-        let dataRow: DataRow = lineRow        .setValue("进货单_URL", "TFrmTranAB")
-        .setValue("进货单_Dis", false)
-        .setValue("商品品牌设置_URL", "TFrmPartBrand")
-        .setValue("商品品牌设置_Dis", false)
-        .setValue("商品资料登记_URL", "TFrmPartBrand.append")
-        .setValue("商品资料登记_Dis", false)
-        .setValue("进货退回单_URL", "TFrmTranBG")
-        .setValue("进货退回单_Dis", false)
-        .setValue("库存盘点单_URL", "TFrmTranAE")
-        .setValue("库存盘点单_Dis", false)
-        .setValue("库存报废单_URL", "TFrmTranBR")
-        .setValue("库存报废单_Dis", false)
-        .setValue("销售单_URL", "TFrmTranBC")
-        .setValue("销售单_Dis", false)
-        .setValue("库存总表_URL", "TFrmSafeStock")
-        .setValue("库存总表_Dis", false)
-        .setValue("进出库明细_URL", "TSchProductInOutAnalysis")
-        .setValue("进出库明细_Dis", false)
-        .setValue("出货退回单_URL", "TFrmTranAG")
-        .setValue("出货退回单_Dis", false)
-        .setValue("库别调拨单_URL", "TFrmTranAH")
-        .setValue("库别调拨单_Dis", false);
+        let dataRow: DataRow = lineRow.setValue("进货单_URL", "TFrmTranAB")
+            .setValue("进货单_Dis", false)
+            .setValue("商品品牌设置_URL", "TFrmPartBrand")
+            .setValue("商品品牌设置_Dis", false)
+            .setValue("商品资料登记_URL", "TFrmPartBrand.append")
+            .setValue("商品资料登记_Dis", false)
+            .setValue("进货退回单_URL", "TFrmTranBG")
+            .setValue("进货退回单_Dis", false)
+            .setValue("库存盘点单_URL", "TFrmTranAE")
+            .setValue("库存盘点单_Dis", false)
+            .setValue("库存报废单_URL", "TFrmTranBR")
+            .setValue("库存报废单_Dis", false)
+            .setValue("销售单_URL", "TFrmTranBC")
+            .setValue("销售单_Dis", false)
+            .setValue("库存总表_URL", "TFrmSafeStock")
+            .setValue("库存总表_Dis", false)
+            .setValue("进出库明细_URL", "TSchProductInOutAnalysis")
+            .setValue("进出库明细_Dis", false)
+            .setValue("出货退回单_URL", "TFrmTranAG")
+            .setValue("出货退回单_Dis", false)
+            .setValue("库别调拨单_URL", "TFrmTranAH")
+            .setValue("库别调拨单_Dis", false);
         let introduction = "主要用于商品库存的管理，这包括生产相关的领料单、完工入库单，也包括仓库自身的仓别调拔、库存盘点、库存报废等日常作业管理。结合设置安全库存量，可以自动进行提醒并生成采购建议的管理目的。";
-        
+
         this.state = {
             lineData,
             barData,
@@ -248,7 +248,7 @@ export default class TStock extends WebControl<TStockTypeProps, TStockTypeState>
                         [105, 340],
                         [78, 340],
                     ]
-                }, 
+                },
                 {
                     coords: [ //进货单 往下 进货退回单
                         [50, 79],
