@@ -7,7 +7,7 @@ import styles from "./FrmContractManage2.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmContractManage2TypeProps = {
-    
+
 }
 
 type FrmContractManage2TypeState = {
@@ -24,21 +24,21 @@ export default class FrmContractManage2 extends WebControl<FrmContractManage2Typ
         super(props);
         let lineRow = new DataRow();
         let dataRow: DataRow = lineRow.setValue("银行维护_URL", "TFrmBankInfo")
-        .setValue("银行维护_Dis", true)
-        .setValue("合同类别_URL", "FrmContractType")
-        .setValue("合同类别_Dis", false)
-        .setValue("合同登记_URL", "FrmContract.selectContractType")
-        .setValue("合同登记_Dis", false)
-        .setValue("待接收合同_URL", "FrmContractApply")
-        .setValue("待接收合同_Dis", false)
-        .setValue("应付对账单_URL", "FrmTranCPBill")
-        .setValue("应付对账单_Dis", false)
-        .setValue("付款单_URL", "TFrmPaidAP")
-        .setValue("付款单_Dis", false)
-        .setValue("合同管理_URL", "FrmContract")
-        .setValue("合同管理_Dis", false);
+            .setValue("银行维护_Dis", true)
+            .setValue("合同类别_URL", "FrmContractType")
+            .setValue("合同类别_Dis", false)
+            .setValue("合同登记_URL", "FrmContract.selectContractType")
+            .setValue("合同登记_Dis", false)
+            .setValue("待接收合同_URL", "FrmContractApply")
+            .setValue("待接收合同_Dis", false)
+            .setValue("应付对账单_URL", "FrmTranCPBill")
+            .setValue("应付对账单_Dis", false)
+            .setValue("付款单_URL", "TFrmPaidAP")
+            .setValue("付款单_Dis", false)
+            .setValue("合同管理_URL", "FrmContract")
+            .setValue("合同管理_Dis", false);
         let introduction = "主要用于所有合同的管理，这包括合同类别的管理、合同的管理、合同的登记、接收其他公司的合同，同时可以查看合同管理的数据统计以及数据分析";
-        
+
         this.state = {
             dataRow,
             contractAmount: new DataSet(),
