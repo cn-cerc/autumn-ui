@@ -135,21 +135,23 @@
 .tableLine>span {
     padding: 0 8px;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .tableLine>span:first-child {
     width: 0;
-    flex: 3;
+    flex: 2;
 }
 
 .tableLine>span:nth-child(2) {
     width: 0;
-    flex: 2;
+    flex: 3;
 }
 
 .tableLine>span:nth-child(3) {
     width: 0;
-    flex: 3;
+    flex: 2;
 }
 
 .tableLine>span:nth-child(4) {
@@ -168,6 +170,11 @@
 }
 
 .tableLine>span:nth-child(7) {
+    width: 0;
+    flex: 3;
+}
+
+.tableLine>span:nth-child(8) {
     width: 0;
     flex: 3;
 }
@@ -238,6 +245,33 @@
     margin-right: 4px;
 }
 
+.mcIntroduction>.toggleIcons {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    background-image: url('../assets/img/kanban_header_line.png');
+    background-repeat: repeat;
+    height: 100%;
+    width: calc((100% - 720px) / 2);
+}
+
+.mcIntroduction>.toggleIcons>a {
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.mcIntroduction>span {
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -8px);
+}
+
 .btn_toggle_pc {
     background-image: url("../assets/img/pc.png");
 }
@@ -255,7 +289,7 @@
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1366px) {
-    .main {
+    .mainContent {
         padding: 12px;
     }
 

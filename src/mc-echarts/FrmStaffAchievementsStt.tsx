@@ -42,7 +42,7 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
                     <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
                     <span>{this.props.corpName}</span>
                 </div>
-                <span>车辆网看板</span>
+                <span>员工绩效看板</span>
                 <div className={styles.toggleIcons}>
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </div>
@@ -70,6 +70,7 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
                     <div className={styles.table}>
                         <h4>员工绩效数据统计（按周）</h4>
                         <div className={`${styles.tableTH} ${styles.tableLine}`}>
+                            <span>序</span>
                             <span>姓名</span>
                             <span>部门</span>
                             <span>PR数量</span>
@@ -119,29 +120,10 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
 
         // 初始化本周员工绩效数
         DitengApi.getStaffWeekAch().then((tableData) => {
-            tableData = new DataSet();
-            tableData.append().setValue('name_', '张三').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '李四').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '王五').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '赵六').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '钱多多').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '金盛达').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '赵雷').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '孙红').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '李党贵').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '邓不列多').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '达芬奇').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '牛顿').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '赵云').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '刘备').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '张飞').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '孙膑').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '张三丰').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '李世民').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '刘邦').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '成吉思汗').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '朱棣').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
-            tableData.append().setValue('name_', '马尔哈赤').setValue('deptName_', '1部').setValue('pr_', '5').setValue('issue_', '3').setValue('commit_', '8').setValue('fix_bug_', 5).setValue('add_bug_', 2);
+            tableData.first();
+            while(tableData.fetch()) {
+                tableData.setValue('it_', tableData.recNo);
+            }
             this.setState({
                 tableData
             }, () => {
@@ -198,6 +180,7 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
         ds.first();
         while (ds.fetch()) {
             list.push(<li key={ds.recNo} className={styles.tableLine}>
+                <span>{ds.getString('it_')}</span>
                 <span>{ds.getString('name_')}</span>
                 <span>{ds.getString('deptName_')}</span>
                 <span>{ds.getDouble('pr_')}</span>
