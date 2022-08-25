@@ -6,15 +6,15 @@ import styles from "./FrmCashManage.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmCashManageTypeProps = {
-    dataJson: string,
-    introduction: string
+
 }
 
 type FrmCashManageTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction: string
 }
 
 export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, FrmCashManageTypeState> {
@@ -39,49 +39,69 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
         pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
         pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
         pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("应收结账单_URL", "FrmTranCRBill")
+        .setValue("应收结账单_Dis", false)
+        .setValue("请款单_URL", "")
+        .setValue("请款单_Dis", false)
+        .setValue("收款单_URL", "TFrmPaidAR")
+        .setValue("收款单_Dis", false)
+        .setValue("应付结账单_URL", "FrmTranCPBill")
+        .setValue("应付结账单_Dis", false)
+        .setValue("付款申请单_URL", "TFrmPaidAP")
+        .setValue("付款申请单_Dis", false)
+        .setValue("付款单_URL", "TFrmPaidAP")
+        .setValue("付款单_Dis", false)
+        .setValue("转账单_URL", "TFrmPaidBM")
+        .setValue("转账单_Dis", false)
+        .setValue("银行账户表_URL", "TFrmBankInfo")
+        .setValue("银行账户表_Dis", false)
+        .setValue("对账单_URL", "")
+        .setValue("对账单_Dis", false);
+        let introduction = "资金管理是社会主义国家对国营企业资金来源和资金使用进行计划、控制、监督、考核等项工作的总称。财务管理的重要组成部分。资金管理包括固定资金管理、流动资金管理和专项资金管理。";
+        
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`应收结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '应收结账单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`应收结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '应收结账单')}>
                                 <span>应收结账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '请款单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`请款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '请款单')}>
                                 <span>请款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '收款单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '收款单')}>
                                 <span>收款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '应付结账单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`应付结账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '应付结账单')}>
                                 <span>应付结账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`付款申请单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '付款申请单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`付款申请单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '付款申请单')}>
                                 <span>付款申请单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`付款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '付款单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`付款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '付款单')}>
                                 <span>付款单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`转账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '转账单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`转账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '转账单')}>
                                 <span>转账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`银行账户表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '银行账户表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`银行账户表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '银行账户表')}>
                                 <span>银行账户表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '对账单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '对账单')}>
                                 <span>对账单</span>
                             </div>
                         </div>
@@ -395,8 +415,8 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }
