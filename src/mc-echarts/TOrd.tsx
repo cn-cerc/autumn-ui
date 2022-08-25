@@ -10,7 +10,6 @@ type TOrdTypeProps = {
 }
 
 type TOrdTypeState = {
-    lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
     dataRow: DataRow,

@@ -11,7 +11,10 @@ type FrmAPManageTypeProps = {
 
 type FrmAPManageTypeState = {
     lineData: DataSet,
-    dataJson: DataRow,
+    pieData1:DataSet,
+    pieData2:DataSet,
+    dataRow: DataRow,
+    introduction:string
 }
 
 export default class FrmAPManage extends WebControl<FrmAPManageTypeProps, FrmAPManageTypeState> {
