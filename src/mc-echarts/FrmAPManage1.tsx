@@ -47,8 +47,6 @@ export default class FrmAPManage1 extends WebControl<FrmAPManage1TypeProps, FrmA
 
         this.state = {
             lineData,
-            pieData1,
-            pieData2,
             dataRow,
             introduction
         }
