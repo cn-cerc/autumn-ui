@@ -6,13 +6,11 @@ import { MCChartColors } from "./FrmTaurusMC";
 import UIIntroduction from "../module/UIIntroduction";
 
 type FrmARManage1TypeProps = {
-   
+
 }
 
 type FrmARManage1TypeState = {
     lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataRow: DataRow,
     introduction: string
 }
@@ -29,44 +27,32 @@ export default class FrmARManage1 extends WebControl<FrmARManage1TypeProps, FrmA
         lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataRow: DataRow = lineRow.setValue("应收调整单_URL", "TFrmPaidRA")
-        .setValue("应收调整单_Dis", false)
-        .setValue("销售订单_URL", "TFrmTranOD")
-        .setValue("销售订单_Dis", false)
-        .setValue("物流运单_URL", "FrmArrangeCarExport")
-        .setValue("物流运单_Dis", false)
-        .setValue("应收对账作业_URL", "FrmARSourceToCR")
-        .setValue("应收对账作业_Dis", false)
-        .setValue("运单应收对账作业_URL", "FrmArrangeCarToCR")
-        .setValue("运单应收对账作业_Dis", false)
-        .setValue("应收对账单_URL", "FrmTranCRBill")
-        .setValue("应收对账单_Dis", false)
-        .setValue("收款(申请)单_URL", "TFrmPaidAR")
-        .setValue("收款(申请)单_Dis", false)
-        .setValue("应收账款_URL", "TFrmCheckAR")
-        .setValue("应收账款_Dis", false)
-        .setValue("收款单_URL", "TFrmPaidAR")
-        .setValue("收款单_Dis", false)
-        .setValue("会计凭证_URL", "TFrmAccBook")
-        .setValue("会计凭证_Dis", false)
-        .setValue("银行存款_URL", "TSchAccBook1300")
-        .setValue("银行存款_Dis", false);
+            .setValue("应收调整单_Dis", false)
+            .setValue("销售订单_URL", "TFrmTranOD")
+            .setValue("销售订单_Dis", false)
+            .setValue("物流运单_URL", "FrmArrangeCarExport")
+            .setValue("物流运单_Dis", false)
+            .setValue("应收对账作业_URL", "FrmARSourceToCR")
+            .setValue("应收对账作业_Dis", false)
+            .setValue("运单应收对账作业_URL", "FrmArrangeCarToCR")
+            .setValue("运单应收对账作业_Dis", false)
+            .setValue("应收对账单_URL", "FrmTranCRBill")
+            .setValue("应收对账单_Dis", false)
+            .setValue("收款(申请)单_URL", "TFrmPaidAR")
+            .setValue("收款(申请)单_Dis", false)
+            .setValue("应收账款_URL", "TFrmCheckAR")
+            .setValue("应收账款_Dis", false)
+            .setValue("收款单_URL", "TFrmPaidAR")
+            .setValue("收款单_Dis", false)
+            .setValue("会计凭证_URL", "TFrmAccBook")
+            .setValue("会计凭证_Dis", false)
+            .setValue("银行存款_URL", "TSchAccBook1300")
+            .setValue("银行存款_Dis", false);
         let introduction = "主要用于公司主营业务中的所有关于应收的数据，同时连接应收调整单，应收结账单，以及应付账款，请款单，收款单，会计凭证，银行存款，结合起来即形成了完整的应收管理";
-        
+
         this.state = {
             lineData,
-            pieData1,
-            pieData2,
             dataRow,
             introduction
         }
