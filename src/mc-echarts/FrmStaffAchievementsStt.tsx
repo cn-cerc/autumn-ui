@@ -47,51 +47,53 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
                 </div>
             </div>
-            <ul className={styles.top}>
-                <li>
-                    <span>员工人数</span>
-                    <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('user_num') : ''}</span>
-                </li>
-                <li>
-                    <span>本周任务</span>
-                    <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('pr') : ''}</span>
-                </li>
-                <li>
-                    <span>完成数量</span>
-                    <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('issue') : ''}</span>
-                </li>
-                <li>
-                    <span>未完成数量</span>
-                    <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('no_issue') : ''}</span>
-                </li>
-            </ul>
-            <div className={styles.bottom}>
-                <div className={styles.table}>
-                    <h4>员工绩效数据统计（按周）</h4>
-                    <div className={`${styles.tableTH} ${styles.tableLine}`}>
-                        <span>姓名</span>
-                        <span>部门</span>
-                        <span>PR数量</span>
-                        <span>完成任务</span>
-                        <span>提交数量</span>
-                        <span>修复bug</span>
-                        <span>引发bug</span>
-                    </div>
-                    <div className={styles.tableContent}>
-                        <ul>
-                            {this.getTableContent()}
-                        </ul>
-                    </div>
+            <div className={styles.mainContent}>
+                <ul className={styles.top}>
+                    <li>
+                        <span>员工人数</span>
+                        <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('user_num') : ''}</span>
+                    </li>
+                    <li>
+                        <span>本周任务</span>
+                        <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('pr') : ''}</span>
+                    </li>
+                    <li>
+                        <span>完成数量</span>
+                        <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('issue') : ''}</span>
+                    </li>
+                    <li>
+                        <span>未完成数量</span>
+                        <span>{this.state.acmtsPanelData.size ? this.state.acmtsPanelData.getDouble('no_issue') : ''}</span>
+                    </li>
+                </ul>
+                <div className={styles.bottom}>
+                    <div className={styles.table}>
+                        <h4>员工绩效数据统计（按周）</h4>
+                        <div className={`${styles.tableTH} ${styles.tableLine}`}>
+                            <span>姓名</span>
+                            <span>部门</span>
+                            <span>PR数量</span>
+                            <span>完成任务</span>
+                            <span>提交数量</span>
+                            <span>修复bug</span>
+                            <span>引发bug</span>
+                        </div>
+                        <div className={styles.tableContent}>
+                            <ul>
+                                {this.getTableContent()}
+                            </ul>
+                        </div>
 
-                </div>
-                <div className={styles.echarts}>
-                    <div className={styles.echart1}>
-                        <h4>任务完成最多（前五）（按周）</h4>
-                        <div></div>
                     </div>
-                    <div className={styles.echart2}>
-                        <h4>修复bug最多（前五）（按周）</h4>
-                        <div></div>
+                    <div className={styles.echarts}>
+                        <div className={styles.echart1}>
+                            <h4>任务完成最多（前五）（按周）</h4>
+                            <div></div>
+                        </div>
+                        <div className={styles.echart2}>
+                            <h4>修复bug最多（前五）（按周）</h4>
+                            <div></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -190,7 +192,7 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
     }
 
     getTableContent() {
-        let list = [];
+        let list: any[] = [];
         let ds = new DataSet();
         ds.appendDataSet(this.state.tableData);
         ds.first();
