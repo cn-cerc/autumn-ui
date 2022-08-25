@@ -1,0 +1,134 @@
+.main {
+    height: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.main input[readonly]:focus {
+    border: 0!important;
+}
+
+.title {
+    padding: .625rem;
+}
+
+.inputLine>li {
+    position: relative;
+}
+
+.inputLine>li>.icon {
+    position: absolute;
+    right: .625rem;
+    width: 1rem;
+    height: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.inputLine>li>input {
+    padding-right: 2.25rem;
+}
+
+.content {
+    height: 0;
+    flex: 1;
+    display: flex;
+    border-top: .625rem solid #F5F5F5;
+}
+
+.content>ul {
+    height: 100%;
+    overflow: auto;
+}
+
+.province {
+    width: 0;
+    flex: 3;
+}
+
+.province>li {
+    height: 3rem;
+    text-align: center;
+    line-height: 3rem;
+    font-size: 16px;
+    color: #333333;
+    background-color: #EBEBEB;
+}
+
+.province>.privinceActive {
+    background-color: #fff;
+}
+
+.cityCode {
+    width: 0;
+    flex: 2;
+    border-right: 1px solid #EBEBEB;
+}
+
+.cityCode>li {
+    height: 3rem;
+    text-align: center;
+    line-height: 3rem;
+    font-size: 16px;
+    color: #333333;
+    position: relative;
+}
+
+.cityCode>.cityActive {
+    color: #0473EA;
+}
+
+.cityCode>li.cityActive::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background-color: #0473EA;
+}
+
+.cityCode>li.cityActive::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: #0473EA;
+}
+
+.carCodeList {
+    width: 0;
+    flex: 5;
+}
+
+.carCodeList>li {
+    display: flex;
+    justify-content: space-between;
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 16px;
+    color: #333333;
+    padding: 0 1rem;
+}
+
+.carCodeList>li>span:first-child {
+    width: 0;
+    flex: 1;
+    padding-right: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.carCodeList>.noData {
+    justify-content: center;
+    font-size: 14px;
+    color: #ccc;
+    padding: 1rem;
+    box-sizing: content-box;
+    height: 1rem;
+    line-height: 1rem;
+}

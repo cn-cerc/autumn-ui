@@ -68,7 +68,7 @@ export default class CustomerAddressDialog extends BaseDialog<CustomerAddressPro
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         let input3 = document.getElementById('receive_detail_') as HTMLInputElement;
         let input4 = document.getElementById('receive_phone_') as HTMLInputElement;
-        let address = dataRow.getString('Area1_') + '/' + dataRow.getString('Area2_') + '/' + dataRow.getString('Area3_');;
+        let address = dataRow.getString('Area1_') + '\\' + dataRow.getString('Area2_') + '\\' + dataRow.getString('Area3_');;
         input1.value = address;
         input2.value = address;
         input3.value = dataRow.getString('Area4_') + dataRow.getString('Area5_');

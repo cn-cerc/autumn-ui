@@ -2,12 +2,13 @@ import { Column, DataRow, DataSet, DBGrid, WebControl } from "autumn-ui";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
-import { GDMap } from "../tool/Summer";
+import StaticFile from "../static/StaticFile";
+import { AuiMath, GDMap } from "../tool/Summer";
 import styles from "./FrmDriverReceive.css";
 
 type FrmDriverReceiveTypeProps = {
     introduction: string,
-    chartsJson: string
+    chartsJson: string,
 }
 
 type FrmDriverReceiveTypeState = {
@@ -19,11 +20,12 @@ type FrmDriverReceiveTypeState = {
     isInit: boolean,
     notComplete: DataSet,
     isCompleted: DataSet,
-    showWay: boolean
+    showWay: boolean,
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
     private gdmap: GDMap = new GDMap();
+    private unitArr: string[] = ['吨', '方', '件', '车'];
     constructor(props: FrmDriverReceiveTypeProps) {
         super(props);
         let linkRow = new DataRow();
@@ -37,8 +39,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             isInit: false,
             notComplete: new DataSet(),
             isCompleted: new DataSet(),
-            showWay: true
+            showWay: true,
         }
+
     }
 
     render(): React.ReactNode {
@@ -46,8 +49,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 {this.getFlowChart()}
                 <ul className={styles.orderTypeList}>
-                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未完成({this.state.notComplete.size})</li>
-                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成({this.state.isCompleted.size})</li>
+                    <li className={this.state.orderType == 1 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 1 })}>未完成</li>
+                    <li className={this.state.orderType == 2 ? styles.orderActive : ''} onClick={() => this.setState({ orderType: 2 })}>已完成</li>
                 </ul>
                 {this.getOrderList()}
             </React.Fragment>
@@ -55,10 +58,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             return <React.Fragment>
                 <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
                 <div className={styles.contents}>
-                    <div className={styles.chartsBox}>
-                        <p>流程图</p>
-                        {this.getFlowChart()}
-                    </div>
                     <div className={styles.info}>
                         {this.getToast()}
                         <ul>
@@ -93,7 +92,6 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                     </div>
                 </div>
                 {this.getDBGrid()}
-
             </React.Fragment>
         }
     }
@@ -167,29 +165,31 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
 
     // 获取流程图介绍
     getFlowChart() {
-        return <div className={styles.charts}>
-            <ul className={styles.flowBox}>
-                <li onClick={this.linkTo.bind(this, '接单')} >
-                    <img src='images/order/order.png' />
-                    <span>接单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '装货回单')}>
-                    <img src='images/order/shipOrder.png' />
-                    <span>装货回单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '卸货回单')}>
-                    <img src='images/order/dischargeOrder.png' />
-                    <span>卸货回单</span>
-                </li>
-                <li className={styles.line}></li>
-                <li onClick={this.linkTo.bind(this, '完结')}>
-                    <img src='images/order/end.png' />
-                    <span>完结</span>
-                </li>
-            </ul>
-        </div>
+        if (!this.isPhone) {
+            return <div className={styles.charts}>
+                <ul className={styles.flowBox}>
+                    <li onClick={this.linkTo.bind(this, '接单')} >
+                        <img src='images/order/order.png' />
+                        <span>接单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '装货回单')}>
+                        <img src='images/order/shipOrder.png' />
+                        <span>装货回单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '卸货回单')}>
+                        <img src='images/order/dischargeOrder.png' />
+                        <span>卸货回单</span>
+                    </li>
+                    <li className={styles.line}></li>
+                    <li onClick={this.linkTo.bind(this, '完结')}>
+                        <img src='images/order/end.png' />
+                        <span>完结</span>
+                    </li>
+                </ul>
+            </div>
+        }
     }
 
     getDBGrid() {
@@ -231,16 +231,22 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         ds.first();
         let hasNextOrder = false;
         let time = new Date().getTime();
+        let index = 1;
         while (ds.fetch()) {
             let isReceived = true;
             if (ds.getString('confirm_status_') == '0')
                 isReceived = false;
-            list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time))
+            list.push(this.getOrderDetail(hasNextOrder, ds.current, isReceived, time, index))
+            index++;
         }
-        if (!list.length) {
-            list.push(<li className={styles.noOrder}>暂无物流订单</li>)
+        let bool = !list.length;
+        if (bool) {
+            list.push(<li className={styles.noOrder} key='noData'>
+                <div><img src={StaticFile.getImage('images/Frmshopping/notDataImg.png')} alt="" /></div>
+                <p>暂无运单</p>
+            </li>)
         }
-        return <ul className={styles.orderList} key={this.state.orderType}>{list}</ul>
+        return <ul className={styles.orderList} style={{ 'marginTop': !bool ? '0.75rem' : '' }} key={this.state.orderType}>{list}</ul>
     }
 
     linkTo(name: string) {
@@ -279,8 +285,9 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
         return jsx;
     }
 
-    getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number) {
+    getOrderDetail(hasNextOrder: boolean, row: DataRow, isReceived: boolean, time: number, index: number) {
         let time_ = new Date(row.getString('receiving_time_')).getTime();
+        let math = new AuiMath();
         if (!hasNextOrder && isReceived && !hasNextOrder && time_ > time) {
             hasNextOrder = true;
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
@@ -298,27 +305,37 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 </div>
             </li>
         } else {
+            let depart = this.removeProvinceFun(row.getString('send_city_'));
+            let destination = this.removeProvinceFun(row.getString('receive_city_'));
+            let stratDate = new Date(row.getString('send_date_time_'));
+            let endDate = new Date(row.getString('arrive_date_time_'));
             return <li key={this.state.notData.recNo} onClick={this.handleSelect.bind(this, row)}>
                 <div className={styles.orderTop}>
                     <div>
-                        <span>{row.getString('depart_')}</span>
+                        <span>{depart}</span>
                         <img src='images/order/transportation.png'></img>
-                        <span>{row.getString('destination_')}</span>
+                        <span>{destination}</span>
+                        {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}> <a className={styles.luxian} href=""> <img src={StaticFile.getImage('images/Frmshopping/site.png')} alt="" /> 路线</a> </span> : ''}
+                    </div>
+                </div>
+                <div className={styles.siteCenter}>
+                    <div className={styles.siteInfo}>
+                        <span className={styles.siteSkin}>{`${row.getString('depart_').replace(/\\/g, '')}${row.getString('send_detail_')}`}</span>
+                        <span className={styles.siteSkin}>{`${row.getString('destination_').replace(/\\/g, '')}${row.getString('receive_detail_')}`}</span>
                     </div>
                 </div>
                 <div className={styles.orderCenter}>
                     <div className={styles.orderInfo}>
-                        <span><i>发货明细</i>{row.getString('code_')}</span>
-                        <span><i>发货时间</i>{row.getString('send_date_time_')}</span>
-                        <span><i>到货时间</i>{row.getString('arrive_date_time_')}</span>
+                        <span>{row.getString('code_')} | {this.fromatPriceFun(row.getString('num_'))}{[this.unitArr[row.getDouble('main_unit_')]]} {row.getInt('driver_type_') == 1 ? `| ${this.fromatPriceFun(row.getString('unit_price_'))}元/${[this.unitArr[row.getDouble('main_unit_')]]}` : ''}</span>
+                        <span>计划发车: {this.formatDateTimeFun(stratDate)}</span>
+                        <span>计划抵达: {this.formatDateTimeFun(endDate)}</span>
                     </div>
                     {isReceived ? this.getOrderState(row) : ''}
                 </div>
                 <div className={styles.orderBottom}>
-                    <div className={styles.freight}>￥<span>{row.getString('amount_')}</span></div>
+                    <div className={styles.freight}>{row.getInt('driver_type_') == 1 ? '￥' : ''}<span>{row.getInt('driver_type_') == 1 ? math.toFixed(row.getString('amount_'), 2) : ''}</span></div>
                     <div className={styles.btns}>
-                        {this.state.orderType == 1 ? <span onClick={(e) => { e.preventDefault(), e.stopPropagation(), this.toGaode(row) }}>查看路线</span> : ''}
-                        {isReceived ? '' : <button>立即接单</button>}
+                        {isReceived ? <button className={styles.btn_detail}>详情</button> : <button className={index == 1 ? '' : styles.defaultBtn}>接单</button>}
                     </div>
                 </div>
             </li>
@@ -377,5 +394,31 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
                 break;
         }
         return <img src={imgSrc}></img>
+    }
+
+    removeProvinceFun(address: string) {
+        if (address.indexOf('/') > -1) {
+            address = address.substring(address.indexOf('/') + 1, address.length);
+        } else {
+            address = address.substring(address.indexOf('\\') + 1, address.length);
+        }
+        return address;
+    }
+
+    formatDateTimeFun(dateObj: Date) {
+        let str = '';
+        if (dateObj.getFullYear == new Date().getFullYear) {
+            str = `${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日${dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours()}时`;
+        } else {
+            str = `${dateObj.getFullYear()}年${(dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1}月${dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate()}日`;
+        }
+        return str;
+    }
+
+    fromatPriceFun(num: any) {
+        let d = Math.round(num * 100) / 100;
+        const price = (d + "").split(".");
+        price[1] = price[1] ? `${(price[1] + "000").substring(0, 2)}` : "00";
+        return price.join(".");
     }
 }

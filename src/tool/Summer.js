@@ -166,22 +166,22 @@ class AuiMath {
 
     add(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) + (num2 * multiple)) / multiple;
+        return (Math.round((num1 * multiple)) + Math.round(num2 * multiple)) / multiple;
     }
 
     sub(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) - (num2 * multiple)) / multiple;
+        return (Math.round(num1 * multiple) - Math.round(num2 * multiple)) / multiple;
     }
 
     mul(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) * (num2 * multiple)) / Math.pow(multiple, 2);
+        return (Math.round(num1 * multiple) * Math.round(num2 * multiple)) / Math.pow(multiple, 2);
     }
 
     div(num1, num2) {
         let multiple = this.getMultiple(num1, num2);
-        return ((num1 * multiple) / (num2 * multiple)) / Math.pow(multiple, 2);
+        return (Math.round(num1 * multiple) / Math.round(num2 * multiple)) / Math.pow(multiple, 2);
     }
 
     toFixed(num, len) {
@@ -221,12 +221,19 @@ function callPhoneNumber(mobile) {
 class GDMap {
     map;
     geocoder;
-    initMap(container) {
+    labelLayer;
+    initMap(container, config) {
         if (!AMap)
             throw new Error('缺少高德地图依赖文件');
-        this.map = new AMap.Map(container, {
+        let configObj = {
             resizeEnable: true
-        });
+        }
+        if (config)
+            configObj = {
+                ...configObj,
+                ...config
+            }
+        this.map = new AMap.Map(container, configObj);
     }
 
     // 根据位置获取经纬度
@@ -245,18 +252,22 @@ class GDMap {
     }
 
     async getAsyncGeocoder(site) {
+        if (!AMap)
+            throw new Error('缺少高德地图依赖文件');
         let obj = {
             status: 0,
             site: [],
             address: ''
         };
         await new Promise((resolve, reject) => {
-            new AMap.Geocoder().getLocation(site, function (status, result) {
-                if (status === 'complete' && result.info === 'OK') {
-                    resolve(result);
-                } else {
-                    reject(result);
-                }
+            AMap.plugin('AMap.Geocoder', () => {
+                new AMap.Geocoder().getLocation(site, function (status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        resolve(result);
+                    } else {
+                        reject(result);
+                    }
+                })
             })
         }).then((result) => {
             obj.status = 1;
@@ -308,10 +319,13 @@ class GDMap {
                     this.getGeocoder(e.poi.name, (result) => {
                         infomation.lng = result.geocodes[0].location.lng;
                         infomation.lat = result.geocodes[0].location.lat;
-                        infomation.name = '';
                         infomation.province = result.geocodes[0].addressComponent.province;
                         infomation.city = result.geocodes[0].addressComponent.city;
                         infomation.district = result.geocodes[0].addressComponent.district;
+                        infomation.township = result.geocodes[0].addressComponent.township;
+                        infomation.name = '';
+                        if (e.poi.name != infomation.province && e.poi.name != infomation.city && e.poi.name != infomation.district && e.poi.name != infomation.township)
+                            infomation.name = e.poi.name;
                         callBack(infomation);
                     })
                     return;
@@ -323,13 +337,14 @@ class GDMap {
                     infomation.province = result.regeocode.addressComponent.province;
                     infomation.city = result.regeocode.addressComponent.city;
                     infomation.district = result.regeocode.addressComponent.district;
+                    infomation.township = result.regeocode.addressComponent.township;
                     callBack(infomation);
                 });
             })
         })
     }
 
-    addMark(lng, lat, iconSrc, offset) {
+    addMark(lng, lat, iconSrc, offset, size) {
         if (!this.map)
             throw new Error('请先初始化地图容器');
         if (!AMap)
@@ -337,11 +352,48 @@ class GDMap {
         let marker = new AMap.Marker({
             map: this.map,
             position: [lng, lat],
-            icon: iconSrc,
+            content: `<img src='${iconSrc}' width='${size[0]}' height='${size[1]}'>`,
+            anchor: 'center',
             offset: new AMap.Pixel(offset[0], offset[1]),
         });
         this.map.setZoomAndCenter(16, [lng, lat]);
         return marker;
+    }
+
+    addLableMark(config, content) {
+        if (!this.map)
+            throw new Error('请先初始化地图容器');
+        if (!AMap)
+            throw new Error('缺少高德地图依赖文件');
+        if (!this.labelLayer) {
+            this.labelLayer = new AMap.LabelsLayer({
+                zooms: [3, 20],
+                zIndex: 1000,
+                collision: false,
+                allowCollision: false,
+            });
+            this.map.add(this.labelLayer);
+        }
+        let mark = new AMap.LabelMarker({
+            opacity: 1,
+            zIndex: 10,
+            fold: true,
+            icon: {
+                type: 'image',
+                image: getStaticFileImage("images/mapPoint.png"),
+                size: [24, 24],
+                anchor: 'bottom-center',
+            },
+            ...config
+        })
+        mark.on('click', () => {
+            let infoWindow = new AMap.InfoWindow({
+                offset: new AMap.Pixel(0, -25),
+                content
+            });
+            infoWindow.open(this.map, [config.position[0], config.position[1]]);
+        })
+        this.labelLayer.add(mark);
     }
 
     showLine(startLng, startLat, endLng, endLat, callBack) {
@@ -374,17 +426,6 @@ class GDMap {
             dlon = receiveGeocoder.site[0];
             dlat = receiveGeocoder.site[1];
             dname = receiveGeocoder.address;
-        } else {
-            sendGeocoder = await this.gdmap.getAsyncGeocoder(sendSite2);
-            receiveGeocoder = await this.gdmap.getAsyncGeocoder(receiveSite2);
-            if (sendGeocoder.status > 0 && receiveGeocoder.status > 0) {
-                slon = sendGeocoder.site[0];
-                slat = sendGeocoder.site[1];
-                sname = sendGeocoder.address;
-                dlon = receiveGeocoder.site[0];
-                dlat = receiveGeocoder.site[1];
-                dname = receiveGeocoder.address;
-            }
         }
         if (slon && slat && sname && dlon && dlat && dname) {
             if (window.ApiCloud.isApiCloud()) {
@@ -414,14 +455,33 @@ class GDMap {
         }
 
     }
+
+    clear() {
+        if (!this.map)
+            return;
+        this.map.clearMap();
+    }
 }
 
 function addScript(url, callBack) {
-    let scrpit = document.createElement('script');
-    scrpit.setAttribute('src', url);
-    scrpit.setAttribute('type', 'text/javascript');
-    scrpit.onload = callBack;
-    document.body.appendChild(scrpit);
+    let script = document.createElement('script');
+    script.setAttribute('src', url);
+    script.setAttribute('type', 'text/javascript');
+    script.onload = callBack;
+    document.body.appendChild(script);
+}
+
+function getStaticFileImage(imgSrc) {
+    let staticPath = '';
+    try {
+        //@ts-ignore
+        if (window.Application.staticPath)
+            //@ts-ignore
+            staticPath = window.Application.staticPath + '/';
+    } catch {
+        staticPath = '';
+    }
+    return staticPath + imgSrc;
 }
 
 export { Loading, showMsg, AuiMath, callPhoneNumber, GDMap, addScript };

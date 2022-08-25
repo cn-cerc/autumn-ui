@@ -12,8 +12,6 @@ type FrmAPManageMC1TypeProps = {
 
 type FrmAPManageMC1TypeState = {
     lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataJson: DataRow,
 }
 
@@ -29,21 +27,9 @@ export default class FrmAPManageMC1 extends WebControl<FrmAPManageMC1TypeProps, 
         lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
         }
     }
@@ -188,7 +174,6 @@ export default class FrmAPManageMC1 extends WebControl<FrmAPManageMC1TypeProps, 
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },

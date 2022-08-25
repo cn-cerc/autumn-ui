@@ -11,6 +11,9 @@ type FrmTaurusQuicknessMCTypeProps = {
 
 type FrmTaurusQuicknessMCTypeState = {
     linkRow: DataRow,
+    driverOrderTop5: DataSet,
+    ticketedArrTotal: DataSet,
+    monthlyArrCarStatis: DataSet,
     introduction: string
 }
 
@@ -34,6 +37,9 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
             .setValue("运输完成_Dis", true);
         this.state = {
             linkRow,
+            driverOrderTop5: new DataSet(),
+            ticketedArrTotal: new DataSet(),
+            monthlyArrCarStatis: new DataSet(),
             introduction: '主要用于登记和管理物流订单。登记物流订单后，可以选择运输模式运输货物。可以事先设置好商品资料登记、客户登记、以及车队与司机登记，以方便节省大量的重复的信息输入情况。可以对所有的物流订单进行管理和监控，查看货运相关数据统计以及数据分析。'
         }
     }
@@ -43,22 +49,23 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
             <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
-                    <div className={styles.mcTitle}>流程图</div>
+                    <div className={styles.mcTitle}>发货流程</div>
                     {this.getHtml()}
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>司机接单统计(前五)(对接中)</div>
+                            <div className={styles.mcTitle}>司机接单统计(前五)</div>
+
                             <div className={styles.FrmTaurusQuicknessMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>运单状态(对接中)</div>
+                            <div className={styles.mcTitle}>运单统计</div>
                             <div className={styles.FrmTaurusQuicknessMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>运单数量(对接中)</div>
+                        <div className={styles.mcTitle}>运单数量</div>
                         <div className={styles.FrmTaurusQuicknessMCLine}></div>
                     </div>
                 </div>
@@ -72,42 +79,45 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 <li onClick={this.linkTo.bind(this, '我要发货')}>
                     <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/orderCar.png')} alt="" />
+                            <img src={StaticFile.getImage('images/MCimg/deliver.png')} alt="" />
                         </div>
-                        <p>我要发货</p>
-                    </div>
-                </li>
-                <li onClick={this.linkTo.bind(this, '司机接单')}>
-                    <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/defualtBook.png')} alt="" />
+                            <span>我要发货</span>
+                            <p>填写发货信息</p>
                         </div>
-                        <p>司机接单</p>
                     </div>
                 </li>
                 <li onClick={this.linkTo.bind(this, '我要跟踪')}>
                     <div className={styles.btnMCItem}>
-                        <span>运输中</span>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/site.png')} alt="" />
+                            <img src={StaticFile.getImage('images/MCimg/schedule.png')} alt="" />
                         </div>
-                        <p>我要跟踪</p>
-                    </div>
-                </li>
-                <li onClick={this.linkTo.bind(this, '运输完成')}>
-                    <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/defualtSuss.png')} alt="" />
+                            <span>我要跟踪</span>
+                            <p>跟踪货物信息</p>
                         </div>
-                        <p>运输完成</p>
                     </div>
                 </li>
                 <li onClick={this.linkTo.bind(this, '我要开票')}>
                     <div className={styles.btnMCItem}>
                         <div>
-                            <img src={StaticFile.getImage('images/MCimg/openEmail.png')} alt="" />
+                            <img src={StaticFile.getImage('images/MCimg/invoice.png')} alt="" />
                         </div>
-                        <p>我要开票</p>
+                        <div>
+                            <span>我要开票</span>
+                            <p>运单开具发票</p>
+                        </div>
+                    </div>
+                </li>
+                <li onClick={this.linkTo.bind(this, '我要充值')}>
+                    <div className={styles.btnMCItem}>
+                        <div>
+                            <img src={StaticFile.getImage('images/MCimg/topUp.png')} alt="" />
+                        </div>
+                        <div>
+                            <span>我要充值</span>
+                            <p>钱包充值信息</p>
+                        </div>
                     </div>
                 </li>
             </ul>
@@ -115,9 +125,22 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     }
 
     async init() {
-        this.initBarChart();
-        this.initPieChart1();
-        this.initPieChart2();
+        let driverOrderTop5 = new DataSet();
+        driverOrderTop5 = await FplApi.getDriverOrderTop5();
+        let ticketedArrTotal = new DataSet();
+        ticketedArrTotal = await FplApi.getTicketedArrTotal();
+        let monthlyArrCarStatis = new DataSet();
+        monthlyArrCarStatis = await FplApi.getMonthlyArrCarStatis();
+
+        this.setState({
+            driverOrderTop5,
+            ticketedArrTotal,
+            monthlyArrCarStatis,
+        }, () => {
+            this.initBarChart();
+            this.initPieChart1();
+            this.initPieChart2();
+        })
     }
 
     componentDidMount(): void {
@@ -127,25 +150,14 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
+        let ds = this.state.monthlyArrCarStatis;
         ds.first();
-        let xArr = [
-            '一月',
-            '二月',
-            '三月',
-            '四月',
-            '五月',
-            '六月',
-            '七月',
-            '八月',
-            '九月',
-            '十月',
-            '十一月',
-            '十二月',
-        ];
-        let sData = [
-            10890, 8910, 7500, 12340, 4880, 9604, 10238, 2700, 5000, 6007, 7051, 4050
-        ];
+        let xArr: any = [];
+        let sData: any = [];
+        while (ds.fetch()) {
+            xArr.push(`${new Date(ds.getString('date_')).getMonth() + 1}月`);
+            sData.push(`${ds.getDouble('arr_total_')}`);
+        }
         let option = {
             xAxis: {
                 type: 'category',
@@ -163,7 +175,8 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 type: 'value',
                 axisLabel: {
                     color: '#333333'
-                }
+                },
+                minInterval:1
             },
             tooltip: {},
             grid: {
@@ -198,21 +211,29 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.first();
-        let dataArr: any = [
-            { name: '张三', value: 50 },
-            { name: '李四', value: 48 },
-            { name: '王五', value: 43 },
-            { name: '赵六', value: 10 },
-            { name: '林二', value: 5 },
-        ];
+        let dataArr: any = [];
+        if (this.state.driverOrderTop5.size >= 1) {
+            let ds = this.state.driverOrderTop5;
+            ds.first();
+            while (ds.fetch()) {
+                dataArr.push({
+                    name: ds.getString('driver_name_'),
+                    value: ds.getDouble('num_')
+                })
+            }
+        } else {
+            dataArr.push({
+                name: '暂无司机接单',
+                value: 0
+            });
+        }
+
         let option = {
             tooltip: {
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -222,7 +243,11 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value + '单';
+                    if (this.state.driverOrderTop5.size >= 1) {
+                        return name + ' : ' + singleData[0].value + '单';
+                    } else {
+                        return name;
+                    }
                 },
             },
             grid: {
@@ -264,11 +289,11 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusQuicknessMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
+        let ds = this.state.ticketedArrTotal;
         ds.first();
         let dataArr: any = [
-            { name: '未完成', value: 30 },
-            { name: '已完成', value: 70 }
+            { name: '已开票', value: ds.getString('ticketed_arr_total_') },
+            { name: '未开票', value: ds.getString('unticketed_arr_total_') }
         ];
 
         let option = {
@@ -276,7 +301,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -286,7 +311,7 @@ export default class FrmTaurusQuicknessMC extends WebControl<FrmTaurusQuicknessM
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
-                    return name + ' : ' + singleData[0].value + '%';
+                    return name + ' : ' + singleData[0].value + '单';
                 },
             },
             series: [

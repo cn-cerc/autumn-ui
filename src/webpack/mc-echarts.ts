@@ -39,6 +39,9 @@ import TOrdMC from "../mc-echarts/TOrdMC";
 import TPurMC from "../mc-echarts/TPurMC";
 import TStockMC from "../mc-echarts/TStockMC";
 import FrmChargeManage from "../mc-echarts/FrmChargeManage";
+import FrmAuthManage1MC from "../mc-echarts/FrmAuthManage1MC";
+import FrmPayee from "../mc-echarts/FrmPayee";
+import FrmRiskWarning from "../mc-echarts/FrmRiskWarning";
 
 export default {
     Frm4PLCusManage,
@@ -82,4 +85,7 @@ export default {
     TStockMC,
     FrmTaurusQuicknessMC,
     FrmChargeManage,
+    FrmPayee,
+    FrmRiskWarning,
+    FrmAuthManage1MC,
 }

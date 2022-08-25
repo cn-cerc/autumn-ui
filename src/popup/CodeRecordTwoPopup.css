@@ -1,0 +1,72 @@
+.main {
+    padding: .625rem;
+}
+
+.main>p {
+    padding-top: .375rem;
+}
+
+.main>p>span {
+    font-size: 14px;
+    color: #666;
+}
+
+.inputLine {
+    padding-top: 1rem;
+    display: flex;
+}
+
+.inputLine>li:nth-child(1) {
+    width: 0;
+    flex: 1;
+}
+
+.inputLine>li>input {
+    background-color: #F5F5F5;
+    height: 2rem;
+    outline: none;
+    border: 0;
+    font-size: 16px;
+    padding-left: 1rem;
+}
+
+.inputLine>li>input::placeholder {
+    color: #999999;
+    font-size: 16px;
+}
+
+.buttonLine {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.buttonLine>button {
+    width: 4rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 0;
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.list>li {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.125rem;
+}
+
+.list>li>span:first-child {
+    background-color: #EBEBEB;
+    height: 1.125rem;
+    padding: 0 .325rem;
+    text-align: center;
+}
+
+.list>li>span:nth-child(2) {
+    width: 0;
+    flex: 1;
+    margin: 0 1.25rem;
+
+}

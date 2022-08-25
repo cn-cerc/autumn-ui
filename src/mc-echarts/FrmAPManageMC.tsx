@@ -12,8 +12,6 @@ type FrmAPManageMCTypeProps = {
 
 type FrmAPManageMCTypeState = {
     lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
     dataJson: DataRow,
 }
 
@@ -29,21 +27,9 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
         lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
-        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
         this.state = {
             lineData,
-            pieData1,
-            pieData2,
             dataJson: dataJson,
         }
     }
@@ -60,11 +46,20 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
                             <div className={`${this.state.dataJson.getBoolean(`应付调整单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应付调整单')}>
                                 <span>应付调整单</span>
                             </div>
+                            <div className={`${this.state.dataJson.getBoolean(`物流运单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '物流运单')}>
+                                <span>物流运单</span>
+                            </div>
                             <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '进货单')}>
                                 <span>进货单</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`应付对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '应付对账单')}>
                                 <span>应付对账单</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`运单应付对账作业_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '运单应付对账作业')}>
+                                <span>运单应付对账作业</span>
+                            </div>
+                            <div className={`${this.state.dataJson.getBoolean(`应付对账作业_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '应付对账作业')}>
+                                <span>应付对账作业</span>
                             </div>
                             <div className={`${this.state.dataJson.getBoolean(`应付账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '应付账款')}>
                                 <span>应付账款</span>
@@ -185,7 +180,6 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -211,49 +205,75 @@ export default class FrmAPManageMC extends WebControl<FrmAPManageMCTypeProps, Fr
             nodes,
             linesData: [
                 {
-                    coords: [ //应付调整单 往下线条
+                    coords: [ 
                         [168, 75],
                         [168, 108]
                     ]
                 },
                 {
-                    coords: [ //进货单 往右线条
-                        [73, 123],
-                        [150, 123],
+                    coords: [
+                        [50, 75],
+                        [50, 88],
+                        [168, 88]
                     ]
                 },
                 {
-                    coords: [ //应付结账单 往右下线条
-                        [190, 123],
-                        [279, 123],
-                        [279, 271]
+                    coords: [ 
+                        [168, 171],
+                        [50, 171],
+                        [50, 190]
                     ]
                 },
                 {
-                    coords: [ //应付结账单 往下线条
+                    coords: [ 
                         [168, 160],
-                        [168, 189]
+                        [168, 194]
                     ]
                 },
                 {
-                    coords: [ //应收账款 往下线条
-                        [168, 247],
-                        [168, 271]
+                    coords: [ 
+                        [168, 246],
+                        [168, 279]
                     ]
                 },
                 {
-                    coords: [ //付款(申请)单 往右线条
-                        [190, 290],
-                        [256, 290]
+                    coords: [ 
+                        [50, 246],
+                        [50, 260],
+                        [168, 260],
                     ]
                 },
                 {
-                    coords: [ //付款(申请)单 往下线条
-                        [168, 328],
-                        [168, 349]
+                    coords: [ 
+                        [146, 290],
+                        [60, 290]
                     ]
                 },
-
+                {
+                    coords: [ 
+                        [50, 328],
+                        [50, 354]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [50, 410],
+                        [50, 438]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [172, 290],
+                        [278, 290],
+                        [278, 350]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [60, 370],
+                        [240, 370]
+                    ]
+                },
             ]
         }
 

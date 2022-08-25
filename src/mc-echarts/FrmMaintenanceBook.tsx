@@ -160,7 +160,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -231,7 +231,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -295,7 +295,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
@@ -365,7 +365,7 @@ export default class FrmMaintenanceBook extends WebControl<FrmMaintenanceBookTyp
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: 'center',
                 left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,

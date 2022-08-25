@@ -1,10 +1,12 @@
 import AccountEditDialog from "../dialog/AccountEditDialog";
+import AddressDialog from "../dialog/AddressDialog";
 import AdvertContentDialog from "../dialog/AdvertContentDialog";
 import AERemarkDialog from "../dialog/AERemarkDialog";
 import AHRemarkDialog from "../dialog/AHRemarkDialog";
 import AORemarkDialog from "../dialog/AORemarkDialog";
 import AreaDialog from "../dialog/AreaDialog";
 import BankAccountDialog from "../dialog/BankAccountDialog";
+import BankCorrectionDialog from "../dialog/BankCorrectionDialog";
 import BaseAreaDialog from "../dialog/BaseAreaDialog";
 import BIRemarkDialog from "../dialog/BIRemarkDialog";
 import BOMProcessDialog from "../dialog/BOMProcessDialog";
@@ -14,6 +16,7 @@ import CardTypeDialog from "../dialog/CardTypeDialog";
 import CargoCodeTypeDialog from "../dialog/CargoCodeTypeDialog";
 import CategoryDialog from "../dialog/CategoryDialog";
 import CodeRecordDialog from "../dialog/CodeRecordDialog";
+import CodeRecordTwoDialog from "../dialog/CodeRecordTwoDialog";
 import ContractDialog from "../dialog/ContractDialog";
 import CopyReportDialog from "../dialog/CopyReportDialog";
 import CreateGroupDialog from "../dialog/CreateGroupDialog";
@@ -32,6 +35,7 @@ import DriverInfoDialog from "../dialog/DriverInfoDialog";
 import FastCorpDialog from "../dialog/FastCorpDialog";
 import FleetDialog from "../dialog/FleetDialog";
 import FreightWayDialog from "../dialog/FreightWayDialog";
+import FSCusDialog from "../dialog/FSCusDialog";
 import GetMarque from "../dialog/GetMarque";
 import LogisticsDialog from "../dialog/LogisticsDialog";
 import MaintainVehicleDialog from "../dialog/MaintainVehicleDialog";
@@ -50,6 +54,8 @@ import PayeeDialog from "../dialog/PayeeDialog";
 import ProcStepDialog from "../dialog/ProcStepDialog";
 import ProductClassDialog from "../dialog/ProductClassDialog";
 import ProductDialog from "../dialog/ProductDialog";
+import QuickSiteDialog3 from "../dialog/QuickSite3Dialog";
+import QuickSiteDialog2 from "../dialog/QuickSite2Dialog";
 import QuickSiteDialog from "../dialog/QuickSiteDialog";
 import RABChangeDialog from "../dialog/RABChangeDialog";
 import RemarkDialog from "../dialog/RemarkDialog";
@@ -70,7 +76,11 @@ import VipCardDialog from "../dialog/VipCardDialog";
 import WareBasicDialog from "../dialog/WareBasicDialog";
 import WorkerDialog from "../dialog/WorkerDialog";
 import RapidInput from "../mc/RapidInput";
+import SendCarDriverDialog from "../dialog/SendCarDriverDialog";
 import SalaryLevelDialog from "../dialog/SalaryLevelDialog";
+import CarBodyDialog from "../dialog/CarBodyDialog";
+import QuoteCusDialog from "../dialog/QuoteCusDialog";
+import CodeRecordNameDialog from "../dialog/CodeRecordNameDialog";
 
 export default {
     // 地藤开窗
@@ -135,20 +145,30 @@ export default {
     RapidInput,
 
     // 4PL开窗
+    BankCorrectionDialog,
     CargoCodeTypeDialog,
     CategoryDialog,
     CodeRecordDialog,
+    CodeRecordTwoDialog,
     ContractDialog,
     CustomerAddressDialog,
     DriverBindingRecordDialog,
     DriverInfoDialog,
     FleetDialog,
+    FSCusDialog,
     MaintainVehicleDialog,
     NumberPlateDialog,
     PayeeAmountDialog,
     PayeeDialog,
     QuickSiteDialog,
+    QuickSiteDialog2,
+    QuickSiteDialog3,
     showSiteDialog,
     SupAndCusDialog,
     SupNetCorpDialog,
+    AddressDialog,
+    SendCarDriverDialog,
+    CarBodyDialog,
+    QuoteCusDialog,
+    CodeRecordNameDialog
 }

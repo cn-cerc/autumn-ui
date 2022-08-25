@@ -5,6 +5,8 @@ import "../tool/Summer.css";
 import styles from "./DialogCommon.css";
 
 type ContractProps = {
+    callBack?: Function,
+    contractType?:String;
 } & Partial<BaseDialogPropsType>
 
 
@@ -17,6 +19,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
     constructor(props: ContractProps) {
         super(props)
         let dataIn = new DataRow();
+        dataIn.setValue("contract_type_", this.props.contractType);
         this.state = {
             ...this.state,
             dataIn,
@@ -45,8 +48,8 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="contract_type_name_" dataName="合同名称" autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt />
+                <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
+                    <ColumnIt width="40"/>
                     <Column code="contract_type_name_" name="合同名称" width="130"></Column>
                     <Column code="party_a_name_" name="甲方公司" width="70"></Column>
                     <Column code="party_b_name_" name="乙方公司" width="70"></Column>
@@ -54,10 +57,9 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                     <Column code="arrangecar_unit_price_" name="运单价" width="50"></Column>
                     <Column code="cargo_loss_rate_" name="货损率" width="40"></Column>
                     <Column code="contract_amount_" name="合同金额" width="50"></Column>
-                    <Column code="recharged_amount_" name="充值金额" width="50"></Column>
-                    <Column code="remaining_amount_" name="可用余额" width="50"></Column>
+                    <Column code="rate_" name="约定费率%" width="50"></Column>
                     <Column code="opera" name="操作" width="50" textAlign='center' customText={(row: DataRow) => {
-                        return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role="auiOpera" id='category'>选择</span>
                     }}></Column>
                 </DBGrid>
             </div>
@@ -68,17 +70,12 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
-        let input3 = document.getElementById("remaining_amount_") as HTMLInputElement;
-        let input4 = document.getElementById("unit_price_") as HTMLInputElement;
-        let input5 = document.getElementById("waybill_unit_price_") as HTMLInputElement;
-        let input6 = document.getElementById("cargo_loss_rate_") as HTMLInputElement;
 
         input1.value = dataRow.getString('contract_no_');
         input2.value = dataRow.getString('contract_type_name_');
-        input3.value = dataRow.getString('remaining_amount_');
-        input4.value = dataRow.getString('cargo_unit_price_');
-        input5.value = dataRow.getString('arrangecar_unit_price_');
-        input6.value = dataRow.getString('cargo_loss_rate_');
+
+        if (this.props.callBack)
+            this.props.callBack(dataRow);
         this.handleSelect();
     }
 }
