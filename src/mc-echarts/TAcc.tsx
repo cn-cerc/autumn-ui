@@ -3,22 +3,22 @@ import * as echarts from "echarts";
 import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
 import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./TAccMC.css";
+import styles from "./TAcc.css";
 
-type TAccMCTypeProps = {
-    dataJson: string,
-    introduction: string
+type TAccTypeProps = {
+
 }
 
-type TAccMCTypeState = {
+type TAccTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction:string
 }
 
-export default class TAccMC extends WebControl<TAccMCTypeProps, TAccMCTypeState> {
-    constructor(props: TAccMCTypeProps) {
+export default class TAcc extends WebControl<TAccTypeProps, TAccTypeState> {
+    constructor(props: TAccTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -39,61 +39,89 @@ export default class TAccMC extends WebControl<TAccMCTypeProps, TAccMCTypeState>
         pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
         pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
         pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("会计科目表_URL", "TFrmAccType2")
+        .setValue("会计科目表_Dis", false)
+        .setValue("抛转规则设置_URL", "FrmFlipRuleSettings")
+        .setValue("抛转规则设置_Dis", false)
+        .setValue("手工录入凭证_URL", "TFrmAccBook.appendHead")
+        .setValue("手工录入凭证_Dis", false)
+        .setValue("会计凭证_URL", "TWebTossAcc")
+        .setValue("会计凭证_Dis", false)
+        .setValue("原始凭证_URL", "FrmOriginalVoucher")
+        .setValue("原始凭证_Dis", true)
+        .setValue("期初开账单_URL", "TFrmInitInput")
+        .setValue("期初开账单_Dis", false)
+        .setValue("科目余额表_URL", "TSchAccBookAll")
+        .setValue("科目余额表_Dis", false)
+        .setValue("资产负债表_URL", "TSchBalanceSheet")
+        .setValue("资产负债表_Dis", false)
+        .setValue("损益表_URL", "TSchBalanceSheet")
+        .setValue("损益表_Dis", false)
+        .setValue("现金流量表_URL", "FrmCashFlowStatement")
+        .setValue("现金流量表_Dis", false)
+        .setValue("银行存款余额_URL", "TSchAccBook1300")
+        .setValue("银行存款余额_Dis", false)
+        .setValue("应收对帐单_URL", "FrmTranCRBill")
+        .setValue("应收对帐单_Dis", false)
+        .setValue("应付对帐单_URL", "FrmTranCPBill")
+        .setValue("应付对帐单_Dis", false);
+        let introduction = "此模组主要面向管理财务，依据配套的各类模组，如财务管理（应收、应付），器具管理（费用与固定资产）等相应的数据，自动生成会计凭证，并根据实际需求，再补充少量的其它会计凭证，即可生成最为关键的财务基础报表：科目余额表、资产负债表、本年利润表等。注意：本模组无意取代税务专用的会计软件。";
+
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`会计科目表_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '会计科目表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`会计科目表_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '会计科目表')}>
                                 <span>会计科目表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`抛转规则设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '抛转规则设置')}>
+                            <div className={`${this.state.dataRow.getBoolean(`抛转规则设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '抛转规则设置')}>
                                 <span>抛转规则设置</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`手工录入凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '手工录入凭证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`手工录入凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '手工录入凭证')}>
                                 <span>手工录入凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock5}`} onClick={this.linkTo.bind(this, '会计凭证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock5}`} onClick={this.linkTo.bind(this, '会计凭证')}>
                                 <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`原始凭证_Dis`) ? styles.primeval_disable : styles.primeval} ${styles.stock6}`} onClick={this.linkTo.bind(this, '原始凭证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`原始凭证_Dis`) ? styles.primeval_disable : styles.primeval} ${styles.stock6}`} onClick={this.linkTo.bind(this, '原始凭证')}>
                                 <span>原始凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`期初开账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '期初开账单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`期初开账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '期初开账单')}>
                                 <span>期初开账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`科目余额表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '科目余额表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`科目余额表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '科目余额表')}>
                                 <span>科目余额表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`资产负债表_Dis`) ? styles.control_disable : styles.control} ${styles.stock10}`} onClick={this.linkTo.bind(this, '资产负债表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`资产负债表_Dis`) ? styles.control_disable : styles.control} ${styles.stock10}`} onClick={this.linkTo.bind(this, '资产负债表')}>
                                 <span>资产负债表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`损益表_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '损益表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`损益表_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '损益表')}>
                                 <span>损益表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`现金流量表_Dis`) ? styles.control_disable : styles.control} ${styles.stock12}`} onClick={this.linkTo.bind(this, '现金流量表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`现金流量表_Dis`) ? styles.control_disable : styles.control} ${styles.stock12}`} onClick={this.linkTo.bind(this, '现金流量表')}>
                                 <span>现金流量表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`银行存款余额_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '银行存款余额')}>
+                            <div className={`${this.state.dataRow.getBoolean(`银行存款余额_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '银行存款余额')}>
                                 <span>银行存款余额</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应收对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '应收对帐单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`应收对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '应收对帐单')}>
                                 <span>应收对帐单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '应付对帐单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`应付对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '应付对帐单')}>
                                 <span>应付对帐单</span>
                             </div>
                         </div>
@@ -443,8 +471,8 @@ export default class TAccMC extends WebControl<TAccMCTypeProps, TAccMCTypeState>
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }
