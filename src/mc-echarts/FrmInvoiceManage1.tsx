@@ -7,34 +7,52 @@ import styles from "./FrmInvoiceManage1.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmInvoiceManage1TypeProps = {
-    dataJson: string,
-    introduction: string
+
 }
 
 type FrmInvoiceManage1TypeState = {
-    dataJson: DataRow,
+    dataRow: DataRow,
     invoiceStatusData: DataSet,
     invoiceReviewStatus: DataSet,
     applicationInvoiceData: DataSet,
+    introduction: string
 }
 
 export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeProps, FrmInvoiceManage1TypeState> {
     constructor(props: FrmInvoiceManage1TypeProps) {
         super(props);
         let lineRow = new DataRow();
-      
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+
+        let dataRow: DataRow = lineRow.setValue("合同管理_URL", "FrmContractManage2")
+            .setValue("合同管理_Dis", false)
+            .setValue("应收对账单_URL", "FrmTranCRBill")
+            .setValue("应收对账单_Dis", false)
+            .setValue("物流订单管理_URL", "FrmCargoOrder")
+            .setValue("物流订单管理_Dis", false)
+            .setValue("物流运单管理_URL", "FrmArrangeCar")
+            .setValue("物流运单管理_Dis", false)
+            .setValue("发票管理_URL", "FrmPInvoiceRecord")
+            .setValue("发票管理_Dis", false)
+            .setValue("发票及支付申请_URL", "FrmInvoiceApplyNew")
+            .setValue("发票及支付申请_Dis", false)
+            .setValue("支付处理_URL", "FrmPInvoicePayApply")
+            .setValue("支付处理_Dis", false)
+            .setValue("发票申请审核_URL", "")
+            .setValue("发票申请审核_Dis", false);
+        let introduction = "主要用于管理申请发票并支付的物流订单的管理，可以查看到相应的已经开具发票电子版。以及与发票相关的数据统计以及数据分析";
+
         this.state = {
-            dataJson: dataJson,
+            dataRow,
             invoiceStatusData: new DataSet(),
             invoiceReviewStatus: new DataSet(),
             applicationInvoiceData: new DataSet(),
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
@@ -44,29 +62,29 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
                             <div className={`${styles.MCtext} ${styles.stock10}`}>
                                 <span>可用余额</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '合同管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '合同管理')}>
                                 <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '应收对账单')}>
                                 <span>应收对账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`物流订单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`物流订单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '物流订单管理')}>
                                 <span>物流订单管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`物流运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '物流运单管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`物流运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '物流运单管理')}>
                                 <span>物流运单管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`发票管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '发票管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`发票管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '发票管理')}>
                                 <span>发票管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`发票及支付申请_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '发票及支付申请')}>
+                            <div className={`${this.state.dataRow.getBoolean(`发票及支付申请_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '发票及支付申请')}>
                                 <span>发票及支付申请</span>
                             </div>
                             <div className={styles.bdSkin}>
-                                <div className={`${this.state.dataJson.getBoolean(`支付处理_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '支付处理')}>
+                                <div className={`${this.state.dataRow.getBoolean(`支付处理_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '支付处理')}>
                                     <span>支付处理</span>
                                 </div>
-                                <div className={`${this.state.dataJson.getBoolean(`发票申请审核_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '发票申请审核')}>
+                                <div className={`${this.state.dataRow.getBoolean(`发票申请审核_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '发票申请审核')}>
                                     <span>发票申请审核</span>
                                 </div>
                                 <div className={`${styles.MCtext} ${styles.stock9}`}>
@@ -419,8 +437,8 @@ export default class FrmInvoiceManage1 extends WebControl<FrmInvoiceManage1TypeP
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }
