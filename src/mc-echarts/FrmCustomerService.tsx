@@ -6,15 +6,15 @@ import styles from "./FrmCustomerService.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmCustomerServiceTypeProps = {
-    dataJson: string,
-    introduction: string
+
 }
 
 type FrmCustomerServiceTypeState = {
     lineData: DataSet,
     pieData1: DataSet,
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction: string
 }
 
 export default class FrmCustomerService extends WebControl<FrmCustomerServiceTypeProps, FrmCustomerServiceTypeState> {
@@ -39,34 +39,44 @@ export default class FrmCustomerService extends WebControl<FrmCustomerServiceTyp
         pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
         pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
         pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("部门资料_URL", "TFrmDeptInfo")
+            .setValue("部门资料_Dis", false)
+            .setValue("员工管理_URL", "FrmStaffMan")
+            .setValue("员工管理_Dis", false)
+            .setValue("客服人员设置_URL", "FrmCustomerInfo")
+            .setValue("客服人员设置_Dis", false)
+            .setValue("客服列表_URL", "")
+            .setValue("客服列表_Dis", false);
+        let introduction = "本模组主要提供人事资料的管理，由于每一家企业的性质与规模不同，此模组在实际使用时，会根据每家企业的特点与需求进行定制开发。当前模组默认的只是提供了最为基础的数据管理，并为定制开发做好了准备。";
+
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '部门资料')}>
+                            <div className={`${this.state.dataRow.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '部门资料')}>
                                 <span>部门资料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`员工管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '员工管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`员工管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '员工管理')}>
                                 <span>员工管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`客服人员设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '客服人员设置')}>
+                            <div className={`${this.state.dataRow.getBoolean(`客服人员设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '客服人员设置')}>
                                 <span>客服人员设置</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`客服列表_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '客服列表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`客服列表_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '客服列表')}>
                                 <span>客服列表</span>
                             </div>
                         </div>
@@ -346,8 +356,8 @@ export default class FrmCustomerService extends WebControl<FrmCustomerServiceTyp
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }
