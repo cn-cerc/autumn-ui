@@ -6,11 +6,11 @@ import UIIntroduction from "../module/UIIntroduction";
 import styles from "./FrmCarManager.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmCarManagerMCTypeProps = {
+type FrmCarManagerTypeProps = {
 
 }
 
-type FrmCarManagerMCTypeState = {
+type FrmCarManagerTypeState = {
     dataRow: DataRow,
     vehicleState: DataSet,
     fleetVehicleType: DataRow,
@@ -19,8 +19,8 @@ type FrmCarManagerMCTypeState = {
 }
 
 //车辆管理控制台 庆丰物流
-export default class FrmCarManagerMC extends WebControl<FrmCarManagerMCTypeProps, FrmCarManagerMCTypeState> {
-    constructor(props: FrmCarManagerMCTypeProps) {
+export default class FrmCarManager extends WebControl<FrmCarManagerTypeProps, FrmCarManagerTypeState> {
+    constructor(props: FrmCarManagerTypeProps) {
         super(props);
         let lineRow = new DataRow();
         let dataRow: DataRow = lineRow.setValue("车队管理_URL", "FrmDept")

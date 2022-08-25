@@ -1,10 +1,10 @@
 import Frm4PLCusManage from "../mc-echarts/Frm4PLCusManage";
-import FrmAPManageMC from "../mc-echarts/FrmAPManageMC";
-import FrmAPManageMC1 from "../mc-echarts/FrmAPManageMC1";
-import FrmARManageMC from "../mc-echarts/FrmARManageMC";
-import FrmARManageMC1 from "../mc-echarts/FrmARManageMC1";
+import FrmAPManage from "../mc-echarts/FrmAPManage";
+import FrmAPManage1 from "../mc-echarts/FrmAPManage1";
+import FrmARManage from "../mc-echarts/FrmARManage";
+import FrmARManage1 from "../mc-echarts/FrmARManage1";
 import FrmAuthManage from "../mc-echarts/FrmAuthManage";
-import FrmCarManagerMC from "../mc-echarts/FrmCarManager";
+import FrmCarManager from "../mc-echarts/FrmCarManager";
 import FrmCarManager2 from "../mc-echarts/FrmCarManager2";
 import FrmCashManage from "../mc-echarts/FrmCashManage";
 import FrmContractManage from "../mc-echarts/FrmContractManage";
@@ -42,12 +42,12 @@ import FrmChargeManage from "../mc-echarts/FrmChargeManage";
 
 export default {
     Frm4PLCusManage,
-    FrmAPManageMC,
-    FrmAPManageMC1,
-    FrmARManageMC,
-    FrmARManageMC1,
+    FrmAPManage,
+    FrmAPManage1,
+    FrmARManage,
+    FrmARManage1,
     FrmAuthManage,
-    FrmCarManagerMC,
+    FrmCarManager,
     FrmCarManager2,
     FrmCashManage,
     FrmContractManage,
