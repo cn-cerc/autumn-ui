@@ -3,22 +3,20 @@ import * as echarts from "echarts";
 import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
 import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./paMC.css";
+import styles from "./Pa.css";
 
-type paMCTypeProps = {
-    dataJson: string,
-    introduction: string
-}
+type PaTypeProps = {}
 
-type paMCTypeState = {
+type PaTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction:string
 }
 
-export default class paMC extends WebControl<paMCTypeProps, paMCTypeState> {
-    constructor(props: paMCTypeProps) {
+export default class Pa extends WebControl<PaTypeProps, PaTypeState> {
+    constructor(props: PaTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -39,55 +37,78 @@ export default class paMC extends WebControl<paMCTypeProps, paMCTypeState> {
         pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
         pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
         pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("资产请购单_URL", "FrmWareTranFB")
+        .setValue("资产请购单_Dis", false)
+        .setValue("资产采购单_URL", "FrmWareTranDC")
+        .setValue("资产采购单_Dis", false)
+        .setValue("会计凭证_URL", "TFrmAccType2")
+        .setValue("会计凭证_Dis", false)
+        .setValue("资产进库单_URL", "FrmWareTranAF")
+        .setValue("资产进库单_Dis", false)
+        .setValue("摊提明细_URL", "FrmWareTotalTypeDept")
+        .setValue("摊提明细_Dis", false)
+        .setValue("领用单_URL", "FrmWareTranBD")
+        .setValue("领用单_Dis", false)
+        .setValue("固定资产_URL", "FrmWareBasic")
+        .setValue("固定资产_Dis", false)
+        .setValue("维修单_URL", "FrmMaintainMA")
+        .setValue("维修单_Dis", false)
+        .setValue("还库单_URL", "FrmWareTranAJ")
+        .setValue("还库单_Dis", false)
+        .setValue("报废单_URL", "FrmWareTranBF")
+        .setValue("报废单_Dis", false)
+        .setValue("售卖单_URL", "")
+        .setValue("售卖单_Dis", false);
+        let  introduction = "主要用于管理公司资产，从资产请购单，资产采购单，资产进货单，固定";
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`资产请购单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '资产请购单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`资产请购单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '资产请购单')}>
                                 <span>资产请购单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`资产采购单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '资产采购单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`资产采购单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '资产采购单')}>
                                 <span>资产采购单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '会计凭证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '会计凭证')}>
                                 <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`资产进库单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '资产进库单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`资产进库单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '资产进库单')}>
                                 <span>资产进库单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`摊提明细_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '摊提明细')}>
+                            <div className={`${this.state.dataRow.getBoolean(`摊提明细_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '摊提明细')}>
                                 <span>摊提明细</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`领用单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '领用单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`领用单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '领用单')}>
                                 <span>领用单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`固定资产_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '固定资产')}>
+                            <div className={`${this.state.dataRow.getBoolean(`固定资产_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '固定资产')}>
                                 <span>固定资产</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '维修单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '维修单')}>
                                 <span>维修单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`还库单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock13}`} onClick={this.linkTo.bind(this, '还库单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`还库单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock13}`} onClick={this.linkTo.bind(this, '还库单')}>
                                 <span>还库单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '报废单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '报废单')}>
                                 <span>报废单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`售卖单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '售卖单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`售卖单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '售卖单')}>
                                 <span>售卖单</span>
                             </div>
                         </div>
@@ -436,8 +457,8 @@ export default class paMC extends WebControl<paMCTypeProps, paMCTypeState> {
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }
