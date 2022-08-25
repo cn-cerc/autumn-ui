@@ -192,6 +192,60 @@
     border-bottom: 1px solid #eaeaea;
 }
 
+.mcIntroduction {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 16px;
+    height: 30px;
+    padding: 0 16px;
+    position: relative;
+}
+
+.mcIntroduction::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 720px;
+    height: 100%;
+    background-image: url('../assets/img/kanban_header_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mcIntroduction>.corpName {
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+    font-size: 14px;
+    background-image: url('../assets/img/kanban_header_line.png');
+    background-repeat: repeat;
+    width: calc((100% - 720px) / 2);
+}
+
+.mcIntroduction>.corpName>img {
+    width: 16px;
+    margin-right: 4px;
+}
+
+.btn_toggle_pc {
+    background-image: url("../assets/img/pc.png");
+}
+
+.btn_toggle_pc:hover {
+    background-image: url("../assets/img/pc_hover.png");
+}
+
+.btn_toggle_kanban {
+    background-image: url("../assets/img/kanban.png");
+}
+
+.btn_toggle_kanban:hover {
+    background-image: url("../assets/img/kanban_hover.png");
+}
+
 @media screen and (min-width: 1200px) and (max-width: 1366px) {
     .main {
         padding: 12px;

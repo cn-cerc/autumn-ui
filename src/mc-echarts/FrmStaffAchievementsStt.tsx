@@ -7,7 +7,7 @@ import { MCChartColors } from "./FrmTaurusMC";
 import StaticFile from "../static/StaticFile";
 
 type FrmStaffAchievementsSttTypeProps = {
-
+    corpName: string
 }
 
 type FrmStaffAchievementsSttTypeState = {
@@ -15,6 +15,7 @@ type FrmStaffAchievementsSttTypeState = {
     tableData: DataSet,
     issueData: DataSet,
     prData: DataSet,
+    toggle: number
 }
 
 export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAchievementsSttTypeProps, FrmStaffAchievementsSttTypeState> {
@@ -24,11 +25,13 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
     private timer: any;
     constructor(props: FrmStaffAchievementsSttTypeProps) {
         super(props);
+        let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
             tableData: new DataSet(),
             acmtsPanelData: new DataSet(),
             issueData: new DataSet(),
             prData: new DataSet(),
+            toggle,
         }
     }
 
@@ -355,5 +358,13 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
                 top = 0;
             ul.style.top = `${top}px`;
         }, 30);
+    }
+
+    toggleFun() {
+        if (this.state.toggle == 2)
+            location.href = `${location.origin}${location.pathname}?device=pc`;
+        else
+            location.href = `${location.origin}${location.pathname}?device=kanban`;
+
     }
 } 
