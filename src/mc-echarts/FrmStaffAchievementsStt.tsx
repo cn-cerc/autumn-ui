@@ -4,6 +4,7 @@ import DitengApi from "../api/DitengApi";
 import styles from "./FrmStaffAchievementsStt.css";
 import * as echarts from "echarts"
 import { MCChartColors } from "./FrmTaurusMC";
+import StaticFile from "../static/StaticFile";
 
 type FrmStaffAchievementsSttTypeProps = {
 
@@ -33,6 +34,16 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
 
     render(): React.ReactNode {
         return <div className={styles.main}>
+            <div className={styles.mcIntroduction}>
+                <div className={styles.corpName}>
+                    <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
+                    <span>{this.props.corpName}</span>
+                </div>
+                <span>车辆网看板</span>
+                <div className={styles.toggleIcons}>
+                    <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
+                </div>
+            </div>
             <ul className={styles.top}>
                 <li>
                     <span>员工人数</span>
