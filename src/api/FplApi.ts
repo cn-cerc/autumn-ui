@@ -230,4 +230,9 @@ export default class FplApi {
     static getSupAndCus(params: DataRow) {
         return ControlApi.getDataOut('SvrSupInfoStandard.searchSupAndCus', params);
     }
+
+    /* 钱包收支统计 */
+    static getDriverWallet() {
+        return ControlApi.getService('SvrDriverWallet.statistical');
+    }
 }

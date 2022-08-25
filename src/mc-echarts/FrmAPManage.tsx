@@ -1,8 +1,8 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import React from "react";
-import styles from "./FrmAPManageMC.css";
+import styles from "./FrmAPManage.css";
 import * as echarts from "echarts";
-import { MCChartColors } from "./FrmAPManage";
+import { MCChartColors } from "./FrmTaurusMC";
 import UIIntroduction from "../module/UIIntroduction";
 
 type FrmAPManageTypeProps = {

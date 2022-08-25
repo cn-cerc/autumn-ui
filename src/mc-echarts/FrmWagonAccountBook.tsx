@@ -1,13 +1,14 @@
 import { DataRow, DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
 import UIModuleMenu from "../module/UIModuleMenu";
 import { MCChartColors } from "./FrmTaurusMC";
 import styles from "./FrmWagonAccountBook.css";
 
 type FrmWagonAccountBookTypeProps = {
-    record: any
+    
 }
 
 type FrmWagonAccountBookTypeState = {
@@ -56,17 +57,13 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         .setValue("收入_URL", "FrmDriverWallet.incomeDetails")
         .setValue("Name_", "提现")
         .setValue("提现_URL", "FrmDriverWallet.selectSubWallet");
-        let record = new DataRow();
-        if (this.props.record != '') {
-            record.setJson(this.props.record);
-        }
         let introduction = "主要用于管理钱包余额、账本记录、费用报销的费用登记。拥有相关的支出登记，收入登记、报销申请，以及相关的数据统计以及分析等功能。";
 
         this.state = {
             data: new DataSet(),
             moduleData,
             btnUrl,
-            record,
+            record: new DataRow(),
             introduction
         }
     }
@@ -139,6 +136,10 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
     }
 
     async init() {
+        let dataOut = await FplApi.getDriverWallet();
+        dataOut.first();
+        let record = new DataRow();
+        record.copyValues(dataOut.current);
         let data = new DataSet();
         data.append().setValue('own', 25).setValue('reimburse', 200);
         data.append().setValue('own', 18).setValue('reimburse', 160);
@@ -148,7 +149,8 @@ export default class FrmWagonAccountBook extends WebControl<FrmWagonAccountBookT
         data.append().setValue('own', 0).setValue('reimburse', 0);
         data.append().setValue('own', 0).setValue('reimburse', 0);
         this.setState({
-            data
+            data,
+            record
         }, () => {
             this.initChart();
         })
