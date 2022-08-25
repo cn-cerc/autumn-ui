@@ -7,7 +7,7 @@ import styles from "./FrmMaintenanceAR.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmMaintenanceARTypeProps = {
-   
+
 }
 
 type FrmMaintenanceARTypeState = {
@@ -23,27 +23,27 @@ export default class FrmMaintenanceAR extends WebControl<FrmMaintenanceARTypePro
         super(props);
         let dataRow = new DataRow();
         dataRow.setValue("客户管理_URL", "FrmCusInfo")
-        .setValue("客户管理_Dis", false)
-        .setValue("车辆管理_URL", "FrmVehicle")
-        .setValue("车辆管理_Dis", false)
-        .setValue("扫一扫_URL", "")
-        .setValue("扫一扫_Dis", true)
-        .setValue("新增维修单_URL", "FrmMaintainMA.selectNumPlate")
-        .setValue("新增维修单_Dis", false)
-        .setValue("零配件管理_URL", "FrmPartInfo")
-        .setValue("零配件管理_Dis", false)
-        .setValue("维修单管理_URL", "FrmMaintainMA")
-        .setValue("维修单管理_Dis", false)
-        .setValue("新增月结收款单_URL", "FrmAccountsMS.selectMaintains")
-        .setValue("新增月结收款单_Dis", false)
-        .setValue("月结收款单_URL", "FrmAccountsMS")
-        .setValue("月结收款单_Dis", false)
-        .setValue("接收收款单_URL", "")
-        .setValue("接收收款单_Dis", true)
-        .setValue("审核并支付_URL", "")
-        .setValue("审核并支付_Dis", true);
+            .setValue("客户管理_Dis", false)
+            .setValue("车辆管理_URL", "FrmVehicle")
+            .setValue("车辆管理_Dis", false)
+            .setValue("扫一扫_URL", "")
+            .setValue("扫一扫_Dis", true)
+            .setValue("新增维修单_URL", "FrmMaintainMA.selectNumPlate")
+            .setValue("新增维修单_Dis", false)
+            .setValue("零配件管理_URL", "FrmPartInfo")
+            .setValue("零配件管理_Dis", false)
+            .setValue("维修单管理_URL", "FrmMaintainMA")
+            .setValue("维修单管理_Dis", false)
+            .setValue("新增月结收款单_URL", "FrmAccountsMS.selectMaintains")
+            .setValue("新增月结收款单_Dis", false)
+            .setValue("月结收款单_URL", "FrmAccountsMS")
+            .setValue("月结收款单_Dis", false)
+            .setValue("接收收款单_URL", "")
+            .setValue("接收收款单_Dis", true)
+            .setValue("审核并支付_URL", "")
+            .setValue("审核并支付_Dis", true);
         let introduction = "主要是对所有的维修单，根据客户生成相应的月结收款单。";
-        
+
         this.state = {
             dataRow,
             settlementStatus: new DataSet(),
