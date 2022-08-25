@@ -28,7 +28,7 @@ import FrmTaurusMC from "../mc-echarts/FrmTaurusMC";
 import FrmTaurusMC1 from "../mc-echarts/FrmTaurusMC1";
 import FrmTaurusMC2 from "../mc-echarts/FrmTaurusMC2";
 import FrmWagonAccountBook from "../mc-echarts/FrmWagonAccountBook";
-import hrMC from "../mc-echarts/hrMC";
+import hrMC from "../mc-echarts/hr";
 import itMC from "../mc-echarts/itMC";
 import myMC from "../mc-echarts/myMC";
 import paMC from "../mc-echarts/paMC";
