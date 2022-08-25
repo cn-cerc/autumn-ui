@@ -7,12 +7,11 @@ import { AuiMath, GDMap } from "../tool/Summer";
 import styles from "./FrmDriverReceive.css";
 
 type FrmDriverReceiveTypeProps = {
-    introduction: string,
-    chartsJson: string,
+    
 }
 
 type FrmDriverReceiveTypeState = {
-    linkRow: DataRow,
+    dataRow: DataRow,
     orderData: DataSet,
     notData: DataSet,
     receivedData: DataSet,
@@ -21,6 +20,7 @@ type FrmDriverReceiveTypeState = {
     notComplete: DataSet,
     isCompleted: DataSet,
     showWay: boolean,
+    introduction: string
 }
 
 export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypeProps, FrmDriverReceiveTypeState> {
@@ -28,10 +28,22 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
     private unitArr: string[] = ['吨', '方', '件', '车'];
     constructor(props: FrmDriverReceiveTypeProps) {
         super(props);
-        let linkRow = new DataRow();
-        linkRow.setJson(this.props.chartsJson);
+        let dataRow = new DataRow();
+        dataRow
+            .setValue("接单_URL", "FrmDriverArrangeCar.list")
+            .setValue("接单_Dis", false)
+            .setValue("装货回单_URL", "FrmDriverArrangeCar.uploadPage")
+            .setValue("装货回单_Dis", false)
+            .setValue("卸货回单_URL", "FrmDriverArrangeCar.unloadPage")
+            .setValue("卸货回单_Dis", false)
+            .setValue("完结_URL", "FrmDriverArrangeCar")
+            .setValue("完结_Dis", false);
+        let introduction =
+            "主要用于管理所有的物流运单功能。可以查看物流运单所有的状态，整个物流运单的流程以及相应的数据统计以及数据分析";
+
+        
         this.state = {
-            linkRow,
+            dataRow,
             notData: new DataSet(),       //未接物流订单DataSet
             orderType: 1,       //接单状态，0为全部，1为未接单，2为已接单
             orderData: new DataSet(),       //所有物流订单DataSet
@@ -40,6 +52,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             notComplete: new DataSet(),
             isCompleted: new DataSet(),
             showWay: true,
+            introduction,
         }
 
     }
@@ -56,7 +69,7 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
             </React.Fragment>
         } else {
             return <React.Fragment>
-                <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+                <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
                 <div className={styles.contents}>
                     <div className={styles.info}>
                         {this.getToast()}
@@ -250,8 +263,8 @@ export default class FrmDriverReceive extends WebControl<FrmDriverReceiveTypePro
     }
 
     linkTo(name: string) {
-        if (!this.state.linkRow.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.linkRow.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 

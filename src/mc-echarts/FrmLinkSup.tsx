@@ -5,17 +5,15 @@ import UIIntroduction from "../module/UIIntroduction";
 import styles from "./FrmLinkSup.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmLinkSupTypeProps = {
-    dataJson: string,
-    introduction: string
-}
+type FrmLinkSupTypeProps = {};
 
 type FrmLinkSupTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
-    dataJson: DataRow,
-}
+    lineData: DataSet;
+    pieData1: DataSet;
+    pieData2: DataSet;
+    dataRow: DataRow;
+    introduction: string;
+};
 
 export default class FrmLinkSup extends WebControl<FrmLinkSupTypeProps, FrmLinkSupTypeState> {
     constructor(props: FrmLinkSupTypeProps) {
@@ -39,40 +37,55 @@ export default class FrmLinkSup extends WebControl<FrmLinkSupTypeProps, FrmLinkS
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow
+            .setValue("审核厂商接入_URL", "FrmAuditSupAccess")
+            .setValue("审核厂商接入_Dis", false)
+            .setValue("连接厂商申请_URL", "FrmLinkApplyList")
+            .setValue("连接厂商申请_Dis", false)
+            .setValue("上游互联管理_URL", "TFrmVineLinkEnroll")
+            .setValue("上游互联管理_Dis", false)
+            .setValue("厂商报价审核_URL", "FrmSupQuotationReview")
+            .setValue("厂商报价审核_Dis", false)
+            .setValue("接入权限管理_URL", "FrmAccessPermissionManage")
+            .setValue("接入权限管理_Dis", false)
+            .setValue("委外生产进度表_URL", "FrmOutsourcingProductionSchedule")
+            .setValue("委外生产进度表_Dis", false);
+        let introduction =
+            "主要功能是与同样使用该系统的厂商进行互联，以及查看并同意提交互联申请。";
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction,
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`审核厂商接入_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '审核厂商接入')}>
+                            <div className={`${this.state.dataRow.getBoolean(`审核厂商接入_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '审核厂商接入')}>
                                 <span>审核厂商接入</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`连接厂商申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '连接厂商申请')}>
+                            <div className={`${this.state.dataRow.getBoolean(`连接厂商申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '连接厂商申请')}>
                                 <span>连接厂商申请</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`上游互联管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '上游互联管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`上游互联管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '上游互联管理')}>
                                 <span>上游互联管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`厂商报价审核_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '厂商报价审核')}>
+                            <div className={`${this.state.dataRow.getBoolean(`厂商报价审核_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '厂商报价审核')}>
                                 <span>厂商报价审核</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`接入权限管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '接入权限管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`接入权限管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '接入权限管理')}>
                                 <span>接入权限管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`委外生产进度表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '委外生产进度表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`委外生产进度表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '委外生产进度表')}>
                                 <span>委外生产进度表</span>
                             </div>
                         </div>
@@ -383,8 +396,8 @@ export default class FrmLinkSup extends WebControl<FrmLinkSupTypeProps, FrmLinkS
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

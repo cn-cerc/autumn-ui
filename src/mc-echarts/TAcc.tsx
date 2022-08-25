@@ -3,22 +3,22 @@ import * as echarts from "echarts";
 import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
 import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./TMakeMC.css";
+import styles from "./TAcc.css";
 
-type TMakeTypeProps = {
-    dataJson: string,
-    introduction: string
+type TAccTypeProps = {
+
 }
 
-type TMakeTypeState = {
+type TAccTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction:string
 }
 
-export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> {
-    constructor(props: TMakeTypeProps) {
+export default class TAcc extends WebControl<TAccTypeProps, TAccTypeState> {
+    constructor(props: TAccTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -30,66 +30,99 @@ export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> 
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '已完成');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '已结案');
+        pieData1.append().setValue('Value_', 11).setValue('Name_', '品牌名1');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名2');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名3');
+        pieData1.append().setValue('Value_', 13).setValue('Name_', '品牌名4');
         let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '已发货');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '未发货');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        pieData2.append().setValue('Value_', 10).setValue('Name_', '湖北省');
+        pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
+        pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
+        pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
+        let dataRow: DataRow = lineRow.setValue("会计科目表_URL", "TFrmAccType2")
+        .setValue("会计科目表_Dis", false)
+        .setValue("抛转规则设置_URL", "FrmFlipRuleSettings")
+        .setValue("抛转规则设置_Dis", false)
+        .setValue("手工录入凭证_URL", "TFrmAccBook.appendHead")
+        .setValue("手工录入凭证_Dis", false)
+        .setValue("会计凭证_URL", "TWebTossAcc")
+        .setValue("会计凭证_Dis", false)
+        .setValue("原始凭证_URL", "FrmOriginalVoucher")
+        .setValue("原始凭证_Dis", true)
+        .setValue("期初开账单_URL", "TFrmInitInput")
+        .setValue("期初开账单_Dis", false)
+        .setValue("科目余额表_URL", "TSchAccBookAll")
+        .setValue("科目余额表_Dis", false)
+        .setValue("资产负债表_URL", "TSchBalanceSheet")
+        .setValue("资产负债表_Dis", false)
+        .setValue("损益表_URL", "TSchBalanceSheet")
+        .setValue("损益表_Dis", false)
+        .setValue("现金流量表_URL", "FrmCashFlowStatement")
+        .setValue("现金流量表_Dis", false)
+        .setValue("银行存款余额_URL", "TSchAccBook1300")
+        .setValue("银行存款余额_Dis", false)
+        .setValue("应收对帐单_URL", "FrmTranCRBill")
+        .setValue("应收对帐单_Dis", false)
+        .setValue("应付对帐单_URL", "FrmTranCPBill")
+        .setValue("应付对帐单_Dis", false);
+        let introduction = "此模组主要面向管理财务，依据配套的各类模组，如财务管理（应收、应付），器具管理（费用与固定资产）等相应的数据，自动生成会计凭证，并根据实际需求，再补充少量的其它会计凭证，即可生成最为关键的财务基础报表：科目余额表、资产负债表、本年利润表等。注意：本模组无意取代税务专用的会计软件。";
+
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '销售订单')}>
-                                <span>销售订单</span>
+                            <div className={`${this.state.dataRow.getBoolean(`会计科目表_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '会计科目表')}>
+                                <span>会计科目表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '部门资料')}>
-                                <span>部门资料</span>
+                            <div className={`${this.state.dataRow.getBoolean(`抛转规则设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '抛转规则设置')}>
+                                <span>抛转规则设置</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`生产订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
-                                <span>生产订单</span>
+                            <div className={`${this.state.dataRow.getBoolean(`手工录入凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '手工录入凭证')}>
+                                <span>手工录入凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`派工单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '派工单')}>
-                                <span>派工单</span>
+                            <div className={`${this.state.dataRow.getBoolean(`会计凭证_Dis`) ? styles.other_disable : styles.other} ${styles.stock5}`} onClick={this.linkTo.bind(this, '会计凭证')}>
+                                <span>会计凭证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`生产日报表_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '生产日报表')}>
-                                <span>生产日报表</span>
+                            <div className={`${this.state.dataRow.getBoolean(`原始凭证_Dis`) ? styles.primeval_disable : styles.primeval} ${styles.stock6}`} onClick={this.linkTo.bind(this, '原始凭证')}>
+                                <span>原始凭证</span>
                             </div>
-                            <div className={styles.stock9Box}>
-                                <div className={`${this.state.dataJson.getBoolean(`生产报工单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9_1}`} onClick={this.linkTo.bind(this, '生产报工单')}>
-                                    <span>生产报工单</span>
-                                </div>
-                                <div className={`${this.state.dataJson.getBoolean(`制程转移单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9_2}`} onClick={this.linkTo.bind(this, '制程转移单')}>
-                                    <span>制程转移单</span>
-                                </div>
+                            <div className={`${this.state.dataRow.getBoolean(`期初开账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '期初开账单')}>
+                                <span>期初开账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`生产领料_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '生产领料')}>
-                                <span>生产领料</span>
+                            <div className={`${this.state.dataRow.getBoolean(`科目余额表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '科目余额表')}>
+                                <span>科目余额表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`完工入库_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '完工入库')}>
-                                <span>完工入库</span>
+                            <div className={`${this.state.dataRow.getBoolean(`资产负债表_Dis`) ? styles.control_disable : styles.control} ${styles.stock10}`} onClick={this.linkTo.bind(this, '资产负债表')}>
+                                <span>资产负债表</span>
                             </div>
-                            <div className={`${styles.MCtext} ${styles.stock3}`}>
-                                <span>排产作业</span>
+                            <div className={`${this.state.dataRow.getBoolean(`损益表_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '损益表')}>
+                                <span>损益表</span>
                             </div>
-                            <div className={`${styles.MCtext} ${styles.stock5}`}>
-                                <span>派工作业</span>
+                            <div className={`${this.state.dataRow.getBoolean(`现金流量表_Dis`) ? styles.control_disable : styles.control} ${styles.stock12}`} onClick={this.linkTo.bind(this, '现金流量表')}>
+                                <span>现金流量表</span>
                             </div>
-                            <div className={`${styles.MCtext} ${styles.stock6}`}>
-                                <span>派工作业</span>
+                            <div className={`${this.state.dataRow.getBoolean(`银行存款余额_Dis`) ? styles.other_disable : styles.other} ${styles.stock13}`} onClick={this.linkTo.bind(this, '银行存款余额')}>
+                                <span>银行存款余额</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`应收对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock14}`} onClick={this.linkTo.bind(this, '应收对帐单')}>
+                                <span>应收对帐单</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`应付对帐单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock15}`} onClick={this.linkTo.bind(this, '应付对帐单')}>
+                                <span>应付对帐单</span>
                             </div>
                         </div>
                     </div>
@@ -115,13 +148,13 @@ export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> 
     }
 
     componentDidMount(): void {
-        this.initLineChart();
+        this.initBarChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
+    initBarChart() {
         let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(lineChart);
         let ds = new DataSet();
@@ -136,7 +169,7 @@ export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> 
         let option = {
             xAxis: {
                 type: 'category',
-                data: xArr,
+                data: ['产品部', '人事部', '营销部', '设计部', '技术部'],
                 axisLabel: {
                     color: '#333333'
                 },
@@ -152,10 +185,9 @@ export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> 
                     color: '#333333'
                 }
             },
-            lengend: {},
             tooltip: {},
             grid: {
-                top: 10,
+                top: 15,
                 left: 0,
                 bottom: 0,
                 right: 10,
@@ -165,6 +197,7 @@ export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> 
                 {
                     data: sData,
                     type: 'bar',
+                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -305,59 +338,72 @@ export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> 
             nodes,
             linesData: [
                 {
-                    coords: [ //销售订单 往下
-                        [50, 79],
-                        [50, 120],
+                    coords: [ //会计科目表 往下线条
+                        [168, 75],
+                        [168, 108]
                     ]
                 },
                 {
-                    coords: [ //销售订单 往下
-                        [50, 179],
-                        [50, 220],
+                    coords: [ //抛转规则设置 往下线条
+                        [279, 75],
+                        [279, 108]
                     ]
                 },
                 {
-                    coords: [ //派工单 往右
-                        [78, 242],
-                        [150, 242],
-                    ]
-                }, {
-                    coords: [ //生产日报表 往右
-                        [183, 242],
-                        [215, 242],
+                    coords: [ //手工录入凭证 往右线条
+                        [73, 123],
+                        [150, 123],
                     ]
                 },
                 {
-                    coords: [
-                        [215, 242],
-                        [215, 195],
-                        [252, 195],
+                    coords: [ //原始凭证 往右线条
+                        [256, 123],
+                        [190, 123],
                     ]
                 },
                 {
-                    coords: [
-                        [215, 242],
-                        [215, 280],
-                        [252, 280],
+                    coords: [ //会计凭证 往下线条
+                        [168, 160],
+                        [168, 189]
                     ]
                 },
                 {
-                    coords: [
-                        [276, 320],
-                        [276, 338],
-                        [183, 338],
+                    coords: [ //期初开账单 往右线条
+                        [73, 210],
+                        [150, 210],
                     ]
                 },
                 {
-                    coords: [ //派工单 往下
-                        [50, 280],
-                        [50, 320],
+                    coords: [ //科目余额表 往左下线条
+                        [168, 255],
+                        [50, 255],
+                        [50, 271]
                     ]
                 },
                 {
-                    coords: [ //生产日报表 往下
-                        [169, 280],
-                        [169, 320],
+                    coords: [ //科目余额表 往下线条
+                        [168, 247],
+                        [168, 271]
+                    ]
+                },
+                {
+                    coords: [ //应付结账单 往上线条
+                        [279, 349],
+                        [279, 328],
+                    ]
+                },
+                {
+                    coords: [ //应付结账单 往上线条
+                        [168, 349],
+                        [168, 338],
+                        [279, 338],
+                    ]
+                },
+                {
+                    coords: [ //应付结账单 往上线条
+                        [50, 349],
+                        [50, 338],
+                        [168, 338],
                     ]
                 },
             ]
@@ -425,8 +471,8 @@ export default class TMakeMC extends WebControl<TMakeTypeProps, TMakeTypeState> 
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

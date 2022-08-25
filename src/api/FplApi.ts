@@ -391,4 +391,9 @@ export default class FplApi {
     static getStatisticsVerify() {
         return ControlApi.getService('SvrDriverDetalis.statisticsVerify');
     }
+    
+    /* 钱包收支统计 */
+    static getDriverWallet() {
+        return ControlApi.getService('SvrDriverWallet.statistical');
+    }
 }

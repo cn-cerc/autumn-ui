@@ -6,15 +6,15 @@ import styles from "./Frm4PLCusManage.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type Frm4PLCusManageypeProps = {
-    dataJson: string,
-    introduction: string
+
 }
 
 type Frm4PLCusManageypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction: string
 }
 
 export default class Frm4PLCusManage extends WebControl<Frm4PLCusManageypeProps, Frm4PLCusManageypeState> {
@@ -37,46 +37,64 @@ export default class Frm4PLCusManage extends WebControl<Frm4PLCusManageypeProps,
         let pieData2 = new DataSet();
         pieData2.append().setValue('Value_', 11).setValue('Name_', '女生');
         pieData2.append().setValue('Value_', 13).setValue('Name_', '男生');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("客户列表_URL", "TFrmCusInfo")
+            .setValue("客户列表_Dis", false)
+            .setValue("收款人信息审核_URL", "FrmPayeeCertification")
+            .setValue("收款人信息审核_Dis", false)
+            .setValue("合同登记_URL", "FrmContract.selectContractType")
+            .setValue("合同登记_Dis", false)
+            .setValue("应收对账单_URL", "FrmTranCRBill")
+            .setValue("应收对账单_Dis", false)
+            .setValue("物流运单管理_URL", "FrmArrangeCar")
+            .setValue("物流运单管理_Dis", false)
+            .setValue("审核发票申请_URL", "FrmInvoiceApplyNew")
+            .setValue("审核发票申请_Dis", false)
+            .setValue("上传发票照片_URL", "")
+            .setValue("上传发票照片_Dis", false)
+            .setValue("寄出发票_URL", "")
+            .setValue("寄出发票_Dis", true);
+        let introduction = "主要用于登记，修改客户信息，是其他功能正常作业的基础。";
+
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`客户列表_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '客户列表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`客户列表_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '客户列表')}>
                                 <span>客户列表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款人信息审核_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '收款人信息审核')}>
+                            <div className={`${this.state.dataRow.getBoolean(`收款人信息审核_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '收款人信息审核')}>
                                 <span>收款人信息审核</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '合同登记')}>
+                            <div className={`${this.state.dataRow.getBoolean(`合同登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '合同登记')}>
                                 <span>合同登记</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '应收对账单')}>
                                 <span>应收对账单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`物流运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '物流运单管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`物流运单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '物流运单管理')}>
                                 <span>物流运单管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`审核发票申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '审核发票申请')}>
+                            <div className={`${this.state.dataRow.getBoolean(`审核发票申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '审核发票申请')}>
                                 <span>审核发票申请</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`上传发票照片_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '上传发票照片')}>
+                            <div className={`${this.state.dataRow.getBoolean(`上传发票照片_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '上传发票照片')}>
                                 <span>上传发票照片</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`寄出发票_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '寄出发票')}>
+                            <div className={`${this.state.dataRow.getBoolean(`寄出发票_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '寄出发票')}>
                                 <span>寄出发票</span>
                             </div>
                         </div>
@@ -396,8 +414,8 @@ export default class Frm4PLCusManage extends WebControl<Frm4PLCusManageypeProps,
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

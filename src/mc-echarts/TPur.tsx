@@ -3,22 +3,22 @@ import * as echarts from "echarts";
 import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
 import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./TPurMC.css";
+import styles from "./TPur.css";
 
-type TPurMCTypeProps = {
-    dataJson: string,
-    introduction: string
+type TPurTypeProps = {
+
 }
 
-type TPurMCTypeState = {
+type TPurTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction:string
 }
 
-export default class TPurMC extends WebControl<TPurMCTypeProps, TPurMCTypeState> {
-    constructor(props: TPurMCTypeProps) {
+export default class TPur extends WebControl<TPurTypeProps, TPurTypeState> {
+    constructor(props: TPurTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -39,49 +39,69 @@ export default class TPurMC extends WebControl<TPurMCTypeProps, TPurMCTypeState>
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("厂商资料_URL", "TFrmSupInfo")
+        .setValue("厂商资料_Dis", false)
+        .setValue("销售订单_URL", "TFrmTranOD")
+        .setValue("销售订单_Dis", false)
+        .setValue("厂商报价_URL", "TFrmPartSupply")
+        .setValue("厂商报价_Dis", false)
+        .setValue("生产订单_URL", "TFrmTranMK")
+        .setValue("生产订单_Dis", false)
+        .setValue("采购订单_URL", "TFrmTranDA")
+        .setValue("采购订单_Dis", false)
+        .setValue("安全库存_URL", "TStock")
+        .setValue("安全库存_Dis", false)
+        .setValue("进货单_URL", "TFrmTranAB")
+        .setValue("进货单_Dis", false)
+        .setValue("出货退回单_URL", "TFrmTranBG")
+        .setValue("出货退回单_Dis", false)
+        .setValue("应付账款_URL", "TFrmCheckAP")
+        .setValue("应付账款_Dis", false);
+        let introduction = "此模组主要用于工厂销售或批发销售管理，根据客户的作业模式不同，可以允许客户手动下单并录入【销售订单】，也可以要求客户直接在线下单，然后审核【在线订货单】，仓库根据【销售订单】进行备货，并生成相应的【销售单】。";
+
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`厂商资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '厂商资料')}>
+                            <div className={`${this.state.dataRow.getBoolean(`厂商资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '厂商资料')}>
                                 <span>厂商资料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售订单_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '销售订单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`销售订单_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '销售订单')}>
                                 <span>销售订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`厂商报价_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '厂商报价')}>
+                            <div className={`${this.state.dataRow.getBoolean(`厂商报价_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock3}`} onClick={this.linkTo.bind(this, '厂商报价')}>
                                 <span>厂商报价</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`生产订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`生产订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
                                 <span>生产订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`采购订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '采购订单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`采购订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '采购订单')}>
                                 <span>采购订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`安全库存_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '安全库存')}>
+                            <div className={`${this.state.dataRow.getBoolean(`安全库存_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '安全库存')}>
                                 <span>安全库存</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '进货单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '进货单')}>
                                 <span>进货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '出货退回单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`出货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '出货退回单')}>
                                 <span>出货退回单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应付账款')}>
+                            <div className={`${this.state.dataRow.getBoolean(`应付账款_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '应付账款')}>
                                 <span>应付账款</span>
                             </div>
                         </div>
@@ -383,8 +403,8 @@ export default class TPurMC extends WebControl<TPurMCTypeProps, TPurMCTypeState>
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

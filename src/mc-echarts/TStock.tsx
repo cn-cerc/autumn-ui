@@ -3,21 +3,21 @@ import * as echarts from "echarts";
 import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
 import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./TStockMC.css";
+import styles from "./TStock.css";
 
-type TStockMCTypeProps = {
-    dataJson: string,
+type TStockTypeProps = {
+
+}
+
+type TStockTypeState = {
+    lineData: DataSet,
+    barData: DataSet,
+    dataRow: DataRow,
     introduction: string
 }
 
-type TStockMCTypeState = {
-    lineData: DataSet,
-    barData: DataSet,
-    dataJson: DataRow,
-}
-
-export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCTypeState> {
-    constructor(props: TStockMCTypeProps) {
+export default class TStock extends WebControl<TStockTypeProps, TStockTypeState> {
+    constructor(props: TStockTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -36,54 +36,78 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
         barData.append().setValue('Value_', 10).setValue('Name_', '周五');
         barData.append().setValue('Value_', 14).setValue('Name_', '周六');
         barData.append().setValue('Value_', 12).setValue('Name_', '周日');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("进货单_URL", "TFrmTranAB")
+            .setValue("进货单_Dis", false)
+            .setValue("商品品牌设置_URL", "TFrmPartBrand")
+            .setValue("商品品牌设置_Dis", false)
+            .setValue("商品资料登记_URL", "TFrmPartBrand.append")
+            .setValue("商品资料登记_Dis", false)
+            .setValue("进货退回单_URL", "TFrmTranBG")
+            .setValue("进货退回单_Dis", false)
+            .setValue("库存盘点单_URL", "TFrmTranAE")
+            .setValue("库存盘点单_Dis", false)
+            .setValue("库存报废单_URL", "TFrmTranBR")
+            .setValue("库存报废单_Dis", false)
+            .setValue("销售单_URL", "TFrmTranBC")
+            .setValue("销售单_Dis", false)
+            .setValue("库存总表_URL", "TFrmSafeStock")
+            .setValue("库存总表_Dis", false)
+            .setValue("进出库明细_URL", "TSchProductInOutAnalysis")
+            .setValue("进出库明细_Dis", false)
+            .setValue("出货退回单_URL", "TFrmTranAG")
+            .setValue("出货退回单_Dis", false)
+            .setValue("库别调拨单_URL", "TFrmTranAH")
+            .setValue("库别调拨单_Dis", false);
+        let introduction = "主要用于商品库存的管理，这包括生产相关的领料单、完工入库单，也包括仓库自身的仓别调拔、库存盘点、库存报废等日常作业管理。结合设置安全库存量，可以自动进行提醒并生成采购建议的管理目的。";
+
         this.state = {
             lineData,
             barData,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '进货单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`进货单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '进货单')}>
                                 <span>进货单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`商品品牌设置_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '商品品牌设置')}>
+                            <div className={`${this.state.dataRow.getBoolean(`商品品牌设置_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '商品品牌设置')}>
                                 <span>商品品牌设置</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`商品资料登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '商品资料登记')}>
+                            <div className={`${this.state.dataRow.getBoolean(`商品资料登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock3}`} onClick={this.linkTo.bind(this, '商品资料登记')}>
                                 <span>商品资料登记</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '进货退回单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`进货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '进货退回单')}>
                                 <span>进货退回单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存盘点单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '库存盘点单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`库存盘点单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock5}`} onClick={this.linkTo.bind(this, '库存盘点单')}>
                                 <span>库存盘点单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '库存报废单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`库存报废单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '库存报废单')}>
                                 <span>库存报废单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`销售单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '销售单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`销售单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '销售单')}>
                                 <span>销售单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存总表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '库存总表')}>
+                            <div className={`${this.state.dataRow.getBoolean(`库存总表_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '库存总表')}>
                                 <span>库存总表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`进出库明细_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '进出库明细')}>
+                            <div className={`${this.state.dataRow.getBoolean(`进出库明细_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '进出库明细')}>
                                 <span>进出库明细</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '出货退回单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`出货退回单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock10}`} onClick={this.linkTo.bind(this, '出货退回单')}>
                                 <span>出货退回单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库别调拨单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '库别调拨单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`库别调拨单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '库别调拨单')}>
                                 <span>库别调拨单</span>
                             </div>
                         </div>
@@ -224,7 +248,7 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
                         [105, 340],
                         [78, 340],
                     ]
-                }, 
+                },
                 {
                     coords: [ //进货单 往下 进货退回单
                         [50, 79],
@@ -338,8 +362,8 @@ export default class TStockMC extends WebControl<TStockMCTypeProps, TStockMCType
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

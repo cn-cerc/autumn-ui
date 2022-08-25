@@ -3,70 +3,78 @@ import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmCarManagerMC2.css";
+import styles from "./FrmAuthManage.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmCarManagerMC2TypeProps = {
-    dataJson: string,
+type FrmAuthManageTypeProps = {
+
+}
+
+type FrmAuthManageTypeState = {
+    dataRow: DataRow,
+    DriverStatistics: DataSet,
+    CorpStatistics: DataSet,
+    payeeStatistics: DataSet,
     introduction: string
 }
 
-type FrmCarManagerMC2TypeState = {
-    dataJson: DataRow,
-    vehicleState: DataSet,
-    fleetVehicleType: DataRow,
-    fleetVehiclesSummary: DataRow,
-}
-
-//车辆管理控制台 货主
-export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypeProps, FrmCarManagerMC2TypeState> {
-    constructor(props: FrmCarManagerMC2TypeProps) {
+export default class FrmAuthManageMC extends WebControl<FrmAuthManageTypeProps, FrmAuthManageTypeState> {
+    constructor(props: FrmAuthManageTypeProps) {
         super(props);
         let lineRow = new DataRow();
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("企业认证_URL", "")
+            .setValue("企业认证_Dis", false)
+            .setValue("认证中心_URL", "")
+            .setValue("认证中心_Dis", false)
+            .setValue("车辆认证_URL", "FrmPCarRegistration")
+            .setValue("车辆认证_Dis", false)
+            .setValue("企业审核_URL", "")
+            .setValue("企业审核_Dis", false)
+            .setValue("司机认证_URL", "FrmAdminDriverAuth")
+            .setValue("司机认证_Dis", false)
+            .setValue("车辆审核_URL", "")
+            .setValue("车辆审核_Dis", false)
+            .setValue("司机审核_URL", "")
+            .setValue("司机审核_Dis", false);
+        let introduction = "用于审核收款人信息，以及查看，修改收款人功能。";
         this.state = {
-            dataJson: dataJson,
-            vehicleState: new DataSet(),
-            fleetVehicleType: new DataRow(),
-            fleetVehiclesSummary: new DataRow(),
+            dataRow,
+            DriverStatistics: new DataSet(),
+            CorpStatistics: new DataSet(),
+            payeeStatistics: new DataSet(),
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`车队管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '车队管理')}>
-                                <span>车队管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`企业认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '企业认证')}>
+                                <span>企业认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '司机管理')}>
-                                <span>司机管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`认证中心_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '认证中心')}>
+                                <span>认证中心</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机认证_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '司机认证')}>
+                            <div className={`${this.state.dataRow.getBoolean(`车辆认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车辆认证')}>
+                                <span>车辆认证</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`企业审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock4}`} onClick={this.linkTo.bind(this, '企业审核')}>
+                                <span>企业审核</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`司机认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '司机认证')}>
                                 <span>司机认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款人管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '收款人管理')}>
-                                <span>收款人管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`车辆审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock6}`} onClick={this.linkTo.bind(this, '车辆审核')}>
+                                <span>车辆审核</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`收款人认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '收款人认证')}>
-                                <span>收款人认证</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '车辆管理')}>
-                                <span>车辆管理</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆类型维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '车辆类型维护')}>
-                                <span>车辆类型维护</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`维修记录_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '维修记录')}>
-                                <span>维修记录</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`维修厂系统_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修厂系统')}>
-                                <span>维修厂系统</span>
+                            <div className={`${this.state.dataRow.getBoolean(`司机审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '司机审核')}>
+                                <span>司机审核</span>
                             </div>
                         </div>
                     </div>
@@ -74,16 +82,16 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>车辆状态统计</div>
+                            <div className={styles.mcTitle}>收款人统计</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>车队与车辆类型</div>
+                            <div className={styles.mcTitle}>司机人数统计</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>车队与车辆汇总</div>
+                        <div className={styles.mcTitle}>司机认证前五统计</div>
                         <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
@@ -92,19 +100,17 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
     }
 
     async init() {
-        let vehicleState = new DataSet();
-        vehicleState = await FplApi.getMoreThanOneWeekReport();
-        let dataRow = await FplApi.getFleetCarCountReport();
-        let fleetVehicleType = new DataRow();
-        fleetVehicleType.copyValues(dataRow.head);
-        let dataRow1 = await FplApi.getFleetDrivrCarPayeeReport();
-        let fleetVehiclesSummary = new DataRow();
-        fleetVehiclesSummary.copyValues(dataRow1.head);
+        let DriverStatistics = new DataSet();
+        DriverStatistics = await FplApi.queryDriverStatistics();
+        let CorpStatistics = new DataSet();
+        CorpStatistics = await FplApi.queryCorpStatistics();
+        let payeeStatistics = new DataSet();
+        payeeStatistics = await FplApi.queryDataStat();
 
         this.setState({
-            vehicleState,
-            fleetVehicleType,
-            fleetVehiclesSummary
+            DriverStatistics,
+            CorpStatistics,
+            payeeStatistics
         })
 
         this.initBarChart();
@@ -117,16 +123,75 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
         this.init();
     }
 
+    initBarChart() {
+        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
+        let myChart = echarts.init(lineChart);
+        let ds = new DataSet();
+        ds = this.state.CorpStatistics;
+        ds.first();
+        let xArr = [];
+        let sData = [];
+        while (ds.fetch()) {
+            xArr.push(ds.getString('corp_no_'));
+            sData.push(ds.getDouble('num'));
+        }
+        let option = {
+            xAxis: {
+                type: 'category',
+                data: xArr,
+                axisLabel: {
+                    color: '#333333'
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#333333'
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    color: '#333333'
+                }
+            },
+            grid: {
+                top: 25,
+                left: 0,
+                bottom: 0,
+                right: 10,
+                containLabel: true,
+            },
+            series: [
+                {
+                    data: sData,
+                    type: 'bar',
+                    itemStyle: {
+                        color: MCChartColors[0],
+                    },
+                    barWidth: this.isPhone ? 10 : 60,
+                    lineStyle: {
+                        color: MCChartColors[0]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
+                }
+            ]
+        };
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.vehicleState;
+        ds = this.state.payeeStatistics;
         ds.first();
         let dataArr: any = [
-            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
-            { name: '空车', value: ds.getDouble('carry_sum_') },
-            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
+            { name: '已登记', value: ds.getDouble('registered') },
+            { name: '已认证', value: ds.getDouble('certified') }
         ];
         let option = {
             tooltip: {
@@ -180,23 +245,17 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
         }
         //@ts-ignore
         myChart.setOption(option);
-
-        myChart.on('click', function (params: any) {
-            alert(params.name);
-        })
     }
-
 
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataRow();
-        ds = this.state.fleetVehicleType;
+        let ds = new DataSet();
+        ds = this.state.DriverStatistics;
+        ds.first();
         let dataArr: any = [
-            { name: '自营车队', value: ds.getDouble('selfFleetCount') },
-            { name: '托管车队', value: ds.getDouble('trusteeshipFleetCount') },
-            { name: '自营车辆', value: ds.getDouble('selfCarCount') },
-            { name: '托管车辆', value: ds.getDouble('trusteeshipCarCount') },
+            { name: '未审核', value: ds.getDouble('未审核') },
+            { name: '已审核', value: ds.getDouble('已审核') },
         ];
         let option = {
             tooltip: {
@@ -243,50 +302,10 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
         }
         //@ts-ignore
         myChart.setOption(option);
-    }
 
-    initBarChart() {
-        let barChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
-        let myChart = echarts.init(barChart);
-        let ds = new DataRow();
-        ds = this.state.fleetVehiclesSummary;
-        let nameArr = ['车队数量', '司机总数量', '车辆总数量 ', '收款人总数量 '],
-            dataArr = [ds.getDouble('fleetCount'), ds.getDouble('driverCount'), ds.getDouble('carCount'), ds.getDouble('payeeCount')];
-        let option = {
-            grid: {
-                top: 25,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
-            },
-            xAxis: {
-                type: 'category',
-                data: nameArr
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    data: dataArr,
-                    type: 'bar',
-                    itemStyle: {
-                        color: MCChartColors[0],
-                    },
-                    barWidth: 60,
-                    lineStyle: {
-                        color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                }
-            ]
-        };
-        //@ts-ignore
-        myChart.setOption(option);
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initFlowChart() {
@@ -297,53 +316,41 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
             nodes,
             linesData: [
                 {
-                    coords: [ //车队管理 往右线条
-                        [75, 40],
-                        [143, 40]
+                    coords: [ //企业认证 往下线条
+                        [50, 75],
+                        [50, 108]
                     ]
                 },
                 {
-                    coords: [ //车队管理 往下线条
-                        [50, 80],
-                        [50, 220]
+                    coords: [ //企业认证 往右线条
+                        [73, 35],
+                        [150, 35],
                     ]
                 },
                 {
-                    coords: [ //司机管理 往右线条
-                        [190, 40],
-                        [256, 40]
+                    coords: [ //认证中心 往右线条
+                        [190, 35],
+                        [256, 35],
                     ]
                 },
                 {
-                    coords: [ //司机管理 往下线条
-                        [169, 80],
-                        [169, 130]
+                    coords: [ //认证中心 往下线条
+                        [168, 75],
+                        [168, 108]
                     ]
                 },
                 {
-                    coords: [ //收款人管理 往右线条
-                        [190, 140],
-                        [256, 140]
+                    coords: [ //车辆认证 往下线条
+                        [279, 75],
+                        [279, 108]
                     ]
                 },
                 {
-                    coords: [ //车辆类型维护 往左线条
-                        [143, 240],
-                        [75, 240]
+                    coords: [ //司机认证 往下线条
+                        [168, 160],
+                        [168, 189]
                     ]
-                },
-                {
-                    coords: [ //车辆管理 往下线条
-                        [50, 280],
-                        [50, 320]
-                    ]
-                },
-                {
-                    coords: [ //维修厂系统 往左线条
-                        [143, 340],
-                        [75, 340]
-                    ]
-                },
+                }
             ]
         }
 
@@ -354,7 +361,7 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
                 max: 328,
                 show: false,
                 type: 'value',
-                position: 'top'
+                position: 'top',
             },
             yAxis: {
                 min: 0,
@@ -363,7 +370,7 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
                 },
                 show: false,
                 type: 'value',
-                inverse: true
+                inverse: true,
             },
             grid: {
                 left: 0,
@@ -391,7 +398,7 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
                     type: 'line',
                     width: 2,
                     color: '#ccc',
-                    curveness: 0.3,
+                    curveness: 0.3
                 },
                 effect: {
                     show: true,
@@ -399,9 +406,9 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
                     constantSpeed: 10,
                     symbol: 'arrow',
                     color: '#ccc',
-                    symbolSize: 6,
+                    symbolSize: 6
                 },
-                data: charts.linesData
+                data: charts.linesData,
             }]
         };
         //@ts-ignore
@@ -409,8 +416,8 @@ export default class FrmCarManagerMC2 extends WebControl<FrmCarManagerMC2TypePro
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

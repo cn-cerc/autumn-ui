@@ -4,26 +4,98 @@ import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
 import UIModuleMenu from "../module/UIModuleMenu";
 import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./myMC.css";
+import styles from "./My.css";
 
-type myMCTypeProps = {
-    dataJson: string,
-    introduction: string
-}
+type MyTypeProps = {}
 
-type myMCTypeState = {
+type MyTypeState = {
     data: DataSet,
     title: string,
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
+    introduction: string
 }
 
-export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
-    constructor(props: myMCTypeProps) {
+export default class My extends WebControl<MyTypeProps, MyTypeState> {
+    constructor(props: MyTypeProps) {
         super(props);
         let data = new DataSet();
-        data.setJson(this.props.dataJson);
+        data.append()
+            .setValue("Name_", "更改密码")
+            .setValue("Image_", "menu/FrmModifyPassword.png")
+            .setValue("更改密码_URL", "FrmModifyPassword")
+            .setValue("更改密码_Dis", false)
+            .append()
+            .setValue("Name_", "设置资料")
+            .setValue("Image_", "menu/TFrmYGTMyAccount.png")
+            .setValue("设置资料_URL", "TFrmYGTMyAccount")
+            .setValue("设置资料_Dis", false)
+            .append()
+            .setValue("Name_", "设置喜好")
+            .setValue("Image_", "menu/TFrmMyInputMode.png")
+            .setValue("设置喜好_URL", "TFrmMyInputMode")
+            .setValue("设置喜好_Dis", false)
+            .append()
+            .setValue("Name_", "待签单据")
+            .setValue("Image_", "menu/FrmMyWorkFlow.png")
+            .setValue("待签单据_URL", "FrmMyWorkFlow")
+            .setValue("待签单据_Dis", false)
+            .append()
+            .setValue("Name_", "草稿单据")
+            .setValue("Image_", "menu/FrmMyGraftTB.png")
+            .setValue("草稿单据_URL", "FrmMyGraftTB")
+            .setValue("草稿单据_Dis", false)
+            .append()
+            .setValue("Name_", "设置打印")
+            .setValue("Image_", "menu/FrmMyPrinterInfo.png")
+            .setValue("设置打印_URL", "FrmMyPrinterInfo")
+            .setValue("设置打印_Dis", false)
+            .append()
+            .setValue("Name_", "预警设置")
+            .setValue("Image_", "menu/TFrmAutoMail.png")
+            .setValue("预警设置_URL", "TFrmAutoMail")
+            .setValue("预警设置_Dis", false)
+            .append()
+            .setValue("Name_", "消息管理")
+            .setValue("Image_", "menu/FrmMessages.png")
+            .setValue("消息管理_URL", "FrmMessages")
+            .setValue("消息管理_Dis", false)
+            .append()
+            .setValue("Name_", "我的收藏")
+            .setValue("Image_", "menu/myCollect.png")
+            .setValue("我的收藏_URL", "TFrmProSearch.myCollect")
+            .setValue("我的收藏_Dis", false)
+            .append()
+            .setValue("Name_", "新闻列表")
+            .setValue("Image_", "menu/FrmJournalism.png")
+            .setValue("新闻列表_URL", "TFrmProSearch.newsMore")
+            .setValue("新闻列表_Dis", false)
+            .append()
+            .setValue("Name_", "司机认证")
+            .setValue("Image_", "menu/FrmAdminDriverAuth.png")
+            .setValue("司机认证_URL", "FrmDriver.append")
+            .setValue("司机认证_Dis", false)
+            .append()
+            .setValue("Name_", "收款人认证")
+            .setValue("Image_", "menu/FrmPayeeCertification.png")
+            .setValue("收款人认证_URL", "FrmPayeeCertification")
+            .setValue("收款人认证_Dis", false)
+            .append()
+            .setValue("Name_", "车辆交接")
+            .setValue("Image_", "menu/FrmPFollowHandoverRecord.png")
+            .setValue("车辆交接_URL", "FrmPFollowHandoverRecord")
+            .setValue("车辆交接_Dis", false)
+            .append()
+            .setValue("Name_", "车辆认证")
+            .setValue("Image_", "menu/FrmDriverCarRegistration.png")
+            .setValue("车辆认证_URL", "FrmDriverCarRegistration.append")
+            .setValue("车辆认证_Dis", false)
+            .append()
+            .setValue("Name_", "货主关联")
+            .setValue("Image_", "menu/FrmOwnerAssociation.png")
+            .setValue("货主关联_URL", "FrmOwnerAssociation")
+            .setValue("货主关联_Dis", false);
         let lineData = new DataSet();
         lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
         lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
@@ -42,19 +114,21 @@ export default class myMC extends WebControl<myMCTypeProps, myMCTypeState> {
         pieData2.append().setValue('Value_', 20).setValue('Name_', '广西省');
         pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
         pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
+        let introduction = "主要用于设置自己的帐号资料，更改自己的登录密码，设置自己的喜好，设置自己常用的菜单项以便于操作等。日常作业中，可以在此处理属于自己的未读消息、待处理任务，以及待签核单据等。";
         this.state = {
             title: '常用功能',
             data: data,
             lineData,
             pieData1,
             pieData2,
+            introduction
         }
 
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-           <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.bgColor}>
                     <UIModuleMenu dataSet={this.state.data} title={this.state.title}></UIModuleMenu>

@@ -7,68 +7,87 @@ import styles from "./FrmMaintenanceSparepart.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmMaintenanceSparepartTypeProps = {
-    dataJson: string,
-    introduction: string
+
 }
 
 type FrmMaintenanceSparepartTypeState = {
-    dataJson: DataRow,
+    dataRow: DataRow,
     topFiveBrand: DataSet,
     topFiveMountings: DataSet,
     topFiveClassifyMountings: DataSet,
     nowExistMountings: DataSet
+    introduction: string
 }
 
 export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSparepartTypeProps, FrmMaintenanceSparepartTypeState> {
     constructor(props: FrmMaintenanceSparepartTypeProps) {
         super(props);
         let lineData = new DataSet();
-        let dataJson = new DataRow();
-        dataJson.setJson(this.props.dataJson);
+        let dataRow = new DataRow();
+        dataRow.setValue("客户管理_URL", "FrmCusInfo")
+        .setValue("客户管理_Dis", false)
+        .setValue("品牌维护_URL", "")
+        .setValue("品牌维护_Dis", true)
+        .setValue("车辆管理_URL", "FrmVehicle")
+        .setValue("车辆管理_Dis", false)
+        .setValue("分类维护_URL", "")
+        .setValue("分类维护_Dis", true)
+        .setValue("扫一扫_URL", "")
+        .setValue("扫一扫_Dis", true)
+        .setValue("新增维修单_URL", "FrmMaintainMA.selectNumPlate")
+        .setValue("新增维修单_Dis", false)
+        .setValue("零配件管理_URL", "FrmPartInfo")
+        .setValue("零配件管理_Dis", false)
+        .setValue("维修单管理_URL", "FrmMaintainMA")
+        .setValue("维修单管理_Dis", false)
+        .setValue("月结收款单_URL", "FrmAccountsMS")
+        .setValue("月结收款单_Dis", false);
+        let introduction = "主要是对维修车辆过程中会使用到的零配件的登记，三种零配件价格，对应于客户的不同等级。是生成维修单功能正常作业的基础。";
+       
         this.state = {
-            dataJson: dataJson,
+            dataRow,
             topFiveBrand: new DataSet(),
             topFiveMountings: new DataSet(),
             topFiveClassifyMountings: new DataSet(),
             nowExistMountings: new DataSet(),
-
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`客户管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '客户管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`客户管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '客户管理')}>
                                 <span>客户管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`品牌维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '品牌维护')}>
+                            <div className={`${this.state.dataRow.getBoolean(`品牌维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '品牌维护')}>
                                 <span>品牌维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '车辆管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '车辆管理')}>
                                 <span>车辆管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`分类维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '分类维护')}>
+                            <div className={`${this.state.dataRow.getBoolean(`分类维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock6}`} onClick={this.linkTo.bind(this, '分类维护')}>
                                 <span>分类维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`扫一扫_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '扫一扫')}>
+                            <div className={`${this.state.dataRow.getBoolean(`扫一扫_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '扫一扫')}>
                                 <span>扫一扫</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`新增维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '新增维修单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`新增维修单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '新增维修单')}>
                                 <span>新增维修单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`零配件管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '零配件管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`零配件管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock9}`} onClick={this.linkTo.bind(this, '零配件管理')}>
                                 <span>零配件管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`维修单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修单管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`维修单管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修单管理')}>
                                 <span>维修单管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`月结收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '月结收款单')}>
+                            <div className={`${this.state.dataRow.getBoolean(`月结收款单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock12}`} onClick={this.linkTo.bind(this, '月结收款单')}>
                                 <span>月结收款单</span>
                             </div>
                         </div>
@@ -522,8 +541,8 @@ export default class FrmMaintenanceSparepart extends WebControl<FrmMaintenanceSp
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

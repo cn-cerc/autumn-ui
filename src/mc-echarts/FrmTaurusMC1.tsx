@@ -7,8 +7,6 @@ import { MCChartColors } from "./FrmTaurusMC";
 import styles from "./FrmTaurusMC1.css";
 
 type FrmTaurusMCTypeProps = {
-    dataJson: string,
-    introduction: string
 }
 
 type FrmTaurusMCTypeState = {
@@ -16,24 +14,45 @@ type FrmTaurusMCTypeState = {
     vehicleState: DataSet,
     invoiceStatistics: DataSet,
     waybillDtatistics: DataSet,
+    introduction:string
 }
 
 export default class FrmTaurusMC1 extends WebControl<FrmTaurusMCTypeProps, FrmTaurusMCTypeState> {
     constructor(props: FrmTaurusMCTypeProps) {
         super(props);
         let linkRow = new DataRow();
-        linkRow.setJson(this.props.dataJson);
+        linkRow.setValue("商品资料登记_URL", "FrmCodeRecord")
+            .setValue("商品资料登记_Dis", false)
+            .setValue("客户登记_URL", "TFrmCusInfo.append")
+            .setValue("客户登记_Dis", false)
+            .setValue("车队与司机登记_URL", "FrmCarManager")
+            .setValue("车队与司机登记_Dis", false)
+            .setValue("货主线上委托_URL", "FrmCargoOrderEntrust.acceptedList?sourcePage=FrmTaurusMC1")
+            .setValue("货主线上委托_Dis", false)
+            .setValue("货主线下委托_URL", "")
+            .setValue("货主线下委托_Dis", false)
+            .setValue("物流订单管理_URL", "FrmCargoOrder")
+            .setValue("物流订单管理_Dis", false)
+            .setValue("自行派车物流运单登记_URL", "FrmArrangeCar.arrangeCarList")
+            .setValue("自行派车物流运单登记_Dis", false)
+            .setValue("委托第三方物流运输_URL", "FrmCargoOrderEntrust.applyList?sourcePage=FrmTaurusMC1")
+            .setValue("委托第三方物流运输_Dis", false)
+            .setValue("网络货运平台撮合_URL", "")
+            .setValue("网络货运平台撮合_Dis", false)
+            .setValue("司机端_URL", "")
+            .setValue("司机端_Dis", true);
         this.state = {
             linkRow,
             vehicleState: new DataSet(),
             invoiceStatistics: new DataSet(),
             waybillDtatistics: new DataSet(),
+            introduction : '货主线上/线下委托货运，接收/登记物流订单后，可以选择第三方物流运输或者网络货运平台撮合进行货物运输。可以事先设置好商品资料登记、客户登记，以方便节省大量的重复的信息输入情况。可以对所有的物流订单进行管理和监控，查看货运相关数据统计以及数据分析。'
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>

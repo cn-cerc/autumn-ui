@@ -3,63 +3,77 @@ import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmAuthManageMC.css";
+import styles from "./FrmContractManage1.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmAuthManageMCTypeProps = {
-    dataJson: string,
+type FrmContractManage1TypeProps = {
+    
+}
+
+type FrmContractManage1TypeState = {
+    dataRow: DataRow,
+    contractAmount: DataSet,
+    contractTypeStats: DataSet,
+    acceptedContract: DataSet,
     introduction: string
 }
+//合同管理(庆丰物流)
 
-type FrmAuthManageMCTypeState = {
-    dataJson: DataRow,
-    DriverStatistics: DataSet,
-    CorpStatistics: DataSet,
-    payeeStatistics: DataSet,
-}
-
-export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
-    constructor(props: FrmAuthManageMCTypeProps) {
+export default class FrmContractManage1 extends WebControl<FrmContractManage1TypeProps, FrmContractManage1TypeState> {
+    constructor(props: FrmContractManage1TypeProps) {
         super(props);
         let lineRow = new DataRow();
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("银行维护_URL", "TFrmBankInfo")
+        .setValue("银行维护_Dis", true)
+        .setValue("合同类别_URL", "FrmContractType")
+        .setValue("合同类别_Dis", false)
+        .setValue("合同登记_URL", "FrmContract.selectContractType")
+        .setValue("合同登记_Dis", false)
+        .setValue("待接收合同_URL", "FrmContractApply")
+        .setValue("待接收合同_Dis", false)
+        .setValue("应收对账单_URL", "FrmTranCRBill")
+        .setValue("应收对账单_Dis", false)
+        .setValue("收款单_URL", "TFrmPaidAR")
+        .setValue("收款单_Dis", false)
+        .setValue("合同管理_URL", "FrmContract")
+        .setValue("合同管理_Dis", false);
+        let introduction = "主要用于所有合同的管理，这包括合同类别的管理、合同的管理、合同的登记、接收其他公司的合同，同时可以查看合同管理的数据统计以及数据分析";
+        
         this.state = {
-            dataJson: dataJson,
-            DriverStatistics: new DataSet(),
-            CorpStatistics: new DataSet(),
-            payeeStatistics: new DataSet(),
+            dataRow,
+            contractAmount: new DataSet(),
+            contractTypeStats: new DataSet(),
+            acceptedContract: new DataSet(),
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`企业认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '企业认证')}>
-                                <span>企业认证</span>
+                            <div className={`${this.state.dataRow.getBoolean(`银行维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '银行维护')}>
+                                <span>银行维护</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`认证中心_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '认证中心')}>
-                                <span>认证中心</span>
+                            <div className={`${this.state.dataRow.getBoolean(`合同类别_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
+                                <span>合同类别</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '车辆认证')}>
-                                <span>车辆认证</span>
+                            <div className={`${this.state.dataRow.getBoolean(`合同登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
+                                <span>合同登记</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`企业审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock4}`} onClick={this.linkTo.bind(this, '企业审核')}>
-                                <span>企业审核</span>
+                            <div className={`${this.state.dataRow.getBoolean(`待接收合同_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
+                                <span>待接收合同</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '司机认证')}>
-                                <span>司机认证</span>
+                            <div className={`${this.state.dataRow.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
+                                <span>合同管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`车辆审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock6}`} onClick={this.linkTo.bind(this, '车辆审核')}>
-                                <span>车辆审核</span>
-                            </div>
-                            <div className={`${this.state.dataJson.getBoolean(`司机审核_Dis`) ? styles.register_disable : styles.register} ${styles.stock8}`} onClick={this.linkTo.bind(this, '司机审核')}>
-                                <span>司机审核</span>
+                            <div className={`${this.state.dataRow.getBoolean(`应收对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '应收对账单')}>
+                                <span>应收对账单</span>
                             </div>
                         </div>
                     </div>
@@ -67,17 +81,17 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>收款人统计</div>
+                            <div className={styles.mcTitle}>合同类别(对接中)</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>司机人数统计</div>
+                            <div className={styles.mcTitle}>待接受合同</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
-                    <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>司机认证前五统计</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                    <div className={styles.mcBarChart}>
+                        <div className={styles.mcTitle}>合同合计</div>
+                        <div className={styles.FrmTaurusMCBar}></div>
                     </div>
                 </div>
             </div>
@@ -85,17 +99,17 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
     }
 
     async init() {
-        let DriverStatistics = new DataSet();
-        DriverStatistics = await FplApi.queryDriverStatistics();
-        let CorpStatistics = new DataSet();
-        CorpStatistics = await FplApi.queryCorpStatistics();
-        let payeeStatistics = new DataSet();
-        payeeStatistics = await FplApi.queryDataStat();
+        let contractTypeStats = new DataSet();
+        contractTypeStats = await FplApi.getContractTypeStats();
+        let contractAmount = new DataSet();
+        contractAmount = await FplApi.contractStats();
+        let acceptedContract = new DataSet();
+        acceptedContract = await FplApi.contractApplyStats();
 
         this.setState({
-            DriverStatistics,
-            CorpStatistics,
-            payeeStatistics
+            contractAmount,
+            contractTypeStats,
+            acceptedContract
         })
 
         this.initBarChart();
@@ -108,93 +122,40 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         this.init();
     }
 
-    initBarChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
-        let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds = this.state.CorpStatistics;
-        ds.first();
-        let xArr = [];
-        let sData = [];
-        while (ds.fetch()) {
-            xArr.push(ds.getString('corp_no_'));
-            sData.push(ds.getDouble('num'));
-        }
-        let option = {
-            xAxis: {
-                type: 'category',
-                data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
-            },
-            yAxis: {
-                type: 'value',
-                axisLabel: {
-                    color: '#333333'
-                }
-            },
-            grid: {
-                top: 25,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
-            },
-            series: [
-                {
-                    data: sData,
-                    type: 'bar',
-                    itemStyle: {
-                        color: MCChartColors[0],
-                    },
-                    barWidth: this.isPhone ? 10 : 60,
-                    lineStyle: {
-                        color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                }
-            ]
-        };
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.payeeStatistics;
+        ds = this.state.contractTypeStats;
         ds.first();
-        let dataArr: any = [
-            { name: '已登记', value: ds.getDouble('registered') },
-            { name: '已认证', value: ds.getDouble('certified') }
-        ];
+        let dataArr: any = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('contract_type_name_'),
+                value: ds.getDouble('sum')
+            })
+        }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
-                left: '65%',
+                top: 'center',
+                left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                itemGap:5,
                 formatter: (name: any) => {
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
                     })
                     return name + ' : ' + singleData[0].value;
                 },
+                textStyle: {
+                    lineHeight: 10,
+                }
             },
             grid: {
                 top: 40,
@@ -236,23 +197,27 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.DriverStatistics;
+        ds = this.state.acceptedContract;
         ds.first();
-        let dataArr: any = [
-            { name: '未审核', value: ds.getDouble('未审核') },
-            { name: '已审核', value: ds.getDouble('已审核') },
-        ];
+        let dataArr: any = [];
+        while (ds.fetch()) {
+            dataArr.push({
+                name: ds.getString('contract_type_name_'),
+                value: ds.getDouble('sum')
+            })
+        }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
-                left: '65%',
+                top: 'center',
+                left: '60%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                itemGap:5,
                 formatter: (name: any) => {
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
@@ -287,10 +252,55 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
         }
         //@ts-ignore
         myChart.setOption(option);
+    }
 
-        myChart.on('click', function (params: any) {
-            alert(params.name);
-        })
+    initBarChart() {
+        let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
+        let myChart = echarts.init(barChart);
+        let ds = new DataSet();
+        ds = this.state.contractAmount;
+        ds.first();
+        let dataArr = [],
+            nameArr = [];
+        while (ds.fetch()) {
+            nameArr.push(ds.getString('contract_type_name_'));
+            dataArr.push(ds.getDouble('sum'));
+        }
+        let option = {
+            grid: {
+                top: 25,
+                left: 0,
+                bottom: 0,
+                right: 10,
+                containLabel: true,
+            },
+            xAxis: {
+                type: 'category',
+                data: nameArr
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: dataArr,
+                    type: 'bar',
+                    itemStyle: {
+                        color: MCChartColors[0],
+                    },
+                    barWidth: 60,
+                    lineStyle: {
+                        color: MCChartColors[0]
+                    },
+                    label: {
+                        show: true,
+                        position: 'top'
+                    },
+                }
+            ]
+        };
+        //@ts-ignore
+        myChart.setOption(option);
     }
 
     initFlowChart() {
@@ -301,41 +311,35 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
             nodes,
             linesData: [
                 {
-                    coords: [ //企业认证 往下线条
-                        [50, 75],
-                        [50, 108]
+                    coords: [ //银行维护往右线条
+                        [78, 40],
+                        [143, 40],
                     ]
                 },
                 {
-                    coords: [ //企业认证 往右线条
-                        [73, 35],
-                        [150, 35],
+                    coords: [ //合同类别往下线条
+                        [169, 80],
+                        [169, 120],
                     ]
                 },
                 {
-                    coords: [ //认证中心 往右线条
-                        [190, 35],
-                        [256, 35],
+                    coords: [ //合同登记往下线条
+                        [169, 180],
+                        [169, 220],
                     ]
                 },
                 {
-                    coords: [ //认证中心 往下线条
-                        [168, 75],
-                        [168, 108]
+                    coords: [ //待接收合同往右线条
+                        [78, 242],
+                        [143, 242],
                     ]
                 },
                 {
-                    coords: [ //车辆认证 往下线条
-                        [279, 75],
-                        [279, 108]
+                    coords: [ //合同管理往下线条
+                        [169, 280],
+                        [169, 323],
                     ]
                 },
-                {
-                    coords: [ //司机认证 往下线条
-                        [168, 160],
-                        [168, 189]
-                    ]
-                }
             ]
         }
 
@@ -346,7 +350,7 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                 max: 328,
                 show: false,
                 type: 'value',
-                position: 'top',
+                position: 'top'
             },
             yAxis: {
                 min: 0,
@@ -355,7 +359,7 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                 },
                 show: false,
                 type: 'value',
-                inverse: true,
+                inverse: true
             },
             grid: {
                 left: 0,
@@ -384,6 +388,7 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                     width: 2,
                     color: '#ccc',
                     curveness: 0.3
+
                 },
                 effect: {
                     show: true,
@@ -393,7 +398,7 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
                     color: '#ccc',
                     symbolSize: 6
                 },
-                data: charts.linesData,
+                data: charts.linesData
             }]
         };
         //@ts-ignore
@@ -401,8 +406,8 @@ export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

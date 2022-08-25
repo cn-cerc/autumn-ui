@@ -3,61 +3,90 @@ import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmContractManageMC2.css";
+import styles from "./FrmCarManager.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmContractManageMC2TypeProps = {
-    dataJson: string,
+type FrmCarManagerTypeProps = {
+
+}
+
+type FrmCarManagerTypeState = {
+    dataRow: DataRow,
+    vehicleState: DataSet,
+    fleetVehicleType: DataRow,
+    fleetVehiclesSummary: DataRow,
     introduction: string
 }
 
-type FrmContractManageMC2TypeState = {
-    dataJson: DataRow,
-    contractAmount: DataSet,
-    contractTypeStats: DataSet,
-    acceptedContract: DataSet,
-}
-//合同管理(水泥厂)
-
-export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC2TypeProps, FrmContractManageMC2TypeState> {
-    constructor(props: FrmContractManageMC2TypeProps) {
+//车辆管理控制台 庆丰物流
+export default class FrmCarManager extends WebControl<FrmCarManagerTypeProps, FrmCarManagerTypeState> {
+    constructor(props: FrmCarManagerTypeProps) {
         super(props);
         let lineRow = new DataRow();
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow.setValue("车队管理_URL", "FrmDept")
+            .setValue("车队管理_Dis", false)
+            .setValue("司机管理_URL", "FrmCorpDriver")
+            .setValue("司机管理_Dis", false)
+            .setValue("司机认证_URL", "FrmAdminDriverAuth")
+            .setValue("司机认证_Dis", false)
+            .setValue("收款人管理_URL", "FrmPayee")
+            .setValue("收款人管理_Dis", false)
+            .setValue("收款人认证_URL", "FrmPayeeCertification")
+            .setValue("收款人认证_Dis", true)
+            .setValue("车辆管理_URL", "FrmPCarRegistration")
+            .setValue("车辆管理_Dis", false)
+            .setValue("车辆类型维护_URL", "FrmCategory1004")
+            .setValue("车辆类型维护_Dis", false)
+            .setValue("维修记录_URL", "FrmMaRecord")
+            .setValue("维修记录_Dis", false)
+            .setValue("维修厂系统_URL", "")
+            .setValue("维修厂系统_Dis", true);
+        let introduction = "用于登记车队，车辆，司机，收款人等基本数据，是后续进行自行派车功能正常作业的基础";
+
         this.state = {
-            dataJson: dataJson,
-            contractAmount: new DataSet(),
-            contractTypeStats: new DataSet(),
-            acceptedContract: new DataSet(),
+            dataRow,
+            vehicleState: new DataSet(),
+            fleetVehicleType: new DataRow(),
+            fleetVehiclesSummary: new DataRow(),
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`银行维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock1}`} onClick={this.linkTo.bind(this, '银行维护')}>
-                                <span>银行维护</span>
+                            <div className={`${this.state.dataRow.getBoolean(`车队管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock1}`} onClick={this.linkTo.bind(this, '车队管理')}>
+                                <span>车队管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同类别_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock2}`} onClick={this.linkTo.bind(this, '合同类别')}>
-                                <span>合同类别</span>
+                            <div className={`${this.state.dataRow.getBoolean(`司机管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock2}`} onClick={this.linkTo.bind(this, '司机管理')}>
+                                <span>司机管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同登记_Dis`) ? styles.register_disable : styles.register} ${styles.stock5}`} onClick={this.linkTo.bind(this, '合同登记')}>
-                                <span>合同登记</span>
+                            <div className={`${this.state.dataRow.getBoolean(`司机认证_Dis`) ? styles.other_disable : styles.other} ${styles.stock3}`} onClick={this.linkTo.bind(this, '司机认证')}>
+                                <span>司机认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`待接收合同_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '待接收合同')}>
-                                <span>待接收合同</span>
+                            <div className={`${this.state.dataRow.getBoolean(`收款人管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '收款人管理')}>
+                                <span>收款人管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock8}`} onClick={this.linkTo.bind(this, '合同管理')}>
-                                <span>合同管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`收款人认证_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '收款人认证')}>
+                                <span>收款人认证</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`应付对账单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock11}`} onClick={this.linkTo.bind(this, '应付对账单')}>
-                                <span>应付对账单</span>
+                            <div className={`${this.state.dataRow.getBoolean(`车辆管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '车辆管理')}>
+                                <span>车辆管理</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`车辆类型维护_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '车辆类型维护')}>
+                                <span>车辆类型维护</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`维修记录_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '维修记录')}>
+                                <span>维修记录</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`维修厂系统_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '维修厂系统')}>
+                                <span>维修厂系统</span>
                             </div>
                         </div>
                     </div>
@@ -65,17 +94,17 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                 <div className={styles.mcCharts}>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
-                            <div className={styles.mcTitle}>合同类别(对接中)</div>
+                            <div className={styles.mcTitle}>车辆状态统计</div>
                             <div className={styles.FrmTaurusMCPie1}></div>
                         </div>
                         <div className={styles.mcPieBox2}>
-                            <div className={styles.mcTitle}>待接受合同</div>
+                            <div className={styles.mcTitle}>车队与车辆类型</div>
                             <div className={styles.FrmTaurusMCPie2}></div>
                         </div>
                     </div>
-                    <div className={styles.mcBarChart}>
-                        <div className={styles.mcTitle}>合同合计</div>
-                        <div className={styles.FrmTaurusMCBar}></div>
+                    <div className={styles.mcTrendChart}>
+                        <div className={styles.mcTitle}>车队与车辆汇总</div>
+                        <div className={styles.FrmTaurusMCLine}></div>
                     </div>
                 </div>
             </div>
@@ -83,17 +112,19 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
     }
 
     async init() {
-        let contractTypeStats = new DataSet();
-        contractTypeStats = await FplApi.getContractTypeStats();
-        let contractAmount = new DataSet();
-        contractAmount = await FplApi.contractStats();
-        let acceptedContract = new DataSet();
-        acceptedContract = await FplApi.contractApplyStats();
+        let vehicleState = new DataSet();
+        vehicleState = await FplApi.getMoreThanOneWeekReport();
+        let dataRow = await FplApi.getFleetCarCountReport();
+        let fleetVehicleType = new DataRow();
+        fleetVehicleType.copyValues(dataRow.head);
+        let dataRow1 = await FplApi.getFleetDrivrCarPayeeReport();
+        let fleetVehiclesSummary = new DataRow();
+        fleetVehiclesSummary.copyValues(dataRow1.head);
 
         this.setState({
-            contractAmount,
-            contractTypeStats,
-            acceptedContract
+            vehicleState,
+            fleetVehicleType,
+            fleetVehiclesSummary
         })
 
         this.initBarChart();
@@ -110,22 +141,20 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
         let ds = new DataSet();
-        ds = this.state.contractTypeStats;
+        ds = this.state.vehicleState;
         ds.first();
-        let dataArr: any = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('contract_type_name_'),
-                value: ds.getDouble('sum')
-            })
-        }
+        let dataArr: any = [
+            { name: '在途中', value: ds.getDouble('empty_car_sum_') },
+            { name: '空车', value: ds.getDouble('carry_sum_') },
+            { name: '待发货', value: ds.getDouble('to_be_shipped_sum_') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
             },
             legend: {
-                top: 'center',
-                left: '60%',
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -171,28 +200,30 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
         }
         //@ts-ignore
         myChart.setOption(option);
+
+        myChart.on('click', function (params: any) {
+            alert(params.name);
+        })
     }
 
     initPieChart2() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
         let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds = this.state.acceptedContract;
-        ds.first();
-        let dataArr: any = [];
-        while (ds.fetch()) {
-            dataArr.push({
-                name: ds.getString('contract_type_name_'),
-                value: ds.getDouble('sum')
-            })
-        }
+        let ds = new DataRow();
+        ds = this.state.fleetVehicleType;
+        let dataArr: any = [
+            { name: '自营车队', value: ds.getDouble('selfFleetCount') },
+            { name: '托管车队', value: ds.getDouble('trusteeshipFleetCount') },
+            { name: '自营车辆', value: ds.getDouble('selfCarCount') },
+            { name: '托管车辆', value: ds.getDouble('trusteeshipCarCount') },
+        ];
         let option = {
             tooltip: {
                 trigger: 'item'
             },
             legend: {
-                top: 'center',
-                left: '60%',
+                top: '25%',
+                left: '65%',
                 orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
@@ -234,17 +265,12 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
     }
 
     initBarChart() {
-        let barChart = document.querySelector(`.${styles.FrmTaurusMCBar}`) as HTMLDivElement;
+        let barChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
         let myChart = echarts.init(barChart);
-        let ds = new DataSet();
-        ds = this.state.contractAmount;
-        ds.first();
-        let dataArr = [],
-            nameArr = [];
-        while (ds.fetch()) {
-            nameArr.push(ds.getString('contract_type_name_'));
-            dataArr.push(ds.getDouble('sum'));
-        }
+        let ds = new DataRow();
+        ds = this.state.fleetVehiclesSummary;
+        let nameArr = ['车队数量', '司机总数量', '车辆总数量 ', '收款人总数量 '],
+            dataArr = [ds.getDouble('fleetCount'), ds.getDouble('driverCount'), ds.getDouble('carCount'), ds.getDouble('payeeCount')];
         let option = {
             grid: {
                 top: 25,
@@ -282,7 +308,6 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
         myChart.setOption(option);
     }
 
-
     initFlowChart() {
         let flowChart = document.querySelector(`.${styles.mcFlowChart}`) as HTMLDivElement;
         let myChart = echarts.init(flowChart);
@@ -291,33 +316,51 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
             nodes,
             linesData: [
                 {
-                    coords: [ //银行维护往右线条
-                        [78, 40],
-                        [143, 40],
+                    coords: [ //车队管理 往右线条
+                        [75, 40],
+                        [143, 40]
                     ]
                 },
                 {
-                    coords: [ //合同类别往下线条
+                    coords: [ //车队管理 往下线条
+                        [50, 80],
+                        [50, 220]
+                    ]
+                },
+                {
+                    coords: [ //司机管理 往右线条
+                        [190, 40],
+                        [256, 40]
+                    ]
+                },
+                {
+                    coords: [ //司机管理 往下线条
                         [169, 80],
-                        [169, 120],
+                        [169, 130]
                     ]
                 },
                 {
-                    coords: [ //合同登记往下线条
-                        [169, 180],
-                        [169, 220],
+                    coords: [ //收款人管理 往右线条
+                        [190, 140],
+                        [256, 140]
                     ]
                 },
                 {
-                    coords: [ //待接收合同往右线条
-                        [78, 242],
-                        [143, 242],
+                    coords: [ //车辆类型维护 往左线条
+                        [143, 240],
+                        [75, 240]
                     ]
                 },
                 {
-                    coords: [ //合同管理往下线条
-                        [169, 280],
-                        [169, 323],
+                    coords: [ //车辆管理 往下线条
+                        [50, 280],
+                        [50, 320]
+                    ]
+                },
+                {
+                    coords: [ //维修厂系统 往左线条
+                        [143, 340],
+                        [75, 340]
                     ]
                 },
             ]
@@ -367,8 +410,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                     type: 'line',
                     width: 2,
                     color: '#ccc',
-                    curveness: 0.3
-
+                    curveness: 0.3,
                 },
                 effect: {
                     show: true,
@@ -376,7 +418,7 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
                     constantSpeed: 10,
                     symbol: 'arrow',
                     color: '#ccc',
-                    symbolSize: 6
+                    symbolSize: 6,
                 },
                 data: charts.linesData
             }]
@@ -386,8 +428,8 @@ export default class FrmContractManageMC2 extends WebControl<FrmContractManageMC
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

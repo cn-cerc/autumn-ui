@@ -3,22 +3,22 @@ import * as echarts from "echarts";
 import React from "react";
 import UIIntroduction from "../module/UIIntroduction";
 import { MCChartColors } from "./FrmTaurusMC";
-import styles from "./hrMC.css";
+import styles from "./TMake.css";
 
-type hrMCTypeProps = {
-    dataJson: string,
-    introduction: string
+type TMakeTypeProps = {
+
 }
 
-type hrMCTypeState = {
+type TMakeTypeState = {
     lineData: DataSet,
     pieData1: DataSet
     pieData2: DataSet,
-    dataJson: DataRow,
+    dataRow: DataRow,
+    introduction:string
 }
 
-export default class hrMC extends WebControl<hrMCTypeProps, hrMCTypeState> {
-    constructor(props: hrMCTypeProps) {
+export default class TMake extends WebControl<TMakeTypeProps, TMakeTypeState> {
+    constructor(props: TMakeTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
@@ -30,54 +30,86 @@ export default class hrMC extends WebControl<hrMCTypeProps, hrMCTypeState> {
         lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
         lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '湖北省');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '广西省');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '湖南省');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '广东省');
+        pieData1.append().setValue('Value_', 10).setValue('Name_', '已完成');
+        pieData1.append().setValue('Value_', 20).setValue('Name_', '已结案');
         let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '女生');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '男生');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        pieData2.append().setValue('Value_', 11).setValue('Name_', '已发货');
+        pieData2.append().setValue('Value_', 13).setValue('Name_', '未发货');
+        let dataRow: DataRow = lineRow.setValue("销售订单_URL", "TFrmTranBC")
+        .setValue("销售订单_Dis", false)
+        .setValue("部门资料_URL", "TFrmDeptInfo")
+        .setValue("部门资料_Dis", false)
+        .setValue("生产订单_URL", "TFrmTranMK")
+        .setValue("生产订单_Dis", false)
+        .setValue("派工单_URL", "FrmWorkPlanDetail")
+        .setValue("派工单_Dis", false)
+        .setValue("生产日报表_URL", "TFrmProProcess")
+        .setValue("生产日报表_Dis", false)
+        .setValue("生产报工单_URL", "TFrmBOMDayProduce")
+        .setValue("生产报工单_Dis", false)
+        .setValue("制程转移单_URL", "TFrmBOMDayProduce")
+        .setValue("制程转移单_Dis", false)
+        .setValue("生产领料_URL", "TFrmTranBA")
+        .setValue("生产领料_Dis", false)
+        .setValue("完工入库_URL", "TFrmTranAD")
+        .setValue("完工入库_Dis", false);
+        let introduction = "适用于各类制造厂家，主要用于生产车间的管理，使用生产管理，应该先建立相应的产品BOM，以及登记产品制程资料，然后进行相应的生产计划、排产计划、派工计划，并进行相应的生产报工与进度管理。";
+        
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock1}`} onClick={this.linkTo.bind(this, '部门资料')}>
+                            <div className={`${this.state.dataRow.getBoolean(`销售订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock1}`} onClick={this.linkTo.bind(this, '销售订单')}>
+                                <span>销售订单</span>
+                            </div>
+                            <div className={`${this.state.dataRow.getBoolean(`部门资料_Dis`) ? styles.register_disable : styles.register} ${styles.stock2}`} onClick={this.linkTo.bind(this, '部门资料')}>
                                 <span>部门资料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`员工管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock3}`} onClick={this.linkTo.bind(this, '员工管理')}>
-                                <span>员工管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`生产订单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock4}`} onClick={this.linkTo.bind(this, '生产订单')}>
+                                <span>生产订单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`合同管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock4}`} onClick={this.linkTo.bind(this, '合同管理')}>
-                                <span>合同管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`派工单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock7}`} onClick={this.linkTo.bind(this, '派工单')}>
+                                <span>派工单</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`考勤管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '考勤管理')}>
-                                <span>考勤管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`生产日报表_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '生产日报表')}>
+                                <span>生产日报表</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`出差考勤_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock6}`} onClick={this.linkTo.bind(this, '出差考勤')}>
-                                <span>出差考勤</span>
+                            <div className={styles.stock9Box}>
+                                <div className={`${this.state.dataRow.getBoolean(`生产报工单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9_1}`} onClick={this.linkTo.bind(this, '生产报工单')}>
+                                    <span>生产报工单</span>
+                                </div>
+                                <div className={`${this.state.dataRow.getBoolean(`制程转移单_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9_2}`} onClick={this.linkTo.bind(this, '制程转移单')}>
+                                    <span>制程转移单</span>
+                                </div>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`薪资管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock7}`} onClick={this.linkTo.bind(this, '薪资管理')}>
-                                <span>薪资管理</span>
+                            <div className={`${this.state.dataRow.getBoolean(`生产领料_Dis`) ? styles.other_disable : styles.other} ${styles.stock10}`} onClick={this.linkTo.bind(this, '生产领料')}>
+                                <span>生产领料</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`薪资标准_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock8}`} onClick={this.linkTo.bind(this, '薪资标准')}>
-                                <span>薪资标准</span>
+                            <div className={`${this.state.dataRow.getBoolean(`完工入库_Dis`) ? styles.other_disable : styles.other} ${styles.stock11}`} onClick={this.linkTo.bind(this, '完工入库')}>
+                                <span>完工入库</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`部门成本_Dis`) ? styles.receipt_disable : styles.receipt} ${styles.stock9}`} onClick={this.linkTo.bind(this, '部门成本')}>
-                                <span>部门成本</span>
+                            <div className={`${styles.MCtext} ${styles.stock3}`}>
+                                <span>排产作业</span>
+                            </div>
+                            <div className={`${styles.MCtext} ${styles.stock5}`}>
+                                <span>派工作业</span>
+                            </div>
+                            <div className={`${styles.MCtext} ${styles.stock6}`}>
+                                <span>派工作业</span>
                             </div>
                         </div>
                     </div>
@@ -190,7 +222,7 @@ export default class hrMC extends WebControl<hrMCTypeProps, hrMCTypeState> {
             legend: {
                 top: '25%',
                 left: '65%',
-                orient:'vertical',
+                orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
@@ -251,7 +283,7 @@ export default class hrMC extends WebControl<hrMCTypeProps, hrMCTypeState> {
             legend: {
                 top: '25%',
                 left: '65%',
-                orient:'vertical',
+                orient: 'vertical',
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
@@ -293,49 +325,61 @@ export default class hrMC extends WebControl<hrMCTypeProps, hrMCTypeState> {
             nodes,
             linesData: [
                 {
-                    coords: [ //部门资料 往下线条
-                        [111, 75],
-                        [111, 105],
+                    coords: [ //销售订单 往下
+                        [50, 79],
+                        [50, 120],
                     ]
                 },
                 {
-                    coords: [ //员工管理 往下线条
-                        [111, 160],
-                        [111, 185],
+                    coords: [ //销售订单 往下
+                        [50, 179],
+                        [50, 220],
                     ]
                 },
                 {
-                    coords: [ //合同管理 往左线条
-                        [198, 125],
-                        [133, 125],
+                    coords: [ //派工单 往右
+                        [78, 242],
+                        [150, 242],
                     ]
                 }, {
-                    coords: [ //出差考勤 往左线条
-                        [198, 207],
-                        [133, 207]
+                    coords: [ //生产日报表 往右
+                        [183, 242],
+                        [215, 242],
                     ]
-                }, {
-                    coords: [ //考勤管理 往下线条
-                        [111, 244],
-                        [111, 275]
+                },
+                {
+                    coords: [
+                        [215, 242],
+                        [215, 195],
+                        [252, 195],
                     ]
-                }, {
-                    coords: [ //薪资管理 往下线条
-                        [111, 330],
-                        [111, 360]
+                },
+                {
+                    coords: [
+                        [215, 242],
+                        [215, 280],
+                        [252, 280],
                     ]
-                }, {
-                    coords: [ //薪资标准 往左线条
-                        [200, 293],
-                        [133, 293]
+                },
+                {
+                    coords: [
+                        [276, 320],
+                        [276, 338],
+                        [183, 338],
                     ]
-                }, {
-                    coords: [ //部门成本 往左下线条
-                        [219, 330],
-                        [219, 375],
-                        [140, 375]
+                },
+                {
+                    coords: [ //派工单 往下
+                        [50, 280],
+                        [50, 320],
                     ]
-                }
+                },
+                {
+                    coords: [ //生产日报表 往下
+                        [169, 280],
+                        [169, 320],
+                    ]
+                },
             ]
         }
 
@@ -401,8 +445,8 @@ export default class hrMC extends WebControl<hrMCTypeProps, hrMCTypeState> {
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }

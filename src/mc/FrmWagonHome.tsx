@@ -6,7 +6,6 @@ import StaticFile from "../static/StaticFile";
 import styles from "./FrmWagonHome.css";
 
 type FrmWagonHomeTypeProps = {
-    introduction: string,
     jsonData: string
 }
 
@@ -16,6 +15,7 @@ type FrmWagonHomeTypeState = {
     productNum: number,
     serveNum: number,
     dataSet: DataSet,
+    introduction: string
 }
 
 export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmWagonHomeTypeState> {
@@ -23,18 +23,20 @@ export default class FrmWagonHome extends WebControl<FrmWagonHomeTypeProps, FrmW
         super(props);
         let dataSet = new DataSet();
         dataSet.setJson(this.props.jsonData);
+        let introduction = "此模组主要用于工厂销售或批发销售管理，根据与客户的作业模式不同，可以允许客户手动下单并录入【销售订单】，也可以要求客户直接在线下单，然后审核【在线订货单】，仓库根据【销售订单】进行备案，并生成相应的【销售单】。";
         this.state = {
             activityNum: 0,
             opNum: 0,
             productNum: 0,
             serveNum: 0,
-            dataSet
+            dataSet,
+            introduction,
         }
     }
 
     render(): React.ReactNode {
         return <React.Fragment>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.main}>
                 <div className={styles.content}>
                     <div className={styles.leftBox}>

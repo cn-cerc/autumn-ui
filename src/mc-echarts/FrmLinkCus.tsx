@@ -6,16 +6,16 @@ import styles from "./FrmLinkCus.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
 type FrmLinkCusTypeProps = {
-    dataJson: string,
-    introduction: string
-}
+
+};
 
 type FrmLinkCusTypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
-    dataJson: DataRow,
-}
+    lineData: DataSet;
+    pieData1: DataSet;
+    pieData2: DataSet;
+    dataRow: DataRow;
+    introduction: string;
+};
 
 export default class FrmLinkCus extends WebControl<FrmLinkCusTypeProps, FrmLinkCusTypeState> {
     constructor(props: FrmLinkCusTypeProps) {
@@ -39,40 +39,55 @@ export default class FrmLinkCus extends WebControl<FrmLinkCusTypeProps, FrmLinkC
         pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
         pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
         pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let dataJson: DataRow = lineRow.setJson(this.props.dataJson);
+        let dataRow: DataRow = lineRow
+            .setValue("审核客户接入_URL", "FrmAuditCusAccess")
+            .setValue("审核客户接入_Dis", false)
+            .setValue("连接客户申请_URL", "FrmLinkApplyList")
+            .setValue("连接客户申请_Dis", false)
+            .setValue("下游互联管理_URL", "TFrmVineLinkReg")
+            .setValue("下游互联管理_Dis", false)
+            .setValue("库存与销售统计_URL", "FrmInventorySalesStatistics")
+            .setValue("库存与销售统计_Dis", false)
+            .setValue("接入权限设置_URL", "FrmAccessPermissionSeting")
+            .setValue("接入权限设置_Dis", false)
+            .setValue("线上订单确认_URL", "FrmOnlineOrderConfirmation")
+            .setValue("线上订单确认_Dis", false);
+        let introduction =
+            "主要功能是与同样使用该系统的客户进行互联，以及查看并同意提交互联申请。";
         this.state = {
             lineData,
             pieData1,
             pieData2,
-            dataJson: dataJson,
+            dataRow,
+            introduction,
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
-            <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+            <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
             <div className={styles.mcMain}>
                 <div className={styles.mcFlowChartBox}>
                     <div className={styles.mcTitle}>流程图</div>
                     <div className={styles.mcFlowChartMain}>
                         <div className={styles.mcFlowChart}></div>
                         <div className={styles.mcFlowBox}>
-                            <div className={`${this.state.dataJson.getBoolean(`审核客户接入_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '审核客户接入')}>
+                            <div className={`${this.state.dataRow.getBoolean(`审核客户接入_Dis`) ? styles.other_disable : styles.other} ${styles.stock2}`} onClick={this.linkTo.bind(this, '审核客户接入')}>
                                 <span>审核客户接入</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`连接客户申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '连接客户申请')}>
+                            <div className={`${this.state.dataRow.getBoolean(`连接客户申请_Dis`) ? styles.other_disable : styles.other} ${styles.stock4}`} onClick={this.linkTo.bind(this, '连接客户申请')}>
                                 <span>连接客户申请</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`下游互联管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '下游互联管理')}>
+                            <div className={`${this.state.dataRow.getBoolean(`下游互联管理_Dis`) ? styles.control_disable : styles.control} ${styles.stock5}`} onClick={this.linkTo.bind(this, '下游互联管理')}>
                                 <span>下游互联管理</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`库存与销售统计_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '库存与销售统计')}>
+                            <div className={`${this.state.dataRow.getBoolean(`库存与销售统计_Dis`) ? styles.control_disable : styles.control} ${styles.stock6}`} onClick={this.linkTo.bind(this, '库存与销售统计')}>
                                 <span>库存与销售统计</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`接入权限设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '接入权限设置')}>
+                            <div className={`${this.state.dataRow.getBoolean(`接入权限设置_Dis`) ? styles.other_disable : styles.other} ${styles.stock7}`} onClick={this.linkTo.bind(this, '接入权限设置')}>
                                 <span>接入权限设置</span>
                             </div>
-                            <div className={`${this.state.dataJson.getBoolean(`线上订单确认_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '线上订单确认')}>
+                            <div className={`${this.state.dataRow.getBoolean(`线上订单确认_Dis`) ? styles.other_disable : styles.other} ${styles.stock8}`} onClick={this.linkTo.bind(this, '线上订单确认')}>
                                 <span>线上订单确认</span>
                             </div>
                         </div>
@@ -383,8 +398,8 @@ export default class FrmLinkCus extends WebControl<FrmLinkCusTypeProps, FrmLinkC
     }
 
     linkTo(name: string) {
-        if (!this.state.dataJson.getBoolean(`${name}_Dis`)) {
-            location.href = this.state.dataJson.getString(`${name}_URL`);
+        if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
+            location.href = this.state.dataRow.getString(`${name}_URL`);
         }
     }
 }
