@@ -1,0 +1,12 @@
+.inputDiv {
+    position: relative;
+}
+
+.inputDiv>input {
+    padding: 0 4.625rem 0 0.5rem;
+}
+
+.inputDiv>button {
+    position: absolute;
+    right: 1rem;
+}

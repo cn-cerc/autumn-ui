@@ -85,8 +85,6 @@ module.exports = {
     resolve: { // new add +
         extensions: ['.tsx', '.ts', '.js']
     },
-    // 是否生成sources.map文件，默认开启
-    devtool: false,
     optimization: {
         minimize: true,
         minimizer: [

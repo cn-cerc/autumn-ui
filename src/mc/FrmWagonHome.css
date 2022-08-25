@@ -85,14 +85,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-}
-
-.mainText>div {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    cursor: pointer;
 }
 
 .mainText>p {
@@ -107,6 +100,11 @@
     width: 70px;
     height: 70px;
     margin-left: 8px;
+}
+
+.imgBox > img{
+    width:70px;
+    height:70px;
 }
 
 .rightBtn {
@@ -150,7 +148,7 @@
     }
 
     .leftBox {
-        margin-top: 16px;
+        margin-top: 10px;
     }
 
     .items {

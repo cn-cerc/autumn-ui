@@ -11,10 +11,7 @@ type FrmAPManageTypeProps = {
 
 type FrmAPManageTypeState = {
     lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
-    dataRow: DataRow,
-    introduction: string
+    dataJson: DataRow,
 }
 
 export default class FrmAPManage extends WebControl<FrmAPManageTypeProps, FrmAPManageTypeState> {
@@ -207,7 +204,6 @@ export default class FrmAPManage extends WebControl<FrmAPManageTypeProps, FrmAPM
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -233,49 +229,75 @@ export default class FrmAPManage extends WebControl<FrmAPManageTypeProps, FrmAPM
             nodes,
             linesData: [
                 {
-                    coords: [ //应付调整单 往下线条
+                    coords: [ 
                         [168, 75],
                         [168, 108]
                     ]
                 },
                 {
-                    coords: [ //进货单 往右线条
-                        [73, 123],
-                        [150, 123],
+                    coords: [
+                        [50, 75],
+                        [50, 88],
+                        [168, 88]
                     ]
                 },
                 {
-                    coords: [ //应付结账单 往右下线条
-                        [190, 123],
-                        [279, 123],
-                        [279, 271]
+                    coords: [ 
+                        [168, 171],
+                        [50, 171],
+                        [50, 190]
                     ]
                 },
                 {
-                    coords: [ //应付结账单 往下线条
+                    coords: [ 
                         [168, 160],
-                        [168, 189]
+                        [168, 194]
                     ]
                 },
                 {
-                    coords: [ //应收账款 往下线条
-                        [168, 247],
-                        [168, 271]
+                    coords: [ 
+                        [168, 246],
+                        [168, 279]
                     ]
                 },
                 {
-                    coords: [ //付款(申请)单 往右线条
-                        [190, 290],
-                        [256, 290]
+                    coords: [ 
+                        [50, 246],
+                        [50, 260],
+                        [168, 260],
                     ]
                 },
                 {
-                    coords: [ //付款(申请)单 往下线条
-                        [168, 328],
-                        [168, 349]
+                    coords: [ 
+                        [146, 290],
+                        [60, 290]
                     ]
                 },
-
+                {
+                    coords: [ 
+                        [50, 328],
+                        [50, 354]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [50, 410],
+                        [50, 438]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [172, 290],
+                        [278, 290],
+                        [278, 350]
+                    ]
+                },
+                {
+                    coords: [ 
+                        [60, 370],
+                        [240, 370]
+                    ]
+                },
             ]
         }
 

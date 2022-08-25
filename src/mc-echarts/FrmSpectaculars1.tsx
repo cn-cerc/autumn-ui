@@ -1,110 +1,92 @@
 import { DataSet, WebControl } from "autumn-ui";
 import * as echarts from "echarts";
 import React from "react";
+import FplApi from "../api/FplApi";
+import ApplicationConfig from "../static/ApplicationConfig";
 import StaticFile from "../static/StaticFile";
+import { addScript, AuiMath, GDMap } from "../tool/Summer";
 import styles from "./FrmSpectaculars1.css";
 import { MCChartColors } from "./FrmTaurusMC";
-
 type FrmSpectaculars1TypeProps = {
+    lonlat: string,
+    corpName: string
 }
-
 type FrmSpectaculars1TypeState = {
-    lineData: DataSet,
-    pieData1: DataSet
-    pieData2: DataSet,
-    pieData3: DataSet,
-    pieData4: DataSet,
-    toggle: number
+    carData: DataSet,
+    toggle: number,
+    allCarNetPanel: DataSet,
+    weeklyArrCarStatis: DataSet,
+    countProvince: DataSet,
+    queryMileageD: number,
+    cars_num: number,
+    driver_num: number,
 }
 
 export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypeProps, FrmSpectaculars1TypeState> {
+    private gdmap: GDMap = new GDMap();
+    private timer: any;
+    private math = new AuiMath();
+    private isInitMap: boolean = false;
     constructor(props: FrmSpectaculars1TypeProps) {
         super(props);
-        let lineData = new DataSet();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
-        let pieData1 = new DataSet();
-        pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
-        pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
-        pieData1.append().setValue('Value_', 30).setValue('Name_', '5-7吨');
-        pieData1.append().setValue('Value_', 15).setValue('Name_', '7-9吨');
-        let pieData2 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let pieData3 = new DataSet();
-        pieData2.append().setValue('Value_', 11).setValue('Name_', '微型卡车');
-        pieData2.append().setValue('Value_', 13).setValue('Name_', '轻型卡车');
-        pieData2.append().setValue('Value_', 18).setValue('Name_', '中型卡车');
-        pieData2.append().setValue('Value_', 20).setValue('Name_', '重型卡车');
-        let pieData4 = new DataSet();
-        pieData4.append().setValue('Value_', 11).setValue('Name_', '18~30');
-        pieData4.append().setValue('Value_', 50).setValue('Name_', '31~50');
-        pieData4.append().setValue('Value_', 13).setValue('Name_', '50~65');
         let toggle = location.search.split('=')[1] == 'kanban' ? 2 : 1;
         this.state = {
-            lineData,
-            pieData1,
-            pieData2,
-            pieData3,
-            pieData4,
-            toggle
+            carData: new DataSet(),
+            toggle,
+            allCarNetPanel: new DataSet(),
+            weeklyArrCarStatis: new DataSet(),
+            countProvince: new DataSet(),
+            queryMileageD: 0,
+            cars_num: 0,
+            driver_num: 0,
         }
     }
 
     render(): React.ReactNode {
         return <div className={styles.mc}>
             <div className={styles.mcIntroduction}>
-                <p>
-                    <span>营运数据中心</span>
-                    <img src={StaticFile.getImage('images/MCimg/title_line.png')} alt="" />
+                <div className={styles.corpName}>
+                    <img src={StaticFile.getImage('images/MCimg/corpName.png')} />
+                    <span>{this.props.corpName}</span>
+                </div>
+                <span>车辆网看板</span>
+                <div className={styles.toggleIcons}>
                     <a className={`${this.state.toggle == 1 ? styles.btn_toggle_kanban : styles.btn_toggle_pc}`} onClick={this.toggleFun.bind(this)}></a>
-                </p>
-                <div>
-                    <ul className={styles.top_list}>
-                        <li className={styles.li_3}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/6.png')} alt="" />
-                            </div>
-                            <div>
-                                <div className={styles.topTitle}>车辆数</div>
-                                <div className={styles.topInfo}>
-                                    11042 <span>辆</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li className={styles.li_3}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/5.png')} alt="" />
-                            </div>
-                            <div>
-                                <div className={styles.topTitle}>今日里程</div>
-                                <div className={styles.topInfo}>
-                                    46 <span>万公里</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li className={styles.li_3}>
-                            <div>
-                                <img src={StaticFile.getImage('images/MCimg/4.png')} alt="" />
-                            </div>
-                            <div>
-                                <div className={styles.topTitle}>司机数</div>
-                                <div className={styles.topInfo}>
-                                    13045 <span>名</span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </div>
             <div className={`${styles.mcMain} ${this.state.toggle == 1 ? '' : styles.mcMainNoPB}`}>
+                <div className={styles.topBox}>
+                    <div className={styles.top_list}>
+                        <p className={styles.mcTitle}>数据总览</p>
+                        <ul>
+                            <li className={styles.li_3}>
+                                <div className={styles.topTitle}>车辆数</div>
+                                <div className={styles.topInfo}>
+                                    {this.state.cars_num} <span>辆</span>
+                                </div>
+                            </li>
+                            <li className={styles.li_3}>
+                                <div className={styles.topTitle}>今日里程</div>
+                                <div className={styles.topInfo}>
+                                    {this.state.queryMileageD.toFixed(2)}<span>万公里</span>
+                                </div>
+                            </li>
+                            <li className={styles.li_3}>
+                                <div className={styles.topTitle}>司机数</div>
+                                <div className={styles.topInfo}>
+                                    {this.state.driver_num}
+                                    <span>名</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className={styles.toprightEacharBox}>
+                        <div className={styles.topBox1}>
+                            <div className={styles.mcTitle}>异常动态</div>
+                            <div className={styles.mcLink2}></div>
+                        </div>
+                    </div>
+                </div>
                 <div className={styles.contentEcharts}>
                     <div className={styles.leftSiteEcharts}>
                         <div className={styles.leftBox1}>
@@ -121,11 +103,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         </div>
                     </div>
                     <div className={styles.centerSiteEcharts}>
-                        <div className={styles.centerBox1}>
-                            <div className={styles.mcMap}>
-                                <img src={StaticFile.getImage('images/MCimg/map.png')} alt="" />
-                            </div>
-                        </div>
+                        {this.isPhone ? '' : <div className={styles.centerBox1}>
+                            <div className={styles.mcMap} id='carMapContainer'></div>
+                        </div>}
                         <div className={styles.centerBox2}>
                             <div className={styles.mcTitle}>物流运单</div>
                             <div className={styles.mcLink}></div>
@@ -133,32 +113,24 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                     </div>
                     <div className={styles.rIghtSiteEcharts}>
                         <div className={styles.rightBox1}>
-                            <div className={styles.mcTitle}>司机年龄</div>
+                            <div className={styles.mcTitle}>省份运单排名</div>
                             <div className={styles.rightBox1Pie1}></div>
                         </div>
                         <div className={styles.rightBox2}>
-                            <div className={styles.mcTitle}>异常动态</div>
-                            <div className={styles.mcLink2}></div>
-                        </div>
-                        <div className={styles.rightBox3}>
                             <div className={styles.mcTitle}>实时动态</div>
                             <div className={styles.srcollListContent}>
                                 <ul className={styles.srcollListMain}>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        06-25 11:26 <span className={styles.colorSkin}>粤BFC888</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-10 07:37 <span className={styles.colorSkin}>闽DW572</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        05-06 09:53 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
+                                        <i className={styles.rSkin}></i>08-07 23:19 <span className={styles.colorSkin}>闽BAC427</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        04-12 20:39 <span className={styles.colorSkin}>浙AWC226</span> 行驶超速
+                                        <i className={styles.rSkin}></i>07-19 23:19 <span className={styles.colorSkin}>闽FEA734</span> 行驶超速
                                     </li>
                                     <li>
-                                        <i className={styles.rSkin}></i>
-                                        06-25 11:26 <span className={styles.colorSkin}>赣CHQ813</span> 行驶超速
+                                        <i className={styles.rSkin}></i>07-12 17:39 <span className={styles.colorSkin}>闽ALQ616</span> 行驶超速
                                     </li>
                                 </ul>
                             </div>
@@ -170,43 +142,143 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
     }
 
     componentDidMount(): void {
-        this.initLineChart();
-        this.initLineChart1();
-        this.initPieChart1();
-        this.initPieChart2();
-        this.initPieChart3();
-        this.initPieChart4();
+        this.init();
+        this.timer = setInterval(this.init.bind(this), 30000);
+        if (!this.isPhone) {
+            addScript(`https://webapi.amap.com/maps?v=2.0&key=${ApplicationConfig.MAPKEY}`, () => {
+                this.isInitMap = true;
+                this.initMap();
+            });
+        } else {
+            FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+                this.setState({
+                    carData: queryCarsLocation,
+                }, () => {
+                    this.initPieChart1();
+                })
+            })
+        }
     }
 
+    async initCarData() {
+        let carData = this.state.carData;
+        this.setState({
+            carData,
+        }, () => {
+            this.initCarSite();
+        })
+    }
+
+    init() {
+        FplApi.getAllCarNetPanel().then((allCarNetPanel: DataSet) => {
+            this.setState({
+                allCarNetPanel,
+                cars_num: allCarNetPanel.getDouble('cars_total_'),
+                driver_num: allCarNetPanel.getDouble("driver_num_"),
+            }, () => {
+                this.initPieChart2();
+                this.initPieChart3();
+            })
+        })
+
+        FplApi.getWeeklyArrCarStatis().then((weeklyArrCarStatis: DataSet) => {
+            this.setState({
+                weeklyArrCarStatis
+            }, () => {
+                this.initLineChart();
+            })
+        })
+
+        FplApi.getCountProvince().then((countProvince: DataSet) => {
+            this.setState({
+                countProvince
+            }, () => {
+                this.initPieChart4();
+            })
+        })
+
+        FplApi.getQueryMileageD().then((queryMileageD) => {
+            this.setState({
+                queryMileageD: queryMileageD.getDouble('total_mileage_'),
+            })
+        })
+
+        this.initLineChart1();
+    }
+
+    initMap() {
+        if (!this.isInitMap)
+            return;
+        if (!this.gdmap.map)
+            this.gdmap.initMap('carMapContainer', {
+                zoom: 8,
+                center: this.props.lonlat.split(',')
+            });
+
+        FplApi.getQueryCarsLocation().then((queryCarsLocation) => {
+            this.setState({
+                carData: queryCarsLocation,
+            }, () => {
+                this.initPieChart1();
+                this.initCarData();
+            })
+        })
+    }
+
+    initCarSite() {
+        this.gdmap.clear();
+        let ds = new DataSet();
+        ds.appendDataSet(this.state.carData);
+        ds.first();
+        while (ds.fetch()) {
+            this.gdmap.addLableMark({
+                position: [ds.getDouble('lon_'), ds.getDouble('lat_')],
+            }, `<div class="input-card content-window-card">
+                    <div style="color:#666;">
+                        <h4 style="font-size: 1.2em;color: #333;padding-right: 1rem;margin-bottom:10px;">车牌号: ${ds.getString('plate_number_')}</h4>
+                        <p style="margin-bottom:5px; white-space: nowrap;">最后GPS时间: ${ds.getString('gtm_')}</p>
+                    </div>
+                </div>`)
+        }
+    }
+
+    //异常动态
     initLineChart1() {
         let lineChart = document.querySelector(`.${styles.mcLink2}`) as HTMLDivElement;
-        let myChart = echarts.init(lineChart);
-        let xArr = [];
-        let sData = [['周一', 10], ['周二', 14], ['周三', 12], ['周四', 2], ['周五', 10], ['周六', 2], ['周日', 6],];
+        let myChart = echarts.getInstanceByDom(lineChart);
+        if (!myChart)
+            myChart = echarts.init(lineChart);
+
+        let ds = new DataSet();
+        ds.first();
+        let xArr = ['三月', '四月', '五月', '六月', '七月', '八月'];
+        let sData = [10, 20, 30, 15, 3, 41];
+        // while (ds.fetch()) {
+        //     xArr.push(ds.getString('type_goods_'));
+        //     sData.push(ds.getDouble('weight_total_'));
+        // }
         let option = {
             xAxis: {
                 type: 'category',
-                boundaryGap: false
+                boundaryGap: false,
+                data: xArr
             },
             yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
+                show: false,
             },
             lengend: {},
             tooltip: {},
             grid: {
                 top: 20,
-                left: 0,
-                bottom: 10,
-                right: 16,
-                containLabel: true,
+                left: 20,
+                bottom: 20,
+                right: 20,
             },
             series: [
                 {
                     data: sData,
                     type: 'line',
                     smooth: true,
-                    // symbol: 'none',
                     itemStyle: {
                         color: MCChartColors[0]
                     },
@@ -214,7 +286,9 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
                         color: MCChartColors[0],
                         width: 1
                     },
-                    areaStyle: {},
+                    label: {
+                        show: true
+                    }
                 },
             ]
         };
@@ -222,332 +296,426 @@ export default class FrmSpectaculars1 extends WebControl<FrmSpectaculars1TypePro
         //@ts-ignore
         myChart.setOption(option);
     }
+
+    //在线率
+    initPieChart1() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+
+        let online = this.state.carData.head.getNumber('online_'), total = this.state.carData.head.getNumber('total_');
+        if (!online) {
+            online = 0;
+        }
+        let value: any;
+        if (online == 0 || total == 0) {
+            value = 0;
+        } else {
+            value = this.math.toFixed(online / total * 100, 2);
+        }
+
+        let option = {
+            series: [
+                {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
+                    type: 'gauge',
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
+                    axisLine: {
+                        lineStyle: {
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
+                        }
+                    },
+                    splitLine: {
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
+                    },
+                    axisLabel: {
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
+                    },
+                    title: {
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
+                    },
+                    detail: {
+                        fontSize: 18,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
+                }
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //满载率
+    initPieChart2() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+
+        let value: any = this.math.toFixed(this.state.allCarNetPanel.getDouble('full_load_rate_'), 2);
+        let option = {
+            series: [
+                {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
+                    type: 'gauge',
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
+                    axisLine: {
+                        lineStyle: {
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
+                        }
+                    },
+                    splitLine: {
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
+                    },
+                    axisLabel: {
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
+                    },
+                    title: {
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
+                    },
+                    detail: {
+                        fontSize: 18,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
+                }
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //货损率
+    initPieChart3() {
+        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+        let value = this.math.toFixed(this.state.allCarNetPanel.getDouble('avg_loss_rate_'), 2);
+        let option = {
+            series: [
+                {
+                    center: this.isPhone ? ['50%', '80%'] : ['55%', '85%'],
+                    radius: this.isPhone ? 90 : 62,
+                    type: 'gauge',
+                    startAngle: 180,
+                    endAngle: 0,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 3,
+                    axisLine: {
+                        lineStyle: {
+                            width: 4,
+                            color: [
+                                [0.25, MCChartColors[0]],
+                                [0.5, MCChartColors[1]],
+                                [0.75, MCChartColors[2]],
+                                [1, MCChartColors[3]]
+                            ]
+                        }
+                    },
+                    pointer: {
+                        icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+                        length: '12%',
+                        width: 8,
+                        offsetCenter: [0, '-50%'],
+                        itemStyle: {
+                            color: 'inherit'
+                        }
+                    },
+                    axisTick: {
+                        length: 4,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 1
+                        }
+                    },
+                    splitLine: {
+                        length: 6,
+                        lineStyle: {
+                            color: 'inherit',
+                            width: 2
+                        }
+                    },
+                    axisLabel: {
+                        color: '#464646',
+                        fontSize: 8,
+                        distance: -60,
+                        formatter: function (value: number) {
+                            if (value === 87.5) {
+                                return 'A';
+                            } else if (value === 62.5) {
+                                return 'B';
+                            } else if (value === 37.5) {
+                                return 'C';
+                            } else if (value === 12.5) {
+                                return 'D';
+                            }
+                            return '';
+                        }
+                    },
+                    title: {
+                        offsetCenter: [0, '-20%'],
+                        fontSize: 8
+                    },
+                    detail: {
+                        fontSize: 18,
+                        offsetCenter: [0, '0%'],
+                        valueAnimation: true,
+                        formatter: function (value: number) {
+                            return value + '%';
+                        },
+                        color: 'inherit'
+                    },
+                    data: [
+                        {
+                            value: value,
+                        }
+                    ]
+                }
+            ]
+        };
+
+        //@ts-ignore
+        myChart.setOption(option);
+    }
+
+    //物流运单
     initLineChart() {
         let lineChart = document.querySelector(`.${styles.mcLink}`) as HTMLDivElement;
-        let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
+        let myChart = echarts.getInstanceByDom(lineChart);
+        if (!myChart)
+            myChart = echarts.init(lineChart);
+
+        let ds = this.state.weeklyArrCarStatis;
         let xArr = [];
         let sData = [];
         while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
+            xArr.push(`${ds.getString('date_').split("-")[1]}.${ds.getString('date_').split("-")[2]}`);
+            sData.push(ds.getDouble('arr_total_'));
         }
         let option = {
             xAxis: {
                 type: 'category',
-                data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
+                boundaryGap: false,
+                data: xArr
             },
             yAxis: {
-                type: 'value',
-                axisLabel: {
-                    color: '#333333'
-                }
+                show: false,
             },
             lengend: {},
             tooltip: {},
             grid: {
-                top: 15,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
             },
             series: [
                 {
                     data: sData,
                     type: 'line',
-                    smooth: 0.6,
-                    // symbol: 'none',
+                    smooth: true,
                     itemStyle: {
                         color: MCChartColors[0]
                     },
                     lineStyle: {
                         color: MCChartColors[0],
-                        width: 5
+                        width: 1
                     },
                     label: {
-                        show: true,
-                        position: 'top'
-                    },
-                },
-            ]
-        };
-
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-    initPieChart1() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        const gaugeData = [
-            {
-                value: 90,
-                title: {
-                    offsetCenter: ['0%', '30%']
-                },
-                detail: {
-                    valueAnimation: true,
-                    offsetCenter: ['0%', '10%']
-                }
-            }
-        ];
-        let option = {
-            series: [
-                {
-                    type: 'gauge',
-                    startAngle: 90,
-                    endAngle: -270,
-                    pointer: {
-                        show: false
-                    },
-                    color: ['#63DAAB'],
-                    progress: {
-                        show: true,
-                        overlap: false,
-                        roundCap: true,
-                        clip: false,
-                        itemStyle: {
-                            borderWidth: 1,
-                            borderColor: '#63DAAB'
-                        }
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            width: 6
-                        }
-                    },
-                    splitLine: {
-                        show: false,
-                        distance: 0,
-                        length: 10
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false,
-                        distance: 20
-                    },
-                    data: gaugeData,
-                    title: {
-                        fontSize: 14
-                    },
-                    detail: {
-                        width: 5,
-                        height: 14,
-                        fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
-                        formatter: '{value}%'
+                        show: true
                     }
-                }
-            ]
-        };
-
-        //@ts-ignore
-        myChart.setOption(option);
-    }
-    initPieChart2() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie2}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        const gaugeData = [
-            {
-                value: 99,
-                title: {
-                    offsetCenter: ['0%', '30%']
                 },
-                detail: {
-                    valueAnimation: true,
-                    offsetCenter: ['0%', '10%']
-                }
-            }
-        ];
-        let option = {
-            series: [
-                {
-                    type: 'gauge',
-                    startAngle: 90,
-                    endAngle: -270,
-                    pointer: {
-                        show: false
-                    },
-                    color: ['#578DF9'],
-                    progress: {
-                        show: true,
-                        overlap: false,
-                        roundCap: true,
-                        clip: false,
-                        itemStyle: {
-                            borderWidth: 1,
-                            borderColor: '#578DF9'
-                        }
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            width: 6
-                        }
-                    },
-                    splitLine: {
-                        show: false,
-                        distance: 0,
-                        length: 10
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false,
-                        distance: 20
-                    },
-                    data: gaugeData,
-                    title: {
-                        fontSize: 14
-                    },
-                    detail: {
-                        width: 5,
-                        height: 14,
-                        fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
-                        formatter: '{value}%'
-                    }
-                }
             ]
         };
 
         //@ts-ignore
         myChart.setOption(option);
     }
-    initPieChart3() {
-        let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie3}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        const gaugeData = [
-            {
-                value: 10,
-                title: {
-                    offsetCenter: ['0%', '30%']
-                },
-                detail: {
-                    valueAnimation: true,
-                    offsetCenter: ['0%', '10%']
-                }
-            }
-        ];
-        let option = {
-            series: [
-                {
-                    type: 'gauge',
-                    startAngle: 90,
-                    endAngle: -270,
-                    pointer: {
-                        show: false
-                    },
-                    color: ['#E6806C'],
-                    progress: {
-                        show: true,
-                        overlap: false,
-                        roundCap: true,
-                        clip: false,
-                        itemStyle: {
-                            borderWidth: 1,
-                            borderColor: '#E6806C'
-                        }
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            width: 6
-                        }
-                    },
-                    splitLine: {
-                        show: false,
-                        distance: 0,
-                        length: 10
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    axisLabel: {
-                        show: false,
-                        distance: 20
-                    },
-                    data: gaugeData,
-                    title: {
-                        fontSize: 14
-                    },
-                    detail: {
-                        width: 5,
-                        height: 14,
-                        fontSize: 14,
-                        color: 'auto',
-                        borderColor: 'auto',
-                        formatter: '{value}%'
-                    }
-                }
-            ]
-        };
 
-        //@ts-ignore
-        myChart.setOption(option);
-    }
+    //省份运单排名
     initPieChart4() {
         let peiChart = document.querySelector(`.${styles.rightBox1Pie1}`) as HTMLDivElement;
-        let myChart = echarts.init(peiChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.pieData4);
+        let myChart = echarts.getInstanceByDom(peiChart);
+        if (!myChart)
+            myChart = echarts.init(peiChart);
+        let ds = this.state.countProvince;
         ds.first();
-        let dataArr = [];
+        let dataArr: any = [];
         while (ds.fetch()) {
             dataArr.push({
-                name: ds.getString('Name_'),
-                value: ds.getDouble('Value_')
+                name: ds.getString('receive_province_'),
+                value: ds.getDouble('num')
             })
         }
         let option = {
             tooltip: {
                 trigger: 'item'
             },
+            legend: {
+                top: 'center',
+                left: '60%',
+                orient: 'vertical',
+                itemWidth: 8,
+                itemHeight: 8,
+                icon: 'circle',
+                itemGap: 5,
+                formatter: (name: any) => {
+                    let singleData = dataArr.filter(function (item: any) {
+                        return item.name == name
+                    })
+                    return name + ' : ' + singleData[0].value;
+                },
+                textStyle: {
+                    lineHeight: 10,
+                }
+            },
             grid: {
-                top: 40,
-                left: 5,
-                bottom: 5,
-                right: 50,
-                containLabel: true,
+                left: 0,
+                bottom: 0,
+                right: 20,
+                containLabel: false,
             },
             series: [
                 {
-                    name: '司机年龄',
                     type: 'pie',
-                    radius: ['50%', '70%'],
-                    center: ['50%', '50%'],
+                    center: this.isPhone ? ['30%', '55%'] : ['28%', '50%'],
+                    radius: this.isPhone ? ['50%', '80%'] : ['30%', '55%'],
                     avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
                     color: MCChartColors,
                     emphasis: {
                         label: {
                             show: true,
-                            fontSize: '16',
+                            fontSize: '20',
                             fontWeight: 'bold'
                         }
                     },
                     labelLine: {
-                        length: 5,
-                        length2: 5,
-                        maxSurfaceAngle: 80
+                        show: false
                     },
                     data: dataArr
                 }
             ]
         }
-
         //@ts-ignore
         myChart.setOption(option);
     }

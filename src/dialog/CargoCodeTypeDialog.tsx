@@ -48,10 +48,10 @@ export default class CargoCodeTypeDialog extends BaseDialog<CargoCodeTypeProps, 
                 <SearchPanel dataRow={this.state.dataIn} onExecute={this.init.bind(this)}>
                     <DBEdit dataField="name_" dataName="运输类型" autoFocus></DBEdit>
                 </SearchPanel>
-                <DBGrid dataSet={this.state.dataSet} openPage={false}>
+                <DBGrid dataSet={this.state.dataSet} openPage={false} onRowClick={this.handleClick.bind(this)}>
                     <ColumnIt/>
                     <Column code="opera" name="操作" width="120" textAlign='center' customText={(row: DataRow)=>{
-                        return <span role="auiOpera" id='category' onClick={this.handleClick.bind(this, row)}>选择</span>
+                        return <span role="auiOpera" id='category'>选择</span>
                     }}></Column>
                     <Column code="name_" name="运输类型" width="90"></Column>
                     <Column code="count" name="货物数量" width="90"></Column>

@@ -148,6 +148,7 @@ export default class FrmContractManage extends WebControl<FrmContractManageTypeP
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                itemGap:5,
                 formatter: (name: any) => {
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
@@ -215,6 +216,7 @@ export default class FrmContractManage extends WebControl<FrmContractManageTypeP
                 itemWidth: 8,
                 itemHeight: 8,
                 icon: 'circle',
+                itemGap:5,
                 formatter: (name: any) => {
                     let singleData = dataArr.filter(function (item: any) {
                         return item.name == name
@@ -265,7 +267,7 @@ export default class FrmContractManage extends WebControl<FrmContractManageTypeP
         }
         let option = {
             grid: {
-                top: 10,
+                top: 25,
                 left: 0,
                 bottom: 0,
                 right: 10,

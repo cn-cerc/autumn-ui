@@ -8,6 +8,7 @@ type DriverInfoProps = {
     deptCode: string,
     callBack?: Function,
     DriverStatus?: boolean,
+    personID: string
 } & Partial<BaseDialogPropsType>
 
 
@@ -96,6 +97,8 @@ export default class DriverInfoDialog extends BaseDialog<DriverInfoProps, StaffT
             input3.value = dataRow.getString('phone_num_');
         if (this.props.callBack)
             this.props.callBack(dataRow);
+        if (this.props.personID)
+            $("#" + this.props.personID).val(dataRow.getString('name_'));
         this.handleSelect();
     }
 }

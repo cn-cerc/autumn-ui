@@ -206,7 +206,6 @@ export default class FrmAPManage1 extends WebControl<FrmAPManage1TypeProps, FrmA
                 {
                     data: sData,
                     type: 'bar',
-                    name: '售出',
                     itemStyle: {
                         color: MCChartColors[0]
                     },

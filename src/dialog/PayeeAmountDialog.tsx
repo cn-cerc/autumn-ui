@@ -7,6 +7,7 @@ import styles from "./DialogCommon.css";
 
 type PayeeProps = {
     deptCode: string,
+    cusCode?: string,
     callBack?: Function,
 } & Partial<BaseDialogPropsType>
 
@@ -21,6 +22,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
         super(props)
         let dataIn = new DataRow();
         dataIn.setValue("dept_code_", this.props.deptCode);
+        dataIn.setValue("cus_code_", this.props.cusCode);
         this.state = {
             ...this.state,
             dataIn,
@@ -37,7 +39,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
 
     async init() {
         this.setLoad(true);
-        let dataSet = await FplApi.getPayeeCode(this.state.dataIn);
+        let dataSet = await FplApi.getCusBindPayee(this.state.dataIn);
         this.setLoad(false);
         this.setState({
             dataSet
@@ -54,7 +56,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
                     <ColumnIt />
                     <Column name='收款人' code='payee_name_' width='6'></Column>
                     <Column name='联系方式' code='phone_number_' width='11'></Column>
-                    <Column name='银行' code='bank_name_' width='20'></Column>
+                    <Column name='银行' code='bank_gateways_' width='20'></Column>
                     <Column name='操作' code='opera' width='4' textAlign='center' customText={(row: DataRow) => {
                         return <span role='auiOpera'>选择</span>
                     }}></Column>
@@ -65,7 +67,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
                     <ColumnIt />
                     <Column name='收款人' code='payee_name_' width='6'></Column>
                     <Column name='联系方式' code='phone_number_' width='11'></Column>
-                    <Column name='银行' code='bank_name_' width='20'></Column>
+                    <Column name='银行' code='bank_gateways_' width='20'></Column>
                     <Column name='金额' code='amount' width='10'>
                         <DBEdit dataField="amount" className=""></DBEdit>
                     </Column>
@@ -75,6 +77,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
                 </DBGrid>
                 <OperatePanel>
                     <button className={styles.operaButton} onClick={this.btnSave.bind(this)}>保存</button>
+                    <button className={styles.operaButton} onClick={() => { window.location.href = 'FrmCusBindPayee' }}>去绑定收款人</button>
                 </OperatePanel>
             </div>
         )
@@ -111,7 +114,7 @@ export default class PayeeAmountDialog extends BaseDialog<PayeeProps, StaffTypeS
             let record = this.getRecord(amount);
             if (record) {
                 row.set('BankAccount_', record.getString('payee_name_'));
-                row.set('BankName_', record.getString('bank_name_'));
+                row.set('BankName_', record.getString('bank_gateways_'));
                 row.set('BankNo_', record.getString('bank_card_'));
                 row.set('payee_no_', record.getString('payee_no_'));
                 record.setValue('addAmount', math.add(record.getDouble('addAmount'), amount));

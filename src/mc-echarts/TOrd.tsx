@@ -20,15 +20,7 @@ type TOrdTypeState = {
 export default class TOrd extends WebControl<TOrdTypeProps, TOrdTypeState> {
     constructor(props: TOrdTypeProps) {
         super(props);
-        let lineData = new DataSet();
         let lineRow = new DataRow();
-        lineData.append().setValue('Value_', 258).setValue('XName_', '周一');
-        lineData.append().setValue('Value_', 225).setValue('XName_', '周二');
-        lineData.append().setValue('Value_', 240).setValue('XName_', '周三');
-        lineData.append().setValue('Value_', 210).setValue('XName_', '周四');
-        lineData.append().setValue('Value_', 320).setValue('XName_', '周五');
-        lineData.append().setValue('Value_', 350).setValue('XName_', '周六');
-        lineData.append().setValue('Value_', 260).setValue('XName_', '周日');
         let pieData1 = new DataSet();
         pieData1.append().setValue('Value_', 10).setValue('Name_', '1-3吨');
         pieData1.append().setValue('Value_', 20).setValue('Name_', '3-5吨');
@@ -60,7 +52,6 @@ export default class TOrd extends WebControl<TOrdTypeProps, TOrdTypeState> {
         let introduction = "此模组主要用于工厂销售或批发销售管理，根据客户的作业模式不同，可以允许客户手动下单并录入【销售订单】，也可以要求客户直接在线下单，然后审核【在线订货单】，仓库根据【销售订单】进行备货，并生成相应的【销售单】。";
 
         this.state = {
-            lineData,
             pieData1,
             pieData2,
             dataRow,
@@ -109,8 +100,59 @@ export default class TOrd extends WebControl<TOrdTypeProps, TOrdTypeState> {
                 </div>
                 <div className={styles.mcCharts}>
                     <div className={styles.mcTrendChart}>
-                        <div className={styles.mcTitle}>趋势图（对接中）</div>
-                        <div className={styles.FrmTaurusMCLine}></div>
+                        <div className={styles.mcTitle}>数据概览（对接中）</div>
+                        <div className={styles.content}>
+                            <ul>
+                                <li>
+                                    <p>在线订货单</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '在线订货单')}>
+                                        <span>358</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>销售订单</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '销售订单')}>
+                                        <span>69</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>销售单</p>
+                                    <div className={styles.links_skin} onClick={this.gotoFun.bind(this, '销售单')}>
+                                        <span>983</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>销售退货单</p>
+                                    <div>
+                                        <span>60</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>3天未发货</p>
+                                    <div>
+                                        <span>58</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>出货通知</p>
+                                    <div>
+                                        <span>2</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>未下单</p>
+                                    <div>
+                                        <span>5</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>已下单</p>
+                                    <div>
+                                        <span>785</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div className={styles.mcPieChart}>
                         <div className={styles.mcPieBox1}>
@@ -128,72 +170,11 @@ export default class TOrd extends WebControl<TOrdTypeProps, TOrdTypeState> {
     }
 
     componentDidMount(): void {
-        this.initLineChart();
         this.initPieChart1();
         this.initPieChart2();
         this.initFlowChart();
     }
 
-    initLineChart() {
-        let lineChart = document.querySelector(`.${styles.FrmTaurusMCLine}`) as HTMLDivElement;
-        let myChart = echarts.init(lineChart);
-        let ds = new DataSet();
-        ds.appendDataSet(this.state.lineData);
-        ds.first();
-        let xArr = [];
-        let sData = [];
-        while (ds.fetch()) {
-            xArr.push(ds.getString('XName_'));
-            sData.push(ds.getDouble('Value_'));
-        }
-        let option = {
-            xAxis: {
-                type: 'category',
-                data: xArr,
-                axisLabel: {
-                    color: '#333333'
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#333333'
-                    }
-                }
-            },
-            yAxis: {
-                type: 'value',
-                axisLabel: {
-                    color: '#333333'
-                }
-            },
-            lengend: {},
-            tooltip: {},
-            grid: {
-                top: 10,
-                left: 0,
-                bottom: 0,
-                right: 10,
-                containLabel: true,
-            },
-            series: [
-                {
-                    data: sData,
-                    type: 'line',
-                    itemStyle: {
-                        color: MCChartColors[0]
-                    },
-                    lineStyle: {
-                        color: MCChartColors[0]
-                    },
-                    label: {
-                        show: true,
-                        position: 'top'
-                    },
-                }
-            ]
-        };
-        //@ts-ignore
-        myChart.setOption(option);
-    }
 
     initPieChart1() {
         let peiChart = document.querySelector(`.${styles.FrmTaurusMCPie1}`) as HTMLDivElement;
@@ -399,5 +380,9 @@ export default class TOrd extends WebControl<TOrdTypeProps, TOrdTypeState> {
         if (!this.state.dataRow.getBoolean(`${name}_Dis`)) {
             location.href = this.state.dataRow.getString(`${name}_URL`);
         }
+    }
+
+    gotoFun(name: string) {
+        // location.href = this.state.btnUrl.getString(`${name}_URL`);
     }
 }

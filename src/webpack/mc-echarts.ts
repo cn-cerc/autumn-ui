@@ -39,6 +39,9 @@ import TOrd from "../mc-echarts/TOrd";
 import TPur from "../mc-echarts/TPur";
 import TStock from "../mc-echarts/TStock";
 import FrmChargeManage from "../mc-echarts/FrmChargeManage";
+import FrmAuthManage1MC from "../mc-echarts/FrmAuthManage1MC";
+import FrmPayee from "../mc-echarts/FrmPayee";
+import FrmRiskWarning from "../mc-echarts/FrmRiskWarning";
 import FrmStaffAchievementsStt from "../mc-echarts/FrmStaffAchievementsStt";
 
 export default {
@@ -83,5 +86,8 @@ export default {
     TStock,
     FrmTaurusQuicknessMC,
     FrmChargeManage,
+    FrmPayee,
+    FrmRiskWarning,
+    FrmAuthManage1MC,
     FrmStaffAchievementsStt,
 };
