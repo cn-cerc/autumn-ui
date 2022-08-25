@@ -1,0 +1,106 @@
+.main {
+    height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+    background-color: #fff;
+    padding: 16px;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+}
+
+.top>li {
+    width: 0;
+    flex: 1;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+.top>li:first-child {
+    margin-left: 0;
+}
+
+.top>li>span:first-child {
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.top>li>span:nth-child(2) {
+    margin-top: 16px;
+    font-size: 22px;
+    line-height: 22px;
+}
+
+.bottom {
+    height: 0;
+    flex: 1;
+    display: flex;
+    margin-top: 16px;
+}
+
+.table {
+    width: 0;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.table>h4 {
+    padding: 16px;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.echarts {
+    width: 360px;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.echart1 {
+    height: 0;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.echart2 {
+    height: 0;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 16px;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1366px) {
+    .main {
+        padding: 12px;
+    }
+
+    .top>li {
+        margin-left: 12px;
+    }
+
+    .bottom {
+        margin-top: 12px;
+    }
+
+    .echarts {
+        margin-left: 12px;
+    }
+
+    .echart2 {
+        margin-top: 12px;
+    }
+}

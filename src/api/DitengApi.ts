@@ -460,4 +460,19 @@ export default class DitengApi {
     static createGroup(params: DataRow) {
         return ControlApi.getDataOutByCenter('SvrMessages.createGroup', params);
     }
+
+    /** 查询员工绩总数 */
+    static getStaffAcmtsPanel() {
+        return ControlApi.getService('SvrStaffAcmtsPanel.getTotal');
+    }
+
+    /** 查询员工本周绩效数 */
+    static getStaffWeekAch() {
+        return ControlApi.getService('SvrStaffAcmtsPanel.getWeekAch');
+    }
+
+    /** 查询员工本周绩效排名 */
+    static getStaffAchRanking(params: DataRow) {
+        return ControlApi.getDataOut('SvrStaffAcmtsPanel.getAchRanking', params);
+    }
 }
