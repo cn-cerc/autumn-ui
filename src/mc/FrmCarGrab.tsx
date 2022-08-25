@@ -4,14 +4,15 @@ import UIIntroduction from "../module/UIIntroduction";
 import styles from "./FrmCarGrab.css";
 
 type FrmCarGrabTypeProps = {
-    introduction: string,
+
 }
 
 type FrmCarGrabTypeState = {
     orderType: number,
     isInit: boolean,
     data: DataSet,
-    tips: boolean
+    tips: boolean,
+    introduction: string
 }
 
 export default class FrmCarGrab extends WebControl<FrmCarGrabTypeProps, FrmCarGrabTypeState> {
@@ -24,11 +25,14 @@ export default class FrmCarGrab extends WebControl<FrmCarGrabTypeProps, FrmCarGr
             .setValue('destination_', '深圳市')
             .setValue('code_', '原木')
             .setValue('amount_', '2202.00');
+        let introduction = "此模组主要用于工厂销售或批发销售管理，根据与客户的作业模式不同，可以允许客户手动下单并录入【销售订单】，也可以要求客户直接在线下单，然后审核【在线订货单】，仓库根据【销售订单】进行备案，并生成相应的【销售单】。";
+
         this.state = {
             orderType: 0,       //接单状态，0为全部订单，1为限价订单，2为竞价订单 3为报价订单
             isInit: false,
-            data: data,
-            tips: true
+            data,
+            tips: true,
+            introduction
         }
     }
 
@@ -55,7 +59,7 @@ export default class FrmCarGrab extends WebControl<FrmCarGrabTypeProps, FrmCarGr
             </React.Fragment>
         } else {
             return <React.Fragment>
-                <UIIntroduction introduction={this.props.introduction}></UIIntroduction>
+                <UIIntroduction introduction={this.state.introduction}></UIIntroduction>
                 <div className={styles.contents}>
                     <div className={styles.info}>
                         <ul>
