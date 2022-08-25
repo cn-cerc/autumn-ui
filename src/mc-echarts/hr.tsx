@@ -5,9 +5,9 @@ import UIIntroduction from "../module/UIIntroduction";
 import { MCChartColors } from "./FrmTaurusMC";
 import styles from "./hr.css";
 
-type hrMCTypeProps = {};
+type hrTypeProps = {};
 
-type hrMCTypeState = {
+type hrTypeState = {
     lineData: DataSet;
     pieData1: DataSet;
     pieData2: DataSet;
@@ -15,8 +15,8 @@ type hrMCTypeState = {
     introduction: string;
 };
 
-export default class hrMC extends WebControl<hrMCTypeProps, hrMCTypeState> {
-    constructor(props: hrMCTypeProps) {
+export default class hr extends WebControl<hrTypeProps, hrTypeState> {
+    constructor(props: hrTypeProps) {
         super(props);
         let lineData = new DataSet();
         let lineRow = new DataRow();
