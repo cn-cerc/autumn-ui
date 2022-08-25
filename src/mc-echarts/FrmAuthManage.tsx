@@ -3,14 +3,14 @@ import * as echarts from "echarts";
 import React from "react";
 import FplApi from "../api/FplApi";
 import UIIntroduction from "../module/UIIntroduction";
-import styles from "./FrmAuthManageMC.css";
+import styles from "./FrmAuthManage.css";
 import { MCChartColors } from "./FrmTaurusMC";
 
-type FrmAuthManageMCTypeProps = {
+type FrmAuthManageTypeProps = {
 
 }
 
-type FrmAuthManageMCTypeState = {
+type FrmAuthManageTypeState = {
     dataRow: DataRow,
     DriverStatistics: DataSet,
     CorpStatistics: DataSet,
@@ -18,8 +18,8 @@ type FrmAuthManageMCTypeState = {
     introduction: string
 }
 
-export default class FrmAuthManageMC extends WebControl<FrmAuthManageMCTypeProps, FrmAuthManageMCTypeState> {
-    constructor(props: FrmAuthManageMCTypeProps) {
+export default class FrmAuthManageMC extends WebControl<FrmAuthManageTypeProps, FrmAuthManageTypeState> {
+    constructor(props: FrmAuthManageTypeProps) {
         super(props);
         let lineRow = new DataRow();
         let dataRow: DataRow = lineRow.setValue("企业认证_URL", "")

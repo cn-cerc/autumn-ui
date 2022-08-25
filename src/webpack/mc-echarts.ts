@@ -3,7 +3,7 @@ import FrmAPManageMC from "../mc-echarts/FrmAPManageMC";
 import FrmAPManageMC1 from "../mc-echarts/FrmAPManageMC1";
 import FrmARManageMC from "../mc-echarts/FrmARManageMC";
 import FrmARManageMC1 from "../mc-echarts/FrmARManageMC1";
-import FrmAuthManageMC from "../mc-echarts/FrmAuthManageMC";
+import FrmAuthManage from "../mc-echarts/FrmAuthManage";
 import FrmCarManagerMC from "../mc-echarts/FrmCarManager";
 import FrmCarManagerMC2 from "../mc-echarts/FrmCarManagerMC2";
 import FrmCashManage from "../mc-echarts/FrmCashManage";
@@ -46,7 +46,7 @@ export default {
     FrmAPManageMC1,
     FrmARManageMC,
     FrmARManageMC1,
-    FrmAuthManageMC,
+    FrmAuthManage,
     FrmCarManagerMC,
     FrmCarManagerMC2,
     FrmCashManage,
