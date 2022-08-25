@@ -40,25 +40,25 @@ export default class FrmCashManage extends WebControl<FrmCashManageTypeProps, Fr
         pieData2.append().setValue('Value_', 30).setValue('Name_', '湖南省');
         pieData2.append().setValue('Value_', 15).setValue('Name_', '广东省');
         let dataRow: DataRow = lineRow.setValue("应收结账单_URL", "FrmTranCRBill")
-        .setValue("应收结账单_Dis", false)
-        .setValue("请款单_URL", "")
-        .setValue("请款单_Dis", false)
-        .setValue("收款单_URL", "TFrmPaidAR")
-        .setValue("收款单_Dis", false)
-        .setValue("应付结账单_URL", "FrmTranCPBill")
-        .setValue("应付结账单_Dis", false)
-        .setValue("付款申请单_URL", "TFrmPaidAP")
-        .setValue("付款申请单_Dis", false)
-        .setValue("付款单_URL", "TFrmPaidAP")
-        .setValue("付款单_Dis", false)
-        .setValue("转账单_URL", "TFrmPaidBM")
-        .setValue("转账单_Dis", false)
-        .setValue("银行账户表_URL", "TFrmBankInfo")
-        .setValue("银行账户表_Dis", false)
-        .setValue("对账单_URL", "")
-        .setValue("对账单_Dis", false);
+            .setValue("应收结账单_Dis", false)
+            .setValue("请款单_URL", "")
+            .setValue("请款单_Dis", false)
+            .setValue("收款单_URL", "TFrmPaidAR")
+            .setValue("收款单_Dis", false)
+            .setValue("应付结账单_URL", "FrmTranCPBill")
+            .setValue("应付结账单_Dis", false)
+            .setValue("付款申请单_URL", "TFrmPaidAP")
+            .setValue("付款申请单_Dis", false)
+            .setValue("付款单_URL", "TFrmPaidAP")
+            .setValue("付款单_Dis", false)
+            .setValue("转账单_URL", "TFrmPaidBM")
+            .setValue("转账单_Dis", false)
+            .setValue("银行账户表_URL", "TFrmBankInfo")
+            .setValue("银行账户表_Dis", false)
+            .setValue("对账单_URL", "")
+            .setValue("对账单_Dis", false);
         let introduction = "资金管理是社会主义国家对国营企业资金来源和资金使用进行计划、控制、监督、考核等项工作的总称。财务管理的重要组成部分。资金管理包括固定资金管理、流动资金管理和专项资金管理。";
-        
+
         this.state = {
             lineData,
             pieData1,
