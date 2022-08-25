@@ -5,11 +5,11 @@ import FrmARManageMC from "../mc-echarts/FrmARManageMC";
 import FrmARManageMC1 from "../mc-echarts/FrmARManageMC1";
 import FrmAuthManage from "../mc-echarts/FrmAuthManage";
 import FrmCarManagerMC from "../mc-echarts/FrmCarManager";
-import FrmCarManagerMC2 from "../mc-echarts/FrmCarManagerMC2";
+import FrmCarManager2 from "../mc-echarts/FrmCarManager2";
 import FrmCashManage from "../mc-echarts/FrmCashManage";
-import FrmContractManageMC from "../mc-echarts/FrmContractManageMC";
-import FrmContractManageMC1 from "../mc-echarts/FrmContractManageMC1";
-import FrmContractManageMC2 from "../mc-echarts/FrmContractManageMC2";
+import FrmContractManage from "../mc-echarts/FrmContractManage";
+import FrmContractManage1 from "../mc-echarts/FrmContractManage1";
+import FrmContractManage2 from "../mc-echarts/FrmContractManage2";
 import FrmCustomerService from "../mc-echarts/FrmCustomerService";
 import FrmInvoiceManage from "../mc-echarts/FrmInvoiceManage";
 import FrmInvoiceManage1 from "../mc-echarts/FrmInvoiceManage1";
@@ -28,16 +28,16 @@ import FrmTaurusMC from "../mc-echarts/FrmTaurusMC";
 import FrmTaurusMC1 from "../mc-echarts/FrmTaurusMC1";
 import FrmTaurusMC2 from "../mc-echarts/FrmTaurusMC2";
 import FrmWagonAccountBook from "../mc-echarts/FrmWagonAccountBook";
-import hrMC from "../mc-echarts/hr";
-import itMC from "../mc-echarts/itMC";
-import myMC from "../mc-echarts/myMC";
-import paMC from "../mc-echarts/paMC";
-import TAccMC from "../mc-echarts/TAccMC";
-import TFrmStockTotalMC from "../mc-echarts/TFrmStockTotalMC";
-import TMakeMC from "../mc-echarts/TMakeMC";
-import TOrdMC from "../mc-echarts/TOrdMC";
-import TPurMC from "../mc-echarts/TPurMC";
-import TStockMC from "../mc-echarts/TStockMC";
+import Hr from "../mc-echarts/Hr";
+import It from "../mc-echarts/It";
+import My from "../mc-echarts/My";
+import Pa from "../mc-echarts/Pa";
+import TAcc from "../mc-echarts/TAcc";
+import TFrmStockTotal from "../mc-echarts/TFrmStockTotal";
+import TMake from "../mc-echarts/TMake";
+import TOrd from "../mc-echarts/TOrd";
+import TPur from "../mc-echarts/TPur";
+import TStock from "../mc-echarts/TStock";
 import FrmChargeManage from "../mc-echarts/FrmChargeManage";
 
 export default {
@@ -48,11 +48,11 @@ export default {
     FrmARManageMC1,
     FrmAuthManage,
     FrmCarManagerMC,
-    FrmCarManagerMC2,
+    FrmCarManager2,
     FrmCashManage,
-    FrmContractManageMC,
-    FrmContractManageMC1,
-    FrmContractManageMC2,
+    FrmContractManage,
+    FrmContractManage1,
+    FrmContractManage2,
     FrmCustomerService,
     FrmInvoiceManage,
     FrmInvoiceManage1,
@@ -70,16 +70,16 @@ export default {
     FrmTaurusMC1,
     FrmTaurusMC2,
     FrmWagonAccountBook,
-    hrMC,
-    itMC,
-    myMC,
-    paMC,
-    TAccMC,
-    TFrmStockTotalMC,
-    TMakeMC,
-    TOrdMC,
-    TPurMC,
-    TStockMC,
+    Hr,
+    It,
+    My,
+    Pa,
+    TAcc,
+    TFrmStockTotal,
+    TMake,
+    TOrd,
+    TPur,
+    TStock,
     FrmTaurusQuicknessMC,
     FrmChargeManage,
 }
