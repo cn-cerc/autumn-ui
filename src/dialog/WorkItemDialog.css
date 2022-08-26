@@ -1,0 +1,44 @@
+.searchDiv {
+    background-color: #fff;
+    border-radius: 0.35rem;
+    display: flex;
+    padding: 0.5rem 1.25rem 0 1.25rem;
+    justify-content: flex-start;
+}
+
+.searchDiv div {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    width: 0;
+    align-items: center;
+}
+
+.searchDiv>button {
+    margin-right: 1rem;
+    min-width: 4.13rem;
+    height: 1.88rem;
+    padding: 0 1rem;
+    background-color: #009307;
+    font-size: 1rem;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0.24rem;
+    line-height: 1.88rem;
+}
+
+.searchDiv input {
+    max-width: 50%;
+    height: 1.68rem;
+    border-radius: 0.12rem;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #C2CAD8;
+    padding-left: 0.6rem;
+}
+
+.searchDiv label {
+    width: 5rem;
+}
