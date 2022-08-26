@@ -1,6 +1,7 @@
 import AdPlayerMC from "../mc/AdPlayerMC";
 import DevelopingMC from "../mc/developingMC";
 import ErrorPage from "../mc/ErrorPage";
+import FrmCarGpsDevice from "../mc/FrmCarGpsDevice";
 import FrmCarGrab from "../mc/FrmCarGrab";
 import FrmConcentratedData from "../mc/FrmConcentratedData";
 import FrmDriverArrangeCar from "../mc/FrmDriverArrangeCar";
