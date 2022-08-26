@@ -391,9 +391,18 @@ export default class FplApi {
     static getStatisticsVerify() {
         return ControlApi.getService('SvrDriverDetalis.statisticsVerify');
     }
-    
+
     /* 钱包收支统计 */
     static getDriverWallet() {
         return ControlApi.getService('SvrDriverWallet.statistical');
+    }
+    /* 查询维修工时项目开窗 */
+    static getWorkItem() {
+        return ControlApi.getService('SvrWorkItem.searchWin');
+    }
+
+    /* 接待单新增维修项目信息 */
+    static appendSvrRepairItems(params: DataRow) {
+        return ControlApi.getDataOut('SvrRepairItems.append', params);
     }
 }
