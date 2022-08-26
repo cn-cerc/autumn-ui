@@ -1,7 +1,7 @@
 import Frm4PLCusManage from "../mc-echarts/Frm4PLCusManage";
-import FrmAPManageMC from "../mc-echarts/FrmAPManageMC";
+import FrmAPManage from "../mc-echarts/FrmAPManage";
 import FrmAPManageMC1 from "../mc-echarts/FrmAPManageMC1";
-import FrmARManageMC from "../mc-echarts/FrmARManageMC";
+import FrmARManage from "../mc-echarts/FrmARManage";
 import FrmARManageMC1 from "../mc-echarts/FrmARManageMC1";
 import FrmAuthManageMC from "../mc-echarts/FrmAuthManageMC";
 import FrmCarManagerMC from "../mc-echarts/FrmCarManagerMC";
@@ -43,9 +43,9 @@ import FrmStaffAchievementsStt from "../mc-echarts/FrmStaffAchievementsStt";
 
 export default {
     Frm4PLCusManage,
-    FrmAPManageMC,
+    FrmAPManage,
     FrmAPManageMC1,
-    FrmARManageMC,
+    FrmARManage,
     FrmARManageMC1,
     FrmAuthManageMC,
     FrmCarManagerMC,
