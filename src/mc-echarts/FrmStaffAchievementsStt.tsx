@@ -152,7 +152,6 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
         let headIn1 = new DataRow();
         headIn1.setValue('type', 'before');
         DitengApi.getStaffAchRanking(headIn1).then((issueData) => {
-            issueData.setSort('total_ DESC');
             this.setState({
                 issueData
             }, () => {
@@ -164,7 +163,6 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
         let headIn2 = new DataRow();
         headIn2.setValue('type', '');
         DitengApi.getStaffAchRanking(headIn2).then((prData) => {
-            prData.setSort('total_ DESC');
             this.setState({
                 prData
             }, () => {
@@ -217,13 +215,13 @@ export default class FrmStaffAchievementsStt extends React.Component<FrmStaffAch
                 trigger: 'item'
             },
             legend: {
-                top: '25%',
+                top: '10%',
                 left: '60%',
                 orient: 'vertical',
                 itemWidth: 12,
                 itemHeight: 12,
                 textStyle: {
-                    fontSize: 14
+                    fontSize: 12
                 },
                 icon: 'circle',
                 formatter: (name: any) => {
