@@ -4,15 +4,21 @@ import FplApi from "../api/FplApi";
 import "../tool/Summer.css";
 import styles from "./DialogCommon.css";
 
+type VehicleProps = {
+    callBack?: Function,
+    cusCode?:String;
+} & Partial<BaseDialogPropsType>
+
 type StaffTypeState = {
     dataIn: DataRow,
     dataSet: DataSet,
 } & Partial<BaseDialogStateType>
 
-export default class MaintainVehicleDialog extends BaseDialog<BaseDialogPropsType, StaffTypeState> {
-    constructor(props: BaseDialogPropsType) {
+export default class MaintainVehicleDialog extends BaseDialog<VehicleProps, StaffTypeState> {
+    constructor(props: VehicleProps) {
         super(props)
         let dataIn = new DataRow();
+        dataIn.setValue("cus_code_", this.props.cusCode);
         this.state = {
             ...this.state,
             dataIn,
@@ -42,9 +48,8 @@ export default class MaintainVehicleDialog extends BaseDialog<BaseDialogPropsTyp
                     <DBEdit dataField="plate_number_" dataName="车牌号" autoFocus></DBEdit>
                 </SearchPanel>
                 <DBGrid dataSet={this.state.dataSet} openPage={false}>
-                    <ColumnIt/>
+                    <ColumnIt width="40"/>
                     <Column code="ShortName_" name="客户名称" width="50"></Column>
-                    <Column code="sales_name_" name="业务员" width="50"></Column>
                     <Column code="plate_number_" name="车牌号码" width="50"></Column>
                     <Column code="cg_name_" name="车辆类型" width="60"></Column>
                     <Column code="opera" name="操作" width="20" textAlign='center' customText={(row: DataRow) => {
@@ -58,9 +63,9 @@ export default class MaintainVehicleDialog extends BaseDialog<BaseDialogPropsTyp
     handleClick(dataRow: DataRow) {
         let inputIds = this.props.inputId.split(',');
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
-        let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         input1.value = dataRow.getString('plate_number_');
-        input2.value = dataRow.getString('plate_number_');
+        if (this.props.callBack)
+            this.props.callBack(dataRow);
         this.handleSelect();
     }
 }

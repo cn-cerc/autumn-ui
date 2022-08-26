@@ -218,7 +218,7 @@ export default class FplApi {
 
     /** 获取维修厂所有车辆列表 */
     static getMaintainVehicles(params: DataRow) {
-        return ControlApi.getDataOut('SvrPVehicle.search', params);
+        return ControlApi.getDataOut('SvrVehicle.searchWin', params);
     }
 
     /** 获取货单料品使用记录 */

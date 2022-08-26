@@ -5,7 +5,8 @@ import "../tool/Summer.css";
 import styles from "./DialogCommon.css";
 
 type CategoryProps = {
-    parentCode: string,
+    callBack?: Function,
+    parentCode?: String,
 } & Partial<BaseDialogPropsType>
 
 type StaffTypeState = {
@@ -62,7 +63,10 @@ export default class CategoryDialog extends BaseDialog<CategoryProps, StaffTypeS
         let input1 = document.getElementById(inputIds[0]) as HTMLInputElement;
         let input2 = document.getElementById(inputIds[1]) as HTMLInputElement;
         input1.value = dataRow.getString('code_');
-        input2.value = dataRow.getString('name_');
+        if (input2)
+            input2.value = dataRow.getString('name_');
+        if (this.props.callBack)
+            this.props.callBack(dataRow);
         this.handleSelect();
     }
 }
