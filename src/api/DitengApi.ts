@@ -264,7 +264,9 @@ export default class DitengApi {
 
     /** 获取费用类别 */
     static getExpense(params: DataRow) {
-        return ControlApi.getDataOut('SvrExpenseReimbursed.searchExpenseType', params);
+        params.setValue("Disable_",false);
+        params.setValue("IsSpecialType_",false);
+        return ControlApi.getDataOut('SvrExpenseType.search', params);
     }
 
     /** 显示客户专卖区域 */
