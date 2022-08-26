@@ -57,7 +57,7 @@ export default class ContractDialog extends BaseDialog<ContractProps, StaffTypeS
                     <Column code="arrangecar_unit_price_" name="运单价" width="50"></Column>
                     <Column code="cargo_loss_rate_" name="货损率" width="40"></Column>
                     <Column code="contract_amount_" name="合同金额" width="50"></Column>
-                    <Column code="rate_" name="约定费率%" width="50"></Column>
+                    <Column code="rate_" name="约定税率%" width="50"></Column>
                     <Column code="opera" name="操作" width="50" textAlign='center' customText={(row: DataRow) => {
                         return <span role="auiOpera" id='category'>选择</span>
                     }}></Column>
