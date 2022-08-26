@@ -1,0 +1,431 @@
+.main {
+    display: flex;
+    flex: 1;
+    margin-bottom: 10px;
+    height: 0;
+}
+
+.mainLeft {
+    width: 344px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background: #FFF;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainRight {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.selectDiv {
+    display: flex;
+}
+
+.selectDiv div {
+    border: 1px solid #e6e6e6;
+    text-align: center;
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+}
+
+.selectDiv div.onSelectDiv::before {
+    position: absolute;
+    content: '';
+    height: 3px;
+    background: #0473EA;
+    top: -1px;
+    left: 0;
+    right: 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.selectDiv span {
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+}
+
+.selectDiv div.onSelectDiv span {
+    color: #0473EA;
+}
+
+.serachDiv {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 8px 0;
+}
+
+.serachDiv li {
+    width: 100%;
+    margin: 10px 24px 0;
+    display: flex;
+    justify-content: center;
+    height: 30px;
+}
+
+.serachDiv li label {
+    width: 60px;
+    text-align: right;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+.serachDiv li input {
+    font-size: 14px;
+    flex: 1;
+    height: 30px;
+    border-radius: 4px;
+}
+
+.serachDiv li button {
+    padding: 10px 24px;
+    font-size: 14px;
+    border-radius: 4px;
+    height: inherit;
+    line-height: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.tabelLeft {
+    display: flex;
+    flex-direction: column;
+    height: 0;
+    flex: 1;
+    overflow: auto;
+}
+
+.spanColor {
+    color: #0081FF;
+}
+
+.orange {
+    color: #FEA700;
+}
+
+.red {
+    color: #FE0000;
+}
+
+.black {
+    color: #333333;
+}
+
+.tabelLeft div {
+    border-radius: 0;
+}
+
+.iconDiv {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.iconDiv>div {
+    flex: 1;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    background: #FFF;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.iconDiv>div:last-child {
+    margin: 0;
+}
+
+.imgDiv {
+    width: 54px;
+    height: 54px;
+    margin-right: 16px;
+}
+
+.iconDiv>div:nth-of-type(1) .imgDiv {
+    background: url("../assets/img/orderForm.png") center no-repeat;
+    background-size: 100%;
+}
+
+.iconDiv>div:nth-of-type(2) .imgDiv {
+    background: url("../assets/img/user.png") center no-repeat;
+    background-size: 100%;
+}
+
+.iconDiv>div:nth-of-type(3) .imgDiv {
+    background: url("../assets/img/car.png") center no-repeat;
+    background-size: 100%;
+}
+
+.imgDiv img {
+    width: 100%;
+}
+
+.textDiv {
+    flex: 1;
+}
+
+.textDiv span:first-child {
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.textDiv span:last-child {
+    color: #999999;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.textData {
+    margin-bottom: 12px;
+    padding: 4px 0;
+    border-radius: 4px;
+    background: #FFF;
+}
+
+.textData>div {
+    display: flex;
+}
+
+.textData li {
+    flex: 1;
+    margin: 6px 0 6px 16px;
+    color: #333;
+    font-size: 16px;
+}
+
+.tabelRight {
+    display: flex;
+    flex-direction: column;
+    height: 0;
+    flex: 1;
+}
+
+.tabelRight div[role="dbgrid"] {
+    margin-top: 0;
+}
+
+.buttonDiv {
+    background: #FFF;
+    margin-top: 12px;
+}
+
+.buttonDiv button {
+    margin: 12px;
+    height: inherit;
+    line-height: 1;
+    padding: 10px 16px;
+    border-radius: 4px;
+}
+
+.tabelRight>.buttonDiv {
+    margin: 0;
+}
+
+@media all and (max-width: 768px) {
+    .phone_main {
+        background: #F7F7F7;
+        flex: 1;
+        height: 100%;
+    }
+
+    .phone_search {
+        width: 100%;
+        display: flex;
+        padding: 8px;
+        position: relative;
+        background: #FFF;
+    }
+
+    .phone_search::before {
+        position: absolute;
+        content: '';
+        background: url("../assets/img/search.png") center no-repeat;
+        background-size: 100%;
+        width: 16px;
+        height: 16px;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .phone_search input {
+        flex: 1;
+        background: #F7F7F7;
+        padding-left: 32px;
+        height: 34px;
+        border: 0;
+    }
+
+    .phone_search input:focus {
+        border: 1px solid #e6e6e6;
+    }
+
+    .phone_search button {
+        padding: 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        padding: 10px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        line-height: 1;
+        height: inherit;
+        margin-left: 4px;
+    }
+
+    .phone_iconDiv {
+        display: flex;
+        background: #FFF;
+        padding: 10px 0;
+    }
+
+    .phone_iconDiv>div {
+        flex: 1;
+        text-align: center;
+    }
+
+    .phone_iconDiv>div:nth-of-type(1) .phone_imgDiv {
+        background: url("../assets/img/orderForm.png") center no-repeat;
+        background-size: 100%;
+    }
+
+    .phone_iconDiv>div:nth-of-type(2) .phone_imgDiv {
+        background: url("../assets/img/user.png") center no-repeat;
+        background-size: 100%;
+    }
+
+    .phone_iconDiv>div:nth-of-type(3) .phone_imgDiv {
+        background: url("../assets/img/car.png") center no-repeat;
+        background-size: 100%;
+    }
+
+    .phone_imgDiv {
+        width: 54px;
+        height: 54px;
+        margin: auto;
+    }
+
+    .phone_iconDiv span {
+        font-size: 16px;
+        margin-top: .5rem;
+        display: block;
+    }
+
+    .phone_selectDiv {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .phone_selectDiv>span {
+        font-size: 16px;
+        margin: 12px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .phone_onSelectDiv {
+        color: #0473EA;
+        font-weight: bold;
+    }
+
+    .phone_dataList {
+        margin: 0 10px;
+    }
+
+    .phone_dataList>li {
+        background: #FFF;
+        border-radius: 4px;
+        margin-bottom: 12px;
+    }
+
+    .phone_dataList>li>li {
+        margin: 0 10px 10px;
+        display: flex;
+        align-items: center;
+        flex: 1;
+    }
+
+    .phone_dataList>li>li>span {
+        width: 50%;
+        font-size: 16px;
+        padding-left: 20px;
+        position: relative;
+    }
+
+    .phone_dataList>li>li:first-child {
+        border-bottom: 1px solid #EBEBEB;
+        justify-content: space-between;
+    }
+
+    .phone_dataList>li>li:first-child>span {
+        width: auto;
+        padding: 0;
+        line-height: 1;
+    }
+
+    .phone_dataList>li>li:first-child>span:first-child {
+        font-weight: bold;
+        margin: 12px 0;
+    }
+
+    .phone_dataList>li>li:first-child>span:last-child {
+        font-size: 14px;
+    }
+
+    .phone_dataList>li>li:last-child {
+        flex-wrap: wrap;
+    }
+
+    .phone_dataList>li>li:last-child>span {
+        width: auto;
+        padding: 4px 8px;
+        background: #F5F5F5;
+        margin: 8px 4px;
+    }
+
+    .phone_dataList>li>li:last-child>span:first-child {
+        background: #FFFFFF00;
+        padding: 0;
+        margin: 0;
+    }
+
+    .phone_iconOne span::before,
+    .phone_iconTwo span::before {
+        position: absolute;
+        content: '';
+        width: 16px;
+        height: 16px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .phone_iconOne span:first-child::before {
+        background: url("../assets/img/imgOne.png") center no-repeat;
+        background-size: 100%;
+    }
+
+    .phone_iconOne span:last-child::before {
+        background: url("../assets/img/imgTwo.png") center no-repeat;
+        background-size: 100%;
+    }
+
+    .phone_iconTwo span:first-child::before {
+        background: url("../assets/img/imgThree.png") center no-repeat;
+        background-size: 100%;
+    }
+
+    .phone_iconTwo span:last-child::before {
+        background: url("../assets/img/imgFour.png") center no-repeat;
+        background-size: 100%;
+    }
+}

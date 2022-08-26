@@ -1,0 +1,132 @@
+.main {
+    flex: 1;
+    background: #F7F7F7;
+}
+
+.main>div {
+    background: #FFF;
+    border-radius: 4px;
+    margin: .75rem 10px 0;
+    padding: 0 .625rem;
+}
+
+.orderForm li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.orderForm li span {
+    font-size: 16px;
+    color: #333333;
+}
+
+.beforeBlue {
+    border-bottom: 1px solid #EBEBEB;
+    padding: 12px 0;
+    display: grid;
+}
+
+.beforeBlue span {
+    color: #333333;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 1rem;
+    line-height: 1;
+    position: relative;
+}
+
+.beforeBlue span::before {
+    position: absolute;
+    content: '';
+    width: 3px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: #0473EA;
+}
+
+.orderForm>div {
+    display: grid;
+}
+
+.orderForm>div:last-child span {
+    display: block;
+    font-size: 16px;
+}
+
+.orderForm>div:last-child span:last-child {
+    padding: 10px;
+    background: #F7F7F7;
+    margin-bottom: .75rem;
+}
+
+.userDiv li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.userDiv li span {
+    font-size: 16px;
+}
+
+.contentDiv {
+    display: grid;
+}
+
+.contentDiv .beforeBlue {
+    border: 0;
+}
+
+.contentDiv span {
+    font-size: 16px;
+}
+
+.contentDiv>li {
+    background: #F7F7F7;
+    border-radius: 4px;
+    margin-bottom: .75rem;
+    padding: 0 .75rem;
+}
+
+.contentDiv>li li {
+    margin: .25rem 0;
+}
+
+.contentDiv>li>li:first-child>span:first-child {
+    font-weight: bold;
+}
+
+.contentDiv>li>li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #EBEBEB;
+}
+
+.content>li {
+    display: flex;
+    flex-direction: column;
+}
+
+.content>li:nth-of-type(2) {
+    align-items: center;
+}
+
+.content>li:nth-of-type(3) {
+    align-items: flex-end;
+}
+
+.content>li>span:first-child {
+    color: #666666;
+}
