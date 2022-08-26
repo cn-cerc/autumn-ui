@@ -15,7 +15,7 @@ type CusTypeState = {
     dataSetShow: DataSet,
     inputValue: string;
 } & Partial<BaseDialogStateType>
-//WorkItem
+
 export default class WorkItemDialog extends BaseDialog<CusTypeProps, CusTypeState> {
     constructor(props: CusTypeProps) {
         super(props);
