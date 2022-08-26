@@ -81,6 +81,7 @@ import SalaryLevelDialog from "../dialog/SalaryLevelDialog";
 import CarBodyDialog from "../dialog/CarBodyDialog";
 import QuoteCusDialog from "../dialog/QuoteCusDialog";
 import CodeRecordNameDialog from "../dialog/CodeRecordNameDialog";
+import WorkItemDialog from "../dialog/WorkItemDialog";
 
 export default {
     // 地藤开窗
@@ -170,5 +171,6 @@ export default {
     SendCarDriverDialog,
     CarBodyDialog,
     QuoteCusDialog,
-    CodeRecordNameDialog
+    CodeRecordNameDialog,
+    WorkItemDialog
 }
