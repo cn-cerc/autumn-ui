@@ -17,7 +17,7 @@ type stateType = {
     pc_phone: string
 }
 
-export default class FrmMaterial extends WebControl<PropsType, stateType> {
+export default class McMaintainCollarMaterial extends WebControl<PropsType, stateType> {
     constructor(props: PropsType | Readonly<PropsType>) {
         super(props);
         this.state = {

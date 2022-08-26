@@ -18,10 +18,10 @@ import FrmPrivacyRight from "../mc/FrmPrivacyRight";
 import FrmShippingAppend from "../mc/FrmShippingAppend";
 import FrmUserAgreement from "../mc/FrmUserAgreement";
 import FrmWagonHome from "../mc/FrmWagonHome";
-import FrmReception from "../mc/FrmReception";
-import FrmWorkOrder from "../mc/FrmWorkOrder";
-import FrmMaterial from "../mc/FrmMaterial";
 import FrmReceptionModify from "../mc/FrmReceptionModify";
+import McMaintainReceive from "../mc/McMaintainReceive";
+import McMaintainCollarMaterial from "../mc/McMaintainCollarMaterial";
+import McMaintainDispatch from "../mc/McMaintainDispatch";
 
 export default {
     AdPlayerMC,
@@ -45,8 +45,8 @@ export default {
     FrmWagonHome,
     FrmConcentratedData,
     //维修厂mc
-    FrmReception,
+    McMaintainReceive,
     FrmReceptionModify,
-    FrmWorkOrder,
-    FrmMaterial,
+    McMaintainDispatch,
+    McMaintainCollarMaterial,
 }
