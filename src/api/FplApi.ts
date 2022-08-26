@@ -282,6 +282,7 @@ export default class FplApi {
     static getCountProvince() {
         return ControlApi.getService('SvrCarNetMonitorPanel.countProvince');
     }
+
     /** 车联网看板=》 中央车辆位置信息 */
     static getQueryCarsLocation() {
         return ControlApi.getService('SvrCarNetMonitorPanel.queryCarsLocation');
@@ -291,49 +292,56 @@ export default class FplApi {
         return ControlApi.getService('SvrCarNetMonitorPanel.queryMileageD');
     }
 
-
     /** 数据监控中心=》 中央车辆位置信息 */
     static getQueryCarsLocation3() {
         return ControlApi.getService('SvrDataMonitorPanel.queryCarsLocation');
     }
+
     /** 数据监控中心=》 获取交易状态--已成交数、未成交数 */
     static getDealStatus() {
         return ControlApi.getService('SvrDataMonitorPanel.getDealStatus');
     }
+
     /** 数据监控中心=》 获取数据监控中心的数据(总交易金额、总物流运单数)  */
     static getAllDataPanelData() {
         return ControlApi.getService('SvrDataMonitorPanel.getAllDataPanelData');
     }
+
     /** 数据监控中心=》 获取货物重量前三名  */
     static getCargoWeightTop3() {
         return ControlApi.getService('SvrDataMonitorPanel.getCargoWeightTop3');
     }
+
     /** 数据监控中心=》 司机接单Top5   */
     static getQueryDriverOrderTop5() {
         return ControlApi.getService('SvrDataMonitorPanel.getDriverOrderTop5');
     }
+
     /** 数据监控中心=》 查询总里程数   */
     static queryMileageTotal() {
         return ControlApi.getService('SvrDataMonitorPanel.queryMileageTotal');
     }
+
     /** 数据监控中心=》 获取一周交易金额   */
     static getWeeklyOrderAmount() {
         return ControlApi.getService('SvrDataMonitorPanel.getWeeklyOrderAmount');
     }
+
     /** 数据监控中心=》 获取一周交易笔数   */
     static getWeeklyOrderCount() {
         return ControlApi.getService('SvrDataMonitorPanel.getWeeklyOrderCount');
     }
+
     /** 数据监控中心=》 获取一周运单重量   */
     static getWeeklyArrangeWeight() {
         return ControlApi.getService('SvrDataMonitorPanel.getWeeklyArrangeWeight');
     }
 
-
     /** 货运管理急速版 => 按月分组统计的物流运单数量  */
     static getMonthlyArrCarStatis() {
         return ControlApi.getService('SvrTaurusQuicknessMCStatis.getMonthlyArrCarStatis');
     }
+
     /** 根据支行缩写查询支行名称 */
     static getBankCorrection(params: DataRow) {
         return ControlApi.getDataOut('SvrBankCorrection.query', params);
@@ -387,6 +395,7 @@ export default class FplApi {
     static getAllVerify() {
         return ControlApi.getService('SvrDriverDetalis.getAllVerify');
     }
+
     /** 恒凯昌 认证中心=》每天审核的数量 (自动+手动,往前推七天) */
     static getStatisticsVerify() {
         return ControlApi.getService('SvrDriverDetalis.statisticsVerify');
@@ -396,6 +405,7 @@ export default class FplApi {
     static getDriverWallet() {
         return ControlApi.getService('SvrDriverWallet.statistical');
     }
+
     /* 查询维修工时项目开窗 */
     static getWorkItem() {
         return ControlApi.getService('SvrWorkItem.searchWin');
@@ -404,5 +414,20 @@ export default class FplApi {
     /* 接待单新增维修项目信息 */
     static appendSvrRepairItems(params: DataRow) {
         return ControlApi.getDataOut('SvrRepairItems.append', params);
+    }
+
+    /** 查询公司及客户 */
+    static getCorpAndCus() {
+        return ControlApi.getService('SvrCarGpsDevice.searchCorpAndCus');
+    }
+
+    /** 查询车队下面的车辆 */
+    static getCarGpsDevice(params: DataRow) {
+        return ControlApi.getDataOut('SvrCarGpsDevice.searchByCorpAndName', params);
+    }
+
+    /** 根据车牌号查询 */
+    static getByPlateNumber(params: DataRow) {
+        return ControlApi.getDataOut('SvrCarGpsDevice.searchByPlateNumber', params);
     }
 }

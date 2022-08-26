@@ -1,0 +1,165 @@
+.main {
+    height: 0;
+    flex: 1;
+    display: flex;
+    background-color: #fff;
+}
+
+.search {
+    width: 360px;
+    height: 100%;
+    overflow: auto;
+    border-right: 8px solid #F3F3F3;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchDOM {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    height: 28px;
+    line-height: 26px;
+    border-radius: 8px;
+    margin: 8px;
+}
+
+.searchDOM>img {
+    width: 16px;
+    margin: 0 8px;
+}
+
+.searchDOM>span {
+    width: 0;
+    flex: 1;
+    margin-right: 0;
+    height: 100%;
+    padding-bottom: 0;
+}
+
+.searchDOM>span>input {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    line-height: 26px;
+    font-size: 14px;
+    padding-left: 0;
+    padding-right: 12px;
+}
+
+.searchDOM>span>input:hover {
+    border: none!important;
+}
+
+.searchDOM>span>input::placeholder {
+    color: #ccc;
+    font-size: 14px;
+}
+
+.searchDOM>span>input:focus {
+    border: none!important;
+}
+
+.map {
+    width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mapTitle {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+}
+
+.mapTitle>li {
+    min-width: 80px;
+    height: 28px;
+    line-height: 26px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-left: 0;
+    cursor: pointer;
+}
+
+.mapTitle>li:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-left: 1px solid #ccc;
+}
+
+.mapTitle>li:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.mapTitle>li.active {
+    background-color: #429A60;
+    color: #fff;
+    border-color: #429A60;
+}
+
+.mapContainer {
+    height: 0;
+    flex: 1;
+}
+
+.corpLine {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.cusLine {
+    display: flex;
+    align-items: center;
+    padding-left: 1.5em;
+    font-size: 14px;
+    color: #333;
+}
+
+.corpLine>div, .cusLine>div {
+    width: 0;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.corpLine>div>span, .cusLine>div>span {
+    cursor: pointer;
+}
+
+.icon {
+    width: 24px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+.hideIcon {
+    transform: rotate(-90deg);
+}
+
+.tree {
+    height: 0;
+    flex: 1;
+    margin: 8px;
+    overflow: auto;
+}
+
+.carList {
+    padding-left: 4.5em;
+}
+
+.carList>li>span {
+    cursor: pointer;
+}
+
+.carHover {
+    color: #429A60;
+}
