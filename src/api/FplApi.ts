@@ -282,6 +282,7 @@ export default class FplApi {
     static getCountProvince() {
         return ControlApi.getService('SvrCarNetMonitorPanel.countProvince');
     }
+    
     /** 车联网看板=》 中央车辆位置信息 */
     static getQueryCarsLocation() {
         return ControlApi.getService('SvrCarNetMonitorPanel.queryCarsLocation');
@@ -391,9 +392,24 @@ export default class FplApi {
     static getStatisticsVerify() {
         return ControlApi.getService('SvrDriverDetalis.statisticsVerify');
     }
-    
+
     /* 钱包收支统计 */
     static getDriverWallet() {
         return ControlApi.getService('SvrDriverWallet.statistical');
+    }
+
+    /** 查询公司及客户 */
+    static getCorpAndCus() {
+        return ControlApi.getService('SvrCarGpsDevice.searchCorpAndCus');
+    }
+
+    /** 查询车队下面的车辆 */
+    static getCarGpsDevice(params: DataRow) {
+        return ControlApi.getDataOut('SvrCarGpsDevice.searchByCorpAndName', params);
+    }
+
+    /** 根据车牌号查询 */
+    static getByPlateNumber(params: DataRow) {
+        return ControlApi.getDataOut('SvrCarGpsDevice.searchByPlateNumber', params);
     }
 }
